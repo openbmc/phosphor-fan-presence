@@ -17,3 +17,4 @@ stamp-h1
 *.la
 *.lo
 *.o
+phosphor-fan-presence-by-tach
