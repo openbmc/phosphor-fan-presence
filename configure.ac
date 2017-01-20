@@ -21,8 +21,25 @@ AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
 PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221], ,
 [AC_MSG_ERROR([The systemd development package is required])])
 
+# Checks for header files.
+AC_CHECK_HEADER(sdbusplus/bus.hpp, ,
+[AC_MSG_ERROR([Could not find sdbusplus/bus.hpp...openbmc/sdbusplus required])])
+
 # Checks for library functions.
 LT_INIT # Required for systemd linking
+
+# Set dbus parameters
+AC_ARG_VAR(FAN_SENSOR_INPUTS_PATH, [Fan inputs dbus path root])
+AS_IF([test "x$FAN_SENSOR_INPUTS_PATH" == "x"],
+[FAN_SENSOR_INPUTS_PATH="/xyz/openbmc_project/sensors/tach"])
+AC_DEFINE_UNQUOTED([FAN_SENSOR_INPUTS_PATH], ["$FAN_SENSOR_INPUTS_PATH"],
+[Fan inputs dbus path root])
+
+AC_ARG_VAR(FAN_SENSOR_OUTPUTS_PATH, [Fan outputs dbus path root])
+AS_IF([test "x$FAN_SENSOR_OUTPUTS_PATH" == "x"],
+[FAN_SENSOR_OUTPUTS_PATH="/xyz/openbmc_project/sensors/speed"])
+AC_DEFINE_UNQUOTED([FAN_SENSOR_OUTPUTS_PATH], ["$FAN_SENSOR_OUTPUTS_PATH"],
+[Fan outputs dbus path root])
 
 # Create configured output
 AC_CONFIG_FILES([Makefile])
