@@ -1,7 +1,7 @@
 #pragma once
 
 #include <sdbusplus/bus.hpp>
-#include <sdbusplus/server/object.hpp>
+#include <sdbusplus/server.hpp>
 #include "xyz/openbmc_project/Fan/Sensor/server.hpp"
 
 namespace phosphor
@@ -26,7 +26,8 @@ namespace fan
                     bus, objPath.c_str()),
                 path(objPath)
         {
-
+            sdbusplus::server::manager::manager objManager(
+                bus, objPath.c_str());
         }
 
     private:

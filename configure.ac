@@ -35,6 +35,12 @@ AS_IF([test "x$FAN_SENSOR_INPUTS_PATH" == "x"],
 AC_DEFINE_UNQUOTED([FAN_SENSOR_INPUTS_PATH], ["$FAN_SENSOR_INPUTS_PATH"],
 [Fan inputs dbus path root])
 
+AC_ARG_VAR(FAN_SENSOR_INPUTS_BUSNAME, [Fan inputs dbus busname to own])
+AS_IF([test "x$FAN_SENSOR_INPUTS_BUSNAME" == "x"],
+[FAN_SENSOR_INPUTS_BUSNAME="xyz.openbmc_project.Sensors.Tach"])
+AC_DEFINE_UNQUOTED([FAN_SENSOR_INPUTS_BUSNAME], ["$FAN_SENSOR_INPUTS_BUSNAME"],
+[Fan inputs dbus busname to own])
+
 AC_ARG_VAR(FAN_SENSOR_OUTPUTS_PATH, [Fan outputs dbus path root])
 AS_IF([test "x$FAN_SENSOR_OUTPUTS_PATH" == "x"],
 [FAN_SENSOR_OUTPUTS_PATH="/xyz/openbmc_project/sensors/speed"])

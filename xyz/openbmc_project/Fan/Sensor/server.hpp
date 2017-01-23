@@ -1,5 +1,8 @@
 #pragma once
 
+#include <sdbusplus/bus.hpp>
+#include <sdbusplus/server.hpp>
+
 namespace sdbusplus
 {
 namespace xyz
@@ -29,7 +32,9 @@ class Sensor
 
     private:
         static constexpr auto _interface = "xyz.openbmc_project.Fan.Sensor";
-
+        static const vtable::vtable_t _vtable[];
+        sdbusplus::server::interface::interface
+            _xyz_openbmc_project_Fan_Sensor_interface;
 };
 
 } // namespace server
