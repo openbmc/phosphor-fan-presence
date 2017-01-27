@@ -1,0 +1,43 @@
+# Example fan presence detection definitions
+
+# List each fan within a system with the following parameters
+# The 'Detection' value must have an associated fan presence detection app
+# using the header file generated with its name(' ' replaced with '-')
+#           "tach feedback" -> tach-feedback.hpp
+
+#- Fan:
+#  Detection: [A supported fan presence detection method]
+#  Presence:
+#        - Rotor: [The hwmon name for a detected fan rotor present]
+#        - Rotor: [The hwmon name for a detected fan rotor present]
+#  Inventory: [The system inventory location for the fan]
+#  Description: [A meaningful description of fan, ie. location, type, etc...]
+
+- Fan:
+  Detection: tach feedback
+  Presence:
+        - Rotor: blower1
+        - Rotor: blower2
+  Inventory: system/chassis/fan0
+  Description: Chassis location A1
+- Fan:
+  Detection: tach feedback
+  Presence:
+      - Rotor: blower3
+      - Rotor: blower4
+  Inventory: system/chassis/fan1
+  Description: Chassis location A2
+- Fan:
+  Detection: tach feedback
+  Presence:
+      - Rotor: blower5
+      - Rotor: blower6
+  Inventory: system/chassis/fan2
+  Description: Chassis location A3
+- Fan:
+  Detection: tach feedback
+  Presence:
+      - Rotor: blower7
+      - Rotor: blower8
+  Inventory: system/chassis/fan3
+  Description: Chassis location A4
