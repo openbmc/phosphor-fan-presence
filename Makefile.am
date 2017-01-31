@@ -7,3 +7,7 @@ phosphor_fan_presence_tach_SOURCES = \
     interfaces.cpp \
     tach-detect.cpp
 phosphor_fan_presence_tach_LDFLAGS = $(SYSTEMD_LIBS)
+
+distclean-local: distclean-local-generated
+
+-include Makefile.generated

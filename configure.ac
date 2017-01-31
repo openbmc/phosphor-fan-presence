@@ -12,6 +12,9 @@ AC_PROG_CXX
 AM_PROG_AR
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
+# Python
+AM_PATH_PYTHON([2.7], [AC_SUBST([PYTHON], [echo "$PYTHON"])],
+[AC_MSG_ERROR([Could not find python-2.7 installed...python-2.7 is required])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_14([noext])
@@ -28,6 +31,14 @@ AC_CHECK_HEADER(sdbusplus/bus.hpp, ,
 # Checks for library functions.
 LT_INIT # Required for systemd linking
 
+# Add optional yaml file argument
+AC_ARG_VAR(FAN_DETECT_YAML_FILE,
+[The fan presence detection definition file to use])
+AS_IF([test "x$FAN_DETECT_YAML_FILE" == "x"],
+[FAN_DETECT_YAML_FILE="${srcdir}/example/fan-detect.yaml"])
+AC_DEFINE_UNQUOTED([FAN_DETECT_YAML_FILE], ["$FAN_DETECT_YAML_FILE"],
+[The fan presence detection definition file to use])
+
 # Set dbus parameters
 AC_ARG_VAR(FAN_SENSOR_VALUE_IFACE, [Fan sensor value interface])
 AS_IF([test "x$FAN_SENSOR_VALUE_IFACE" == "x"],
@@ -36,5 +47,8 @@ AC_DEFINE_UNQUOTED([FAN_SENSOR_VALUE_IFACE], ["$FAN_SENSOR_VALUE_IFACE"],
 [Fan sensor value interface])
 
 # Create configured output
+AC_CONFIG_FILES([Makefile.generated],
+[${srcdir}/generate.sh "$myPython" "$myFanDetect" > Makefile.generated],
+[myPython="$PYTHON" myFanDetect="$FAN_DETECT_YAML_FILE"])
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
