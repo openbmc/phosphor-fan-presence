@@ -1,22 +1,36 @@
 #include "config.h"
-#include "interfaces.hpp"
+#include "fan-detect-defs.hpp"
+#include "tach-handler.hpp"
 
 int main(void)
 {
+    auto bus = sdbusplus::bus::new_default();
+
+    std::vector<std::unique_ptr<phosphor::fan::presence::Rotor>> rotors;
+
     //TODO Read fan-presence-detect-by-tach conf file for list of fans
     std::string fanPath = "xyz/openbmc_project/sensors/fan_tach/blower1";
+    std::string match = "type='signal',"
+                        "interface='org.freedesktop.DBus.Properties',"
+                        "member='PropertiesChanged',"
+                        "path='"+fanPath+"'";
+    rotors.emplace_back(std::make_unique<phosphor::fan::presence::Rotor>(
+        bus, match
+    ));
 
-    // Get the tach for each fan listed
-    auto tach = phosphor::fan::presence::getTach(
-                    fanPath,
-                    FAN_SENSOR_VALUE_IFACE);
-
-    //TODO Create/update inventory with fan presence when tach > 0
-    if (tach > 0)
+    //TODO Create reference for each fan's signal
+    /*for (auto &fan: fanDetectionMap)
     {
-        fprintf(stdout, "Fan present with tach = %llu\n", tach);
-    }
+        rotors.emplace_back(std::make_unique<phosphor::fan::presence::Rotor>(
+            bus, match
+        ));
+    }*/
 
-    //TODO Monitor for fan presence changes when powered on(daemon?)
+    while (true) //TODO While powered on only
+    {
+        // Respond to dbus signals
+        bus.process_discard();
+        bus.wait();
+    }
     return 0;
 }
