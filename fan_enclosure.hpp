@@ -1,5 +1,8 @@
 #pragma once
 
+#include <sdbusplus/bus.hpp>
+#include "fan_properties.hpp"
+
 
 namespace phosphor
 {
@@ -18,7 +21,22 @@ class FanEnclosure
         FanEnclosure& operator=(FanEnclosure&&) = default;
         ~FanEnclosure() = default;
 
+        FanEnclosure(sdbusplus::bus::bus& bus,
+                     const phosphor::fan::Properties& fanProp) :
+                        bus(bus),
+                        invPath(fanProp.inv),
+                        fanDesc(fanProp.desc)
+        {
+            //Add this fan to inventory
+            addInventory();
+        }
+
     private:
+        sdbusplus::bus::bus& bus;
+        const std::string invPath;
+        const std::string fanDesc;
+
+        void addInventory();
 
 };
 
