@@ -13,6 +13,25 @@ namespace presence
         //TODO Add this fan to inventory
     }
 
+    void FanEnclosure::updInventory()
+    {
+        bool isPresent = false;
+
+        // Determine if all sensors show fan is not present
+        for (auto const& sensor: FanEnclosure::sensors)
+        {
+            if (sensor->isPresent())
+            {
+                isPresent = true;
+                break;
+            }
+        }
+        if (!isPresent)
+        {
+            //TODO Update inventory for this fan
+        }
+    }
+
     void FanEnclosure::addSensor(
         std::unique_ptr<phosphor::fan::presence::Sensor> sensor)
     {
