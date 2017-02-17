@@ -9,3 +9,9 @@ phosphor_fan_presence_tach_SOURCES = \
 	tach_detect.cpp
 
 phosphor_fan_presence_tach_LDFLAGS = $(SYSTEMD_LIBS)
+
+BUILT_SOURCES = fan_detect_defs.hpp
+CLEANFILES = fan_detect_defs.hpp
+
+fan_detect_defs.hpp: ${srcdir}/gen-fan-detect-defs.py
+	$(AM_V_at)$(GEN_FAN_DETECT_DEFS) > $@
