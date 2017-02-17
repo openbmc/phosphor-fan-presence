@@ -2,6 +2,7 @@
 
 #include <sdbusplus/bus.hpp>
 #include "fan_properties.hpp"
+#include "sensor_base.hpp"
 
 
 namespace phosphor
@@ -31,10 +32,14 @@ class FanEnclosure
             addInventory();
         }
 
+        void addSensor(
+            std::unique_ptr<Sensor>&& sensor);
+
     private:
         sdbusplus::bus::bus& bus;
         const std::string invPath;
         const std::string fanDesc;
+        std::vector<std::unique_ptr<Sensor>> sensors;
 
         void addInventory();
 
