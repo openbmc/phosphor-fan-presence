@@ -18,4 +18,5 @@ stamp-h1
 *.la
 *.lo
 *.o
+fan-detect-defs.hpp
 phosphor-fan-presence-tach
