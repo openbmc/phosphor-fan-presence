@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/server.hpp>
 #include "sensor_base.hpp"
 
 
@@ -24,7 +25,16 @@ class TachSensor : public Sensor
         TachSensor(sdbusplus::bus::bus& bus,
                    const std::string& id,
                    auto fanEnc) : Sensor(id, fanEnc),
-                       bus(bus)
+                       bus(bus),
+                       match("type='signal',"
+                             "interface='org.freedesktop.DBus.Properties',"
+                             "member='PropertiesChanged',"
+                             "path='xyz/openbmc_project/sensors/fan_tach/" +
+                                id + "'"),
+                       tachSignal(bus,
+                                  match.c_str(),
+                                  handleTachChangeSignal,
+                                  this)
         {
             // Nothing to do here
         }
@@ -33,7 +43,17 @@ class TachSensor : public Sensor
 
     private:
         sdbusplus::bus::bus& bus;
+        const std::string match;
+        sdbusplus::server::match::match tachSignal;
         int64_t tach = 0;
+
+        // Tach signal callback handler
+        static int handleTachChangeSignal(sd_bus_message* msg,
+                                          void* data,
+                                          sd_bus_error* err);
+
+        int handleTachChange(sd_bus_message* msg,
+                             sd_bus_error* err);
 
 };
 
