@@ -22,8 +22,15 @@ int main(void)
                                                            fanProp);
                 for (auto const &fanSensor: std::get<2>(fanProp))
                 {
+                    std::string match =
+                        "type='signal',"
+                        "interface='org.freedesktop.DBus.Properties',"
+                        "member='PropertiesChanged',"
+                        "path='/xyz/openbmc_project/sensors/fan_tach/" +
+                            fanSensor + "'";
                     auto sensor = std::make_unique<
                         phosphor::fan::presence::TachSensor>(bus,
+                                                             match,
                                                              fanSensor,
                                                              *fan);
                     fan->addSensor(std::move(sensor));
