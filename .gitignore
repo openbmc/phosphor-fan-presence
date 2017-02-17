@@ -5,6 +5,7 @@ Makefile.in
 aclocal.m4
 ar-lib
 arm-openbmc-linux-gnueabi-libtool
+x86_64-openbmc-linux-libtool
 autom4te.cache*
 compile
 config.*
@@ -17,3 +18,4 @@ stamp-h1
 *.la
 *.lo
 *.o
+phosphor-fan-presence-tach
