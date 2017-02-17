@@ -10,3 +10,9 @@ phosphor_fan_presence_tach_SOURCES = \
 
 phosphor_fan_presence_tach_LDFLAGS = $(SDBUSPLUS_LIBS)
 phosphor_fan_presence_tach_CXXFLAGS = $(SDBUSPLUS_CFLAGS)
+
+BUILT_SOURCES = fan_detect_defs.hpp
+CLEANFILES = fan_detect_defs.hpp
+
+fan_detect_defs.hpp: ${srcdir}/gen-fan-detect-defs.py
+	$(AM_V_at)$(GEN_FAN_DETECT_DEFS) > $@
