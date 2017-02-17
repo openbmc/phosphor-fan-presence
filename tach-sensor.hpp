@@ -1,5 +1,6 @@
 #pragma once
 
+#include <sdbusplus/bus.hpp>
 #include "sensor-base.hpp"
 
 
@@ -20,9 +21,19 @@ class TachSensor : public Sensor
         TachSensor& operator=(TachSensor&&) = default;
         ~TachSensor() = default;
 
+        TachSensor(sdbusplus::bus::bus& bus,
+                   const std::string& id,
+                   auto fanEnc) : Sensor(id, fanEnc),
+                       bus(bus)
+        {
+            tach = 0;
+        }
+
         bool isPresent();
 
     private:
+        sdbusplus::bus::bus& bus;
+        int64_t tach;
 
 };
 
