@@ -10,7 +10,7 @@ namespace presence
 
 bool TachSensor::isPresent()
 {
-    return false;
+    return (tach != 0);
 }
 
 } // namespace presence
