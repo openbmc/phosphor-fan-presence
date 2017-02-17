@@ -19,9 +19,19 @@ class Sensor
         Sensor& operator=(Sensor&&) = delete;
         virtual ~Sensor() = default;
 
+        Sensor(const std::string& id,
+               std::shared_ptr<phosphor::fan::presence::FanEnclosure> fanEnc) :
+            id(id),
+            fanEnc(std::move(fanEnc))
+        {
+            //Nothing to do here
+        }
+
         virtual bool isPresent() = 0;
 
     protected:
+        const std::string id;
+        std::shared_ptr<phosphor::fan::presence::FanEnclosure> fanEnc;
 
 };
 
