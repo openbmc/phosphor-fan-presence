@@ -1,6 +1,7 @@
 #pragma once
 
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/server.hpp>
 #include "sensor_base.hpp"
 
 
@@ -21,10 +22,16 @@ class TachSensor : public Sensor
         TachSensor& operator=(TachSensor&&) = delete;
         ~TachSensor() = default;
 
-        TachSensor(sdbusplus::bus::bus& bus,
-                   const std::string& id,
-                   FanEnclosure& fanEnc) : Sensor(id, fanEnc),
-                       bus(bus)
+        TachSensor(
+            sdbusplus::bus::bus& bus,
+            const std::string& match,
+            FanEnclosure& fanEnc) :
+                Sensor(id, fanEnc),
+                bus(bus),
+                tachSignal(bus,
+                           std::move(match.c_str()),
+                           handleTachChangeSignal,
+                           this)
         {
             // Nothing to do here
         }
@@ -33,7 +40,16 @@ class TachSensor : public Sensor
 
     private:
         sdbusplus::bus::bus& bus;
+        sdbusplus::server::match::match tachSignal;
         int64_t tach = 0;
+
+        // Tach signal callback handler
+        static int handleTachChangeSignal(sd_bus_message* msg,
+                                          void* data,
+                                          sd_bus_error* err);
+
+        void handleTachChange(sdbusplus::message::message& msg,
+                              sd_bus_error* err);
 
 };
 

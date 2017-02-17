@@ -32,6 +32,7 @@ class FanEnclosure
             addInventory();
         }
 
+        void updInventory();
         void addSensor(
             std::unique_ptr<Sensor>&& sensor);
 
