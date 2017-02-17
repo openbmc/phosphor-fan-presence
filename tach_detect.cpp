@@ -2,6 +2,7 @@
 #include <sdbusplus/bus.hpp>
 #include "fan_enclosure.hpp"
 #include "fan_detect_defs.hpp"
+#include "tach_sensor.hpp"
 
 
 int main(void)
@@ -19,7 +20,14 @@ int main(void)
                 auto fan = std::make_shared<
                     phosphor::fan::presence::FanEnclosure>(bus,
                                                            fanProp);
-                // TODO Add sensors to fan object
+                for (auto const &fanSensor: std::get<2>(fanProp))
+                {
+                    auto sensor = std::make_unique<
+                        phosphor::fan::presence::TachSensor>(bus,
+                                                             fanSensor,
+                                                             *fan);
+                    fan->addSensor(std::move(sensor));
+                }
                 fans.push_back(std::move(fan));
             }
         }
