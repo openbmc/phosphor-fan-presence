@@ -8,6 +8,25 @@ namespace fan
 namespace presence
 {
 
+    ObjectMap FanEnclosure::getObjectMap()
+    {
+        ObjectMap invObj;
+        InterfaceMap invIntf;
+        PropertyMap invProp;
+        auto presPred = [](const Sensor& s) {return s->isPresent();};
+        // Determine if all sensors show fan is not present
+        auto isPresent = std::any_of(FanEnclosure::sensors.begin(),
+                                     FanEnclosure::sensors.end(),
+                                     presPred);
+        invProp.emplace("Present", isPresent);
+        invProp.emplace("PrettyName", fanDesc);
+        invIntf.emplace("xyz.openbmc_project.Inventory.Item", invProp);
+        Object fanInvPath = invPath;
+        invObj.emplace(fanInvPath, invIntf);
+
+        return invObj;
+    }
+
     void FanEnclosure::addInventory()
     {
         //TODO Add this fan to inventory
@@ -15,15 +34,9 @@ namespace presence
 
     void FanEnclosure::updInventory()
     {
-        auto presPred = [](const Sensor& s) {return s->isPresent();};
-        // Determine if all sensors show fan is not present
-        auto isPresent = std::any_of(FanEnclosure::sensors.begin(),
-                                     FanEnclosure::sensors.end(),
-                                     presPred);
-        if (!isPresent)
-        {
-            //TODO Update inventory for this fan
-        }
+        //Get inventory object for this fan
+        ObjectMap invObj = getObjectMap();
+        //TODO Update inventory for this fan
     }
 
     void FanEnclosure::addSensor(
