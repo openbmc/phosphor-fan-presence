@@ -12,6 +12,17 @@ namespace fan
 namespace presence
 {
 
+using Property = std::string;
+using Value = sdbusplus::message::variant<bool, int64_t, std::string>;
+// Association between property and its value
+using PropertyMap = std::map<Property, Value>;
+using Interface = std::string;
+// Association between interface and the dbus property
+using InterfaceMap = std::map<Interface, PropertyMap>;
+using Object = sdbusplus::message::object_path;
+// Association between object and the interface
+using ObjectMap = std::map<Object, InterfaceMap>;
+
 class FanEnclosure
 {
     public:
@@ -42,6 +53,7 @@ class FanEnclosure
         std::vector<std::unique_ptr<phosphor::fan::presence::Sensor>> sensors;
 
         void addInventory();
+        ObjectMap getObjectMap();
 
 };
 
