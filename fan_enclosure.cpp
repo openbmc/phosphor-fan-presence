@@ -69,7 +69,17 @@ namespace presence
         ObjectMap invObj = getObjectMap();
         //Get inventory manager service name from mapper
         std::string invService = getInvService();
-        //TODO Update inventory for this fan
+        // Update inventory for this fan
+        auto invMsg = bus.new_method_call(invService.c_str(),
+                                          INVENTORY_PATH,
+                                          INVENTORY_INTF,
+                                          "Notify");
+        invMsg.append(std::move(invObj));
+        auto invMgrResponseMsg = bus.call(invMsg);
+        if (invMgrResponseMsg.is_method_error())
+        {
+            //TODO Handle error in notify call
+        }
     }
 
     void FanEnclosure::addSensor(
