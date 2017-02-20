@@ -8,13 +8,11 @@ namespace fan
 namespace presence
 {
 
-    void FanEnclosure::addInventory()
+    ObjectMap FanEnclosure::getObjectMap()
     {
-        //TODO Add this fan to inventory
-    }
-
-    void FanEnclosure::updInventory()
-    {
+        ObjectMap invObj;
+        InterfaceMap invIntf;
+        PropertyMap invProp;
         bool isPresent = false;
 
         // Determine if all sensors show fan is not present
@@ -26,10 +24,25 @@ namespace presence
                 break;
             }
         }
-        if (!isPresent)
-        {
-            //TODO Update inventory for this fan
-        }
+        invProp.emplace("Present", isPresent);
+        invProp.emplace("PrettyName", fanDesc);
+        invIntf.emplace("xyz.openbmc_project.Inventory.Item", invProp);
+        Object fanInvPath = invPath;
+        invObj.emplace(fanInvPath, invIntf);
+
+        return invObj;
+    }
+
+    void FanEnclosure::addInventory()
+    {
+        //TODO Add this fan to inventory
+    }
+
+    void FanEnclosure::updInventory()
+    {
+        //Get inventory object for this fan
+        ObjectMap invObj = getObjectMap();
+        //TODO Update inventory for this fan
     }
 
     void FanEnclosure::addSensor(
