@@ -40,7 +40,7 @@ class FanEnclosure
                         fanDesc(std::get<1>(fanProp))
         {
             //Add this fan to inventory
-            addInventory();
+            updInventory();
         }
 
         void updInventory();
@@ -53,7 +53,8 @@ class FanEnclosure
         const std::string fanDesc;
         std::vector<std::unique_ptr<Sensor>> sensors;
 
-        void addInventory();
+        //TODO openbmc/openbmc#1299 - Move getInvService() to a utility file
+        std::string getInvService();
         ObjectMap getObjectMap();
 
 };
