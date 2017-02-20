@@ -40,7 +40,7 @@ class FanEnclosure
                         fanDesc(fanProp.desc)
         {
             //Add this fan to inventory
-            addInventory();
+            updInventory();
         }
 
         void updInventory();
@@ -53,7 +53,8 @@ class FanEnclosure
         const std::string fanDesc;
         std::vector<std::unique_ptr<phosphor::fan::presence::Sensor>> sensors;
 
-        void addInventory();
+        //TODO Move getInvService() to a utility type file
+        std::string getInvService();
         ObjectMap getObjectMap();
 
 };
