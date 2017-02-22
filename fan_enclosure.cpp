@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <phosphor-logging/log.hpp>
 #include "fan_enclosure.hpp"
 
 
@@ -8,6 +9,8 @@ namespace fan
 {
 namespace presence
 {
+
+    using namespace phosphor::logging;
 
     //TODO Should get these from phosphor-objmgr config.h
     constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
@@ -28,6 +31,7 @@ namespace presence
         auto isPresent = std::any_of(FanEnclosure::sensors.begin(),
                                      FanEnclosure::sensors.end(),
                                      presPred);
+        //TODO Power off chassis when X-number of fans missing
         invProp.emplace("Present", isPresent);
         invProp.emplace("PrettyName", fanDesc);
         invIntf.emplace("xyz.openbmc_project.Inventory.Item", invProp);
@@ -50,15 +54,17 @@ namespace presence
         auto mapperResponseMsg = bus.call(mapperCall);
         if (mapperResponseMsg.is_method_error())
         {
-            //TODO Retry or throw exception/log error?
+            throw std::runtime_error(
+                "Error in mapper call to get inventory service name");
         }
 
         std::map<std::string, std::vector<std::string>> mapperResponse;
         mapperResponseMsg.read(mapperResponse);
 
-        if (mapperResponse.begin() == mapperResponse.end())
+        if (mapperResponse.empty())
         {
-            //TODO Nothing found, throw exception/log error?
+            throw std::runtime_error(
+                "Error in mapper response for inventory service name");
         }
 
         return mapperResponse.begin()->first;
@@ -69,7 +75,16 @@ namespace presence
         //Get inventory object for this fan
         ObjectMap invObj = getObjectMap();
         //Get inventory manager service name from mapper
-        std::string invService = getInvService();
+        std::string invService;
+        try
+        {
+            invService = getInvService();
+        }
+        catch (const std::runtime_error& err)
+        {
+            log<level::ERR>(err.what());
+            return;
+        }
         // Update inventory for this fan
         auto invMsg = bus.new_method_call(invService.c_str(),
                                           INVENTORY_PATH,
@@ -79,7 +94,9 @@ namespace presence
         auto invMgrResponseMsg = bus.call(invMsg);
         if (invMgrResponseMsg.is_method_error())
         {
-            //TODO Handle error in notify call
+            log<level::ERR>(
+                "Error in inventory manager call to update inventory");
+            return;
         }
     }
 
