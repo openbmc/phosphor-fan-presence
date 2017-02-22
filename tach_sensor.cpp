@@ -1,4 +1,5 @@
 #include <sdbusplus/exception.hpp>
+#include <phosphor-logging/log.hpp>
 #include "tach_sensor.hpp"
 #include "fan_enclosure.hpp"
 
@@ -9,6 +10,8 @@ namespace fan
 {
 namespace presence
 {
+
+using namespace phosphor::logging;
 
 bool TachSensor::isPresent()
 {
