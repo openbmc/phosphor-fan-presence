@@ -1,4 +1,5 @@
 #include <sdbusplus/exception.hpp>
+#include <phosphor-logging/log.hpp>
 #include "tach_sensor.hpp"
 #include "fan_enclosure.hpp"
 
@@ -9,6 +10,8 @@ namespace fan
 {
 namespace presence
 {
+
+using namespace phosphor::logging;
 
 bool TachSensor::isPresent()
 {
@@ -49,7 +52,14 @@ void TachSensor::handleTachChange(sdbusplus::message::message& sdbpMsg,
     }
     catch (const sdbusplus::internal_exception_t& e)
     {
-        //TODO Log exception to journal
+        char exceptDesc[sizeof(e.description())];
+        strcpy(exceptDesc, e.description());
+
+        //Log exception to journal
+        log<level::ERR>("Exception occurred in TachSensor::handleTachChange");
+        log<level::ERR>(exceptDesc);
+
+        return;
     }
 }
 
