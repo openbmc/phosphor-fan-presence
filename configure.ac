@@ -23,6 +23,8 @@ AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
 # Checks for libraries.
 PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus], ,
 [AC_MSG_ERROR([The openbmc/sdbusplus package is required])])
+PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging], ,
+[AC_MSG_ERROR([The openbmc/phosphor-logging package is required])])
 
 # Checks for header files.
 
