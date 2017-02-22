@@ -23,8 +23,13 @@ AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
 # Checks for libraries.
 PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221], ,
 [AC_MSG_ERROR([The systemd development package is required])])
+PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus], ,
+[AC_MSG_ERROR([The openbmc/sdbusplus package is required])])
 
 # Checks for header files.
+AC_CHECK_HEADER(phosphor-logging/log.hpp, ,
+[AC_MSG_ERROR([Could not find phosphor-logging/log.hpp...\
+openbmc/phosphor-logging required])])
 AC_CHECK_HEADER(sdbusplus/bus.hpp, ,
 [AC_MSG_ERROR([Could not find sdbusplus/bus.hpp...openbmc/sdbusplus required])])
 
