@@ -8,7 +8,8 @@ phosphor_fan_presence_tach_SOURCES = \
 	tach_sensor.cpp \
 	tach_detect.cpp
 
-phosphor_fan_presence_tach_LDFLAGS = $(SYSTEMD_LIBS)
+phosphor_fan_presence_tach_CXXFLAGS = $(SDBUSPLUS_CFLAGS)
+phosphor_fan_presence_tach_LDFLAGS = $(SYSTEMD_LIBS) $(SDBUSPLUS_LIBS)
 
 BUILT_SOURCES = fan_detect_defs.hpp
 CLEANFILES = fan_detect_defs.hpp
