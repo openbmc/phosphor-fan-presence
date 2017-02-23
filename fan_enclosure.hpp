@@ -52,10 +52,12 @@ class FanEnclosure
         const std::string invPath;
         const std::string fanDesc;
         std::vector<std::unique_ptr<phosphor::fan::presence::Sensor>> sensors;
+        bool presState = false;
 
+        bool getCurPresState();
         //TODO Move getInvService() to a utility type file
         std::string getInvService();
-        ObjectMap getObjectMap();
+        ObjectMap getObjectMap(const bool& curPresState);
 
 };
 
