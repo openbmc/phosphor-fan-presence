@@ -23,6 +23,13 @@ namespace fan
 namespace presence
 {
 
+typedef enum presenceState
+{
+    NOT_PRESENT,
+    PRESENT,
+    UNKNOWN
+} presenceState;
+
 class FanEnclosure
 {
     public:
@@ -52,10 +59,12 @@ class FanEnclosure
         const std::string invPath;
         const std::string fanDesc;
         std::vector<std::unique_ptr<Sensor>> sensors;
+        presenceState presState = UNKNOWN;
 
+        presenceState getCurPresState();
         //TODO Move getInvService() to a utility type file
         std::string getInvService();
-        ObjectMap getObjectMap();
+        ObjectMap getObjectMap(const bool curPresState);
 
 };
 
