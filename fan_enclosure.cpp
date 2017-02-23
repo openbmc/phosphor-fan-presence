@@ -21,18 +21,24 @@ constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
 constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
 
-ObjectMap FanEnclosure::getObjectMap()
+bool FanEnclosure::getCurPresState()
 {
-    ObjectMap invObj;
-    InterfaceMap invIntf;
-    PropertyMap invProp;
     auto presPred = [](auto const& s) {return s->isPresent();};
     // Determine if all sensors show fan is not present
     auto isPresent = std::any_of(FanEnclosure::sensors.begin(),
                                  FanEnclosure::sensors.end(),
                                  presPred);
     //TODO Power off chassis when X-number of fans missing
-    invProp.emplace("Present", isPresent);
+    return isPresent;
+}
+
+ObjectMap FanEnclosure::getObjectMap(const bool& curPresState)
+{
+    ObjectMap invObj;
+    InterfaceMap invIntf;
+    PropertyMap invProp;
+
+    invProp.emplace("Present", curPresState);
     invProp.emplace("PrettyName", fanDesc);
     invIntf.emplace("xyz.openbmc_project.Inventory.Item", invProp);
     Object fanInvPath = invPath;
@@ -72,31 +78,38 @@ std::string FanEnclosure::getInvService()
 
 void FanEnclosure::updInventory()
 {
-    //Get inventory object for this fan
-    ObjectMap invObj = getObjectMap();
-    //Get inventory manager service name from mapper
-    std::string invService;
-    try
+    auto curPresState = getCurPresState();
+    // Only update inventory when presence state changed
+    if (presState != curPresState)
     {
-        invService = getInvService();
-    }
-    catch (const std::runtime_error& err)
-    {
-        log<level::ERR>(err.what());
-        return;
-    }
-    // Update inventory for this fan
-    auto invMsg = bus.new_method_call(invService.c_str(),
-                                      INVENTORY_PATH,
-                                      INVENTORY_INTF,
-                                      "Notify");
-    invMsg.append(std::move(invObj));
-    auto invMgrResponseMsg = bus.call(invMsg);
-    if (invMgrResponseMsg.is_method_error())
-    {
-        log<level::ERR>(
-            "Error in inventory manager call to update inventory");
-        return;
+        // Get inventory object for this fan
+        ObjectMap invObj = getObjectMap(curPresState);
+        // Get inventory manager service name from mapper
+        std::string invService;
+        try
+        {
+            invService = getInvService();
+        }
+        catch (const std::runtime_error& err)
+        {
+            log<level::ERR>(err.what());
+            return;
+        }
+        // Update inventory for this fan
+        auto invMsg = bus.new_method_call(invService.c_str(),
+                                          INVENTORY_PATH,
+                                          INVENTORY_INTF,
+                                          "Notify");
+        invMsg.append(std::move(invObj));
+        auto invMgrResponseMsg = bus.call(invMsg);
+        if (invMgrResponseMsg.is_method_error())
+        {
+            log<level::ERR>(
+                "Error in inventory manager call to update inventory");
+            return;
+        }
+        // Inventory updated, set presence state to current
+        presState = curPresState;
     }
 }
 
