@@ -6,7 +6,8 @@ sbin_PROGRAMS = \
 phosphor_fan_presence_tach_SOURCES = \
 	fan_enclosure.cpp \
 	tach_sensor.cpp \
-	tach_detect.cpp
+	tach_detect.cpp \
+	utility.cpp
 nodist_phosphor_fan_presence_tach_SOURCES = \
 	fan_detect_defs.cpp
 

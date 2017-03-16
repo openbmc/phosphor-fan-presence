@@ -16,7 +16,7 @@
 #include <algorithm>
 #include <phosphor-logging/log.hpp>
 #include "fan_enclosure.hpp"
-
+#include "utility.hpp"
 
 namespace phosphor
 {
@@ -26,11 +26,6 @@ namespace presence
 {
 
 using namespace phosphor::logging;
-
-//TODO Should get these from phosphor-objmgr config.h
-constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
-constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
-constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 
 //TODO Should get these from phosphor-inventory-manager config.h
 constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
@@ -62,35 +57,6 @@ FanEnclosure::ObjectMap FanEnclosure::getObjectMap(const bool curPresState)
     return invObj;
 }
 
-std::string FanEnclosure::getInvService()
-{
-    auto mapperCall = bus.new_method_call(MAPPER_BUSNAME,
-                                          MAPPER_PATH,
-                                          MAPPER_INTERFACE,
-                                          "GetObject");
-
-    mapperCall.append(INVENTORY_PATH);
-    mapperCall.append(std::vector<std::string>({INVENTORY_INTF}));
-
-    auto mapperResponseMsg = bus.call(mapperCall);
-    if (mapperResponseMsg.is_method_error())
-    {
-        throw std::runtime_error(
-            "Error in mapper call to get inventory service name");
-    }
-
-    std::map<std::string, std::vector<std::string>> mapperResponse;
-    mapperResponseMsg.read(mapperResponse);
-
-    if (mapperResponse.empty())
-    {
-        throw std::runtime_error(
-            "Error in mapper response for inventory service name");
-    }
-
-    return mapperResponse.begin()->first;
-}
-
 void FanEnclosure::updInventory()
 {
     auto curPresState = getCurPresState();
@@ -103,7 +69,7 @@ void FanEnclosure::updInventory()
         std::string invService;
         try
         {
-            invService = getInvService();
+            invService = getInvService(bus);
         }
         catch (const std::runtime_error& err)
         {

@@ -97,13 +97,7 @@ class FanEnclosure
          * @return Current presence state determined from all sensors
          */
         presenceState getCurPresState();
-        //TODO openbmc/openbmc#1299 - Move getInvService() to a utility file
-        /**
-         * @brief Get the inventory service name from the mapper object
-         *
-         * @return The inventory manager service name
-         */
-        std::string getInvService();
+
         /**
          * @brief Construct the inventory object map
          *
