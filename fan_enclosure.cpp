@@ -28,9 +28,9 @@ namespace presence
 using namespace phosphor::logging;
 
 //TODO Should get these from phosphor-objmgr config.h
-constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.object_mapper";
+constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
 constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
-constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.object_mapper";
+constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 
 //TODO Should get these from phosphor-inventory-manager config.h
 constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
