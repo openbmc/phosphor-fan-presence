@@ -23,7 +23,7 @@ fanDetectMap = {
     {"${m}", {
         %for fan in methods[method]:
             std::make_tuple("${fan['Inventory']}",
-                            "${fan['Description']}",
+                            "${fan['PrettyName']}",
                             std::vector<std::string>{
             %for s in fan['Sensors']:
                                                     "${s}",

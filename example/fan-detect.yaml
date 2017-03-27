@@ -6,7 +6,7 @@
 # detecting fans using that type.
 
 #- [Detection method]:
-#  - Fan: [A fan enclosure instance]
+#  - PrettyName: [pretty name of the fan]
 #    Sensors: [List of sensors associated with this fan enclosure]
 #        - i.e) For tach feedback detection:
 #                   The hwmon name for a detected fan rotor's tach feedback
@@ -17,7 +17,7 @@
 
 # Example entry for a single fan's presence detected by 'Tach' feedback
 #- Tach:
-#  - Fan:
+#  - PrettyName: fan0
 #    Sensors:
 #        - fan0
 #    Inventory: /system/chassis/fan0
