@@ -1,5 +1,7 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
 
+SUBDIRS = chassis-cooling-type
+
 sbin_PROGRAMS = \
 	phosphor-fan-presence-tach
 
