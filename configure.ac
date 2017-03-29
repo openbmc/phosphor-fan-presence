@@ -34,9 +34,12 @@ AC_ARG_ENABLE([presence],
     AS_HELP_STRING([--disable-presence], [Disable fan presence package.]))
 AC_ARG_ENABLE([control],
     AS_HELP_STRING([--disable-control], [Disable fan control package.]))
+AC_ARG_ENABLE([cooling-type],
+    AS_HELP_STRING([--disable-cooling-type], [Disable cooling-type package.]))
 
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
+AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling-type" != "xno"])
 
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
@@ -55,6 +58,12 @@ AS_IF([test "x$enable_presence" != "xno"], [
 
 AS_IF([test "x$enable_control" != "xno"], [
 	AC_CONFIG_FILES([control/Makefile])
+])
+
+AS_IF([test "x$enable_cooling-type" != "xno"], [
+	PKG_CHECK_MODULES([LIBEVDEV], [libevdev], ,
+		[AC_MSG_ERROR([The libevdev package is required])])
+	AC_CONFIG_FILES([chassis-cooling-type/Makefile])
 ])
 
 # Create configured output
