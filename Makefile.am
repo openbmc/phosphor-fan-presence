@@ -22,4 +22,4 @@ CLEANFILES = fan_detect_defs.cpp
 fan_detect_defs.cpp: ${srcdir}/gen-fan-detect-defs.py
 	$(AM_V_GEN)$(GEN_FAN_DETECT_DEFS) > $@
 
-SUBDIRS = control
+SUBDIRS = control chassis-cooling-type
