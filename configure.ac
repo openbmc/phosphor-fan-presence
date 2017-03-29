@@ -42,6 +42,5 @@ AC_DEFINE_UNQUOTED([FAN_DETECT_YAML_FILE], ["$FAN_DETECT_YAML_FILE"],
 # Create configured output
 AC_SUBST([GEN_FAN_DETECT_DEFS],
 [$PYTHON ${srcdir}/gen-fan-detect-defs.py -y $FAN_DETECT_YAML_FILE])
-AC_CONFIG_FILES([Makefile
-                chassis-cooling-type/Makefile])
+AC_CONFIG_FILES([Makefile chassis-cooling-type/Makefile])
 AC_OUTPUT
