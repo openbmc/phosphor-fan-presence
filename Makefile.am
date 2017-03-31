@@ -19,7 +19,7 @@ if WANT_CONTROL
 SUBDIRS += control
 endif
 if WANT_COOLING_TYPE
-SUBDIRS += chassis-cooling-type
+SUBDIRS += cooling-type
 endif
 if WANT_MONITOR
 SUBDIRS += monitor
