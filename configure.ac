@@ -114,7 +114,7 @@ AS_IF([test "x$enable_control" != "xno"], [
 AS_IF([test "x$enable_cooling-type" != "xno"], [
        PKG_CHECK_MODULES([LIBEVDEV], [libevdev], ,
                          [AC_MSG_ERROR([The libevdev package is required])])
-       AC_CONFIG_FILES([chassis-cooling-type/Makefile])
+       AC_CONFIG_FILES([cooling-type/Makefile])
 ])
 AS_IF([test "x$enable_monitor" != "xno"], [
 
