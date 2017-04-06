@@ -73,7 +73,9 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "    --air                Indicate air cooled is set\n";
     std::cerr << "    --water              Indicate water cooled is set\n";
     std::cerr << "    --gpio=<pin>         GPIO pin to read\n";
-    std::cerr << "    --path=<objpath>     Object path under inventory to have CoolingType updated\n";
+    std::cerr <<
+              "    --path=<objpath>     Object path under inventory to have "
+              "CoolingType updated\n";
     std::cerr << std::flush;
 }
 
