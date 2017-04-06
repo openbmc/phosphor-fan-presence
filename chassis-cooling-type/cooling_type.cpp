@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
+#include <utility.hpp>
 #include "cooling_type.hpp"
 
 namespace phosphor
@@ -10,6 +11,9 @@ namespace chassis
 {
 namespace cooling
 {
+
+constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
+constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
 
 void CoolingType::setAirCooled()
 {
@@ -45,11 +49,44 @@ void CoolingType::setupGpio(const std::string& gpioPath)
 
 }
 
+CoolingType::ObjectMap CoolingType::getObjectMap()
+{
+    ObjectMap invObj;
+    InterfaceMap invIntf;
+    PropertyMap invProp;
+
+    invProp.emplace("AirCooled", airCooled);
+    invProp.emplace("WaterCooled", waterCooled);
+    invIntf.emplace("xyz.openbmc_project.Inventory.Decorator.CoolingType",
+                    std::move(invProp));
+    Object invPath("/system/chassis");
+    invObj.emplace(std::move(invPath), std::move(invIntf));
+
+    return invObj;
+}
+
 void CoolingType::updateInventory()
 {
-    //TODO
-    //     setProperty(bus, ..., "AirCooled");
-    //     setProperty(bus, ..., "WaterCooled");
+    using namespace phosphor::logging;
+
+    ObjectMap invObj = getObjectMap();
+
+    std::string invService;
+
+    invService = phosphor::fan::util::getInvService(bus);
+
+    // Update inventory
+    auto invMsg = bus.new_method_call(invService.c_str(),
+                                      INVENTORY_PATH,
+                                      INVENTORY_INTF,
+                                      "Notify");
+    invMsg.append(std::move(invObj));
+    auto invMgrResponseMsg = bus.call(invMsg);
+    if (invMgrResponseMsg.is_method_error())
+    {
+        throw std::runtime_error(
+            "Error in inventory manager call to update inventory");
+    }
 }
 
 }
