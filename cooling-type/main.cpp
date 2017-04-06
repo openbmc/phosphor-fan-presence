@@ -1,5 +1,5 @@
 #include <iostream>
-#include <memory> //make_unique
+#include <memory>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
 #include "argument.hpp"
