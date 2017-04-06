@@ -1,5 +1,5 @@
 #include <iostream>
-#include <memory> //make_unique
+#include <memory>
 #include <sdbusplus/bus.hpp>
 #include "argument.hpp"
 #include "cooling_type.hpp"
@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
     if (argc < 2)
     {
         std::cerr << std::endl << "Too few arguments" << std::endl;
+        options->usage(argv);
     }
     else
     {
