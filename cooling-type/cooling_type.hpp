@@ -13,6 +13,17 @@ constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
 
 class CoolingType
 {
+        using Property = std::string;
+        using Value = sdbusplus::message::variant<bool>;
+        // Association between property and its value
+        using PropertyMap = std::map<Property, Value>;
+        using Interface = std::string;
+        // Association between interface and the dbus property
+        using InterfaceMap = std::map<Interface, PropertyMap>;
+        using Object = sdbusplus::message::object_path;
+        // Association between object and the interface
+        using ObjectMap = std::map<Object, InterfaceMap>;
+
     public:
         CoolingType() = delete;
         ~CoolingType() = default;
@@ -26,7 +37,7 @@ class CoolingType
          *
          * @param[in] bus - Dbus bus object
          */
-        CoolingType(sdbusplus::bus::bus& bus)
+        CoolingType(sdbusplus::bus::bus& bus) : bus(bus)
         {
         }
 
@@ -47,15 +58,27 @@ class CoolingType
         /**
          * @brief Setup the GPIO device for reading cooling type.
          *
-         * @param[in] std::string - Path to the GPIO device file to read
+         * @param[in] - Path to object to update
          */
         void setupGpio(const std::string&);
 
     private:
+        /** @brief Connection for sdbusplus bus */
+        sdbusplus::bus::bus& bus;
         // File descriptor for the GPIO file we are going to read.
         phosphor::fan::util::FileDescriptor gpioFd = -1;
         bool airCooled = false;
         bool waterCooled = false;
+
+        /**
+         * @brief Construct the inventory object map for CoolingType.
+         *
+         * @param[in] - Path to object to update
+         *
+         * @return The inventory object map to update inventory
+        */
+        ObjectMap getObjectMap(const std::string&);
+
 };
 
 }
