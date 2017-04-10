@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <algorithm>
 #include "manager.hpp"
 
 namespace phosphor
@@ -25,7 +26,40 @@ namespace control
 Manager::Manager(sdbusplus::bus::bus& bus) :
     _bus(bus)
 {
-    //TODO
+    //Create the appropriate Zone objects based on the
+    //actual system configuration.
+
+    //Find the 1 ZoneGroup that meets all of its conditions
+    for (auto& group : _zoneLayouts)
+    {
+        auto& conditions = std::get<conditionListPos>(group);
+
+        if (std::all_of(conditions.begin(), conditions.end(),
+                        [](const auto& c)
+                        {
+                            //TODO: openbmc/openbmc#1500
+                            //Still need to actually evaluate the conditions
+                            return true;
+                        }))
+        {
+            //Create a Zone object for each zone in this group
+            auto& zones = std::get<zoneListPos>(group);
+
+            for (auto& z : zones)
+            {
+                _zones.emplace(std::get<zoneNumPos>(z),
+                               std::make_unique<Zone>(_bus, z));
+            }
+
+            break;
+        }
+    }
+
+    //Set to full since we don't know state of system yet.
+    for (auto& z: _zones)
+    {
+        z.second->setFullSpeed();
+    }
 }
 
 
