@@ -1,18 +1,11 @@
 #include <iostream>
 #include <memory>
 #include <sdbusplus/bus.hpp>
+#include <phosphor-logging/log.hpp>
 #include "argument.hpp"
 #include "cooling_type.hpp"
 
 using namespace phosphor::chassis::cooling;
-
-// Utility function to find the device string for a given pin name.
-std::string findGpio(std::string pinName)
-{
-    std::string path = "/dev/null";
-    //TODO
-    return path;
-}
 
 int main(int argc, char* argv[])
 {
@@ -29,28 +22,45 @@ int main(int argc, char* argv[])
         auto bus = sdbusplus::bus::new_default();
         phosphor::chassis::cooling::CoolingType coolingType(bus);
 
-        auto gpiopin = (options)["gpio"];
-        if (gpiopin != ArgumentParser::empty_string)
+        try
         {
-            auto gpiopath = findGpio(gpiopin);
-            coolingType.setupGpio(gpiopath);
+            auto air = (options)["air"];
+            if (air != ArgumentParser::empty_string)
+            {
+                coolingType.setAirCooled();
+            }
+
+            auto water = (options)["water"];
+            if (water != ArgumentParser::empty_string)
+            {
+                coolingType.setWaterCooled();
+            }
+
+            auto gpiopath = (options)["dev"];
+            if (gpiopath != ArgumentParser::empty_string)
+            {
+                auto keycode = (options)["event"];
+                if (keycode != ArgumentParser::empty_string)
+                {
+                    auto gpiocode = std::stoul(keycode);
+                    coolingType.readGpio(gpiopath, gpiocode);
+                }
+                else
+                {
+                    std::cerr << "\n--event=<keycode> argument required\n";
+                }
+            }
+
+            coolingType.updateInventory();
+            rc = 0;
         }
 
-        auto air = (options)["air"];
-        if (air != ArgumentParser::empty_string)
+        catch (std::exception& err)
         {
-            coolingType.setAirCooled();
+            rc = -1;
+            phosphor::logging::log<phosphor::logging::level::ERR>(err.what());
         }
 
-        auto water = (options)["water"];
-        if (water != ArgumentParser::empty_string)
-        {
-            coolingType.setWaterCooled();
-        }
-
-        coolingType.updateInventory();
-
-        rc = 0;
     }
 
     return rc;
