@@ -1,7 +1,10 @@
+#include <fcntl.h>
+#include <unistd.h>
 #include <iostream>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
 #include <utility.hpp>
+#include <libevdev/libevdev.h>
 #include "argument.hpp"
 #include "cooling_type.hpp"
 
@@ -18,6 +21,11 @@ constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
 
 CoolingType::~CoolingType()
 {
+    if (gpioDev != nullptr)
+    {
+        libevdev_free(gpioDev);
+    }
+
     if (gpioFd > 0)
     {
         close(gpioFd);
@@ -37,21 +45,51 @@ void CoolingType::setWaterCooled()
 
 void CoolingType::setupGpio(std::string gpioPath)
 {
+    using namespace phosphor::logging;
+
     gpioFd = open(gpioPath.c_str(), O_RDONLY);
     if (gpioFd < 0)
     {
-        perror("Failed to open GPIO file device");
+        log<level::ERR>("Failed to open GPIO file device", 
+                        entry("%s", gpioPath.c_str()));
     }
     else
     {
-        int rc = 0;//libevdev_new_from_fd(gpiofd, &gpioDev);//FIXME
+        int rc = libevdev_new_from_fd(gpioFd, &gpioDev);
         if (rc < 0)
         {
             fprintf(stderr, "Failed to get file descriptor for %s (%s)\n", gpioPath.c_str(),
                     strerror(-rc));
+            log<level::ERR>("Failed to get file descriptor for ",
+                            entry("path=%s strerror(%s)\n", gpioPath.c_str(), 
+                                  strerror(-rc)));
         }
+        else
+        {
+            // Used to descript state changes of ... key-like devices.
+            unsigned int evType = EV_KEY; 
+            // ... describe stateful binary switches.
+            unsigned int evCode = EV_SW; 
+            int value = 1;
+            //int value = libevdev_get_event_value(&gpioDev, evType, evCode);
+            int fetch_rc = libevdev_fetch_event_value (gpioDev, evType, evCode,
+                                                       &value);
+            if (0 ==fetch_rc)
+            {
+                log<level::ERR>("Device does not support event type and code",
+                                entry("type=%d", evType), 
+                                entry("code=%d", evCode));
+            }
 
-        //TODO - more to go here?
+            if (value > 0)
+            {
+                setAirCooled();
+            }
+            else
+            {
+                setWaterCooled();
+            }
+        }
     }
 }
 

@@ -11,7 +11,7 @@ phosphor_cooling_type_SOURCES = \
 	cooling_type.cpp \
 	argument.cpp \
 	../utility.cpp
-phosphor_cooling_type_CXXFLAGS = -I${top_srcdir} $(SDBUSPLUS_CFLAGS) $(PHOSPHOR_LOGGING_CFLAGS)
-phosphor_cooling_type_LDFLAGS = $(SDBUSPLUS_LIBS) $(PHOSPHOR_LOGGING_LIBS)
+phosphor_cooling_type_CXXFLAGS = -I${top_srcdir} $(SDBUSPLUS_CFLAGS) $(PHOSPHOR_LOGGING_CFLAGS) $(LIBEVDEV_CFLAGS)
+phosphor_cooling_type_LDFLAGS = $(SDBUSPLUS_LIBS) $(PHOSPHOR_LOGGING_LIBS) $(LIBEVDEV_LIBS)
 
 # vim: tabstop=8 noexpandtab
