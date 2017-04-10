@@ -4,6 +4,7 @@
 #include <vector>
 #include <sdbusplus/bus.hpp>
 #include "types.hpp"
+#include "zone.hpp"
 
 namespace phosphor
 {
@@ -11,6 +12,9 @@ namespace fan
 {
 namespace control
 {
+
+using ZoneMap = std::map<unsigned int,
+                         std::unique_ptr<Zone>>;
 
 /**
  * @class Fan control manager
@@ -49,6 +53,11 @@ class Manager
          * The dbus object
          */
         sdbusplus::bus::bus& _bus;
+
+        /**
+         * The fan zones in the system
+         */
+        ZoneMap _zones;
 
         /**
          * The fan zone layout for the system.
