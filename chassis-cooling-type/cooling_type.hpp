@@ -1,4 +1,5 @@
 #pragma once
+#include <libevdev/libevdev.h>
 
 namespace phosphor
 {
@@ -62,6 +63,7 @@ class CoolingType
     private:
         /** @brief Connection for sdbusplus bus */
         sdbusplus::bus::bus& bus;
+        struct libevdev* gpioDev = nullptr;
         // File descriptor for the GPIO file we are going to read.
         int gpioFd = 0;
         const char* gpioPath;
