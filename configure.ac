@@ -62,7 +62,7 @@ AC_ARG_ENABLE([monitor-type],
 
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
-AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling-type" != "xno"])
+AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling_type" != "xno"])
 AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
 
 # Package specific checks.
@@ -111,7 +111,7 @@ AS_IF([test "x$enable_control" != "xno"], [
        AC_CONFIG_FILES([control/Makefile])
 ])
 
-AS_IF([test "x$enable_cooling-type" != "xno"], [
+AS_IF([test "x$enable_cooling_type" != "xno"], [
        PKG_CHECK_MODULES([LIBEVDEV], [libevdev], ,
                          [AC_MSG_ERROR([The libevdev package is required])])
        AC_CONFIG_FILES([cooling-type/Makefile])
