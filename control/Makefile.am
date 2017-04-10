@@ -9,6 +9,7 @@ phosphor_fan_control_SOURCES = \
 	fan.cpp \
 	main.cpp \
 	manager.cpp \
+	zone.cpp \
 	../utility.cpp
 
 phosphor_fan_control_LDFLAGS = $(SDBUSPLUS_LIBS) $(PHOSPHOR_LOGGING_LIBS)
