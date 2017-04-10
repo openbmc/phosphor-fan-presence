@@ -69,7 +69,7 @@ void FanEnclosure::updInventory()
         std::string invService;
         try
         {
-            invService = getInvService(bus);
+            invService = phosphor::fan::util::getInvService(bus);
         }
         catch (const std::runtime_error& err)
         {
