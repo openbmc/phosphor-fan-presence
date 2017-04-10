@@ -70,26 +70,34 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "Usage: " << argv[0] << " [options]\n";
     std::cerr << "Options:\n";
     std::cerr << "    --help               print this menu\n";
-    std::cerr << "    --air                Indicate air cooled is set\n";
-    std::cerr << "    --water              Indicate water cooled is set\n";
-    std::cerr << "    --gpio=<pin>         GPIO pin to read\n";
+    std::cerr << "    --air                Force 'AirCooled' property to be set"
+              " to true.\n";
+    std::cerr << "    --water              Force 'WaterCooled' property to be "
+              "set to true.\n";
+    std::cerr << "    --dev=<pin>          Device to read for GPIO pin state to"
+              " determine 'WaterCooled' (true) and 'AirCooled' (false)\n";
+    std::cerr << "    --event=<keycode>    Keycode for pin to read\n";
     std::cerr <<
-              "    --path=<objpath>     Object path under inventory to have "
-              "CoolingType updated\n";
+              "    --path=<objpath>     *Required* object path under inventory "
+              "to have CoolingType updated\n";
+    std::cerr << "\nThe --air / --water options may be given in addtion to "
+              "--gpio, in which case both their setting and the GPIO will take "
+              "effect.\n";
     std::cerr << std::flush;
 }
 
 const option ArgumentParser::options[] =
 {
     { "path",   required_argument,  NULL,   'p' },
-    { "gpio",   required_argument,  NULL,   'g' },
+    { "dev",    required_argument,  NULL,   'd' },
+    { "event",  required_argument,  NULL,   'e' },
     { "air",    no_argument,        NULL,   'a' },
     { "water",  no_argument,        NULL,   'w' },
     { "help",   no_argument,        NULL,   'h' },
     { 0, 0, 0, 0},
 };
 
-const char* ArgumentParser::optionstr = "p:g:aw?h";
+const char* ArgumentParser::optionstr = "p:d:e:aw?h";
 
 const std::string ArgumentParser::empty_string = "";
 

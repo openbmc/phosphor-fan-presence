@@ -1,8 +1,9 @@
-#include <unistd.h>
 #include <fcntl.h>
+#include <unistd.h>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
-#include <utility.hpp>
+#include "utility.hpp"
+#include <libevdev/libevdev.h>
 #include "cooling_type.hpp"
 
 namespace phosphor
@@ -11,6 +12,24 @@ namespace cooling
 {
 namespace type
 {
+
+std::unique_ptr<libevdev, FreeEvDev>  evdevOpen(int fd)
+{
+    libevdev* gpioDev = nullptr;
+
+    auto rc = libevdev_new_from_fd(fd, &gpioDev);
+    if (!rc)
+    {
+        return decltype(evdevOpen(0))(gpioDev);
+    }
+
+    using namespace std::string_literals;
+    //TODO - Create error log for failure. openbmc/openbmc#1542
+    throw std::runtime_error("Failed to get libevdev from file descriptor"
+                             " rc = " + std::to_string(rc));
+
+    return decltype(evdevOpen(0))(nullptr);
+}
 
 void CoolingType::setAirCooled()
 {
@@ -22,26 +41,33 @@ void CoolingType::setWaterCooled()
     waterCooled = true;
 }
 
-void CoolingType::setupGpio(const std::string& gpioPath)
+void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
 {
     using namespace phosphor::logging;
 
-    gpioFd = open(gpioPath.c_str(), O_RDONLY);
-    if (gpioFd.is_open())
-    {
-        auto rc = 0;//libevdev_new_from_fd(gpiofd, &gpioDev);//FIXME
-        if (rc < 0)
-        {
-            throw std::runtime_error("Failed to get libevdev from " +
-                                     gpioPath + " rc = " +
-                                     std::to_string(rc));
-        }
+    gpioFd.open(gpioPath.c_str(), O_RDONLY);
 
-        //TODO - more to go here?
+    auto gpioDev = evdevOpen(gpioFd());
+
+    auto value = static_cast<int>(0);
+    auto fetch_rc = libevdev_fetch_event_value(gpioDev.get(), EV_KEY,
+                                               keycode, &value);
+    if (0 == fetch_rc)
+    {
+        //TODO - Create error log for failure. openbmc/openbmc#1542
+        throw std::runtime_error(
+            "Device does not support event type=EV_KEY and code=" +
+            std::to_string(keycode));
+    }
+
+    // TODO openbmc/phosphor-fan-presence#6
+    if (value > 0)
+    {
+        setWaterCooled();
     }
     else
     {
-        throw std::runtime_error("Failed to open GPIO file device");
+        setAirCooled();
     }
 
 }
@@ -88,5 +114,4 @@ void CoolingType::updateInventory(const std::string& objpath)
 }
 }
 }
-
 // vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
