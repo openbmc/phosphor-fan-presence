@@ -8,7 +8,8 @@ phosphor_fan_control_SOURCES = \
 	generated.cpp \
 	fan.cpp \
 	main.cpp \
-	manager.cpp
+	manager.cpp \
+	zone.cpp
 
 phosphor_fan_control_LDADD = \
 	$(top_builddir)/libfan.la \
