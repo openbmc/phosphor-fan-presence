@@ -6,10 +6,12 @@ sbin_PROGRAMS = \
 
 phosphor_fan_control_SOURCES = \
 	generated.cpp \
+	fan.cpp \
 	main.cpp \
 	manager.cpp
 
 phosphor_fan_control_LDADD = \
+	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)
 
