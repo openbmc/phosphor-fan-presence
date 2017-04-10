@@ -13,20 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <sdbusplus/bus.hpp>
 #include "manager.hpp"
 
-int main(int argc, char* argv[])
+namespace phosphor
 {
-    auto bus = sdbusplus::bus::new_default();
+namespace fan
+{
+namespace control
+{
 
-    phosphor::fan::control::Manager manager(bus);
+Manager::Manager(sdbusplus::bus::bus& bus) :
+    _bus(bus)
+{
+    //TODO
+}
 
-    while (true)
-    {
-        bus.process_discard();
-        bus.wait();
-    }
 
-    return 0;
+bool Manager::meetsGroupConditions(
+    const std::vector<Condition> & conditions)
+{
+    //TODO: check the conditions passed in and return true
+    //if they all return true
+    return true;
+}
+
+
+}
+}
 }
