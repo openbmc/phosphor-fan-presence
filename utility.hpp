@@ -2,6 +2,8 @@
 
 #include <sdbusplus/bus.hpp>
 #include <unistd.h>
+#include <fcntl.h>
+
 
 namespace phosphor
 {
@@ -28,6 +30,21 @@ class FileDescriptor
             if (fd != -1)
             {
                 close(fd);
+            }
+        }
+
+        int operator()()
+        {
+            return fd;
+        }
+
+        void open(const std::string& pathname, int flags)
+        {
+            fd = ::open(pathname.c_str(), flags);
+            if (-1 == fd)
+            {
+                throw std::runtime_error(
+                    "Failed to open file device: " + pathname);
             }
         }
 
