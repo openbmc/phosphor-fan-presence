@@ -25,7 +25,26 @@ namespace control
 Manager::Manager(sdbusplus::bus::bus& bus) :
     _bus(bus)
 {
-    //TODO
+    //Create the appropriate Zone objects based on the
+    //actual system configuration.
+
+    //Find the 1 ZoneGroup that meets all of its conditions
+    for (auto& group : _zoneLayouts)
+    {
+        if (meetsGroupConditions(std::get<conditionListPos>(group)))
+        {
+            //Create a Zone object for each zone in this group
+            auto& zones = std::get<zoneListPos>(group);
+
+            for (auto& z : zones)
+            {
+                _zones.emplace(std::get<zoneNumPos>(z),
+                               std::make_unique<Zone>(_bus, z));
+            }
+
+            break;
+        }
+    }
 }
 
 
@@ -40,7 +59,10 @@ bool Manager::meetsGroupConditions(
 
 void Manager::setInitialFanSpeed()
 {
-    //TODO
+    for (auto& z: _zones)
+    {
+        z.second->setInitialSpeed();
+    }
 }
 
 }
