@@ -20,8 +20,10 @@ namespace phosphor
 {
 namespace fan
 {
-namespace presence
+namespace util
 {
+
+using namespace std::string_literals;
 
 //TODO Should get these from phosphor-objmgr config.h
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
@@ -29,25 +31,34 @@ constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
 constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 
 //TODO Should get these from phosphor-inventory-manager config.h
-constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
-constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
+const auto INVENTORY_PATH = "/xyz/openbmc_project/inventory"s;
+const auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager"s;
 
 std::string getInvService(sdbusplus::bus::bus& bus)
+{
+    return getService(INVENTORY_PATH, INVENTORY_INTF, bus);
+}
+
+
+std::string getService(const std::string& path,
+                       const std::string& interface,
+                       sdbusplus::bus::bus& bus)
 {
     auto mapperCall = bus.new_method_call(MAPPER_BUSNAME,
                                           MAPPER_PATH,
                                           MAPPER_INTERFACE,
                                           "GetObject");
 
-    mapperCall.append(INVENTORY_PATH);
-    mapperCall.append(std::vector<std::string>({INVENTORY_INTF}));
+    mapperCall.append(path);
+    mapperCall.append(std::vector<std::string>({interface}));
 
     auto mapperResponseMsg = bus.call(mapperCall);
     if (mapperResponseMsg.is_method_error())
     {
         throw std::runtime_error(
-            "Error in mapper call to get inventory service name");
+            "Error in mapper call to get service name");
     }
+
 
     std::map<std::string, std::vector<std::string>> mapperResponse;
     mapperResponseMsg.read(mapperResponse);
@@ -55,7 +66,7 @@ std::string getInvService(sdbusplus::bus::bus& bus)
     if (mapperResponse.empty())
     {
         throw std::runtime_error(
-            "Error in mapper response for inventory service name");
+            "Error in mapper response for getting service name");
     }
 
     return mapperResponse.begin()->first;
