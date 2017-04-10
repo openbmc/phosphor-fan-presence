@@ -6,14 +6,6 @@
 #include "argument.hpp"
 #include "cooling_type.hpp"
 
-// Utility function to find the device string for a given pin name.
-std::string findGpio(std::string pinName)
-{
-    std::string path = "/dev/null";
-    //TODO
-    return path;
-}
-
 int main(int argc, char* argv[])
 {
     int rc = -1;
@@ -29,26 +21,43 @@ int main(int argc, char* argv[])
         auto bus = sdbusplus::bus::new_default();
         phosphor::chassis::cooling::CoolingType coolingType(bus);
 
-        auto gpiopin = (*options)["gpio"];
-        if (gpiopin != ArgumentParser::empty_string)
+        try
         {
-            auto gpiopath = findGpio(gpiopin);
-            coolingType.setupGpio(gpiopath);
+            auto air = (*options)["air"];
+            if (air != ArgumentParser::empty_string)
+            {
+                coolingType.setAirCooled();
+            }
+
+            auto water = (*options)["water"];
+            if (water != ArgumentParser::empty_string)
+            {
+                coolingType.setWaterCooled();
+            }
+
+            auto gpiopath = (*options)["dev"];
+            if (gpiopath != ArgumentParser::empty_string)
+            {
+                auto keycode = (*options)["event"];
+                if (keycode != ArgumentParser::empty_string)
+                {
+                    auto gpiocode = strtoul(keycode.c_str(), 0, 0);
+                    coolingType.setupGpio(gpiopath, gpiocode);
+                }
+                else
+                {
+                    std::cerr << std::endl << "--event=<keycode> argument required"
+                              << std::endl;
+                }
+            }
+
+            coolingType.updateInventory();
         }
 
-        auto air = (*options)["air"];
-        if (air != ArgumentParser::empty_string)
+        catch (int& code)
         {
-            coolingType.setAirCooled();
+            std::cerr << std::endl << "Failed" << std::endl;
         }
-
-        auto water = (*options)["water"];
-        if (water != ArgumentParser::empty_string)
-        {
-            coolingType.setWaterCooled();
-        }
-
-        coolingType.updateInventory();
 
         rc = 0;
     }

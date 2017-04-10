@@ -1,4 +1,5 @@
 #pragma once
+#include <libevdev/libevdev.h>
 
 namespace phosphor
 {
@@ -6,6 +7,7 @@ namespace chassis
 {
 namespace cooling
 {
+
 constexpr auto CHASSIS_PATH = "/xyz/openbmc_project/inventory/system/chassis";
 constexpr auto CHASSIS_BUSNAME = "xyz.openbmc_project.Inventory.System.Chassis";
 
@@ -38,7 +40,7 @@ class CoolingType
         CoolingType(sdbusplus::bus::bus& bus) :
             bus(bus), gpioFd(0)
         {
-            updateInventory();
+            //TODO: Issue #??? - someone default properties.
         }
 
         /**
@@ -58,11 +60,12 @@ class CoolingType
          *
          * @param[in] std::string - Path to the GPIO device file to read
          */
-        void setupGpio(const std::string&);
+        void setupGpio(const std::string&, unsigned int);
 
     private:
         /** @brief Connection for sdbusplus bus */
         sdbusplus::bus::bus& bus;
+        struct libevdev* gpioDev = nullptr;
         // File descriptor for the GPIO file we are going to read.
         int gpioFd = 0;
         const char* gpioPath;
