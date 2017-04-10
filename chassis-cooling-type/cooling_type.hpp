@@ -1,4 +1,5 @@
 #pragma once
+#include <libevdev/libevdev.h>
 
 namespace phosphor
 {
@@ -24,6 +25,7 @@ class CoolingType
 
     public:
         CoolingType() = delete;
+        ~CoolingType();
         CoolingType(CoolingType&&) = default;
         CoolingType& operator=(const CoolingType&) = delete;
         CoolingType& operator=(CoolingType&&) = delete;
@@ -36,7 +38,7 @@ class CoolingType
         CoolingType(sdbusplus::bus::bus& bus) :
             bus(bus), gpioFd(0)
         {
-            updateInventory();
+            //updateInventory();//TODO: Issue #??? - someone default properties.
         }
 
         /**
@@ -56,11 +58,12 @@ class CoolingType
          *
          * @param[in] std::string - Path to the GPIO device file to read
          */
-        void setupGpio(std::string);
+        void setupGpio(std::string, unsigned int);
 
     private:
         /** @brief Connection for sdbusplus bus */
         sdbusplus::bus::bus& bus;
+        struct libevdev* gpioDev = nullptr;
         // File descriptor for the GPIO file we are going to read.
         int gpioFd = 0;
         const char* gpioPath;

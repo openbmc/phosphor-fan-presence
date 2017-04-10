@@ -1,5 +1,5 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
-AM_CPPFLAGS = -I${top_srcdir}
+AM_CPPFLAGS = -iquote ${top_srcdir}
 
 sbin_PROGRAMS = \
 	phosphor-cooling-type
@@ -9,9 +9,15 @@ sbin_PROGRAMS = \
 #  https://debbugs.gnu.org/cgi/bugreport.cgi?bug=13928
 phosphor_cooling_type_SOURCES = \
 	cooling_type.cpp \
-	argument.cpp \
-	../utility.cpp
-phosphor_cooling_type_CXXFLAGS = -I${top_srcdir} $(SDBUSPLUS_CFLAGS) $(PHOSPHOR_LOGGING_CFLAGS)
-phosphor_cooling_type_LDFLAGS = $(SDBUSPLUS_LIBS) $(PHOSPHOR_LOGGING_LIBS)
+	argument.cpp
+phosphor_cooling_type_CXXFLAGS = \
+	$(SDBUSPLUS_CFLAGS) \
+	$(PHOSPHOR_LOGGING_CFLAGS) \
+	$(LIBEVDEV_CFLAGS)
+phosphor_cooling_type_LDADD = \
+	${top_builddir}/libfan.la \
+	$(SDBUSPLUS_LIBS) \
+	$(PHOSPHOR_LOGGING_LIBS) \
+	$(LIBEVDEV_LIBS)
 
 # vim: tabstop=8 noexpandtab

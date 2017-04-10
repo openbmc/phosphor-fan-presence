@@ -1,7 +1,10 @@
+#include <fcntl.h>
+#include <unistd.h>
 #include <iostream>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
-#include <utility.hpp>
+#include "utility.hpp"
+#include <libevdev/libevdev.h>
 #include "argument.hpp"
 #include "cooling_type.hpp"
 
@@ -18,6 +21,11 @@ constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
 
 CoolingType::~CoolingType()
 {
+    if (gpioDev != nullptr)
+    {
+        libevdev_free(gpioDev);
+    }
+
     if (gpioFd > 0)
     {
         close(gpioFd);
@@ -35,23 +43,57 @@ void CoolingType::setWaterCooled()
     waterCooled = true;
 }
 
-void CoolingType::setupGpio(std::string gpioPath)
+void CoolingType::setupGpio(std::string gpioPath, unsigned int keycode)
 {
+    using namespace phosphor::logging;
+
     gpioFd = open(gpioPath.c_str(), O_RDONLY);
     if (gpioFd < 0)
     {
-        perror("Failed to open GPIO file device");
+        log<level::ERR>("Failed to open GPIO file device",
+                        entry("%s", gpioPath.c_str()));
+        throw 1;
     }
     else
     {
-        int rc = 0;//libevdev_new_from_fd(gpiofd, &gpioDev);//FIXME
+        int rc = libevdev_new_from_fd(gpioFd, &gpioDev);
         if (rc < 0)
         {
-            fprintf(stderr, "Failed to get file descriptor for %s (%s)\n", gpioPath.c_str(),
-                    strerror(-rc));
+            fprintf(stderr, "Failed to get file descriptor for %s (%s)\n",
+                    gpioPath.c_str(), strerror(-rc));
+            log<level::ERR>("Failed to get file descriptor for ",
+                            entry("path=%s strerror(%s)\n", gpioPath.c_str(),
+                                  strerror(-rc)));
+            throw 2;
         }
+        else
+        {
+            int value = 1;
+            int fetch_rc = libevdev_fetch_event_value(gpioDev, EV_KEY, keycode,
+                           &value);
+            if (0 == fetch_rc)
+            {
+                log<level::ERR>("Device does not support event type and code",
+                                entry("type=%d", EV_KEY),
+                                entry("code=%d", keycode));
+                throw 3;
+            }
+            else
+            {
+                std::cout << "State of keycode[" << keycode << "]: "
+                          << value << std::endl;
 
-        //TODO - more to go here?
+                // TODO: Issue #xyz - get value from parameters.
+                if (value > 0)
+                {
+                    setWaterCooled();
+                }
+                else
+                {
+                    setAirCooled();
+                }
+            }
+        }
     }
 }
 
@@ -63,9 +105,9 @@ CoolingType::ObjectMap CoolingType::getObjectMap()
 
     invProp.emplace("AirCooled", airCooled);
     invProp.emplace("WaterCooled", waterCooled);
-    invIntf.emplace("xyz.openbmc_project.Inventory.Decorator.CoolingType", 
+    invIntf.emplace("xyz.openbmc_project.Inventory.Decorator.CoolingType",
                     std::move(invProp));
-    Object invPath("/xyz/openbmc_project/inventory/chassis");
+    Object invPath("/system/chassis");
     invObj.emplace(std::move(invPath), std::move(invIntf));
 
     return invObj;
@@ -103,14 +145,6 @@ void CoolingType::updateInventory(void)
     }
 }
 
-// Utility function to find the device string for a given pin name.
-std::string findGpio(std::string pinName)
-{
-    std::string path = "/dev/null";
-    //TODO
-    return path;
-}
-
 }
 }
 }
@@ -131,26 +165,43 @@ int main(int argc, char* argv[])
         auto coolingType = std::make_unique<phosphor::chassis::cooling::CoolingType>
                            (bus);
 
-        auto gpiopin = (*options)["gpio"];
-        if (gpiopin != ArgumentParser::empty_string)
+        try
         {
-            auto gpiopath = phosphor::chassis::cooling::findGpio(gpiopin);
-            coolingType->setupGpio(gpiopath);
+            auto air = (*options)["air"];
+            if (air != ArgumentParser::empty_string)
+            {
+                coolingType->setAirCooled();
+            }
+
+            auto water = (*options)["water"];
+            if (water != ArgumentParser::empty_string)
+            {
+                coolingType->setWaterCooled();
+            }
+
+            auto gpiopath = (*options)["dev"];
+            if (gpiopath != ArgumentParser::empty_string)
+            {
+                auto keycode = (*options)["event"];
+                if (keycode != ArgumentParser::empty_string)
+                {
+                    auto gpiocode = strtoul(keycode.c_str(), 0, 0);
+                    coolingType->setupGpio(gpiopath, gpiocode);
+                }
+                else
+                {
+                    std::cerr << std::endl << "--event=<keycode> argument required"
+                              << std::endl;
+                }
+            }
+
+            coolingType->updateInventory();
         }
 
-        auto air = (*options)["air"];
-        if (air != ArgumentParser::empty_string)
+        catch (int& code)
         {
-            coolingType->setAirCooled();
+            std::cerr << std::endl << "Failed" << std::endl;
         }
-
-        auto water = (*options)["water"];
-        if (water != ArgumentParser::empty_string)
-        {
-            coolingType->setWaterCooled();
-        }
-
-        coolingType->updateInventory();
 
         rc = 0;
     }
