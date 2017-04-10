@@ -1,5 +1,6 @@
 #pragma once
 #include "utility.hpp"
+#include <libevdev/libevdev.h>
 
 namespace phosphor
 {
@@ -7,8 +8,17 @@ namespace chassis
 {
 namespace cooling
 {
+
 constexpr auto CHASSIS_PATH = "/xyz/openbmc_project/inventory/system/chassis";
 constexpr auto CHASSIS_BUSNAME = "xyz.openbmc_project.Inventory.System.Chassis";
+
+struct FreeEvDev
+{
+    void operator()(struct libevdev* device) const
+    {
+        libevdev_free(device);
+    }
+};
 
 class CoolingType
 {
@@ -25,7 +35,7 @@ class CoolingType
 
     public:
         CoolingType() = delete;
-        ~CoolingType();
+        ~CoolingType() = default;
         CoolingType(const CoolingType&) = delete;
         CoolingType(CoolingType&&) = default;
         CoolingType& operator=(const CoolingType&) = delete;
@@ -36,8 +46,9 @@ class CoolingType
          *
          * @param[in] bus - Dbus bus object
          */
-        CoolingType(sdbusplus::bus::bus& bus)
+        CoolingType(sdbusplus::bus::bus& bus) : bus(bus)
         {
+            //TODO: Issue openbmc/openbmc#1531 - someone default properties.
         }
 
         /**
@@ -53,15 +64,17 @@ class CoolingType
          */
         void updateInventory();
         /**
-         * @brief Setup the GPIO device for reading cooling type.
+         * @brief Setup and read the GPIO device for reading cooling type.
          *
          * @param[in] std::string - Path to the GPIO device file to read
+         * @param[in] unsigned int - Event/key code to read (pin)
          */
-        void setupGpio(const std::string&);
+        void readGpio(const std::string&, unsigned int);
 
     private:
         /** @brief Connection for sdbusplus bus */
         sdbusplus::bus::bus& bus;
+        //struct libevdev* gpioDev = nullptr;
         // File descriptor for the GPIO file we are going to read.
         //int gpioFd = -1;
         phosphor::fan::util::FileDescriptor gpioFd = -1;
