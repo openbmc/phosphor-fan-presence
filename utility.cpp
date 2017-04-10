@@ -20,7 +20,7 @@ namespace phosphor
 {
 namespace fan
 {
-namespace presence
+namespace util
 {
 
 //TODO Should get these from phosphor-objmgr config.h
@@ -56,6 +56,39 @@ std::string getInvService(sdbusplus::bus::bus& bus)
     {
         throw std::runtime_error(
             "Error in mapper response for inventory service name");
+    }
+
+    return mapperResponse.begin()->first;
+}
+
+
+std::string getService(const std::string& path,
+                       const std::string& interface,
+                       sdbusplus::bus::bus& bus)
+{
+    auto mapperCall = bus.new_method_call(MAPPER_BUSNAME,
+                                          MAPPER_PATH,
+                                          MAPPER_INTERFACE,
+                                          "GetObject");
+
+    mapperCall.append(path);
+    mapperCall.append(std::vector<std::string>({interface}));
+
+    auto mapperResponseMsg = bus.call(mapperCall);
+    if (mapperResponseMsg.is_method_error())
+    {
+        throw std::runtime_error(
+            "Error in mapper call to get service name");
+    }
+
+
+    std::map<std::string, std::vector<std::string>> mapperResponse;
+    mapperResponseMsg.read(mapperResponse);
+
+    if (mapperResponse.empty())
+    {
+        throw std::runtime_error(
+            "Error in mapper response for getting service name");
     }
 
     return mapperResponse.begin()->first;
