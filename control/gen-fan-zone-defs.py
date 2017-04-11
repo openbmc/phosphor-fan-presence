@@ -20,30 +20,111 @@ using namespace phosphor::fan::control;
 const std::vector<ZoneGroup> Manager::_zoneLayouts
 {
 %for zone_group in zones:
-    std::make_tuple(
-            std::vector<Condition>{},
-            std::vector<ZoneDefinition>{
-            %for zone in zone_group['zones']:
-                std::make_tuple(${zone['num']},
-                                ${zone['initial_speed']},
-                                std::vector<FanDefinition>{
-                                    %for fan in zone['fans']:
-                                    std::make_tuple("${fan['name']}",
-                                        std::vector<std::string>{
-                                        %for sensor in fan['sensors']:
-                                           "${sensor}",
-                                        %endfor
-                                        }
-                                    ),
-                                    %endfor
-                                }
-                ),
-            %endfor
-            }
-    ),
+    ZoneGroup{std::vector<Condition>{},
+              std::vector<ZoneDefinition>{
+              %for zone in zone_group['zones']:
+                  ZoneDefinition{${zone['num']},
+                                 ${zone['full_speed']},
+                                 std::vector<FanDefinition>{
+                                     %for fan in zone['fans']:
+                                     FanDefinition{"${fan['name']}",
+                                         std::vector<std::string>{
+                                         %for sensor in fan['sensors']:
+                                            "${sensor}",
+                                         %endfor
+                                         }
+                                     },
+                                     %endfor
+                                 }
+                  },
+              %endfor
+              }
+    },
 %endfor
 };
 '''
+
+
+def getFansInZone(zone_num, profiles, fan_data):
+    """
+    Parses the fan definition YAML files to find the fans
+    that match both the zone passed in and one of the
+    cooling profiles.
+    """
+
+    fans = []
+
+    for f in fan_data['fans']:
+
+        if zone_num != f['cooling_zone']:
+            continue
+
+        #'cooling_profile' is optional (use 'all' instead)
+        if f.get('cooling_profile') is None:
+            profile = "all"
+        else:
+            profile = f['cooling_profile']
+
+        if profile not in profiles:
+            continue
+
+        fan = {}
+        fan['name'] = f['inventory']
+        fan['sensors'] = f['sensors']
+        fans.append(fan)
+
+    return fans
+
+
+def buildZoneData(zone_data, fan_data):
+    """
+    Combines the zone definition YAML and fan
+    definition YAML to create a data structure defining
+    the fan cooling zones.
+    """
+
+    zone_groups = []
+
+    for group in zone_data:
+        conditions = []
+        for c in group['zone_conditions']:
+            conditions.append(c['name'])
+
+        zone_group = {}
+        zone_group['conditions'] = conditions
+
+        zones = []
+        for z in group['zones']:
+            zone = {}
+
+            #'zone' is required
+            if (not 'zone' in z) or (z['zone'] is None):
+                sys.exit("Missing fan zone number in " + zone_yaml)
+
+            zone['num'] = z['zone']
+
+            zone['full_speed'] = z['full_speed']
+
+            #'cooling_profiles' is optional (use 'all' instead)
+            if (not 'cooling_profiles' in z) or \
+                    (z['cooling_profiles'] is None):
+                profiles = ["all"]
+            else:
+                profiles = z['cooling_profiles']
+
+            fans = getFansInZone(z['zone'], profiles, fan_data)
+
+            if len(fans) == 0:
+                sys.exit("Didn't find any fans in zone " + str(zone['num']))
+
+            zone['fans'] = fans
+            zones.append(zone)
+
+        zone_group['zones'] = zones
+        zone_groups.append(zone_group)
+
+    return zone_groups
+
 
 if __name__ == '__main__':
     parser = ArgumentParser(
@@ -70,8 +151,7 @@ if __name__ == '__main__':
     with open(args.fan_yaml, 'r') as fan_input:
         fan_data = yaml.safe_load(fan_input) or {}
 
-    #Fill in with using zone_data and fan_data with next commit
-    zone_data = []
+    zone_data = buildZoneData(zone_data, fan_data)
 
     output_file = os.path.join(args.output_dir, "fan_zone_defs.cpp")
     with open(output_file, 'w') as output:
