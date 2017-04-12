@@ -57,6 +57,33 @@ AS_IF([test "x$enable_presence" != "xno"], [
        ])
 
 AS_IF([test "x$enable_control" != "xno"], [
+       # Add optional yaml file arguments
+       AC_ARG_VAR(FAN_DEF_YAML_FILE,
+                  [The fan definition file to use])
+       AS_IF([test "x$FAN_DEF_YAML_FILE" == "x"],
+             [FAN_DEF_YAML_FILE="${srcdir}/control/example/fans.yaml"])
+       AC_DEFINE_UNQUOTED([FAN_DEF_YAML_FILE], ["$FAN_DEF_YAML_FILE"],
+                          [The fan definition file to use])
+
+       AC_ARG_VAR(FAN_ZONE_YAML_FILE,
+                  [The fan zone definition file to use])
+       AS_IF([test "x$FAN_ZONE_YAML_FILE" == "x"],
+             [FAN_ZONE_YAML_FILE="${srcdir}/control/example/zones.yaml"])
+       AC_DEFINE_UNQUOTED([FAN_ZONE_YAML_FILE], ["$FAN_ZONE_YAML_FILE"],
+                          [The fan zone definition file to use])
+
+       AC_ARG_VAR(FAN_ZONE_OUTPUT_DIR,
+                  [The output directory for the generated fan zone data file])
+       AS_IF([test "x$FAN_ZONE_OUTPUT_DIR" == "x"],
+             [FAN_ZONE_OUTPUT_DIR="${srcdir}/control/"])
+       AC_DEFINE_UNQUOTED([FAN_ZONE_OUTPUT_DIR], ["$FAN_ZONE_OUTPUT_DIR"],
+                          [The output directory for the generated fan zone data file])
+
+       AC_SUBST([GEN_FAN_ZONE_DEFS],
+                [$PYTHON ${srcdir}/control/gen-fan-zone-defs.py \
+                         -f $FAN_DEF_YAML_FILE \
+                         -z $FAN_ZONE_YAML_FILE \
+                         -o $FAN_ZONE_OUTPUT_DIR])
        AC_CONFIG_FILES([control/Makefile])
 ])
 
