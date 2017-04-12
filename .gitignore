@@ -20,3 +20,4 @@ stamp-h1
 fan_detect_defs.cpp
 phosphor-fan-presence-tach
 phosphor-fan-control
+fan_zone_defs.cpp
