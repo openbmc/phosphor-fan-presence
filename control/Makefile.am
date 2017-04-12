@@ -5,12 +5,19 @@ sbin_PROGRAMS = \
 	phosphor-fan-control
 
 phosphor_fan_control_SOURCES = \
-	generated.cpp \
 	fan.cpp \
 	main.cpp \
 	manager.cpp \
 	zone.cpp \
 	../utility.cpp
+nodist_phosphor_fan_control_SOURCES = \
+	fan_zone_defs.cpp
 
 phosphor_fan_control_LDFLAGS = $(SDBUSPLUS_LIBS) $(PHOSPHOR_LOGGING_LIBS)
 phosphor_fan_control_CXXFLAGS = $(SDBUSPLUS_CFLAGS) $(PHOSPHOR_LOGGING_CFLAGS)
+
+BUILT_SOURCES = fan_zone_defs.cpp
+CLEANFILES = fan_zone_defs.cpp
+
+fan_zone_defs.cpp: ${srcdir}/gen-fan-zone-defs.py
+	$(AM_V_GEN)$(GEN_FAN_ZONE_DEFS)
