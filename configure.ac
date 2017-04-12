@@ -39,8 +39,24 @@ AS_IF([test "x$FAN_DETECT_YAML_FILE" == "x"],
 AC_DEFINE_UNQUOTED([FAN_DETECT_YAML_FILE], ["$FAN_DETECT_YAML_FILE"],
 [The fan presence detection definition file to use])
 
+AC_ARG_VAR(FAN_DEF_YAML_FILE,
+[The fan definition file to use])
+AS_IF([test "x$FAN_DEF_YAML_FILE" == "x"],
+[FAN_DEF_YAML_FILE="${srcdir}/control/example/fans.yaml"])
+AC_DEFINE_UNQUOTED([FAN_DEF_YAML_FILE], ["$FAN_DEF_YAML_FILE"],
+[The fan definition file to use])
+
+AC_ARG_VAR(FAN_ZONE_YAML_FILE,
+[The fan zone definition file to use])
+AS_IF([test "x$FAN_ZONE_YAML_FILE" == "x"],
+[FAN_ZONE_YAML_FILE="${srcdir}/control/example/zones.yaml"])
+AC_DEFINE_UNQUOTED([FAN_ZONE_YAML_FILE], ["$FAN_ZONE_YAML_FILE"],
+[The fan zone definition file to use])
+
 # Create configured output
 AC_SUBST([GEN_FAN_DETECT_DEFS],
 [$PYTHON ${srcdir}/gen-fan-detect-defs.py -y $FAN_DETECT_YAML_FILE])
+AC_SUBST([GEN_FAN_ZONE_DEFS],
+[$PYTHON ${srcdir}/control/gen-fan-zone-defs.py -f $FAN_DEF_YAML_FILE -z $FAN_ZONE_YAML_FILE])
 AC_CONFIG_FILES([Makefile control/Makefile])
 AC_OUTPUT
