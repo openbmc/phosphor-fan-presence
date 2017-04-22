@@ -9,4 +9,11 @@ libfan_la_CXXFLAGS =
 libfan_la_SOURCES = \
 	utility.cpp
 
-SUBDIRS = . presence control
+SUBDIRS = .
+
+if WANT_PRESENCE
+SUBDIRS += presence
+endif
+if WANT_CONTROL
+SUBDIRS += control
+endif
