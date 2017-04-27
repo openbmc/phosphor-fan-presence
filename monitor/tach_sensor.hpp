@@ -3,6 +3,7 @@
 #include <chrono>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server.hpp>
+#include "timer.hpp"
 
 namespace phosphor
 {
@@ -47,13 +48,15 @@ class TachSensor
          *                        setting the speed
          * @param[in] startupTimeout - First timeout value to use
          * @param[in] timeout - Normal timeout value to use
+         * @param[in] events - sd_event pointer
          */
         TachSensor(sdbusplus::bus::bus& bus,
                    Fan& fan,
                    const std::string& id,
                    bool hasTarget,
                    size_t startupTimeout,
-                   size_t timeout);
+                   size_t timeout,
+                   std::shared_ptr<sd_event>& events);
 
         /**
          * @brief Returns the target speed value
@@ -95,6 +98,19 @@ class TachSensor
         {
             _functional = functional;
         }
+
+        /**
+         * Returns the timer object for this sensor
+         */
+        inline phosphor::fan::util::Timer& getTimer()
+        {
+            return _timer;
+        }
+
+        /**
+         * @brief Returns the timeout value to use for the sensor
+         */
+        std::chrono::microseconds getTimeout();
 
     private:
 
@@ -207,6 +223,11 @@ class TachSensor
          * @brief The timeout value to use during normal operation
          */
         const size_t _timeout;
+
+        /**
+         * The timer object
+         */
+        phosphor::fan::util::Timer _timer;
 
         /**
          * @brief The match object for the Value properties changed signal
