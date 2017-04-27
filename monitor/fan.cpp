@@ -26,6 +26,7 @@ namespace monitor
 {
 
 using namespace phosphor::logging;
+using TimerType = phosphor::fan::util::Timer::TimerType;
 
 Fan::Fan(sdbusplus::bus::bus& bus,
          std::shared_ptr<sd_event>&  events,
@@ -62,7 +63,48 @@ void Fan::tachChanged()
 
 void Fan::tachChanged(TachSensor& sensor)
 {
-    //TODO
+    auto& timer = sensor.getTimer();
+    auto running = timer.running();
+
+    //If this sensor is out of range at this moment, start
+    //its timer, at the end of which the inventory
+    //for the fan may get updated to not functional.
+
+    //If this sensor is OK, put everything back into a good state.
+
+    if (outOfRange(sensor))
+    {
+        if (sensor.functional() && !running)
+        {
+            timer.start(sensor.getTimeout(), TimerType::oneshot);
+        }
+    }
+    else
+    {
+        if (!sensor.functional())
+        {
+            sensor.setFunctional(true);
+        }
+
+        if (running)
+        {
+            timer.stop();
+        }
+
+        //If the fan was nonfunctional and enough sensors are now OK,
+        //the fan can go back to functional
+        if ((_functional != functionalState::FUNCTIONAL) &&
+            !tooManySensorsNonfunctional())
+        {
+            if (_functional != functionalState::UNKNOWN)
+            {
+                log<level::INFO>("Setting a fan back to functional",
+                                 entry("FAN=%s", _name.c_str()));
+            }
+
+            //TODO: actually update inventory
+        }
+    }
 }
 
 
@@ -130,7 +172,7 @@ void Fan::timerExpired(TachSensor* sensor)
     //If the fan is currently functional, but too many
     //contained sensors are now nonfunctional, update
     //the whole fan nonfunctional.
-	//TODO
+    //TODO
 }
 
 }
