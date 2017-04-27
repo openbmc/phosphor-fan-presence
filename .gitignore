@@ -20,3 +20,5 @@ stamp-h1
 fan_detect_defs.cpp
 phosphor-fan-presence-tach
 phosphor-fan-control
+phosphor-fan-monitor
+phosphor-cooling-type
