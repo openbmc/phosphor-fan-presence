@@ -7,7 +7,8 @@ libfan_la_LIBADD = \
 libfan_la_CXXFLAGS =
 	$(SDBUSPLUS_CFLAGS)
 libfan_la_SOURCES = \
-	utility.cpp
+	utility.cpp \
+	timer.cpp
 
 SUBDIRS = .
 
