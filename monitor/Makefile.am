@@ -5,6 +5,7 @@ sbin_PROGRAMS = \
 	phosphor-fan-monitor
 
 phosphor_fan_monitor_SOURCES = \
+	generated.cpp \
 	main.cpp
 
 phosphor_fan_monitor_LDADD = \
