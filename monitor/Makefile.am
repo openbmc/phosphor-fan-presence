@@ -5,8 +5,10 @@ sbin_PROGRAMS = \
 	phosphor-fan-monitor
 
 phosphor_fan_monitor_SOURCES = \
+	fan.cpp \
 	generated.cpp \
-	main.cpp
+	main.cpp \
+	tach_sensor.cpp
 
 phosphor_fan_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \
