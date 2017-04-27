@@ -64,7 +64,44 @@ void Fan::tachChanged()
 
 void Fan::tachChanged(TachSensor& sensor)
 {
-    //TODO
+    auto& timer = sensor.getTimer();
+    auto running = timer.running();
+
+    //If this sensor is too slow at this moment, start
+    //its timer, at the end of which the inventory
+    //for the fan may get updated to not functional.
+
+    //If this sensor is OK, put everything back into a good state.
+
+    if (tooSlow(sensor))
+    {
+        if (sensor.functional() && !running)
+        {
+            timer.start(sensor.getTimeout());
+        }
+    }
+    else
+    {
+        if (!sensor.functional())
+        {
+            sensor.setFunctional(true);
+        }
+
+        if (running)
+        {
+            timer.stop();
+        }
+
+        //If the fan was nonfunctional and enough sensors are now OK,
+        //the fan can go back to functional
+        if (!_functional && !tooManySensorsNonfunctional())
+        {
+            log<level::INFO>("Setting a fan back to functional",
+                             entry("FAN=%s", _name.c_str()));
+
+            //TODO: actually update inventory
+        }
+    }
 }
 
 
