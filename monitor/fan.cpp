@@ -51,6 +51,21 @@ Fan::Fan(sdbusplus::bus::bus& bus,
 }
 
 
+void Fan::tachChanged()
+{
+    for (auto& s : _sensors)
+    {
+        tachChanged(*s);
+    }
+}
+
+
+void Fan::tachChanged(TachSensor& sensor)
+{
+    //TODO
+}
+
+
 uint64_t Fan::getTargetSpeed(const TachSensor& sensor)
 {
     uint64_t target = 0;
