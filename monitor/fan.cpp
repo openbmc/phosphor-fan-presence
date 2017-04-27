@@ -45,8 +45,8 @@ Fan::Fan(sdbusplus::bus::bus& bus,
                                          std::get<sensorNameField>(s),
                                          std::get<hasTargetField>(s),
                                          std::get<startupTimeoutField>(def),
-                                         std::get<timeoutField>(def)));
-
+                                         std::get<timeoutField>(def),
+                                         events));
     }
 
 }
@@ -120,6 +120,16 @@ bool Fan::tooSlow(const TachSensor& sensor)
     return false;
 }
 
+
+void Fan::timerExpired(TachSensor* sensor)
+{
+    sensor->setFunctional(false);
+
+    //If the fan is currently functional, but too many
+    //contained sensors are now nonfunctional, update
+    //the whole fan nonfunctional.
+	//TODO
+}
 
 }
 }
