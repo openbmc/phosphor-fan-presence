@@ -11,6 +11,7 @@ phosphor_fan_monitor_SOURCES = \
 	tach_sensor.cpp
 
 phosphor_fan_monitor_LDADD = \
+	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS)
 
