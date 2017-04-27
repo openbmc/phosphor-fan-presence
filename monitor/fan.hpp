@@ -70,7 +70,7 @@ class Fan
          * @brief Callback function for when an input sensor changes
          *
          * Starts a timer, where if it expires then the sensor
-         * was slow for too long and can be considered not functional.
+         * was out of range for too long and can be considered not functional.
          */
         void tachChanged(TachSensor& sensor);
 
@@ -78,6 +78,16 @@ class Fan
          * @brief Calls tachChanged(sensor) on each sensor
          */
         void tachChanged();
+
+        /**
+         * @brief The callback function for the timer
+         *
+         * Sets the sensor to not functional.
+         * If enough sensors are now not functional,
+         * updates the functional status of the whole
+         * fan in the inventory.
+         */
+        void timerExpired(TachSensor* sensor);
 
     private:
 

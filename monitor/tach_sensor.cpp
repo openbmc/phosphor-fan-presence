@@ -85,14 +85,15 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
                        const std::string& id,
                        bool hasTarget,
                        size_t startupTimeout,
-                       size_t timeout) :
-
+                       size_t timeout,
+                       std::shared_ptr<sd_event>& events) :
     _bus(bus),
     _fan(fan),
     _name(FAN_SENSOR_PATH + id),
     _hasTarget(hasTarget),
     _startupTimeout(startupTimeout),
-    _timeout(timeout)
+    _timeout(timeout),
+    _timer(events, std::bind(&Fan::timerExpired, &fan, this))
 {
     auto service = getService();
 
@@ -229,6 +230,26 @@ void TachSensor::handleTachChange(sdbusplus::message::message& msg,
 
    //Check just this sensor against the target
    _fan.tachChanged(*this);
+}
+
+
+std::chrono::microseconds TachSensor::getTimeout()
+{
+    using namespace std::chrono;
+    size_t timeout;
+
+    //Just use the startup value once
+    if (_startupTimeout != 0)
+    {
+        timeout = _startupTimeout;
+        _startupTimeout = 0;
+    }
+    else
+    {
+        timeout = _timeout;
+    }
+
+    return duration_cast<microseconds>(seconds(timeout));
 }
 
 
