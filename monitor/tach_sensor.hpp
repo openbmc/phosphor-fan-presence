@@ -97,6 +97,62 @@ class TachSensor
     private:
 
         /**
+         * @brief Returns the service name for reading the sensor
+         */
+        std::string getService();
+
+        /**
+         * @brief Returns the match string to use for matching
+         *        on a properties changed signal.
+         */
+        std::string getMatchString(const std::string& interface);
+
+        /**
+         * @brief Callback function for a tach input properties
+         *        changed signal
+         *
+         * @param[in] msg - the dbus message
+         * @param[in] data - user data
+         * @param[in] err - dbus error
+         */
+        static int handleTachChangeSignal(sd_bus_message* msg,
+                                          void* data,
+                                          sd_bus_error* err);
+
+        /**
+         * @brief Callback function for a Target properties
+         *        changed signal
+         *
+         * @param[in] msg - the dbus message
+         * @param[in] data - user data
+         * @param[in] err - dbus error
+         */
+        static int handleTargetChangeSignal(sd_bus_message* msg,
+                                            void* data,
+                                            sd_bus_error* err);
+
+        /**
+         * @brief Reads the Target property and stores in _tachTarget.
+         *        Also calls Fan::tachChanged().
+         *
+         * @param[in] msg - the dbus message
+         * @param[in] err - dbus error
+         */
+        void handleTargetChange(sdbusplus::message::message& msg,
+                                sd_bus_error* err);
+
+        /**
+         * @brief Reads the Value property and stores in _tachInput.
+         *        Also calls Fan::tachChanged().
+         *
+         * @param[in] msg - the dbus message
+         * @param[in] err - dbus error
+         */
+        void handleTachChange(sdbusplus::message::message& msg,
+                              sd_bus_error* err);
+
+
+        /**
          * @brief the dbus object
          */
         sdbusplus::bus::bus& _bus;
@@ -139,6 +195,16 @@ class TachSensor
          * @brief The timeout value to use
          */
         const size_t _timeout;
+
+        /**
+         * @brief The match object for the Value properties changed signal
+         */
+        std::unique_ptr<sdbusplus::server::match::match> tachSignal;
+
+        /**
+         * @brief The match object for the Target properties changed signal
+         */
+        std::unique_ptr<sdbusplus::server::match::match> targetSignal;
 };
 
 }
