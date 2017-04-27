@@ -66,6 +66,18 @@ class Fan
             std::shared_ptr<sd_event>& events,
             const FanDefinition& def);
 
+        /**
+         * @brief Callback function for when an input sensor changes
+         *
+         * Starts a timer, where if it expires then the sensor
+         * was slow for too long and can be considered not functional.
+         */
+        void tachChanged(TachSensor& sensor);
+
+        /**
+         * @brief Calls tachChanged(sensor) on each sensor
+         */
+        void tachChanged();
 
     private:
 
