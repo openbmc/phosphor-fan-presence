@@ -45,6 +45,15 @@ namespace monitor
  */
 class Fan
 {
+    using Property = std::string;
+    using Value = sdbusplus::message::variant<bool, int64_t, std::string>;
+    using PropertyMap = std::map<Property, Value>;
+
+    using Interface = std::string;
+    using InterfaceMap = std::map<Interface, PropertyMap>;
+
+    using Object = sdbusplus::message::object_path;
+    using ObjectMap = std::map<Object, InterfaceMap>;
 
     public:
 
@@ -115,6 +124,22 @@ class Fan
          */
         bool tooManySensorsNonfunctional();
 
+        /**
+         * @brief Updates the Functional property in the inventory
+         *        for the fan based on the value passed in.
+         *
+         * @param[in] functional - If the Functional property should
+         *                         be set to true or false.
+         */
+        void updateInventory(bool functional);
+
+        /**
+         * @brief Returns the object map to use when updating the inventory
+         *
+         * @param[in] functional - If the Functional property should
+         *                         be set to true or false.
+         */
+        ObjectMap getObjectMap(bool functional);
 
         /**
          * @brief the dbus object

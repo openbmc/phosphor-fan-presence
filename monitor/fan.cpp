@@ -28,6 +28,14 @@ namespace monitor
 
 using namespace phosphor::logging;
 
+constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
+constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
+
+constexpr auto FUNCTIONAL_PROPERTY = "Functional";
+constexpr auto OPERATIONAL_STATUS_INTF  =
+    "xyz.openbmc_project.State.Decorator.OperationalStatus";
+
+
 Fan::Fan(sdbusplus::bus::bus& bus,
          sd_event* events,
          const FanDefinition& def) :
@@ -50,6 +58,8 @@ Fan::Fan(sdbusplus::bus::bus& bus,
                                          events));
     }
 
+    //Start from a known inventory state of functional
+    updateInventory(true);
 }
 
 
@@ -99,7 +109,7 @@ void Fan::tachChanged(TachSensor& sensor)
             log<level::INFO>("Setting a fan back to functional",
                              entry("FAN=%s", _name.c_str()));
 
-            //TODO: actually update inventory
+            updateInventory(true);
         }
     }
 }
@@ -166,8 +176,63 @@ void Fan::timerExpired(TachSensor* sensor)
     //If the fan is currently functional, but too many
     //contained sensors are now nonfunctional, update
     //the whole fan nonfunctional.
-	//TODO
+
+    if (_functional && tooManySensorsNonfunctional())
+    {
+        log<level::ERR>("Setting a fan to nonfunctional",
+                        entry("FAN=%s", _name.c_str()));
+
+        updateInventory(false);
+    }
 }
+
+
+void Fan::updateInventory(bool functional)
+{
+    ObjectMap objectMap = getObjectMap(functional);
+    std::string service;
+
+    try
+    {
+        service = phosphor::fan::util::getInvService(_bus);
+    }
+    catch (const std::runtime_error& err)
+    {
+        log<level::ERR>(err.what());
+        return;
+    }
+
+    auto msg = _bus.new_method_call(service.c_str(),
+                                   INVENTORY_PATH,
+                                   INVENTORY_INTF,
+                                   "Notify");
+
+    msg.append(std::move(objectMap));
+    auto response = _bus.call(msg);
+    if (response.is_method_error())
+    {
+        log<level::ERR>("Error in Notify call to update inventory");
+        return;
+    }
+
+    //This will always track the current state of the inventory.
+    _functional = functional;
+}
+
+
+Fan::ObjectMap Fan::getObjectMap(bool functional)
+{
+    ObjectMap objectMap;
+    InterfaceMap interfaceMap;
+    PropertyMap propertyMap;
+
+    propertyMap.emplace(FUNCTIONAL_PROPERTY, functional);
+    interfaceMap.emplace(OPERATIONAL_STATUS_INTF, std::move(propertyMap));
+    objectMap.emplace(_name, std::move(interfaceMap));
+
+    return objectMap;
+}
+
 
 }
 }
