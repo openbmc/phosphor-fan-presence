@@ -57,6 +57,8 @@ AC_ARG_ENABLE([control],
     AS_HELP_STRING([--disable-control], [Disable fan control package.]))
 AC_ARG_ENABLE([cooling-type],
     AS_HELP_STRING([--disable-cooling-type], [Disable cooling-type package.]))
+AC_ARG_ENABLE([monitor-type],
+    AS_HELP_STRING([--disable-monitor-type], [Disable monitor-type package.]))
 
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
@@ -115,6 +117,26 @@ AS_IF([test "x$enable_cooling-type" != "xno"], [
        AC_CONFIG_FILES([chassis-cooling-type/Makefile])
 ])
 AS_IF([test "x$enable_monitor" != "xno"], [
+
+       AC_ARG_VAR(FAN_MONITOR_YAML_FILE,
+                  [The fan monitor definition file to use])
+       AS_IF([test "x$FAN_MONITOR_YAML_FILE" == "x"],
+             [FAN_MONITOR_YAML_FILE="${srcdir}/monitor/example/monitor.yaml"])
+       AC_DEFINE_UNQUOTED([FAN_MONITOR_YAML_FILE], ["$FAN_MONITOR_YAML_FILE"],
+                          [The fan monitor definition file to use])
+
+       AC_ARG_VAR(FAN_MONITOR_OUTPUT_DIR,
+                  [The output directory for the generated fan monitor data file])
+       AS_IF([test "x$FAN_MONITOR_OUTPUT_DIR" == "x"],
+             [FAN_MONITOR_OUTPUT_DIR="${srcdir}/monitor/"])
+       AC_DEFINE_UNQUOTED([FAN_MONITOR_OUTPUT_DIR], ["$FAN_MONITOR_OUTPUT_DIR"],
+                          [The output directory for the generated fan monitor data file])
+
+       AC_SUBST([GEN_FAN_MONITOR_DEFS],
+                [$PYTHON ${srcdir}/monitor/gen-fan-monitor-defs.py \
+                         -m $FAN_MONITOR_YAML_FILE \
+                         -o $FAN_MONITOR_OUTPUT_DIR])
+
        AC_CONFIG_FILES([monitor/Makefile])
 ])
 
