@@ -6,9 +6,13 @@ sbin_PROGRAMS = \
 
 phosphor_fan_monitor_SOURCES = \
 	fan.cpp \
-	generated.cpp \
 	main.cpp \
 	tach_sensor.cpp
+
+nodist_phosphor_fan_monitor_SOURCES = \
+	fan_monitor_defs.cpp
+
+BUILT_SOURCES = fan_monitor_defs.cpp
 
 phosphor_fan_monitor_LDADD = \
 	$(top_builddir)/libfan.la \
@@ -19,3 +23,5 @@ phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS)
 
+fan_monitor_defs.cpp: ${srcdir}/gen-fan-monitor-defs.py
+	$(AM_V_GEN)$(GEN_FAN_MONITOR_DEFS)
