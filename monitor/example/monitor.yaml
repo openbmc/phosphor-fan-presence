@@ -1,0 +1,37 @@
+#Example fan monitor definitions for phosphor-fan-monitor
+
+#List the fans that need to be monitored, along with some
+#properties that define how much slack is allowed in the actual
+#tach value as compared to the target tach value.
+
+#- inventory:
+#    [The system inventory location for the fan]
+#  startup_allowed_slow_time:
+#    [Time (in secs) actual speed can be below target speed on startup]
+#  normal_allowed_slow_time:
+#    [Time (in secs) actual speed can be below target speed after startup]
+#  deviation:
+#    [Percentage that actual speed must be within target speed]
+#  num_sensors_nonfunc_for_fan_nonfunc:
+#    [How many sensors on the fan must be faulted before fan
+#     will be considered faulted]
+#  sensors: [array of speed sensors for the fan]
+#    - name [The name of the fan sensor]
+#      has_target [true|false  If this sensor has a Target property for
+#                  setting a fan speed (otherwise just for reads)]
+
+#The code uses these parameters as follows:
+#  After a speed reading of a sensor is below the allowed deviation of the
+#  target speed for the allowed slow time, if at least
+#  num_sensors_nonfunc_for_fan_nonfunc sensors meet this condition,
+#  the fan will be set to nonfunctional in the inventory.
+
+#Example entries for 1 fan system:
+#  - inventory: /system/chassis/motherboard/fan0
+#    startup_allowed_slow_time: 30
+#    normal_allowed_slow_time: 15
+#    deviation: .85
+#    num_sensors_nonfunc_for_fan_nonfunc: 1
+#    sensors:
+#      - name: fan0
+#        has_target: true
