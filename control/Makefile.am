@@ -5,6 +5,7 @@ sbin_PROGRAMS = \
 	phosphor-fan-control
 
 phosphor_fan_control_SOURCES = \
+	argument.cpp \
 	fan.cpp \
 	main.cpp \
 	manager.cpp \

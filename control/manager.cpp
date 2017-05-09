@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 #include <algorithm>
+#include <phosphor-logging/log.hpp>
+#include <unistd.h>
 #include "manager.hpp"
 
 namespace phosphor
@@ -23,7 +25,16 @@ namespace fan
 namespace control
 {
 
-Manager::Manager(sdbusplus::bus::bus& bus) :
+using namespace phosphor::logging;
+
+constexpr auto SYSTEMD_SERVICE   = "org.freedesktop.systemd1";
+constexpr auto SYSTEMD_OBJ_PATH  = "/org/freedesktop/systemd1";
+constexpr auto SYSTEMD_INTERFACE = "org.freedesktop.systemd1.Manager";
+constexpr auto FAN_CONTROL_READY_TARGET = "obmc-fan-control-ready@0.target";
+
+//Note: Future code will check 'mode' before starting control algorithm
+Manager::Manager(sdbusplus::bus::bus& bus,
+                 Mode mode) :
     _bus(bus)
 {
     //Create the appropriate Zone objects based on the
@@ -55,13 +66,44 @@ Manager::Manager(sdbusplus::bus::bus& bus) :
         }
     }
 
-    //Set to full since we don't know state of system yet.
+}
+
+
+void Manager::doInit()
+{
     for (auto& z: _zones)
     {
         z.second->setFullSpeed();
     }
+
+    auto delay = _powerOnDelay;
+    while (delay > 0)
+    {
+        delay = sleep(delay);
+    }
+
+    startFanControlReadyTarget();
 }
 
+
+void Manager::startFanControlReadyTarget()
+{
+    auto method = _bus.new_method_call(SYSTEMD_SERVICE,
+            SYSTEMD_OBJ_PATH,
+            SYSTEMD_INTERFACE,
+            "StartUnit");
+
+    method.append(FAN_CONTROL_READY_TARGET);
+    method.append("replace");
+
+    auto response = _bus.call(method);
+    if (response.is_method_error())
+    {
+        //TODO openbmc/openbmc#1555 create an elog
+        log<level::ERR>("Failed to start fan control ready target");
+        throw std::runtime_error("Failed to start fan control ready target");
+    }
+}
 
 }
 }

@@ -23,6 +23,17 @@ class Manager
 {
     public:
 
+        /**
+         * The mode the manager will run in:
+         *   - init - only do the initialization steps
+         *   - control - run normal control algorithms
+         */
+        enum class Mode
+        {
+            init,
+            control
+        };
+
         Manager() = delete;
         Manager(const Manager&) = delete;
         Manager(Manager&&) = default;
@@ -36,10 +47,24 @@ class Manager
          * _zoneLayouts data.
          *
          * @param[in] bus - The dbus object
+         * @param[in] mode - The control mode
          */
-        Manager(sdbusplus::bus::bus& bus);
+        Manager(sdbusplus::bus::bus& bus,
+                Mode mode);
+
+        /**
+         * Does the fan control inititialization, which is
+         * setting fans to full, delaying so they
+         * can get there, and starting a target.
+         */
+        void doInit();
 
     private:
+
+        /**
+         * Starts the obmc-fan-control-ready dbus target
+         */
+        void startFanControlReadyTarget();
 
         /**
          * The dbus object
@@ -56,6 +81,13 @@ class Manager
          * This is generated data.
          */
         static const std::vector<ZoneGroup> _zoneLayouts;
+
+        /**
+         * The number of seconds to delay after
+         * fans get set to high speed on a power on
+         * to give them a chance to get there.
+         */
+        static const unsigned int _powerOnDelay;
 };
 
 
