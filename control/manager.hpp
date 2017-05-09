@@ -23,6 +23,17 @@ class Manager
 {
     public:
 
+        /**
+         * The mode the manager will run in:
+         *   - init - only set fans to full speed
+         *   - control - run normal control algorithms
+         */
+        enum class Mode
+        {
+            init,
+            control
+        };
+
         Manager() = delete;
         Manager(const Manager&) = delete;
         Manager(Manager&&) = default;
@@ -36,8 +47,18 @@ class Manager
          * _zoneLayouts data.
          *
          * @param[in] bus - The dbus object
+         * @param[in] mode - The control mode
          */
-        Manager(sdbusplus::bus::bus& bus);
+        Manager(sdbusplus::bus::bus& bus,
+                Mode mode);
+
+        /**
+         * @brief Returns the power on delay value, in seconds
+         */
+        size_t getPowerOnDelay() const
+        {
+            return _powerOnDelay;
+        }
 
     private:
 
@@ -56,6 +77,13 @@ class Manager
          * This is generated data.
          */
         static const std::vector<ZoneGroup> _zoneLayouts;
+
+        /**
+         * The number of seconds to delay after
+         * fans get set to high speed on a power on
+         * to give them a chance to get there.
+         */
+        static const size_t _powerOnDelay;
 };
 
 

@@ -23,7 +23,8 @@ namespace fan
 namespace control
 {
 
-Manager::Manager(sdbusplus::bus::bus& bus) :
+Manager::Manager(sdbusplus::bus::bus& bus,
+                 Mode mode) :
     _bus(bus)
 {
     //Create the appropriate Zone objects based on the
@@ -55,10 +56,12 @@ Manager::Manager(sdbusplus::bus::bus& bus) :
         }
     }
 
-    //Set to full since we don't know state of system yet.
-    for (auto& z: _zones)
+    if (mode == Mode::init)
     {
-        z.second->setFullSpeed();
+        for (auto& z: _zones)
+        {
+            z.second->setFullSpeed();
+        }
     }
 }
 
