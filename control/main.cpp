@@ -14,13 +14,47 @@
  * limitations under the License.
  */
 #include <sdbusplus/bus.hpp>
+#include <unistd.h>
+#include "argument.hpp"
 #include "manager.hpp"
+
+using namespace phosphor::fan::control;
 
 int main(int argc, char* argv[])
 {
     auto bus = sdbusplus::bus::new_default();
+    phosphor::fan::util::ArgumentParser args(argc, argv);
 
-    phosphor::fan::control::Manager manager(bus);
+    if (argc != 2)
+    {
+        args.usage(argv);
+        exit(-1);
+    }
+
+    Manager::Mode mode;
+
+    if (args["init"] == "true")
+    {
+        mode = Manager::Mode::init;
+    }
+    else if (args["control"] == "true")
+    {
+        mode = Manager::Mode::control;
+    }
+    else
+    {
+        args.usage(argv);
+        exit(-1);
+    }
+
+    Manager manager(bus, mode);
+
+    //Init mode will just set fans to max and delay
+    if (mode == Manager::Mode::init)
+    {
+        sleep(manager.getPowerOnDelay());
+        return 0;
+    }
 
     while (true)
     {

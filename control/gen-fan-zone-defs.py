@@ -11,11 +11,13 @@ import yaml
 from argparse import ArgumentParser
 from mako.template import Template
 
-#Note: Condition is a TODO
+#Note: Condition is a TODO (openbmc/openbmc#1500)
 tmpl = '''/* This is a generated file. */
 #include "manager.hpp"
 
 using namespace phosphor::fan::control;
+
+const size_t Manager::_powerOnDelay{${mgr_data['power_on_delay']}};
 
 const std::vector<ZoneGroup> Manager::_zoneLayouts
 {
@@ -151,8 +153,15 @@ if __name__ == '__main__':
     with open(args.fan_yaml, 'r') as fan_input:
         fan_data = yaml.safe_load(fan_input) or {}
 
-    zone_data = buildZoneData(zone_data, fan_data)
+    zone_config = buildZoneData(zone_data.get('zone_configuration', {}),
+                                fan_data)
+
+    manager_config = zone_data.get('manager_configuration', {})
+
+    if manager_config.get('power_on_delay') is None:
+        manager_config['power_on_delay'] = 0
 
     output_file = os.path.join(args.output_dir, "fan_zone_defs.cpp")
     with open(output_file, 'w') as output:
-        output.write(Template(tmpl).render(zones=zone_data))
+        output.write(Template(tmpl).render(zones=zone_config,
+                     mgr_data=manager_config))
