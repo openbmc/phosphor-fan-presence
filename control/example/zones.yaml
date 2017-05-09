@@ -17,33 +17,43 @@
 #case, the fan yaml would have a cooling_profile of 'air' to match
 #the zone cooling profile.
 
-#- zone_conditions:
-#   - name: [Name of a condition, if any.  Valid names are TBD]
+#manager_configuration:
+#  power_on_delay: [Number of seconds that phosphor-fan-control --init
+#                   should delay after setting fans to full speed on
+#                   a power on.]
 #
-#  zones:
-#    - zone: [zone number]
-#      cooling_profiles:
-#        - [cooling profile]
-#      initial_speed: [Speed to set the zone to when app starts]
+#zone_configuration:
+# - zone_conditions:
+#    - name: [Name of a condition, if any.  Valid names are TBD.]
+#
+#   zones:
+#     - zone: [zone number]
+#       cooling_profiles:
+#         - [cooling profile]
+#       initial_speed: [Speed to set the zone to when app starts.]
 
 #Example:
-#- zone_conditions:
-#  - name: air_cooled_chassis
+#manager_configuration:
+#  power_on_delay: 20
 #
-#  zones:
-#    - zone: 0
-#      cooling_profiles:
-#      - air
-#      - all
-#      initial_speed: 10500
+#zone_configuration:
+# - zone_conditions:
+#   - name: air_cooled_chassis
 #
-#- zone_conditions:
-#  - name: water_and_air_cooled_chassis
+#   zones:
+#     - zone: 0
+#       cooling_profiles:
+#       - air
+#       - all
+#       initial_speed: 10500
 #
-#  zones:
-#    - zone: 0
-#      cooling_profiles:
-#      - water
-#      - all
-#      initial_speed: 4000
+# - zone_conditions:
+#   - name: water_and_air_cooled_chassis
+#
+#   zones:
+#     - zone: 0
+#       cooling_profiles:
+#       - water
+#       - all
+#       initial_speed: 4000
 
