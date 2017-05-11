@@ -35,6 +35,22 @@ Zone::Zone(sdbusplus::bus::bus& bus,
     {
         _fans.emplace_back(std::make_unique<Fan>(bus, def));
     }
+
+    // Setup signal trigger for property changes
+    for (auto& event : std::get<setSpeedEventsPos>(def))
+    {
+        for (auto& prop : event)
+        {
+            _signalEvents.emplace_back(
+                std::make_unique<SignalEvent>(this,
+                                              std::get<1>(prop)
+                                              ));
+            _matches.emplace_back(bus,
+                                  std::get<0>(prop).c_str(),
+                                  signalHandler,
+                                  _signalEvents.back().get());
+        }
+    }
 }
 
 
@@ -45,6 +61,26 @@ void Zone::setSpeed(uint64_t speed)
         fan->setSpeed(speed);
     }
 }
+
+int Zone::signalHandler(sd_bus_message* msg,
+                        void* data,
+                        sd_bus_error* err)
+{
+    auto sdbpMsg = sdbusplus::message::message(msg);
+    auto& signalEvent = *static_cast<SignalEvent*>(data);
+    std::get<0>(signalEvent)->handleEvent(
+        sdbpMsg,
+        std::get<1>(signalEvent));
+    return 0;
+}
+
+void Zone::handleEvent(sdbusplus::message::message& msg,
+                       const Handler& handler)
+{
+    // Handle the callback
+    handler(_bus, msg, *this);
+}
+
 
 }
 }
