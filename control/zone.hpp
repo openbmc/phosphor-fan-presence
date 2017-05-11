@@ -71,6 +71,20 @@ class Zone
             _properties[object][property] = value;
         };
 
+        /**
+         * @brief Get the value of an object's property
+         *
+         * @param[in] object - Name of the object containing the property
+         * @param[in] property - Property name
+         *
+         * @return - The property value
+         */
+        inline auto getPropertyValue(const std::string& object,
+                                     const std::string& property)
+        {
+            return _properties[object][property];
+        };
+
     private:
 
         /**
@@ -126,7 +140,7 @@ class Zone
           * @param[in] eventData - The event's data
           */
          void handleEvent(sdbusplus::message::message& msg,
-                          const Handler& handler);
+                          const EventData& eventData);
 };
 
 }
