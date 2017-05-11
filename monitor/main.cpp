@@ -15,6 +15,7 @@
  */
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include "event.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
 
@@ -22,16 +23,11 @@ using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
 
 
-void EventDeleter(sd_event* event)
-{
-    sd_event_unref(event);
-}
-
 int main()
 {
     auto bus = sdbusplus::bus::new_default();
     sd_event* events = nullptr;
-    std::vector<std::unique_ptr<Fan>> fans;
+    std::vector<Fan> fans;
 
     auto r = sd_event_default(&events);
     if (r < 0)
@@ -41,7 +37,7 @@ int main()
         return -1;
     }
 
-    std::shared_ptr<sd_event> eventPtr{events, EventDeleter};
+    phosphor::fan::event::EventPtr eventPtr{events};
 
     //Attach the event object to the bus object so we can
     //handle both sd_events (for the timers) and dbus signals.
@@ -49,7 +45,7 @@ int main()
 
     for (const auto& fanDef : fanDefinitions)
     {
-        fans.emplace_back(std::make_unique<Fan>(bus, eventPtr, fanDef));
+        fans.emplace_back(bus, eventPtr, fanDef);
     }
 
     r = sd_event_loop(eventPtr.get());
