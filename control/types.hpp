@@ -19,17 +19,31 @@ constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
 using FanDefinition = std::tuple<std::string, std::vector<std::string>>;
 
+constexpr auto intfPos = 0;
+constexpr auto propPos = 1;
+using Group = std::map<std::string, std::tuple<std::string, std::string>>;
 using Handler = std::function<void(sdbusplus::bus::bus&,
                                    sdbusplus::message::message&,
                                    Zone&)>;
+using Action = std::function<void(Zone&, const Group&)>;
 
 constexpr auto signaturePos = 0;
 constexpr auto handlerObjPos = 1;
 using PropertyChange = std::tuple<std::string, Handler>;
-using SetSpeedEvent = std::vector<PropertyChange>;
+
+constexpr auto groupPos = 0;
+constexpr auto actionPos = 1;
+constexpr auto propChangeListPos = 2;
+using SetSpeedEvent = std::tuple<Group, Action, std::vector<PropertyChange>>;
+
+constexpr auto eventGroupPos = 0;
+constexpr auto eventHandlerPos = 1;
+constexpr auto eventActionPos = 2;
+using EventData = std::tuple<Group, Handler, Action>;
 
 constexpr auto zoneObjPos = 0;
-using SignalEvent = std::tuple<Zone*, Handler>;
+constexpr auto eventDataPos = 1;
+using SignalEvent = std::tuple<Zone*, EventData>;
 
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;
