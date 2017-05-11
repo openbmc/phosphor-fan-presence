@@ -1,0 +1,67 @@
+#Example set speed events for phosphor-fan-control
+
+#groups:
+#    - name: [A unique name for this group]
+#      description: [A user description of what makes up the group]
+#      type: [The '/xyz/openbmc_project' path extension]
+#      members:
+#          [List of object paths under the path extension]
+#
+#actions:
+#    - name: [The name associated with a supported action function]
+#      description: [A user description of what this action does]
+#      parameters:
+#          [Ordered list of required parameters for the associated function]
+#
+#events:
+#    - name: [A unique name for this event]
+#      zone_conditions:
+#          - name: [The name of the zone condition]
+#            zones:
+#                - [Zone number to include this set speed event with]
+#      group: [A group name from the list of groups]
+#      interface: [The Dbus interface on the group members' object path]
+#      property: [The property name and type on the interface to be used]
+#      action:
+#          name: [Name of an action from the list of actions]
+#          [List each required action parameter with a defined type and value
+#           for this event. The 'property' parameter utilizes the same type
+#           defined under the 'property' attribute.]
+
+#Example:
+#groups:
+#    - name: zone0_fans
+#      description: Group of fan inventory objects for zone 0
+#      type: inventory
+#      members:
+#          - /system/chassis/motherboard/fan0
+#          - /system/chassis/motherboard/fan1
+#          - /system/chassis/motherboard/fan2
+#          - /system/chassis/motherboard/fan3
+#
+#actions:
+#    - name: count_state_before_speed
+#      description: Set the speed when a number of properties at a state
+#      parameters:
+#          - count
+#          - property
+#          - speed
+#
+#events:
+#    - name: missing_before_high_speed
+#      zone_conditions:
+#          - name: air_cooled_chassis
+#            zones:
+#                - 0
+#      group: zone0_fans
+#      interface: xyz.openbmc_project.Inventory.Item
+#      property:
+#          name: Present
+#          type: bool
+#      action:
+#          name: count_state_before_speed
+#          count: 1
+#          property: false
+#          speed:
+#              value: 10500
+#              type: uint64_t
