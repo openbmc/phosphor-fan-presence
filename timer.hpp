@@ -3,7 +3,7 @@
 #include <chrono>
 #include <functional>
 #include <memory>
-#include <systemd/sd-event.h>
+#include "event.hpp"
 
 namespace phosphor
 {
@@ -12,17 +12,6 @@ namespace fan
 namespace util
 {
 
-struct EventSourceDeleter
-{
-    void operator()(sd_event_source* eventSource) const
-    {
-        sd_event_source_unref(eventSource);
-    }
-};
-
-using EventSourcePtr = std::unique_ptr<sd_event_source, EventSourceDeleter>;
-
-using EventPtr = std::shared_ptr<sd_event>;
 
 /**
  * @class Timer
@@ -60,7 +49,7 @@ class Timer
          * @param[in] events - sd_event pointer, previously created
          * @param[in] callbackFunc - The function to call on timer expiration
          */
-        Timer(EventPtr& events,
+        Timer(phosphor::fan::event::EventPtr& events,
               std::function<void()> callbackFunc);
 
         /**
@@ -148,12 +137,12 @@ class Timer
         /**
          * @brief The sd_event structure
          */
-        EventPtr timeEvent;
+        phosphor::fan::event::EventPtr& timeEvent;
 
         /**
          * @brief Source of events
          */
-        EventSourcePtr eventSource;
+        phosphor::fan::event::EventSourcePtr eventSource;
 
         /**
          * @brief Either 'repeating' or 'oneshot'
