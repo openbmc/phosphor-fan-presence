@@ -24,6 +24,19 @@ auto make_handler(T&& handler)
 }
 
 /**
+ * @brief Create an action function object
+ *
+ * @param[in] action - The action being created
+ *
+ * @return - The created action function object
+ */
+template <typename T>
+auto make_action(T&& action)
+{
+    return Action(std::forward<T>(action));
+}
+
+/**
  * @struct Property Changed
  * @brief A match filter functor for Dbus property value changed signals
  *
