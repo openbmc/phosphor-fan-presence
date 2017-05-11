@@ -1,0 +1,69 @@
+#Example set speed events for phosphor-fan-control
+
+#groups:
+#    - name: [A unique name for this group]
+#      description: [A user description of what makes up the group]
+#      type: [The '/xyz/openbmc_project' path extension]
+#      members:
+#          [List of object paths under the path extension]
+#
+#actions:
+#    - name: [The name associated with a supported action function]
+#      description: [A user description of what this action does]
+#      parameters:
+#          [List of required ordered parameters for the associated function]
+#
+#events:
+#    - name: [A unique name for this event]
+#      zone: [Zone number to include this set speed event with]
+#      group: [A group name from the list of groups]
+#      interface: [The Dbus interface on the group members' object path]
+#      property: [The property on the interface to be used for the group]
+#      action:
+#          name: [Name of an action from the list of actions]
+#          [List each required parameter with a defined value for this event]
+
+#Example:
+groups:
+    - name: zone0_fans
+      description: Group of fan inventory objects for zone 0
+      type: inventory
+      members:
+          - /system/chassis/motherboard/fan0
+          - /system/chassis/motherboard/fan1
+          - /system/chassis/motherboard/fan2
+          - /system/chassis/motherboard/fan3
+
+actions:
+    - name: count_state_before_speed
+      description: Set the speed when a number of properties at a state
+      parameters:
+          - count
+          - state
+          - speed
+
+events:
+    - name: missing_before_high_speed
+      zone: 0
+      group: zone0_fans
+      interface: xyz.openbmc_project.Inventory.Item
+      property: Present
+      action:
+          name: count_state_before_speed
+          count: 1
+          state:
+              value: false
+              type: bool
+          speed: 10500
+    - name: fails_before_high_speed
+      zone: 0
+      group: zone0_fans
+      interface: xyz.openbmc_project.State.Decorator.OperationalStatus
+      property: Functional
+      action:
+          name: count_state_before_speed
+          count: 1
+          state:
+              value: false
+              type: bool
+          speed: 10500
