@@ -16,6 +16,7 @@
 #include <iostream>
 #include <chrono>
 #include <gtest/gtest.h>
+#include "event.hpp"
 #include "timer.hpp"
 
 /**
@@ -25,12 +26,6 @@
 using namespace phosphor::fan::util;
 using namespace std::chrono;
 
-void EventDeleter(sd_event* events)
-{
-    sd_event_unref(events);
-}
-
-using EventPtr = std::shared_ptr<sd_event>;
 
 /**
  * Class to ensure sd_events are correctly
@@ -40,7 +35,7 @@ class TimerTest : public ::testing::Test
 {
     public:
         // systemd event handler
-        EventPtr events;
+        phosphor::fan::event::EventPtr events;
 
         // Need this so that events can be initialized.
         int rc;
@@ -52,7 +47,7 @@ class TimerTest : public ::testing::Test
             auto rc = sd_event_default(&event);
             EXPECT_GE(rc, 0);
 
-            events.reset(event, EventDeleter);
+            events.reset(event);
         }
 };
 
@@ -96,7 +91,7 @@ class CallbackTester
 class CallbackTesterWithTimer : public CallbackTester
 {
     public:
-        CallbackTesterWithTimer(EventPtr events) :
+        CallbackTesterWithTimer(phosphor::fan::event::EventPtr& events) :
             _timer(events,
                    std::bind(&CallbackTesterWithTimer::callbackFunction,
                              this))

@@ -27,7 +27,7 @@ namespace util
 
 using namespace phosphor::logging;
 
-Timer::Timer(EventPtr& events,
+Timer::Timer(phosphor::fan::event::EventPtr& events,
              std::function<void()> callbackFunc) :
     timeEvent(events),
     callback(callbackFunc),

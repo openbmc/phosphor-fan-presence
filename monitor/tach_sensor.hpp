@@ -3,6 +3,7 @@
 #include <chrono>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server.hpp>
+#include "event.hpp"
 #include "timer.hpp"
 
 namespace phosphor
@@ -54,7 +55,7 @@ class TachSensor
                    const std::string& id,
                    bool hasTarget,
                    size_t timeout,
-                   std::shared_ptr<sd_event>& events);
+                   phosphor::fan::event::EventPtr& events);
 
         /**
          * @brief Returns the target speed value

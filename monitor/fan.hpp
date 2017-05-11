@@ -3,6 +3,7 @@
 #include <sdbusplus/bus.hpp>
 #include <tuple>
 #include <vector>
+#include "event.hpp"
 #include "tach_sensor.hpp"
 #include "types.hpp"
 
@@ -72,7 +73,7 @@ class Fan
          * @param def - the fan definition structure
          */
         Fan(sdbusplus::bus::bus& bus,
-            std::shared_ptr<sd_event>& events,
+            phosphor::fan::event::EventPtr& events,
             const FanDefinition& def);
 
         /**
