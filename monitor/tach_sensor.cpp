@@ -85,7 +85,7 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
                        const std::string& id,
                        bool hasTarget,
                        size_t timeout,
-                       std::shared_ptr<sd_event>& events) :
+                       phosphor::fan::event::EventPtr& events) :
     _bus(bus),
     _fan(fan),
     _name(FAN_SENSOR_PATH + id),

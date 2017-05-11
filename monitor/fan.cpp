@@ -38,7 +38,7 @@ constexpr auto OPERATIONAL_STATUS_INTF  =
 
 
 Fan::Fan(sdbusplus::bus::bus& bus,
-         std::shared_ptr<sd_event>&  events,
+         phosphor::fan::event::EventPtr&  events,
          const FanDefinition& def) :
     _bus(bus),
     _name(std::get<fanNameField>(def)),
