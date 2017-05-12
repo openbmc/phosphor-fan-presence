@@ -27,7 +27,7 @@ int main()
 {
     auto bus = sdbusplus::bus::new_default();
     sd_event* events = nullptr;
-    std::vector<Fan> fans;
+    std::vector<std::unique_ptr<Fan>> fans;
 
     auto r = sd_event_default(&events);
     if (r < 0)
@@ -45,7 +45,7 @@ int main()
 
     for (const auto& fanDef : fanDefinitions)
     {
-        fans.emplace_back(bus, eventPtr, fanDef);
+        fans.emplace_back(std::make_unique<Fan>(bus, eventPtr, fanDef));
     }
 
     r = sd_event_loop(eventPtr.get());
