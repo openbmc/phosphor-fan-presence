@@ -37,6 +37,19 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                          }
                                      },
                                      %endfor
+                                 },
+                                 std::vector<SetSpeedEvent>{
+                                 %for event in zone['events']:
+                                    SetSpeedEvent{
+                                        Group{
+                                        %for member in event['group']:
+                                        {
+                                            "${member['name']}",
+                                            "${member['property']}"
+                                        },
+                                        %endfor
+                                    },
+                                 %endfor
                                  }
                   },
               %endfor
@@ -45,6 +58,34 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
 %endfor
 };
 '''
+
+
+def getEventsInZone(zone_num, events_data):
+    """
+    Constructs the event entries defined for each zone using the events yaml
+    provided.
+    """
+    events = []
+    if 'events' in events_data:
+        for e in events_data['events']:
+            for z in e['zone_conditions']:
+                if zone_num not in z['zones']:
+                    continue
+
+            event = {}
+            # Add set speed event group
+            group = []
+            groups = next(g for g in events_data['groups']
+                          if g['name'] == e['group'])
+            for member in groups['members']:
+                members = {}
+                members['name'] = member
+                members['property'] = e['property']['name']
+                group.append(members)
+            event['group'] = group
+            events.append(event)
+
+    return events
 
 
 def getFansInZone(zone_num, profiles, fan_data):
@@ -78,7 +119,7 @@ def getFansInZone(zone_num, profiles, fan_data):
     return fans
 
 
-def buildZoneData(zone_data, fan_data):
+def buildZoneData(zone_data, fan_data, events_data):
     """
     Combines the zone definition YAML and fan
     definition YAML to create a data structure defining
@@ -115,11 +156,13 @@ def buildZoneData(zone_data, fan_data):
                 profiles = z['cooling_profiles']
 
             fans = getFansInZone(z['zone'], profiles, fan_data)
+            events = getEventsInZone(z['zone'], events_data)
 
             if len(fans) == 0:
                 sys.exit("Didn't find any fans in zone " + str(zone['num']))
 
             zone['fans'] = fans
+            zone['events'] = events
             zones.append(zone)
 
         zone_group['zones'] = zones
@@ -138,6 +181,8 @@ if __name__ == '__main__':
     parser.add_argument('-f', '--fan_yaml', dest='fan_yaml',
                         default="example/fans.yaml",
                         help='fan definitional yaml')
+    parser.add_argument('-e', '--events_yaml', dest='events_yaml',
+                        help='events to set speeds yaml')
     parser.add_argument('-o', '--output_dir', dest='output_dir',
                         default=".",
                         help='output directory')
@@ -153,8 +198,13 @@ if __name__ == '__main__':
     with open(args.fan_yaml, 'r') as fan_input:
         fan_data = yaml.safe_load(fan_input) or {}
 
+    events_data = {}
+    if args.events_yaml:
+        with open(args.events_yaml, 'r') as events_input:
+            events_data = yaml.safe_load(events_input) or {}
+
     zone_config = buildZoneData(zone_data.get('zone_configuration', {}),
-                                fan_data)
+                                fan_data, events_data)
 
     manager_config = zone_data.get('manager_configuration', {})
 
