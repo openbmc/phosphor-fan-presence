@@ -96,6 +96,13 @@ AS_IF([test "x$enable_control" != "xno"], [
        AC_DEFINE_UNQUOTED([FAN_ZONE_YAML_FILE], ["$FAN_ZONE_YAML_FILE"],
                           [The fan zone definition file to use])
 
+      AC_ARG_VAR(ZONE_EVENTS_YAML_FILE,
+                 [The zone events definition file to use])
+      AS_IF([test "x$ZONE_EVENTS_YAML_FILE" == "x"],
+            [ZONE_EVENTS_YAML_FILE="${srcdir}/control/example/events.yaml"])
+      AC_DEFINE_UNQUOTED([ZONE_EVENTS_YAML_FILE], ["$ZONE_EVENTS_YAML_FILE"],
+                         [The zone events definition file to use])
+
        AC_ARG_VAR(FAN_ZONE_OUTPUT_DIR,
                   [The output directory for the generated fan zone data file])
        AS_IF([test "x$FAN_ZONE_OUTPUT_DIR" == "x"],
@@ -107,6 +114,7 @@ AS_IF([test "x$enable_control" != "xno"], [
                 [$PYTHON ${srcdir}/control/gen-fan-zone-defs.py \
                          -f $FAN_DEF_YAML_FILE \
                          -z $FAN_ZONE_YAML_FILE \
+                         -e $ZONE_EVENTS_YAML_FILE \
                          -o $FAN_ZONE_OUTPUT_DIR])
        AC_CONFIG_FILES([control/Makefile])
 ])
