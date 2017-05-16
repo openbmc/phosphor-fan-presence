@@ -57,8 +57,8 @@ AC_ARG_ENABLE([control],
     AS_HELP_STRING([--disable-control], [Disable fan control package.]))
 AC_ARG_ENABLE([cooling-type],
     AS_HELP_STRING([--disable-cooling-type], [Disable cooling-type package.]))
-AC_ARG_ENABLE([monitor-type],
-    AS_HELP_STRING([--disable-monitor-type], [Disable monitor-type package.]))
+AC_ARG_ENABLE([monitor],
+    AS_HELP_STRING([--disable-monitor], [Disable monitor]))
 
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
