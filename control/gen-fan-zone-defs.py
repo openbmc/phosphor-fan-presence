@@ -48,6 +48,12 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                             "${member['property']}"
                                         },
                                         %endfor
+                                        },
+                                        make_action(action::${event['action']['name']}(
+		                                %for param in event['action']['parameters']:
+                            			    static_cast<${param['type']}>(${param['value']}),
+		                                %endfor
+		                                )),
                                     }
                                  %endfor
                                  }
@@ -80,6 +86,27 @@ def getEventsInZone(zone_num, events_data):
             members['property'] = e['property']
             group.append(members)
         event['group'] = group
+
+        # Add set speed action and function parameters
+        action = {}
+        actions = next(a for a in events_data['actions']
+                      if a['name'] == e['action']['name'])
+        action['name'] = actions['name']
+        params = []
+        for p in actions['parameters']:
+            param = {}
+            if type(e['action'][p]) is not dict:
+                # Default type to 'size_t' when not given
+                param['value'] = str(e['action'][p]).lower()
+                param['type'] = 'size_t'
+                params.append(param)
+            else:
+                param['value'] = str(e['action'][p]['value']).lower()
+                param['type'] = str(e['action'][p]['type']).lower()
+                params.append(param)
+        action['parameters'] = params
+        event['action'] = action
+
         events.append(event)
 
     return events
