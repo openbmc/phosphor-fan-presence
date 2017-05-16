@@ -14,6 +14,8 @@ from mako.template import Template
 #Note: Condition is a TODO (openbmc/openbmc#1500)
 tmpl = '''/* This is a generated file. */
 #include "manager.hpp"
+#include "functor.hpp"
+#include "actions.hpp"
 
 using namespace phosphor::fan::control;
 
@@ -48,6 +50,16 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                             "${member['property']}"
                                         },
                                         %endfor
+                                        },
+                                        make_action(action::${event['action']['name']}(
+                                        %for index, param in enumerate(event['action']['parameters']):
+                                            %if (index+1) != len(event['action']['parameters']):
+                                            static_cast<${param['type']}>(${param['value']}),
+                                            %else:
+                                            static_cast<${param['type']}>(${param['value']})
+                                            %endif
+                                        %endfor
+                                        )),
                                     },
                                  %endfor
                                  }
@@ -66,6 +78,7 @@ def getEventsInZone(zone_num, events_data):
     provided.
     """
     events = []
+
     if 'events' in events_data:
         for e in events_data['events']:
             for z in e['zone_conditions']:
@@ -83,6 +96,31 @@ def getEventsInZone(zone_num, events_data):
                 members['property'] = e['property']['name']
                 group.append(members)
             event['group'] = group
+
+            # Add set speed action and function parameters
+            action = {}
+            actions = next(a for a in events_data['actions']
+                          if a['name'] == e['action']['name'])
+            action['name'] = actions['name']
+            params = []
+            for p in actions['parameters']:
+                param = {}
+                if type(e['action'][p]) is not dict:
+                    if p == 'property':
+                        param['value'] = str(e['action'][p]).lower()
+                        param['type'] = str(e['property']['type']).lower()
+                    else:
+                        # Default type to 'size_t' when not given
+                        param['value'] = str(e['action'][p]).lower()
+                        param['type'] = 'size_t'
+                    params.append(param)
+                else:
+                    param['value'] = str(e['action'][p]['value']).lower()
+                    param['type'] = str(e['action'][p]['type']).lower()
+                    params.append(param)
+            action['parameters'] = params
+            event['action'] = action
+
             events.append(event)
 
     return events
