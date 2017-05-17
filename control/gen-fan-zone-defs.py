@@ -16,6 +16,7 @@ tmpl = '''/* This is a generated file. */
 #include "manager.hpp"
 #include "functor.hpp"
 #include "actions.hpp"
+#include "handlers.hpp"
 
 using namespace phosphor::fan::control;
 
@@ -61,6 +62,23 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                             %endif
                                         %endfor
                                         )),
+                                        std::vector<PropertyChange>{
+                                        %for signal in event['signal']:
+                                            PropertyChange{
+                                            "interface='org.freedesktop.DBus.Properties',"
+                                            "member='PropertiesChanged',"
+                                            "type='signal',"
+                                            "path='${signal['path']}'",
+                                            make_handler(propertySignal<${signal['type']}>(
+                                                "${signal['interface']}",
+                                                "${signal['property']}",
+                                                handler::setProperty<${signal['type']}>(
+                                                    "${signal['member']}",
+                                                    "${signal['property']}"
+                                                )
+                                            ))},
+                                        %endfor
+                                        }
                                     },
                                  %endfor
                                  }
@@ -93,6 +111,7 @@ def getEventsInZone(zone_num, events_data):
                           if g['name'] == e['group'])
             for member in groups['members']:
                 members = {}
+                members['type'] = groups['type']
                 members['name'] = ("/xyz/openbmc_project/" +
                                    groups['type'] +
                                    member)
@@ -124,6 +143,18 @@ def getEventsInZone(zone_num, events_data):
                     params.append(param)
             action['parameters'] = params
             event['action'] = action
+
+            # Add property change signal handler
+            signal = []
+            for path in group:
+                signals = {}
+                signals['path'] = path['name']
+                signals['interface'] = e['interface']
+                signals['property'] = e['property']['name']
+                signals['type'] = e['property']['type']
+                signals['member'] = path['name']
+                signal.append(signals)
+            event['signal'] = signal
 
             events.append(event)
 
