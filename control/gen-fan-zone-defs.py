@@ -25,65 +25,69 @@ const unsigned int Manager::_powerOnDelay{${mgr_data['power_on_delay']}};
 const std::vector<ZoneGroup> Manager::_zoneLayouts
 {
 %for zone_group in zones:
-    ZoneGroup{std::vector<Condition>{},
-              std::vector<ZoneDefinition>{
-              %for zone in zone_group['zones']:
-                  ZoneDefinition{${zone['num']},
-                                 ${zone['full_speed']},
-                                 std::vector<FanDefinition>{
-                                     %for fan in zone['fans']:
-                                     FanDefinition{"${fan['name']}",
-                                         std::vector<std::string>{
-                                         %for sensor in fan['sensors']:
-                                            "${sensor}",
-                                         %endfor
-                                         }
-                                     },
-                                     %endfor
-                                 },
-                                 std::vector<SetSpeedEvent>{
-                                 %for event in zone['events']:
-                                    SetSpeedEvent{
-                                        Group{
-                                        %for member in event['group']:
-                                        {
-                                            "${member['name']}",
-                                            "${member['property']}"
-                                        },
-                                        %endfor
-                                        },
-                                        make_action(action::${event['action']['name']}(
-                                        %for index, param in enumerate(event['action']['parameters']):
-                                            %if (index+1) != len(event['action']['parameters']):
-                                            static_cast<${param['type']}>(${param['value']}),
-                                            %else:
-                                            static_cast<${param['type']}>(${param['value']})
-                                            %endif
-                                        %endfor
-                                        )),
-                                        std::vector<PropertyChange>{
-                                        %for signal in event['signal']:
-                                            PropertyChange{
-                                            "interface='org.freedesktop.DBus.Properties',"
-                                            "member='PropertiesChanged',"
-                                            "type='signal',"
-                                            "path='/xyz/openbmc_project/${signal['path']}'",
-                                            make_handler(propertySignal<${signal['type']}>(
-                                                "${signal['interface']}",
-                                                "${signal['property']}",
-                                                handler::setProperty<${signal['type']}>(
-                                                    "${signal['member']}",
-                                                    "${signal['property']}"
-                                                )
-                                            ))},
-                                        %endfor
-                                        }
-                                    },
-                                 %endfor
-                                 }
-                  },
-              %endfor
-              }
+    ZoneGroup{
+        std::vector<Condition>{},
+        std::vector<ZoneDefinition>{
+        %for zone in zone_group['zones']:
+            ZoneDefinition{
+                ${zone['num']},
+                ${zone['full_speed']},
+                std::vector<FanDefinition>{
+                %for fan in zone['fans']:
+                    FanDefinition{
+                        "${fan['name']}",
+                        std::vector<std::string>{
+                        %for sensor in fan['sensors']:
+                            "${sensor}",
+                        %endfor
+                        }
+                    },
+                %endfor
+                },
+                std::vector<SetSpeedEvent>{
+                %for event in zone['events']:
+                    SetSpeedEvent{
+                        Group{
+                        %for member in event['group']:
+                        {
+                            "${member['name']}",
+                            "${member['property']}"
+                        },
+                        %endfor
+                        },
+                        make_action(action::${event['action']['name']}(
+                        %for i, p in enumerate(event['action']['parameters']):
+                        %if (i+1) != len(event['action']['parameters']):
+                            static_cast<${p['type']}>(${p['value']}),
+                        %else:
+                            static_cast<${p['type']}>(${p['value']})
+                        %endif
+                        %endfor
+                        )),
+                        std::vector<PropertyChange>{
+                        %for s in event['signal']:
+                            PropertyChange{
+                                "interface='org.freedesktop.DBus.Properties',"
+                                "member='PropertiesChanged',"
+                                "type='signal',"
+                                "path='/xyz/openbmc_project/${s['path']}'",
+                                make_handler(propertySignal<${s['type']}>(
+                                    "${s['interface']}",
+                                    "${s['property']}",
+                                    handler::setProperty<${s['type']}>(
+                                        "${s['member']}",
+                                        "${s['property']}"
+                                    )
+                                ))
+                            },
+                        %endfor
+                        }
+                    },
+                %endfor
+                }
+            },
+        %endfor
+        }
     },
 %endfor
 };
@@ -97,8 +101,9 @@ def getEventsInZone(zone_num, events_data):
     """
     events = []
     for e in events_data['events']:
-        if zone_num not in e['zones']:
-            continue
+        for z in e['zone_conditions']:
+            if zone_num not in z['zones']:
+                continue
 
         event = {}
         # Add set speed event group
@@ -116,7 +121,7 @@ def getEventsInZone(zone_num, events_data):
         # Add set speed action and function parameters
         action = {}
         actions = next(a for a in events_data['actions']
-                      if a['name'] == e['action']['name'])
+                       if a['name'] == e['action']['name'])
         action['name'] = actions['name']
         params = []
         for p in actions['parameters']:
