@@ -23,7 +23,8 @@ namespace control
 {
 
 
-Zone::Zone(sdbusplus::bus::bus& bus,
+Zone::Zone(Mode mode,
+           sdbusplus::bus::bus& bus,
            const ZoneDefinition& def) :
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
@@ -36,23 +37,29 @@ Zone::Zone(sdbusplus::bus::bus& bus,
         _fans.emplace_back(std::make_unique<Fan>(bus, def));
     }
 
-    // Setup signal trigger for set speed events
-    for (auto& event : std::get<setSpeedEventsPos>(def))
+    // Do not enable set speed events when in init mode
+    if (mode != Mode::init)
     {
-        for (auto& prop : std::get<propChangeListPos>(event))
+        // Setup signal trigger for set speed events
+        for (auto& event : std::get<setSpeedEventsPos>(def))
         {
-            _signalEvents.emplace_back(
-                std::make_unique<SignalEvent>(this,
-                                              EventData
-                                              {
-                                                  std::get<groupPos>(event),
-                                                  std::get<handlerObjPos>(prop),
-                                                  std::get<actionPos>(event)
-                                              }));
-            _matches.emplace_back(bus,
-                                  std::get<signaturePos>(prop).c_str(),
-                                  signalHandler,
-                                  _signalEvents.back().get());
+            for (auto& prop : std::get<propChangeListPos>(event))
+            {
+                _signalEvents.emplace_back(
+                        std::make_unique<SignalEvent>(
+                                this,
+                                EventData
+                                {
+                                    std::get<groupPos>(event),
+                                    std::get<handlerObjPos>(prop),
+                                    std::get<actionPos>(event)
+                                }));
+                _matches.emplace_back(
+                        bus,
+                        std::get<signaturePos>(prop).c_str(),
+                        signalHandler,
+                        _signalEvents.back().get());
+            }
         }
     }
 }

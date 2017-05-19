@@ -59,7 +59,7 @@ Manager::Manager(sdbusplus::bus::bus& bus,
             for (auto& z : zones)
             {
                 _zones.emplace(std::get<zoneNumPos>(z),
-                               std::make_unique<Zone>(_bus, z));
+                               std::make_unique<Zone>(mode, _bus, z));
             }
 
             break;
