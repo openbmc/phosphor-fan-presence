@@ -2,7 +2,7 @@
 #include <fcntl.h>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
-#include <utility.hpp>
+#include "utility.hpp"
 #include "cooling_type.hpp"
 
 namespace phosphor
