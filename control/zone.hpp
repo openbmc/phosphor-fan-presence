@@ -13,6 +13,17 @@ namespace control
 {
 
 /**
+ * The mode fan control will run in:
+ *   - init - only do the initialization steps
+ *   - control - run normal control algorithms
+ */
+enum class Mode
+{
+    init,
+    control
+};
+
+/**
  * @class Represents a fan control zone, which is a group of fans
  * that behave the same.
  */
@@ -32,10 +43,12 @@ class Zone
          * Creates the appropriate fan objects based on
          * the zone definition data passed in.
          *
+         * @param[in] mode - mode of fan control
          * @param[in] bus - the dbus object
          * @param[in] def - the fan zone definition data
          */
-        Zone(sdbusplus::bus::bus& bus,
+        Zone(Mode mode,
+             sdbusplus::bus::bus& bus,
              const ZoneDefinition& def);
 
         /**

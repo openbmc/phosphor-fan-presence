@@ -23,17 +23,6 @@ class Manager
 {
     public:
 
-        /**
-         * The mode the manager will run in:
-         *   - init - only do the initialization steps
-         *   - control - run normal control algorithms
-         */
-        enum class Mode
-        {
-            init,
-            control
-        };
-
         Manager() = delete;
         Manager(const Manager&) = delete;
         Manager(Manager&&) = default;
