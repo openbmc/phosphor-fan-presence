@@ -30,15 +30,15 @@ int main(int argc, char* argv[])
         exit(-1);
     }
 
-    Manager::Mode mode;
+    Mode mode;
 
     if (args["init"] == "true")
     {
-        mode = Manager::Mode::init;
+        mode = Mode::init;
     }
     else if (args["control"] == "true")
     {
-        mode = Manager::Mode::control;
+        mode = Mode::control;
     }
     else
     {
@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
     Manager manager(bus, mode);
 
     //Init mode will just set fans to max and delay
-    if (mode == Manager::Mode::init)
+    if (mode == Mode::init)
     {
         manager.doInit();
         return 0;
