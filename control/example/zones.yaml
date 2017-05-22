@@ -30,7 +30,7 @@
 #     - zone: [zone number]
 #       cooling_profiles:
 #         - [cooling profile]
-#       initial_speed: [Speed to set the zone to when app starts.]
+#       full_speed: [Speed to set the zone to when app starts.]
 
 #Example:
 #manager_configuration:
@@ -45,7 +45,7 @@
 #       cooling_profiles:
 #       - air
 #       - all
-#       initial_speed: 10500
+#       full_speed: 10500
 #
 # - zone_conditions:
 #   - name: water_and_air_cooled_chassis
@@ -55,5 +55,5 @@
 #       cooling_profiles:
 #       - water
 #       - all
-#       initial_speed: 4000
+#       full_speed: 4000
 
