@@ -71,6 +71,14 @@ class Zone
         }
 
         /**
+         * Sets the active state of automatic fan control
+         */
+        inline void setActive(bool state)
+        {
+            _isActive = state;
+        }
+
+        /**
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
@@ -114,6 +122,11 @@ class Zone
          * The zone number
          */
         const size_t _zoneNum;
+
+        /**
+         * Automatic fan control active state
+         */
+        bool _isActive = true;
 
         /**
          * The vector of fans in this zone
