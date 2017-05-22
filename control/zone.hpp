@@ -71,6 +71,14 @@ class Zone
         }
 
         /**
+         * @brief Sets the automatic fan control allowed active state
+         *
+         * @param[in] group - A group that affects the active state
+         * @param[in] isActiveAllow - Active state according to group
+         */
+        void setActiveAllow(const Group* group, bool isActiveAllow);
+
+        /**
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
@@ -116,6 +124,11 @@ class Zone
         const size_t _zoneNum;
 
         /**
+         * Automatic fan control active state
+         */
+        bool _isActive = true;
+
+        /**
          * The vector of fans in this zone
          */
         std::vector<std::unique_ptr<Fan>> _fans;
@@ -124,6 +137,11 @@ class Zone
          * @brief Map of object property values
          */
         std::map<std::string, std::map<std::string, bool>> _properties;
+
+        /**
+         * @brief Map of active fan control allowed by groups
+         */
+        std::map<const Group*, bool> _active;
 
         /**
          * @brief List of signal event arguments
