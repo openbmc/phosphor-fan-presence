@@ -73,6 +73,23 @@ void Zone::setSpeed(uint64_t speed)
     }
 }
 
+void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
+{
+    _active[group] = isActiveAllow;
+    if (!isActiveAllow)
+    {
+        _isActive = false;
+    }
+    else
+    {
+        // Check all entries are set to allow control active
+        auto actPred = [](auto const& entry) {return entry.second;};
+        _isActive = std::all_of(_active.begin(),
+                                _active.end(),
+                                actPred);
+    }
+}
+
 int Zone::signalHandler(sd_bus_message* msg,
                         void* data,
                         sd_bus_error* err)

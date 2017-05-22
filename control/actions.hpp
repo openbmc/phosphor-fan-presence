@@ -13,7 +13,7 @@ namespace action
 
 /**
  * @brief An action to set the speed on a zone
- * @details The zone is set to the given speed when a defined number of
+ * @details The zone is held at the given speed when a defined number of
  * properties in the group are set to the given state
  *
  * @param[in] count - Number of properties
@@ -37,6 +37,8 @@ auto count_state_before_speed(size_t count, bool state, uint64_t speed)
                         entry.first,
                         std::get<propPos>(entry.second)) == state;
             });
+        // Update group's fan control active allowed based on action results
+        zone.setActiveAllow(&group, !(numAtState >= count));
         if (numAtState >= count)
         {
             zone.setSpeed(speed);
