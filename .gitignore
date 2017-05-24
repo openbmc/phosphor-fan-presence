@@ -17,6 +17,7 @@ stamp-h1
 *.la
 *.lo
 *.o
+test-driver
 fan_detect_defs.cpp
 phosphor-fan-presence-tach
 phosphor-fan-control
@@ -24,3 +25,4 @@ fan_zone_defs.cpp
 phosphor-fan-monitor
 phosphor-cooling-type
 fan_monitor_defs.cpp
+phosphor-set-gpio

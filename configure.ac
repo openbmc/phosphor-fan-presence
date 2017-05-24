@@ -59,11 +59,14 @@ AC_ARG_ENABLE([cooling-type],
     AS_HELP_STRING([--disable-cooling-type], [Disable cooling-type package.]))
 AC_ARG_ENABLE([monitor],
     AS_HELP_STRING([--disable-monitor], [Disable monitor]))
+AC_ARG_ENABLE([set-gpio],
+    AS_HELP_STRING([--disable-set-gpio], [Disable set-gpio package]))
 
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
 AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling_type" != "xno"])
 AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
+AM_CONDITIONAL([WANT_SET_GPIO], [test "x$enable_set_gpio" != "xno"])
 
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
@@ -138,6 +141,10 @@ AS_IF([test "x$enable_monitor" != "xno"], [
                          -o $FAN_MONITOR_OUTPUT_DIR])
 
        AC_CONFIG_FILES([monitor/Makefile])
+])
+
+AS_IF([test "x$enable_set_gpio" != "xno"], [
+       AC_CONFIG_FILES([set-gpio/Makefile])
 ])
 
 # Create configured output

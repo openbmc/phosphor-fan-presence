@@ -24,3 +24,6 @@ endif
 if WANT_MONITOR
 SUBDIRS += monitor
 endif
+if WANT_SET_GPIO
+SUBDIRS += set-gpio
+endif
