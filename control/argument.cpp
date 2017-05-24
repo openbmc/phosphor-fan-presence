@@ -82,6 +82,7 @@ const option ArgumentParser::options[] =
 
 const char* ArgumentParser::optionstr = "ich?";
 
+const std::string ArgumentParser::true_string = "true";
 const std::string ArgumentParser::empty_string = "";
 
 }

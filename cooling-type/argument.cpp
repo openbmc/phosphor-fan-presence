@@ -21,9 +21,9 @@
 
 namespace phosphor
 {
-namespace cooling
+namespace fan
 {
-namespace type
+namespace util
 {
 
 ArgumentParser::ArgumentParser(int argc, char** argv)
@@ -99,6 +99,7 @@ const option ArgumentParser::options[] =
 
 const char* ArgumentParser::optionstr = "p:d:e:aw?h";
 
+const std::string ArgumentParser::true_string = "true";
 const std::string ArgumentParser::empty_string = "";
 
 }

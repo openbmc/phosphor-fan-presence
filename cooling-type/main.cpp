@@ -6,6 +6,7 @@
 #include "cooling_type.hpp"
 
 using namespace phosphor::cooling::type;
+using namespace phosphor::fan::util;
 using namespace phosphor::logging;
 
 int main(int argc, char* argv[])

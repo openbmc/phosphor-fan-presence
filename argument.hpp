@@ -30,7 +30,7 @@ class ArgumentParser
 
         static void usage(char** argv);
 
-        static constexpr auto true_string = "true";
+        static const std::string true_string;
         static const std::string empty_string;
 
     private:
