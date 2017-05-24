@@ -5,6 +5,7 @@ sbin_PROGRAMS = \
 	phosphor-set-gpio
 
 phosphor_set_gpio_SOURCES = \
+	argument.cpp \
 	gpio.cpp \
 	main.cpp
 
