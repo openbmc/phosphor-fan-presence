@@ -1,0 +1,20 @@
+- name: TimerFailure
+  level: ERR
+  meta:
+    - str: "RETURN_CODE=%d"
+      type: int32
+    - str: "MESSAGE=%s"
+      type: string
+
+- name: MapperCallFailure
+  level: ERR
+  meta:
+    - str: "MESSAGE=%s"
+      type: string
+
+- name: InternalFailure
+  level: ERR
+  meta:
+    - str: "MESSAGE=%s"
+      type: string
+

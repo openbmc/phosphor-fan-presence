@@ -17,6 +17,7 @@
 #include <phosphor-logging/log.hpp>
 #include <unistd.h>
 #include "manager.hpp"
+#include "elog-errors.hpp"
 
 namespace phosphor
 {
@@ -99,9 +100,9 @@ void Manager::startFanControlReadyTarget()
     auto response = _bus.call(method);
     if (response.is_method_error())
     {
-        //TODO openbmc/openbmc#1555 create an elog
-        log<level::ERR>("Failed to start fan control ready target");
-        throw std::runtime_error("Failed to start fan control ready target");
+        elog<xyz::openbmc_project::Common::Fan::InternalFailure>(
+        phosphor::logging::xyz::openbmc_project::Common::Fan::InternalFailure::
+        MESSAGE("Failed to start fan control ready target"));
     }
 }
 
