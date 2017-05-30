@@ -17,6 +17,7 @@
 #include <phosphor-logging/log.hpp>
 #include <type_traits>
 #include "timer.hpp"
+#include "elog-errors.hpp"
 
 namespace phosphor
 {
@@ -47,8 +48,7 @@ Timer::Timer(phosphor::fan::event::EventPtr& events,
     {
         log<level::ERR>("Timer::Timer failed call to sd_event_add_time",
                         entry("ERROR=%s", strerror(-r)));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Timer initialization failed");
+        elog<xyz::openbmc_project::Common::Fan::TimerInitFailure>();
     }
 
     eventSource.reset(source);
@@ -97,8 +97,7 @@ void Timer::setTimer(int action)
         log<level::ERR>("Failed call to sd_event_source_set_enabled",
                         entry("ERROR=%s", strerror(-r)),
                         entry("ACTION=%d", action));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Failed call to sd_event_source_set_enabled");
+        elog<xyz::openbmc_project::Common::Fan::setTimerFailure>();
     }
 }
 
@@ -119,8 +118,7 @@ bool Timer::running()
     {
         log<level::ERR>("Failed call to sd_event_source_get_enabled",
                         entry("ERROR=%s", strerror(-r)));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Failed call to sd_event_source_get_enabled");
+        elog<xyz::openbmc_project::Common::Fan::getTimerFailure>();
     }
 
     return (status != SD_EVENT_OFF);
@@ -145,8 +143,7 @@ void Timer::setTimeout()
     {
         log<level::ERR>("Failed call to sd_event_source_set_time",
                         entry("ERROR=%s", strerror(-r)));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Failed call to sd_event_source_set_time");
+        elog<xyz::openbmc_project::Common::Fan::setTimeoutFailure>();
     }
 }
 

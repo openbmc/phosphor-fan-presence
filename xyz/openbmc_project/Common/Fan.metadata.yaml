@@ -1,0 +1,11 @@
+- name: TimerInitFailure
+  level: ERR
+
+- name: setTimerFailure
+  level: ERR
+
+- name: getTimerFailure
+  level: ERR
+
+- name: setTimeoutFailure
+  level: ERR

@@ -1,0 +1,15 @@
+# xyz.openbmc_project.Common.Fan.TimerInitFailure
+- name: TimerInitFailure
+  description: Timer failed call to sd_event_add_time
+
+# xyz.openbmc_project.Common.Fan.setTimerFailure
+- name: setTimerFailure
+  description: Failed call to sd_event_source_set_enabled
+
+# xyz.openbmc_project.Common.Fan.getTimerFailure
+- name: getTimerFailure
+  description: Failed call to sd_event_source_get_enabled
+
+# xyz.openbmc_project.Common.Fan.setTimeoutFailure
+- name: setTimeoutFailure
+  description: Failed call to sd_event_source_set_time
