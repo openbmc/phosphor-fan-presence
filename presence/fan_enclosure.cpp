@@ -71,9 +71,9 @@ void FanEnclosure::updInventory()
         {
             invService = phosphor::fan::util::getInvService(bus);
         }
-        catch (const std::runtime_error& err)
+        catch (xyz::openbmc_project::Common::Fan::MapperCallFailure& err)
         {
-            log<level::ERR>(err.what());
+            commit<xyz::openbmc_project::Common::Fan::MapperCallFailure>();
             return;
         }
         // Update inventory for this fan

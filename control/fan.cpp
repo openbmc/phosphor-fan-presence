@@ -18,6 +18,8 @@
 #include "fan.hpp"
 #include "utility.hpp"
 
+using namespace phosphor::logging;
+
 namespace phosphor
 {
 namespace fan
