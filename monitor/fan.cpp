@@ -199,15 +199,7 @@ void Fan::updateInventory(bool functional)
     ObjectMap objectMap = getObjectMap(functional);
     std::string service;
 
-    try
-    {
-        service = phosphor::fan::util::getInvService(_bus);
-    }
-    catch (const std::runtime_error& err)
-    {
-        log<level::ERR>(err.what());
-        return;
-    }
+    service = phosphor::fan::util::getInvService(_bus);
 
     auto msg = _bus.new_method_call(service.c_str(),
                                    INVENTORY_PATH,
@@ -218,8 +210,9 @@ void Fan::updateInventory(bool functional)
     auto response = _bus.call(msg);
     if (response.is_method_error())
     {
-        log<level::ERR>("Error in Notify call to update inventory");
-        return;
+        elog<xyz::openbmc_project::Common::Fan::InternalFailure>(
+        phosphor::logging::xyz::openbmc_project::Common::Fan::InternalFailure::
+        MESSAGE("Error in Notify call to update inventory")); 
     }
 
     //This will always track the current state of the inventory.

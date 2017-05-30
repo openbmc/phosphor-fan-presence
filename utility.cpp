@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include <string>
+#include <phosphor-logging/log.hpp>
 #include "utility.hpp"
 
 namespace phosphor
@@ -24,6 +25,7 @@ namespace util
 {
 
 using namespace std::string_literals;
+using namespace phosphor::logging;
 
 //TODO Should get these from phosphor-objmgr config.h
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
@@ -55,8 +57,9 @@ std::string getService(const std::string& path,
     auto mapperResponseMsg = bus.call(mapperCall);
     if (mapperResponseMsg.is_method_error())
     {
-        throw std::runtime_error(
-            "Error in mapper call to get service name");
+        elog<xyz::openbmc_project::Common::Fan::MapperCallFailure>(
+            phosphor::logging::xyz::openbmc_project::Common::Fan::
+                MapperCallFailure::MESSAGE("Error in mapper call to get service name"));
     }
 
 
@@ -65,8 +68,9 @@ std::string getService(const std::string& path,
 
     if (mapperResponse.empty())
     {
-        throw std::runtime_error(
-            "Error in mapper response for getting service name");
+        elog<xyz::openbmc_project::Common::Fan::MapperCallFailure>(
+            phosphor::logging::xyz::openbmc_project::Common::Fan::
+                MapperCallFailure::MESSAGE("Error in mapper response for getting service name"));
     }
 
     return mapperResponse.begin()->first;

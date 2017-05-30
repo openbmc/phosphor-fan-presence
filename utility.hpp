@@ -3,7 +3,7 @@
 #include <sdbusplus/bus.hpp>
 #include <unistd.h>
 #include <fcntl.h>
-
+#include "elog-errors.hpp"
 
 namespace phosphor
 {
