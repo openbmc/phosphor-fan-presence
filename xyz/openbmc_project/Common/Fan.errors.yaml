@@ -1,0 +1,11 @@
+# xyz.openbmc_project.Common.Fan.TimerFailure
+- name: TimerFailure
+  description: Fan sd_event Timer Failed
+
+# xyz.openbmc_project.Common.Fan.MapperCallFailure
+- name: MapperCallFailure
+  description: Fan Mapper Call Failed
+
+# xyz.openbmc_project.Common.Fan.ControlFailure
+- name: ControlFailure
+  description: Fan Control Manager Failed

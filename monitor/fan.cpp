@@ -203,9 +203,9 @@ void Fan::updateInventory(bool functional)
     {
         service = phosphor::fan::util::getInvService(_bus);
     }
-    catch (const std::runtime_error& err)
+    catch (xyz::openbmc_project::Common::Fan::MapperCallFailure& err)
     {
-        log<level::ERR>(err.what());
+        commit<xyz::openbmc_project::Common::Fan::MapperCallFailure>();
         return;
     }
 

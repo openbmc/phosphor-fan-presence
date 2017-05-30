@@ -6,6 +6,8 @@
 #include "utility.hpp"
 #include "cooling_type.hpp"
 
+using namespace phosphor::logging;
+
 namespace phosphor
 {
 namespace cooling
@@ -105,8 +107,9 @@ void CoolingType::updateInventory(const std::string& objpath)
     auto invMgrResponseMsg = bus.call(invMsg);
     if (invMgrResponseMsg.is_method_error())
     {
-        throw std::runtime_error(
-            "Error in inventory manager call to update inventory");
+        elog<xyz::openbmc_project::Common::Fan::MapperCallFailure>(
+            phosphor::logging::xyz::openbmc_project::Common::Fan::
+               MapperCallFailure::MESSAGE("Error in inventory manager call to update inventory"));
     }
 }
 
