@@ -17,6 +17,7 @@
 #include <phosphor-logging/log.hpp>
 #include "fan_enclosure.hpp"
 #include "utility.hpp"
+#include "elog-errors.hpp"
 
 namespace phosphor
 {
@@ -71,9 +72,9 @@ void FanEnclosure::updInventory()
         {
             invService = phosphor::fan::util::getInvService(bus);
         }
-        catch (const std::runtime_error& err)
+        catch (xyz::openbmc_project::Common::Fan::TimerFailure& err)
         {
-            log<level::ERR>(err.what());
+            commit<xyz::openbmc_project::Common::Fan::TimerFailure>();
             return;
         }
         // Update inventory for this fan

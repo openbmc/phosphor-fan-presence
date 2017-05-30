@@ -1,0 +1,7 @@
+- name: TimerFailure
+  meta: 
+    - str: "RETURN_CODE=%d"
+      type: int32
+    - str: "MESSAGE=%s"
+      type: string
+

@@ -1,0 +1,4 @@
+# xyz.openbmc_project.Common.Fan.TimerFailure
+- name: TimerFailure
+  description: Fan sd_event Timer Failed
+
