@@ -142,6 +142,9 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
     value = sdbusplus::message::variant_ns::get<T>(property);
 }
 
+//TODO https://gerrit.openbmc-project.xyz/#/c/4177/8/control/zone.cpp
+//     Look at replacing the following functions using std::bind / std::mem_fn
+//     and sdbusplus/bus/match.hpp#L75
 int Zone::signalHandler(sd_bus_message* msg,
                         void* data,
                         sd_bus_error* err)
