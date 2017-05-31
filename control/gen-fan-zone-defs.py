@@ -13,12 +13,14 @@ from mako.template import Template
 
 #Note: Condition is a TODO (openbmc/openbmc#1500)
 tmpl = '''/* This is a generated file. */
+#include <sdbusplus/bus.hpp>
 #include "manager.hpp"
 #include "functor.hpp"
 #include "actions.hpp"
 #include "handlers.hpp"
 
 using namespace phosphor::fan::control;
+using namespace sdbusplus::bus::match::rules;
 
 const unsigned int Manager::_powerOnDelay{${mgr_data['power_on_delay']}};
 
@@ -68,10 +70,11 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         std::vector<PropertyChange>{
                         %for s in event['signal']:
                             PropertyChange{
-                                "interface='org.freedesktop.DBus.Properties',"
-                                "member='PropertiesChanged',"
-                                "type='signal',"
-                                "path='${s['path']}'",
+                                interface("org.freedesktop.DBus.Properties") +
+                                member("PropertiesChanged") +
+                                type::signal() +
+                                path("${s['path']}") +
+                                arg0namespace("${s['interface']}"),
                                 make_handler(propertySignal<${s['type']}>(
                                     "${s['interface']}",
                                     "${s['property']}",

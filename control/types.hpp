@@ -41,10 +41,6 @@ constexpr auto eventHandlerPos = 1;
 constexpr auto eventActionPos = 2;
 using EventData = std::tuple<Group, Handler, Action>;
 
-constexpr auto zoneObjPos = 0;
-constexpr auto eventDataPos = 1;
-using SignalEvent = std::tuple<Zone*, EventData>;
-
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;
 constexpr auto fanListPos = 2;
