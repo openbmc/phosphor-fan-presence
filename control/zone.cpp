@@ -70,8 +70,7 @@ Zone::Zone(Mode mode,
             for (auto& prop : std::get<propChangeListPos>(event))
             {
                 _signalEvents.emplace_back(
-                        std::make_unique<SignalEvent>(
-                                this,
+                        std::make_unique<EventData>(
                                 EventData
                                 {
                                     std::get<groupPos>(event),
@@ -81,8 +80,10 @@ Zone::Zone(Mode mode,
                 _matches.emplace_back(
                         bus,
                         std::get<signaturePos>(prop).c_str(),
-                        signalHandler,
-                        _signalEvents.back().get());
+                        std::bind(std::mem_fn(&Zone::handleEvent),
+                                  this,
+                                  std::placeholders::_1,
+                                  _signalEvents.back().get()));
             }
             // Run action function for initial event state
             std::get<actionPos>(event)(*this,
@@ -142,26 +143,14 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
     value = sdbusplus::message::variant_ns::get<T>(property);
 }
 
-int Zone::signalHandler(sd_bus_message* msg,
-                        void* data,
-                        sd_bus_error* err)
-{
-    auto sdbpMsg = sdbusplus::message::message(msg);
-    auto& signalEvent = *static_cast<SignalEvent*>(data);
-    std::get<zoneObjPos>(signalEvent)->handleEvent(
-        sdbpMsg,
-        std::get<eventDataPos>(signalEvent));
-    return 0;
-}
-
 void Zone::handleEvent(sdbusplus::message::message& msg,
-                       const EventData& eventData)
+                       const EventData* eventData)
 {
     // Handle the callback
-    std::get<eventHandlerPos>(eventData)(_bus, msg, *this);
+    std::get<eventHandlerPos>(*eventData)(_bus, msg, *this);
     // Perform the action
-    std::get<eventActionPos>(eventData)(*this,
-                                        std::get<eventGroupPos>(eventData));
+    std::get<eventActionPos>(*eventData)(*this,
+                                         std::get<eventGroupPos>(*eventData));
 }
 
 }

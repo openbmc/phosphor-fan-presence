@@ -146,7 +146,7 @@ class Zone
         /**
          * @brief List of signal event arguments
          */
-        std::vector<std::unique_ptr<SignalEvent>> _signalEvents;
+        std::vector<std::unique_ptr<EventData>> _signalEvents;
 
         /**
          * @brief list of Dbus matches for callbacks
@@ -170,24 +170,13 @@ class Zone
                                 T& value);
 
         /**
-         * @brief Dbus signal change handler
+         * @brief Dbus signal change callback handler
          *
-         * @param[in] msg - Data associated with the subscribed signal
-         * @param[in] data - Pointer to the event sensor's data
-         * @param[in] err - Contains any sdbus error reference if occurred
+         * @param[in] msg - Expanded sdbusplus message data
+         * @param[in] eventData - The single event's data
          */
-        static int signalHandler(sd_bus_message* msg,
-                                 void* data,
-                                 sd_bus_error* err);
-
-         /**
-          * @brief Envokes the assigned handler and action
-          *
-          * @param[in] msg - Expanded sdbusplus message data
-          * @param[in] eventData - The event's data
-          */
-         void handleEvent(sdbusplus::message::message& msg,
-                          const EventData& eventData);
+        void handleEvent(sdbusplus::message::message& msg,
+                         const EventData* eventData);
 };
 
 }
