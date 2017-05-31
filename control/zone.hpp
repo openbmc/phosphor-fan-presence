@@ -154,6 +154,22 @@ class Zone
         std::vector<sdbusplus::server::match::match> _matches;
 
         /**
+         * @brief Get a property value from the path/interface given
+         *
+         * @param[in] bus - the bus to use
+         * @param[in] path - the dbus path name
+         * @param[in] iface - the dbus interface name
+         * @param[in] prop - the property name
+         * @param[out] value - the value of the property
+         */
+        template <typename T>
+        static void getProperty(sdbusplus::bus::bus& bus,
+                                const std::string& path,
+                                const std::string& iface,
+                                const std::string& prop,
+                                T& value);
+
+        /**
          * @brief Dbus signal change handler
          *
          * @param[in] msg - Data associated with the subscribed signal

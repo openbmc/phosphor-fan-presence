@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <phosphor-logging/elog.hpp>
 #include "zone.hpp"
+#include "utility.hpp"
 
 namespace phosphor
 {
@@ -22,6 +24,7 @@ namespace fan
 namespace control
 {
 
+using namespace phosphor::logging;
 
 Zone::Zone(Mode mode,
            sdbusplus::bus::bus& bus,
@@ -43,6 +46,27 @@ Zone::Zone(Mode mode,
         // Setup signal trigger for set speed events
         for (auto& event : std::get<setSpeedEventsPos>(def))
         {
+            // Get the current value for each property
+            for (auto& entry : std::get<groupPos>(event))
+            {
+                try
+                {
+                    bool value = false;
+                    getProperty(_bus,
+                                entry.first,
+                                std::get<intfPos>(entry.second),
+                                std::get<propPos>(entry.second),
+                                value);
+                    setPropertyValue(entry.first.c_str(),
+                                     std::get<propPos>(entry.second).c_str(),
+                                     value);
+                }
+                catch (const std::exception& e)
+                {
+                    log<level::ERR>(e.what());
+                }
+            }
+            // Setup signal matches for property change events
             for (auto& prop : std::get<propChangeListPos>(event))
             {
                 _signalEvents.emplace_back(
@@ -60,6 +84,9 @@ Zone::Zone(Mode mode,
                         signalHandler,
                         _signalEvents.back().get());
             }
+            // Run action function for initial event state
+            std::get<actionPos>(event)(*this,
+                                       std::get<groupPos>(event));
         }
     }
 }
@@ -88,6 +115,31 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
                                 _active.end(),
                                 actPred);
     }
+}
+
+template <typename T>
+void Zone::getProperty(sdbusplus::bus::bus& bus,
+                       const std::string& path,
+                       const std::string& iface,
+                       const std::string& prop,
+                       T& value)
+{
+    sdbusplus::message::variant<T> property;
+    auto serv = phosphor::fan::util::getService(path, iface, bus);
+    auto hostCall = bus.new_method_call(serv.c_str(),
+                                        path.c_str(),
+                                        "org.freedesktop.DBus.Properties",
+                                        "Get");
+    hostCall.append(iface);
+    hostCall.append(prop);
+    auto hostResponseMsg = bus.call(hostCall);
+    if (hostResponseMsg.is_method_error())
+    {
+        throw std::runtime_error(
+            "Error in host call response for retrieving property");
+    }
+    hostResponseMsg.read(property);
+    value = sdbusplus::message::variant_ns::get<T>(property);
 }
 
 int Zone::signalHandler(sd_bus_message* msg,
