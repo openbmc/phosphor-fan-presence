@@ -67,6 +67,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         )),
                         std::vector<PropertyChange>{
                         %for s in event['signal']:
+                            // TODO https://gerrit.openbmc-project.xyz/#/c/4259/6/control/gen-fan-zone-defs.py
+                            //      Use new methods from sdbusplus/bus/match.hpp#L96
                             PropertyChange{
                                 "interface='org.freedesktop.DBus.Properties',"
                                 "member='PropertiesChanged',"
