@@ -35,6 +35,7 @@ auto count_state_before_speed(size_t count, bool state, uint64_t speed)
             {
                 return zone.getPropertyValue(
                         entry.first,
+                        std::get<intfPos>(entry.second),
                         std::get<propPos>(entry.second)) == state;
             });
         // Update group's fan control active allowed based on action results
