@@ -58,6 +58,7 @@ Zone::Zone(Mode mode,
                                 std::get<propPos>(entry.second),
                                 value);
                     setPropertyValue(entry.first.c_str(),
+                                     std::get<intfPos>(entry.second).c_str(),
                                      std::get<propPos>(entry.second).c_str(),
                                      value);
                 }

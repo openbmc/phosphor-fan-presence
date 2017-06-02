@@ -82,28 +82,32 @@ class Zone
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
          * @param[in] property - Property name
          * @param[in] value - Property value
          */
         void setPropertyValue(const char* object,
+                              const char* interface,
                               const char* property,
                               bool value)
         {
-            _properties[object][property] = value;
+            _properties[object][interface][property] = value;
         };
 
         /**
          * @brief Get the value of an object's property
          *
          * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
          * @param[in] property - Property name
          *
          * @return - The property value
          */
         inline auto getPropertyValue(const std::string& object,
+                                     const std::string& interface,
                                      const std::string& property)
         {
-            return _properties[object][property];
+            return _properties[object][interface][property];
         };
 
     private:
@@ -136,7 +140,10 @@ class Zone
         /**
          * @brief Map of object property values
          */
-        std::map<std::string, std::map<std::string, bool>> _properties;
+        std::map<std::string,
+                 std::map<std::string,
+                          std::map<std::string,
+                                   bool>>> _properties;
 
         /**
          * @brief Map of active fan control allowed by groups
