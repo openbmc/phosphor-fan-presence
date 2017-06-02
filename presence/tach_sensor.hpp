@@ -12,6 +12,8 @@ namespace fan
 namespace presence
 {
 
+using namespace sdbusplus::bus::match::rules;
+
 /**
  * @class TachSensor
  * @brief OpenBMC Tach feedback sensor presence implementation
@@ -43,8 +45,10 @@ class TachSensor : public Sensor
                 bus(bus),
                 tachSignal(bus,
                            match(id).c_str(),
-                           handleTachChangeSignal,
-                           this)
+                           std::bind(
+                               std::mem_fn(&TachSensor::handleTachChange),
+                               this,
+                               std::placeholders::_1))
         {
             // Nothing to do here
         }
@@ -73,32 +77,19 @@ class TachSensor : public Sensor
          */
         static std::string match(const std::string& id)
         {
-            return std::string("type='signal',"
-                               "interface='org.freedesktop.DBus.Properties',"
-                               "member='PropertiesChanged',"
-                               "path='/xyz/openbmc_project/sensors/fan_tach/" +
-                               id + "'");
+            return std::string(
+                    interface("org.freedesktop.DBus.Properties") +
+                    member("PropertiesChanged") +
+                    type::signal() +
+                    path("/xyz/openbmc_project/sensors/fan_tach/" + id) +
+                    argN(0, "xyz.openbmc_project.Sensor.Value"));
         }
         /**
-         * @brief Callback function on tach change signals
-         *
-         * @param[out] msg - Data associated with the subscribed signal
-         * @param[out] data - Pointer to this tach sensor object instance
-         * @param[out] err - Contains any sdbus error reference if occurred
-         *
-         * @return 0
-         */
-        static int handleTachChangeSignal(sd_bus_message* msg,
-                                          void* data,
-                                          sd_bus_error* err);
-        /**
-         * @brief Determine & handle when the signal was a tach change
+         * @brief Handle when the signal was a tach change
          *
          * @param[in] msg - Expanded sdbusplus message data
-         * @param[in] err - Contains any sdbus error reference if occurred
          */
-        void handleTachChange(sdbusplus::message::message& msg,
-                              sd_bus_error* err);
+        void handleTachChange(sdbusplus::message::message& msg);
 
 };
 
