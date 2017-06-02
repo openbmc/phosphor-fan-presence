@@ -12,8 +12,21 @@ namespace control
 
 class Zone;
 
-//Placeholder. Conditions are completely TBD.
-using Condition = bool;
+constexpr auto propertyNamePos = 0;
+constexpr auto propertyInterfacePos = 1;
+constexpr auto propertyPathPos = 2;
+constexpr auto propertyValuePos = 3;
+
+// TODO openbmc/openbmc#1769: Support more property types.
+using ConditionProperty = std::tuple<std::string,
+                          std::string,
+                          std::string,
+                          bool>;
+
+constexpr auto conditionTypePos = 0;
+constexpr auto conditionPropertyListPos = 1;
+using Condition = std::tuple<std::string,
+                             std::vector<ConditionProperty>>;
 
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
