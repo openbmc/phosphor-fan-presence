@@ -95,6 +95,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                     "${s['property']}",
                                     handler::setProperty<${s['type']}>(
                                         "${s['member']}",
+                                        "${s['interface']}",
                                         "${s['property']}"
                                     )
                                 ))
