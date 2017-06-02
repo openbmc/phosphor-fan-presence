@@ -15,6 +15,8 @@ class Zone;
 //Placeholder. Conditions are completely TBD.
 using Condition = bool;
 
+using PropertyVariantType = sdbusplus::message::variant<bool, int64_t>;
+
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
 using FanDefinition = std::tuple<std::string, std::vector<std::string>>;
