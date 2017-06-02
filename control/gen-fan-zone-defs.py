@@ -197,7 +197,7 @@ def getFansInZone(zone_num, profiles, fan_data):
         if zone_num != f['cooling_zone']:
             continue
 
-        #'cooling_profile' is optional (use 'all' instead)
+        # 'cooling_profile' is optional (use 'all' instead)
         if f.get('cooling_profile') is None:
             profile = "all"
         else:
@@ -274,16 +274,16 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
         for z in group['zones']:
             zone = {}
 
-            #'zone' is required
-            if (not 'zone' in z) or (z['zone'] is None):
+            # 'zone' is required
+            if ('zone' not in z) or (z['zone'] is None):
                 sys.exit("Missing fan zone number in " + zone_yaml)
 
             zone['num'] = z['zone']
 
             zone['full_speed'] = z['full_speed']
 
-            #'cooling_profiles' is optional (use 'all' instead)
-            if (not 'cooling_profiles' in z) or \
+            # 'cooling_profiles' is optional (use 'all' instead)
+            if ('cooling_profiles' not in z) or \
                     (z['cooling_profiles'] is None):
                 profiles = ["all"]
             else:
