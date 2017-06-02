@@ -11,7 +11,6 @@ import yaml
 from argparse import ArgumentParser
 from mako.template import Template
 
-#Note: Condition is a TODO (openbmc/openbmc#1500)
 tmpl = '''/* This is a generated file. */
 #include <sdbusplus/bus.hpp>
 #include "manager.hpp"
@@ -28,7 +27,23 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
 {
 %for zone_group in zones:
     ZoneGroup{
-        std::vector<Condition>{},
+        std::vector<Condition>{
+        %for condition in zone_group['conditions']:
+            Condition{
+                "${condition['type']}",
+                std::vector<ConditionProperty>{
+                %for property in condition['properties']:
+                    ConditionProperty{
+                        "${property['property']}",
+                        "${property['interface']}",
+                        "${property['path']}",
+                        static_cast<${property['type']}>(${property['value']}),
+                    },
+                    %endfor
+                },
+            },
+            %endfor
+        },
         std::vector<ZoneDefinition>{
         %for zone in zone_group['zones']:
             ZoneDefinition{
@@ -199,7 +214,34 @@ def getFansInZone(zone_num, profiles, fan_data):
     return fans
 
 
-def buildZoneData(zone_data, fan_data, events_data):
+def getConditionInZoneConditions(zone_condition, zone_conditions_data):
+    """
+    Parses the zone conditions definition YAML files to find the condition
+    that match both the zone condition passed in.
+    """
+
+    condition = {}
+
+    for c in zone_conditions_data['conditions']:
+
+        if zone_condition != c['name']:
+            continue
+        condition['type'] = c['type']
+        properties = []
+        for p in c['properties']:
+            property = {}
+            property['property'] = p['property']
+            property['interface'] = p['interface']
+            property['path'] = p['path']
+            property['type'] = p['type'].lower()
+            property['value'] = str(p['value']).lower()
+            properties.append(property)
+        condition['properties'] = properties
+
+        return condition
+
+
+def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
     """
     Combines the zone definition YAML and fan
     definition YAML to create a data structure defining
@@ -211,7 +253,19 @@ def buildZoneData(zone_data, fan_data, events_data):
     for group in zone_data:
         conditions = []
         for c in group['zone_conditions']:
-            conditions.append(c['name'])
+
+            if not args.zone_conditions_yaml:
+                sys.exit("No zone_conditions YAML file but zone_conditions" +
+                         " used in zone YAML")
+
+            condition = getConditionInZoneConditions(c['name'],
+                                                     zone_conditions_data)
+
+            if not condition:
+                sys.exit("Missing zone condition " + c['name'] + " in " +
+                         args.zone_conditions_yaml)
+
+            conditions.append(condition)
 
         zone_group = {}
         zone_group['conditions'] = conditions
@@ -263,6 +317,9 @@ if __name__ == '__main__':
                         help='fan definitional yaml')
     parser.add_argument('-e', '--events_yaml', dest='events_yaml',
                         help='events to set speeds yaml')
+    parser.add_argument('-c', '--zone_conditions_yaml',
+                        dest='zone_conditions_yaml',
+                        help='conditions to determine zone yaml')
     parser.add_argument('-o', '--output_dir', dest='output_dir',
                         default=".",
                         help='output directory')
@@ -283,8 +340,13 @@ if __name__ == '__main__':
         with open(args.events_yaml, 'r') as events_input:
             events_data = yaml.safe_load(events_input) or {}
 
+    zone_conditions_data = {}
+    if args.zone_conditions_yaml:
+        with open(args.zone_conditions_yaml, 'r') as zone_conditions_input:
+            zone_conditions_data = yaml.safe_load(zone_conditions_input) or {}
+
     zone_config = buildZoneData(zone_data.get('zone_configuration', {}),
-                                fan_data, events_data)
+                                fan_data, events_data, zone_conditions_data)
 
     manager_config = zone_data.get('manager_configuration', {})
 
