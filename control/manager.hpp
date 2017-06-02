@@ -77,6 +77,35 @@ class Manager
          * to give them a chance to get there.
          */
         static const unsigned int _powerOnDelay;
+
+        /**
+         * Get the current value of the D-Bus property under the specified path
+         * and interface.
+         *
+         * @param[in] bus          - The D-Bus bus object
+         * @param[in] path         - The D-Bus path
+         * @param[in] interface    - The D-Bus interface
+         * @param[in] propertyName - The D-Bus property
+         * @param[out] value       - The D-Bus property's value
+         */
+        template <typename T>
+        static void getProperty(sdbusplus::bus::bus& bus,
+                                const std::string& path,
+                                const std::string& interface,
+                                const std::string& propertyName,
+                                T& value);
+
+        /**
+         * Check if a condition is true. Conditions are used to determine
+         * which fan zone to use.
+         *
+         * @param[in] bus       - The D-Bus bus object
+         * @param[in] condition - The condition to check if true
+         * @return result       - True if the condition is true
+         */
+        static bool checkCondition(sdbusplus::bus::bus& bus,
+                                   const auto& condition);
+
 };
 
 
