@@ -86,10 +86,11 @@ class Zone
          * @param[in] property - Property name
          * @param[in] value - Property value
          */
+        template <typename T>
         void setPropertyValue(const char* object,
                               const char* interface,
                               const char* property,
-                              bool value)
+                              T value)
         {
             _properties[object][interface][property] = value;
         };
@@ -103,11 +104,13 @@ class Zone
          *
          * @return - The property value
          */
+        template <typename T>
         inline auto getPropertyValue(const std::string& object,
                                      const std::string& interface,
                                      const std::string& property)
         {
-            return _properties[object][interface][property];
+            return sdbusplus::message::variant_ns::get<T>(
+                    _properties[object][interface][property]);
         };
 
     private:
@@ -143,7 +146,7 @@ class Zone
         std::map<std::string,
                  std::map<std::string,
                           std::map<std::string,
-                                   bool>>> _properties;
+                                   PropertyVariantType>>> _properties;
 
         /**
          * @brief Map of active fan control allowed by groups
@@ -169,12 +172,11 @@ class Zone
          * @param[in] prop - the property name
          * @param[out] value - the value of the property
          */
-        template <typename T>
         static void getProperty(sdbusplus::bus::bus& bus,
                                 const std::string& path,
                                 const std::string& iface,
                                 const std::string& prop,
-                                T& value);
+                                PropertyVariantType& value);
 
         /**
          * @brief Dbus signal change callback handler

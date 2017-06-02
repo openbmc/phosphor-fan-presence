@@ -51,16 +51,16 @@ Zone::Zone(Mode mode,
             {
                 try
                 {
-                    bool value = false;
+                    PropertyVariantType property;
                     getProperty(_bus,
                                 entry.first,
                                 std::get<intfPos>(entry.second),
                                 std::get<propPos>(entry.second),
-                                value);
+                                property);
                     setPropertyValue(entry.first.c_str(),
                                      std::get<intfPos>(entry.second).c_str(),
                                      std::get<propPos>(entry.second).c_str(),
-                                     value);
+                                     property);
                 }
                 catch (const std::exception& e)
                 {
@@ -119,14 +119,12 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
     }
 }
 
-template <typename T>
 void Zone::getProperty(sdbusplus::bus::bus& bus,
                        const std::string& path,
                        const std::string& iface,
                        const std::string& prop,
-                       T& value)
+                       PropertyVariantType& value)
 {
-    sdbusplus::message::variant<T> property;
     auto serv = phosphor::fan::util::getService(path, iface, bus);
     auto hostCall = bus.new_method_call(serv.c_str(),
                                         path.c_str(),
@@ -140,8 +138,7 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
         throw std::runtime_error(
             "Error in host call response for retrieving property");
     }
-    hostResponseMsg.read(property);
-    value = sdbusplus::message::variant_ns::get<T>(property);
+    hostResponseMsg.read(value);
 }
 
 void Zone::handleEvent(sdbusplus::message::message& msg,

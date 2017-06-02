@@ -24,16 +24,19 @@ namespace action
  *     A lambda function to set the zone speed when the number of properties
  *     within the group are at a certain value
  */
-auto count_state_before_speed(size_t count, bool state, uint64_t speed)
+template <typename T>
+auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
 {
-    return [=](auto& zone, auto& group)
+    return [count,
+            speed,
+            state = std::forward<T>(state)](auto& zone, auto& group)
     {
         size_t numAtState = std::count_if(
             group.begin(),
             group.end(),
             [&zone, &state](auto const& entry)
             {
-                return zone.getPropertyValue(
+                return zone.template getPropertyValue<T>(
                         entry.first,
                         std::get<intfPos>(entry.second),
                         std::get<propPos>(entry.second)) == state;
