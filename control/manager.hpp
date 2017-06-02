@@ -77,6 +77,37 @@ class Manager
          * to give them a chance to get there.
          */
         static const unsigned int _powerOnDelay;
+
+        /**
+         * Get the D-Bus service
+         *
+         * @param[in] bus       - The D-Bus bus object
+         * @param[in] path      - The D-Bus path
+         * @param[in] interface - The Dbus interface
+         * @param[out] service  - The D-Bus service
+         *
+         */
+        static const std::string getService(sdbusplus::bus::bus& bus,
+                                            const std::string& path,
+                                            const std::string& interface);
+
+        /**
+         * Get the current value of the D-Bus property under the specified path
+         * and interface.
+         *
+         * @param[in] bus          - The D-Bus bus object
+         * @param[in] path         - The D-Bus path
+         * @param[in] interface    - The D-Bus interface
+         * @param[in] propertyName - The D-Bus property
+         * @param[out] value       - The D-Bus property's value
+         */
+        template <typename T>
+        static void getProperty(sdbusplus::bus::bus& bus,
+                                             const std::string& path,
+                                             const std::string& interface,
+                                             const std::string& propertyName,
+                                             T& value);
+
 };
 
 

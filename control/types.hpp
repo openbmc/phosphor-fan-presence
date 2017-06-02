@@ -2,6 +2,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <sdbusplus/server.hpp>
 
 namespace phosphor
 {
@@ -12,8 +13,21 @@ namespace control
 
 class Zone;
 
-//Placeholder. Conditions are completely TBD.
-using Condition = bool;
+constexpr auto propertyNamePos = 0;
+constexpr auto propertyInterfacePos = 1;
+constexpr auto propertyPathPos = 2;
+constexpr auto propertyValuePos = 3;
+using Value = sdbusplus::message::variant<bool, int64_t, std::string>;
+
+using ConditionProperty = std::tuple<std::string,
+                          std::string,
+                          std::string,
+                          Value>;
+
+constexpr auto conditionTypePos = 0;
+constexpr auto conditionPropertyListPos = 1;
+using Condition = std::tuple<std::string,
+                             std::vector<ConditionProperty>>;
 
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
