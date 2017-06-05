@@ -24,7 +24,7 @@
 #
 #zone_configuration:
 # - zone_conditions:
-#    - name: [Name of a condition, if any.  Valid names are TBD.]
+#    - name: [Name of a condition, if any.]
 #
 #   zones:
 #     - zone: [zone number]
