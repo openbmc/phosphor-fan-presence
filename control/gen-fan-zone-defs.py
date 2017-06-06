@@ -113,7 +113,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
 '''
 
 
-def getEventsInZone(zone_num, events_data):
+def getEventsInZone(zone_num, zone_conditions, events_data):
     """
     Constructs the event entries defined for each zone using the events yaml
     provided.
@@ -122,9 +122,13 @@ def getEventsInZone(zone_num, events_data):
 
     if 'events' in events_data:
         for e in events_data['events']:
-            for z in e['zone_conditions']:
-                if zone_num not in z['zones']:
-                    continue
+            # Skip if this zone's zone number is not in the event's zones
+            if not all(zone_num in z['zones'] for z in e['zone_conditions']):
+                continue
+            # Skip if the event's condition is not in this zone's conditions
+            if not all(any(c['name'] == z['name'] for c in zone_conditions)
+                       for z in e['zone_conditions']):
+                continue
 
             event = {}
             # Add set speed event group
@@ -292,7 +296,8 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
                 profiles = z['cooling_profiles']
 
             fans = getFansInZone(z['zone'], profiles, fan_data)
-            events = getEventsInZone(z['zone'], events_data)
+            events = getEventsInZone(z['zone'], group['zone_conditions'],
+                                     events_data)
 
             if len(fans) == 0:
                 sys.exit("Didn't find any fans in zone " + str(zone['num']))
