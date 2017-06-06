@@ -71,12 +71,12 @@ AS_IF([test "x$enable_presence" != "xno"], [
        AC_ARG_VAR(FAN_DETECT_YAML_FILE,
                   [The fan presence detection definition file to use])
        AS_IF([test "x$FAN_DETECT_YAML_FILE" == "x"],
-             [FAN_DETECT_YAML_FILE="${srcdir}/presence/example/fan-detect.yaml"])
+             [FAN_DETECT_YAML_FILE="\${top_srcdir}/presence/example/fan-detect.yaml"])
        AC_DEFINE_UNQUOTED([FAN_DETECT_YAML_FILE], ["$FAN_DETECT_YAML_FILE"],
                           [The fan presence detection definition file to use])
 
        AC_SUBST([GEN_FAN_DETECT_DEFS],
-                [$PYTHON ${srcdir}/presence/gen-fan-detect-defs.py -y $FAN_DETECT_YAML_FILE])
+                ["$PYTHON \${top_srcdir}/presence/gen-fan-detect-defs.py -y $FAN_DETECT_YAML_FILE"])
        AC_CONFIG_FILES([presence/Makefile])
        ])
 
