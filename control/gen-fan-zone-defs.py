@@ -113,7 +113,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
 '''
 
 
-def getEventsInZone(zone_num, events_data):
+def getEventsInZone(zone_num, zone_conditions, events_data):
     """
     Constructs the event entries defined for each zone using the events yaml
     provided.
@@ -122,9 +122,19 @@ def getEventsInZone(zone_num, events_data):
 
     if 'events' in events_data:
         for e in events_data['events']:
-            for z in e['zone_conditions']:
-                if zone_num not in z['zones']:
-                    continue
+
+            # Zone numbers are optional in the events yaml but skip if this
+            # zone's zone number is not in the event's zone numbers
+            if all('zones' in z and z['zones'] is not None and
+                   zone_num not in z['zones'] for z in e['zone_conditions']):
+                continue
+
+            # Zone conditions are optional in the events yaml but skip if this
+            # event's condition is not in this zone's conditions
+            if all('name' in z and z['name'] is not None and
+                   not any(c['name'] == z['name'] for c in zone_conditions)
+                   for z in e['zone_conditions']):
+                continue
 
             event = {}
             # Add set speed event group
@@ -257,7 +267,7 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
             for c in group['zone_conditions']:
 
                 if not zone_conditions_data:
-                    sys.exit("No zone_conditions YAML file but" +
+                    sys.exit("No zone_conditions YAML file but " +
                              "zone_conditions used in zone YAML")
 
                 condition = getConditionInZoneConditions(c['name'],
@@ -291,7 +301,8 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
                 profiles = z['cooling_profiles']
 
             fans = getFansInZone(z['zone'], profiles, fan_data)
-            events = getEventsInZone(z['zone'], events_data)
+            events = getEventsInZone(z['zone'], group['zone_conditions'],
+                                     events_data)
 
             if len(fans) == 0:
                 sys.exit("Didn't find any fans in zone " + str(zone['num']))
