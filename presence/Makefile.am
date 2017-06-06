@@ -21,5 +21,5 @@ phosphor_fan_presence_tach_CXXFLAGS = \
 
 BUILT_SOURCES = fan_detect_defs.cpp
 
-fan_detect_defs.cpp: ${srcdir}/gen-fan-detect-defs.py
-	$(AM_V_GEN)$(GEN_FAN_DETECT_DEFS) > $@
+fan_detect_defs.cpp: ${srcdir}/gen-fan-detect-defs.py $(FAN_DETECT_YAML_FILE)
+	$(AM_V_GEN)$(GEN_FAN_DETECT_DEFS) > $(builddir)/$@

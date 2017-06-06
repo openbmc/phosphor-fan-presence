@@ -37,16 +37,6 @@ fanDetectMap = {
 '''
 
 
-def get_filename():
-    """
-    Constructs and returns the fully qualified header filename.
-    """
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    header_file = os.path.join(script_dir, "fan_detect_defs.cpp")
-
-    return header_file
-
-
 if __name__ == '__main__':
     parser = ArgumentParser()
     # Input yaml containing how each fan's presence detection should be done
@@ -66,7 +56,4 @@ if __name__ == '__main__':
     with open(yaml_file, 'r') as yaml_input:
         presence_data = yaml.safe_load(yaml_input) or {}
 
-    output_file = get_filename()
-
-    with open(output_file, 'w') as out:
-        out.write(Template(tmpl).render(presence=presence_data))
+    sys.stdout.write(Template(tmpl).render(presence=presence_data))
