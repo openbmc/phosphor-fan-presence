@@ -16,6 +16,7 @@
 #include <algorithm>
 #include <phosphor-logging/log.hpp>
 #include "fan_enclosure.hpp"
+#include "sdbusplus.hpp"
 #include "utility.hpp"
 
 namespace phosphor
@@ -26,10 +27,11 @@ namespace presence
 {
 
 using namespace phosphor::logging;
+using namespace std::literals::string_literals;
 
 //TODO Should get these from phosphor-inventory-manager config.h
-constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
-constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
+const auto INVENTORY_PATH = "/xyz/openbmc_project/inventory"s;
+const auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager"s;
 
 presenceState FanEnclosure::getCurPresState()
 {
@@ -63,24 +65,12 @@ void FanEnclosure::updInventory()
     // Only update inventory when presence state changed
     if (presState != curPresState)
     {
-        // Get inventory object for this fan
-        ObjectMap invObj = getObjectMap(curPresState);
-        // Get inventory manager service name from mapper
-        std::string invService;
-        invService = phosphor::fan::util::getInvService(bus);
         // Update inventory for this fan
-        auto invMsg = bus.new_method_call(invService.c_str(),
-                                          INVENTORY_PATH,
-                                          INVENTORY_INTF,
-                                          "Notify");
-        invMsg.append(std::move(invObj));
-        auto invMgrResponseMsg = bus.call(invMsg);
-        if (invMgrResponseMsg.is_method_error())
-        {
-            log<level::ERR>(
-                "Error in inventory manager call to update inventory");
-            return;
-        }
+        util::SDBusPlus::lookupAndCallMethod(
+                INVENTORY_PATH,
+                INVENTORY_INTF,
+                "Notify"s,
+                getObjectMap(curPresState));
         // Inventory updated, set presence state to current
         presState = curPresState;
     }
