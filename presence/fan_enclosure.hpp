@@ -54,10 +54,13 @@ class FanEnclosure
          * @brief Constructs Fan Enclosure Object
          *
          * @param[in] fanProp - Fan enclosure properties
+         * @param[in] initialState - The initial state of the enclosure.
          */
-        explicit FanEnclosure(const phosphor::fan::Properties& fanProp) :
+        explicit FanEnclosure(const phosphor::fan::Properties& fanProp,
+                              presenceState initialState = UNKNOWN) :
                         invPath(std::get<0>(fanProp)),
-                        fanDesc(std::get<1>(fanProp))
+                        fanDesc(std::get<1>(fanProp)),
+                        presState(initialState)
         {
         }
 
@@ -82,7 +85,7 @@ class FanEnclosure
         /** @brief List of sensors associated with this fan enclosure */
         std::vector<std::unique_ptr<Sensor>> sensors;
         /** @brief Last known presence state of this fan enclosure */
-        presenceState presState = UNKNOWN;
+        presenceState presState;
 
         /**
          * @brief Get the current presence state based on all sensors

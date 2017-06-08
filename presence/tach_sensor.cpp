@@ -27,7 +27,7 @@ namespace presence
 
 bool TachSensor::isPresent()
 {
-    return (tach != 0);
+    return state;
 }
 
 void TachSensor::handleTachChange(sdbusplus::message::message& sdbpMsg)
@@ -40,8 +40,8 @@ void TachSensor::handleTachChange(sdbusplus::message::message& sdbpMsg)
     auto valPropMap = msgData.find("Value");
     if (valPropMap != msgData.end())
     {
-        tach = sdbusplus::message::variant_ns::get<int64_t>(
-            valPropMap->second);
+        state = sdbusplus::message::variant_ns::get<int64_t>(
+            valPropMap->second) != 0;
     }
     // Update inventory according to latest tach reported
     fanEnc.updInventory();
