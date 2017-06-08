@@ -38,14 +38,16 @@ class TachSensor : public Sensor
          */
         TachSensor(
             const std::string& id,
-            FanEnclosure& fanEnc) :
+            FanEnclosure& fanEnc,
+            int64_t initialSpeed = 0) :
                 Sensor(id, fanEnc),
                 tachSignal(util::SDBusPlus::getBus(),
                            match(id).c_str(),
                            std::bind(
                                std::mem_fn(&TachSensor::handleTachChange),
                                this,
-                               std::placeholders::_1))
+                               std::placeholders::_1)),
+                tach(initialSpeed)
         {
             // Nothing to do here
         }
@@ -61,7 +63,7 @@ class TachSensor : public Sensor
         /** @brief Used to subscribe to dbus signals */
         sdbusplus::server::match::match tachSignal;
         /** @brief Tach speed value given from the signal */
-        int64_t tach = 0;
+        int64_t tach;
 
         /**
          * @brief Appends the fan sensor id to construct a match string
