@@ -56,7 +56,8 @@ std::string getService(const std::string& path,
     if (mapperResponseMsg.is_method_error())
     {
         throw std::runtime_error(
-            "Error in mapper call to get service name");
+            "Failed to determine service for path: "
+            + path + ", interface: " + interface);
     }
 
 
@@ -66,7 +67,8 @@ std::string getService(const std::string& path,
     if (mapperResponse.empty())
     {
         throw std::runtime_error(
-            "Error in mapper response for getting service name");
+            "No service found for path: "
+            + path + ", interface: " + interface);
     }
 
     return mapperResponse.begin()->first;
