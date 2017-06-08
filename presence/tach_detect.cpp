@@ -39,6 +39,8 @@ int main(void)
                                                              *fan);
                     fan->addSensor(std::move(sensor));
                 }
+
+                fan->updInventory();
                 fans.push_back(std::move(fan));
             }
         }
