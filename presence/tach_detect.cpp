@@ -14,16 +14,14 @@
  * limitations under the License.
  */
 #include <vector>
-#include <sdbusplus/bus.hpp>
 #include "fan_enclosure.hpp"
 #include "fan_detect_defs.hpp"
+#include "sdbusplus.hpp"
 #include "tach_sensor.hpp"
 
 
 int main(void)
 {
-    auto bus = sdbusplus::bus::new_default();
-
     std::vector<std::unique_ptr<phosphor::fan::presence::FanEnclosure>> fans;
 
     for (auto const& detectMap: fanDetectMap)
@@ -33,13 +31,11 @@ int main(void)
             for (auto const& fanProp: detectMap.second)
             {
                 auto fan = std::make_unique<
-                    phosphor::fan::presence::FanEnclosure>(bus,
-                                                           fanProp);
+                    phosphor::fan::presence::FanEnclosure>(fanProp);
                 for (auto const &fanSensor: std::get<2>(fanProp))
                 {
                     auto sensor = std::make_unique<
-                        phosphor::fan::presence::TachSensor>(bus,
-                                                             fanSensor,
+                        phosphor::fan::presence::TachSensor>(fanSensor,
                                                              *fan);
                     fan->addSensor(std::move(sensor));
                 }
@@ -50,9 +46,10 @@ int main(void)
 
     while (true)
     {
+        using namespace phosphor::fan::util;
         // Respond to dbus signals
-        bus.process_discard();
-        bus.wait();
+        SDBusPlus::getBus().process_discard();
+        SDBusPlus::getBus().wait();
     }
     return 0;
 }
