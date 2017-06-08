@@ -59,8 +59,6 @@ class FanEnclosure
                         invPath(std::get<0>(fanProp)),
                         fanDesc(std::get<1>(fanProp))
         {
-            //Add this fan to inventory
-            updInventory();
         }
 
         /**
