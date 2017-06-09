@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <phosphor-logging/log.hpp>
 #include <vector>
 #include "fan_enclosure.hpp"
 #include "fan_detect_defs.hpp"
@@ -22,6 +23,10 @@
 
 int main(void)
 {
+    using namespace phosphor::fan;
+    using namespace std::literals::string_literals;
+    using namespace phosphor::logging;
+
     std::vector<std::unique_ptr<phosphor::fan::presence::FanEnclosure>> fans;
 
     for (auto const& detectMap: fanDetectMap)
@@ -30,13 +35,49 @@ int main(void)
         {
             for (auto const& fanProp: detectMap.second)
             {
+                auto path = "/xyz/openbmc_project/inventory"s +
+                    std::get<0>(fanProp);
+
+                auto state = presence::UNKNOWN;
+                try
+                {
+                    auto boolstate = util::SDBusPlus::getProperty<bool>(
+                        path,
+                        "xyz.openbmc_project.Inventory.Item"s,
+                        "Present"s);
+                    state = boolstate ?
+                        presence::PRESENT : presence::NOT_PRESENT;
+                }
+                catch (const std::runtime_error& err)
+                {
+                    log<level::INFO>(err.what());
+                }
+
                 auto fan = std::make_unique<
-                    phosphor::fan::presence::FanEnclosure>(fanProp);
+                    phosphor::fan::presence::FanEnclosure>(fanProp,
+                                                           state);
                 for (auto const &fanSensor: std::get<2>(fanProp))
                 {
+                    auto initialSpeed = static_cast<int64_t>(0);
+                    try
+                    {
+                        auto sensorPath =
+                            "/xyz/openbmc_project/sensors/fan_tach/"s +
+                            fanSensor;
+                        initialSpeed = util::SDBusPlus::getProperty<int64_t>(
+                                sensorPath,
+                                "xyz.openbmc_project.Sensor.Value"s,
+                                "Value"s);
+                    }
+                    catch (const std::runtime_error& err)
+                    {
+                        log<level::INFO>(err.what());
+                    }
+
                     auto sensor = std::make_unique<
                         phosphor::fan::presence::TachSensor>(fanSensor,
-                                                             *fan);
+                                                             *fan,
+                                                             initialSpeed != 0);
                     fan->addSensor(std::move(sensor));
                 }
 
@@ -48,10 +89,9 @@ int main(void)
 
     while (true)
     {
-        using namespace phosphor::fan::util;
         // Respond to dbus signals
-        SDBusPlus::getBus().process_discard();
-        SDBusPlus::getBus().wait();
+        util::SDBusPlus::getBus().process_discard();
+        util::SDBusPlus::getBus().wait();
     }
     return 0;
 }
