@@ -41,8 +41,7 @@ class TachSensor : public Sensor
                 Sensor(id, fanEnc),
                 tachSignal(phosphor::fan::util::SDBusPlus::getBus(),
                            match(id).c_str(),
-                           handleTachChangeSignal,
-                           this),
+                           [this](auto& msg) { this->handleTachChange(msg); }),
                 tach(initialSpeed)
         {
             // Nothing to do here
@@ -70,32 +69,21 @@ class TachSensor : public Sensor
          */
         static std::string match(const std::string& id)
         {
-            return std::string("type='signal',"
-                               "interface='org.freedesktop.DBus.Properties',"
-                               "member='PropertiesChanged',"
-                               "path='/xyz/openbmc_project/sensors/fan_tach/" +
-                               id + "'");
+            return sdbusplus::bus::match::rules::member("PropertiesChanged") +
+                sdbusplus::bus::match::rules::interface(
+                    "org.freedesktop.DBus.Properties") +
+                sdbusplus::bus::match::rules::argN(
+                    0, "xyz.openbmc_project.Sensor.Value") +
+                sdbusplus::bus::match::rules::path(
+                    "/xyz/openbmc_project/sensors/fan_tach/" + id);
         }
-        /**
-         * @brief Callback function on tach change signals
-         *
-         * @param[out] msg - Data associated with the subscribed signal
-         * @param[out] data - Pointer to this tach sensor object instance
-         * @param[out] err - Contains any sdbus error reference if occurred
-         *
-         * @return 0
-         */
-        static int handleTachChangeSignal(sd_bus_message* msg,
-                                          void* data,
-                                          sd_bus_error* err);
+
         /**
          * @brief Determine & handle when the signal was a tach change
          *
          * @param[in] msg - Expanded sdbusplus message data
-         * @param[in] err - Contains any sdbus error reference if occurred
          */
-        void handleTachChange(sdbusplus::message::message& msg,
-                              sd_bus_error* err);
+        void handleTachChange(sdbusplus::message::message& msg);
 
 };
 
