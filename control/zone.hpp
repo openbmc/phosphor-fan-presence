@@ -113,6 +113,16 @@ class Zone
                     _properties[object][interface][property]);
         };
 
+        /**
+         * @brief Get the default floor speed
+         *
+         * @return - The defined default floor speed
+         */
+        inline auto getDefFloor()
+        {
+            return _defFloorSpeed;
+        };
+
     private:
 
         /**
@@ -129,6 +139,11 @@ class Zone
          * The zone number
          */
         const size_t _zoneNum;
+
+        /**
+         * The default floor speed for the zone
+         */
+        const uint64_t _defFloorSpeed;
 
         /**
          * Automatic fan control active state
