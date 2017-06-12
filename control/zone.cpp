@@ -31,7 +31,8 @@ Zone::Zone(Mode mode,
            const ZoneDefinition& def) :
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
-    _zoneNum(std::get<zoneNumPos>(def))
+    _zoneNum(std::get<zoneNumPos>(def)),
+    _defFloorSpeed(std::get<floorSpeedPos>(def))
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
