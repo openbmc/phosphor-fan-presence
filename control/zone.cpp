@@ -99,6 +99,11 @@ void Zone::setSpeed(uint64_t speed)
 {
     for (auto& fan : _fans)
     {
+        //TODO openbmc/openbmc#1626 Move to control algorithm function
+        if (speed < _floorSpeed)
+        {
+            speed = _floorSpeed;
+        }
         fan->setSpeed(speed);
     }
 }
