@@ -45,10 +45,12 @@ using EventData = std::tuple<Group, Handler, Action>;
 
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;
-constexpr auto fanListPos = 2;
-constexpr auto setSpeedEventsPos = 3;
+constexpr auto floorSpeedPos = 2;
+constexpr auto fanListPos = 3;
+constexpr auto setSpeedEventsPos = 4;
 using ZoneDefinition = std::tuple<size_t,
-                                  unsigned int,
+                                  uint64_t,
+                                  uint64_t,
                                   std::vector<FanDefinition>,
                                   std::vector<SetSpeedEvent>>;
 
