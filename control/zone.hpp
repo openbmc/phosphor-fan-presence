@@ -123,6 +123,16 @@ class Zone
             return _defFloorSpeed;
         };
 
+        /**
+         * @brief Set the floor speed to the given speed
+         *
+         * @param[in] speed - Speed to set the floor to
+         */
+        inline void setFloor(uint64_t speed)
+        {
+            _floorSpeed = speed;
+        };
+
     private:
 
         /**
@@ -144,6 +154,11 @@ class Zone
          * The default floor speed for the zone
          */
         const uint64_t _defFloorSpeed;
+
+        /**
+         * The floor speed to not go below
+         */
+        uint64_t _floorSpeed = _defFloorSpeed;
 
         /**
          * Automatic fan control active state
