@@ -133,6 +133,38 @@ class Zone
             _floorSpeed = speed;
         };
 
+        /**
+         * @brief Get the ceiling speed
+         *
+         * @return - The current ceiling speed
+         */
+        inline auto& getCeiling() const
+        {
+            return _ceilingSpeed;
+        };
+
+        /**
+         * @brief Set the ceiling speed to the given speed
+         *
+         * @param[in] speed - Speed to set the ceiling to
+         */
+        inline void setCeiling(uint64_t speed)
+        {
+            _ceilingSpeed = speed;
+        };
+
+        /**
+         * @brief Return the previous key value and update to latest key value
+         *
+         * @param[in] keyValue - Latest key value to update to
+         */
+        inline auto getPreKey(int64_t keyValue)
+        {
+            auto preKeyValue = _ceilingKeyValue;
+            _ceilingKeyValue = keyValue;
+            return preKeyValue;
+        };
+
     private:
 
         /**
@@ -156,9 +188,24 @@ class Zone
         const uint64_t _defFloorSpeed;
 
         /**
+         * The default ceiling speed for the zone
+         */
+        const uint64_t _defCeilingSpeed;
+
+        /**
          * The floor speed to not go below
          */
         uint64_t _floorSpeed = _defFloorSpeed;
+
+        /**
+         * The ceiling speed to not go above
+         */
+        uint64_t _ceilingSpeed = _defCeilingSpeed;
+
+        /**
+         * The previous sensor value for calculating the ceiling
+         */
+        int64_t _ceilingKeyValue = 0;
 
         /**
          * Automatic fan control active state
