@@ -27,7 +27,12 @@ phosphor_fan_presence_tach_CXXFLAGS = \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
 	$(LIBEVDEV_CFLAGS)
 
-BUILT_SOURCES = fan_detect_defs.cpp
+BUILT_SOURCES = fan_detect_defs.cpp generated.hpp
+TEMPLATES = \
+	templates/generated.mako.hpp
 
 fan_detect_defs.cpp: ${srcdir}/gen-fan-detect-defs.py $(FAN_DETECT_YAML_FILE)
 	$(AM_V_GEN)$(GEN_FAN_DETECT_DEFS) > $(builddir)/$@
+
+generated.hpp: $(TEMPLATES) ${srcdir}/pfpgen.py $(PRESENCE_CONFIG)
+	$(AM_V_GEN)$(PFPGEN) > $(builddir)/$@
