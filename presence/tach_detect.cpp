@@ -17,6 +17,7 @@
 #include <vector>
 #include "fan_enclosure.hpp"
 #include "fan_detect_defs.hpp"
+#include "generated.hpp"
 #include "sdbusplus.hpp"
 #include "tach_sensor.hpp"
 
