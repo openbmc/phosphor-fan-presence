@@ -100,6 +100,115 @@ auto set_floor_from_average_sensor_value(
     };
 }
 
+/**
+ * @brief An action to set the ceiling speed on a zone
+ * @details Based on the average of the defined sensor group values, the ceiling
+ * speed is selected from the map key transition point that the average sensor
+ * value falls within depending on the key values direction from what was
+ * previously read.
+ *
+ * @param[in] val_to_speed - Ordered map of sensor value-to-speed transitions
+ *
+ * @return Lambda function
+ *     A lambda function to set the zone's ceiling speed when the average of
+ *     property values within the group is above(increasing) or
+ *     below(decreasing) the key transition point
+ */
+auto set_ceiling_from_average_sensor_value(
+        std::map<int64_t, uint64_t>&& val_to_speed)
+{
+    return [val_to_speed = std::move(val_to_speed)](auto& zone, auto& group)
+    {
+        auto speed = zone.getCeiling();
+        if (group.size() != 0)
+        {
+            auto sumValue = std::accumulate(
+                    group.begin(),
+                    group.end(),
+                    0,
+                    [&zone](int64_t sum, auto const& entry)
+                    {
+                        return sum + zone.template getPropertyValue<int64_t>(
+                                entry.first,
+                                std::get<intfPos>(entry.second),
+                                std::get<propPos>(entry.second));
+                    });
+            auto avgValue = sumValue / group.size();
+            auto prevValue = zone.swapCeilingKeyValue(avgValue);
+            if (avgValue != prevValue)
+            {// Only check if previous and new values differ
+                if (avgValue < prevValue)
+                {// Value is decreasing from previous
+                    for (auto it = val_to_speed.rbegin();
+                         it != val_to_speed.rend();
+                         ++it)
+                    {
+                        if (it == val_to_speed.rbegin() &&
+                            avgValue >= it->first)
+                        {
+                            // Value is at/above last map key,
+                            // set ceiling speed to the last map key's value
+                            speed = it->second;
+                            break;
+                        }
+                        else if (std::next(it, 1) == val_to_speed.rend() &&
+                                 avgValue <= it->first)
+                        {
+                            // Value is at/below first map key,
+                            // set ceiling speed to the first map key's value
+                            speed = it->second;
+                            break;
+                        }
+                        if (avgValue < it->first &&
+                            it->first <= prevValue)
+                        {
+                            // Value decreased & transitioned across a map key,
+                            // update ceiling speed to this map key's value
+                            // when new value is below map's key and the key
+                            // is at/below the previous value
+                            speed = it->second;
+                        }
+                    }
+                }
+                else
+                {// Value is increasing from previous
+                    for (auto it = val_to_speed.begin();
+                         it != val_to_speed.end();
+                         ++it)
+                    {
+                        if (it == val_to_speed.begin() &&
+                            avgValue <= it->first)
+                        {
+                            // Value is at/below first map key,
+                            // set ceiling speed to the first map key's value
+                            speed = it->second;
+                            break;
+                        }
+                        else if (std::next(it, 1) == val_to_speed.end() &&
+                                 avgValue >= it->first)
+                        {
+                            // Value is at/above last map key,
+                            // set ceiling speed to the last map key's value
+                            speed = it->second;
+                            break;
+                        }
+                        if (prevValue <= it->first &&
+                            it->first < avgValue)
+                        {
+                            // Value increased & transitioned across a map key,
+                            // update ceiling speed to this map key's value
+                            // when new value is above map's key and the key
+                            // is at/above the previous value
+                            speed = it->second;
+                        }
+                    }
+                }
+            }
+        }
+        zone.setCeiling(speed);
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan
