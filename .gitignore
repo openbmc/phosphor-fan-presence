@@ -25,3 +25,6 @@ phosphor-fan-monitor
 phosphor-cooling-type
 fan_monitor_defs.cpp
 test-driver
+*.sw*
+*.log
+*.trs
