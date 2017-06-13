@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <algorithm>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server.hpp>
 #include "fan.hpp"
@@ -133,6 +134,40 @@ class Zone
             _floorSpeed = speed;
         };
 
+        /**
+         * @brief Get the ceiling speed
+         *
+         * @return - The current ceiling speed
+         */
+        inline auto& getCeiling() const
+        {
+            return _ceilingSpeed;
+        };
+
+        /**
+         * @brief Set the ceiling speed to the given speed
+         *
+         * @param[in] speed - Speed to set the ceiling to
+         */
+        inline void setCeiling(uint64_t speed)
+        {
+            _ceilingSpeed = speed;
+        };
+
+        /**
+         * @brief Swaps the ceiling key value with what's given and
+         * returns the value that was swapped.
+         *
+         * @param[in] keyValue - New ceiling key value
+         *
+         * @return - Ceiling key value prior to swapping
+         */
+        inline auto swapCeilingKeyValue(int64_t keyValue)
+        {
+            std::swap(_ceilingKeyValue, keyValue);
+            return keyValue;
+        };
+
     private:
 
         /**
@@ -156,9 +191,24 @@ class Zone
         const uint64_t _defFloorSpeed;
 
         /**
+         * The default ceiling speed for the zone
+         */
+        const uint64_t _defCeilingSpeed;
+
+        /**
          * The floor speed to not go below
          */
         uint64_t _floorSpeed = _defFloorSpeed;
+
+        /**
+         * The ceiling speed to not go above
+         */
+        uint64_t _ceilingSpeed = _defCeilingSpeed;
+
+        /**
+         * The previous sensor value for calculating the ceiling
+         */
+        int64_t _ceilingKeyValue = 0;
 
         /**
          * Automatic fan control active state

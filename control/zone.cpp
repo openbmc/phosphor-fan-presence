@@ -37,7 +37,8 @@ Zone::Zone(Mode mode,
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
     _zoneNum(std::get<zoneNumPos>(def)),
-    _defFloorSpeed(std::get<floorSpeedPos>(def))
+    _defFloorSpeed(std::get<floorSpeedPos>(def)),
+    _defCeilingSpeed(std::get<fullSpeedPos>(def))
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
@@ -108,6 +109,11 @@ void Zone::setSpeed(uint64_t speed)
         if (speed < _floorSpeed)
         {
             speed = _floorSpeed;
+        }
+        //TODO openbmc/openbmc#1626 Move to control algorithm function
+        if (speed > _ceilingSpeed)
+        {
+            speed = _ceilingSpeed;
         }
         fan->setSpeed(speed);
     }
