@@ -133,6 +133,26 @@ class Zone
             _floorSpeed = speed;
         };
 
+        /**
+         * @brief Get the default ceiling speed
+         *
+         * @return - The defined default ceiling speed
+         */
+        inline auto getDefCeiling()
+        {
+            return _defCeilingSpeed;
+        };
+
+        /**
+         * @brief Set the ceiling speed to the given speed
+         *
+         * @param[in] speed - Speed to set the ceiling to
+         */
+        inline void setCeiling(uint64_t speed)
+        {
+            _ceilingSpeed = speed;
+        };
+
     private:
 
         /**
@@ -156,9 +176,19 @@ class Zone
         const uint64_t _defFloorSpeed;
 
         /**
+         * The default ceiling speed for the zone
+         */
+        const uint64_t _defCeilingSpeed;
+
+        /**
          * The floor speed to not go below
          */
         uint64_t _floorSpeed = _defFloorSpeed;
+
+        /**
+         * The ceiling speed to not go above
+         */
+        uint64_t _ceilingSpeed = _defCeilingSpeed;
 
         /**
          * Automatic fan control active state
