@@ -100,6 +100,16 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
 '''
 
 
+def convertToMap(listOfDict):
+    """
+    Converts a list of dictionary entries to a std::map initialization list.
+    """
+    listOfDict = listOfDict.replace('[', '{')
+    listOfDict = listOfDict.replace(']', '}')
+    listOfDict = listOfDict.replace(':', ',')
+    return listOfDict
+
+
 def getEventsInZone(zone_num, events_data):
     """
     Constructs the event entries defined for each zone using the events yaml
@@ -147,8 +157,12 @@ def getEventsInZone(zone_num, events_data):
                         param['type'] = 'size_t'
                     params.append(param)
                 else:
-                    param['value'] = str(e['action'][p]['value']).lower()
                     param['type'] = str(e['action'][p]['type']).lower()
+                    if p != 'map':
+                        param['value'] = str(e['action'][p]['value']).lower()
+                    else:
+                        emap = convertToMap(str(e['action'][p]['value']))
+                        param['value'] = param['type'] + emap
                     params.append(param)
             action['parameters'] = params
             event['action'] = action
