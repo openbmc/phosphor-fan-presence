@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include "zone.hpp"
 #include "utility.hpp"
 
@@ -24,7 +27,10 @@ namespace fan
 namespace control
 {
 
+// For throwing exception
 using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 Zone::Zone(Mode mode,
            sdbusplus::bus::bus& bus,
@@ -136,8 +142,8 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
     auto hostResponseMsg = bus.call(hostCall);
     if (hostResponseMsg.is_method_error())
     {
-        throw std::runtime_error(
-            "Error in host call response for retrieving property");
+        log<level::ERR>("Error in host call response for retrieving property");
+        elog<InternalFailure>();
     }
     hostResponseMsg.read(property);
     value = sdbusplus::message::variant_ns::get<T>(property);
