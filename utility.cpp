@@ -15,6 +15,10 @@
  */
 #include <string>
 #include "utility.hpp"
+#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 namespace phosphor
 {
@@ -24,6 +28,11 @@ namespace util
 {
 
 using namespace std::string_literals;
+
+// For throwing exception
+using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 //TODO Should get these from phosphor-objmgr config.h
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
@@ -55,8 +64,7 @@ std::string getService(const std::string& path,
     auto mapperResponseMsg = bus.call(mapperCall);
     if (mapperResponseMsg.is_method_error())
     {
-        throw std::runtime_error(
-            "Error in mapper call to get service name");
+        elog<InternalFailure>();
     }
 
 
@@ -65,8 +73,7 @@ std::string getService(const std::string& path,
 
     if (mapperResponse.empty())
     {
-        throw std::runtime_error(
-            "Error in mapper response for getting service name");
+        elog<InternalFailure>();
     }
 
     return mapperResponse.begin()->first;

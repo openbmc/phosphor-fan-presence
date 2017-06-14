@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include <string>
 #include "fan.hpp"
 #include "utility.hpp"
@@ -24,6 +27,11 @@ namespace fan
 {
 namespace control
 {
+
+// For throwing exception
+using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 constexpr auto PROPERTY_INTERFACE = "org.freedesktop.DBus.Properties";
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
@@ -73,8 +81,7 @@ void Fan::setSpeed(uint64_t speed)
             auto response = _bus.call(method);
             if (response.is_method_error())
             {
-                throw std::runtime_error(
-                    "Failed call to set fan speed on " + sensor);
+                elog<InternalFailure>();
             }
         }
         catch (std::exception& e)

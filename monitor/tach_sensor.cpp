@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include "fan.hpp"
 #include "tach_sensor.hpp"
 #include "../utility.hpp"
@@ -24,6 +27,11 @@ namespace fan
 {
 namespace monitor
 {
+
+// For throwing exception
+using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 constexpr auto PROPERTY_INTF = "org.freedesktop.DBus.Properties";
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
@@ -65,9 +73,7 @@ static void readProperty(const std::string& interface,
         auto reply = bus.call(method);
         if (reply.is_method_error())
         {
-            throw std::runtime_error(
-                "Error in property get call for path " +
-                path);
+            elog<InternalFailure>();
         }
 
         reply.read(property);
