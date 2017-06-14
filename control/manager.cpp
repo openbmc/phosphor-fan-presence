@@ -15,6 +15,9 @@
  */
 #include <algorithm>
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include <unistd.h>
 #include "manager.hpp"
 
@@ -24,8 +27,10 @@ namespace fan
 {
 namespace control
 {
-
+// For throwing exception
 using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 constexpr auto SYSTEMD_SERVICE   = "org.freedesktop.systemd1";
 constexpr auto SYSTEMD_OBJ_PATH  = "/org/freedesktop/systemd1";
@@ -99,9 +104,8 @@ void Manager::startFanControlReadyTarget()
     auto response = _bus.call(method);
     if (response.is_method_error())
     {
-        //TODO openbmc/openbmc#1555 create an elog
         log<level::ERR>("Failed to start fan control ready target");
-        throw std::runtime_error("Failed to start fan control ready target");
+        elog<InternalFailure>();
     }
 }
 

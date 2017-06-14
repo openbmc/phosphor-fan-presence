@@ -12,12 +12,14 @@ phosphor_cooling_type_SOURCES = \
 phosphor_cooling_type_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
-	$(LIBEVDEV_CFLAGS)
+	$(LIBEVDEV_CFLAGS) \
+	${PHOSPHOR_DBUS_INTERFACES_CFLAGS}
 
 phosphor_cooling_type_LDADD = \
 	${top_builddir}/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
-	$(LIBEVDEV_LIBS)
+	$(LIBEVDEV_LIBS) \
+	${PHOSPHOR_DBUS_INTERFACES_LIBS}
 
 # vim: tabstop=8 noexpandtab
