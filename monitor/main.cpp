@@ -15,6 +15,7 @@
  */
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include <systemd/sd-daemon.h>
 #include "event.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
@@ -46,6 +47,14 @@ int main()
     for (const auto& fanDef : fanDefinitions)
     {
         fans.emplace_back(std::make_unique<Fan>(bus, eventPtr, fanDef));
+    }
+
+    //Tell systemd we are initialized
+    r = sd_notify(0, "READY=1");
+    if (r < 1) // 0 = nothing sent, 1 = failure
+    {
+        log<level::ERR>("sd_notify did not send anything",
+                        entry("ERROR=%d", r));
     }
 
     r = sd_event_loop(eventPtr.get());
