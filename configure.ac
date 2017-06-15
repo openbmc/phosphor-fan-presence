@@ -159,5 +159,5 @@ AS_IF([test "x$enable_monitor" != "xno"], [
 ])
 
 # Create configured output
-AC_CONFIG_FILES([Makefile test/Makefile])
+AC_CONFIG_FILES([Makefile test/Makefile sdevent/test/Makefile])
 AC_OUTPUT
