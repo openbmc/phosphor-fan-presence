@@ -30,6 +30,8 @@ PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221], ,
 [AC_MSG_ERROR([Could not find systemd...systemd developement package required])])
 PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces], ,
 [AC_MSG_ERROR([Could not find phosphor-dbus-interfaces...openbmc/phosphor-dbus-interfaces package required])])
+PKG_CHECK_MODULES([LIBEVDEV], [libevdev], ,
+[AC_MSG_ERROR([The libevdev package is required])])
 
 # Checks for library functions.
 LT_INIT # Required for systemd linking
@@ -132,8 +134,6 @@ AS_IF([test "x$enable_control" != "xno"], [
 ])
 
 AS_IF([test "x$enable_cooling_type" != "xno"], [
-       PKG_CHECK_MODULES([LIBEVDEV], [libevdev], ,
-                         [AC_MSG_ERROR([The libevdev package is required])])
        AC_CONFIG_FILES([cooling-type/Makefile])
 ])
 AS_IF([test "x$enable_monitor" != "xno"], [
