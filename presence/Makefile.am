@@ -6,6 +6,7 @@ sbin_PROGRAMS = \
 
 phosphor_fan_presence_tach_SOURCES = \
 	fan.cpp \
+	gpio.cpp \
 	tach.cpp \
 	fan_enclosure.cpp \
 	tach_sensor.cpp \
