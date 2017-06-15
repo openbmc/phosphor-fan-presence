@@ -5,6 +5,7 @@ sbin_PROGRAMS = \
 	phosphor-fan-presence-tach
 
 phosphor_fan_presence_tach_SOURCES = \
+	fallback.cpp \
 	fan.cpp \
 	gpio.cpp \
 	tach.cpp \
