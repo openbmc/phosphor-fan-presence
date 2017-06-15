@@ -11,6 +11,10 @@ namespace sdevent
 {
 namespace event
 {
+namespace io
+{
+class IO;
+} // namespace io
 
 using EventPtr = sd_event*;
 class Event;
@@ -99,6 +103,8 @@ class Event
             microseconds d(usec);
             return steady_clock::time_point(d);
         }
+
+        friend class io::IO;
 
     private:
 
