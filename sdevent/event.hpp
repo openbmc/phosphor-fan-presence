@@ -91,6 +91,12 @@ class Event
             sd_event_loop(evt.get());
         }
 
+        /** @brief Stop the loop. */
+        void exit()
+        {
+            sd_event_exit(evt.get(), 0);
+        }
+
         /** @brief Attach to a DBus loop. */
         void attach(sdbusplus::bus::bus& bus)
         {
