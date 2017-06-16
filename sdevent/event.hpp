@@ -96,6 +96,29 @@ class Event
             }
         }
 
+        /** @brief Stop the loop. */
+        void exit(int status = 0)
+        {
+            auto rc = sd_event_exit(evt.get(), status);
+            if (rc < 0)
+            {
+                phosphor::logging::elog<InternalFailure>();
+            }
+        }
+
+        /** @brief Get the loop exit code. */
+        auto getExitStatus()
+        {
+            int status;
+            auto rc = sd_event_get_exit_code(evt.get(), &status);
+            if (rc < 0)
+            {
+                phosphor::logging::elog<InternalFailure>();
+            }
+
+            return status;
+        }
+
         /** @brief Attach to a DBus loop. */
         void attach(sdbusplus::bus::bus& bus)
         {
