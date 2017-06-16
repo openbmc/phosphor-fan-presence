@@ -10,7 +10,7 @@ libfan_la_SOURCES = \
 	utility.cpp \
 	timer.cpp
 
-SUBDIRS = . test sdevent/test
+SUBDIRS = . test sdevent/test evdevpp/test
 
 if WANT_PRESENCE
 SUBDIRS += presence
