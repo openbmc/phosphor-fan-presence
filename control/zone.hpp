@@ -168,6 +168,16 @@ class Zone
             return keyValue;
         };
 
+        /**
+         * @brief Get the increase speed delta
+         *
+         * @return - The current increase speed delta
+         */
+        inline auto& getIncSpeedDelta() const
+        {
+            return _incSpeedDelta;
+        };
+
     private:
 
         /**
@@ -214,6 +224,11 @@ class Zone
          * Automatic fan control active state
          */
         bool _isActive = true;
+
+        /**
+         * Speed increase delta
+         */
+        uint64_t _incSpeedDelta = 0;
 
         /**
          * The vector of fans in this zone
