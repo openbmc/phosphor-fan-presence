@@ -212,6 +212,57 @@ auto set_ceiling_from_average_sensor_value(
     };
 }
 
+/**
+ * @brief An action to set the speed increase delta and request speed change
+ * @details Provides the ability to determine what the net increase delta the
+ * zone's fan speeds should be updated by from their current target speed and
+ * request that new target speed.
+ *
+ * @param[in] state - State to compare the group's property value to
+ * @param[in] speedDelta - Speed delta of the group
+ *
+ * @return Lambda function
+ *     A lambda function that determines the net increase delta and requests
+ * a new target speed with that increase for the zone.
+ */
+template <typename T>
+auto set_net_increase_speed(T&& state, uint64_t speedDelta)
+{
+    return [speedDelta,
+            state = std::forward<T>(state)](auto& zone, auto& group)
+    {
+        auto netDelta = zone.getIncSpeedDelta();
+        std::for_each(
+            group.begin(),
+            group.end(),
+            [&zone, &state, &speedDelta, &netDelta](auto const& entry)
+            {
+                T value = zone.template getPropertyValue<T>(
+                        entry.first,
+                        std::get<intfPos>(entry.second),
+                        std::get<propPos>(entry.second));
+                // TODO Properly support possible state types (future?)
+                if (value > state)
+                {// Net increase is the difference times the given speed delta
+                    netDelta = (value - state) * speedDelta;
+                }
+                else if (value == state)
+                {// Increase by single delta to attempt bringing under 'state'
+                    netDelta = speedDelta;
+                }
+            }
+        );
+        // Update the increase delta when its higher than
+        // the current increase delta for the zone
+        auto incDelta = zone.getIncSpeedDelta();
+        if (netDelta > incDelta)
+        {
+            // TODO Do a request speed change for target speed update
+            zone.setIncSpeedDelta(netDelta);
+        }
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan
