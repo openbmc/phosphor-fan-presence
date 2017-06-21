@@ -209,6 +209,51 @@ auto set_ceiling_from_average_sensor_value(
     };
 }
 
+/**
+ * @brief An action to set the speed increase delta and request speed change
+ * @details Provides the ability to determine what the net increase delta the
+ * zone's fan speeds should be updated by from their current target speed and
+ * request that new target speed.
+ *
+ * @param[in] state - State to compare the group's property value to
+ * @param[in] speedDelta - Speed delta of the group
+ *
+ * @return Lambda function
+ *     A lambda function that determines the net increase delta and requests
+ * a new target speed with that increase for the zone.
+ */
+template <typename T>
+auto set_net_increase_speed(T&& state, uint64_t speedDelta)
+{
+    return [speedDelta,
+            state = std::forward<T>(state)](auto& zone, auto& group)
+    {
+        auto netDelta = zone.getIncSpeedDelta();
+        std::for_each(
+            group.begin(),
+            group.end(),
+            [&zone, &state, &speedDelta, &netDelta](auto const& entry)
+            {
+                T value = zone.template getPropertyValue<T>(
+                        entry.first,
+                        std::get<intfPos>(entry.second),
+                        std::get<propPos>(entry.second));
+                // TODO openbmc/phosphor-fan-presence#7 - Support possible
+                // state types for comparison
+                if (value >= state)
+                {
+                    // Increase by at least a single delta
+                    // to attempt bringing under 'state'
+                    auto delta = std::max((value - state), 1);
+                    // Increase is the difference times the given speed delta
+                    netDelta = std::max(netDelta, delta * speedDelta);
+                }
+            }
+        );
+        // TODO Do a request speed change for target speed update
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan
