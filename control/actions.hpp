@@ -252,7 +252,8 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
                 }
             }
         );
-        // TODO Do a request speed change for target speed update
+        // Request speed change for target speed update
+        zone.requestSpeedIncrease(netDelta);
     };
 }
 
