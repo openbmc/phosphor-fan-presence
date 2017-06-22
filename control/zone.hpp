@@ -178,6 +178,14 @@ class Zone
             return _incSpeedDelta;
         };
 
+        /**
+         * @brief Calculate the requested target speed from the given delta
+         * and increase the fan speeds, not going above the ceiling.
+         *
+         * @param[in] targetDelta - The delta to increase the target speed by
+         */
+        void requestSpeedIncrease(uint64_t targetDelta);
+
     private:
 
         /**
@@ -224,6 +232,11 @@ class Zone
          * Automatic fan control active state
          */
         bool _isActive = true;
+
+        /**
+         * Target speed for this zone
+         */
+        uint64_t _targetSpeed = _fullSpeed;
 
         /**
          * Speed increase delta
