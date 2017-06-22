@@ -97,6 +97,7 @@ Zone::Zone(Mode mode,
             std::get<actionPos>(event)(*this,
                                        std::get<groupPos>(event));
         }
+        //TODO openbmc/openbmc#1625 Start timer for fan speed decreases
     }
 }
 
@@ -105,11 +106,6 @@ void Zone::setSpeed(uint64_t speed)
 {
     for (auto& fan : _fans)
     {
-        //TODO openbmc/openbmc#1626 Move to control algorithm function
-        if (speed < _floorSpeed)
-        {
-            speed = _floorSpeed;
-        }
         fan->setSpeed(speed);
     }
 }
@@ -157,6 +153,35 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
     }
     //TODO openbmc/openbmc#1625 Clear increase delta when timer expires
     _incSpeedDelta = 0;
+}
+
+void Zone::requestSpeedDecrease(uint64_t targetDelta)
+{
+    // Only decrease the lowest target delta requested
+    if (_decSpeedDelta == 0 || targetDelta < _decSpeedDelta)
+    {
+        _decSpeedDelta = targetDelta;
+    }
+
+    //TODO openbmc/openbmc#1625 Set decrease target speed when timer expires
+    // Only decrease speeds when no requested increases exist
+    if (_incSpeedDelta == 0)
+    {
+        // Target speed can not go below the defined floor speed
+        if ((_targetSpeed < _decSpeedDelta) ||
+            (_targetSpeed - _decSpeedDelta < _floorSpeed))
+        {
+            _targetSpeed = _floorSpeed;
+        }
+        else
+        {
+            _targetSpeed = _targetSpeed - _decSpeedDelta;
+        }
+        setSpeed(_targetSpeed);
+    }
+    // Clear decrease delta when timer expires
+    _decSpeedDelta = 0;
+    //TODO openbmc/openbmc#1625 Restart decrease timer
 }
 
 void Zone::getProperty(sdbusplus::bus::bus& bus,

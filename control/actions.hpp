@@ -262,6 +262,53 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
     };
 }
 
+/**
+ * @brief An action to set the speed decrease delta and request speed change
+ * @details Provides the ability to determine what the net decrease delta each
+ * zone's fan speeds should be updated by from their current target speed, and
+ * request that speed change occur on the next decrease interval.
+ *
+ * @param[in] state - State to compare the group's property value to
+ * @param[in] speedDelta - Speed delta of the group
+ *
+ * @return Lambda function
+ *     A lambda function that determines the net decrease delta and requests
+ * a new target speed with that decrease for the zone.
+ */
+template <typename T>
+auto set_net_decrease_speed(T&& state, uint64_t speedDelta)
+{
+    return [speedDelta,
+            state = std::forward<T>(state)](auto& zone, auto& group)
+    {
+        auto netDelta = zone.getDecSpeedDelta();
+        std::for_each(
+            group.begin(),
+            group.end(),
+            [&zone, &state, &speedDelta, &netDelta](auto const& entry)
+            {
+                T value = zone.template getPropertyValue<T>(
+                        entry.first,
+                        std::get<intfPos>(entry.second),
+                        std::get<propPos>(entry.second));
+                // TODO openbmc/phosphor-fan-presence#7 - Support possible
+                // state types for comparison
+                if (value < state)
+                {
+                    // Decrease is the difference times the given speed delta
+                    auto delta = (state - value) * speedDelta;
+                    if (delta < netDelta)
+                    {
+                        netDelta = delta;
+                    }
+                }
+            }
+        );
+        // Request speed decrease to occur on decrease interval
+        zone.requestSpeedDecrease(netDelta);
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan
