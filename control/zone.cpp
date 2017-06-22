@@ -110,11 +110,6 @@ void Zone::setSpeed(uint64_t speed)
         {
             speed = _floorSpeed;
         }
-        //TODO openbmc/openbmc#1626 Move to control algorithm function
-        if (speed > _ceilingSpeed)
-        {
-            speed = _ceilingSpeed;
-        }
         fan->setSpeed(speed);
     }
 }
@@ -134,6 +129,34 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
                                 _active.end(),
                                 actPred);
     }
+}
+
+void Zone::requestSpeedIncrease(uint64_t targetDelta)
+{
+    // Only increase speed when delta is higher than
+    // the current increase delta for the zone and currently under ceiling
+    if (targetDelta > _incSpeedDelta &&
+        _targetSpeed < _ceilingSpeed)
+    {
+        _targetSpeed = (targetDelta - _incSpeedDelta) + _targetSpeed;
+        _incSpeedDelta = targetDelta;
+        //TODO openbmc/openbmc#1625 Cancel current timer countdown
+        //TODO Floor speed above target, update target to floor speed
+        if (_targetSpeed < _floorSpeed)
+        {
+            _targetSpeed = _floorSpeed;
+        }
+        // Target speed can not go above a defined ceiling speed
+        if (_targetSpeed > _ceilingSpeed)
+        {
+            _targetSpeed = _ceilingSpeed;
+        }
+
+        setSpeed(_targetSpeed);
+        //TODO openbmc/openbmc#1625 Start timer countdown for fan speed increase
+    }
+    //TODO openbmc/openbmc#1625 Clear increase delta when timer expires
+    _incSpeedDelta = 0;
 }
 
 void Zone::getProperty(sdbusplus::bus::bus& bus,
