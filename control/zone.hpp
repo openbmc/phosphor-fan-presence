@@ -183,6 +183,14 @@ class Zone
          */
         void requestSpeedIncrease(uint64_t targetDelta);
 
+        /**
+         * @brief Calculate the requested target speed from the given delta
+         * and increase the fan speeds, not going above the ceiling.
+         *
+         * @param[in] targetDelta - The delta to increase the target speed by
+         */
+        void requestSpeedDecrease(uint64_t targetDelta);
+
     private:
 
         /**
@@ -239,6 +247,11 @@ class Zone
          * Speed increase delta
          */
         uint64_t _incSpeedDelta = 0;
+
+        /**
+         * Speed decrease delta
+         */
+        uint64_t _decSpeedDelta = 0;
 
         /**
          * The vector of fans in this zone
