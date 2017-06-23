@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <chrono>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
@@ -27,18 +28,21 @@ namespace fan
 namespace control
 {
 
+using namespace std::chrono;
 using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                              Error::InternalFailure;
 
 Zone::Zone(Mode mode,
            sdbusplus::bus::bus& bus,
+           phosphor::fan::event::EventPtr& events,
            const ZoneDefinition& def) :
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
     _zoneNum(std::get<zoneNumPos>(def)),
     _defFloorSpeed(std::get<floorSpeedPos>(def)),
-    _defCeilingSpeed(std::get<fullSpeedPos>(def))
+    _defCeilingSpeed(std::get<fullSpeedPos>(def)),
+    _decTimer(events, [this](){ this->decTimerExpired(); })
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
@@ -97,7 +101,13 @@ Zone::Zone(Mode mode,
             std::get<actionPos>(event)(*this,
                                        std::get<groupPos>(event));
         }
-        //TODO openbmc/openbmc#1625 Start timer for fan speed decreases
+        // Start timer for fan speed decreases
+        if (!_decTimer.running())
+        {
+            //TODO Update time value to what's given in zones yaml
+            _decTimer.start(duration_cast<microseconds>(seconds(30)),
+                            phosphor::fan::util::Timer::TimerType::repeating);
+        }
     }
 }
 
@@ -162,9 +172,12 @@ void Zone::requestSpeedDecrease(uint64_t targetDelta)
     {
         _decSpeedDelta = targetDelta;
     }
+}
 
-    //TODO openbmc/openbmc#1625 Set decrease target speed when timer expires
+void Zone::decTimerExpired()
+{
     // Only decrease speeds when no requested increases exist
+    //TODO Add increase timer not running (i.e. not in the middle of increasing)
     if (_incSpeedDelta == 0)
     {
         auto currentSpeed = _targetSpeed;
@@ -178,7 +191,7 @@ void Zone::requestSpeedDecrease(uint64_t targetDelta)
     }
     // Clear decrease delta when timer expires
     _decSpeedDelta = 0;
-    //TODO openbmc/openbmc#1625 Restart decrease timer
+    // Decrease timer is restarted since its repeating
 }
 
 void Zone::getProperty(sdbusplus::bus::bus& bus,
