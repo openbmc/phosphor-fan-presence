@@ -309,6 +309,26 @@ class Zone
         std::vector<sdbusplus::server::match::match> _matches;
 
         /**
+         * @brief Initialize all the set speed event properties and actions
+         *
+         * @param[in] def - zone definition containing set speed events
+         */
+        void initEvents(const ZoneDefinition& def);
+
+        /**
+         * @brief Refresh the given property's cached value
+         *
+         * @param[in] bus - the bus to use
+         * @param[in] path - the dbus path name
+         * @param[in] iface - the dbus interface name
+         * @param[in] prop - the property name
+         */
+        void refreshProperty(sdbusplus::bus::bus& bus,
+                             const std::string& path,
+                             const std::string& iface,
+                             const std::string& prop);
+
+        /**
          * @brief Get a property value from the path/interface given
          *
          * @param[in] bus - the bus to use
