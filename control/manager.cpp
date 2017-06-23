@@ -32,8 +32,8 @@ constexpr auto SYSTEMD_OBJ_PATH  = "/org/freedesktop/systemd1";
 constexpr auto SYSTEMD_INTERFACE = "org.freedesktop.systemd1.Manager";
 constexpr auto FAN_CONTROL_READY_TARGET = "obmc-fan-control-ready@0.target";
 
-//Note: Future code will check 'mode' before starting control algorithm
 Manager::Manager(sdbusplus::bus::bus& bus,
+                 phosphor::fan::event::EventPtr& events,
                  Mode mode) :
     _bus(bus)
 {
@@ -59,7 +59,7 @@ Manager::Manager(sdbusplus::bus::bus& bus,
             for (auto& z : zones)
             {
                 _zones.emplace(std::get<zoneNumPos>(z),
-                               std::make_unique<Zone>(mode, _bus, z));
+                               std::make_unique<Zone>(mode, _bus, events, z));
             }
 
             break;
