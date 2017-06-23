@@ -5,6 +5,7 @@
 #include <sdbusplus/server.hpp>
 #include "fan.hpp"
 #include "types.hpp"
+#include "timer.hpp"
 
 namespace phosphor
 {
@@ -50,6 +51,7 @@ class Zone
          */
         Zone(Mode mode,
              sdbusplus::bus::bus& bus,
+             phosphor::fan::event::EventPtr& events,
              const ZoneDefinition& def);
 
         /**
@@ -204,6 +206,12 @@ class Zone
          */
         void requestSpeedDecrease(uint64_t targetDelta);
 
+        /**
+         * @brief Callback function for the decrease timer that processes any
+         * requested speed decreases if allowed
+         */
+        void decTimerExpired();
+
     private:
 
         /**
@@ -265,6 +273,11 @@ class Zone
          * Speed decrease delta
          */
         uint64_t _decSpeedDelta = 0;
+
+        /**
+         * The decrease timer object
+         */
+        phosphor::fan::util::Timer _decTimer;
 
         /**
          * The vector of fans in this zone
