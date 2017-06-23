@@ -36,9 +36,11 @@ class Manager
          * _zoneLayouts data.
          *
          * @param[in] bus - The dbus object
+         * @param[in] events - The sd_event pointer
          * @param[in] mode - The control mode
          */
         Manager(sdbusplus::bus::bus& bus,
+                phosphor::fan::event::EventPtr& events,
                 Mode mode);
 
         /**
