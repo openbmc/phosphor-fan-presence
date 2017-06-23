@@ -294,6 +294,8 @@ class Zone
          */
         std::vector<sdbusplus::server::match::match> _matches;
 
+        void initEvents(const ZoneDefinition& def);
+
         /**
          * @brief Get a property value from the path/interface given
          *
