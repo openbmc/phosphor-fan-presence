@@ -104,6 +104,12 @@ AS_IF([test "x$enable_control" != "xno"], [
           AC_SUBST([ZONE_EVENTS_ARG], ["-e ${ZONE_EVENTS_YAML_FILE}"])
       ])
 
+      AC_ARG_VAR(ZONE_CONDITIONS_YAML_FILE,
+                 [The zone conditions definition file to use])
+      AS_IF([test "x$ZONE_CONDITIONS_YAML_FILE" != "x"], [
+          AC_SUBST([ZONE_CONDITIONS_ARG], ["-c ${ZONE_CONDITIONS_YAML_FILE}"])
+      ])
+
        AC_ARG_VAR(FAN_ZONE_OUTPUT_DIR,
                   [The output directory for the generated fan zone data file])
        AS_IF([test "x$FAN_ZONE_OUTPUT_DIR" == "x"],
@@ -116,6 +122,7 @@ AS_IF([test "x$enable_control" != "xno"], [
                          -f $FAN_DEF_YAML_FILE \
                          -z $FAN_ZONE_YAML_FILE \
                          $ZONE_EVENTS_ARG \
+                         $ZONE_CONDITIONS_ARG \
                          -o $FAN_ZONE_OUTPUT_DIR])
        AC_CONFIG_FILES([control/Makefile])
 ])
