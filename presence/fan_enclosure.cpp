@@ -67,15 +67,7 @@ void FanEnclosure::updInventory()
         ObjectMap invObj = getObjectMap(curPresState);
         // Get inventory manager service name from mapper
         std::string invService;
-        try
-        {
-            invService = phosphor::fan::util::getInvService(bus);
-        }
-        catch (const std::runtime_error& err)
-        {
-            log<level::ERR>(err.what());
-            return;
-        }
+        invService = phosphor::fan::util::getInvService(bus);
         // Update inventory for this fan
         auto invMsg = bus.new_method_call(invService.c_str(),
                                           INVENTORY_PATH,
