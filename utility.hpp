@@ -3,7 +3,15 @@
 #include <sdbusplus/bus.hpp>
 #include <unistd.h>
 #include <fcntl.h>
+#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
+
+using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 namespace phosphor
 {
@@ -43,8 +51,10 @@ class FileDescriptor
             fd = ::open(pathname.c_str(), flags);
             if (-1 == fd)
             {
-                throw std::runtime_error(
-                    "Failed to open file device: " + pathname);
+                log<level::ERR>(
+                     "Failed to open file device: ",
+                     entry("PATHNAME=%s", pathname.c_str()));
+                elog<InternalFailure>();
             }
         }
 

@@ -17,11 +17,13 @@ BUILT_SOURCES = fan_monitor_defs.cpp
 phosphor_fan_monitor_LDADD = \
 	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
-	$(PHOSPHOR_LOGGING_LIBS)
+	$(PHOSPHOR_LOGGING_LIBS) \
+	${PHOSPHOR_DBUS_INTERFACES_LIBS}
 
 phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
-	$(PHOSPHOR_LOGGING_CFLAGS)
+	$(PHOSPHOR_LOGGING_CFLAGS) \
+	${PHOSPHOR_DBUS_INTERFACES_CFLAGS}
 
 fan_monitor_defs.cpp: ${srcdir}/gen-fan-monitor-defs.py
 	$(AM_V_GEN)$(GEN_FAN_MONITOR_DEFS)

@@ -2,6 +2,9 @@
 #include <unistd.h>
 #include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include <libevdev/libevdev.h>
 #include "utility.hpp"
 #include "cooling_type.hpp"
@@ -13,6 +16,11 @@ namespace cooling
 namespace type
 {
 
+// For throwing exception
+using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
+
 std::unique_ptr<libevdev, FreeEvDev>  evdevOpen(int fd)
 {
     libevdev* gpioDev = nullptr;
@@ -23,10 +31,9 @@ std::unique_ptr<libevdev, FreeEvDev>  evdevOpen(int fd)
         return decltype(evdevOpen(0))(gpioDev);
     }
 
-    //TODO - Create error log for failure. openbmc/openbmc#1542
-    throw std::runtime_error("Failed to get libevdev from file descriptor"
-                             " rc = " + std::to_string(rc));
-
+    log<level::ERR>("Failed to get libevdev from file descriptor",
+             entry("RC=%d", rc));
+    elog<InternalFailure>();
     return decltype(evdevOpen(0))(nullptr);
 }
 
@@ -53,10 +60,9 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
                                                keycode, &value);
     if (0 == fetch_rc)
     {
-        //TODO - Create error log for failure. openbmc/openbmc#1542
-        throw std::runtime_error(
-            "Device does not support event type=EV_KEY and code=" +
-            std::to_string(keycode));
+       log<level::ERR>("Device does not support event type",
+            entry("KEYCODE=%d", keycode));
+       elog<InternalFailure>();
     }
 
     // TODO openbmc/phosphor-fan-presence#6
@@ -105,8 +111,9 @@ void CoolingType::updateInventory(const std::string& objpath)
     auto invMgrResponseMsg = bus.call(invMsg);
     if (invMgrResponseMsg.is_method_error())
     {
-        throw std::runtime_error(
+        log<level::ERR>(
             "Error in inventory manager call to update inventory");
+        elog<InternalFailure>();
     }
 }
 

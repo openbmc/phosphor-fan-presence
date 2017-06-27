@@ -25,6 +25,10 @@ namespace util
 
 using namespace std::string_literals;
 
+using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
+
 //TODO Should get these from phosphor-objmgr config.h
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
 constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
@@ -55,8 +59,10 @@ std::string getService(const std::string& path,
     auto mapperResponseMsg = bus.call(mapperCall);
     if (mapperResponseMsg.is_method_error())
     {
-        throw std::runtime_error(
-            "Error in mapper call to get service name");
+        log<level::ERR>("Error in mapper call to get service name",
+            entry("PATH=%s", path.c_str()),
+            entry("INTERFACE=%s", interface.c_str()));
+        elog<InternalFailure>();
     }
 
 
@@ -65,8 +71,11 @@ std::string getService(const std::string& path,
 
     if (mapperResponse.empty())
     {
-        throw std::runtime_error(
-            "Error in mapper response for getting service name");
+        log<level::ERR>(
+            "Error in mapper response for getting service name",
+            entry("PATH=%s", path.c_str()),
+            entry("INTERFACE=%s", interface.c_str()));
+        elog<InternalFailure>();
     }
 
     return mapperResponse.begin()->first;
