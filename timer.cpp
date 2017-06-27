@@ -15,6 +15,9 @@
  */
 #include <chrono>
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include <type_traits>
 #include "timer.hpp"
 
@@ -26,6 +29,8 @@ namespace util
 {
 
 using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 Timer::Timer(phosphor::fan::event::EventPtr& events,
              std::function<void()> callbackFunc) :
@@ -47,8 +52,7 @@ Timer::Timer(phosphor::fan::event::EventPtr& events,
     {
         log<level::ERR>("Timer::Timer failed call to sd_event_add_time",
                         entry("ERROR=%s", strerror(-r)));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Timer initialization failed");
+        elog<InternalFailure>();
     }
 
     eventSource.reset(source);
@@ -97,8 +101,7 @@ void Timer::setTimer(int action)
         log<level::ERR>("Failed call to sd_event_source_set_enabled",
                         entry("ERROR=%s", strerror(-r)),
                         entry("ACTION=%d", action));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Failed call to sd_event_source_set_enabled");
+        elog<InternalFailure>();
     }
 }
 
@@ -119,8 +122,7 @@ bool Timer::running()
     {
         log<level::ERR>("Failed call to sd_event_source_get_enabled",
                         entry("ERROR=%s", strerror(-r)));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Failed call to sd_event_source_get_enabled");
+        elog<InternalFailure>();
     }
 
     return (status != SD_EVENT_OFF);
@@ -145,8 +147,7 @@ void Timer::setTimeout()
     {
         log<level::ERR>("Failed call to sd_event_source_set_time",
                         entry("ERROR=%s", strerror(-r)));
-        //TODO openbmc/openbmc#1555 throw an elog
-        throw std::runtime_error("Failed call to sd_event_source_set_time");
+        elog<InternalFailure>();
     }
 }
 
