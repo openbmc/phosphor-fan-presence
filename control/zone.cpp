@@ -42,6 +42,7 @@ Zone::Zone(Mode mode,
     _zoneNum(std::get<zoneNumPos>(def)),
     _defFloorSpeed(std::get<floorSpeedPos>(def)),
     _defCeilingSpeed(std::get<fullSpeedPos>(def)),
+    _incTimer(events, [this](){ this->incTimerExpired(); }),
     _decTimer(events, [this](){ this->decTimerExpired(); })
 {
     auto& fanDefs = std::get<fanListPos>(def);
@@ -100,7 +101,6 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
     {
         _targetSpeed = (targetDelta - _incSpeedDelta) + _targetSpeed;
         _incSpeedDelta = targetDelta;
-        //TODO openbmc/openbmc#1625 Cancel current timer countdown
         //TODO Floor speed above target, update target to floor speed
         if (_targetSpeed < _floorSpeed)
         {
@@ -111,11 +111,23 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         {
             _targetSpeed = _ceilingSpeed;
         }
-
+        // Cancel current timer countdown
+        if (_incTimer.running())
+        {
+            _incTimer.stop();
+        }
         setSpeed(_targetSpeed);
-        //TODO openbmc/openbmc#1625 Start timer countdown for fan speed increase
+        // Start timer countdown for fan speed increase
+        //TODO Update time value to what's given in zones yaml
+        _incTimer.start(seconds(5),
+                        phosphor::fan::util::Timer::TimerType::oneshot);
     }
-    //TODO openbmc/openbmc#1625 Clear increase delta when timer expires
+}
+
+void Zone::incTimerExpired()
+{
+    // Clear increase delta when timer expires allowing additional speed
+    // increase requests or speed decreases to occur
     _incSpeedDelta = 0;
 }
 
@@ -130,9 +142,9 @@ void Zone::requestSpeedDecrease(uint64_t targetDelta)
 
 void Zone::decTimerExpired()
 {
-    // Only decrease speeds when no requested increases exist
-    //TODO Add increase timer not running (i.e. not in the middle of increasing)
-    if (_incSpeedDelta == 0)
+    // Only decrease speeds when no requested increases exist and
+    // the increase timer is not running (i.e. not in the middle of increasing)
+    if (_incSpeedDelta == 0 && !_incTimer.running())
     {
         // Target speed can not go below the defined floor speed
         if ((_targetSpeed < _decSpeedDelta) ||
