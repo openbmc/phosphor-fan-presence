@@ -38,6 +38,7 @@ Zone::Zone(Mode mode,
     _zoneNum(std::get<zoneNumPos>(def)),
     _defFloorSpeed(std::get<floorSpeedPos>(def)),
     _defCeilingSpeed(std::get<fullSpeedPos>(def)),
+    _incTimer(events, [this](){ this->incTimerExpired(); }),
     _decTimer(events, [this](){ this->decTimerExpired(); })
 {
     auto& fanDefs = std::get<fanListPos>(def);
@@ -96,7 +97,11 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
     {
         _targetSpeed = (targetDelta - _incSpeedDelta) + _targetSpeed;
         _incSpeedDelta = targetDelta;
-        //TODO openbmc/openbmc#1625 Cancel current timer countdown
+        // Cancel current timer countdown
+        if (_incTimer.running())
+        {
+            _incTimer.stop();
+        }
         //TODO Floor speed above target, update target to floor speed
         if (_targetSpeed < _floorSpeed)
         {
@@ -109,9 +114,25 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         }
 
         setSpeed(_targetSpeed);
-        //TODO openbmc/openbmc#1625 Start timer countdown for fan speed increase
+        // Start timer countdown for fan speed increase
+        if (!_incTimer.running())
+        {
+            //TODO Update time value to what's given in zones yaml
+            _incTimer.start(duration_cast<microseconds>(seconds(5)),
+                            phosphor::fan::util::Timer::TimerType::oneshot);
+        }
     }
-    //TODO openbmc/openbmc#1625 Clear increase delta when timer expires
+}
+
+void Zone::incTimerExpired()
+{
+    auto now = steady_clock::now().time_since_epoch();
+    std::cout <<
+        "***incTimerExpired (" <<
+        duration_cast<microseconds>(now).count() <<
+        ")***" << std::endl;
+
+    // Clear increase delta when timer expires
     _incSpeedDelta = 0;
 }
 
@@ -132,9 +153,9 @@ void Zone::decTimerExpired()
         duration_cast<microseconds>(now).count() <<
         ")***" << std::endl;
 
-    // Only decrease speeds when no requested increases exist
-    //TODO Add increase timer not running (i.e. not in the middle of increasing)
-    if (_incSpeedDelta == 0)
+    // Only decrease speeds when no requested increases exist and
+    // the increase timer is not running (i.e. not in the middle of increasing)
+    if (_incSpeedDelta == 0 && !_incTimer.running())
     {
         auto currentSpeed = _targetSpeed;
         _targetSpeed = _targetSpeed - _decSpeedDelta;
