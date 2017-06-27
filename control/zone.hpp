@@ -207,6 +207,12 @@ class Zone
         void requestSpeedDecrease(uint64_t targetDelta);
 
         /**
+         * @brief Callback function for the increase timer that delays
+         * processing of requested speed increases while fans are increasing
+         */
+        void incTimerExpired();
+
+        /**
          * @brief Callback function for the decrease timer that processes any
          * requested speed decreases if allowed
          */
@@ -273,6 +279,11 @@ class Zone
          * Speed decrease delta
          */
         uint64_t _decSpeedDelta = 0;
+
+        /**
+         * The increase timer object
+         */
+        phosphor::fan::util::Timer _incTimer;
 
         /**
          * The decrease timer object
