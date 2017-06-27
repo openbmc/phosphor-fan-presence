@@ -15,6 +15,9 @@
  */
 #include <algorithm>
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 #include <unistd.h>
 #include "manager.hpp"
 #include "utility.hpp"
@@ -69,8 +72,8 @@ void getProperty(sdbusplus::bus::bus& bus,
 
     if (reply.is_method_error())
     {
-        throw std::runtime_error(
-            "Error in call response for retrieving property");
+        log<level::ERR>("Error in call response for retrieving property");
+        elog<InternalFailure>();
     }
     reply.read(property);
     value = sdbusplus::message::variant_ns::get<T>(property);
@@ -179,9 +182,8 @@ void Manager::startFanControlReadyTarget()
     auto response = _bus.call(method);
     if (response.is_method_error())
     {
-        //TODO openbmc/openbmc#1555 create an elog
         log<level::ERR>("Failed to start fan control ready target");
-        throw std::runtime_error("Failed to start fan control ready target");
+        elog<InternalFailure>();
     }
 }
 
