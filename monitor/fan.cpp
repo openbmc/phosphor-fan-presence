@@ -199,15 +199,7 @@ void Fan::updateInventory(bool functional)
     ObjectMap objectMap = getObjectMap(functional);
     std::string service;
 
-    try
-    {
-        service = phosphor::fan::util::getInvService(_bus);
-    }
-    catch (const std::runtime_error& err)
-    {
-        log<level::ERR>(err.what());
-        return;
-    }
+    service = phosphor::fan::util::getInvService(_bus);
 
     auto msg = _bus.new_method_call(service.c_str(),
                                    INVENTORY_PATH,
