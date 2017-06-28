@@ -92,6 +92,16 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
     }
 }
 
+void Zone::setFloor(uint64_t speed)
+{
+    _floorSpeed = speed;
+    // Floor speed above target, update target to floor speed
+    if (_targetSpeed < _floorSpeed)
+    {
+        requestSpeedIncrease(_floorSpeed - _targetSpeed);
+    }
+}
+
 void Zone::requestSpeedIncrease(uint64_t targetDelta)
 {
     // Only increase speed when delta is higher than
@@ -101,11 +111,6 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
     {
         _targetSpeed = (targetDelta - _incSpeedDelta) + _targetSpeed;
         _incSpeedDelta = targetDelta;
-        //TODO Floor speed above target, update target to floor speed
-        if (_targetSpeed < _floorSpeed)
-        {
-            _targetSpeed = _floorSpeed;
-        }
         // Target speed can not go above a defined ceiling speed
         if (_targetSpeed > _ceilingSpeed)
         {
