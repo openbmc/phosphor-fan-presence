@@ -127,16 +127,6 @@ class Zone
         };
 
         /**
-         * @brief Set the floor speed to the given speed
-         *
-         * @param[in] speed - Speed to set the floor to
-         */
-        inline void setFloor(uint64_t speed)
-        {
-            _floorSpeed = speed;
-        };
-
-        /**
          * @brief Get the ceiling speed
          *
          * @return - The current ceiling speed
@@ -189,6 +179,14 @@ class Zone
         {
             return _decSpeedDelta;
         };
+
+        /**
+         * @brief Set the floor speed to the given speed and increase target
+         * speed to the floor when target is below floor.
+         *
+         * @param[in] speed - Speed to set the floor to
+         */
+        void setFloor(uint64_t speed);
 
         /**
          * @brief Calculate the requested target speed from the given delta
