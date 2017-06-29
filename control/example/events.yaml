@@ -38,6 +38,11 @@
 #          - /system/chassis/motherboard/fan1
 #          - /system/chassis/motherboard/fan2
 #          - /system/chassis/motherboard/fan3
+#    - name: zone0_ambient
+#      description: Group of ambient temperature sensors for zone 0
+#      type: sensors
+#      members:
+#          - /temperature/ambient
 #
 #actions:
 #    - name: count_state_before_speed
@@ -46,6 +51,10 @@
 #          - count
 #          - property
 #          - speed
+#    - name: set_floor_from_average_sensor_value
+#      description: Set floor speed from first entry with average less than key
+#      parameters:
+#          - map
 #
 #events:
 #    - name: missing_before_high_speed
@@ -65,3 +74,41 @@
 #          speed:
 #              value: 10500
 #              type: uint64_t
+#    - name: update_air_cooled_floor_speed_based_on_ambient
+#      zone_conditions:
+#          - name: air_cooled_chassis
+#            zones:
+#                - 0
+#      group: zone0_ambient
+#      interface: xyz.openbmc_project.Sensor.Value
+#      property:
+#          name: Value
+#          type: int64_t
+#      action:
+#          name: set_floor_from_average_sensor_value
+#          map:
+#              value:
+#                  - 25: 3500
+#                  - 30: 4600
+#                  - 35: 5200
+#                  - 40: 5800
+#              type: std::map<int64_t, uint64_t>
+#    - name: update_water_cooled_floor_speed_based_on_ambient
+#      zone_conditions:
+#          - name: water_and_air_cooled_chassis
+#            zones:
+#                - 0
+#      group: zone0_ambient
+#      interface: xyz.openbmc_project.Sensor.Value
+#      property:
+#          name: Value
+#          type: int64_t
+#      action:
+#          name: set_floor_from_average_sensor_value
+#          map:
+#              value:
+#                  - 25: 2500
+#                  - 30: 3600
+#                  - 35: 4200
+#                  - 40: 4800
+#              type: std::map<int64_t, uint64_t>
