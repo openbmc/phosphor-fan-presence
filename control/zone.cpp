@@ -42,6 +42,8 @@ Zone::Zone(Mode mode,
     _zoneNum(std::get<zoneNumPos>(def)),
     _defFloorSpeed(std::get<floorSpeedPos>(def)),
     _defCeilingSpeed(std::get<fullSpeedPos>(def)),
+    _incDelay(std::get<incDelayPos>(def)),
+    _decInterval(std::get<decIntervalPos>(def)),
     _incTimer(events, [this](){ this->incTimerExpired(); }),
     _decTimer(events, [this](){ this->decTimerExpired(); })
 {
@@ -57,10 +59,9 @@ Zone::Zone(Mode mode,
     {
         initEvents(def);
         // Start timer for fan speed decreases
-        if (!_decTimer.running())
+        if (!_decTimer.running() && _decInterval != seconds::zero())
         {
-            //TODO Update time value to what's given in zones yaml
-            _decTimer.start(seconds(30),
+            _decTimer.start(_decInterval,
                             phosphor::fan::util::Timer::TimerType::repeating);
         }
     }
@@ -123,8 +124,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         }
         setSpeed(_targetSpeed);
         // Start timer countdown for fan speed increase
-        //TODO Update time value to what's given in zones yaml
-        _incTimer.start(seconds(5),
+        _incTimer.start(_incDelay,
                         phosphor::fan::util::Timer::TimerType::oneshot);
     }
 }

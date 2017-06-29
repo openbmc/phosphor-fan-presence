@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include <vector>
 #include <algorithm>
 #include <sdbusplus/bus.hpp>
@@ -278,6 +279,16 @@ class Zone
          * Speed decrease delta
          */
         uint64_t _decSpeedDelta = 0;
+
+        /**
+         * Speed increase delay in seconds
+         */
+        std::chrono::seconds _incDelay;
+
+        /**
+         * Speed decrease interval in seconds
+         */
+        std::chrono::seconds _decInterval;
 
         /**
          * The increase timer object
