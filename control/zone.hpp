@@ -279,6 +279,16 @@ class Zone
         uint64_t _decSpeedDelta = 0;
 
         /**
+         * Speed increase delay in seconds
+         */
+        size_t _incDelay = 0;
+
+        /**
+         * Speed decrease interval in seconds
+         */
+        size_t _decInterval = 0;
+
+        /**
          * The increase timer object
          */
         phosphor::fan::util::Timer _incTimer;
