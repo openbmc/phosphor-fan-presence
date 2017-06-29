@@ -50,6 +50,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                 ${zone['num']},
                 ${zone['full_speed']},
                 ${zone['default_floor']},
+                ${zone['increase_delay']},
+                ${zone['decrease_interval']},
                 std::vector<FanDefinition>{
                 %for fan in zone['fans']:
                     FanDefinition{
@@ -310,6 +312,10 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
             zone['full_speed'] = z['full_speed']
 
             zone['default_floor'] = z['default_floor']
+
+            zone['increase_delay'] = z['increase_delay']
+
+            zone['decrease_interval'] = z['decrease_interval']
 
             # 'cooling_profiles' is optional (use 'all' instead)
             if ('cooling_profiles' not in z) or \
