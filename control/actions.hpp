@@ -134,72 +134,50 @@ auto set_ceiling_from_average_sensor_value(
         {
             auto avgValue = group_average(zone, group);
             auto prevValue = zone.swapCeilingKeyValue(avgValue);
+
+            // Only change if previous and new values differ.
             if (avgValue != prevValue)
-            {// Only check if previous and new values differ
-                if (avgValue < prevValue)
-                {// Value is decreasing from previous
-                    for (auto it = val_to_speed.rbegin();
-                         it != val_to_speed.rend();
-                         ++it)
+            {
+                auto it = val_to_speed.lower_bound(avgValue);
+
+                // If average value is already more than the end,
+                // set ceiling to the end.
+                if (it == val_to_speed.end())
+                {
+                    speed = val_to_speed.rbegin()->second;
+                }
+                // If average value is already less than the begin,
+                // set ceiling to the begin.
+                else if (it == val_to_speed.begin())
+                {
+                    speed = it->second;
+                }
+                // If average value is decreasing...
+                else if (avgValue < prevValue)
+                {
+                    // Check if average crossed a key, and set ceiling to
+                    // key value.
+                    if (it->first < prevValue)
                     {
-                        if (it == val_to_speed.rbegin() &&
-                            avgValue >= it->first)
-                        {
-                            // Value is at/above last map key,
-                            // set ceiling speed to the last map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        else if (std::next(it, 1) == val_to_speed.rend() &&
-                                 avgValue <= it->first)
-                        {
-                            // Value is at/below first map key,
-                            // set ceiling speed to the first map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        if (avgValue < it->first &&
-                            it->first <= prevValue)
-                        {
-                            // Value decreased & transitioned across a map key,
-                            // update ceiling speed to this map key's value
-                            // when new value is below map's key and the key
-                            // is at/below the previous value
-                            speed = it->second;
-                        }
+                        speed = it->second;
                     }
                 }
+                // If average value is increasing...
                 else
-                {// Value is increasing from previous
-                    for (auto it = val_to_speed.begin();
-                         it != val_to_speed.end();
-                         ++it)
+                {
+                    // Search backward to find the set-point immediately below
+                    // the current value.
+                    while(it->first >= avgValue &&
+                          it != val_to_speed.begin())
                     {
-                        if (it == val_to_speed.begin() &&
-                            avgValue <= it->first)
-                        {
-                            // Value is at/below first map key,
-                            // set ceiling speed to the first map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        else if (std::next(it, 1) == val_to_speed.end() &&
-                                 avgValue >= it->first)
-                        {
-                            // Value is at/above last map key,
-                            // set ceiling speed to the last map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        if (avgValue > it->first &&
-                            it->first >= prevValue)
-                        {
-                            // Value increased & transitioned across a map key,
-                            // update ceiling speed to this map key's value
-                            // when new value is above map's key and the key
-                            // is at/above the previous value
-                            speed = it->second;
-                        }
+                        --it;
+                    }
+
+                    // Check if average crossed a key, and set ceiling to
+                    // key value.
+                    if (it->first > prevValue)
+                    {
+                        speed = it->second;
                     }
                 }
             }
