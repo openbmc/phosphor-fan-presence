@@ -52,6 +52,34 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
 }
 
 /**
+ * @brief Calculate the average value of a group.
+ *
+ * @param[in] zone - The zone containing the propery values.
+ * @param[in] group - The group to calculate average over.
+ *
+ * @return The average value.
+ */
+auto group_average(auto& zone, auto& group)
+{
+    int64_t average = 0;
+    if (group.size() == 0) { return average; }
+
+    auto sumValue =
+            std::accumulate(group.begin(), group.end(), 0,
+                            [&zone](decltype(average) sum, const auto& entry)
+                {
+                    return sum +
+                            zone.template getPropertyValue<decltype(average)>(
+                                    entry.first,
+                                    std::get<intfPos>(entry.second),
+                                    std::get<propPos>(entry.second));
+                });
+
+    average = sumValue / group.size();
+    return average;
+}
+
+/**
  * @brief An action to set the floor speed on a zone
  * @details Based on the average of the defined sensor group values, the floor
  * speed is selected from the first map key entry that the average sensor value
@@ -71,18 +99,7 @@ auto set_floor_from_average_sensor_value(
         auto speed = zone.getDefFloor();
         if (group.size() != 0)
         {
-            auto sumValue = std::accumulate(
-                    group.begin(),
-                    group.end(),
-                    0,
-                    [&zone](int64_t sum, auto const& entry)
-                    {
-                        return sum + zone.template getPropertyValue<int64_t>(
-                                entry.first,
-                                std::get<intfPos>(entry.second),
-                                std::get<propPos>(entry.second));
-                    });
-            auto avgValue = sumValue / group.size();
+            auto avgValue = group_average(zone, group);
             auto it = val_to_speed.upper_bound(avgValue);
             if (it != std::end(val_to_speed))
             {
@@ -115,18 +132,7 @@ auto set_ceiling_from_average_sensor_value(
         auto speed = zone.getCeiling();
         if (group.size() != 0)
         {
-            auto sumValue = std::accumulate(
-                    group.begin(),
-                    group.end(),
-                    0,
-                    [&zone](int64_t sum, auto const& entry)
-                    {
-                        return sum + zone.template getPropertyValue<int64_t>(
-                                entry.first,
-                                std::get<intfPos>(entry.second),
-                                std::get<propPos>(entry.second));
-                    });
-            auto avgValue = sumValue / group.size();
+            auto avgValue = group_average(zone, group);
             auto prevValue = zone.swapCeilingKeyValue(avgValue);
             if (avgValue != prevValue)
             {// Only check if previous and new values differ
