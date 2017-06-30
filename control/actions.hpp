@@ -96,16 +96,18 @@ auto set_floor_from_average_sensor_value(
 {
     return [val_to_speed = std::move(val_to_speed)](auto& zone, auto& group)
     {
+        // No ability to adjust the floor if there are no group-members.
+        if (group.size() == 0) return;
+
         auto speed = zone.getDefFloor();
-        if (group.size() != 0)
+
+        auto avgValue = group_average(zone, group);
+        auto it = val_to_speed.upper_bound(avgValue);
+        if (it != std::end(val_to_speed))
         {
-            auto avgValue = group_average(zone, group);
-            auto it = val_to_speed.upper_bound(avgValue);
-            if (it != std::end(val_to_speed))
-            {
-                speed = (*it).second;
-            }
+            speed = (*it).second;
         }
+
         zone.setFloor(speed);
     };
 }
@@ -129,59 +131,62 @@ auto set_ceiling_from_average_sensor_value(
 {
     return [val_to_speed = std::move(val_to_speed)](auto& zone, auto& group)
     {
-        auto speed = zone.getCeiling();
-        if (group.size() != 0)
+        // No ability to adjust the ceiling if there are no group-members.
+        if (group.size() == 0) return;
+
+        auto avgValue = group_average(zone, group);
+        auto prevValue = zone.swapCeilingKeyValue(avgValue);
+
+        // Only change if previous and new values differ.
+        if (avgValue == prevValue) { return; }
+
+        // Calculate new ceiling speed.
+        auto speed = zone.getCeiling();  // start with current speed.
+
+        // Find key value >= to current average.
+        auto it = val_to_speed.lower_bound(avgValue);
+
+        // If average value is already > the end,
+        // set ceiling to the end.
+        if (it == val_to_speed.end())
         {
-            auto avgValue = group_average(zone, group);
-            auto prevValue = zone.swapCeilingKeyValue(avgValue);
-
-            // Only change if previous and new values differ.
-            if (avgValue != prevValue)
+            speed = val_to_speed.rbegin()->second;
+        }
+        // If average value is already <= the begin,
+        // set ceiling to the begin.
+        else if (it == val_to_speed.begin())
+        {
+            speed = it->second;
+        }
+        // If average value is decreasing...
+        else if (avgValue < prevValue)
+        {
+            // Check if average crossed a key, and set ceiling to
+            // key value.
+            if (it->first < prevValue)
             {
-                auto it = val_to_speed.lower_bound(avgValue);
-
-                // If average value is already more than the end,
-                // set ceiling to the end.
-                if (it == val_to_speed.end())
-                {
-                    speed = val_to_speed.rbegin()->second;
-                }
-                // If average value is already less than the begin,
-                // set ceiling to the begin.
-                else if (it == val_to_speed.begin())
-                {
-                    speed = it->second;
-                }
-                // If average value is decreasing...
-                else if (avgValue < prevValue)
-                {
-                    // Check if average crossed a key, and set ceiling to
-                    // key value.
-                    if (it->first < prevValue)
-                    {
-                        speed = it->second;
-                    }
-                }
-                // If average value is increasing...
-                else
-                {
-                    // Search backward to find the set-point immediately below
-                    // the current value.
-                    while(it->first >= avgValue &&
-                          it != val_to_speed.begin())
-                    {
-                        --it;
-                    }
-
-                    // Check if average crossed a key, and set ceiling to
-                    // key value.
-                    if (it->first > prevValue)
-                    {
-                        speed = it->second;
-                    }
-                }
+                speed = it->second;
             }
         }
+        // If average value is increasing...
+        else
+        {
+            // Search backward to find the set-point immediately below
+            // the current value.
+            while(it->first >= avgValue &&
+                    it != val_to_speed.begin())
+            {
+                --it;
+            }
+
+            // Check if average crossed a key, and set ceiling to
+            // key value.
+            if (it->first > prevValue)
+            {
+                speed = it->second;
+            }
+        }
+
         zone.setCeiling(speed);
     };
 }
