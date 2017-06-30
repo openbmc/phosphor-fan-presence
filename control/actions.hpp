@@ -82,15 +82,8 @@ auto set_floor_from_average_sensor_value(
                                 std::get<intfPos>(entry.second),
                                 std::get<propPos>(entry.second));
                     });
-            auto avgValue= sumValue / group.size();
-            auto it = std::find_if(
-                val_to_speed.begin(),
-                val_to_speed.end(),
-                [&avgValue](auto const& entry)
-                {
-                    return avgValue < entry.first;
-                }
-            );
+            auto avgValue = sumValue / group.size();
+            auto it = val_to_speed.upper_bound(avgValue);
             if (it != std::end(val_to_speed))
             {
                 speed = (*it).second;
