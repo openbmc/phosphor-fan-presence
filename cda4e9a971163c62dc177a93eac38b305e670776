@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3a3291f1_b8bcc76d",
+        "filename": "control/actions.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2017-07-06T18:51:55Z",
+      "side": 1,
+      "message": "I have no idea why I made the functions non-lowerCamelCase...",
+      "parentUuid": "3a3291f1_f8c7ef62",
+      "revId": "cda4e9a971163c62dc177a93eac38b305e670776",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a3291f1_c760d637",
         "filename": "control/actions.hpp",
         "patchSetId": 1
@@ -54,6 +72,30 @@
       "side": 1,
       "message": "These two are at the same level of indentation.  All parameters are indented to just after the ( character.\n\nOr do you have a problem with the lambda and its body being at different levels of indentation?  I tried to do what I thought was the most readable but I can change it if that\u0027s what you\u0027re looking for.",
       "parentUuid": "3a3291f1_c760d637",
+      "range": {
+        "startLine": 68,
+        "startChar": 28,
+        "endLine": 69,
+        "endChar": 76
+      },
+      "revId": "cda4e9a971163c62dc177a93eac38b305e670776",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_b863a719",
+        "filename": "control/actions.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2017-07-06T18:51:55Z",
+      "side": 1,
+      "message": "It was just a consistency comment on listing the parameters to std::accumulate on separate lines/same indentation where the lambda was on its own line.\n\nThe guidelines show that this is incorrect formatting for the 4 params to std::accumulate.",
+      "parentUuid": "3a3291f1_b8d04754",
       "range": {
         "startLine": 68,
         "startChar": 28,
