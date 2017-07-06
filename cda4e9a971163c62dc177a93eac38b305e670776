@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "3a3291f1_b37988fe",
+        "filename": "control/actions.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-07-06T21:02:19Z",
+      "side": 1,
+      "message": "I guess this is something that was tied in C++17 to Concepts which still likely won\u0027t make it.  GCC added it as an extension in GCC 4.9 with --std\u003dc++14 even though it isn\u0027t formally part of the standard.  I guess I can change this to a template if we want to have pure conformance.",
+      "parentUuid": "3a3291f1_f8c7ef62",
+      "revId": "cda4e9a971163c62dc177a93eac38b305e670776",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a3291f1_c760d637",
         "filename": "control/actions.hpp",
         "patchSetId": 1
@@ -96,6 +114,30 @@
       "side": 1,
       "message": "It was just a consistency comment on listing the parameters to std::accumulate on separate lines/same indentation where the lambda was on its own line.\n\nThe guidelines show that this is incorrect formatting for the 4 params to std::accumulate.",
       "parentUuid": "3a3291f1_b8d04754",
+      "range": {
+        "startLine": 68,
+        "startChar": 28,
+        "endLine": 69,
+        "endChar": 76
+      },
+      "revId": "cda4e9a971163c62dc177a93eac38b305e670776",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_9317aca3",
+        "filename": "control/actions.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2017-07-06T21:02:19Z",
+      "side": 1,
+      "message": "I\u0027m still missing something.  Any of these are valid by our guidelines:\n\n    longFunctionName(1, 2, 3,\n                     4)\n\n    longFunctionName(1,\n                     2, 3,\n                     4)\n\n    longFunctionName(\n    ...\u003e...\u003e1,\n    ...\u003e...\u003e2,\n    ...\u003e...\u003e3,\n    ...\u003e...\u003e4)\n\nIs there one of these you think is invalid by our guidelines?  If so, is it something like this you think I\u0027ve done here, or is it something else?",
+      "parentUuid": "3a3291f1_b863a719",
       "range": {
         "startLine": 68,
         "startChar": 28,
