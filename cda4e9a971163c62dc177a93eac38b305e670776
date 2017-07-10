@@ -213,6 +213,30 @@
       "revId": "cda4e9a971163c62dc177a93eac38b305e670776",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a3291f1_6fcfb0b1",
+        "filename": "control/actions.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2017-07-10T18:29:30Z",
+      "side": 1,
+      "message": "That\u0027s fine with me, the interpretation I had was for ALL parameters basically to be vertically or horizontally aligned, accordingly.",
+      "parentUuid": "3a3291f1_efb5e031",
+      "range": {
+        "startLine": 68,
+        "startChar": 28,
+        "endLine": 69,
+        "endChar": 76
+      },
+      "revId": "cda4e9a971163c62dc177a93eac38b305e670776",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
