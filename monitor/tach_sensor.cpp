@@ -145,8 +145,10 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
 //Can cache this value after openbmc/openbmc#1496 is resolved
 std::string TachSensor::getService()
 {
+    // Use the Value interface since not all sensors implement
+    // the control interface.
     return phosphor::fan::util::getService(_name,
-                                           FAN_SENSOR_CONTROL_INTF,
+                                           FAN_SENSOR_VALUE_INTF,
                                            _bus);
 }
 
