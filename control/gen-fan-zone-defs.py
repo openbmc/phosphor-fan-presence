@@ -16,6 +16,7 @@ tmpl = '''/* This is a generated file. */
 #include "manager.hpp"
 #include "functor.hpp"
 #include "actions.hpp"
+#include "conditions.hpp"
 #include "handlers.hpp"
 
 using namespace phosphor::fan::control;
@@ -132,6 +133,9 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
     Constructs the event entries defined for each zone using the events yaml
     provided.
     """
+
+    print "getEventsInZone(", zone_num, ",", zone_conditions, ",", events_data, ")"
+
     events = []
 
     if 'events' in events_data:
@@ -139,15 +143,15 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
 
             # Zone numbers are optional in the events yaml but skip if this
             # zone's zone number is not in the event's zone numbers
-            if all('zones' in z and z['zones'] is not None and
-                   zone_num not in z['zones'] for z in e['zone_conditions']):
+            if all('zones' in zc and zc['zones'] is not None and
+                   zone_num not in zc['zones'] for zc in e['zone_conditions']):
                 continue
 
             # Zone conditions are optional in the events yaml but skip if this
             # event's condition is not in this zone's conditions
-            if all('name' in z and z['name'] is not None and
-                   not any(c['name'] == z['name'] for c in zone_conditions)
-                   for z in e['zone_conditions']):
+            if all('name' in zc and zc['name'] is not None and
+                   not any(zc['name'] == zc['name'] for zc in zone_conditions)
+                   for zc in e['zone_conditions']):
                 continue
 
             event = {}
@@ -165,6 +169,16 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
                 members['property'] = e['property']['name']
                 group.append(members)
             event['group'] = group
+
+            # Add set speed condition ...
+            print "Add set speed condition..."
+            condition = {}
+            print "conditions...next .... in events_data"
+            conditions = next(c for c in events_data['conditions']
+                           if c['name'] == e['condition']['name'])
+            #print "condition['name']"
+            #condition['name'] = conditions['name']
+            # params? properties? sections? #TODO
 
             # Add set speed action and function parameters
             action = {}
