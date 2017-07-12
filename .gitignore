@@ -17,7 +17,6 @@ stamp-h1
 *.la
 *.lo
 *.o
-fan_detect_defs.cpp
 phosphor-fan-presence-tach
 phosphor-fan-control
 fan_zone_defs.cpp
