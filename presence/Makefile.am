@@ -9,11 +9,7 @@ phosphor_fan_presence_tach_SOURCES = \
 	fan.cpp \
 	gpio.cpp \
 	tach.cpp \
-	fan_enclosure.cpp \
-	tach_sensor.cpp \
 	tach_detect.cpp
-nodist_phosphor_fan_presence_tach_SOURCES = \
-	fan_detect_defs.cpp
 
 phosphor_fan_presence_tach_LDADD = \
 	$(top_builddir)/libfan.la \
@@ -27,12 +23,9 @@ phosphor_fan_presence_tach_CXXFLAGS = \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
 	$(LIBEVDEV_CFLAGS)
 
-BUILT_SOURCES = fan_detect_defs.cpp generated.hpp
+BUILT_SOURCES = generated.hpp
 TEMPLATES = \
 	templates/generated.mako.hpp
-
-fan_detect_defs.cpp: ${srcdir}/gen-fan-detect-defs.py $(FAN_DETECT_YAML_FILE)
-	$(AM_V_GEN)$(GEN_FAN_DETECT_DEFS) > $(builddir)/$@
 
 generated.hpp: $(TEMPLATES) ${srcdir}/pfpgen.py $(PRESENCE_CONFIG)
 	$(AM_V_GEN)$(PFPGEN) > $(builddir)/$@
