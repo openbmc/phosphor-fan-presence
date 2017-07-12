@@ -40,6 +40,19 @@ auto make_action(T&& action)
 }
 
 /**
+ * @brief Create a condition function object
+ *
+ * @param[in] condition - The condition being created
+ *
+ * @return - The created condition function object
+ */
+template <typename T>
+auto make_condition(T&& condition)
+{
+    return Condition(std::forward<T>(condition));
+}
+
+/**
  * @struct Property Changed
  * @brief A match filter functor for Dbus property value changed signals
  *

@@ -7,6 +7,12 @@
 #      members:
 #          [List of object paths under the path extension]
 #
+#conditions:
+#    - name: [the name associated with a supported condition function]
+#      description: [A user description of what this condition checks]
+#      parameters:
+#          [Ordered list of required parameters for the associated condition]
+#
 #actions:
 #    - name: [The name associated with a supported action function]
 #      description: [A user description of what this action does]
@@ -43,6 +49,17 @@
 #      type: sensors
 #      members:
 #          - /temperature/ambient
+#
+#conditions:
+#    - name: occ_sensor_active
+#      description: Check that D-Bus property indicates OCC in active state
+#      type: propertyChanged
+#      properties:
+#        - property: OccActive
+#          interface: xyz.openbmc_project.OCC.???
+#          path: /xyz/openbmc_project/OCC/???
+#          type: bool
+#          value: true
 #
 #actions:
 #    - name: count_state_before_speed
