@@ -89,8 +89,6 @@ AS_IF([test "x$enable_presence" != "xno"], [
        AC_DEFINE_UNQUOTED([PRESENCE_CONFIG], ["$PRESENCE_CONFIG"],
                           [The fan presence config file.])
 
-       AC_SUBST([GEN_FAN_DETECT_DEFS],
-                ["$PYTHON \${top_srcdir}/presence/gen-fan-detect-defs.py -y $FAN_DETECT_YAML_FILE"])
        AC_SUBST([PFPGEN],
                 ["$PYTHON \${top_srcdir}/presence/pfpgen.py generate-cpp -i $PRESENCE_CONFIG"])
 
