@@ -19,6 +19,10 @@ namespace detail
 namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 } // namespace detail
 
+/** @brief Alias for PropertiesChanged signal callbacks. */
+template <typename ...T>
+using Properties = std::map<std::string, sdbusplus::message::variant<T...>>;
+
 /** @class SDBusPlus
  *  @brief DBus access delegate implementation for sdbusplus.
  */
