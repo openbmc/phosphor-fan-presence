@@ -134,12 +134,21 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
     provided.
     """
 
-    print "getEventsInZone(", zone_num, ",", zone_conditions, ",", events_data, ")"
+    print "getEventsInZone(zone_num:", zone_num, "\nzone_conditions:\n", zone_conditions, "\n-----\nevents_data:", events_data, "-----\n)"
+
+    if 'conditions' in events_data:
+        print "---------------------------------------"
+        print "There are conditions in the events_data"
+        print "---------------------------------------"
+        for c in events_data['conditions']:
+            print c;
+        print "---------------------------------------"
 
     events = []
 
     if 'events' in events_data:
         for e in events_data['events']:
+            print e #FIXME - DEBUG
 
             # Zone numbers are optional in the events yaml but skip if this
             # zone's zone number is not in the event's zone numbers
@@ -170,15 +179,47 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
                 group.append(members)
             event['group'] = group
 
-            # Add set speed condition ...
-            print "Add set speed condition..."
-            condition = {}
-            print "conditions...next .... in events_data"
-            conditions = next(c for c in events_data['conditions']
-                           if c['name'] == e['condition']['name'])
-            #print "condition['name']"
-            #condition['name'] = conditions['name']
-            # params? properties? sections? #TODO
+            print "Check if there is a condition..."
+            print "Keys in event:"
+            print e.keys()
+            print "----------------------------------------"
+            if 'condition' in e:
+                print "There is a condition in this event"
+                print "----------------------------------------"
+#            print e.count('condition') # error, it is a dict, not a list.
+#            if 'condition' in e
+#                print "There is a condition in this event"
+                # Add set speed condition ...
+                print "Add set speed condition..."
+                condition = {}
+                print "conditions...next .... in events_data"
+                conditions = next(c for c in events_data['conditions']
+                                  if c['name'] == e['condition']['name'])
+                condition['name'] = conditions['name']
+                print "condition['name']:", condition['name']
+                # params? properties? sections?
+                property = {}
+                property['type'] = conditions['type']
+                print "type: ", property['type']
+                cproperties = []
+                for cp in conditions['properties']:
+                    cproperty = {}
+                    cproperty['property'] = cp['property']
+                    print "property: ", cproperty['property']
+                    cproperty['interface'] = cp['interface']
+                    print "interface: ", cproperty['interface']
+                    cproperty['path'] = cp['path']
+                    print "path: ", cproperty['path']
+                    cproperty['type'] = cp['type']
+                    print "type: ", cproperty['type']
+                    cproperty['value'] = cp['value']
+                    print "value: ", cproperty['value']
+                    cproperties.append(cproperty)
+                condition['properties'] = cproperties
+                event['condition'] = condition
+                print "----------------------------------------"
+            else:
+                print "No condition..."
 
             # Add set speed action and function parameters
             action = {}
