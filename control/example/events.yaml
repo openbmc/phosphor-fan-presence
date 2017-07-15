@@ -7,6 +7,12 @@
 #      members:
 #          [List of object paths under the path extension]
 #
+#conditions:
+#    - name: [the name associated with a supported condition function]
+#      description: [A user description of what this condition checks]
+#      properties:
+#          [Ordered list of required properties for the associated condition]
+#
 #actions:
 #    - name: [The name associated with a supported action function]
 #      description: [A user description of what this action does]
@@ -43,6 +49,17 @@
 #      type: sensors
 #      members:
 #          - /temperature/ambient
+#
+#conditions:
+#    - name: occ0_active
+#      description: Check that D-Bus property indicates OCC in active state
+#      type: PropertyChanged
+#      properties:
+#         - interface: org.open_power.OCC.Control 
+#           path: /org/open_power/control/occ0
+#           property: OccActive
+#           type: bool
+#           value: true
 #
 #actions:
 #    - name: count_state_before_speed
