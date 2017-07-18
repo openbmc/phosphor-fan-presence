@@ -36,7 +36,7 @@ constexpr auto SYSTEMD_OBJ_PATH  = "/org/freedesktop/systemd1";
 constexpr auto SYSTEMD_INTERFACE = "org.freedesktop.systemd1.Manager";
 constexpr auto FAN_CONTROL_READY_TARGET = "obmc-fan-control-ready@0.target";
 
-constexpr auto PROPERTY_INTERFACE = "org.freedesktop.DBus.Properties";
+//constexpr auto PROPERTY_INTERFACE = "org.freedesktop.DBus.Properties";
 constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
 constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
 constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
@@ -52,32 +52,32 @@ constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
  * @param[in] propertyName - The D-Bus property
  * @param[out] value       - The D-Bus property's value
  */
-template <typename T>
-void getProperty(sdbusplus::bus::bus& bus,
-                 const std::string& path,
-                 const std::string& interface,
-                 const std::string& propertyName,
-                 T& value)
-{
-    sdbusplus::message::variant<T> property;
-    std::string service = phosphor::fan::util::getService(path, interface, bus);
-
-    auto method = bus.new_method_call(service.c_str(),
-                                      path.c_str(),
-                                      PROPERTY_INTERFACE,
-                                      "Get");
-
-    method.append(interface, propertyName);
-    auto reply = bus.call(method);
-
-    if (reply.is_method_error())
-    {
-        log<level::ERR>("Error in call response for retrieving property");
-        elog<InternalFailure>();
-    }
-    reply.read(property);
-    value = sdbusplus::message::variant_ns::get<T>(property);
-}
+//template <typename T>
+//void getProperty(sdbusplus::bus::bus& bus,
+//                 const std::string& path,
+//                 const std::string& interface,
+//                 const std::string& propertyName,
+//                 T& value)
+//{
+//    sdbusplus::message::variant<T> property;
+//    std::string service = phosphor::fan::util::getService(path, interface, bus);
+//
+//    auto method = bus.new_method_call(service.c_str(),
+//                                      path.c_str(),
+//                                      PROPERTY_INTERFACE,
+//                                      "Get");
+//
+//    method.append(interface, propertyName);
+//    auto reply = bus.call(method);
+//
+//    if (reply.is_method_error())
+//    {
+//        log<level::ERR>("Error in call response for retrieving property");
+//        elog<InternalFailure>();
+//    }
+//    reply.read(property);
+//    value = sdbusplus::message::variant_ns::get<T>(property);
+//}
 
 
 /**
@@ -101,7 +101,7 @@ bool checkCondition(sdbusplus::bus::bus& bus, const auto& c)
         // TODO openbmc/openbmc#1769: Support more types than just getProperty.
         if (type.compare("getProperty") == 0)
         {
-            getProperty(bus,
+            phosphor::fan::util::getProperty(bus,
                         std::get<propertyPathPos>(p),
                         std::get<propertyInterfacePos>(p),
                         std::get<propertyNamePos>(p),

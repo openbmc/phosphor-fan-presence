@@ -18,6 +18,7 @@
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+#include "conditions.hpp"
 #include "zone.hpp"
 #include "utility.hpp"
 
@@ -173,36 +174,54 @@ void Zone::initEvents(const ZoneDefinition& def)
     // Setup signal trigger for set speed events
     for (auto& event : std::get<setSpeedEventsPos>(def))
     {
-        // Get the current value for each property
-        for (auto& entry : std::get<groupPos>(event))
-        {
-            refreshProperty(_bus,
-                            entry.first,
-                            std::get<intfPos>(entry.second),
-                            std::get<propPos>(entry.second));
+        using namespace phosphor::fan::control::condition;
+        auto& condition = std::get<eventConditionPos>(event);
+
+        // TODO - if condition exists
+        //          if true, subscribe to signals.
+        //          if false, queue signals for later?
+        //if (std::all_of(conditions.begin(), conditions.end(),
+        //                [this](const auto& condition)
+        //{
+        //    return checkEventCondition(_bus, condition);
+        //}))
+        if (checkEventCondition(_bus, condition))
+        { // Condition none or true
+            // Get the current value for each property
+            for (auto& entry : std::get<groupPos>(event))
+            {
+                refreshProperty(_bus,
+                                entry.first,
+                                std::get<intfPos>(entry.second),
+                                std::get<propPos>(entry.second));
+            }
+
+            // Setup signal matches for property change events
+            for (auto& prop : std::get<propChangeListPos>(event))
+            {
+                _signalEvents.emplace_back(
+                        std::make_unique<EventData>(
+                                EventData
+                                {
+                                    std::get<groupPos>(event),
+                                    std::get<handlerObjPos>(prop),
+                                    std::get<actionPos>(event)
+                                }));
+                _matches.emplace_back(
+                        _bus,
+                        std::get<signaturePos>(prop).c_str(),
+                        std::bind(std::mem_fn(&Zone::handleEvent),
+                                  this,
+                                  std::placeholders::_1,
+                                  _signalEvents.back().get()));
+            }
+            // Run action function for initial event state
+            std::get<actionPos>(event)(*this,
+                                       std::get<groupPos>(event));
         }
-        // Setup signal matches for property change events
-        for (auto& prop : std::get<propChangeListPos>(event))
-        {
-            _signalEvents.emplace_back(
-                    std::make_unique<EventData>(
-                            EventData
-                            {
-                                std::get<groupPos>(event),
-                                std::get<handlerObjPos>(prop),
-                                std::get<actionPos>(event)
-                            }));
-            _matches.emplace_back(
-                    _bus,
-                    std::get<signaturePos>(prop).c_str(),
-                    std::bind(std::mem_fn(&Zone::handleEvent),
-                              this,
-                              std::placeholders::_1,
-                              _signalEvents.back().get()));
+        else
+        { // Condition false, queue up for later... TODO
         }
-        // Run action function for initial event state
-        std::get<actionPos>(event)(*this,
-                                   std::get<groupPos>(event));
     }
 }
 

@@ -90,6 +90,44 @@ std::string getService(const std::string& path,
                        const std::string& interface,
                        sdbusplus::bus::bus& bus);
 
+constexpr auto PROPERTY_INTERFACE = "org.freedesktop.DBus.Properties";
+
+/**
+ * Get the current value of the D-Bus property under the specified path
+ * and interface.
+ *
+ * @param[in] bus          - The D-Bus bus object
+ * @param[in] path         - The D-Bus path
+ * @param[in] interface    - The D-Bus interface
+ * @param[in] propertyName - The D-Bus property
+ * @param[out] value       - The D-Bus property's value
+ */
+template <typename T>
+void getProperty(sdbusplus::bus::bus& bus,
+                 const std::string& path,
+                 const std::string& interface,
+                 const std::string& propertyName,
+                 T& value)
+{
+    sdbusplus::message::variant<T> property;
+    std::string service = phosphor::fan::util::getService(path, interface, bus);
+
+    auto method = bus.new_method_call(service.c_str(),
+                                      path.c_str(),
+                                      PROPERTY_INTERFACE,
+                                      "Get");
+
+    method.append(interface, propertyName);
+    auto reply = bus.call(method);
+
+    if (reply.is_method_error())
+    {
+        log<level::ERR>("Error in call response for retrieving property");
+        elog<InternalFailure>();
+    }
+    reply.read(property);
+    value = sdbusplus::message::variant_ns::get<T>(property);
+}
 }
 }
 }

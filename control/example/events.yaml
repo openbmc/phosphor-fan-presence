@@ -51,6 +51,16 @@
 #          - /temperature/ambient
 #
 #conditions:
+#    - name: none
+#      description: No condition
+#      type: none
+#      properties:
+#         - interface:
+#           path:
+#           property:
+#           type:
+#           value: true
+#
 #    - name: occ0_active
 #      description: Check that D-Bus property indicates OCC in active state
 #      type: PropertyChanged

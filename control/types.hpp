@@ -2,6 +2,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include "utility.hpp"
 
 namespace phosphor
 {
@@ -25,8 +26,28 @@ using ConditionProperty = std::tuple<std::string,
 
 constexpr auto conditionTypePos = 0;
 constexpr auto conditionPropertyListPos = 1;
+// conditions for zones
 using Condition = std::tuple<std::string,
                              std::vector<ConditionProperty>>;
+// conditions for events/actions
+using EventCondition = std::tuple<std::string,
+                                  std::vector<ConditionProperty>>;
+// ‘const class std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                         std::vector<
+//                                     std::tuple<
+//                                                std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                                                std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                                                std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                                                bool
+//                                               >, 
+//                                     std::allocator<std::tuple<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                                                               std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                                                               std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, 
+//                                                               bool
+//                                                              > 
+//                                                   > 
+//                                    > 
+//                        >’
 
 using PropertyVariantType = sdbusplus::message::variant<bool, int64_t>;
 
@@ -47,9 +68,11 @@ constexpr auto handlerObjPos = 1;
 using PropertyChange = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
-constexpr auto actionPos = 1;
-constexpr auto propChangeListPos = 2;
-using SetSpeedEvent = std::tuple<Group, Action, std::vector<PropertyChange>>;
+constexpr auto eventConditionPos = 1;
+constexpr auto actionPos = 2;
+constexpr auto propChangeListPos = 3;
+//using SetSpeedEvent = std::tuple<Group, Action, std::vector<PropertyChange>>;
+using SetSpeedEvent = std::tuple<Group, EventCondition, Action, std::vector<PropertyChange>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventHandlerPos = 1;
