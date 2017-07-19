@@ -1,9 +1,10 @@
 #pragma once
 
 #include <memory>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/elog-errors.hpp>
 #include <systemd/sd-event.h>
-
-// TODO: openbmc/openbmc#1720 - add error handling for sd_event API failures
+#include <xyz/openbmc_project/Common/error.hpp>
 
 namespace sdevent
 {
@@ -36,6 +37,10 @@ using source = std::unique_ptr<sd_event_source, SourceDeleter>;
  */
 class Source
 {
+    private:
+        using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+            Error::InternalFailure;
+
     public:
         /* Define all of the basic class operations:
          *     Not allowed:
@@ -75,14 +80,23 @@ class Source
         auto enabled()
         {
             int enabled;
-            sd_event_source_get_enabled(src.get(), &enabled);
+            auto rc = sd_event_source_get_enabled(src.get(), &enabled);
+            if (rc < 0)
+            {
+                phosphor::logging::elog<InternalFailure>();
+            }
+
             return enabled;
         }
 
         /** @brief Allow the source to generate events. */
         void enable(int enable)
         {
-            sd_event_source_set_enabled(src.get(), enable);
+            auto rc = sd_event_source_set_enabled(src.get(), enable);
+            if (rc < 0)
+            {
+                phosphor::logging::elog<InternalFailure>();
+            }
         }
 
     private:
