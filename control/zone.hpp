@@ -324,6 +324,11 @@ class Zone
         std::vector<std::unique_ptr<EventData>> _signalEvents;
 
         /**
+         * @brief List of signal event arguments for conditions
+         */
+        std::vector<std::unique_ptr<SetSpeedEvent>> _signalEventConditions;
+
+        /**
          * @brief list of Dbus matches for callbacks
          */
         std::vector<sdbusplus::server::match::match> _matches;
@@ -363,6 +368,18 @@ class Zone
                                 const std::string& prop,
                                 PropertyVariantType& value);
 
+        /**
+         * @brief Dbus signal change callback handler for conditions
+         *
+         * If a condition is initially false, the properties should not be
+         * read. A callback will need to be made to re-check when the
+         * condition property has changed.
+         *
+         * @param[in] msg - Expanded sdbusplus message data
+         * @param[in] eventData - The single event's data
+         */
+        void handleEventCondition(sdbusplus::message::message& msg,
+                                  const SetSpeedEvent* setSpeedEventData);
         /**
          * @brief Dbus signal change callback handler
          *

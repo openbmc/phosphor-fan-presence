@@ -177,14 +177,10 @@ void Zone::initEvents(const ZoneDefinition& def)
         using namespace phosphor::fan::control::condition;
         auto& condition = std::get<eventConditionPos>(event);
 
-        // TODO - if condition exists
-        //          if true, subscribe to signals.
-        //          if false, queue signals for later?
-        //if (std::all_of(conditions.begin(), conditions.end(),
-        //                [this](const auto& condition)
-        //{
-        //    return checkEventCondition(_bus, condition);
-        //}))
+        // If condition is "none", or condition evaluates to true, continue to
+        // get values and setup for signal change events.
+        // If condition is not "none" and evaluates to false, setup to get
+        // signal for change in condition.
         if (checkEventCondition(_bus, condition))
         { // Condition none or true
             // Get the current value for each property
@@ -204,6 +200,7 @@ void Zone::initEvents(const ZoneDefinition& def)
                                 EventData
                                 {
                                     std::get<groupPos>(event),
+                                    std::get<eventConditionPos>(event),
                                     std::get<handlerObjPos>(prop),
                                     std::get<actionPos>(event)
                                 }));
@@ -221,6 +218,29 @@ void Zone::initEvents(const ZoneDefinition& def)
         }
         else
         { // Condition false, queue up for later... TODO
+            //TODO - Something to save off? Subscribe to change on condition?
+            // Setup signal matches for property change event on condition
+            {
+                using namespace sdbusplus::bus::match::rules;
+                _signalEventConditions.emplace_back(
+                        std::make_unique<SetSpeedEvent>(event));
+                _matches.emplace_back(
+                        _bus,
+                        interface("org.freedesktop.DBus.Properties") +
+                        member("PropertiesChanged") +
+                        type::signal() +
+                        path("/org/open_power/control/occ0") + 
+                        arg0namespace("org.open_pwoer.OCC.Control.OccActive"),
+/*
+                        path(std::get<propertyPathPos>(condition).c_str()) +
+                        arg0namespace(std::get<propertyPathPos>(condition).c_str() +
+                                      std::get<propertyNamePos>(condition).c_str()),
+*/
+                        std::bind(std::mem_fn(&Zone::handleEventCondition),
+                                  this,
+                                  std::placeholders::_1,
+                                  _signalEventConditions.back().get()));
+            }
         }
     }
 }
@@ -257,14 +277,67 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
     hostResponseMsg.read(value);
 }
 
+void Zone::handleEventCondition(sdbusplus::message::message& msg,
+                                const SetSpeedEvent* setSpeedEventData)
+{
+    using namespace phosphor::fan::control::condition;
+    auto& condition = std::get<eventConditionPos>(*setSpeedEventData);
+
+    // If condition is "none", or condition evaluates to true, continue to
+    // get values and setup for signal change events.
+    // If condition is not "none" and evaluates to false, setup to get
+    // signal for change in condition.
+    if (checkEventCondition(_bus, condition))
+    { // Condition none or true
+        // Get the current value for each property
+        for (auto& entry : std::get<groupPos>(*setSpeedEventData))
+        {
+            refreshProperty(_bus,
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second));
+        }
+
+        // Setup signal matches for property change events
+        for (auto& prop : std::get<propChangeListPos>(*setSpeedEventData))
+        {
+            _signalEvents.emplace_back(
+                    std::make_unique<EventData>(
+                            EventData
+                            {
+                                std::get<groupPos>(*setSpeedEventData),
+                                std::get<eventConditionPos>(*setSpeedEventData),
+                                std::get<handlerObjPos>(prop),
+                                std::get<actionPos>(*setSpeedEventData)
+                            }));
+            _matches.emplace_back(
+                            _bus,
+                            std::get<signaturePos>(prop).c_str(),
+                            std::bind(std::mem_fn(&Zone::handleEvent),
+                                      this,
+                                      std::placeholders::_1,
+                                      _signalEvents.back().get()));
+        }
+        // Run action function for initial event state
+        std::get<actionPos>(*setSpeedEventData)(*this,
+                                                std::get<groupPos>(*setSpeedEventData));
+    }
+}
+
 void Zone::handleEvent(sdbusplus::message::message& msg,
                        const EventData* eventData)
 {
-    // Handle the callback
-    std::get<eventHandlerPos>(*eventData)(_bus, msg, *this);
-    // Perform the action
-    std::get<eventActionPos>(*eventData)(*this,
-                                         std::get<eventGroupPos>(*eventData));
+    using namespace phosphor::fan::control::condition;
+    auto& condition = std::get<eventConditionPos>(*eventData);
+
+    if (checkEventCondition(_bus, condition))
+    {
+        // Handle the callback
+        std::get<eventHandlerPos>(*eventData)(_bus, msg, *this);
+        // Perform the action
+        std::get<eventActionPos>(*eventData)(*this,
+                                             std::get<eventGroupPos>(*eventData));
+    }
 }
 
 }

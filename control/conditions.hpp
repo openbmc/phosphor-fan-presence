@@ -35,7 +35,7 @@ bool checkEventCondition(sdbusplus::bus::bus& bus, const auto& c)
         bool value = std::get<propertyValuePos>(p);
         bool propertyValue;
 
-        // TODO: Support more types than just getProperty.
+        // TODO: Support more types than just getProperty?
         if (type.compare("getProperty") == 0)
         {
             phosphor::fan::util::getProperty(bus,

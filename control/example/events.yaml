@@ -28,6 +28,7 @@
 #      group: [A group name from the list of groups]
 #      interface: [The Dbus interface on the group members' object path]
 #      property: [The property name and type on the interface to be used]
+#      condition: [The condition to wait for, or none]
 #      action:
 #          name: [Name of an action from the list of actions]
 #          [List each required action parameter with a defined type and value
@@ -94,6 +95,7 @@
 #      property:
 #          name: Present
 #          type: bool
+#      condition: none
 #      action:
 #          name: count_state_before_speed
 #          count: 1
@@ -111,6 +113,7 @@
 #      property:
 #          name: Value
 #          type: int64_t
+#      condition: none
 #      action:
 #          name: set_floor_from_average_sensor_value
 #          map:
@@ -130,6 +133,7 @@
 #      property:
 #          name: Value
 #          type: int64_t
+#      condition: occ0_active
 #      action:
 #          name: set_floor_from_average_sensor_value
 #          map:

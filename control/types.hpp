@@ -75,9 +75,10 @@ constexpr auto propChangeListPos = 3;
 using SetSpeedEvent = std::tuple<Group, EventCondition, Action, std::vector<PropertyChange>>;
 
 constexpr auto eventGroupPos = 0;
-constexpr auto eventHandlerPos = 1;
-constexpr auto eventActionPos = 2;
-using EventData = std::tuple<Group, Handler, Action>;
+//constexpr auto eventConditionPos = 1;
+constexpr auto eventHandlerPos = 2;
+constexpr auto eventActionPos = 3;
+using EventData = std::tuple<Group, EventCondition, Handler, Action>;
 
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;
