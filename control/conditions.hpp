@@ -1,5 +1,6 @@
 #pragma once
 #include "types.hpp"
+#include <iostream> //FIXME
 
 namespace phosphor
 {
@@ -22,6 +23,7 @@ constexpr auto eventConditionTypePos = 0;
  */
 bool checkEventCondition(sdbusplus::bus::bus& bus, const auto& c)
 {
+    std::cout << "checkEventCondition\n";//FIXME
     auto& type = std::get<eventConditionTypePos>(c);
     if (type.compare("none") == 0)
     {
@@ -38,6 +40,10 @@ bool checkEventCondition(sdbusplus::bus::bus& bus, const auto& c)
         // TODO: Support more types than just getProperty?
         if (type.compare("getProperty") == 0)
         {
+            std::cout << "type is getProperty\n";
+            std::cout << "propertyPathPos: " << std::get<propertyPathPos>(p) << '\n';
+            std::cout << "propertyInterfacePos: " << std::get<propertyInterfacePos>(p) << '\n';
+            std::cout << "propertyNamePos: " << std::get<propertyNamePos>(p) << '\n';
             phosphor::fan::util::getProperty(bus,
                         std::get<propertyPathPos>(p),
                         std::get<propertyInterfacePos>(p),

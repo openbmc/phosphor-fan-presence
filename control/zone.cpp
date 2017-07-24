@@ -21,6 +21,7 @@
 #include "conditions.hpp"
 #include "zone.hpp"
 #include "utility.hpp"
+#include <iostream> //FIXME
 
 namespace phosphor
 {
@@ -171,6 +172,7 @@ void Zone::decTimerExpired()
 
 void Zone::initEvents(const ZoneDefinition& def)
 {
+    std::cout << "Zone::initEvents\n";
     // Setup signal trigger for set speed events
     for (auto& event : std::get<setSpeedEventsPos>(def))
     {
@@ -218,6 +220,7 @@ void Zone::initEvents(const ZoneDefinition& def)
         }
         else
         { // Condition false, queue up for later... TODO
+            std::cout << "Condition false, queue up for later\n";//FIXME
             //TODO - Something to save off? Subscribe to change on condition?
             // Setup signal matches for property change event on condition
             {
@@ -230,7 +233,7 @@ void Zone::initEvents(const ZoneDefinition& def)
                         member("PropertiesChanged") +
                         type::signal() +
                         path("/org/open_power/control/occ0") + 
-                        arg0namespace("org.open_pwoer.OCC.Control.OccActive"),
+                        arg0namespace("org.open_pwoer.OCC.Status.OccActive"),
 /*
                         path(std::get<propertyPathPos>(condition).c_str()) +
                         arg0namespace(std::get<propertyPathPos>(condition).c_str() +
@@ -280,6 +283,7 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
 void Zone::handleEventCondition(sdbusplus::message::message& msg,
                                 const SetSpeedEvent* setSpeedEventData)
 {
+    std::cout << "handleEventCondition()\n";//FIXME
     using namespace phosphor::fan::control::condition;
     auto& condition = std::get<eventConditionPos>(*setSpeedEventData);
 
