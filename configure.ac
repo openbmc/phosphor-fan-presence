@@ -89,43 +89,45 @@ AS_IF([test "x$enable_control" != "xno"], [
        AC_ARG_VAR(FAN_DEF_YAML_FILE,
                   [The fan definition file to use])
        AS_IF([test "x$FAN_DEF_YAML_FILE" == "x"],
-             [FAN_DEF_YAML_FILE="${srcdir}/control/example/fans.yaml"])
+             [FAN_DEF_YAML_FILE="\${top_srcdir}/control/example/fans.yaml"])
        AC_DEFINE_UNQUOTED([FAN_DEF_YAML_FILE], ["$FAN_DEF_YAML_FILE"],
                           [The fan definition file to use])
 
        AC_ARG_VAR(FAN_ZONE_YAML_FILE,
                   [The fan zone definition file to use])
        AS_IF([test "x$FAN_ZONE_YAML_FILE" == "x"],
-             [FAN_ZONE_YAML_FILE="${srcdir}/control/example/zones.yaml"])
+             [FAN_ZONE_YAML_FILE="\${top_srcdir}/control/example/zones.yaml"])
        AC_DEFINE_UNQUOTED([FAN_ZONE_YAML_FILE], ["$FAN_ZONE_YAML_FILE"],
                           [The fan zone definition file to use])
 
       AC_ARG_VAR(ZONE_EVENTS_YAML_FILE,
                  [The zone events definition file to use])
-      AS_IF([test "x$ZONE_EVENTS_YAML_FILE" != "x"], [
-          AC_SUBST([ZONE_EVENTS_ARG], ["-e ${ZONE_EVENTS_YAML_FILE}"])
-      ])
+      AS_IF([test "x$ZONE_EVENTS_YAML_FILE" == "x"],
+             [ZONE_EVENTS_YAML_FILE="\${top_srcdir}/control/example/events.yaml"])
+      AC_DEFINE_UNQUOTED([ZONE_EVENTS_YAML_FILE], ["$ZONE_EVENTS_YAML_FILE"],
+                         [The zone events definition file to use])
 
       AC_ARG_VAR(ZONE_CONDITIONS_YAML_FILE,
                  [The zone conditions definition file to use])
-      AS_IF([test "x$ZONE_CONDITIONS_YAML_FILE" != "x"], [
-          AC_SUBST([ZONE_CONDITIONS_ARG], ["-c ${ZONE_CONDITIONS_YAML_FILE}"])
-      ])
+      AS_IF([test "x$ZONE_CONDITIONS_YAML_FILE" == "x"],
+             [ZONE_CONDITIONS_YAML_FILE="\${top_srcdir}/control/example/zone_conditions.yaml"])
+      AC_DEFINE_UNQUOTED([ZONE_CONDITIONS_YAML_FILE], ["$ZONE_CONDITIONS_YAML_FILE"],
+                         [The zone conditions definition file to use])
 
        AC_ARG_VAR(FAN_ZONE_OUTPUT_DIR,
                   [The output directory for the generated fan zone data file])
        AS_IF([test "x$FAN_ZONE_OUTPUT_DIR" == "x"],
-             [FAN_ZONE_OUTPUT_DIR="${srcdir}/control/"])
+             [FAN_ZONE_OUTPUT_DIR="\${top_srcdir}/control/"])
        AC_DEFINE_UNQUOTED([FAN_ZONE_OUTPUT_DIR], ["$FAN_ZONE_OUTPUT_DIR"],
                           [The output directory for the generated fan zone data file])
 
        AC_SUBST([GEN_FAN_ZONE_DEFS],
-                [$PYTHON ${srcdir}/control/gen-fan-zone-defs.py \
+                ["$PYTHON \${top_srcdir}/control/gen-fan-zone-defs.py \
                          -f $FAN_DEF_YAML_FILE \
                          -z $FAN_ZONE_YAML_FILE \
-                         $ZONE_EVENTS_ARG \
-                         $ZONE_CONDITIONS_ARG \
-                         -o $FAN_ZONE_OUTPUT_DIR])
+                         -e $ZONE_EVENTS_YAML_FILE \
+                         -c $ZONE_CONDITIONS_YAML_FILE \
+                         -o $FAN_ZONE_OUTPUT_DIR"])
        AC_CONFIG_FILES([control/Makefile])
 ])
 
