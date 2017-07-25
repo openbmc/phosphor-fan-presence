@@ -8,6 +8,7 @@ phosphor_fan_presence_tach_SOURCES = \
 	fallback.cpp \
 	fan.cpp \
 	gpio.cpp \
+	psensor.cpp \
 	tach.cpp \
 	tach_detect.cpp
 
