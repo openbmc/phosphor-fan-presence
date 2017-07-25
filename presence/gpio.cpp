@@ -89,7 +89,7 @@ void Gpio::ioCallback(sdevent::source::Source& source)
 
     if (currentState != newState)
     {
-        getPolicy().stateChanged(newState);
+        getPolicy().stateChanged(newState, *this);
         currentState = newState;
     }
 }

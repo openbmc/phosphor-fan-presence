@@ -55,8 +55,9 @@ class Fallback : public RedundancyPolicy
          *
          * @param[in] present - The new presence state according
          *             to the active sensor.
+         * @param[in] sensor - The sensor that changed state.
          */
-        void stateChanged(bool present) override;
+        void stateChanged(bool present, PresenceSensor& sensor) override;
 
         /**
          * @brief monitor
