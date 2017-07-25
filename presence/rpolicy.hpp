@@ -9,6 +9,8 @@ namespace fan
 namespace presence
 {
 
+class PresenceSensor;
+
 /**
  * @class RedundancyPolicy
  * @brief Redundancy policy interface.
@@ -44,8 +46,9 @@ class RedundancyPolicy
          * the inventory and execute their policy logic.
          *
          * @param[in] present - The new state of the sensor.
+         * @param[in] sensor - The sensor that changed state.
          */
-        virtual void stateChanged(bool present) = 0;
+        virtual void stateChanged(bool present, PresenceSensor& sensor) = 0;
 
         /**
          * @brief monitor

@@ -137,7 +137,7 @@ void Tach::propertiesChanged(
 
         if (currentState != newState)
         {
-            getPolicy().stateChanged(newState);
+            getPolicy().stateChanged(newState, *this);
             currentState = newState;
         }
     }
