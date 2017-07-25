@@ -1,4 +1,5 @@
 #pragma once
+#include <cstdint>
 
 namespace phosphor
 {
@@ -26,7 +27,10 @@ class PresenceSensor
         PresenceSensor(PresenceSensor&&) = default;
         PresenceSensor& operator=(PresenceSensor&&) = default;
         virtual ~PresenceSensor() = default;
-        PresenceSensor() = default;
+        PresenceSensor() : id(nextId)
+        {
+            nextId++;
+        }
 
         /**
          * @brief start
@@ -70,7 +74,21 @@ class PresenceSensor
          * Provide a default noop implementation.
          */
         virtual void fail() {}
+
+	friend bool operator==(const PresenceSensor& l, const PresenceSensor& r);
+
+    private:
+        /** @brief Unique sensor ID. */
+	std::size_t id;
+
+        /** @brief The next unique sensor ID. */
+        static std::size_t nextId;
 };
+
+inline bool operator==(const PresenceSensor& l, const PresenceSensor &r)
+{
+    return l.id == r.id;
+}
 
 } // namespace presence
 } // namespace fan
