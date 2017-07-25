@@ -5,6 +5,7 @@
 #include <array>
 #include <memory>
 #include <string>
+#include "anyof.hpp"
 #include "fallback.hpp"
 #include "fan.hpp"
 #include "gpio.hpp"

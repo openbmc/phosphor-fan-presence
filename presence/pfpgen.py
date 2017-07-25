@@ -194,8 +194,26 @@ class Rpolicy(ConfigEntry):
         self.fan = get_index(objs, 'fan', self.fan)
 
 
+class AnyOf(Rpolicy, Renderer):
+    '''Default policy handler (policy:type:anyof).'''
+
+    def __init__(self, *a, **kw):
+        kw['name'] = 'anyof-{}'.format(kw['fan'])
+        super(AnyOf, self).__init__(**kw)
+
+    def setup(self, objs):
+        super(AnyOf, self).setup(objs)
+
+    def construct(self, loader, indent):
+        return self.render(
+            loader,
+            'anyof.mako.hpp',
+            f=self,
+            indent=indent)
+
+
 class Fallback(Rpolicy, Renderer):
-    '''Default policy handler (policy:type:fallback).'''
+    '''Fallback policy handler (policy:type:fallback).'''
 
     def __init__(self, *a, **kw):
         kw['name'] = 'fallback-{}'.format(kw['fan'])
@@ -230,7 +248,7 @@ class Fan(ConfigEntry):
             factory = Everything.classmap(self.rpolicy['type'])
             rpolicy = factory(**self.rpolicy)
         else:
-            rpolicy = Fallback(fan=self.name)
+            rpolicy = AnyOf(fan=self.name)
 
         for m in self.methods:
             m['policy'] = rpolicy.name
@@ -252,6 +270,7 @@ class Everything(Renderer):
         handler methods.'''
 
         class_map = {
+            'anyof': AnyOf,
             'fan': Fan,
             'fallback': Fallback,
             'gpio': Gpio,
