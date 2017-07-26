@@ -111,6 +111,14 @@ class TachSensor
          */
         std::chrono::microseconds getTimeout();
 
+        /**
+         * Returns the sensor name
+         */
+        inline const std::string& name() const
+        {
+            return _name;
+        };
+
     private:
 
         /**
