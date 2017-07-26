@@ -187,7 +187,10 @@ void Fan::timerExpired(TachSensor& sensor)
     if (_functional && tooManySensorsNonfunctional())
     {
         log<level::ERR>("Setting a fan to nonfunctional",
-                        entry("FAN=%s", _name.c_str()));
+                entry("FAN=%s", _name.c_str()),
+                entry("TACH_SENSOR=%s", sensor.name().c_str()),
+                entry("ACTUAL_SPEED=%lld", sensor.getInput()),
+                entry("TARGET_SPEED=%lld", getTargetSpeed(sensor)));
 
         updateInventory(false);
     }
