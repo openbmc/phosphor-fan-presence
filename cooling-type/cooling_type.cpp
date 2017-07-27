@@ -68,11 +68,11 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
     // TODO openbmc/phosphor-fan-presence#6
     if (value > 0)
     {
-        setWaterCooled();
+        setAirCooled();
     }
     else
     {
-        setAirCooled();
+        setWaterCooled();
     }
 
 }
