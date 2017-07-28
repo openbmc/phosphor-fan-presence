@@ -42,6 +42,15 @@ using Handler = std::function<void(sdbusplus::bus::bus&,
                                    Zone&)>;
 using Action = std::function<void(Zone&, const Group&)>;
 
+constexpr auto pcPathPos = 0;
+constexpr auto pcIntfPos = 1;
+constexpr auto pcPropPos = 2;
+constexpr auto pcValuePos = 3;
+using PrecondGroup = std::tuple<std::string,
+                                std::string,
+                                std::string,
+                                PropertyVariantType>;
+
 constexpr auto signaturePos = 0;
 constexpr auto handlerObjPos = 1;
 using PropertyChange = std::tuple<std::string, Handler>;
@@ -49,7 +58,9 @@ using PropertyChange = std::tuple<std::string, Handler>;
 constexpr auto groupPos = 0;
 constexpr auto actionPos = 1;
 constexpr auto propChangeListPos = 2;
-using SetSpeedEvent = std::tuple<Group, Action, std::vector<PropertyChange>>;
+using SetSpeedEvent = std::tuple<Group,
+                                 Action,
+                                 std::vector<PropertyChange>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventHandlerPos = 1;

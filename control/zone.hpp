@@ -333,7 +333,7 @@ class Zone
          *
          * @param[in] def - zone definition containing set speed events
          */
-        void initEvents(const ZoneDefinition& def);
+        void initEvent(const SetSpeedEvent& event);
 
         /**
          * @brief Refresh the given property's cached value
