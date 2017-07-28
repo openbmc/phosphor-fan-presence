@@ -329,11 +329,11 @@ class Zone
         std::vector<sdbusplus::server::match::match> _matches;
 
         /**
-         * @brief Initialize all the set speed event properties and actions
+         * @brief Initialize a set speed event properties and actions
          *
-         * @param[in] def - zone definition containing set speed events
+         * @param[in] event - Set speed event
          */
-        void initEvents(const ZoneDefinition& def);
+        void initEvent(const SetSpeedEvent& event);
 
         /**
          * @brief Refresh the given property's cached value

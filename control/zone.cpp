@@ -57,7 +57,11 @@ Zone::Zone(Mode mode,
     // Do not enable set speed events when in init mode
     if (mode != Mode::init)
     {
-        initEvents(def);
+        // Setup signal trigger for set speed events
+        for (auto& event : std::get<setSpeedEventsPos>(def))
+        {
+            initEvent(event);
+        }
         // Start timer for fan speed decreases
         if (!_decTimer.running() && _decInterval != seconds::zero())
         {
@@ -168,42 +172,38 @@ void Zone::decTimerExpired()
     // Decrease timer is restarted since its repeating
 }
 
-void Zone::initEvents(const ZoneDefinition& def)
+void Zone::initEvent(const SetSpeedEvent& event)
 {
-    // Setup signal trigger for set speed events
-    for (auto& event : std::get<setSpeedEventsPos>(def))
+    // Get the current value for each property
+    for (auto& entry : std::get<groupPos>(event))
     {
-        // Get the current value for each property
-        for (auto& entry : std::get<groupPos>(event))
-        {
-            refreshProperty(_bus,
-                            entry.first,
-                            std::get<intfPos>(entry.second),
-                            std::get<propPos>(entry.second));
-        }
-        // Setup signal matches for property change events
-        for (auto& prop : std::get<propChangeListPos>(event))
-        {
-            _signalEvents.emplace_back(
-                    std::make_unique<EventData>(
-                            EventData
-                            {
-                                std::get<groupPos>(event),
-                                std::get<handlerObjPos>(prop),
-                                std::get<actionPos>(event)
-                            }));
-            _matches.emplace_back(
-                    _bus,
-                    std::get<signaturePos>(prop).c_str(),
-                    std::bind(std::mem_fn(&Zone::handleEvent),
-                              this,
-                              std::placeholders::_1,
-                              _signalEvents.back().get()));
-        }
-        // Run action function for initial event state
-        std::get<actionPos>(event)(*this,
-                                   std::get<groupPos>(event));
+        refreshProperty(_bus,
+                        entry.first,
+                        std::get<intfPos>(entry.second),
+                        std::get<propPos>(entry.second));
     }
+    // Setup signal matches for property change events
+    for (auto& prop : std::get<propChangeListPos>(event))
+    {
+        _signalEvents.emplace_back(
+                std::make_unique<EventData>(
+                        EventData
+                        {
+                            std::get<groupPos>(event),
+                            std::get<handlerObjPos>(prop),
+                            std::get<actionPos>(event)
+                        }));
+        _matches.emplace_back(
+                _bus,
+                std::get<signaturePos>(prop).c_str(),
+                std::bind(std::mem_fn(&Zone::handleEvent),
+                          this,
+                          std::placeholders::_1,
+                          _signalEvents.back().get()));
+    }
+    // Run action function for initial event state
+    std::get<actionPos>(event)(*this,
+                               std::get<groupPos>(event));
 }
 
 void Zone::refreshProperty(sdbusplus::bus::bus& bus,
