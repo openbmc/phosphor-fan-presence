@@ -74,18 +74,12 @@ AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
        # Add optional yaml file argument
-       AC_ARG_VAR(FAN_DETECT_YAML_FILE,
-                  [The fan presence detection definition file to use])
        AC_ARG_VAR(PRESENCE_CONFIG,
                   [The fan presence config file.])
 
-       AS_IF([test "x$FAN_DETECT_YAML_FILE" == "x"],
-             [FAN_DETECT_YAML_FILE="\${top_srcdir}/presence/example/fan-detect.yaml"])
        AS_IF([test "x$PRESENCE_CONFIG" == "x"],
              [PRESENCE_CONFIG="\${top_srcdir}/presence/example/example.yaml"])
 
-       AC_DEFINE_UNQUOTED([FAN_DETECT_YAML_FILE], ["$FAN_DETECT_YAML_FILE"],
-                          [The fan presence detection definition file to use])
        AC_DEFINE_UNQUOTED([PRESENCE_CONFIG], ["$PRESENCE_CONFIG"],
                           [The fan presence config file.])
 
