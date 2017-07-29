@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <phosphor-logging/log.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -26,6 +27,7 @@ namespace fan
 namespace presence
 {
 
+using namespace phosphor::logging;
 using namespace std::literals::string_literals;
 
 static const auto tachNamespace = "/xyz/openbmc_project/sensors/fan_tach/"s;
@@ -57,10 +59,23 @@ bool Tach::start()
                 [this, i](auto& msg){ this->propertiesChanged(i, msg);});
 
         // Get an initial tach speed.
-        std::get<int64_t>(s) = util::SDBusPlus::getProperty<int64_t>(
-                tachPath,
-                tachIface,
-                tachProperty);
+        try
+        {
+            std::get<int64_t>(s) = util::SDBusPlus::getProperty<int64_t>(
+                    tachPath,
+                    tachIface,
+                    tachProperty);
+        }
+        catch (std::exception&)
+        {
+            // Assume not spinning.
+
+            std::get<int64_t>(s) = 0;
+            log<level::INFO>(
+                    "Unable to read fan tach sensor.",
+                    entry("SENSOR=%s", tachPath));
+
+        }
     }
 
     // Set the initial state of the sensor.
