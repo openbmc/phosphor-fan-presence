@@ -31,10 +31,10 @@ namespace presence
 
 Gpio::Gpio(
         const std::string& physDevice,
+        const std::string& device,
         unsigned int physPin) :
     currentState(false),
-    evdevfd(open("/dev/input/by-path/platform-gpio-keys-event",
-                 O_RDONLY | O_NONBLOCK)),
+    evdevfd(open(device.c_str(), O_RDONLY | O_NONBLOCK)),
     evdev(evdevpp::evdev::newFromFD(evdevfd())),
     phys(physDevice),
     pin(physPin),
