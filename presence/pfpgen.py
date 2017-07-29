@@ -139,6 +139,7 @@ class Gpio(Sensor, Renderer):
     def __init__(self, *a, **kw):
         self.key = kw.pop('key')
         self.physpath = kw.pop('physpath')
+        self.devpath = kw.pop('devpath')
         kw['name'] = 'gpio-{}'.format(self.key)
         super(Gpio, self).__init__(**kw)
 

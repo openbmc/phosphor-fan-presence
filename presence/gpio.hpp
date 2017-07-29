@@ -41,9 +41,13 @@ class Gpio : public PresenceSensor
          * @brief Construct a gpio sensor.
          *
          * @param[in] physDevice - The physical gpio device path.
+         * @param[in] device - The gpio-keys input device.
          * @param[in] physPin - The physical gpio pin number.
          */
-        Gpio(const std::string& physDevice, unsigned int physPin);
+        Gpio(
+                const std::string& physDevice,
+                const std::string& device,
+                unsigned int physPin);
 
         /**
          * @brief start
