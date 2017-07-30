@@ -49,13 +49,21 @@ Fan::Fan(sdbusplus::bus::bus& bus,
 
     for (auto& s : sensors)
     {
-        _sensors.emplace_back(
-            std::make_unique<TachSensor>(bus,
-                                         *this,
-                                         std::get<sensorNameField>(s),
-                                         std::get<hasTargetField>(s),
-                                         std::get<timeoutField>(def),
-                                         events));
+        try
+        {
+            _sensors.emplace_back(
+                    std::make_unique<TachSensor>(
+                            bus,
+                            *this,
+                            std::get<sensorNameField>(s),
+                            std::get<hasTargetField>(s),
+                            std::get<timeoutField>(def),
+                            events));
+        }
+        catch (InvalidSensorError& e)
+        {
+
+        }
     }
 
     //Start from a known state of functional
