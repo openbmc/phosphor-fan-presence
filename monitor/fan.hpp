@@ -14,6 +14,13 @@ namespace fan
 namespace monitor
 {
 
+/**
+ * @class InvalidSensorError
+ *
+ * An exception type for sensors that don't exist or
+ * are otherwise inaccessible.
+ */
+class InvalidSensorError : public std::exception {};
 
 /**
  * @class Fan

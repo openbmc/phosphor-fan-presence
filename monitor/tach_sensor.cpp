@@ -77,11 +77,21 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
 {
     //Load in starting Target and Input values
-    readProperty(FAN_SENSOR_VALUE_INTF,
-                 FAN_VALUE_PROPERTY,
-                 _name,
-                 _bus,
-                 _tachInput);
+
+    try
+    {
+        // Use getProperty directly to allow a missing sensor object
+        // to abort construction.
+        _tachInput = util::SDBusPlus::getProperty<decltype(_tachInput)>(
+                _bus,
+                _name,
+                FAN_SENSOR_VALUE_INTF,
+                FAN_VALUE_PROPERTY);
+    }
+    catch (std::exception& e)
+    {
+        throw InvalidSensorError();
+    }
 
     if (_hasTarget)
     {
