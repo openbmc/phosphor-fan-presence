@@ -40,19 +40,20 @@ class SDBusPlus
         /** @brief Invoke a method. */
         template <typename ...Args>
         static auto callMethod(
+            sdbusplus::bus::bus& bus,
             const std::string& busName,
             const std::string& path,
             const std::string& interface,
             const std::string& method,
             Args&& ... args)
         {
-            auto reqMsg = getBus().new_method_call(
+            auto reqMsg = bus.new_method_call(
                     busName.c_str(),
                     path.c_str(),
                     interface.c_str(),
                     method.c_str());
             reqMsg.append(std::forward<Args>(args)...);
-            auto respMsg = getBus().call(reqMsg);
+            auto respMsg = bus.call(reqMsg);
 
             if (respMsg.is_method_error())
             {
@@ -68,9 +69,28 @@ class SDBusPlus
             return respMsg;
         }
 
+        /** @brief Invoke a method. */
+        template <typename ...Args>
+        static auto callMethod(
+            const std::string& busName,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& method,
+            Args&& ... args)
+        {
+            return callMethod(
+                    getBus(),
+                    busName,
+                    path,
+                    interface,
+                    method,
+                    std::forward<Args>(args)...);
+        }
+
         /** @brief Invoke a method and read the response. */
         template <typename Ret, typename ...Args>
         static auto callMethodAndRead(
+            sdbusplus::bus::bus& bus,
             const std::string& busName,
             const std::string& path,
             const std::string& interface,
@@ -79,6 +99,7 @@ class SDBusPlus
         {
             sdbusplus::message::message respMsg =
                     callMethod<Args...>(
+                            bus,
                             busName,
                             path,
                             interface,
@@ -89,8 +110,28 @@ class SDBusPlus
             return resp;
         }
 
+        /** @brief Invoke a method and read the response. */
+        template <typename Ret, typename ...Args>
+        static auto callMethodAndRead(
+            const std::string& busName,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& method,
+            Args&& ... args)
+        {
+            return callMethodAndRead<Ret>(
+                    getBus(),
+                    busName,
+                    path,
+                    interface,
+                    method,
+                    std::forward<Args>(args)...);
+        }
+
+
         /** @brief Get service from the mapper. */
         static auto getService(
+            sdbusplus::bus::bus& bus,
             const std::string& path,
             const std::string& interface)
         {
@@ -98,6 +139,7 @@ class SDBusPlus
             using GetObject = std::map<std::string, std::vector<std::string>>;
 
             auto mapperResp = callMethodAndRead<GetObject>(
+                    bus,
                     "xyz.openbmc_project.ObjectMapper"s,
                     "/xyz/openbmc_project/object_mapper"s,
                     "xyz.openbmc_project.ObjectMapper"s,
@@ -117,9 +159,21 @@ class SDBusPlus
             return mapperResp.begin()->first;
         }
 
+        /** @brief Get service from the mapper. */
+        static auto getService(
+            const std::string& path,
+            const std::string& interface)
+        {
+            return getService(
+                    getBus(),
+                    path,
+                    interface);
+        }
+
         /** @brief Get a property with mapper lookup. */
         template <typename Property>
         static auto getProperty(
+            sdbusplus::bus::bus& bus,
             const std::string& path,
             const std::string& interface,
             const std::string& property)
@@ -127,7 +181,8 @@ class SDBusPlus
             using namespace std::literals::string_literals;
 
             auto msg = callMethod(
-                    getService(path, interface),
+                    bus,
+                    getService(bus, path, interface),
                     path,
                     "org.freedesktop.DBus.Properties"s,
                     "Get"s,
@@ -138,9 +193,24 @@ class SDBusPlus
             return value.template get<Property>();
         }
 
+        /** @brief Get a property with mapper lookup. */
+        template <typename Property>
+        static auto getProperty(
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            return getProperty<Property>(
+                    getBus(),
+                    path,
+                    interface,
+                    property);
+        }
+
         /** @brief Set a property with mapper lookup. */
         template <typename Property>
         static void setProperty(
+            sdbusplus::bus::bus& bus,
             const std::string& path,
             const std::string& interface,
             const std::string& property,
@@ -152,13 +222,48 @@ class SDBusPlus
                     std::forward<Property>(value));
 
             callMethod(
-                    getService(path, interface),
+                    bus,
+                    getService(bus, path, interface),
                     path,
                     "org.freedesktop.DBus.Properties"s,
                     "Set"s,
                     interface,
                     property,
                     varValue);
+        }
+
+        /** @brief Set a property with mapper lookup. */
+        template <typename Property>
+        static void setProperty(
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property,
+            Property&& value)
+        {
+            return setProperty(
+                    getBus(),
+                    path,
+                    interface,
+                    property,
+                    std::forward<Property>(value));
+        }
+
+        /** @brief Invoke method with mapper lookup. */
+        template <typename ...Args>
+        static auto lookupAndCallMethod(
+            sdbusplus::bus::bus& bus,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& method,
+            Args&& ... args)
+        {
+            return callMethod(
+                    bus,
+                    getService(bus, path, interface),
+                    path,
+                    interface,
+                    method,
+                    std::forward<Args>(args)...);
         }
 
         /** @brief Invoke method with mapper lookup. */
@@ -169,8 +274,26 @@ class SDBusPlus
             const std::string& method,
             Args&& ... args)
         {
-            return callMethod(
-                    getService(path, interface),
+            return lookupAndCallMethod(
+                    getBus(),
+                    path,
+                    interface,
+                    method,
+                    std::forward<Args>(args)...);
+        }
+
+        /** @brief Invoke method and read with mapper lookup. */
+        template <typename Ret, typename ...Args>
+        static auto lookupCallMethodAndRead(
+            sdbusplus::bus::bus& bus,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& method,
+            Args&& ... args)
+        {
+            return callMethodAndRead(
+                    bus,
+                    getService(bus, path, interface),
                     path,
                     interface,
                     method,
@@ -185,8 +308,8 @@ class SDBusPlus
             const std::string& method,
             Args&& ... args)
         {
-            return callMethodAndRead(
-                    getService(path, interface),
+            return lookupCallMethodAndRead<Ret>(
+                    getBus(),
                     path,
                     interface,
                     method,
