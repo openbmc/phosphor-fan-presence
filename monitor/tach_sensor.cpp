@@ -126,11 +126,8 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
 
 std::string TachSensor::getMatchString(const std::string& interface)
 {
-    return std::string("type='signal',"
-                       "interface='org.freedesktop.DBus.Properties',"
-                       "member='PropertiesChanged',"
-                       "arg0namespace='" + interface + "',"
-                       "path='" + _name + "'");
+    return sdbusplus::bus::match::rules::propertiesChanged(
+            _name, interface);
 }
 
 
