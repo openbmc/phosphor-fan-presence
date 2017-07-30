@@ -122,11 +122,6 @@ class TachSensor
     private:
 
         /**
-         * @brief Returns the service name for reading the sensor
-         */
-        std::string getService();
-
-        /**
          * @brief Returns the match string to use for matching
          *        on a properties changed signal.
          */
