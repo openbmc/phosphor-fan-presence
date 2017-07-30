@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 #include <phosphor-logging/log.hpp>
-#include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/elog-errors.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
 #include "fan.hpp"
+#include "sdbusplus.hpp"
 #include "tach_sensor.hpp"
 #include "../utility.hpp"
 
@@ -27,10 +25,6 @@ namespace fan
 {
 namespace monitor
 {
-
-using namespace phosphor::logging;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                            Error::InternalFailure;
 
 constexpr auto PROPERTY_INTF = "org.freedesktop.DBus.Properties";
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
@@ -46,7 +40,6 @@ constexpr auto FAN_VALUE_PROPERTY = "Value";
  * @param[in] interface - the interface the property is on
  * @param[in] propertName - the name of the property
  * @param[in] path - the dbus path
- * @param[in] service - the dbus service
  * @param[in] bus - the dbus object
  * @param[out] value - filled in with the property value
  */
@@ -54,31 +47,15 @@ template<typename T>
 static void readProperty(const std::string& interface,
                          const std::string& propertyName,
                          const std::string& path,
-                         const std::string& service,
                          sdbusplus::bus::bus& bus,
                          T& value)
 {
-    sdbusplus::message::variant<T> property;
-
     try
     {
-        auto method = bus.new_method_call(service.c_str(),
-                                           path.c_str(),
-                                           PROPERTY_INTF,
-                                           "Get");
-
-        method.append(interface, propertyName);
-
-        auto reply = bus.call(method);
-        if (reply.is_method_error())
-        {
-            log<level::ERR>("Error in property get call",
-                entry("PATH=%s", path.c_str()));
-            elog<InternalFailure>();
-        }
-
-        reply.read(property);
-        value = sdbusplus::message::variant_ns::get<T>(property);
+        value = util::SDBusPlus::getProperty<T>(bus,
+                                                path,
+                                                interface,
+                                                propertyName);
     }
     catch (std::exception& e)
     {
@@ -100,13 +77,10 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     _timeout(timeout),
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
 {
-    auto service = getService();
-
     //Load in starting Target and Input values
     readProperty(FAN_SENSOR_VALUE_INTF,
                  FAN_VALUE_PROPERTY,
                  _name,
-                 service,
                  _bus,
                  _tachInput);
 
@@ -115,7 +89,6 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
         readProperty(FAN_SENSOR_CONTROL_INTF,
                      FAN_TARGET_PROPERTY,
                      _name,
-                     service,
                      _bus,
                      _tachTarget);
     }
