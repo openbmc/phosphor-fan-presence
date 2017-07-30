@@ -26,7 +26,6 @@ namespace fan
 namespace monitor
 {
 
-constexpr auto PROPERTY_INTF = "org.freedesktop.DBus.Properties";
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_SENSOR_CONTROL_INTF = "xyz.openbmc_project.Control.FanSpeed";
 constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
@@ -112,17 +111,6 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
                            this);
     }
 
-}
-
-
-//Can cache this value after openbmc/openbmc#1496 is resolved
-std::string TachSensor::getService()
-{
-    // Use the Value interface since not all sensors implement
-    // the control interface.
-    return phosphor::fan::util::getService(_name,
-                                           FAN_SENSOR_VALUE_INTF,
-                                           _bus);
 }
 
 
