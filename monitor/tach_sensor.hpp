@@ -34,9 +34,11 @@ class TachSensor
 
         TachSensor() = delete;
         TachSensor(const TachSensor&) = delete;
-        TachSensor(TachSensor&&) = default;
+        // TachSensor is not moveable since the this pointer is used as systemd
+        // callback context.
+        TachSensor(TachSensor&&) = delete;
         TachSensor& operator=(const TachSensor&) = delete;
-        TachSensor& operator=(TachSensor&&) = default;
+        TachSensor& operator=(TachSensor&&) = delete;
         ~TachSensor() = default;
 
         /**
