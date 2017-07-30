@@ -130,48 +130,20 @@ class TachSensor
         std::string getMatchString(const std::string& interface);
 
         /**
-         * @brief Callback function for a tach input properties
-         *        changed signal
-         *
-         * @param[in] msg - the dbus message
-         * @param[in] data - user data
-         * @param[in] err - dbus error
-         */
-        static int handleTachChangeSignal(sd_bus_message* msg,
-                                          void* data,
-                                          sd_bus_error* err);
-
-        /**
-         * @brief Callback function for a Target properties
-         *        changed signal
-         *
-         * @param[in] msg - the dbus message
-         * @param[in] data - user data
-         * @param[in] err - dbus error
-         */
-        static int handleTargetChangeSignal(sd_bus_message* msg,
-                                            void* data,
-                                            sd_bus_error* err);
-
-        /**
          * @brief Reads the Target property and stores in _tachTarget.
          *        Also calls Fan::tachChanged().
          *
          * @param[in] msg - the dbus message
-         * @param[in] err - dbus error
          */
-        void handleTargetChange(sdbusplus::message::message& msg,
-                                sd_bus_error* err);
+        void handleTargetChange(sdbusplus::message::message& msg);
 
         /**
          * @brief Reads the Value property and stores in _tachInput.
          *        Also calls Fan::tachChanged().
          *
          * @param[in] msg - the dbus message
-         * @param[in] err - dbus error
          */
-        void handleTachChange(sdbusplus::message::message& msg,
-                              sd_bus_error* err);
+        void handleTachChange(sdbusplus::message::message& msg);
 
 
         /**

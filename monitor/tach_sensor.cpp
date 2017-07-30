@@ -107,8 +107,7 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     tachSignal = std::make_unique<sdbusplus::server::match::match>(
                      _bus,
                      match.c_str(),
-                     handleTachChangeSignal,
-                     this);
+                     [this](auto& msg){ this->handleTachChange(msg); });
 
     if (_hasTarget)
     {
@@ -117,8 +116,7 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
         targetSignal = std::make_unique<sdbusplus::server::match::match>(
                            _bus,
                            match.c_str(),
-                           handleTargetChangeSignal,
-                           this);
+                           [this](auto& msg){ this->handleTargetChange(msg); });
     }
 
 }
@@ -128,26 +126,6 @@ std::string TachSensor::getMatchString(const std::string& interface)
 {
     return sdbusplus::bus::match::rules::propertiesChanged(
             _name, interface);
-}
-
-
-int TachSensor::handleTachChangeSignal(sd_bus_message* msg,
-                                       void* usrData,
-                                       sd_bus_error* err)
-{
-    auto m = sdbusplus::message::message(msg);
-    static_cast<TachSensor*>(usrData)->handleTachChange(m, err);
-    return 0;
-}
-
-
-int TachSensor::handleTargetChangeSignal(sd_bus_message* msg,
-                                         void* usrData,
-                                         sd_bus_error* err)
-{
-    auto m = sdbusplus::message::message(msg);
-    static_cast<TachSensor*>(usrData)->handleTargetChange(m, err);
-    return 0;
 }
 
 
@@ -184,8 +162,7 @@ static void readPropertyFromMessage(sdbusplus::message::message& msg,
 }
 
 
-void TachSensor::handleTargetChange(sdbusplus::message::message& msg,
-                                    sd_bus_error* err)
+void TachSensor::handleTargetChange(sdbusplus::message::message& msg)
 {
     readPropertyFromMessage(msg,
                             FAN_SENSOR_CONTROL_INTF,
@@ -197,8 +174,7 @@ void TachSensor::handleTargetChange(sdbusplus::message::message& msg,
 }
 
 
-void TachSensor::handleTachChange(sdbusplus::message::message& msg,
-                                  sd_bus_error* err)
+void TachSensor::handleTachChange(sdbusplus::message::message& msg)
 {
    readPropertyFromMessage(msg,
                            FAN_SENSOR_VALUE_INTF,
