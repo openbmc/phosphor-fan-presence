@@ -217,6 +217,12 @@ void Zone::initEvent(const SetSpeedEvent& event)
                                std::get<groupPos>(event));
 }
 
+void Zone::removeEvent(const SetSpeedEvent& event)
+{
+    // Do not remove group from cache, only remove from signal events
+    
+}
+
 void Zone::refreshProperty(sdbusplus::bus::bus& bus,
                            const std::string& path,
                            const std::string& iface,
