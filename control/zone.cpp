@@ -175,12 +175,23 @@ void Zone::decTimerExpired()
 void Zone::initEvent(const SetSpeedEvent& event)
 {
     // Get the current value for each property
-    for (auto& entry : std::get<groupPos>(event))
+    for (auto& group : std::get<groupPos>(event))
     {
-        refreshProperty(_bus,
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second));
+        try
+        {
+            refreshProperty(_bus,
+                            group.first,
+                            std::get<intfPos>(group.second),
+                            std::get<propPos>(group.second));
+        }
+        catch (const InternalFailure& ife)
+        {
+            log<level::ERR>(
+                "Unable to find property: ",
+                entry("PATH=%s", group.first.c_str()),
+                entry("INTERFACE=%s", std::get<intfPos>(group.second).c_str()),
+                entry("PROPERTY=%s", std::get<propPos>(group.second).c_str()));
+        }
     }
     // Setup signal matches for property change events
     for (auto& prop : std::get<propChangeListPos>(event))
