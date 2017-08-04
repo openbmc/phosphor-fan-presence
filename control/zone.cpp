@@ -217,6 +217,11 @@ void Zone::initEvent(const SetSpeedEvent& event)
                                std::get<groupPos>(event));
 }
 
+void Zone::removeEvent(const SetSpeedEvent& event)
+{
+    
+}
+
 void Zone::refreshProperty(sdbusplus::bus::bus& bus,
                            const std::string& path,
                            const std::string& iface,
