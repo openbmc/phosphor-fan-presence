@@ -64,7 +64,8 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
         else
         {
             zone.setFullSpeed();
-            // TODO Unsubscribe the event signals when any precondition is false
+            // Unsubscribe the event signals when any precondition is false
+            zone.removeEvent(sse);
         }
     };
 }

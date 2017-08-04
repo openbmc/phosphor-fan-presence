@@ -196,25 +196,55 @@ void Zone::initEvent(const SetSpeedEvent& event)
     // Setup signal matches for property change events
     for (auto& prop : std::get<propChangeListPos>(event))
     {
-        _signalEvents.emplace_back(
-                std::make_unique<EventData>(
-                        EventData
-                        {
-                            std::get<groupPos>(event),
-                            std::get<handlerObjPos>(prop),
-                            std::get<actionPos>(event)
-                        }));
-        _matches.emplace_back(
+        std::unique_ptr<EventData> eventData =
+            std::make_unique<EventData>(
+                EventData
+                {
+                    std::get<groupPos>(event),
+                    std::get<handlerObjPos>(prop),
+                    std::get<actionPos>(event)
+                }
+            );
+        std::unique_ptr<sdbusplus::server::match::match> match =
+            std::make_unique<sdbusplus::server::match::match>(
                 _bus,
                 std::get<signaturePos>(prop).c_str(),
                 std::bind(std::mem_fn(&Zone::handleEvent),
                           this,
                           std::placeholders::_1,
-                          _signalEvents.back().get()));
+                          eventData.get())
+            );
+        _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
     // Run action function for initial event state
     std::get<actionPos>(event)(*this,
                                std::get<groupPos>(event));
+}
+
+void Zone::removeEvent(const SetSpeedEvent& event)
+{
+    // Find the signal event to be removed
+    auto it = std::find_if(
+        _signalEvents.begin(),
+        _signalEvents.end(),
+        [&event](auto const& se)
+        {
+            auto seEventData = *std::get<signalEventDataPos>(se);
+            // TODO Use the action function target for comparison
+            return
+            (
+                std::get<eventGroupPos>(seEventData) ==
+                    std::get<groupPos>(event) &&
+                std::get<eventActionPos>(seEventData).target_type().name() ==
+                    std::get<actionPos>(event).target_type().name()
+            );
+        });
+    if (it != std::end(_signalEvents))
+    {
+        std::get<signalEventDataPos>(*it).reset();
+        std::get<signalMatchPos>(*it).reset();
+        _signalEvents.erase(it);
+    }
 }
 
 void Zone::refreshProperty(sdbusplus::bus::bus& bus,

@@ -3,7 +3,6 @@
 #include <vector>
 #include <algorithm>
 #include <sdbusplus/bus.hpp>
-#include <sdbusplus/server.hpp>
 #include "fan.hpp"
 #include "types.hpp"
 #include "timer.hpp"
@@ -140,6 +139,13 @@ class Zone
          * @param[in] event - Set speed event
          */
         void initEvent(const SetSpeedEvent& event);
+
+        /**
+         * @brief Removes all the set speed event properties and actions
+         *
+         * @param[in] event - Set speed event
+         */
+        void removeEvent(const SetSpeedEvent& event);
 
         /**
          * @brief Get the default floor speed
@@ -342,14 +348,9 @@ class Zone
         std::map<const Group*, bool> _active;
 
         /**
-         * @brief List of signal event arguments
+         * @brief List of signal event arguments and Dbus matches for callbacks
          */
-        std::vector<std::unique_ptr<EventData>> _signalEvents;
-
-        /**
-         * @brief list of Dbus matches for callbacks
-         */
-        std::vector<sdbusplus::server::match::match> _matches;
+        std::vector<SignalEvent> _signalEvents;
 
         /**
          * @brief Refresh the given property's cached value

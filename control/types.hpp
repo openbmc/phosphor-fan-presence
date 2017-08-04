@@ -2,6 +2,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <sdbusplus/server.hpp>
 
 namespace phosphor
 {
@@ -66,6 +67,12 @@ constexpr auto eventGroupPos = 0;
 constexpr auto eventHandlerPos = 1;
 constexpr auto eventActionPos = 2;
 using EventData = std::tuple<Group, Handler, Action>;
+
+constexpr auto signalEventDataPos = 0;
+constexpr auto signalMatchPos = 1;
+using SignalEvent =
+    std::tuple<std::unique_ptr<EventData>,
+               std::unique_ptr<sdbusplus::server::match::match>>;
 
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;
