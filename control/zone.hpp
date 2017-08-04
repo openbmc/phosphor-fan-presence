@@ -119,6 +119,29 @@ class Zone
         };
 
         /**
+         * @brief Get the object's property variant
+         *
+         * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
+         * @param[in] property - Property name
+         *
+         * @return - The property variant
+         */
+        inline auto getPropValueVariant(const std::string& object,
+                                        const std::string& interface,
+                                        const std::string& property)
+        {
+            return _properties.at(object).at(interface).at(property);
+        };
+
+        /**
+         * @brief Initialize a set speed event properties and actions
+         *
+         * @param[in] event - Set speed event
+         */
+        void initEvent(const SetSpeedEvent& event);
+
+        /**
          * @brief Get the default floor speed
          *
          * @return - The defined default floor speed
@@ -327,13 +350,6 @@ class Zone
          * @brief list of Dbus matches for callbacks
          */
         std::vector<sdbusplus::server::match::match> _matches;
-
-        /**
-         * @brief Initialize a set speed event properties and actions
-         *
-         * @param[in] event - Set speed event
-         */
-        void initEvent(const SetSpeedEvent& event);
 
         /**
          * @brief Refresh the given property's cached value

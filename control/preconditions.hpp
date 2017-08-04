@@ -1,5 +1,7 @@
 #pragma once
 
+#include <algorithm>
+
 namespace phosphor
 {
 namespace fan
@@ -31,9 +33,39 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
     return [pg = std::move(pg),
             sse = std::move(sse)](auto& zone, auto& group)
     {
-        // TODO Read/Compare given precondition entries
-        // TODO Only init the event when the precondition(s) are true
-        // TODO Remove the event properties when the precondition(s) are false
+        // Compare given precondition entries
+        size_t precondState = std::count_if(
+            pg.begin(),
+            pg.end(),
+            [&zone](auto const& entry)
+            {
+                try
+                {
+                    return zone.getPropValueVariant(
+                        std::get<pcPathPos>(entry),
+                        std::get<pcIntfPos>(entry),
+                        std::get<pcPropPos>(entry)) ==
+                                std::get<pcValuePos>(entry);
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property variants not equal when not found
+                    return false;
+                }
+            });
+
+        // Update group's fan control active allowed
+        zone.setActiveAllow(&group, (precondState == pg.size()));
+        if (precondState == pg.size())
+        {
+            // Init the event when all the precondition(s) are true
+            zone.initEvent(sse);
+        }
+        else
+        {
+            zone.setFullSpeed();
+            // TODO Unsubscribe the event signals when any precondition is false
+        }
     };
 }
 
