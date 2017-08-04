@@ -142,6 +142,13 @@ class Zone
         void initEvent(const SetSpeedEvent& event);
 
         /**
+         * @brief Removes all the set speed event properties and actions
+         *
+         * @param[in] event - Set speed event
+         */
+        void initEvent(const SetSpeedEvent& event);
+
+        /**
          * @brief Get the default floor speed
          *
          * @return - The defined default floor speed
