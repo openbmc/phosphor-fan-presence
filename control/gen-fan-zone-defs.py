@@ -17,6 +17,7 @@ tmpl = '''/* This is a generated file. */
 #include "functor.hpp"
 #include "actions.hpp"
 #include "handlers.hpp"
+#include "preconditions.hpp"
 
 using namespace phosphor::fan::control;
 using namespace sdbusplus::bus::match::rules;
@@ -66,6 +67,32 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                 },
                 std::vector<SetSpeedEvent>{
                 %for event in zone['events']:
+                    %if ('pc' in event) and \
+                        (event['pc'] is not None):
+                    SetSpeedEvent{
+                        Group{
+                        %for member in event['pc']['pcgrp']:
+                        {
+                            "${member['name']}",
+                            {"${member['interface']}",
+                             "${member['property']}"}
+                        },
+                        %endfor
+                        },
+                        make_action(
+                            precondition::${event['pc']['pcact']['name']}(
+                        %for i, p in enumerate(event['pc']['pcact']['params']):
+                        ${p['type']}${p['open']}
+                        %for j, v in enumerate(p['values']):
+                        %if (j+1) != len(p['values']):
+                            ${v['value']},
+                        %else:
+                            ${v['value']}
+                        %endif
+                        %endfor
+                        ${p['close']},
+                        %endfor
+                    %endif
                     SetSpeedEvent{
                         Group{
                         %for member in event['group']:
@@ -105,6 +132,43 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             },
                         %endfor
                         }
+                    %if ('pc' in event) and (event['pc'] is not None):
+                    }
+                        )),
+                        std::vector<PropertyChange>{
+                        %for s in event['pc']['pcsig']:
+                            PropertyChange{
+                                interfacesAdded("${s['obj_path']}"),
+                                make_handler(objectSignal<${s['type']}>(
+                                    "${s['path']}",
+                                    "${s['interface']}",
+                                    "${s['property']}",
+                                    handler::setProperty<${s['type']}>(
+                                        "${s['path']}",
+                                        "${s['interface']}",
+                                        "${s['property']}"
+                                    )
+                                ))
+                            },
+                            PropertyChange{
+                                interface("org.freedesktop.DBus.Properties") +
+                                member("PropertiesChanged") +
+                                type::signal() +
+                                path("${s['path']}") +
+                                arg0namespace("${s['interface']}"),
+                                make_handler(propertySignal<${s['type']}>(
+                                    "${s['interface']}",
+                                    "${s['property']}",
+                                    handler::setProperty<${s['type']}>(
+                                        "${s['path']}",
+                                        "${s['interface']}",
+                                        "${s['property']}"
+                                    )
+                                ))
+                            },
+                        %endfor
+                        }
+                    %endif
                     },
                 %endfor
                 }
@@ -151,6 +215,70 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
                 continue
 
             event = {}
+            # Add precondition if given
+            if ('precondition' in e) and \
+               (e['precondition'] is not None):
+                precond = {}
+                # Add set speed event precondition group
+                group = []
+                for grp in e['precondition']['groups']:
+                    groups = next(g for g in events_data['groups']
+                                  if g['name'] == grp['name'])
+                    for member in groups['members']:
+                        members = {}
+                        members['obj_path'] = groups['type']
+                        members['name'] = (groups['type'] +
+                                           member)
+                        members['interface'] = grp['interface']
+                        members['property'] = grp['property']['name']
+                        members['type'] = grp['property']['type']
+                        members['value'] = grp['property']['value']
+                        group.append(members)
+                precond['pcgrp'] = group
+
+                # Add set speed event precondition action
+                pc = {}
+                pc['name'] = e['precondition']['name']
+                pcs = next(a for a in events_data['preconditions']
+                           if a['name'] == e['precondition']['name'])
+                params = []
+                for p in pcs['parameters']:
+                    param = {}
+                    if p == 'groups':
+                        param['type'] = "std::vector<PrecondGroup>"
+                        param['open'] = "{"
+                        param['close'] = "}"
+                        values = []
+                        for pcgrp in group:
+                            value = {}
+                            value['value'] = (
+                                "PrecondGroup{\"" +
+                                str(pcgrp['name']) + "\",\"" +
+                                str(pcgrp['interface']) + "\",\"" +
+                                str(pcgrp['property']) + "\"," +
+                                "static_cast<" +
+                                str(pcgrp['type']).lower() + ">" +
+                                "(" + str(pcgrp['value']).lower() + ")}")
+                            values.append(value)
+                        param['values'] = values
+                    params.append(param)
+                pc['params'] = params
+                precond['pcact'] = pc
+
+                # Add precondition property change signal handler
+                signal = []
+                for member in group:
+                    signals = {}
+                    signals['obj_path'] = member['obj_path']
+                    signals['path'] = member['name']
+                    signals['interface'] = member['interface']
+                    signals['property'] = member['property']
+                    signals['type'] = member['type']
+                    signal.append(signals)
+                precond['pcsig'] = signal
+
+                event['pc'] = precond
+
             # Add set speed event group
             group = []
             groups = next(g for g in events_data['groups']
@@ -158,8 +286,7 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
             for member in groups['members']:
                 members = {}
                 members['type'] = groups['type']
-                members['name'] = ("/xyz/openbmc_project/" +
-                                   groups['type'] +
+                members['name'] = (groups['type'] +
                                    member)
                 members['interface'] = e['interface']
                 members['property'] = e['property']['name']
