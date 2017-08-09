@@ -228,11 +228,13 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
     return [speedDelta,
             state = std::forward<T>(state)](auto& zone, auto& group)
     {
+        T singleDelta = 1;
         auto netDelta = zone.getIncSpeedDelta();
         std::for_each(
             group.begin(),
             group.end(),
-            [&zone, &state, &speedDelta, &netDelta](auto const& entry)
+            [&zone, &state, &speedDelta, &singleDelta, &netDelta](
+                auto const& entry)
             {
                 T value = zone.template getPropertyValue<T>(
                         entry.first,
@@ -244,7 +246,7 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
                 {
                     // Increase by at least a single delta
                     // to attempt bringing under 'state'
-                    auto delta = std::max((value - state), 1);
+                    auto delta = std::max((value - state), singleDelta);
                     // Increase is the difference times the given speed delta
                     netDelta = std::max(netDelta, delta * speedDelta);
                 }
