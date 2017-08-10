@@ -114,7 +114,7 @@ class Zone
                                      const std::string& property)
         {
             return sdbusplus::message::variant_ns::get<T>(
-                    _properties[object][interface][property]);
+                    _properties.at(object).at(interface).at(property));
         };
 
         /**

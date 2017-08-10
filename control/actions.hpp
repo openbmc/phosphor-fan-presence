@@ -37,10 +37,18 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
             group.end(),
             [&zone, &state](auto const& entry)
             {
-                return zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second)) == state;
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
             });
         // Update group's fan control active allowed based on action results
         zone.setActiveAllow(&group, !(numAtState >= count));
@@ -71,29 +79,42 @@ auto set_floor_from_average_sensor_value(
         auto speed = zone.getDefFloor();
         if (group.size() != 0)
         {
+            auto count = 0;
             auto sumValue = std::accumulate(
                     group.begin(),
                     group.end(),
                     0,
-                    [&zone](int64_t sum, auto const& entry)
+                    [&zone, &count](int64_t sum, auto const& entry)
                     {
-                        return sum + zone.template getPropertyValue<int64_t>(
-                                entry.first,
-                                std::get<intfPos>(entry.second),
-                                std::get<propPos>(entry.second));
+                        try
+                        {
+                            return sum +
+                                zone.template getPropertyValue<int64_t>(
+                                    entry.first,
+                                    std::get<intfPos>(entry.second),
+                                    std::get<propPos>(entry.second));
+                        }
+                        catch (const std::out_of_range& oore)
+                        {
+                            count++;
+                            return sum;
+                        }
                     });
-            auto avgValue= sumValue / group.size();
-            auto it = std::find_if(
-                val_to_speed.begin(),
-                val_to_speed.end(),
-                [&avgValue](auto const& entry)
-                {
-                    return avgValue < entry.first;
-                }
-            );
-            if (it != std::end(val_to_speed))
+            if ((group.size() - count) > 0)
             {
-                speed = (*it).second;
+                auto avgValue = sumValue / (group.size() - count);
+                auto it = std::find_if(
+                    val_to_speed.begin(),
+                    val_to_speed.end(),
+                    [&avgValue](auto const& entry)
+                    {
+                        return avgValue < entry.first;
+                    }
+                );
+                if (it != std::end(val_to_speed))
+                {
+                    speed = (*it).second;
+                }
             }
         }
         zone.setFloor(speed);
@@ -122,84 +143,97 @@ auto set_ceiling_from_average_sensor_value(
         auto speed = zone.getCeiling();
         if (group.size() != 0)
         {
+            auto count = 0;
             auto sumValue = std::accumulate(
                     group.begin(),
                     group.end(),
                     0,
-                    [&zone](int64_t sum, auto const& entry)
+                    [&zone, &count](int64_t sum, auto const& entry)
                     {
-                        return sum + zone.template getPropertyValue<int64_t>(
-                                entry.first,
-                                std::get<intfPos>(entry.second),
-                                std::get<propPos>(entry.second));
+                        try
+                        {
+                            return sum +
+                                zone.template getPropertyValue<int64_t>(
+                                    entry.first,
+                                    std::get<intfPos>(entry.second),
+                                    std::get<propPos>(entry.second));
+                        }
+                        catch (const std::out_of_range& oore)
+                        {
+                            count++;
+                            return sum;
+                        }
                     });
-            auto avgValue = sumValue / group.size();
-            auto prevValue = zone.swapCeilingKeyValue(avgValue);
-            if (avgValue != prevValue)
-            {// Only check if previous and new values differ
-                if (avgValue < prevValue)
-                {// Value is decreasing from previous
-                    for (auto it = val_to_speed.rbegin();
-                         it != val_to_speed.rend();
-                         ++it)
-                    {
-                        if (it == val_to_speed.rbegin() &&
-                            avgValue >= it->first)
+            if ((group.size() - count) > 0)
+            {
+                auto avgValue = sumValue / (group.size() - count);
+                auto prevValue = zone.swapCeilingKeyValue(avgValue);
+                if (avgValue != prevValue)
+                {// Only check if previous and new values differ
+                    if (avgValue < prevValue)
+                    {// Value is decreasing from previous
+                        for (auto it = val_to_speed.rbegin();
+                             it != val_to_speed.rend();
+                             ++it)
                         {
-                            // Value is at/above last map key,
-                            // set ceiling speed to the last map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        else if (std::next(it, 1) == val_to_speed.rend() &&
-                                 avgValue <= it->first)
-                        {
-                            // Value is at/below first map key,
-                            // set ceiling speed to the first map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        if (avgValue < it->first &&
-                            it->first <= prevValue)
-                        {
-                            // Value decreased & transitioned across a map key,
-                            // update ceiling speed to this map key's value
-                            // when new value is below map's key and the key
-                            // is at/below the previous value
-                            speed = it->second;
+                            if (it == val_to_speed.rbegin() &&
+                                avgValue >= it->first)
+                            {
+                                // Value is at/above last map key,
+                                // set ceiling speed to the last map key's value
+                                speed = it->second;
+                                break;
+                            }
+                            else if (std::next(it, 1) == val_to_speed.rend() &&
+                                     avgValue <= it->first)
+                            {
+                                // Value is at/below first map key,
+                                // set ceiling speed to the first map key's value
+                                speed = it->second;
+                                break;
+                            }
+                            if (avgValue < it->first &&
+                                it->first <= prevValue)
+                            {
+                                // Value decreased & transitioned across a map key,
+                                // update ceiling speed to this map key's value
+                                // when new value is below map's key and the key
+                                // is at/below the previous value
+                                speed = it->second;
+                            }
                         }
                     }
-                }
-                else
-                {// Value is increasing from previous
-                    for (auto it = val_to_speed.begin();
-                         it != val_to_speed.end();
-                         ++it)
-                    {
-                        if (it == val_to_speed.begin() &&
-                            avgValue <= it->first)
+                    else
+                    {// Value is increasing from previous
+                        for (auto it = val_to_speed.begin();
+                             it != val_to_speed.end();
+                             ++it)
                         {
-                            // Value is at/below first map key,
-                            // set ceiling speed to the first map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        else if (std::next(it, 1) == val_to_speed.end() &&
-                                 avgValue >= it->first)
-                        {
-                            // Value is at/above last map key,
-                            // set ceiling speed to the last map key's value
-                            speed = it->second;
-                            break;
-                        }
-                        if (avgValue > it->first &&
-                            it->first >= prevValue)
-                        {
-                            // Value increased & transitioned across a map key,
-                            // update ceiling speed to this map key's value
-                            // when new value is above map's key and the key
-                            // is at/above the previous value
-                            speed = it->second;
+                            if (it == val_to_speed.begin() &&
+                                avgValue <= it->first)
+                            {
+                                // Value is at/below first map key,
+                                // set ceiling speed to the first map key's value
+                                speed = it->second;
+                                break;
+                            }
+                            else if (std::next(it, 1) == val_to_speed.end() &&
+                                     avgValue >= it->first)
+                            {
+                                // Value is at/above last map key,
+                                // set ceiling speed to the last map key's value
+                                speed = it->second;
+                                break;
+                            }
+                            if (avgValue > it->first &&
+                                it->first >= prevValue)
+                            {
+                                // Value increased & transitioned across a map key,
+                                // update ceiling speed to this map key's value
+                                // when new value is above map's key and the key
+                                // is at/above the previous value
+                                speed = it->second;
+                            }
                         }
                     }
                 }
@@ -228,25 +262,35 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
     return [speedDelta,
             state = std::forward<T>(state)](auto& zone, auto& group)
     {
+        T singleDelta = 1;
         auto netDelta = zone.getIncSpeedDelta();
         std::for_each(
             group.begin(),
             group.end(),
-            [&zone, &state, &speedDelta, &netDelta](auto const& entry)
+            [&zone, &state, &speedDelta, &singleDelta, &netDelta](
+                auto const& entry)
             {
-                T value = zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second));
-                // TODO openbmc/phosphor-fan-presence#7 - Support possible
-                // state types for comparison
-                if (value >= state)
+                try
                 {
-                    // Increase by at least a single delta
-                    // to attempt bringing under 'state'
-                    auto delta = std::max((value - state), 1);
-                    // Increase is the difference times the given speed delta
-                    netDelta = std::max(netDelta, delta * speedDelta);
+                    T value = zone.template getPropertyValue<T>(
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second));
+                    // TODO openbmc/phosphor-fan-presence#7 - Support possible
+                    // state types for comparison
+                    if (value >= state)
+                    {
+                        // Increase by at least a single delta
+                        // to attempt bringing under 'state'
+                        auto delta = std::max((value - state), singleDelta);
+                        // Increase is the difference times
+                        // the given speed delta
+                        netDelta = std::max(netDelta, delta * speedDelta);
+                    }
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Property value not found, netDelta unchanged
                 }
             }
         );
@@ -280,25 +324,32 @@ auto set_net_decrease_speed(T&& state, uint64_t speedDelta)
             group.end(),
             [&zone, &state, &speedDelta, &netDelta](auto const& entry)
             {
-                T value = zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second));
-                // TODO openbmc/phosphor-fan-presence#7 - Support possible
-                // state types for comparison
-                if (value < state)
+                try
                 {
-                    if (netDelta == 0)
+                    T value = zone.template getPropertyValue<T>(
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second));
+                    // TODO openbmc/phosphor-fan-presence#7 - Support possible
+                    // state types for comparison
+                    if (value < state)
                     {
-                        netDelta = (state - value) * speedDelta;
+                        if (netDelta == 0)
+                        {
+                            netDelta = (state - value) * speedDelta;
+                        }
+                        else
+                        {
+                            // Decrease is the difference times
+                            // the given speed delta
+                            netDelta = std::min(netDelta,
+                                                (state - value) * speedDelta);
+                        }
                     }
-                    else
-                    {
-                        // Decrease is the difference times
-                        // the given speed delta
-                        netDelta = std::min(netDelta,
-                                            (state - value) * speedDelta);
-                    }
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Property value not found, netDelta unchanged
                 }
             }
         );
