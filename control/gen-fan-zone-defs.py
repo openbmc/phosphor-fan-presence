@@ -115,16 +115,27 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         std::vector<PropertyChange>{
                         %for s in event['signal']:
                             PropertyChange{
-                                interface("org.freedesktop.DBus.Properties") +
-                                member("PropertiesChanged") +
-                                type::signal() +
-                                path("${s['path']}") +
-                                arg0namespace("${s['interface']}"),
+                                interfacesAdded("${s['obj_path']}"),
+                                make_handler(objectSignal<${s['type']}>(
+                                    "${s['path']}",
+                                    "${s['interface']}",
+                                    "${s['property']}",
+                                    handler::setProperty<${s['type']}>(
+                                        "${s['path']}",
+                                        "${s['interface']}",
+                                        "${s['property']}"
+                                    )
+                                ))
+                            },
+                            PropertyChange{
+                                propertiesChanged(
+                                    "${s['path']}",
+                                    "${s['interface']}"),
                                 make_handler(propertySignal<${s['type']}>(
                                     "${s['interface']}",
                                     "${s['property']}",
                                     handler::setProperty<${s['type']}>(
-                                        "${s['member']}",
+                                        "${s['path']}",
                                         "${s['interface']}",
                                         "${s['property']}"
                                     )
@@ -151,11 +162,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 ))
                             },
                             PropertyChange{
-                                interface("org.freedesktop.DBus.Properties") +
-                                member("PropertiesChanged") +
-                                type::signal() +
-                                path("${s['path']}") +
-                                arg0namespace("${s['interface']}"),
+                                propertiesChanged(
+                                    "${s['path']}",
+                                    "${s['interface']}"),
                                 make_handler(propertySignal<${s['type']}>(
                                     "${s['interface']}",
                                     "${s['property']}",
@@ -293,7 +302,7 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
                           if g['name'] == e['group'])
             for member in groups['members']:
                 members = {}
-                members['type'] = groups['type']
+                members['obj_path'] = groups['type']
                 members['name'] = (groups['type'] +
                                    member)
                 members['interface'] = e['interface']
@@ -333,11 +342,11 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
             signal = []
             for path in group:
                 signals = {}
+                signals['obj_path'] = path['obj_path']
                 signals['path'] = path['name']
                 signals['interface'] = e['interface']
                 signals['property'] = e['property']['name']
                 signals['type'] = e['property']['type']
-                signals['member'] = path['name']
                 signal.append(signals)
             event['signal'] = signal
 
