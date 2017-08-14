@@ -259,17 +259,17 @@ auto set_ceiling_from_average_sensor_value(
  * a new target speed with that increase for the zone.
  */
 template <typename T>
-auto set_net_increase_speed(T&& state, uint64_t speedDelta)
+auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
 {
     return [speedDelta,
+            factor = std::forward<T>(factor),
             state = std::forward<T>(state)](auto& zone, auto& group)
     {
-        T singleDelta = 1;
         auto netDelta = zone.getIncSpeedDelta();
         std::for_each(
             group.begin(),
             group.end(),
-            [&zone, &state, &speedDelta, &singleDelta, &netDelta](
+            [&zone, &state, &factor, &speedDelta, &netDelta](
                 auto const& entry)
             {
                 try
@@ -284,10 +284,14 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
                     {
                         // Increase by at least a single delta
                         // to attempt bringing under 'state'
-                        auto delta = std::max((value - state), singleDelta);
+                        auto delta = std::max(
+                            (value - state),
+                            factor);
                         // Increase is the difference times
                         // the given speed delta
-                        netDelta = std::max(netDelta, delta * speedDelta);
+                        netDelta = std::max(
+                            netDelta,
+                            (delta/factor) * speedDelta);
                     }
                 }
                 catch (const std::out_of_range& oore)
@@ -315,16 +319,17 @@ auto set_net_increase_speed(T&& state, uint64_t speedDelta)
  * a new target speed with that decrease for the zone.
  */
 template <typename T>
-auto set_net_decrease_speed(T&& state, uint64_t speedDelta)
+auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
 {
     return [speedDelta,
+            factor = std::forward<T>(factor),
             state = std::forward<T>(state)](auto& zone, auto& group)
     {
         auto netDelta = zone.getDecSpeedDelta();
         std::for_each(
             group.begin(),
             group.end(),
-            [&zone, &state, &speedDelta, &netDelta](auto const& entry)
+            [&zone, &state, &factor, &speedDelta, &netDelta](auto const& entry)
             {
                 try
                 {
@@ -338,14 +343,15 @@ auto set_net_decrease_speed(T&& state, uint64_t speedDelta)
                     {
                         if (netDelta == 0)
                         {
-                            netDelta = (state - value) * speedDelta;
+                            netDelta = ((state - value)/factor) * speedDelta;
                         }
                         else
                         {
                             // Decrease is the difference times
                             // the given speed delta
-                            netDelta = std::min(netDelta,
-                                                (state - value) * speedDelta);
+                            netDelta = std::min(
+                                netDelta,
+                                ((state - value)/factor) * speedDelta);
                         }
                     }
                 }
