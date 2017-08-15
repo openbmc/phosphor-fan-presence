@@ -112,6 +112,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endif
                         %endfor
                         )),
+                        Timer{
+                            ${event['timer']['interval']}
+                        },
                         std::vector<PropertyChange>{
                         %for s in event['signal']:
                             PropertyChange{
@@ -146,6 +149,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                     %if ('pc' in event) and (event['pc'] is not None):
                     }
                         )),
+                        Timer{
+                            ${event['pc']['pctime']['interval']}
+                        },
                         std::vector<PropertyChange>{
                         %for s in event['pc']['pcsig']:
                             PropertyChange{
@@ -264,6 +270,20 @@ def addPrecondition(event, events_data):
         signal.append(signals)
     precond['pcsig'] = signal
 
+    # Add optional action call timer
+    timer = {}
+    interval = "static_cast<std::chrono::seconds>"
+    if ('timer' in event['precondition']) and \
+       (event['precondition']['timer'] is not None):
+        timer['interval'] = (interval +
+                             "(" +
+                             str(event['precondition']['timer']['interval']) +
+                             ")")
+    else:
+        timer['interval'] = (interval +
+                             "(" + str(0) + ")")
+    precond['pctime'] = timer
+
     return precond
 
 
@@ -349,6 +369,18 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
                 signals['type'] = e['property']['type']
                 signal.append(signals)
             event['signal'] = signal
+
+            # Add optional action call timer
+            timer = {}
+            interval = "static_cast<std::chrono::seconds>"
+            if ('timer' in e) and \
+               (e['timer'] is not None):
+                timer['interval'] = (interval +
+                                     "(" + str(e['timer']['interval']) + ")")
+            else:
+                timer['interval'] = (interval +
+                                     "(" + str(0) + ")")
+            event['timer'] = timer
 
             events.append(event)
 

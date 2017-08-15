@@ -3,6 +3,7 @@
 #include <tuple>
 #include <vector>
 #include <sdbusplus/server.hpp>
+#include "timer.hpp"
 
 namespace phosphor
 {
@@ -52,21 +53,29 @@ using PrecondGroup = std::tuple<std::string,
                                 std::string,
                                 PropertyVariantType>;
 
+constexpr auto intervalPos = 0;
+using Timer = std::tuple<std::chrono::seconds>;
+
 constexpr auto signaturePos = 0;
 constexpr auto handlerObjPos = 1;
 using PropertyChange = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
 constexpr auto actionPos = 1;
-constexpr auto propChangeListPos = 2;
+constexpr auto timerPos = 2;
+constexpr auto propChangeListPos = 3;
 using SetSpeedEvent = std::tuple<Group,
                                  Action,
+                                 Timer,
                                  std::vector<PropertyChange>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventHandlerPos = 1;
 constexpr auto eventActionPos = 2;
 using EventData = std::tuple<Group, Handler, Action>;
+
+constexpr auto timerTimerPos = 0;
+using TimerEvent = std::tuple<phosphor::fan::util::Timer>;
 
 constexpr auto signalEventDataPos = 0;
 constexpr auto signalMatchPos = 1;
