@@ -57,22 +57,16 @@ class Zone
 
         /**
          * Sets all fans in the zone to the speed
-         * passed in
+         * passed in when the zone is active
          *
          * @param[in] speed - the fan speed
          */
         void setSpeed(uint64_t speed);
 
         /**
-         * Sets the zone to full speed
+         * Sets the zone to full speed regardless of zone's active state
          */
-        inline void setFullSpeed()
-        {
-            if (_fullSpeed != 0)
-            {
-                setSpeed(_fullSpeed);
-            }
-        }
+        void setFullSpeed();
 
         /**
          * @brief Sets the automatic fan control allowed active state
@@ -359,7 +353,7 @@ class Zone
         /**
          * @brief Map of active fan control allowed by groups
          */
-        std::map<const Group*, bool> _active;
+        std::map<const Group, bool> _active;
 
         /**
          * @brief List of signal event arguments and Dbus matches for callbacks

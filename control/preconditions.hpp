@@ -54,8 +54,6 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
                 }
             });
 
-        // Update group's fan control active allowed
-        zone.setActiveAllow(&group, (precondState == pg.size()));
         if (precondState == pg.size())
         {
             // Init the event when all the precondition(s) are true
@@ -63,10 +61,12 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
         }
         else
         {
-            zone.setFullSpeed();
             // Unsubscribe the event signals when any precondition is false
             zone.removeEvent(sse);
+            zone.setFullSpeed();
         }
+        // Update group's fan control active allowed
+        zone.setActiveAllow(&group, (precondState == pg.size()));
     };
 }
 
