@@ -50,12 +50,12 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
                     return false;
                 }
             });
-        // Update group's fan control active allowed based on action results
-        zone.setActiveAllow(&group, !(numAtState >= count));
         if (numAtState >= count)
         {
             zone.setSpeed(speed);
         }
+        // Update group's fan control active allowed based on action results
+        zone.setActiveAllow(&group, !(numAtState >= count));
     };
 }
 
