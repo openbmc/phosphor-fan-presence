@@ -247,6 +247,15 @@ class Zone
          */
         void decTimerExpired();
 
+        /**
+         * @brief Callback function for event timers that processes the given
+         * action for a group
+         *
+         * @param[in] eventGroup - Group to process action on
+         * @param[in] eventAction - Event action to run
+         */
+        void timerExpired(Group eventGroup, Action eventAction);
+
     private:
 
         /**
@@ -330,6 +339,11 @@ class Zone
         phosphor::fan::util::Timer _decTimer;
 
         /**
+         * Dbus event used on set speed event timers
+         */
+        phosphor::fan::event::EventPtr& _sdEvents;
+
+        /**
          * The vector of fans in this zone
          */
         std::vector<std::unique_ptr<Fan>> _fans;
@@ -351,6 +365,11 @@ class Zone
          * @brief List of signal event arguments and Dbus matches for callbacks
          */
         std::vector<SignalEvent> _signalEvents;
+
+        /**
+         * @brief List of timers for events
+         */
+        std::vector<std::unique_ptr<phosphor::fan::util::Timer>> _timerEvents;
 
         /**
          * @brief Refresh the given property's cached value

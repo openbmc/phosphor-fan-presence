@@ -29,6 +29,7 @@ namespace control
 {
 
 using namespace std::chrono;
+using namespace phosphor::fan;
 using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                              Error::InternalFailure;
@@ -45,7 +46,8 @@ Zone::Zone(Mode mode,
     _incDelay(std::get<incDelayPos>(def)),
     _decInterval(std::get<decIntervalPos>(def)),
     _incTimer(events, [this](){ this->incTimerExpired(); }),
-    _decTimer(events, [this](){ this->decTimerExpired(); })
+    _decTimer(events, [this](){ this->decTimerExpired(); }),
+    _sdEvents(events)
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
@@ -216,6 +218,26 @@ void Zone::initEvent(const SetSpeedEvent& event)
             );
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
+    // Attach a timer to run the action of an event
+    auto eventTimer = std::get<timerPos>(event);
+    if (std::get<intervalPos>(eventTimer) != seconds(0))
+    {
+        std::unique_ptr<util::Timer> timer =
+            std::make_unique<util::Timer>(
+                _sdEvents,
+                [this,
+                 action = &(std::get<actionPos>(event)),
+                 group = &(std::get<groupPos>(event))]()
+                 {
+                     this->timerExpired(*group, *action);
+                 });
+        if (!timer->running())
+        {
+            timer->start(std::get<intervalPos>(eventTimer),
+                         util::Timer::TimerType::repeating);
+        }
+        _timerEvents.emplace_back(std::move(timer));
+    }
     // Run action function for initial event state
     std::get<actionPos>(event)(*this,
                                std::get<groupPos>(event));
@@ -277,6 +299,12 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
         elog<InternalFailure>();
     }
     hostResponseMsg.read(value);
+}
+
+void Zone::timerExpired(Group eventGroup, Action eventAction)
+{
+    // Perform the action
+    eventAction(*this, eventGroup);
 }
 
 void Zone::handleEvent(sdbusplus::message::message& msg,
