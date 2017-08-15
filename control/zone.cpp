@@ -73,18 +73,33 @@ Zone::Zone(Mode mode,
     }
 }
 
-
 void Zone::setSpeed(uint64_t speed)
 {
-    for (auto& fan : _fans)
+    if (_isActive)
     {
-        fan->setSpeed(speed);
+        _targetSpeed = speed;
+        for (auto& fan : _fans)
+        {
+            fan->setSpeed(_targetSpeed);
+        }
+    }
+}
+
+void Zone::setFullSpeed()
+{
+    if (_fullSpeed != 0)
+    {
+        _targetSpeed = _fullSpeed;
+        for (auto& fan : _fans)
+        {
+            fan->setSpeed(_targetSpeed);
+        }
     }
 }
 
 void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
 {
-    _active[group] = isActiveAllow;
+    _active[*(group)] = isActiveAllow;
     if (!isActiveAllow)
     {
         _isActive = false;
@@ -116,19 +131,20 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
     if (targetDelta > _incSpeedDelta &&
         _targetSpeed < _ceilingSpeed)
     {
-        _targetSpeed = (targetDelta - _incSpeedDelta) + _targetSpeed;
+        auto requestTarget = _targetSpeed;
+        requestTarget = (targetDelta - _incSpeedDelta) + requestTarget;
         _incSpeedDelta = targetDelta;
         // Target speed can not go above a defined ceiling speed
-        if (_targetSpeed > _ceilingSpeed)
+        if (requestTarget > _ceilingSpeed)
         {
-            _targetSpeed = _ceilingSpeed;
+            requestTarget = _ceilingSpeed;
         }
         // Cancel current timer countdown
         if (_incTimer.running())
         {
             _incTimer.stop();
         }
-        setSpeed(_targetSpeed);
+        setSpeed(requestTarget);
         // Start timer countdown for fan speed increase
         _incTimer.start(_incDelay,
                         phosphor::fan::util::Timer::TimerType::oneshot);
@@ -157,17 +173,18 @@ void Zone::decTimerExpired()
     // the increase timer is not running (i.e. not in the middle of increasing)
     if (_incSpeedDelta == 0 && !_incTimer.running())
     {
+        auto requestTarget = _targetSpeed;
         // Target speed can not go below the defined floor speed
-        if ((_targetSpeed < _decSpeedDelta) ||
-            (_targetSpeed - _decSpeedDelta < _floorSpeed))
+        if ((requestTarget < _decSpeedDelta) ||
+            (requestTarget - _decSpeedDelta < _floorSpeed))
         {
-            _targetSpeed = _floorSpeed;
+            requestTarget = _floorSpeed;
         }
         else
         {
-            _targetSpeed = _targetSpeed - _decSpeedDelta;
+            requestTarget = requestTarget - _decSpeedDelta;
         }
-        setSpeed(_targetSpeed);
+        setSpeed(requestTarget);
     }
     // Clear decrease delta when timer expires
     _decSpeedDelta = 0;
