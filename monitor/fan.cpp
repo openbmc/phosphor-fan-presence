@@ -37,7 +37,8 @@ constexpr auto OPERATIONAL_STATUS_INTF  =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 
 
-Fan::Fan(sdbusplus::bus::bus& bus,
+Fan::Fan(Mode mode,
+         sdbusplus::bus::bus& bus,
          phosphor::fan::event::EventPtr&  events,
          const FanDefinition& def) :
     _bus(bus),
@@ -45,33 +46,36 @@ Fan::Fan(sdbusplus::bus::bus& bus,
     _deviation(std::get<fanDeviationField>(def)),
     _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def))
 {
-    auto& sensors = std::get<sensorListField>(def);
-
-    for (auto& s : sensors)
-    {
-        try
-        {
-            _sensors.emplace_back(
-                    std::make_unique<TachSensor>(
-                            bus,
-                            *this,
-                            std::get<sensorNameField>(s),
-                            std::get<hasTargetField>(s),
-                            std::get<timeoutField>(def),
-                            events));
-        }
-        catch (InvalidSensorError& e)
-        {
-
-        }
-    }
-
     //Start from a known state of functional
     updateInventory(true);
 
-    //The TachSensors will now have already read the input
-    //and target values, so check them.
-    tachChanged();
+    // Setup tach sensors for monitoring when in monitor mode
+    if (mode != Mode::init)
+    {
+        auto& sensors = std::get<sensorListField>(def);
+        for (auto& s : sensors)
+        {
+            try
+            {
+                _sensors.emplace_back(
+                        std::make_unique<TachSensor>(
+                                bus,
+                                *this,
+                                std::get<sensorNameField>(s),
+                                std::get<hasTargetField>(s),
+                                std::get<timeoutField>(def),
+                                events));
+            }
+            catch (InvalidSensorError& e)
+            {
+
+            }
+        }
+
+        //The TachSensors will now have already read the input
+        //and target values, so check them.
+        tachChanged();
+    }
 }
 
 

@@ -5,6 +5,7 @@ sbin_PROGRAMS = \
 	phosphor-fan-monitor
 
 phosphor_fan_monitor_SOURCES = \
+	argument.cpp \
 	fan.cpp \
 	main.cpp \
 	tach_sensor.cpp
