@@ -16,6 +16,7 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <systemd/sd-daemon.h>
+#include "argument.hpp"
 #include "event.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
@@ -23,12 +24,33 @@
 using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
 
-
-int main()
+int main(int argc, char* argv[])
 {
     auto bus = sdbusplus::bus::new_default();
     sd_event* events = nullptr;
     std::vector<std::unique_ptr<Fan>> fans;
+    phosphor::fan::util::ArgumentParser args(argc, argv);
+
+    if (argc != 2)
+    {
+        args.usage(argv);
+        exit(-1);
+    }
+
+    Mode mode;
+    if (args["init"] == "true")
+    {
+        mode = Mode::init;
+    }
+    else if (args["monitor"] == "true")
+    {
+        mode = Mode::monitor;
+    }
+    else
+    {
+        args.usage(argv);
+        exit(-1);
+    }
 
     auto r = sd_event_default(&events);
     if (r < 0)
@@ -46,23 +68,22 @@ int main()
 
     for (const auto& fanDef : fanDefinitions)
     {
-        fans.emplace_back(std::make_unique<Fan>(bus, eventPtr, fanDef));
+        fans.emplace_back(std::make_unique<Fan>(mode, bus, eventPtr, fanDef));
     }
 
-    //Tell systemd we are initialized
-    r = sd_notify(0, "READY=1");
-    if (r < 1) // 0 = nothing sent, < 0 is a failure
+    if (mode == Mode::init)
     {
-        log<level::ERR>("sd_notify did not send anything",
-                        entry("ERROR=%d", r));
-        return -1;
+        // Fans were initialized to be functional, exit
+        return 0;
     }
-
-    r = sd_event_loop(eventPtr.get());
-    if (r < 0)
+    else
     {
-        log<level::ERR>("Failed call to sd_event_loop",
-                        entry("ERROR=%s", strerror(-r)));
+        r = sd_event_loop(eventPtr.get());
+        if (r < 0)
+        {
+            log<level::ERR>("Failed call to sd_event_loop",
+                            entry("ERROR=%s", strerror(-r)));
+        }
     }
 
     return -1;
