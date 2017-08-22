@@ -15,6 +15,17 @@ namespace monitor
 {
 
 /**
+ * The mode fan monitor will run in:
+ *   - init - only do the initialization steps
+ *   - monitor - run normal control algorithms
+ */
+enum class Mode
+{
+    init,
+    monitor
+};
+
+/**
  * @class InvalidSensorError
  *
  * An exception type for sensors that don't exist or
@@ -79,7 +90,8 @@ class Fan
          * @param events - pointer to sd_event object
          * @param def - the fan definition structure
          */
-        Fan(sdbusplus::bus::bus& bus,
+        Fan(Mode mode,
+            sdbusplus::bus::bus& bus,
             phosphor::fan::event::EventPtr& events,
             const FanDefinition& def);
 
