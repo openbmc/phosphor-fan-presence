@@ -20,6 +20,7 @@
 #include <xyz/openbmc_project/Common/error.hpp>
 #include "zone.hpp"
 #include "utility.hpp"
+#include "sdbusplus.hpp"
 
 namespace phosphor
 {
@@ -31,6 +32,7 @@ namespace control
 using namespace std::chrono;
 using namespace phosphor::fan;
 using namespace phosphor::logging;
+using namespace phosphor::fan::util;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                              Error::InternalFailure;
 
@@ -68,7 +70,7 @@ Zone::Zone(Mode mode,
         if (!_decTimer.running() && _decInterval != seconds::zero())
         {
             _decTimer.start(_decInterval,
-                            phosphor::fan::util::Timer::TimerType::repeating);
+                            Timer::TimerType::repeating);
         }
     }
 }
@@ -147,7 +149,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         setSpeed(requestTarget);
         // Start timer countdown for fan speed increase
         _incTimer.start(_incDelay,
-                        phosphor::fan::util::Timer::TimerType::oneshot);
+                        Timer::TimerType::oneshot);
     }
 }
 
@@ -205,8 +207,8 @@ void Zone::initEvent(const SetSpeedEvent& event)
         }
         catch (const InternalFailure& ife)
         {
-            log<level::ERR>(
-                "Unable to find property: ",
+            log<level::INFO>(
+                "Unable to find property",
                 entry("PATH=%s", group.first.c_str()),
                 entry("INTERFACE=%s", std::get<intfPos>(group.second).c_str()),
                 entry("PROPERTY=%s", std::get<propPos>(group.second).c_str()));
@@ -302,7 +304,7 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
                        const std::string& prop,
                        PropertyVariantType& value)
 {
-    auto serv = phosphor::fan::util::getService(path, iface, bus);
+    auto serv = SDBusPlus::getService(bus, path, iface);
     auto hostCall = bus.new_method_call(serv.c_str(),
                                         path.c_str(),
                                         "org.freedesktop.DBus.Properties",
@@ -312,7 +314,7 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
     auto hostResponseMsg = bus.call(hostCall);
     if (hostResponseMsg.is_method_error())
     {
-        log<level::ERR>("Error in host call response for retrieving property");
+        log<level::INFO>("Host call response error for retrieving property");
         elog<InternalFailure>();
     }
     hostResponseMsg.read(value);
