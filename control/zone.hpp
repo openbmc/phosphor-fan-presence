@@ -243,12 +243,12 @@ class Zone
 
         /**
          * @brief Callback function for event timers that processes the given
-         * action for a group
+         * actions for a group
          *
-         * @param[in] eventGroup - Group to process action on
-         * @param[in] eventAction - Event action to run
+         * @param[in] eventGroup - Group to process actions on
+         * @param[in] eventActions - List of event actions to run
          */
-        void timerExpired(Group eventGroup, Action eventAction);
+        void timerExpired(Group eventGroup, std::vector<Action> eventActions);
 
     private:
 

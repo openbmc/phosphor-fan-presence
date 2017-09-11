@@ -61,18 +61,18 @@ constexpr auto handlerObjPos = 1;
 using PropertyChange = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
-constexpr auto actionPos = 1;
+constexpr auto actionsPos = 1;
 constexpr auto timerPos = 2;
 constexpr auto propChangeListPos = 3;
 using SetSpeedEvent = std::tuple<Group,
-                                 Action,
+                                 std::vector<Action>,
                                  Timer,
                                  std::vector<PropertyChange>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventHandlerPos = 1;
-constexpr auto eventActionPos = 2;
-using EventData = std::tuple<Group, Handler, Action>;
+constexpr auto eventActionsPos = 2;
+using EventData = std::tuple<Group, Handler, std::vector<Action>>;
 
 constexpr auto timerTimerPos = 0;
 using TimerEvent = std::tuple<phosphor::fan::util::Timer>;

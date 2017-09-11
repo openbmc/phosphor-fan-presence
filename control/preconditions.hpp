@@ -28,7 +28,7 @@ namespace precondition
  *     and either subscribe or unsubscribe a set speed event group.
  */
 auto property_states_match(std::vector<PrecondGroup>&& pg,
-                           SetSpeedEvent&& sse)
+                           std::vector<SetSpeedEvent>&& sse)
 {
     return [pg = std::move(pg),
             sse = std::move(sse)](auto& zone, auto& group)
@@ -56,13 +56,25 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
 
         if (precondState == pg.size())
         {
-            // Init the event when all the precondition(s) are true
-            zone.initEvent(sse);
+            // Init the events when all the precondition(s) are true
+            std::for_each(
+                sse.begin(),
+                sse.end(),
+                [&zone](auto const& entry)
+                {
+                    zone.initEvent(entry);
+                });
         }
         else
         {
-            // Unsubscribe the event signals when any precondition is false
-            zone.removeEvent(sse);
+            // Unsubscribe the events' signals when any precondition is false
+            std::for_each(
+                sse.begin(),
+                sse.end(),
+                [&zone](auto const& entry)
+                {
+                    zone.removeEvent(entry);
+                });
             zone.setFullSpeed();
         }
         // Update group's fan control active allowed

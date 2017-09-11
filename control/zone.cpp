@@ -222,7 +222,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
                 {
                     std::get<groupPos>(event),
                     std::get<handlerObjPos>(prop),
-                    std::get<actionPos>(event)
+                    std::get<actionsPos>(event)
                 }
             );
         std::unique_ptr<sdbusplus::server::match::match> match =
@@ -244,7 +244,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
             std::make_unique<util::Timer>(
                 _sdEvents,
                 [this,
-                 action = &(std::get<actionPos>(event)),
+                 action = &(std::get<actionsPos>(event)),
                  group = &(std::get<groupPos>(event))]()
                  {
                      this->timerExpired(*group, *action);
@@ -256,9 +256,15 @@ void Zone::initEvent(const SetSpeedEvent& event)
         }
         _timerEvents.emplace_back(std::move(timer));
     }
-    // Run action function for initial event state
-    std::get<actionPos>(event)(*this,
-                               std::get<groupPos>(event));
+    // Run action functions for initial event state
+    std::for_each(
+        std::get<actionsPos>(event).begin(),
+        std::get<actionsPos>(event).end(),
+        [this, &event](auto const& action)
+        {
+            action(*this,
+                   std::get<groupPos>(event));
+        });
 }
 
 void Zone::removeEvent(const SetSpeedEvent& event)
@@ -270,14 +276,31 @@ void Zone::removeEvent(const SetSpeedEvent& event)
         [&event](auto const& se)
         {
             auto seEventData = *std::get<signalEventDataPos>(se);
-            // TODO Use the action function target for comparison
-            return
-            (
-                std::get<eventGroupPos>(seEventData) ==
-                    std::get<groupPos>(event) &&
-                std::get<eventActionPos>(seEventData).target_type().name() ==
-                    std::get<actionPos>(event).target_type().name()
-            );
+            if (std::get<eventActionsPos>(seEventData).size() !=
+                std::get<actionsPos>(event).size())
+            {
+                return false;
+            }
+            else
+            {
+                // TODO openbmc/openbmc#2328 - Use the action function target
+                // for comparison
+                auto actsEqual = [](auto const& a1,
+                                    auto const& a2)
+                        {
+                            return a1.target_type().name() ==
+                                   a2.target_type().name();
+                        };
+                return
+                (
+                    std::get<eventGroupPos>(seEventData) ==
+                        std::get<groupPos>(event) &&
+                    std::equal(std::get<actionsPos>(event).begin(),
+                               std::get<actionsPos>(event).end(),
+                               std::get<eventActionsPos>(seEventData).begin(),
+                               actsEqual)
+                );
+            }
         });
     if (it != std::end(_signalEvents))
     {
@@ -319,10 +342,15 @@ void Zone::getProperty(sdbusplus::bus::bus& bus,
     hostResponseMsg.read(value);
 }
 
-void Zone::timerExpired(Group eventGroup, Action eventAction)
+void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
 {
-    // Perform the action
-    eventAction(*this, eventGroup);
+    // Perform the actions
+    std::for_each(eventActions.begin(),
+                  eventActions.end(),
+                  [this, &eventGroup](auto const& action)
+                  {
+                      action(*this, eventGroup);
+                  });
 }
 
 void Zone::handleEvent(sdbusplus::message::message& msg,
@@ -330,9 +358,15 @@ void Zone::handleEvent(sdbusplus::message::message& msg,
 {
     // Handle the callback
     std::get<eventHandlerPos>(*eventData)(_bus, msg, *this);
-    // Perform the action
-    std::get<eventActionPos>(*eventData)(*this,
-                                         std::get<eventGroupPos>(*eventData));
+    // Perform the actions
+    std::for_each(
+        std::get<eventActionsPos>(*eventData).begin(),
+        std::get<eventActionsPos>(*eventData).end(),
+        [this, &eventData](auto const& action)
+        {
+            action(*this,
+                   std::get<eventGroupPos>(*eventData));
+        });
 }
 
 }
