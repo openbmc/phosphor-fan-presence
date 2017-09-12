@@ -11,7 +11,70 @@ import yaml
 from argparse import ArgumentParser
 from mako.template import Template
 
-tmpl = '''/* This is a generated file. */
+tmpl = '''
+<%!
+def indent(str, depth):
+    return ''.join(4*' '*depth+line for line in str.splitlines(True))
+%>
+<%def name="genSSE(event)" buffered="True">
+Group{
+%for member in event['group']:
+{
+    "${member['name']}",
+    {"${member['interface']}",
+     "${member['property']}"}
+},
+%endfor
+},
+std::vector<Action>{
+%for a in event['action']:
+make_action(action::${a['name']}(
+%for i, p in enumerate(a['parameters']):
+%if (i+1) != len(a['parameters']):
+    static_cast<${p['type']}>(${p['value']}),
+%else:
+    static_cast<${p['type']}>(${p['value']})
+%endif
+%endfor
+)),
+%endfor
+},
+Timer{
+    ${event['timer']['interval']}
+},
+std::vector<PropertyChange>{
+%for s in event['signal']:
+    PropertyChange{
+        interfacesAdded("${s['obj_path']}"),
+        make_handler(objectSignal<${s['type']}>(
+            "${s['path']}",
+            "${s['interface']}",
+            "${s['property']}",
+            handler::setProperty<${s['type']}>(
+                "${s['path']}",
+                "${s['interface']}",
+                "${s['property']}"
+            )
+        ))
+    },
+    PropertyChange{
+        propertiesChanged(
+            "${s['path']}",
+            "${s['interface']}"),
+        make_handler(propertySignal<${s['type']}>(
+            "${s['interface']}",
+            "${s['property']}",
+            handler::setProperty<${s['type']}>(
+                "${s['path']}",
+                "${s['interface']}",
+                "${s['property']}"
+            )
+        ))
+    },
+%endfor
+}
+</%def>
+/* This is a generated file. */
 #include <sdbusplus/bus.hpp>
 #include "manager.hpp"
 #include "functor.hpp"
@@ -79,9 +142,11 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         },
                         %endfor
                         },
+                        std::vector<Action>{
+                        %for i, a in enumerate(event['pc']['pcact']):
                         make_action(
-                            precondition::${event['pc']['pcact']['name']}(
-                        %for i, p in enumerate(event['pc']['pcact']['params']):
+                            precondition::${a['name']}(
+                        %for p in a['params']:
                         ${p['type']}${p['open']}
                         %for j, v in enumerate(p['values']):
                         %if (j+1) != len(p['values']):
@@ -92,63 +157,24 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endfor
                         ${p['close']},
                         %endfor
-                    %endif
-                    SetSpeedEvent{
-                        Group{
-                        %for member in event['group']:
-                        {
-                            "${member['name']}",
-                            {"${member['interface']}",
-                             "${member['property']}"}
-                        },
-                        %endfor
-                        },
-                        make_action(action::${event['action']['name']}(
-                        %for i, p in enumerate(event['action']['parameters']):
-                        %if (i+1) != len(event['action']['parameters']):
-                            static_cast<${p['type']}>(${p['value']}),
-                        %else:
-                            static_cast<${p['type']}>(${p['value']})
+                        %if (i+1) != len(event['pc']['pcact']):
+                        )),
                         %endif
                         %endfor
-                        )),
-                        Timer{
-                            ${event['timer']['interval']}
-                        },
-                        std::vector<PropertyChange>{
-                        %for s in event['signal']:
-                            PropertyChange{
-                                interfacesAdded("${s['obj_path']}"),
-                                make_handler(objectSignal<${s['type']}>(
-                                    "${s['path']}",
-                                    "${s['interface']}",
-                                    "${s['property']}",
-                                    handler::setProperty<${s['type']}>(
-                                        "${s['path']}",
-                                        "${s['interface']}",
-                                        "${s['property']}"
-                                    )
-                                ))
-                            },
-                            PropertyChange{
-                                propertiesChanged(
-                                    "${s['path']}",
-                                    "${s['interface']}"),
-                                make_handler(propertySignal<${s['type']}>(
-                                    "${s['interface']}",
-                                    "${s['property']}",
-                                    handler::setProperty<${s['type']}>(
-                                        "${s['path']}",
-                                        "${s['interface']}",
-                                        "${s['property']}"
-                                    )
-                                ))
-                            },
-                        %endfor
-                        }
+                    std::vector<SetSpeedEvent>{
+                    %for pcevt in event['pc']['pcevts']:
+                    SetSpeedEvent{\
+                    ${indent(genSSE(event=pcevt), 6)}\
+                    },
+                    %endfor
+                    %else:
+                    SetSpeedEvent{\
+                    ${indent(genSSE(event=event), 6)}
+                    %endif
                     %if ('pc' in event) and (event['pc'] is not None):
                     }
                         )),
+                        },
                         Timer{
                             ${event['pc']['pctime']['interval']}
                         },
@@ -206,7 +232,104 @@ def convertToMap(listOfDict):
     return listOfDict
 
 
-def addPrecondition(event, events_data):
+def getEvent(zone_num, zone_conditions, e, events_data):
+    """
+    Parses the sections of an event and populates the properties
+    that construct an event within the generated source.
+    """
+    event = {}
+    # Zone numbers are optional in the events yaml but skip if this
+    # zone's zone number is not in the event's zone numbers
+    if all('zones' in z and
+           z['zones'] is not None and
+           zone_num not in z['zones']
+           for z in e['zone_conditions']):
+        return
+
+    # Zone conditions are optional in the events yaml but skip
+    # if this event's condition is not in this zone's conditions
+    if all('name' in z and z['name'] is not None and
+           not any(c['name'] == z['name'] for c in zone_conditions)
+           for z in e['zone_conditions']):
+        return
+
+    # Add set speed event group
+    group = []
+    groups = next(g for g in events_data['groups']
+                  if g['name'] == e['group'])
+    for member in groups['members']:
+        members = {}
+        members['obj_path'] = groups['type']
+        members['name'] = (groups['type'] +
+                           member)
+        members['interface'] = e['interface']
+        members['property'] = e['property']['name']
+        group.append(members)
+    event['group'] = group
+
+    # Add set speed actions and function parameters
+    action = []
+    for eActions in e['actions']:
+        actions = {}
+        eAction = next(a for a in events_data['actions']
+                       if a['name'] == eActions['name'])
+        actions['name'] = eAction['name']
+        params = []
+        for p in eAction['parameters']:
+            param = {}
+            if type(eActions[p]) is not dict:
+                if p == 'property':
+                    param['value'] = str(eActions[p]).lower()
+                    param['type'] = str(
+                        e['property']['type']).lower()
+                else:
+                    # Default type to 'size_t' when not given
+                    param['value'] = str(eActions[p]).lower()
+                    param['type'] = 'size_t'
+                params.append(param)
+            else:
+                param['type'] = str(eActions[p]['type']).lower()
+                if p != 'map':
+                    param['value'] = str(
+                        eActions[p]['value']).lower()
+                else:
+                    emap = convertToMap(str(eActions[p]['value']))
+                    param['value'] = param['type'] + emap
+                params.append(param)
+        actions['parameters'] = params
+        action.append(actions)
+    event['action'] = action
+
+    # Add property change signal handler
+    signal = []
+    for path in group:
+        signals = {}
+        signals['obj_path'] = path['obj_path']
+        signals['path'] = path['name']
+        signals['interface'] = e['interface']
+        signals['property'] = e['property']['name']
+        signals['type'] = e['property']['type']
+        signal.append(signals)
+    event['signal'] = signal
+
+    # Add optional action call timer
+    timer = {}
+    interval = "static_cast<std::chrono::seconds>"
+    if ('timer' in e) and \
+       (e['timer'] is not None):
+        timer['interval'] = (interval +
+                             "(" +
+                             str(e['timer']['interval']) +
+                             ")")
+    else:
+        timer['interval'] = (interval +
+                             "(" + str(0) + ")")
+    event['timer'] = timer
+
+    return event
+
+
+def addPrecondition(zNum, zCond, event, events_data):
     """
     Parses the precondition section of an event and populates the necessary
     structures to generate a precondition for a set speed event.
@@ -229,13 +352,14 @@ def addPrecondition(event, events_data):
             group.append(members)
     precond['pcgrp'] = group
 
-    # Add set speed event precondition action
-    pc = {}
-    pc['name'] = event['precondition']['name']
-    pcs = next(p for p in events_data['preconditions']
+    # Add set speed event precondition actions
+    pc = []
+    pcs = {}
+    pcs['name'] = event['precondition']['name']
+    epc = next(p for p in events_data['preconditions']
                if p['name'] == event['precondition']['name'])
     params = []
-    for p in pcs['parameters']:
+    for p in epc['parameters']:
         param = {}
         if p == 'groups':
             param['type'] = "std::vector<PrecondGroup>"
@@ -255,8 +379,17 @@ def addPrecondition(event, events_data):
                 values.append(value)
             param['values'] = values
         params.append(param)
-    pc['params'] = params
+    pcs['params'] = params
+    pc.append(pcs)
     precond['pcact'] = pc
+
+    pcevents = []
+    for pce in event['precondition']['events']:
+        pcevent = getEvent(zNum, zCond, pce, events_data)
+        if not pcevent:
+            continue
+        pcevents.append(pcevent)
+    precond['pcevts'] = pcevents
 
     # Add precondition property change signal handler
     signal = []
@@ -296,92 +429,18 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
 
     if 'events' in events_data:
         for e in events_data['events']:
-
-            # Zone numbers are optional in the events yaml but skip if this
-            # zone's zone number is not in the event's zone numbers
-            if all('zones' in z and z['zones'] is not None and
-                   zone_num not in z['zones'] for z in e['zone_conditions']):
-                continue
-
-            # Zone conditions are optional in the events yaml but skip if this
-            # event's condition is not in this zone's conditions
-            if all('name' in z and z['name'] is not None and
-                   not any(c['name'] == z['name'] for c in zone_conditions)
-                   for z in e['zone_conditions']):
-                continue
-
             event = {}
             # Add precondition if given
             if ('precondition' in e) and \
                (e['precondition'] is not None):
-                event['pc'] = addPrecondition(e, events_data)
-
-            # Add set speed event group
-            group = []
-            groups = next(g for g in events_data['groups']
-                          if g['name'] == e['group'])
-            for member in groups['members']:
-                members = {}
-                members['obj_path'] = groups['type']
-                members['name'] = (groups['type'] +
-                                   member)
-                members['interface'] = e['interface']
-                members['property'] = e['property']['name']
-                group.append(members)
-            event['group'] = group
-
-            # Add set speed action and function parameters
-            action = {}
-            actions = next(a for a in events_data['actions']
-                           if a['name'] == e['action']['name'])
-            action['name'] = actions['name']
-            params = []
-            for p in actions['parameters']:
-                param = {}
-                if type(e['action'][p]) is not dict:
-                    if p == 'property':
-                        param['value'] = str(e['action'][p]).lower()
-                        param['type'] = str(e['property']['type']).lower()
-                    else:
-                        # Default type to 'size_t' when not given
-                        param['value'] = str(e['action'][p]).lower()
-                        param['type'] = 'size_t'
-                    params.append(param)
-                else:
-                    param['type'] = str(e['action'][p]['type']).lower()
-                    if p != 'map':
-                        param['value'] = str(e['action'][p]['value']).lower()
-                    else:
-                        emap = convertToMap(str(e['action'][p]['value']))
-                        param['value'] = param['type'] + emap
-                    params.append(param)
-            action['parameters'] = params
-            event['action'] = action
-
-            # Add property change signal handler
-            signal = []
-            for path in group:
-                signals = {}
-                signals['obj_path'] = path['obj_path']
-                signals['path'] = path['name']
-                signals['interface'] = e['interface']
-                signals['property'] = e['property']['name']
-                signals['type'] = e['property']['type']
-                signal.append(signals)
-            event['signal'] = signal
-
-            # Add optional action call timer
-            timer = {}
-            interval = "static_cast<std::chrono::seconds>"
-            if ('timer' in e) and \
-               (e['timer'] is not None):
-                timer['interval'] = (interval +
-                                     "(" + str(e['timer']['interval']) + ")")
+                event['pc'] = addPrecondition(zone_num,
+                                              zone_conditions,
+                                              e,
+                                              events_data)
             else:
-                timer['interval'] = (interval +
-                                     "(" + str(0) + ")")
-            event['timer'] = timer
-
+                event = getEvent(zone_num, zone_conditions, e, events_data)
+                if not event:
+                    continue
             events.append(event)
 
     return events
