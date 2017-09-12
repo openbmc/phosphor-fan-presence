@@ -48,6 +48,21 @@
 #      type: /org/open_power/control
 #      members:
 #          - /occ0
+#    - name: zone0_regulators
+#      description: Group of regulator temperature sensors for zone 0
+#      type: /xyz/openbmc_project/sensors
+#      members:
+#          - /temperature/p0_vdd_temp
+#          - /temperature/p1_vdd_temp
+#    - name: zone0_dimms
+#      description: Group of dimm temperature sensors for zone 0
+#      type: /xyz/openbmc_project/sensors
+#      members:
+#          - /temperature/dimm0_temp
+#          - /temperature/dimm1_temp
+#          - /temperature/dimm2_temp
+#          - /temperature/dimm3_temp
+#          - /temperature/dimm4_temp
 #
 #preconditions:
 #    - name: property_states_match
@@ -68,6 +83,26 @@
 #      description: Set floor speed from first entry with average less than key
 #      parameters:
 #          - map
+#    - name: set_ceiling_from_average_sensor_value
+#      description: Set ceiling speed based on key transition values with average
+#      parameters:
+#          - map
+#    - name: set_net_increase_speed
+#      description: >
+#          Set the speed increase delta based on the delta increase
+#          size times the given value and property's value difference
+#      parameters:
+#          - property
+#          - factor
+#          - delta
+#    - name: set_net_decrease_speed
+#      description: >
+#          Set the speed decrease delta based on the delta decrease
+#          size times the given value and property's value difference
+#      parameters:
+#          - property
+#          - factor
+#          - delta
 #
 #events:
 #    - name: missing_before_high_speed
@@ -80,14 +115,14 @@
 #      property:
 #          name: Present
 #          type: bool
-#      action:
-#          name: count_state_before_speed
-#          count: 1
-#          property: false
-#          speed:
-#              value: 10500
-#              type: uint64_t
-#    - name: update_air_cooled_floor_speed_based_on_ambient
+#      actions:
+#          - name: count_state_before_speed
+#            count: 1
+#            property: false
+#            speed:
+#                value: 10500
+#                type: uint64_t
+#    - name: set_air_cooled_speed_boundaries_based_on_ambient
 #      zone_conditions:
 #          - name: air_cooled_chassis
 #            zones:
@@ -97,16 +132,22 @@
 #      property:
 #          name: Value
 #          type: int64_t
-#      action:
-#          name: set_floor_from_average_sensor_value
-#          map:
-#              value:
-#                  - 25000: 3500
-#                  - 30000: 4600
-#                  - 35000: 5200
-#                  - 40000: 5800
-#              type: std::map<int64_t, uint64_t>
-#    - name: update_water_cooled_floor_speed_based_on_ambient
+#      actions:
+#          - name: set_floor_from_average_sensor_value
+#            map:
+#                value:
+#                    - 27000: 3500
+#                    - 32000: 4600
+#                    - 37000: 5200
+#                    - 40000: 5800
+#                type: std::map<int64_t, uint64_t>
+#          - name: set_ceiling_from_average_sensor_value
+#            map:
+#                value:
+#                    - 25000: 7200
+#                    - 27000: 10500
+#                type: std::map<int64_t, uint64_t>
+#    - name: set_water_cooled_speed_boundaries_based_on_ambient
 #      zone_conditions:
 #          - name: water_and_air_cooled_chassis
 #            zones:
@@ -116,16 +157,22 @@
 #      property:
 #          name: Value
 #          type: int64_t
-#      action:
-#          name: set_floor_from_average_sensor_value
-#          map:
-#              value:
-#                  - 25000: 2500
-#                  - 30000: 3600
-#                  - 35000: 4200
-#                  - 40000: 4800
-#              type: std::map<int64_t, uint64_t>
-#    - name: update_ceiling_speed_based_on_ambient
+#      actions:
+#          - name: set_floor_from_average_sensor_value
+#            map:
+#                value:
+#                    - 27000: 3000
+#                    - 32000: 4300
+#                    - 37000: 5000
+#                    - 40000: 5800
+#                type: std::map<int64_t, uint64_t>
+#          - name: set_ceiling_from_average_sensor_value
+#            map:
+#                value:
+#                    - 25000: 7200
+#                    - 27000: 10500
+#                type: std::map<int64_t, uint64_t>
+#    - name: speed_changes_based_on_regulator_temps
 #      zone_conditions:
 #          - name: air_cooled_chassis
 #            zones:
@@ -133,6 +180,31 @@
 #          - name: water_and_air_cooled_chassis
 #            zones:
 #                - 0
+#      group: zone0_regulators
+#      interface: xyz.openbmc_project.Sensor.Value
+#      property:
+#          name: Value
+#          type: int64_t
+#      actions:
+#          - name: set_net_increase_speed
+#            property: 85000
+#            factor:
+#                value: 1000
+#                type: int64_t
+#            delta:
+#                value: 400
+#                type: uint64_t
+#          - name: set_net_decrease_speed
+#            property: 82000
+#            factor:
+#                value: 1000
+#                type: int64_t
+#            delta:
+#                value: 40
+#                type: uint64_t
+#      timer:
+#          interval: 5
+#    - name: occ_active_speed_changes
 #      precondition:
 #          name: property_states_match
 #          groups:
@@ -142,15 +214,42 @@
 #                    name: OccActive
 #                    type: bool
 #                    value: true
-#      group: zone0_ambient
-#      interface: xyz.openbmc_project.Sensor.Value
-#      property:
-#          name: Value
-#          type: int64_t
-#      action:
-#          name: set_ceiling_from_average_sensor_value
-#          map:
-#              value:
-#                  - 25000: 7200
-#                  - 27000: 10500
-#              type: std::map<int64_t, uint64_t>
+#              - name: occ1_object
+#                interface: org.open_power.OCC.Status
+#                property:
+#                    name: OccActive
+#                    type: bool
+#                    value: true
+#          events:
+#              - name: speed_changes_based_on_dimm_temps
+#                zone_conditions:
+#                    - name: air_cooled_chassis
+#                      zones:
+#                          - 0
+#                    - name: water_and_air_cooled_chassis
+#                      zones:
+#                          - 0
+#                group: zone0_dimms
+#                interface: xyz.openbmc_project.Sensor.Value
+#                property:
+#                    name: Value
+#                    type: int64_t
+#                actions:
+#                    - name: set_net_increase_speed
+#                      property: 64000
+#                      factor:
+#                          value: 1000
+#                          type: int64_t
+#                      delta:
+#                          value: 200
+#                          type: uint64_t
+#                    - name: set_net_decrease_speed
+#                      property: 61000
+#                      factor:
+#                          value: 1000
+#                          type: int64_t
+#                      delta:
+#                          value: 40
+#                          type: uint64_t
+#                timer:
+#                    interval: 5
