@@ -132,7 +132,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
     if (targetDelta > _incSpeedDelta &&
         _targetSpeed < _ceilingSpeed)
     {
-        auto requestTarget = _targetSpeed;
+        auto requestTarget = getRequestSpeedBase();
         requestTarget = (targetDelta - _incSpeedDelta) + requestTarget;
         _incSpeedDelta = targetDelta;
         // Target speed can not go above a defined ceiling speed
@@ -174,7 +174,7 @@ void Zone::decTimerExpired()
     // the increase timer is not running (i.e. not in the middle of increasing)
     if (_incSpeedDelta == 0 && !_incTimer.running())
     {
-        auto requestTarget = _targetSpeed;
+        auto requestTarget = getRequestSpeedBase();
         // Target speed can not go below the defined floor speed
         if ((requestTarget < _decSpeedDelta) ||
             (requestTarget - _decSpeedDelta < _floorSpeed))
