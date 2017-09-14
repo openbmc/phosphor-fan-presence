@@ -382,6 +382,17 @@ class Zone
         std::vector<std::unique_ptr<phosphor::fan::util::Timer>> _timerEvents;
 
         /**
+         * @brief Get the request speed base if defined, otherwise the
+         * the current target speed is returned
+         *
+         * @return - The request speed base or current target speed
+         */
+        inline auto& getRequestSpeedBase()
+        {
+            return (_requestSpeedBase != 0) ? _requestSpeedBase : _targetSpeed;
+        };
+
+        /**
          * @brief Refresh the given property's cached value
          *
          * @param[in] bus - the bus to use
