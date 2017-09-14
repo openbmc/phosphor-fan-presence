@@ -214,6 +214,17 @@ class Zone
         void setFloor(uint64_t speed);
 
         /**
+         * @brief Set the requested speed base to be used as the speed to
+         * base a new requested speed target from
+         *
+         * @param[in] speedBase - Base speed value to use
+         */
+        inline void setRequestSpeedBase(uint64_t speedBase)
+        {
+            _requestSpeedBase = speedBase;
+        };
+
+        /**
          * @brief Calculate the requested target speed from the given delta
          * and increase the fan speeds, not going above the ceiling.
          *
@@ -311,6 +322,11 @@ class Zone
          * Speed decrease delta
          */
         uint64_t _decSpeedDelta = 0;
+
+        /**
+         * Requested speed base
+         */
+        uint64_t _requestSpeedBase = 0;
 
         /**
          * Speed increase delay in seconds
