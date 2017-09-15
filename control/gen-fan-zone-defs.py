@@ -28,15 +28,19 @@ Group{
 },
 std::vector<Action>{
 %for a in event['action']:
+%if len(a['parameters']) != 0:
 make_action(action::${a['name']}(
+%else:
+make_action(action::${a['name']}
+%endif
 %for i, p in enumerate(a['parameters']):
 %if (i+1) != len(a['parameters']):
     static_cast<${p['type']}>(${p['value']}),
 %else:
-    static_cast<${p['type']}>(${p['value']})
+    static_cast<${p['type']}>(${p['value']}))
 %endif
 %endfor
-)),
+),
 %endfor
 },
 Timer{
@@ -144,8 +148,13 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         },
                         std::vector<Action>{
                         %for i, a in enumerate(event['pc']['pcact']):
+                        %if len(a['params']) != 0:
                         make_action(
                             precondition::${a['name']}(
+                        %else:
+                        make_action(
+                            precondition::${a['name']}
+                        %endif
                         %for p in a['params']:
                         ${p['type']}${p['open']}
                         %for j, v in enumerate(p['values']):
@@ -158,7 +167,11 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         ${p['close']},
                         %endfor
                         %if (i+1) != len(event['pc']['pcact']):
+                        %if len(a['params']) != 0:
                         )),
+                        %else:
+                        ),
+                        %endif
                         %endif
                         %endfor
                     std::vector<SetSpeedEvent>{
@@ -173,7 +186,11 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                     %endif
                     %if ('pc' in event) and (event['pc'] is not None):
                     }
+                        %if len(event['pc']['pcact'][-1]['params']) != 0:
                         )),
+                        %else:
+                        ),
+                        %endif
                         },
                         Timer{
                             ${event['pc']['pctime']['interval']}
@@ -275,27 +292,29 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                        if a['name'] == eActions['name'])
         actions['name'] = eAction['name']
         params = []
-        for p in eAction['parameters']:
-            param = {}
-            if type(eActions[p]) is not dict:
-                if p == 'property':
-                    param['value'] = str(eActions[p]).lower()
-                    param['type'] = str(
-                        e['property']['type']).lower()
+        if ('parameters' in eAction) and \
+           (eAction['parameters'] is not None):
+            for p in eAction['parameters']:
+                param = {}
+                if type(eActions[p]) is not dict:
+                    if p == 'property':
+                        param['value'] = str(eActions[p]).lower()
+                        param['type'] = str(
+                            e['property']['type']).lower()
+                    else:
+                        # Default type to 'size_t' when not given
+                        param['value'] = str(eActions[p]).lower()
+                        param['type'] = 'size_t'
+                    params.append(param)
                 else:
-                    # Default type to 'size_t' when not given
-                    param['value'] = str(eActions[p]).lower()
-                    param['type'] = 'size_t'
-                params.append(param)
-            else:
-                param['type'] = str(eActions[p]['type']).lower()
-                if p != 'map':
-                    param['value'] = str(
-                        eActions[p]['value']).lower()
-                else:
-                    emap = convertToMap(str(eActions[p]['value']))
-                    param['value'] = param['type'] + emap
-                params.append(param)
+                    param['type'] = str(eActions[p]['type']).lower()
+                    if p != 'map':
+                        param['value'] = str(
+                            eActions[p]['value']).lower()
+                    else:
+                        emap = convertToMap(str(eActions[p]['value']))
+                        param['value'] = param['type'] + emap
+                    params.append(param)
         actions['parameters'] = params
         action.append(actions)
     event['action'] = action
