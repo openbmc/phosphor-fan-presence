@@ -13,6 +13,46 @@ namespace action
 {
 
 /**
+ * @brief An action to set the request speed base
+ * @details A new target speed is determined using a speed delta being added
+ * or subtracted, for increases or decrease respectively, from a base speed.
+ * This base speed defaults to be the current target speed or is set to a
+ * different base speed(i.e. the fans' tach feedback speed) to request a new
+ * target from.
+ *
+ * @return Lambda function
+ *     A lambda function to set the request speed base of a zone to the max
+ *     value of a group.
+ */
+auto set_request_speed_base_with_max()
+{
+    return [](auto& zone, auto& group)
+    {
+        int64_t base = 0;
+        std::for_each(
+            group.begin(),
+            group.end(),
+            [&zone, &base](auto const& entry)
+            {
+                try
+                {
+                    auto value = zone.template getPropertyValue<int64_t>(
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second));
+                    base = std::max(base, value);
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Property value not found, base request speed unchanged
+                }
+            });
+        // A request speed base of 0 defaults to current target speed
+        zone.setRequestSpeedBase(base);
+    };
+}
+
+/**
  * @brief An action to set the speed on a zone
  * @details The zone is held at the given speed when a defined number of
  * properties in the group are set to the given state
