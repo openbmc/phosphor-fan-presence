@@ -275,27 +275,29 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                        if a['name'] == eActions['name'])
         actions['name'] = eAction['name']
         params = []
-        for p in eAction['parameters']:
-            param = {}
-            if type(eActions[p]) is not dict:
-                if p == 'property':
-                    param['value'] = str(eActions[p]).lower()
-                    param['type'] = str(
-                        e['property']['type']).lower()
+        if ('parameters' in eAction) and \
+           (eAction['parameters'] is not None):
+            for p in eAction['parameters']:
+                param = {}
+                if type(eActions[p]) is not dict:
+                    if p == 'property':
+                        param['value'] = str(eActions[p]).lower()
+                        param['type'] = str(
+                            e['property']['type']).lower()
+                    else:
+                        # Default type to 'size_t' when not given
+                        param['value'] = str(eActions[p]).lower()
+                        param['type'] = 'size_t'
+                    params.append(param)
                 else:
-                    # Default type to 'size_t' when not given
-                    param['value'] = str(eActions[p]).lower()
-                    param['type'] = 'size_t'
-                params.append(param)
-            else:
-                param['type'] = str(eActions[p]['type']).lower()
-                if p != 'map':
-                    param['value'] = str(
-                        eActions[p]['value']).lower()
-                else:
-                    emap = convertToMap(str(eActions[p]['value']))
-                    param['value'] = param['type'] + emap
-                params.append(param)
+                    param['type'] = str(eActions[p]['type']).lower()
+                    if p != 'map':
+                        param['value'] = str(
+                            eActions[p]['value']).lower()
+                    else:
+                        emap = convertToMap(str(eActions[p]['value']))
+                        param['value'] = param['type'] + emap
+                    params.append(param)
         actions['parameters'] = params
         action.append(actions)
     event['action'] = action
