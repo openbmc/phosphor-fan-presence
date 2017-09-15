@@ -2,6 +2,8 @@
 
 #include <algorithm>
 #include <numeric>
+#include "types.hpp"
+#include "zone.hpp"
 
 namespace phosphor
 {
@@ -11,6 +13,19 @@ namespace control
 {
 namespace action
 {
+
+/**
+ * @brief An action to set the request speed base
+ * @details A new target speed is determined using a speed delta being added
+ * or subtracted, for increases or decrease respectively, from a base speed.
+ * This base speed defaults to be the current target speed or is set to a
+ * different base speed(i.e. the fans' tach feedback speed) to request a new
+ * target from.
+ *
+ * @param[in] zone - Zone containing fans
+ * @param[in] group - Group of sensors to determine base from
+ */
+void set_request_speed_base_with_max(Zone& zone, const Group& group);
 
 /**
  * @brief An action to set the speed on a zone
@@ -67,183 +82,29 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
  *
  * @param[in] val_to_speed - Ordered map of sensor value-to-speed
  *
- * @return Lambda function
- *     A lambda function to set the zone's floor speed when the average of
+ * @return Action lambda function
+ *     An Action function to set the zone's floor speed when the average of
  *     property values within the group is below the lowest sensor value given
  */
-auto set_floor_from_average_sensor_value(
-        std::map<int64_t, uint64_t>&& val_to_speed)
-{
-    return [val_to_speed = std::move(val_to_speed)](auto& zone, auto& group)
-    {
-        auto speed = zone.getDefFloor();
-        if (group.size() != 0)
-        {
-            auto count = 0;
-            auto sumValue = std::accumulate(
-                    group.begin(),
-                    group.end(),
-                    0,
-                    [&zone, &count](int64_t sum, auto const& entry)
-                    {
-                        try
-                        {
-                            return sum +
-                                zone.template getPropertyValue<int64_t>(
-                                    entry.first,
-                                    std::get<intfPos>(entry.second),
-                                    std::get<propPos>(entry.second));
-                        }
-                        catch (const std::out_of_range& oore)
-                        {
-                            count++;
-                            return sum;
-                        }
-                    });
-            if ((group.size() - count) > 0)
-            {
-                auto avgValue = sumValue / (group.size() - count);
-                auto it = std::find_if(
-                    val_to_speed.begin(),
-                    val_to_speed.end(),
-                    [&avgValue](auto const& entry)
-                    {
-                        return avgValue < entry.first;
-                    }
-                );
-                if (it != std::end(val_to_speed))
-                {
-                    speed = (*it).second;
-                }
-            }
-        }
-        zone.setFloor(speed);
-    };
-}
+Action set_floor_from_average_sensor_value(
+        std::map<int64_t, uint64_t>&& val_to_speed);
 
 /**
  * @brief An action to set the ceiling speed on a zone
- * @details Based on the average of the defined sensor group values, the ceiling
- * speed is selected from the map key transition point that the average sensor
- * value falls within depending on the key values direction from what was
- * previously read.
+ * @details Based on the average of the defined sensor group values, the
+ * ceiling speed is selected from the map key transition point that the average
+ * sensor value falls within depending on the key values direction from what
+ * was previously read.
  *
  * @param[in] val_to_speed - Ordered map of sensor value-to-speed transitions
  *
- * @return Lambda function
- *     A lambda function to set the zone's ceiling speed when the average of
+ * @return Action lambda function
+ *     An Action function to set the zone's ceiling speed when the average of
  *     property values within the group is above(increasing) or
  *     below(decreasing) the key transition point
  */
-auto set_ceiling_from_average_sensor_value(
-        std::map<int64_t, uint64_t>&& val_to_speed)
-{
-    return [val_to_speed = std::move(val_to_speed)](auto& zone, auto& group)
-    {
-        auto speed = zone.getCeiling();
-        if (group.size() != 0)
-        {
-            auto count = 0;
-            auto sumValue = std::accumulate(
-                    group.begin(),
-                    group.end(),
-                    0,
-                    [&zone, &count](int64_t sum, auto const& entry)
-                    {
-                        try
-                        {
-                            return sum +
-                                zone.template getPropertyValue<int64_t>(
-                                    entry.first,
-                                    std::get<intfPos>(entry.second),
-                                    std::get<propPos>(entry.second));
-                        }
-                        catch (const std::out_of_range& oore)
-                        {
-                            count++;
-                            return sum;
-                        }
-                    });
-            if ((group.size() - count) > 0)
-            {
-                auto avgValue = sumValue / (group.size() - count);
-                auto prevValue = zone.swapCeilingKeyValue(avgValue);
-                if (avgValue != prevValue)
-                {// Only check if previous and new values differ
-                    if (avgValue < prevValue)
-                    {// Value is decreasing from previous
-                        for (auto it = val_to_speed.rbegin();
-                             it != val_to_speed.rend();
-                             ++it)
-                        {
-                            if (it == val_to_speed.rbegin() &&
-                                avgValue >= it->first)
-                            {
-                                // Value is at/above last map key, set
-                                // ceiling speed to the last map key's value
-                                speed = it->second;
-                                break;
-                            }
-                            else if (std::next(it, 1) == val_to_speed.rend() &&
-                                     avgValue <= it->first)
-                            {
-                                // Value is at/below first map key, set
-                                // ceiling speed to the first map key's value
-                                speed = it->second;
-                                break;
-                            }
-                            if (avgValue < it->first &&
-                                it->first <= prevValue)
-                            {
-                                // Value decreased & transitioned across
-                                // a map key, update ceiling speed to this
-                                // map key's value when new value is below
-                                // map's key and the key is at/below the
-                                // previous value
-                                speed = it->second;
-                            }
-                        }
-                    }
-                    else
-                    {// Value is increasing from previous
-                        for (auto it = val_to_speed.begin();
-                             it != val_to_speed.end();
-                             ++it)
-                        {
-                            if (it == val_to_speed.begin() &&
-                                avgValue <= it->first)
-                            {
-                                // Value is at/below first map key, set
-                                // ceiling speed to the first map key's value
-                                speed = it->second;
-                                break;
-                            }
-                            else if (std::next(it, 1) == val_to_speed.end() &&
-                                     avgValue >= it->first)
-                            {
-                                // Value is at/above last map key, set
-                                // ceiling speed to the last map key's value
-                                speed = it->second;
-                                break;
-                            }
-                            if (avgValue > it->first &&
-                                it->first >= prevValue)
-                            {
-                                // Value increased & transitioned across
-                                // a map key, update ceiling speed to this
-                                // map key's value when new value is above
-                                // map's key and the key is at/above the
-                                // previous value
-                                speed = it->second;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        zone.setCeiling(speed);
-    };
-}
+Action set_ceiling_from_average_sensor_value(
+        std::map<int64_t, uint64_t>&& val_to_speed);
 
 /**
  * @brief An action to set the speed increase delta and request speed change
