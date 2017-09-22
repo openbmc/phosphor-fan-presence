@@ -58,16 +58,16 @@ using Timer = std::tuple<std::chrono::seconds>;
 
 constexpr auto signaturePos = 0;
 constexpr auto handlerObjPos = 1;
-using PropertyChange = std::tuple<std::string, Handler>;
+using Signal = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
 constexpr auto actionsPos = 1;
 constexpr auto timerPos = 2;
-constexpr auto propChangeListPos = 3;
+constexpr auto signalsPos = 3;
 using SetSpeedEvent = std::tuple<Group,
                                  std::vector<Action>,
                                  Timer,
-                                 std::vector<PropertyChange>>;
+                                 std::vector<Signal>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventHandlerPos = 1;

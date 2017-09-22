@@ -7,6 +7,19 @@
 #      members:
 #          [List of object paths under the path extension]
 #
+#matches:
+#    - name: [The name associated with a supported match string function]
+#      description: [A user description of what this match string represents]
+#      parameters:
+#          [List of required parameters for the match string function]
+#      signal: [Signal function name used with this match string]
+#
+#signals:
+#    - name: [The name associated with a supported signal function]
+#      description: [A user description of what this signal does]
+#      parameters:
+#          [List of required parameters for the signal function]
+#
 #preconditions:
 #    - name: [Name associated with a supported precondition]
 #      description: [A user description of the precondition's use]
@@ -70,6 +83,39 @@
 #          - /temperature/dimm3_temp
 #          - /temperature/dimm4_temp
 #
+#signals:
+#    - name: propertiesChanged
+#      description: >
+#          A property changed signal
+#      parameters:
+#          - object
+#          - interface
+#      handler: propertySignal
+#    - name: interfacesAdded
+#      description: >
+#          An interfaces added signal
+#      parameters:
+#          - object
+#      handler: objectSignal
+#
+#handlers:
+#    - name: propertySignal
+#      description: >
+#          Handle property signals
+#      parameters:
+#          - type
+#          - object
+#          - interface
+#          - property
+#    - name: objectSignal
+#      description: >
+#          Handle object signals
+#      parameters:
+#          - type
+#          - object
+#          - interface
+#          - property
+#
 #preconditions:
 #    - name: property_states_match
 #      description: >
@@ -121,6 +167,9 @@
 #      property:
 #          name: Present
 #          type: bool
+#      signals:
+#          - name: interfacesAdded
+#          - name: propertiesChanged
 #      actions:
 #          - name: count_state_before_speed
 #            count: 1
@@ -138,6 +187,8 @@
 #      property:
 #          name: Value
 #          type: int64_t
+#      signals:
+#          - name: propertiesChanged
 #      actions:
 #          - name: set_floor_from_average_sensor_value
 #            map:
@@ -163,6 +214,8 @@
 #      property:
 #          name: Value
 #          type: int64_t
+#      signals:
+#          - name: propertiesChanged
 #      actions:
 #          - name: set_floor_from_average_sensor_value
 #            map:
@@ -191,6 +244,8 @@
 #      property:
 #          name: Value
 #          type: int64_t
+#      signals:
+#          - name: propertiesChanged
 #      actions:
 #          - name: set_net_increase_speed
 #            property: 85000
@@ -226,6 +281,9 @@
 #                    name: OccActive
 #                    type: bool
 #                    value: true
+#          signals:
+#              - name: interfacesAdded
+#              - name: propertiesChanged
 #          events:
 #              - name: speed_changes_based_on_dimm_temps
 #                zone_conditions:
@@ -240,6 +298,9 @@
 #                property:
 #                    name: Value
 #                    type: int64_t
+#                signals:
+#                    - name: interfacesAdded
+#                    - name: propertiesChanged
 #                actions:
 #                    - name: set_net_increase_speed
 #                      property: 64000

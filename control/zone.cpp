@@ -213,22 +213,22 @@ void Zone::initEvent(const SetSpeedEvent& event)
                 entry("PROPERTY=%s", std::get<propPos>(group.second).c_str()));
         }
     }
-    // Setup signal matches for property change events
-    for (auto& prop : std::get<propChangeListPos>(event))
+    // Setup signal matches for events
+    for (auto& sig : std::get<signalsPos>(event))
     {
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(
                 EventData
                 {
                     std::get<groupPos>(event),
-                    std::get<handlerObjPos>(prop),
+                    std::get<handlerObjPos>(sig),
                     std::get<actionsPos>(event)
                 }
             );
         std::unique_ptr<sdbusplus::server::match::match> match =
             std::make_unique<sdbusplus::server::match::match>(
                 _bus,
-                std::get<signaturePos>(prop).c_str(),
+                std::get<signaturePos>(sig).c_str(),
                 std::bind(std::mem_fn(&Zone::handleEvent),
                           this,
                           std::placeholders::_1,

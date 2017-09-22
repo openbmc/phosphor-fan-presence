@@ -20,7 +20,7 @@ def indent(str, depth):
 Group{
 %for member in event['group']:
 {
-    "${member['name']}",
+    "${member['object']}",
     {"${member['interface']}",
      "${member['property']}"}
 },
@@ -46,30 +46,32 @@ make_action(action::${a['name']}
 Timer{
     ${event['timer']['interval']}
 },
-std::vector<PropertyChange>{
-%for s in event['signal']:
-    PropertyChange{
-        interfacesAdded("${s['obj_path']}"),
-        make_handler(objectSignal<${s['type']}>(
-            "${s['path']}",
-            "${s['interface']}",
-            "${s['property']}",
+std::vector<Signal>{
+%for s in event['signals']:
+    Signal{
+        ${s['match']}(
+        %for i, mp in enumerate(s['mparams']):
+        %if (i+1) != len(s['mparams']):
+        "${mp}",
+        %else:
+        "${mp}"
+        %endif
+        %endfor
+        ),
+        make_handler(
+            %if ('type' in s['sparams']) and \
+                (s['sparams']['type'] is not None):
+            ${s['signal']}<${s['sparams']['type']}>(
+            %else:
+            ${s['signal']}(
+            %endif
+            %for spk, spv in s['sparams'].iteritems():
+            %if spk != 'type':
+            "${spv}",
+            %endif
+            %endfor
             handler::setProperty<${s['type']}>(
-                "${s['path']}",
-                "${s['interface']}",
-                "${s['property']}"
-            )
-        ))
-    },
-    PropertyChange{
-        propertiesChanged(
-            "${s['path']}",
-            "${s['interface']}"),
-        make_handler(propertySignal<${s['type']}>(
-            "${s['interface']}",
-            "${s['property']}",
-            handler::setProperty<${s['type']}>(
-                "${s['path']}",
+                "${s['object']}",
                 "${s['interface']}",
                 "${s['property']}"
             )
@@ -140,7 +142,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         Group{
                         %for member in event['pc']['pcgrp']:
                         {
-                            "${member['name']}",
+                            "${member['object']}",
                             {"${member['interface']}",
                              "${member['property']}"}
                         },
@@ -195,30 +197,32 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         Timer{
                             ${event['pc']['pctime']['interval']}
                         },
-                        std::vector<PropertyChange>{
-                        %for s in event['pc']['pcsig']:
-                            PropertyChange{
-                                interfacesAdded("${s['obj_path']}"),
-                                make_handler(objectSignal<${s['type']}>(
-                                    "${s['path']}",
-                                    "${s['interface']}",
-                                    "${s['property']}",
+                        std::vector<Signal>{
+                        %for s in event['pc']['pcsigs']:
+                            Signal{
+                                ${s['match']}(
+                                %for i, mp in enumerate(s['mparams']):
+                                %if (i+1) != len(s['mparams']):
+                                "${mp}",
+                                %else:
+                                "${mp}"
+                                %endif
+                                %endfor
+                                ),
+                                make_handler(
+                                    %if ('type' in s['sparams']) and \
+                                        (s['sparams']['type'] is not None):
+                                    ${s['signal']}<${s['sparams']['type']}>(
+                                    %else:
+                                    ${s['signal']}(
+                                    %endif
+                                    %for spk, spv in s['sparams'].iteritems():
+                                    %if spk != 'type':
+                                    "${spv}",
+                                    %endif
+                                    %endfor
                                     handler::setProperty<${s['type']}>(
-                                        "${s['path']}",
-                                        "${s['interface']}",
-                                        "${s['property']}"
-                                    )
-                                ))
-                            },
-                            PropertyChange{
-                                propertiesChanged(
-                                    "${s['path']}",
-                                    "${s['interface']}"),
-                                make_handler(propertySignal<${s['type']}>(
-                                    "${s['interface']}",
-                                    "${s['property']}",
-                                    handler::setProperty<${s['type']}>(
-                                        "${s['path']}",
+                                        "${s['object']}",
                                         "${s['interface']}",
                                         "${s['property']}"
                                     )
@@ -276,11 +280,11 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                   if g['name'] == e['group'])
     for member in groups['members']:
         members = {}
-        members['obj_path'] = groups['type']
-        members['name'] = (groups['type'] +
-                           member)
+        members['object'] = (groups['type'] +
+                             member)
         members['interface'] = e['interface']
         members['property'] = e['property']['name']
+        members['type'] = e['property']['type']
         group.append(members)
     event['group'] = group
 
@@ -320,16 +324,35 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     event['action'] = action
 
     # Add property change signal handler
-    signal = []
-    for path in group:
-        signals = {}
-        signals['obj_path'] = path['obj_path']
-        signals['path'] = path['name']
-        signals['interface'] = e['interface']
-        signals['property'] = e['property']['name']
-        signals['type'] = e['property']['type']
-        signal.append(signals)
-    event['signal'] = signal
+    signals = []
+    for member in group:
+        for eMatches in e['matches']:
+            signal = {}
+            eMatch = next(m for m in events_data['matches']
+                          if m['name'] == eMatches['name'])
+            signal['match'] = eMatch['name']
+            params = []
+            if ('parameters' in eMatch) and \
+               (eMatch['parameters'] is not None):
+                for p in eMatch['parameters']:
+                    params.append(member[str(p)])
+            signal['mparams'] = params
+            eSignal = next(s for s in events_data['signals']
+                           if s['name'] == eMatch['signal'])
+            signal['signal'] = eSignal['name']
+            sparams = {}
+            if ('parameters' in eSignal) and \
+               (eSignal['parameters'] is not None):
+                for p in eSignal['parameters']:
+                    sparams[str(p)] = member[str(p)]
+            signal['sparams'] = sparams
+            # Add member attributes
+            signal['object'] = member['object']
+            signal['interface'] = member['interface']
+            signal['property'] = member['property']
+            signal['type'] = member['type']
+            signals.append(signal)
+    event['signals'] = signals
 
     # Add optional action call timer
     timer = {}
@@ -361,9 +384,8 @@ def addPrecondition(zNum, zCond, event, events_data):
                       if g['name'] == grp['name'])
         for member in groups['members']:
             members = {}
-            members['obj_path'] = groups['type']
-            members['name'] = (groups['type'] +
-                               member)
+            members['object'] = (groups['type'] +
+                                 member)
             members['interface'] = grp['interface']
             members['property'] = grp['property']['name']
             members['type'] = grp['property']['type']
@@ -389,7 +411,7 @@ def addPrecondition(zNum, zCond, event, events_data):
                 value = {}
                 value['value'] = (
                     "PrecondGroup{\"" +
-                    str(pcgrp['name']) + "\",\"" +
+                    str(pcgrp['object']) + "\",\"" +
                     str(pcgrp['interface']) + "\",\"" +
                     str(pcgrp['property']) + "\"," +
                     "static_cast<" +
@@ -411,16 +433,35 @@ def addPrecondition(zNum, zCond, event, events_data):
     precond['pcevts'] = pcevents
 
     # Add precondition property change signal handler
-    signal = []
+    signals = []
     for member in group:
-        signals = {}
-        signals['obj_path'] = member['obj_path']
-        signals['path'] = member['name']
-        signals['interface'] = member['interface']
-        signals['property'] = member['property']
-        signals['type'] = member['type']
-        signal.append(signals)
-    precond['pcsig'] = signal
+        for eMatches in event['precondition']['matches']:
+            signal = {}
+            eMatch = next(m for m in events_data['matches']
+                          if m['name'] == eMatches['name'])
+            signal['match'] = eMatch['name']
+            params = []
+            if ('parameters' in eMatch) and \
+               (eMatch['parameters'] is not None):
+                for p in eMatch['parameters']:
+                    params.append(member[str(p)])
+            signal['mparams'] = params
+            eSignal = next(s for s in events_data['signals']
+                           if s['name'] == eMatch['signal'])
+            signal['signal'] = eSignal['name']
+            sparams = {}
+            if ('parameters' in eSignal) and \
+               (eSignal['parameters'] is not None):
+                for p in eSignal['parameters']:
+                    sparams[str(p)] = member[str(p)]
+            signal['sparams'] = sparams
+            # Add member attributes
+            signal['object'] = member['object']
+            signal['interface'] = member['interface']
+            signal['property'] = member['property']
+            signal['type'] = member['type']
+            signals.append(signal)
+    precond['pcsigs'] = signals
 
     # Add optional action call timer
     timer = {}
