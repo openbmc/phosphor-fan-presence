@@ -393,34 +393,6 @@ class Zone
         };
 
         /**
-         * @brief Refresh the given property's cached value
-         *
-         * @param[in] bus - the bus to use
-         * @param[in] path - the dbus path name
-         * @param[in] iface - the dbus interface name
-         * @param[in] prop - the property name
-         */
-        void refreshProperty(sdbusplus::bus::bus& bus,
-                             const std::string& path,
-                             const std::string& iface,
-                             const std::string& prop);
-
-        /**
-         * @brief Get a property value from the path/interface given
-         *
-         * @param[in] bus - the bus to use
-         * @param[in] path - the dbus path name
-         * @param[in] iface - the dbus interface name
-         * @param[in] prop - the property name
-         * @param[out] value - the value of the property
-         */
-        static void getProperty(sdbusplus::bus::bus& bus,
-                                const std::string& path,
-                                const std::string& iface,
-                                const std::string& prop,
-                                PropertyVariantType& value);
-
-        /**
          * @brief Dbus signal change callback handler
          *
          * @param[in] msg - Expanded sdbusplus message data
