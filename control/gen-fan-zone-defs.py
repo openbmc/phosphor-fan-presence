@@ -11,11 +11,11 @@ import yaml
 from argparse import ArgumentParser
 from mako.template import Template
 
-tmpl = '''
+tmpl = '''\
 <%!
 def indent(str, depth):
     return ''.join(4*' '*depth+line for line in str.splitlines(True))
-%>
+%>\
 <%def name="genSSE(event)" buffered="True">
 Group{
 %for member in event['group']:
@@ -49,7 +49,7 @@ Timer{
 std::vector<Signal>{
 %for s in event['signals']:
     Signal{
-        ${s['match']}(
+        match::${s['match']}(
         %for i, mp in enumerate(s['mparams']):
         %if (i+1) != len(s['mparams']):
         "${mp}",
@@ -79,17 +79,16 @@ std::vector<Signal>{
     },
 %endfor
 }
-</%def>
+</%def>\
 /* This is a generated file. */
-#include <sdbusplus/bus.hpp>
 #include "manager.hpp"
 #include "functor.hpp"
 #include "actions.hpp"
 #include "handlers.hpp"
 #include "preconditions.hpp"
+#include "matches.hpp"
 
 using namespace phosphor::fan::control;
-using namespace sdbusplus::bus::match::rules;
 
 const unsigned int Manager::_powerOnDelay{${mgr_data['power_on_delay']}};
 
@@ -200,7 +199,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         std::vector<Signal>{
                         %for s in event['pc']['pcsigs']:
                             Signal{
-                                ${s['match']}(
+                                match::${s['match']}(
                                 %for i, mp in enumerate(s['mparams']):
                                 %if (i+1) != len(s['mparams']):
                                 "${mp}",

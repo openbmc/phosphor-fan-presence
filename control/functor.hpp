@@ -1,6 +1,7 @@
 #pragma once
 
 #include "types.hpp"
+#include "sdbusplus.hpp"
 #include <phosphor-logging/log.hpp>
 
 namespace phosphor
@@ -11,7 +12,10 @@ namespace control
 {
 class Zone;
 
+using namespace phosphor::fan;
 using namespace phosphor::logging;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                                Error::InternalFailure;
 
 /**
  * @brief Create a handler function object
@@ -55,9 +59,11 @@ struct PropertyChanged
     PropertyChanged& operator=(const PropertyChanged&) = default;
     PropertyChanged(PropertyChanged&&) = default;
     PropertyChanged& operator=(PropertyChanged&&) = default;
-    PropertyChanged(const char* iface,
+    PropertyChanged(const char* path,
+                    const char* iface,
                     const char* property,
                     U&& handler) :
+        _path(path),
         _iface(iface),
         _property(property),
         _handler(std::forward<U>(handler)) { }
@@ -65,35 +71,59 @@ struct PropertyChanged
     /** @brief Run signal handler function
      *
      * Extract the property from the PropertiesChanged
-     * message and run the handler function.
+     * message (or read the property when the message is null)
+     * and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus&,
+    void operator()(sdbusplus::bus::bus& bus,
                     sdbusplus::message::message& msg,
                     Zone& zone) const
     {
-        std::map<std::string, sdbusplus::message::variant<T>> properties;
-        const char* iface = nullptr;
-
-        msg.read(iface);
-        if (!iface || strcmp(iface, _iface))
+        if (msg)
         {
-            return;
-        }
+            std::map<std::string, sdbusplus::message::variant<T>> properties;
+            const char* iface = nullptr;
 
-        msg.read(properties);
-        auto it = properties.find(_property);
-        if (it == properties.cend())
+            msg.read(iface);
+            if (!iface || strcmp(iface, _iface))
+            {
+                return;
+            }
+
+            msg.read(properties);
+            auto it = properties.find(_property);
+            if (it == properties.cend())
+            {
+                log<level::ERR>("Unable to find property on interface",
+                                entry("PROPERTY=%s", _property),
+                                entry("INTERFACE=%s", _iface));
+                return;
+            }
+
+            _handler(zone, std::forward<T>(it->second.template get<T>()));
+        }
+        else
         {
-            log<level::ERR>("Unable to find property on interface",
-                            entry("PROPERTY=%s", _property),
-                            entry("INTERFACE=%s", _iface));
-            return;
+            try
+            {
+                auto val = util::SDBusPlus::getProperty<T>(bus,
+                                                           _path,
+                                                           _iface,
+                                                           _property);
+                _handler(zone, std::forward<T>(val));
+            }
+            catch (const InternalFailure& ife)
+            {
+                log<level::INFO>(
+                    "Unable to find property",
+                    entry("PATH=%s", _path),
+                    entry("INTERFACE=%s", _iface),
+                    entry("PROPERTY=%s", _property));
+            }
         }
-
-        _handler(zone, std::forward<T>(it->second.template get<T>()));
     }
 
 private:
+    const char* _path;
     const char* _iface;
     const char* _property;
     U _handler;
@@ -102,19 +132,24 @@ private:
 /**
  * @brief Used to process a Dbus property changed signal event
  *
- * @param[in] iface - Sensor value interface
- * @param[in] property - Sensor value property
+ * @param[in] path - Object path
+ * @param[in] iface - Object interface
+ * @param[in] property - Object property
  * @param[in] handler - Handler function to perform
  *
  * @tparam T - The type of the property
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-auto propertySignal(const char* iface,
+auto propertySignal(const char* path,
+                    const char* iface,
                     const char* property,
                     U&& handler)
 {
-    return PropertyChanged<T, U>(iface, property, std::forward<U>(handler));
+    return PropertyChanged<T, U>(path,
+                                 iface,
+                                 property,
+                                 std::forward<U>(handler));
 }
 
 /**
@@ -151,34 +186,37 @@ struct InterfaceAdded
                     sdbusplus::message::message& msg,
                     Zone& zone) const
     {
-        std::map<std::string,
-                 std::map<std::string,
-                          sdbusplus::message::variant<T>>> intfProp;
-        sdbusplus::message::object_path op;
-
-        msg.read(op);
-        auto objPath = static_cast<const std::string&>(op).c_str();
-        if (!objPath || strcmp(objPath, _path))
+        if (msg)
         {
-            // Object path does not match this handler's path
-            return;
-        }
+            std::map<std::string,
+                     std::map<std::string,
+                              sdbusplus::message::variant<T>>> intfProp;
+            sdbusplus::message::object_path op;
 
-        msg.read(intfProp);
-        auto itIntf = intfProp.find(_iface);
-        if (itIntf == intfProp.cend())
-        {
-            // Interface not found on this handler's path
-            return;
-        }
-        auto itProp = itIntf->second.find(_property);
-        if (itProp == itIntf->second.cend())
-        {
-            // Property not found on this handler's path
-            return;
-        }
+            msg.read(op);
+            auto objPath = static_cast<const std::string&>(op).c_str();
+            if (!objPath || strcmp(objPath, _path))
+            {
+                // Object path does not match this handler's path
+                return;
+            }
 
-        _handler(zone, std::forward<T>(itProp->second.template get<T>()));
+            msg.read(intfProp);
+            auto itIntf = intfProp.find(_iface);
+            if (itIntf == intfProp.cend())
+            {
+                // Interface not found on this handler's path
+                return;
+            }
+            auto itProp = itIntf->second.find(_property);
+            if (itProp == itIntf->second.cend())
+            {
+                // Property not found on this handler's path
+                return;
+            }
+
+            _handler(zone, std::forward<T>(itProp->second.template get<T>()));
+        }
     }
 
 private:
