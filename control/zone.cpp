@@ -194,46 +194,35 @@ void Zone::decTimerExpired()
 
 void Zone::initEvent(const SetSpeedEvent& event)
 {
-    // Get the current value for each property
-    for (auto& group : std::get<groupPos>(event))
-    {
-        try
-        {
-            refreshProperty(_bus,
-                            group.first,
-                            std::get<intfPos>(group.second),
-                            std::get<propPos>(group.second));
-        }
-        catch (const InternalFailure& ife)
-        {
-            log<level::INFO>(
-                "Unable to find property",
-                entry("PATH=%s", group.first.c_str()),
-                entry("INTERFACE=%s", std::get<intfPos>(group.second).c_str()),
-                entry("PROPERTY=%s", std::get<propPos>(group.second).c_str()));
-        }
-    }
-    // Setup signal matches for events
+    sdbusplus::message::message nullMsg{nullptr};
+
     for (auto& sig : std::get<signalsPos>(event))
     {
+        // Initialize the event signal using handler
+        std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
+        // Setup signal matches of the property for event
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(
                 EventData
                 {
                     std::get<groupPos>(event),
-                    std::get<handlerObjPos>(sig),
+                    std::get<sigMatchPos>(sig),
+                    std::get<sigHandlerPos>(sig),
                     std::get<actionsPos>(event)
                 }
             );
-        std::unique_ptr<sdbusplus::server::match::match> match =
-            std::make_unique<sdbusplus::server::match::match>(
-                _bus,
-                std::get<signaturePos>(sig).c_str(),
-                std::bind(std::mem_fn(&Zone::handleEvent),
-                          this,
-                          std::placeholders::_1,
-                          eventData.get())
-            );
+        std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
+        if (!std::get<sigMatchPos>(sig).empty())
+        {
+            match = std::make_unique<sdbusplus::server::match::match>(
+                    _bus,
+                    std::get<sigMatchPos>(sig).c_str(),
+                    std::bind(std::mem_fn(&Zone::handleEvent),
+                              this,
+                              std::placeholders::_1,
+                              eventData.get())
+                );
+        }
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
     // Attach a timer to run the action of an event
@@ -305,41 +294,12 @@ void Zone::removeEvent(const SetSpeedEvent& event)
     if (it != std::end(_signalEvents))
     {
         std::get<signalEventDataPos>(*it).reset();
-        std::get<signalMatchPos>(*it).reset();
+        if (std::get<signalMatchPos>(*it) != nullptr)
+        {
+            std::get<signalMatchPos>(*it).reset();
+        }
         _signalEvents.erase(it);
     }
-}
-
-void Zone::refreshProperty(sdbusplus::bus::bus& bus,
-                           const std::string& path,
-                           const std::string& iface,
-                           const std::string& prop)
-{
-    PropertyVariantType property;
-    getProperty(_bus, path, iface, prop, property);
-    setPropertyValue(path.c_str(), iface.c_str(), prop.c_str(), property);
-}
-
-void Zone::getProperty(sdbusplus::bus::bus& bus,
-                       const std::string& path,
-                       const std::string& iface,
-                       const std::string& prop,
-                       PropertyVariantType& value)
-{
-    auto serv = util::SDBusPlus::getService(bus, path, iface);
-    auto hostCall = bus.new_method_call(serv.c_str(),
-                                        path.c_str(),
-                                        "org.freedesktop.DBus.Properties",
-                                        "Get");
-    hostCall.append(iface);
-    hostCall.append(prop);
-    auto hostResponseMsg = bus.call(hostCall);
-    if (hostResponseMsg.is_method_error())
-    {
-        log<level::INFO>("Host call response error for retrieving property");
-        elog<InternalFailure>();
-    }
-    hostResponseMsg.read(value);
 }
 
 void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
