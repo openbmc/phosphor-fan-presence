@@ -56,8 +56,8 @@ using PrecondGroup = std::tuple<std::string,
 constexpr auto intervalPos = 0;
 using Timer = std::tuple<std::chrono::seconds>;
 
-constexpr auto signaturePos = 0;
-constexpr auto handlerObjPos = 1;
+constexpr auto sigMatchPos = 0;
+constexpr auto sigHandlerPos = 1;
 using Signal = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
@@ -70,9 +70,10 @@ using SetSpeedEvent = std::tuple<Group,
                                  std::vector<Signal>>;
 
 constexpr auto eventGroupPos = 0;
-constexpr auto eventHandlerPos = 1;
-constexpr auto eventActionsPos = 2;
-using EventData = std::tuple<Group, Handler, std::vector<Action>>;
+constexpr auto eventMatchPos = 1;
+constexpr auto eventHandlerPos = 2;
+constexpr auto eventActionsPos = 3;
+using EventData = std::tuple<Group, std::string, Handler, std::vector<Action>>;
 
 constexpr auto timerTimerPos = 0;
 using TimerEvent = std::tuple<phosphor::fan::util::Timer>;
