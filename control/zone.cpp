@@ -115,6 +115,36 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
     }
 }
 
+void Zone::setServiceOwner(const Group* group,
+                           const std::string& name,
+                           const bool hasOwner)
+{
+    try
+    {
+        auto& sNames = _services.at(*group);
+        auto it = std::find_if(
+            sNames.begin(),
+            sNames.end(),
+            [&name](auto const& entry)
+            {
+                return name == std::get<namePos>(entry);
+            }
+        );
+        if (it != std::end(sNames))
+        {
+            std::get<hasOwnerPos>(*it) = hasOwner;
+        }
+        else
+        {
+            _services[*group].emplace_back(name, hasOwner);
+        }
+    }
+    catch (const std::out_of_range& oore)
+    {
+        _services[*group].emplace_back(name, hasOwner);
+    }
+}
+
 void Zone::setFloor(uint64_t speed)
 {
     _floorSpeed = speed;
