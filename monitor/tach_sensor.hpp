@@ -100,12 +100,21 @@ class TachSensor
             _functional = functional;
         }
 
-        /**
-         * Returns the timer object for this sensor
-         */
-        inline phosphor::fan::util::Timer& getTimer()
+        inline bool timerRunning()
         {
-            return _timer;
+            return _timer.running();
+        }
+
+        inline void startTimer()
+        {
+            _timer.start(
+                    getTimeout(),
+                    phosphor::fan::util::Timer::TimerType::oneshot);
+        }
+
+        inline void stopTimer()
+        {
+            _timer.stop();
         }
 
         /**
