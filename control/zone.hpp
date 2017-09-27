@@ -128,6 +128,17 @@ class Zone
         };
 
         /**
+         * @brief Set or update a service name owner in use
+         *
+         * @param[in] group - Group associated with service
+         * @param[in] name - Service name
+         * @param[in] hasOwner - Whether the service is owned or not
+         */
+        void setServiceOwner(const Group* group,
+                             const std::string& name,
+                             const bool hasOwner);
+
+        /**
          * @brief Initialize a set speed event properties and actions
          *
          * @param[in] event - Set speed event
@@ -370,6 +381,11 @@ class Zone
          * @brief Map of active fan control allowed by groups
          */
         std::map<const Group, bool> _active;
+
+        /**
+         * @brief Map of group service names
+         */
+        std::map<const Group, std::vector<Service>> _services;
 
         /**
          * @brief List of signal event arguments and Dbus matches for callbacks
