@@ -53,6 +53,10 @@ using PrecondGroup = std::tuple<std::string,
                                 std::string,
                                 PropertyVariantType>;
 
+constexpr auto namePos = 0;
+constexpr auto hasOwnerPos = 1;
+using Service = std::tuple<std::string, bool>;
+
 constexpr auto intervalPos = 0;
 using Timer = std::tuple<std::chrono::seconds>;
 
