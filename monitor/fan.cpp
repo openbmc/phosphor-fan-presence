@@ -27,7 +27,6 @@ namespace monitor
 {
 
 using namespace phosphor::logging;
-using TimerType = phosphor::fan::util::Timer::TimerType;
 
 constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
 constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
@@ -90,8 +89,7 @@ void Fan::tachChanged()
 
 void Fan::tachChanged(TachSensor& sensor)
 {
-    auto& timer = sensor.getTimer();
-    auto running = timer.running();
+    auto running = sensor.timerRunning();
 
     //If this sensor is out of range at this moment, start
     //its timer, at the end of which the inventory
@@ -103,7 +101,7 @@ void Fan::tachChanged(TachSensor& sensor)
     {
         if (sensor.functional() && !running)
         {
-            timer.start(sensor.getTimeout(), TimerType::oneshot);
+            sensor.startTimer();
         }
     }
     else
@@ -115,7 +113,7 @@ void Fan::tachChanged(TachSensor& sensor)
 
         if (running)
         {
-            timer.stop();
+            sensor.stopTimer();
         }
 
         //If the fan was nonfunctional and enough sensors are now OK,
