@@ -39,11 +39,13 @@ constexpr auto OPERATIONAL_STATUS_INTF  =
 Fan::Fan(Mode mode,
          sdbusplus::bus::bus& bus,
          phosphor::fan::event::EventPtr&  events,
+         std::unique_ptr<trust::Manager>& trust,
          const FanDefinition& def) :
     _bus(bus),
     _name(std::get<fanNameField>(def)),
     _deviation(std::get<fanDeviationField>(def)),
-    _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def))
+    _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def)),
+    _trustManager(trust)
 {
     //Start from a known state of functional
     updateInventory(true);
@@ -64,6 +66,8 @@ Fan::Fan(Mode mode,
                                 std::get<hasTargetField>(s),
                                 std::get<timeoutField>(def),
                                 events));
+
+                _trustManager->registerSensor(_sensors.back());
             }
             catch (InvalidSensorError& e)
             {
@@ -89,6 +93,31 @@ void Fan::tachChanged()
 
 void Fan::tachChanged(TachSensor& sensor)
 {
+    if (_trustManager->active())
+    {
+        bool trusted, trustChanged;
+
+        std::tie(trusted, trustChanged) =  _trustManager->checkTrust(sensor);
+
+        if (!trusted)
+        {
+            if (trustChanged)
+            {
+                //If this sensor value isn't trusted, then neither are the
+                //other ones in the group, so stop all of their timers.
+                _trustManager->stopUntrustedTimers(sensor);
+            }
+            return;
+        }
+        else if (trustChanged)
+        {
+            //If this sensor value just became trusted again, then so did
+            //the other sensors in the group.  Restart all of their timers.
+            //This sensor's timer may be stopped below if it's in range.
+            _trustManager->startTrustedTimers(sensor);
+        }
+    }
+
     auto running = sensor.timerRunning();
 
     //If this sensor is out of range at this moment, start
