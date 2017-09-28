@@ -26,7 +26,6 @@ namespace fan
 namespace monitor
 {
 
-constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_SENSOR_CONTROL_INTF = "xyz.openbmc_project.Control.FanSpeed";
 constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
