@@ -30,6 +30,24 @@ auto setProperty(const char* path, const char* interface, const char* property)
     };
 }
 
+/**
+ * @brief A handler function to set/update service names
+ * @details Sets or updates service names used by a group with a blank service
+ * name representing a service no longer exists
+ *
+ * @param[in] group - Group associated with a service
+ *
+ * @return Lambda function
+ *     A lambda function to set/update the service names
+ */
+auto setService(const auto&& group)
+{
+    return [group = std::move(group)](auto& zone, auto& arg)
+    {
+        // TODO Update service name list of a group
+    };
+}
+
 } // namespace handler
 } // namespace control
 } // namespace fan
