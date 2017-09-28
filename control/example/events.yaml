@@ -7,6 +7,12 @@
 #      members:
 #          [List of object paths under the path extension]
 #
+#preconditions:
+#    - name: [Name associated with a supported precondition]
+#      description: [A user description of the precondition's use]
+#      parameters:
+#          [List of required parameters for the precondition function]
+#
 #actions:
 #    - name: [The name associated with a supported action function]
 #      description: [A user description of what this action does]
