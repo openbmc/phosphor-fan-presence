@@ -249,6 +249,75 @@ auto objectSignal(const char* path,
                                 std::forward<U>(handler));
 }
 
+/**
+ * @struct Name Owner Changed
+ * @brief A match filter functor for Dbus name owner changed signals
+ *
+ * @tparam U - The type of the handler
+ */
+template <typename U>
+struct NameOwnerChanged
+{
+    NameOwnerChanged() = delete;
+    ~NameOwnerChanged() = default;
+    NameOwnerChanged(const NameOwnerChanged&) = default;
+    NameOwnerChanged& operator=(const NameOwnerChanged&) = default;
+    NameOwnerChanged(NameOwnerChanged&&) = default;
+    NameOwnerChanged& operator=(NameOwnerChanged&&) = default;
+    NameOwnerChanged(const char* path,
+                     const char* iface,
+                     U&& handler) :
+        _path(path),
+        _iface(iface),
+        _handler(std::forward<U>(handler)) { }
+
+    /** @brief Run signal handler function
+     *
+     * Extract the name owner from the NameOwnerChanged
+     * message (or read the name owner when the message is null)
+     * and run the handler function.
+     */
+    void operator()(sdbusplus::bus::bus& bus,
+                    sdbusplus::message::message& msg,
+                    Zone& zone) const
+    {
+        if (msg)
+        {
+            // TODO Handle NameOwnerChanged signals
+        }
+        else
+        {
+            // TODO Initialize NameOwnerChanged data store with service names
+        }
+    }
+
+private:
+    const char* _path;
+    const char* _iface;
+    U _handler;
+};
+
+/**
+ * @brief Used to process a Dbus name owner changed signal event
+ *
+ * @param[in] path - Object path
+ * @param[in] iface - Object interface
+ * @param[in] handler - Handler function to perform
+ *
+ * @tparam U - The type of the handler
+ *
+ * @return - The NameOwnerChanged signal struct
+ */
+template <typename U>
+auto ownerSignal(const char* path,
+                 const char* iface,
+                 U&& handler)
+{
+    return NameOwnerChanged<U>(path,
+                               iface,
+                               std::forward<U>(handler));
+}
+
 } // namespace control
 } // namespace fan
 } // namespace phosphor
