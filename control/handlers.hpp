@@ -30,6 +30,25 @@ auto setProperty(const char* path, const char* interface, const char* property)
     };
 }
 
+/**
+ * @brief A handler function to set/update service name owner state
+ * @details Sets or updates service name owner state used by a group where
+ * a service name without an owner represents the service no longer exists
+ *
+ * @param[in] group - Group associated with a service
+ *
+ * @return Lambda function
+ *     A lambda function to set/update the service name owner state
+ */
+template <typename T>
+auto setService(T&& group)
+{
+    return [group = std::forward(group)](auto& zone, auto& name, bool hasOwner)
+    {
+        // TODO Update service name owner state list of a group
+    };
+}
+
 } // namespace handler
 } // namespace control
 } // namespace fan
