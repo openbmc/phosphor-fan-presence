@@ -39,11 +39,13 @@ constexpr auto OPERATIONAL_STATUS_INTF  =
 Fan::Fan(Mode mode,
          sdbusplus::bus::bus& bus,
          phosphor::fan::event::EventPtr&  events,
+         std::unique_ptr<trust::Manager>& trust,
          const FanDefinition& def) :
     _bus(bus),
     _name(std::get<fanNameField>(def)),
     _deviation(std::get<fanDeviationField>(def)),
-    _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def))
+    _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def)),
+    _trustManager(trust)
 {
     //Start from a known state of functional
     updateInventory(true);
@@ -64,6 +66,8 @@ Fan::Fan(Mode mode,
                                 std::get<hasTargetField>(s),
                                 std::get<timeoutField>(def),
                                 events));
+
+                _trustManager->registerSensor(_sensors.back());
             }
             catch (InvalidSensorError& e)
             {
@@ -89,6 +93,14 @@ void Fan::tachChanged()
 
 void Fan::tachChanged(TachSensor& sensor)
 {
+    if (_trustManager->active())
+    {
+        if (!_trustManager->checkTrust(sensor))
+        {
+            return;
+        }
+    }
+
     auto running = sensor.timerRunning();
 
     //If this sensor is out of range at this moment, start

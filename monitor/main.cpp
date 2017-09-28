@@ -20,6 +20,7 @@
 #include "event.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
+#include "trust_manager.hpp"
 
 using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
@@ -60,6 +61,9 @@ int main(int argc, char* argv[])
         return -1;
     }
 
+    std::unique_ptr<phosphor::fan::trust::Manager> trust =
+            std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
+
     phosphor::fan::event::EventPtr eventPtr{events};
 
     //Attach the event object to the bus object so we can
@@ -68,7 +72,8 @@ int main(int argc, char* argv[])
 
     for (const auto& fanDef : fanDefinitions)
     {
-        fans.emplace_back(std::make_unique<Fan>(mode, bus, eventPtr, fanDef));
+        fans.emplace_back(std::make_unique<Fan>(
+                mode, bus, eventPtr, trust, fanDef));
     }
 
     if (mode == Mode::init)
