@@ -15,6 +15,7 @@ namespace monitor
 
 class Fan;
 
+constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 
 /**
  * @class TachSensor
