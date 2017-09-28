@@ -19,12 +19,14 @@ from the MRW.
 tmpl = '''/* This is a generated file. */
 #include "fan_defs.hpp"
 #include "types.hpp"
+#include "groups.hpp"
 
 using namespace phosphor::fan::monitor;
+using namespace phosphor::fan::trust;
 
 const std::vector<FanDefinition> fanDefinitions
 {
-%for fan_data in data:
+%for fan_data in data.get('fans', {}):
     FanDefinition{"${fan_data['inventory']}",
                   ${fan_data['allowed_out_of_range_time']},
                   ${fan_data['deviation']},
@@ -38,6 +40,29 @@ const std::vector<FanDefinition> fanDefinitions
                       SensorDefinition{"${sensor['name']}", ${has_target}},
                   %endfor
                   },
+    },
+%endfor
+};
+
+##Function to generate the group creation lambda.
+##If a group were to ever need a different constructor,
+##it could be handled here.
+<%def name="get_lambda_contents(group)">
+            std::vector<std::string> names{
+            %for sensor in group['sensors']:
+                "${sensor['name']}",
+            %endfor
+            };
+            return std::make_unique<${group['class']}>(names);
+</%def>
+const std::vector<CreateGroupFunction> trustGroups
+{
+%for group in data.get('sensor_trust_groups', {}):
+    {
+        []()
+        {\
+${get_lambda_contents(group)}\
+        }
     },
 %endfor
 };
@@ -64,7 +89,7 @@ if __name__ == '__main__':
         monitor_data = yaml.safe_load(monitor_input) or {}
 
     #Do some minor input validation
-    for fan in monitor_data:
+    for fan in monitor_data.get('fans', {}):
         if ((fan['deviation'] < 0) or (fan['deviation'] > 100)):
             sys.exit("Invalid deviation value " + str(fan['deviation']))
 
