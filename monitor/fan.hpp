@@ -5,6 +5,7 @@
 #include <vector>
 #include "event.hpp"
 #include "tach_sensor.hpp"
+#include "trust_manager.hpp"
 #include "types.hpp"
 
 namespace phosphor
@@ -89,11 +90,13 @@ class Fan
          * @param mode - mode of fan monitor
          * @param bus - the dbus object
          * @param events - pointer to sd_event object
+         * @param trust - the tach trust manager
          * @param def - the fan definition structure
          */
         Fan(Mode mode,
             sdbusplus::bus::bus& bus,
             phosphor::fan::event::EventPtr& events,
+            std::unique_ptr<trust::Manager>& trust,
             const FanDefinition& def);
 
         /**
@@ -197,6 +200,11 @@ class Fan
          * The sensor objects for the fan
          */
         std::vector<std::unique_ptr<TachSensor>> _sensors;
+
+        /**
+         * The tach trust manager object
+         */
+        std::unique_ptr<trust::Manager>& _trustManager;
 };
 
 }
