@@ -16,6 +16,31 @@ tmpl = '''\
 def indent(str, depth):
     return ''.join(4*' '*depth+line for line in str.splitlines(True))
 %>\
+<%def name="genHandler(sig)" buffered="True">
+%if ('type' in sig['sparams']) and \
+    (sig['sparams']['type'] is not None):
+${sig['signal']}<${sig['sparams']['type']}>(
+%else:
+${sig['signal']}(
+%endif
+%for spk in sig['sparams']['params']:
+${sig['sparams'][spk]},
+%endfor
+%if ('type' in sig['hparams']) and \
+    (sig['hparams']['type'] is not None):
+handler::${sig['handler']}<${sig['hparams']['type']}>(
+%else:
+handler::${sig['handler']}(
+%endif
+%for i, hpk in enumerate(sig['hparams']['params']):
+    %if (i+1) != len(sig['hparams']['params']):
+    ${sig['hparams'][hpk]},
+    %else:
+    ${sig['hparams'][hpk]}
+    %endif
+%endfor
+))
+</%def>\
 <%def name="genSSE(event)" buffered="True">
 Group{
 %for member in event['group']:
@@ -58,24 +83,9 @@ std::vector<Signal>{
         %endif
         %endfor
         ),
-        make_handler(
-            %if ('type' in s['sparams']) and \
-                (s['sparams']['type'] is not None):
-            ${s['signal']}<${s['sparams']['type']}>(
-            %else:
-            ${s['signal']}(
-            %endif
-            %for spk, spv in s['sparams'].iteritems():
-            %if spk != 'type':
-            "${spv}",
-            %endif
-            %endfor
-            handler::setProperty<${s['type']}>(
-                "${s['object']}",
-                "${s['interface']}",
-                "${s['property']}"
-            )
-        ))
+        make_handler(\
+        ${indent(genHandler(sig=s), 3)}\
+        )
     },
 %endfor
 }
@@ -208,24 +218,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 %endif
                                 %endfor
                                 ),
-                                make_handler(
-                                    %if ('type' in s['sparams']) and \
-                                        (s['sparams']['type'] is not None):
-                                    ${s['signal']}<${s['sparams']['type']}>(
-                                    %else:
-                                    ${s['signal']}(
-                                    %endif
-                                    %for spk, spv in s['sparams'].iteritems():
-                                    %if spk != 'type':
-                                    "${spv}",
-                                    %endif
-                                    %endfor
-                                    handler::setProperty<${s['type']}>(
-                                        "${s['object']}",
-                                        "${s['interface']}",
-                                        "${s['property']}"
-                                    )
-                                ))
+                                make_handler(\
+                                ${indent(genHandler(sig=s), 9)}\
+                                )
                             },
                         %endfor
                         }
@@ -342,14 +337,55 @@ def getEvent(zone_num, zone_conditions, e, events_data):
             sparams = {}
             if ('parameters' in eSignal) and \
                (eSignal['parameters'] is not None):
+                splist = []
                 for p in eSignal['parameters']:
-                    sparams[str(p)] = member[str(p)]
+                    sp = str(p)
+                    if (sp != 'type'):
+                        splist.append(sp)
+                        if (sp != 'group'):
+                            sparams[sp] = "\"" + member[sp] + "\""
+                        else:
+                            sparams[sp] = "Group{\n"
+                            for m in group:
+                                sparams[sp] += (
+                                    "{\n" +
+                                    "\"" + str(m['object']) + "\",\n" +
+                                    "{\"" + str(m['interface']) + "\"," +
+                                    "\"" + str(m['property']) + "\"}\n" +
+                                    "},\n")
+                            sparams[sp] += "}"
+                    else:
+                        sparams[sp] = member[sp]
+                sparams['params'] = splist
             signal['sparams'] = sparams
-            # Add member attributes
-            signal['object'] = member['object']
-            signal['interface'] = member['interface']
-            signal['property'] = member['property']
-            signal['type'] = member['type']
+            # Add signal handler
+            eHandler = next(h for h in events_data['handlers']
+                            if h['name'] == eSignal['handler'])
+            signal['handler'] = eHandler['name']
+            hparams = {}
+            if ('parameters' in eHandler) and \
+               (eHandler['parameters'] is not None):
+                hplist = []
+                for p in eHandler['parameters']:
+                    hp = str(p)
+                    if (hp != 'type'):
+                        hplist.append(hp)
+                        if (hp != 'group'):
+                            hparams[hp] = "\"" + member[hp] + "\""
+                        else:
+                            hparams[hp] = "Group{\n"
+                            for m in group:
+                                hparams[hp] += (
+                                    "{\n" +
+                                    "\"" + str(m['object']) + "\",\n" +
+                                    "{\"" + str(m['interface']) + "\"," +
+                                    "\"" + str(m['property']) + "\"}\n" +
+                                    "},\n")
+                            hparams[hp] += "}"
+                    else:
+                        hparams[hp] = member[hp]
+                hparams['params'] = hplist
+            signal['hparams'] = hparams
             signals.append(signal)
     event['signals'] = signals
 
@@ -451,14 +487,55 @@ def addPrecondition(zNum, zCond, event, events_data):
             sparams = {}
             if ('parameters' in eSignal) and \
                (eSignal['parameters'] is not None):
+                splist = []
                 for p in eSignal['parameters']:
-                    sparams[str(p)] = member[str(p)]
+                    sp = str(p)
+                    if (sp != 'type'):
+                        splist.append(sp)
+                        if (sp != 'group'):
+                            sparams[sp] = "\"" + member[sp] + "\""
+                        else:
+                            sparams[sp] = "Group{\n"
+                            for m in group:
+                                sparams[sp] += (
+                                    "{\n" +
+                                    "\"" + str(m['object']) + "\",\n" +
+                                    "{\"" + str(m['interface']) + "\"," +
+                                    "\"" + str(m['property']) + "\"}\n" +
+                                    "},\n")
+                            sparams[sp] += "}"
+                    else:
+                        sparams[sp] = member[sp]
+                sparams['params'] = splist
             signal['sparams'] = sparams
-            # Add member attributes
-            signal['object'] = member['object']
-            signal['interface'] = member['interface']
-            signal['property'] = member['property']
-            signal['type'] = member['type']
+            # Add signal handler
+            eHandler = next(h for h in events_data['handlers']
+                            if h['name'] == eSignal['handler'])
+            signal['handler'] = eHandler['name']
+            hparams = {}
+            if ('parameters' in eHandler) and \
+               (eHandler['parameters'] is not None):
+                hplist = []
+                for p in eHandler['parameters']:
+                    hp = str(p)
+                    if (hp != 'type'):
+                        hplist.append(hp)
+                        if (hp != 'group'):
+                            hparams[hp] = "\"" + member[hp] + "\""
+                        else:
+                            hparams[hp] = "Group{\n"
+                            for m in group:
+                                hparams[hp] += (
+                                    "{\n" +
+                                    "\"" + str(m['object']) + "\",\n" +
+                                    "{\"" + str(m['interface']) + "\"," +
+                                    "\"" + str(m['property']) + "\"}\n" +
+                                    "},\n")
+                            hparams[hp] += "}"
+                    else:
+                        hparams[hp] = member[hp]
+                hparams['params'] = hplist
+            signal['hparams'] = hparams
             signals.append(signal)
     precond['pcsigs'] = signals
 
