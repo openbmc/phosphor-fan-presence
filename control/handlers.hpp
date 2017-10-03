@@ -44,7 +44,8 @@ auto setService(const auto&& group)
 {
     return [group = std::move(group)](auto& zone, auto& arg)
     {
-        // TODO Update service name list of a group
+        // Update service name list of a group
+        zone.setServiceName(&group, arg);
     };
 }
 

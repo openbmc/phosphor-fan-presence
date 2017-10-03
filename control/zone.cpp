@@ -116,8 +116,7 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
 }
 
 void Zone::setServiceName(const Group* group,
-                          const std::string& oldName,
-                          const std::string& newName)
+                          const NameOwnerChangedMsg& nocMsg)
 {
     try
     {
@@ -125,24 +124,28 @@ void Zone::setServiceName(const Group* group,
         auto it = std::find_if(
             sNames.begin(),
             sNames.end(),
-            [&oldName](auto const& entry)
+            [&nocMsg](auto const& entry)
             {
-                return oldName == std::get<curName>(entry);
+                return std::get<nocName>(nocMsg) == std::get<name>(entry);
             }
         );
         if (it != std::end(sNames))
         {
-            std::get<prevName>((*it)) = oldName;
-            std::get<curName>((*it)) = newName;
+            std::get<oldOwn>((*it)) = std::get<nocOldOwn>(nocMsg);
+            std::get<newOwn>((*it)) = std::get<nocNewOwn>(nocMsg);
         }
         else
         {
-            _services[*(group)] = {{oldName, newName}};
+            _services[*(group)] = {{std::get<nocName>(nocMsg),
+                                    std::get<nocOldOwn>(nocMsg),
+                                    std::get<nocNewOwn>(nocMsg)}};
         }
     }
     catch (const std::out_of_range& oore)
     {
-        _services[*(group)] = {{oldName, newName}};
+        _services[*(group)] = {{std::get<nocName>(nocMsg),
+                                std::get<nocOldOwn>(nocMsg),
+                                std::get<nocNewOwn>(nocMsg)}};
     }
 }
 

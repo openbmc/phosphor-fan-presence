@@ -131,12 +131,10 @@ class Zone
          * @brief Set or update a service name in use
          *
          * @param[in] group - Group associated with service
-         * @param[in] oldName - Old service name
-         * @param[in] newName - New service name
+         * @param[in] nocMsg - NameOwnerChanged message with service name states
          */
         void setServiceName(const Group* group,
-                            const std::string& oldName,
-                            const std::string& newName);
+                            const NameOwnerChangedMsg& nocMsg);
 
         /**
          * @brief Initialize a set speed event properties and actions

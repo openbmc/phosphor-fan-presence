@@ -281,14 +281,35 @@ struct NameOwnerChanged
                     sdbusplus::message::message& msg,
                     Zone& zone) const
     {
+        NameOwnerChangedMsg nocMsg = {"", "", ""};
         if (msg)
         {
-            // TODO Handle NameOwnerChanged signals
+            // Handle NameOwnerChanged signals
+            const char* name = nullptr;
+            msg.read(name);
+            std::get<nocName>(nocMsg) = name;
+
+            const char* oldOwn = nullptr;
+            msg.read(oldOwn);
+            std::get<nocOldOwn>(nocMsg) = oldOwn;
+
+            const char* newOwn = nullptr;
+            msg.read(newOwn);
+            std::get<nocNewOwn>(nocMsg) = newOwn;
         }
         else
         {
-            // TODO Initialize NameOwnerChanged data store with service names
+            // Initialize NameOwnerChanged data store with service name
+            // TODO Get the bus name
+            auto name = "xyz.openbmc_project.Hwmon.hwmon9";
+            auto own = util::SDBusPlus::getService(bus,
+                                                   _path,
+                                                   _iface);
+            std::get<nocName>(nocMsg) = name;
+            std::get<nocNewOwn>(nocMsg) = own;
         }
+
+        _handler(zone, nocMsg);
     }
 
 private:
