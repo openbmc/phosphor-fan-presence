@@ -32,6 +32,13 @@ using Condition = std::tuple<std::string,
 
 using PropertyVariantType = sdbusplus::message::variant<bool, int64_t>;
 
+constexpr auto nocName = 0;
+constexpr auto nocOldOwn = 1;
+constexpr auto nocNewOwn = 2;
+using NameOwnerChangedMsg = std::tuple<std::string,
+                                       std::string,
+                                       std::string>;
+
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
 using FanDefinition = std::tuple<std::string, std::vector<std::string>>;
