@@ -13,6 +13,7 @@ namespace control
 class Zone;
 
 using namespace phosphor::fan;
+using namespace sdbusplus::bus::match;
 using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                                 Error::InternalFailure;
@@ -277,19 +278,52 @@ struct NameOwnerChanged
      * message (or read the name owner when the message is null)
      * and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus& bus,
-                    sdbusplus::message::message& msg,
-                    Zone& zone) const
-    {
-        if (msg)
-        {
-            // TODO Handle NameOwnerChanged signals
-        }
-        else
-        {
-            // TODO Initialize NameOwnerChanged data store with service names
-        }
-    }
+     void operator()(sdbusplus::bus::bus& bus,
+                     sdbusplus::message::message& msg,
+                     Zone& zone) const
+     {
+         std::string name;
+         bool hasOwner = false;
+         if (msg)
+         {
+             // Handle NameOwnerChanged signals
+             msg.read(name);
+
+             std::string oldOwn;
+             msg.read(oldOwn);
+
+             std::string newOwn;
+             msg.read(newOwn);
+             if (!newOwn.empty())
+             {
+                 hasOwner = true;
+             }
+         }
+         else
+         {
+             try
+             {
+                 // Initialize NameOwnerChanged data store with service name
+                 name = util::SDBusPlus::getService(bus,
+                                                    _path,
+                                                    _iface);
+                 hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                         bus,
+                         "org.freedesktop.DBus",
+                         "/org/freedesktop/DBus",
+                         "org.freedesktop.DBus",
+                         "NameHasOwner",
+                         name);
+             }
+             catch (const InternalFailure& ife)
+             {
+                 // Failed to get service name owner state
+                 hasOwner = false;
+             }
+         }
+
+         _handler(zone, name, hasOwner);
+     }
 
 private:
     const char* _path;
