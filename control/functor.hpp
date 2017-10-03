@@ -13,6 +13,7 @@ namespace control
 class Zone;
 
 using namespace phosphor::fan;
+using namespace sdbusplus::bus::match;
 using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                                 Error::InternalFailure;
@@ -283,14 +284,47 @@ struct NameOwnerChanged
                     sdbusplus::message::message& msg,
                     Zone& zone) const
     {
+        std::string name;
+        bool hasOwner = false;
         if (msg)
         {
-            // TODO Handle NameOwnerChanged signals
+            // Handle NameOwnerChanged signals
+            msg.read(name);
+
+            std::string oldOwn;
+            msg.read(oldOwn);
+
+            std::string newOwn;
+            msg.read(newOwn);
+            if (!newOwn.empty())
+            {
+                hasOwner = true;
+            }
         }
         else
         {
-            // TODO Initialize NameOwnerChanged data store with service names
+            try
+            {
+                // Initialize NameOwnerChanged data store with service name
+                name = util::SDBusPlus::getService(bus,
+                                                   _path,
+                                                   _iface);
+                hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                        bus,
+                        "org.freedesktop.DBus",
+                        "/org/freedesktop/DBus",
+                        "org.freedesktop.DBus",
+                        "NameHasOwner",
+                        name);
+            }
+            catch (const InternalFailure& ife)
+            {
+                // Failed to get service name owner state
+                hasOwner = false;
+            }
         }
+
+        _handler(zone, name, hasOwner);
     }
 
 private:
