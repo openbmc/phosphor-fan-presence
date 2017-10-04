@@ -273,7 +273,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
         if (!timer->running())
         {
             timer->start(std::get<intervalPos>(eventTimer),
-                         util::Timer::TimerType::repeating);
+                         std::get<typePos>(eventTimer));
         }
         _timerEvents.emplace_back(std::move(timer));
     }

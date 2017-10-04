@@ -69,7 +69,8 @@ make_action(action::${a['name']}
 %endfor
 },
 Timer{
-    ${event['timer']['interval']}
+    ${event['timer']['interval']},
+    ${event['timer']['type']}
 },
 std::vector<Signal>{
 %for s in event['signals']:
@@ -204,7 +205,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endif
                         },
                         Timer{
-                            ${event['pc']['pctime']['interval']}
+                            ${event['pc']['pctime']['interval']},
+                            ${event['pc']['pctime']['type']}
                         },
                         std::vector<Signal>{
                         %for s in event['pc']['pcsigs']:
@@ -401,6 +403,7 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     else:
         timer['interval'] = (interval +
                              "(" + str(0) + ")")
+    timer['type'] = "util::Timer::TimerType::repeating"
     event['timer'] = timer
 
     return event
@@ -551,6 +554,7 @@ def addPrecondition(zNum, zCond, event, events_data):
     else:
         timer['interval'] = (interval +
                              "(" + str(0) + ")")
+    timer['type'] = "util::Timer::TimerType::repeating"
     precond['pctime'] = timer
 
     return precond
