@@ -66,7 +66,9 @@ constexpr auto newOwn = 2;
 using Service = std::tuple<std::string, std::string, std::string>;
 
 constexpr auto intervalPos = 0;
-using Timer = std::tuple<std::chrono::seconds>;
+constexpr auto typePos = 1;
+using Timer = std::tuple<std::chrono::seconds,
+                         util::Timer::TimerType>;
 
 constexpr auto signaturePos = 0;
 constexpr auto handlerObjPos = 1;
