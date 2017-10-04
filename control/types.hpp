@@ -58,7 +58,9 @@ constexpr auto hasOwnerPos = 1;
 using Service = std::tuple<std::string, bool>;
 
 constexpr auto intervalPos = 0;
-using Timer = std::tuple<std::chrono::seconds>;
+constexpr auto typePos = 1;
+using Timer = std::tuple<std::chrono::seconds,
+                         util::Timer::TimerType>;
 
 constexpr auto sigMatchPos = 0;
 constexpr auto sigHandlerPos = 1;
