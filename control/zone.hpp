@@ -139,6 +139,18 @@ class Zone
                              const std::string& owner);
 
         /**
+         * @brief Get the group's list of service names
+         *
+         * @param[in] group - Group to get service names for
+         *
+         * @return - The list of service names
+         */
+        inline auto getGroupServices(const Group* group)
+        {
+            return _services.at(*(group));
+        }
+
+        /**
          * @brief Initialize a set speed event properties and actions
          *
          * @param[in] event - Set speed event
@@ -262,6 +274,66 @@ class Zone
          * requested speed decreases if allowed
          */
         void decTimerExpired();
+
+        /**
+         * @brief Get the event pointer used with this zone's timers
+         *
+         * @return - The Dbus event pointer for timers
+         */
+        inline auto& getEventPtr()
+        {
+            return _sdEvents;
+        }
+
+        /**
+         * @brief Get the list of timer events
+         *
+         * @return - List of timer events
+         */
+        inline auto& getTimerEvents()
+        {
+            return _timerEvents;
+        }
+
+        /**
+         * @brief Find the first instance of a timer event
+         *
+         * @param[in] eventGroup - Group associated with a timer
+         * @param[in] eventActions - List of actions associated with a timer
+         *
+         * @return - Iterator to the timer event
+         */
+        std::vector<TimerEvent>::iterator findTimer(
+                const Group& eventGroup,
+                const std::vector<Action>& eventActions);
+
+        /**
+         * @brief Add a timer to the list of timer based events
+         *
+         * @param[in] data - Event data for timer
+         * @param[in] timer - Timer to be added
+         */
+        inline void addTimer(
+                std::unique_ptr<EventData>& data,
+                std::unique_ptr<phosphor::fan::util::Timer>& timer)
+        {
+            _timerEvents.emplace_back(std::move(data), std::move(timer));
+        };
+
+        /**
+         * @brief Remove the given timer event
+         *
+         * @param[in] teIter - Iterator pointing to the timer event to remove
+         */
+        inline void removeTimer(std::vector<TimerEvent>::iterator& teIter)
+        {
+            if (teIter != std::end(_timerEvents))
+            {
+                std::get<timerEventDataPos>(*teIter).reset();
+                std::get<timerTimerPos>(*teIter).reset();
+                _timerEvents.erase(teIter);
+            }
+        }
 
         /**
          * @brief Callback function for event timers that processes the given
@@ -395,7 +467,7 @@ class Zone
         /**
          * @brief List of timers for events
          */
-        std::vector<std::unique_ptr<phosphor::fan::util::Timer>> _timerEvents;
+        std::vector<TimerEvent> _timerEvents;
 
         /**
          * @brief Get the request speed base if defined, otherwise the
