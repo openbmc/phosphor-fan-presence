@@ -259,6 +259,17 @@ void Zone::initEvent(const SetSpeedEvent& event)
     auto eventTimer = std::get<timerPos>(event);
     if (std::get<intervalPos>(eventTimer) != seconds(0))
     {
+        // Associate event data with timer
+        std::unique_ptr<EventData> eventData =
+            std::make_unique<EventData>(
+                    EventData
+                    {
+                        std::get<groupPos>(event),
+                        "",
+                        nullptr,
+                        std::get<actionsPos>(event)
+                    }
+            );
         std::unique_ptr<util::Timer> timer =
             std::make_unique<util::Timer>(
                 _sdEvents,
@@ -273,7 +284,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
             timer->start(std::get<intervalPos>(eventTimer),
                          std::get<typePos>(eventTimer));
         }
-        _timerEvents.emplace_back(std::move(timer));
+        addTimer(std::move(eventData), std::move(timer));
     }
     // Run action functions for initial event state
     std::for_each(
@@ -330,6 +341,38 @@ void Zone::removeEvent(const SetSpeedEvent& event)
         }
         _signalEvents.erase(it);
     }
+}
+
+std::vector<TimerEvent>::iterator Zone::findTimer(
+        const Group& eventGroup,
+        const std::vector<Action>& eventActions)
+{
+    for (auto it = _timerEvents.begin(); it != _timerEvents.end(); ++it)
+    {
+        auto teEventData = *std::get<timerEventDataPos>(*it);
+        if (std::get<eventActionsPos>(teEventData).size() ==
+            eventActions.size())
+        {
+            // TODO openbmc/openbmc#2328 - Use the action function target
+            // for comparison
+            auto actsEqual = [](auto const& a1,
+                                auto const& a2)
+                    {
+                        return a1.target_type().name() ==
+                               a2.target_type().name();
+                    };
+            if (std::get<eventGroupPos>(teEventData) == eventGroup &&
+                std::equal(eventActions.begin(),
+                           eventActions.end(),
+                           std::get<eventActionsPos>(teEventData).begin(),
+                           actsEqual))
+            {
+                return it;
+            }
+        }
+    }
+
+    return _timerEvents.end();
 }
 
 void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
