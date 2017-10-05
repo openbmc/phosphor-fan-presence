@@ -11,6 +11,72 @@ namespace action
 
 using namespace phosphor::fan;
 
+Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
+{
+    return [tConf = std::move(tConf),
+            actions = std::move(actions)](control::Zone& zone,
+                                          const Group& group)
+    {
+        try
+        {
+            auto services = zone.getGroupServices(&group);
+            auto setTimer = std::any_of(
+                services.begin(),
+                services.end(),
+                [](const auto& s)
+                {
+                    return !std::get<hasOwnerPos>(s);
+                });
+            if (setTimer &&
+                zone.findTimer(group, actions) ==
+                    std::end(zone.getTimerEvents()))
+            {
+                // Associate event data with timer
+                std::unique_ptr<EventData> eventData =
+                    std::make_unique<EventData>(
+                        EventData
+                        {
+                            group,
+                            nullptr,
+                            actions
+                        }
+                    );
+                std::unique_ptr<util::Timer> timer =
+                    std::make_unique<util::Timer>(
+                        zone.getEventPtr(),
+                        [&zone,
+                        actions = &actions,
+                        group = &group]()
+                        {
+                            zone.timerExpired(*group, *actions);
+                        });
+                if (!timer->running())
+                {
+                    timer->start(std::get<intervalPos>(tConf),
+                                 std::get<typePos>(tConf));
+                }
+                zone.addTimer(eventData, timer);
+            }
+            else
+            {
+                auto timer = zone.findTimer(group, actions);
+                if (timer != std::end(zone.getTimerEvents()))
+                {
+                    if (std::get<timerTimerPos>(*timer)->running())
+                    {
+                        std::get<timerTimerPos>(*timer)->stop();
+                    }
+                    zone.removeTimer(timer);
+                }
+            }
+        }
+        catch (const std::out_of_range& oore)
+        {
+            // Group not found, no timers set
+        }
+    };
+}
+
 void set_request_speed_base_with_max(control::Zone& zone,
                                      const Group& group)
 {
