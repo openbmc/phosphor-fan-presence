@@ -80,8 +80,11 @@ constexpr auto eventHandlerPos = 1;
 constexpr auto eventActionsPos = 2;
 using EventData = std::tuple<Group, Handler, std::vector<Action>>;
 
-constexpr auto timerTimerPos = 0;
-using TimerEvent = std::tuple<phosphor::fan::util::Timer>;
+constexpr auto timerEventDataPos = 0;
+constexpr auto timerTimerPos = 1;
+using TimerEvent =
+    std::tuple<std::unique_ptr<EventData>,
+               std::unique_ptr<phosphor::fan::util::Timer>>;
 
 constexpr auto signalEventDataPos = 0;
 constexpr auto signalMatchPos = 1;
