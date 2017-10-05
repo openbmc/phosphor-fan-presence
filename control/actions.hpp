@@ -15,6 +15,21 @@ namespace action
 {
 
 /**
+ * @brief An action that wraps a list of actions with a timer
+ * @details Sets up a list of actions to be invoked when the defined timer
+ * expires (or for each expiration of a repeating timer).
+ *
+ * @param[in] tConf - Timer configuration parameters
+ * @param[in] action - List of actions to be called when the timer expires
+ *
+ * @return Action lambda function
+ *     An Action function that creates a timer
+ */
+Action call_actions_based_on_timer(
+        Timer&& tConf,
+        std::vector<Action>&& actions);
+
+/**
  * @brief An action to set the request speed base
  * @details A new target speed is determined using a speed delta being added
  * or subtracted, for increases or decrease respectively, from a base speed.
