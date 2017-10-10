@@ -60,9 +60,9 @@ make_action(action::${a['name']}
 %endif
 %for i, p in enumerate(a['parameters']):
 %if (i+1) != len(a['parameters']):
-    static_cast<${p['type']}>(${p['value']}),
+    ${p},
 %else:
-    static_cast<${p['type']}>(${p['value']}))
+    ${p})
 %endif
 %endfor
 ),
@@ -295,26 +295,21 @@ def getEvent(zone_num, zone_conditions, e, events_data):
         if ('parameters' in eAction) and \
            (eAction['parameters'] is not None):
             for p in eAction['parameters']:
-                param = {}
+                param = "static_cast<"
                 if type(eActions[p]) is not dict:
                     if p == 'property':
-                        param['value'] = str(eActions[p]).lower()
-                        param['type'] = str(
-                            e['property']['type']).lower()
+                        param += (str(e['property']['type']).lower() + ">(" +
+                            str(eActions[p]).lower() + ")")
                     else:
                         # Default type to 'size_t' when not given
-                        param['value'] = str(eActions[p]).lower()
-                        param['type'] = 'size_t'
-                    params.append(param)
+                        param += ("size_t>(" + str(eActions[p]).lower() + ")")
                 else:
-                    param['type'] = str(eActions[p]['type']).lower()
+                    param += (str(eActions[p]['type']).lower() + ">(")
                     if p != 'map':
-                        param['value'] = str(
-                            eActions[p]['value']).lower()
+                        param += (str(eActions[p]['value']).lower() + ")")
                     else:
-                        emap = convertToMap(str(eActions[p]['value']))
-                        param['value'] = param['type'] + emap
-                    params.append(param)
+                        param += (convertToMap(str(eActions[p]['value'])) + ")")
+                params.append(param)
         actions['parameters'] = params
         action.append(actions)
     event['action'] = action
