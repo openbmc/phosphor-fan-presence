@@ -249,6 +249,69 @@ def convertToMap(listOfDict):
     return listOfDict
 
 
+def getActions(edata, actions, events):
+    """
+    Extracts and constructs the make_action function call for
+    all the actions within the given event.
+    """
+    action = []
+    for eActions in actions['actions']:
+        actions = {}
+        eAction = next(a for a in events['actions']
+                       if a['name'] == eActions['name'])
+        actions['name'] = eAction['name']
+        params = []
+        if ('parameters' in eAction) and \
+           (eAction['parameters'] is not None):
+            for p in eAction['parameters']:
+                param = "static_cast<"
+                if type(eActions[p]) is not dict:
+                    if p == 'actions':
+                        param = "std::vector<Action>{"
+                        pActs = getActions(edata, eActions, events)
+                        for a in pActs:
+                            if (len(a['parameters']) != 0):
+                                param += (
+                                    "make_action(action::" +
+                                    a['name'] +
+                                    "(\n")
+                                for i, ap in enumerate(a['parameters']):
+                                    if (i+1) != len(a['parameters']):
+                                        param += (ap + ",")
+                                    else:
+                                        param += (ap + ")")
+                            else:
+                                param += ("make_action(action::" + a['name'])
+                            param += "),"
+                        param += "}"
+                    elif p == 'property':
+                        param += (
+                            str(edata['property']['type']).lower() +
+                            ">(" + str(eActions[p]).lower() + ")")
+                    else:
+                        # Default type to 'size_t' when not given
+                        param += ("size_t>(" + str(eActions[p]).lower() + ")")
+                else:
+                    if p == 'timer':
+                        param = (
+                            "Timer{static_cast<std::chrono::seconds>(" +
+                            str(eActions[p]['delay']) + "), " +
+                            "util::Timer::TimerType::" +
+                            str(eActions[p]['type']) + "}")
+                    else:
+                        param += (str(eActions[p]['type']).lower() + ">(")
+                        if p != 'map':
+                            param += str(eActions[p]['value']).lower() + ")"
+                        else:
+                            param += (
+                                str(eActions[p]['type']).lower() +
+                                convertToMap(str(eActions[p]['value'])) + ")")
+                params.append(param)
+        actions['parameters'] = params
+        action.append(actions)
+    return action
+
+
 def getEvent(zone_num, zone_conditions, e, events_data):
     """
     Parses the sections of an event and populates the properties
@@ -285,34 +348,7 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     event['group'] = group
 
     # Add set speed actions and function parameters
-    action = []
-    for eActions in e['actions']:
-        actions = {}
-        eAction = next(a for a in events_data['actions']
-                       if a['name'] == eActions['name'])
-        actions['name'] = eAction['name']
-        params = []
-        if ('parameters' in eAction) and \
-           (eAction['parameters'] is not None):
-            for p in eAction['parameters']:
-                param = "static_cast<"
-                if type(eActions[p]) is not dict:
-                    if p == 'property':
-                        param += (str(e['property']['type']).lower() + ">(" +
-                            str(eActions[p]).lower() + ")")
-                    else:
-                        # Default type to 'size_t' when not given
-                        param += ("size_t>(" + str(eActions[p]).lower() + ")")
-                else:
-                    param += (str(eActions[p]['type']).lower() + ">(")
-                    if p != 'map':
-                        param += (str(eActions[p]['value']).lower() + ")")
-                    else:
-                        param += (convertToMap(str(eActions[p]['value'])) + ")")
-                params.append(param)
-        actions['parameters'] = params
-        action.append(actions)
-    event['action'] = action
+    event['action'] = getActions(e, e, events_data)
 
     # Add property change signal handler
     signals = []
