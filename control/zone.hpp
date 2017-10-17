@@ -78,6 +78,17 @@ class Zone
         void setActiveAllow(const Group* group, bool isActiveAllow);
 
         /**
+         * @brief Sets the floor change allowed state
+         *
+         * @param[in] group - A group that affects floor changes
+         * @param[in] isAllow - Allow state according to group
+         */
+        inline void setFloorChangeAllow(const Group* group, bool isAllow)
+        {
+            _floorChange[*(group)] = isAllow;
+        }
+
+        /**
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
@@ -231,7 +242,8 @@ class Zone
 
         /**
          * @brief Set the floor speed to the given speed and increase target
-         * speed to the floor when target is below floor.
+         * speed to the floor when target is below floor where floor changes
+         * are allowed.
          *
          * @param[in] speed - Speed to set the floor to
          */
@@ -452,6 +464,11 @@ class Zone
          * @brief Map of active fan control allowed by groups
          */
         std::map<const Group, bool> _active;
+
+        /**
+         * @brief Map of floor change allowed by groups
+         */
+        std::map<const Group, bool> _floorChange;
 
         /**
          * @brief Map of group service names
