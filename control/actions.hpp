@@ -30,6 +30,18 @@ Action call_actions_based_on_timer(
         std::vector<Action>&& actions);
 
 /**
+ * @brief An action that sets the floor to the default fan floor speed
+ * @details Sets the fan floor to the defined default fan floor speed when a
+ * service associated to the given group has terminated. Once all services
+ * are functional and providing the sensors again, the fan floor is allowed
+ * to be set normally.
+ *
+ * @param[in] zone - Zone containing fans
+ * @param[in] group - Group of sensors to determine services' states
+ */
+void set_fan_floor_to_default(Zone& zone, const Group& group);
+
+/**
  * @brief An action to set the request speed base
  * @details A new target speed is determined using a speed delta being added
  * or subtracted, for increases or decrease respectively, from a base speed.
