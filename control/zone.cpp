@@ -147,11 +147,19 @@ void Zone::setServiceOwner(const Group* group,
 
 void Zone::setFloor(uint64_t speed)
 {
-    _floorSpeed = speed;
-    // Floor speed above target, update target to floor speed
-    if (_targetSpeed < _floorSpeed)
+    // Check all entries are set to allow floor to be set
+    auto pred = [](auto const& entry) {return entry.second;};
+    auto setFloor = std::all_of(_floorChange.begin(),
+                                _floorChange.end(),
+                                pred);
+    if (setFloor)
     {
-        requestSpeedIncrease(_floorSpeed - _targetSpeed);
+        _floorSpeed = speed;
+        // Floor speed above target, update target to floor speed
+        if (_targetSpeed < _floorSpeed)
+        {
+            requestSpeedIncrease(_floorSpeed - _targetSpeed);
+        }
     }
 }
 
