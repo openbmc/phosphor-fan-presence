@@ -1,4 +1,5 @@
 #include "actions.hpp"
+#include <iostream>
 
 namespace phosphor
 {
@@ -75,6 +76,24 @@ Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
             // Group not found, no timers set
         }
     };
+}
+
+void default_floor_on_missing_owner(Zone& zone, const Group& group)
+{
+    auto services = zone.getGroupServices(&group);
+    auto defFloor = std::any_of(
+        services.begin(),
+        services.end(),
+        [](const auto& s)
+        {
+            return std::get<ownerPos>(s) == "";
+        });
+    if (defFloor)
+    {
+        zone.setFloor(zone.getDefFloor());
+    }
+    // Update fan control floor change allowed
+    zone.setFloorChangeAllow(&group, !defFloor);
 }
 
 void set_request_speed_base_with_max(control::Zone& zone,
