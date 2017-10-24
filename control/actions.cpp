@@ -96,6 +96,27 @@ void default_floor_on_missing_owner(Zone& zone, const Group& group)
     zone.setFloorChangeAllow(&group, !defFloor);
 }
 
+Action set_speed_on_missing_owner(uint64_t speed)
+{
+    return [speed](control::Zone& zone, const Group& group)
+    {
+        auto services = zone.getGroupServices(&group);
+        auto missingOwner = std::any_of(
+            services.begin(),
+            services.end(),
+            [](const auto& s)
+            {
+                return !std::get<hasOwnerPos>(s);
+            });
+        if (missingOwner)
+        {
+            zone.setSpeed(speed);
+        }
+        // Update group's fan control active allowed based on action results
+        zone.setActiveAllow(&group, !missingOwner);
+    };
+}
+
 void set_request_speed_base_with_max(control::Zone& zone,
                                      const Group& group)
 {
