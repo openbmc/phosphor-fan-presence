@@ -42,6 +42,20 @@ Action call_actions_based_on_timer(
 void set_fan_floor_to_default(Zone& zone, const Group& group);
 
 /**
+ * @brief An action to set a speed when a service owner is missing
+ * @details Sets the fans to the given speed when any service owner associated
+ * to the group is missing. Once all services are functional and providing
+ * the event data again, active fan speed changes are allowed.
+ *
+ * @param[in] speed - Speed to set the zone to
+ *
+ * @return Action lambda function
+ *     An Action function that sets the zone to the given speed if any service
+ *     owners are missing.
+ */
+Action set_speed_on_missing_owner(uint64_t speed);
+
+/**
  * @brief An action to set the request speed base
  * @details A new target speed is determined using a speed delta being added
  * or subtracted, for increases or decrease respectively, from a base speed.
