@@ -46,6 +46,16 @@ class Fan
          */
         void setSpeed(uint64_t speed);
 
+        /**
+         * @brief Get the current fan target speed
+         *
+         * @return - The target speed of the fan
+         */
+        inline auto getTargetSpeed() const
+        {
+            return _targetSpeed;
+        }
+
     private:
 
         /**
@@ -71,6 +81,11 @@ class Fan
          * Vector of hwmon sensors for the rotors
          */
         std::vector<std::string> _sensors;
+
+        /**
+         * Target speed for this fan
+         */
+        uint64_t _targetSpeed;
 };
 
 
