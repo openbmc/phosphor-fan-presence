@@ -60,6 +60,11 @@ Zone::Zone(Mode mode,
     // Do not enable set speed events when in init mode
     if (mode != Mode::init)
     {
+        // Update target speed to current zone target speed
+        if (!_fans.empty())
+        {
+            _targetSpeed = _fans.front()->getTargetSpeed();
+        }
         // Setup signal trigger for set speed events
         for (auto& event : std::get<setSpeedEventsPos>(def))
         {
