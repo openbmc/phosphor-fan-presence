@@ -80,7 +80,7 @@ void ArgumentParser::usage(char** argv)
     std::cerr <<
               "    --path=<objpath>     *Required* object path under inventory "
               "to have CoolingType updated\n";
-    std::cerr << "\nThe --air / --water options may be given in addtion to "
+    std::cerr << "\nThe --air / --water options may be given in addition to "
               "--gpio, in which case both their setting and the GPIO will take "
               "effect.\n";
     std::cerr << std::flush;

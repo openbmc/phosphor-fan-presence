@@ -185,7 +185,7 @@ class Rpolicy(ConfigEntry):
 
     def setup(self, objs):
         '''All policies have an associated fan and methods.
-        Resolve the indicies.'''
+        Resolve the indices.'''
 
         sensors = []
         for s in self.sensors:
@@ -323,7 +323,7 @@ class Everything(Renderer):
             # is just an array index.
             #
             # At this point all objects have been created but references
-            # have not been resolved to array indicies.  Instruct objects
+            # have not been resolved to array indices.  Instruct objects
             # to do that now.
             for cls, items in objs.items():
                 for obj in items:
