@@ -20,6 +20,7 @@
 #include <string>
 #include "fan.hpp"
 #include "utility.hpp"
+#include "sdbusplus.hpp"
 
 namespace phosphor
 {
@@ -43,10 +44,22 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
     _bus(bus),
     _name(std::get<fanNamePos>(def))
 {
+    std::string path;
     auto sensors = std::get<sensorListPos>(def);
     for (auto& s : sensors)
     {
-        _sensors.emplace_back(FAN_SENSOR_PATH + s);
+        path = FAN_SENSOR_PATH + s;
+        _sensors.emplace_back(path);
+    }
+    // All sensors associated with this fan are set to same target speed,
+    // so only need to read target property from one.
+    if (!path.empty())
+    {
+        _targetSpeed = util::SDBusPlus::getProperty<uint64_t>(
+                bus,
+                path,
+                FAN_SENSOR_CONTROL_INTF,
+                FAN_TARGET_PROPERTY);
     }
 }
 
@@ -84,6 +97,8 @@ void Fan::setSpeed(uint64_t speed)
             elog<InternalFailure>();
         }
     }
+
+    _targetSpeed = speed;
 }
 
 }
