@@ -75,7 +75,7 @@ Timer{
 std::vector<Signal>{
 %for s in event['signals']:
     Signal{
-        match::${s['match']}(
+        make_match(match::${s['match']}(
         %for i, mp in enumerate(s['mparams']):
         %if (i+1) != len(s['mparams']):
         "${mp}",
@@ -83,7 +83,7 @@ std::vector<Signal>{
         "${mp}"
         %endif
         %endfor
-        ),
+        )),
         make_handler(\
         ${indent(genHandler(sig=s), 3)}\
         )
@@ -211,7 +211,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         std::vector<Signal>{
                         %for s in event['pc']['pcsigs']:
                             Signal{
-                                match::${s['match']}(
+                                make_match(match::${s['match']}(
                                 %for i, mp in enumerate(s['mparams']):
                                 %if (i+1) != len(s['mparams']):
                                 "${mp}",
@@ -219,7 +219,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 "${mp}"
                                 %endif
                                 %endfor
-                                ),
+                                )),
                                 make_handler(\
                                 ${indent(genHandler(sig=s), 9)}\
                                 )

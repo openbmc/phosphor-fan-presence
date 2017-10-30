@@ -1,7 +1,6 @@
 #pragma once
 
-#include <sdbusplus/bus.hpp>
-#include "sdbusplus.hpp"
+#include "types.hpp"
 
 namespace phosphor
 {
@@ -12,9 +11,6 @@ namespace control
 namespace match
 {
 
-using namespace phosphor::fan;
-using namespace sdbusplus::bus::match;
-
 /**
  * @brief A match function that constructs a PropertiesChanged match string
  * @details Constructs a PropertiesChanged match string with a given object
@@ -23,12 +19,10 @@ using namespace sdbusplus::bus::match;
  * @param[in] obj - Object's path name
  * @param[in] iface - Interface name
  *
- * @return - A PropertiesChanged match string
+ * @return Match lambda function
+ *     A Match function of a PropertiesChanged match string
  */
-inline auto propertiesChanged(const std::string& obj, const std::string& iface)
-{
-    return rules::propertiesChanged(obj, iface);
-}
+Match propertiesChanged(const std::string& obj, const std::string& iface);
 
 /**
  * @brief A match function that constructs an InterfacesAdded match string
@@ -37,12 +31,10 @@ inline auto propertiesChanged(const std::string& obj, const std::string& iface)
  *
  * @param[in] obj - Object's path name
  *
- * @return - A InterfacesAdded match string
+ * @return Match lambda function
+ *     A Match function of an InterfacesAdded match string
  */
-inline auto interfacesAdded(const std::string& obj)
-{
-    return rules::interfacesAdded(obj);
-}
+Match interfacesAdded(const std::string& obj);
 
 /**
  * @brief A match function that constructs a NameOwnerChanged match string
@@ -52,22 +44,10 @@ inline auto interfacesAdded(const std::string& obj)
  * @param[in] obj - Object's path name
  * @param[in] iface - Interface name
  *
- * @return - A NameOwnerChanged match string
+ * @return Match lambda function
+ *     A Match function of a NameOwnerChanged match string
  */
-inline auto nameOwnerChanged(const std::string& obj, const std::string& iface)
-{
-    std::string noc;
-    try
-    {
-        noc = rules::nameOwnerChanged() +
-                rules::argN(0, util::SDBusPlus::getService(obj, iface));
-    }
-    catch (const InternalFailure& ife)
-    {
-        // Unable to construct NameOwnerChanged match string
-    }
-    return noc;
-}
+Match nameOwnerChanged(const std::string& obj, const std::string& iface);
 
 } // namespace match
 } // namespace control

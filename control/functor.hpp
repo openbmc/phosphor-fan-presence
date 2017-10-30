@@ -19,6 +19,19 @@ using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                                 Error::InternalFailure;
 
 /**
+ * @brief Create a match signature function object
+ *
+ * @param[in] match - The match being created
+ *
+ * @return - The created match signature function object
+ */
+template <typename T>
+auto make_match(T&& match)
+{
+    return Match(std::forward<T>(match));
+}
+
+/**
  * @brief Create a handler function object
  *
  * @param[in] handler - The handler being created
