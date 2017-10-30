@@ -38,6 +38,7 @@ Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
                         {
                             group,
                             nullptr,
+                            nullptr,
                             actions
                         }
                     );

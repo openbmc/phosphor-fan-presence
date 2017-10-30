@@ -39,6 +39,7 @@ using FanDefinition = std::tuple<std::string, std::vector<std::string>>;
 constexpr auto intfPos = 0;
 constexpr auto propPos = 1;
 using Group = std::map<std::string, std::tuple<std::string, std::string>>;
+using Match = std::function<std::string()>;
 using Handler = std::function<void(sdbusplus::bus::bus&,
                                    sdbusplus::message::message&,
                                    Zone&)>;
@@ -62,9 +63,9 @@ constexpr auto typePos = 1;
 using Timer = std::tuple<std::chrono::seconds,
                          util::Timer::TimerType>;
 
-constexpr auto signaturePos = 0;
-constexpr auto handlerObjPos = 1;
-using Signal = std::tuple<std::string, Handler>;
+constexpr auto sigMatchPos = 0;
+constexpr auto sigHandlerPos = 1;
+using Signal = std::tuple<Match, Handler>;
 
 constexpr auto groupPos = 0;
 constexpr auto actionsPos = 1;
@@ -76,9 +77,10 @@ using SetSpeedEvent = std::tuple<Group,
                                  std::vector<Signal>>;
 
 constexpr auto eventGroupPos = 0;
-constexpr auto eventHandlerPos = 1;
-constexpr auto eventActionsPos = 2;
-using EventData = std::tuple<Group, Handler, std::vector<Action>>;
+constexpr auto eventMatchPos = 1;
+constexpr auto eventHandlerPos = 2;
+constexpr auto eventActionsPos = 3;
+using EventData = std::tuple<Group, Match, Handler, std::vector<Action>>;
 
 constexpr auto timerEventDataPos = 0;
 constexpr auto timerTimerPos = 1;
