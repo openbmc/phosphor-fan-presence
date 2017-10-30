@@ -244,23 +244,24 @@ void Zone::initEvent(const SetSpeedEvent& event)
     for (auto& sig : std::get<signalsPos>(event))
     {
         // Initialize the event signal using handler
-        std::get<handlerObjPos>(sig)(_bus, nullMsg, *this);
+        std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
         // Setup signal matches of the property for event
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(
                 EventData
                 {
                     std::get<groupPos>(event),
-                    std::get<handlerObjPos>(sig),
+                    std::get<sigMatchPos>(sig),
+                    std::get<sigHandlerPos>(sig),
                     std::get<actionsPos>(event)
                 }
             );
         std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
-        if (!std::get<signaturePos>(sig).empty())
+        if (!std::get<sigMatchPos>(sig)().empty())
         {
             match = std::make_unique<sdbusplus::server::match::match>(
                     _bus,
-                    std::get<signaturePos>(sig).c_str(),
+                    std::get<sigMatchPos>(sig)().c_str(),
                     std::bind(std::mem_fn(&Zone::handleEvent),
                               this,
                               std::placeholders::_1,
@@ -279,6 +280,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
                 EventData
                 {
                     std::get<groupPos>(event),
+                    nullptr,
                     nullptr,
                     std::get<actionsPos>(event)
                 }
