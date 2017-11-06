@@ -83,6 +83,8 @@ Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
 
 void default_floor_on_missing_owner(Zone& zone, const Group& group)
 {
+    // Set/update the services of the group
+    zone.setServices(&group);
     auto services = zone.getGroupServices(&group);
     auto defFloor = std::any_of(
         services.begin(),
@@ -103,6 +105,8 @@ Action set_speed_on_missing_owner(uint64_t speed)
 {
     return [speed](control::Zone& zone, const Group& group)
     {
+        // Set/update the services of the group
+        zone.setServices(&group);
         auto services = zone.getGroupServices(&group);
         auto missingOwner = std::any_of(
             services.begin(),
