@@ -140,6 +140,15 @@ class Zone
         };
 
         /**
+         * @brief Remove a service associated to a group
+         *
+         * @param[in] group - Group associated with service
+         * @param[in] name - Service name to remove
+         */
+        void removeService(const Group* group,
+                           const std::string& name);
+
+        /**
          * @brief Set or update a service name owner in use
          *
          * @param[in] group - Group associated with service
