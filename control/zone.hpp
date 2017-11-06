@@ -151,6 +151,13 @@ class Zone
                              const bool hasOwner);
 
         /**
+         * @brief Set or update all services for a group
+         *
+         * @param[in] group - Group to get service names for
+         */
+        void setServices(const Group* group);
+
+        /**
          * @brief Get the group's list of service names
          *
          * @param[in] group - Group to get service names for
