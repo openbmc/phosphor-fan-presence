@@ -150,6 +150,36 @@ void Zone::setServiceOwner(const Group* group,
     }
 }
 
+void Zone::setServices(const Group* group)
+{
+    // TODO Remove empty service name if exists
+    for (auto it = group->begin(); it != group->end(); ++it)
+    {
+        std::string name;
+        bool hasOwner = false;
+        try
+        {
+            name = util::SDBusPlus::getService(
+                    _bus,
+                    it->first,
+                    std::get<intfPos>(it->second));
+            hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                    _bus,
+                    "org.freedesktop.DBus",
+                    "/org/freedesktop/DBus",
+                    "org.freedesktop.DBus",
+                    "NameHasOwner",
+                    name);
+        }
+        catch (const InternalFailure& ife)
+        {
+            // Failed to get service name owner state
+            hasOwner = false;
+        }
+        setServiceOwner(group, name, hasOwner);
+    }
+}
+
 void Zone::setFloor(uint64_t speed)
 {
     // Check all entries are set to allow floor to be set
