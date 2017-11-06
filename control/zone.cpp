@@ -120,6 +120,32 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
     }
 }
 
+void Zone::removeService(const Group* group,
+                         const std::string& name)
+{
+    try
+    {
+        auto& sNames = _services.at(*group);
+        auto it = std::find_if(
+            sNames.begin(),
+            sNames.end(),
+            [&name](auto const& entry)
+            {
+                return name == std::get<namePos>(entry);
+            }
+        );
+        if (it != std::end(sNames))
+        {
+            // Remove service name from group
+            sNames.erase(it);
+        }
+    }
+    catch (const std::out_of_range& oore)
+    {
+        // No services for group found
+    }
+}
+
 void Zone::setServiceOwner(const Group* group,
                            const std::string& name,
                            const bool hasOwner)
@@ -152,7 +178,8 @@ void Zone::setServiceOwner(const Group* group,
 
 void Zone::setServices(const Group* group)
 {
-    // TODO Remove empty service name if exists
+    // Remove the empty service name if exists
+    removeService(group, "");
     for (auto it = group->begin(); it != group->end(); ++it)
     {
         std::string name;
