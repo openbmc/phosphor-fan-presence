@@ -17,6 +17,7 @@ namespace event
 namespace io
 {
 
+using namespace phosphor::logging;
 /** @class IO
  *  @brief Provides C++ bindings to the sd_event_source* io functions.
  */
@@ -67,7 +68,10 @@ class IO
                 cb.get());
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_add_io",
+                        entry("RC=%d", rc),
+                        entry("FD=%d", fd));
+                elog<InternalFailure>();
             }
 
             src = decltype(src){source, std::false_type()};
