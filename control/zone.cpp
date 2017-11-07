@@ -303,13 +303,10 @@ void Zone::initEvent(const SetSpeedEvent& event)
         // Setup signal matches of the property for event
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(
-                EventData
-                {
                     std::get<groupPos>(event),
                     std::get<sigMatchPos>(sig),
                     std::get<sigHandlerPos>(sig),
                     std::get<actionsPos>(event)
-                }
             );
         std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
         if (!std::get<sigMatchPos>(sig).empty())
@@ -332,13 +329,10 @@ void Zone::initEvent(const SetSpeedEvent& event)
         // Associate event data with timer
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(
-                    EventData
-                    {
-                        std::get<groupPos>(event),
-                        "",
-                        nullptr,
-                        std::get<actionsPos>(event)
-                    }
+                    std::get<groupPos>(event),
+                    "",
+                    nullptr,
+                    std::get<actionsPos>(event)
             );
         std::unique_ptr<util::Timer> timer =
             std::make_unique<util::Timer>(
