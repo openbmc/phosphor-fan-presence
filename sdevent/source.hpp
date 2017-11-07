@@ -32,6 +32,8 @@ using source = std::unique_ptr<sd_event_source, SourceDeleter>;
 
 } // namespace details
 
+using namespace phosphor::logging;
+
 /** @class Source
  *  @brief Provides C++ bindings to the sd_event_source* functions.
  */
@@ -83,7 +85,9 @@ class Source
             auto rc = sd_event_source_get_enabled(src.get(), &enabled);
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_source_get_enabled",
+                        entry("RC=%d", rc));
+                elog<InternalFailure>();
             }
 
             return enabled;
@@ -95,7 +99,10 @@ class Source
             auto rc = sd_event_source_set_enabled(src.get(), enable);
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_source_set_enabled",
+                        entry("RC=%d", rc),
+                        entry("ENABLE=%d", enable));
+                elog<InternalFailure>();
             }
         }
 
