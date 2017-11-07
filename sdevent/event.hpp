@@ -42,6 +42,8 @@ using Event = std::unique_ptr<sd_event, EventDeleter>;
 
 } // namespace details
 
+
+using namespace phosphor::logging;
 /** @class Event
  *  @brief Provides C++ bindings to the sd_event_* class functions.
  */
@@ -92,7 +94,9 @@ class Event
             auto rc = sd_event_loop(evt.get());
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_loop",
+                        entry("RC=%d", rc));
+                elog<InternalFailure>();
             }
         }
 
@@ -102,7 +106,10 @@ class Event
             auto rc = sd_event_exit(evt.get(), status);
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_exit",
+                        entry("RC=%d", rc),
+                        entry("STATUS=%d", status));
+                elog<InternalFailure>();
             }
         }
 
@@ -113,7 +120,9 @@ class Event
             auto rc = sd_event_get_exit_code(evt.get(), &status);
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_get_exit_code",
+                        entry("RC=%d", rc));
+                elog<InternalFailure>();
             }
 
             return status;
@@ -134,7 +143,9 @@ class Event
             auto rc = sd_event_now(evt.get(), CLOCK_MONOTONIC, &usec);
             if (rc < 0)
             {
-                phosphor::logging::elog<InternalFailure>();
+                log<level::ERR>("Error in call to sd_event_now",
+                        entry("RC=%d", rc));
+                elog<InternalFailure>();
             }
 
             microseconds d(usec);
@@ -172,7 +183,9 @@ inline Event newDefault()
     auto rc = sd_event_default(&e);
     if (rc < 0)
     {
-        phosphor::logging::elog<InternalFailure>();
+        log<level::ERR>("Error in call to sd_event_default",
+                entry("RC=%d", rc));
+        elog<InternalFailure>();
     }
 
     return Event(e, std::false_type());
