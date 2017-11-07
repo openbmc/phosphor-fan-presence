@@ -35,13 +35,10 @@ Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
                 // Associate event data with timer
                 std::unique_ptr<EventData> eventData =
                     std::make_unique<EventData>(
-                            EventData
-                            {
-                                group,
-                                nullptr,
-                                nullptr,
-                                actions
-                            }
+                            group,
+                            nullptr,
+                            nullptr,
+                            actions
                     );
                 // Create/start timer and associate event data with it
                 std::unique_ptr<util::Timer> timer =
