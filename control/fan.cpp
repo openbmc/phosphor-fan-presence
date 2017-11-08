@@ -84,9 +84,9 @@ void Fan::setSpeed(uint64_t speed)
         auto service = getService(sensor);
 
         auto method = _bus.new_method_call(service.c_str(),
-                                               sensor.c_str(),
-                                               PROPERTY_INTERFACE,
-                                               "Set");
+                                           sensor.c_str(),
+                                           PROPERTY_INTERFACE,
+                                           "Set");
         method.append(FAN_SENSOR_CONTROL_INTF, property, value);
 
         auto response = _bus.call(method);
