@@ -82,10 +82,10 @@ struct PropertyChanged
         if (msg)
         {
             std::map<std::string, sdbusplus::message::variant<T>> properties;
-            const char* iface = nullptr;
+            std::string iface;
 
             msg.read(iface);
-            if (!iface || strcmp(iface, _iface))
+            if (iface != _iface)
             {
                 return;
             }
@@ -197,8 +197,7 @@ struct InterfaceAdded
             sdbusplus::message::object_path op;
 
             msg.read(op);
-            auto objPath = static_cast<const std::string&>(op).c_str();
-            if (!objPath || strcmp(objPath, _path))
+            if (static_cast<const std::string&>(op) != _path)
             {
                 // Object path does not match this handler's path
                 return;
