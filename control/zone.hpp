@@ -36,7 +36,7 @@ class Zone
 
         Zone() = delete;
         Zone(const Zone&) = delete;
-        Zone(Zone&&) = default;
+        Zone(Zone&&) = delete;
         Zone& operator=(const Zone&) = delete;
         Zone& operator=(Zone&&) = delete;
         ~Zone() = default;
