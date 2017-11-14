@@ -197,8 +197,7 @@ struct InterfaceAdded
             sdbusplus::message::object_path op;
 
             msg.read(op);
-            auto objPath = static_cast<const std::string&>(op).c_str();
-            if (!objPath || strcmp(objPath, _path))
+            if (static_cast<const std::string&>(op) != _path)
             {
                 // Object path does not match this handler's path
                 return;
