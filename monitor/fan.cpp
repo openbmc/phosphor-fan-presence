@@ -18,6 +18,7 @@
 #include "fan.hpp"
 #include "types.hpp"
 #include "utility.hpp"
+#include "sdbusplus.hpp"
 
 namespace phosphor
 {
@@ -27,14 +28,6 @@ namespace monitor
 {
 
 using namespace phosphor::logging;
-
-constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
-constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
-
-constexpr auto FUNCTIONAL_PROPERTY = "Functional";
-constexpr auto OPERATIONAL_STATUS_INTF  =
-    "xyz.openbmc_project.State.Decorator.OperationalStatus";
-
 
 Fan::Fan(Mode mode,
          sdbusplus::bus::bus& bus,
@@ -221,18 +214,17 @@ void Fan::timerExpired(TachSensor& sensor)
 
 void Fan::updateInventory(bool functional)
 {
-    ObjectMap objectMap = getObjectMap(functional);
-    std::string service;
-
-    service = phosphor::fan::util::getInvService(_bus);
-
-    auto msg = _bus.new_method_call(service.c_str(),
-                                   INVENTORY_PATH,
-                                   INVENTORY_INTF,
-                                   "Notify");
-
-    msg.append(std::move(objectMap));
-    auto response = _bus.call(msg);
+    auto objectMap = util::getObjMap<bool>(
+            _name,
+            util::OPERATIONAL_STATUS_INTF,
+            util::FUNCTIONAL_PROPERTY,
+            functional);
+    auto response = util::SDBusPlus::lookupAndCallMethod(
+            _bus,
+            util::INVENTORY_PATH,
+            util::INVENTORY_INTF,
+            "Notify",
+            objectMap);
     if (response.is_method_error())
     {
         log<level::ERR>("Error in Notify call to update inventory");
@@ -242,21 +234,6 @@ void Fan::updateInventory(bool functional)
     //This will always track the current state of the inventory.
     _functional = functional;
 }
-
-
-Fan::ObjectMap Fan::getObjectMap(bool functional)
-{
-    ObjectMap objectMap;
-    InterfaceMap interfaceMap;
-    PropertyMap propertyMap;
-
-    propertyMap.emplace(FUNCTIONAL_PROPERTY, functional);
-    interfaceMap.emplace(OPERATIONAL_STATUS_INTF, std::move(propertyMap));
-    objectMap.emplace(_name, std::move(interfaceMap));
-
-    return objectMap;
-}
-
 
 }
 }
