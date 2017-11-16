@@ -160,14 +160,6 @@ class Fan
         void updateInventory(bool functional);
 
         /**
-         * @brief Returns the object map to use when updating the inventory
-         *
-         * @param[in] functional - If the Functional property should
-         *                         be set to true or false.
-         */
-        ObjectMap getObjectMap(bool functional);
-
-        /**
          * @brief the dbus object
          */
         sdbusplus::bus::bus& _bus;

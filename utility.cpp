@@ -29,15 +29,6 @@ using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                             Error::InternalFailure;
 
-//TODO Should get these from phosphor-objmgr config.h
-constexpr auto MAPPER_BUSNAME = "xyz.openbmc_project.ObjectMapper";
-constexpr auto MAPPER_PATH = "/xyz/openbmc_project/object_mapper";
-constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
-
-//TODO Should get these from phosphor-inventory-manager config.h
-const auto INVENTORY_PATH = "/xyz/openbmc_project/inventory"s;
-const auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager"s;
-
 std::string getInvService(sdbusplus::bus::bus& bus)
 {
     return getService(INVENTORY_PATH, INVENTORY_INTF, bus);
