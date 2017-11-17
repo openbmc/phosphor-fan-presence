@@ -19,7 +19,8 @@ phosphor_fan_monitor_LDADD = \
 	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
-	${PHOSPHOR_DBUS_INTERFACES_LIBS}
+	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
+	-lstdc++fs
 
 phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
