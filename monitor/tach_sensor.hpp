@@ -167,6 +167,14 @@ class TachSensor
          */
         void handleTachChange(sdbusplus::message::message& msg);
 
+        /**
+         * @brief Updates the Functional property in the inventory
+         *        for this tach sensor based on the value passed in.
+         *
+         * @param[in] functional - If the Functional property should
+         *                         be set to true or false.
+         */
+        void updateInventory(bool functional);
 
         /**
          * @brief the dbus object
@@ -184,6 +192,11 @@ class TachSensor
          * For example /xyz/openbmc_project/sensors/fan_tach/fan0
          */
         const std::string _name;
+
+        /**
+         * @brief The inventory name of the sensor, including the full path
+         */
+        const std::string _invName;
 
         /**
          * @brief If functional (not too slow).  The parent
