@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include <experimental/filesystem>
 #include <phosphor-logging/log.hpp>
 #include "fan.hpp"
 #include "sdbusplus.hpp"
 #include "tach_sensor.hpp"
-#include "../utility.hpp"
+#include "utility.hpp"
 
 namespace phosphor
 {
@@ -71,6 +72,7 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     _bus(bus),
     _fan(fan),
     _name(FAN_SENSOR_PATH + id),
+    _invName(std::experimental::filesystem::path(fan.getName()) /= id),
     _hasTarget(hasTarget),
     _timeout(timeout),
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
@@ -192,6 +194,25 @@ std::chrono::microseconds TachSensor::getTimeout()
     return duration_cast<microseconds>(seconds(_timeout));
 }
 
+void TachSensor::updateInventory(bool functional)
+{
+    auto objectMap = util::getObjMap<bool>(
+            _invName,
+            util::OPERATIONAL_STATUS_INTF,
+            util::FUNCTIONAL_PROPERTY,
+            functional);
+    auto response = util::SDBusPlus::lookupAndCallMethod(
+            _bus,
+            util::INVENTORY_PATH,
+            util::INVENTORY_INTF,
+            "Notify",
+            objectMap);
+    if (response.is_method_error())
+    {
+        log<level::ERR>("Error in Notify call to update inventory");
+        return;
+    }
+}
 
 }
 }
