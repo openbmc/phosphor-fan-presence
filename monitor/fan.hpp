@@ -124,6 +124,16 @@ class Fan
          */
         void timerExpired(TachSensor& sensor);
 
+        /**
+         * @brief Get the name of the fan
+         *
+         * @return - The fan name
+         */
+        inline const std::string& getName() const
+        {
+            return _name;
+        }
+
     private:
 
         /**
