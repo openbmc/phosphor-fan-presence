@@ -78,8 +78,11 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     _timeout(timeout),
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
 {
-    //Load in starting Target and Input values
+    // Start from a known state of functional
+    _functional = true;
+    updateInventory(_functional);
 
+    // Load in starting Target and Input values
     try
     {
         // Use getProperty directly to allow a missing sensor object
@@ -130,6 +133,11 @@ std::string TachSensor::getMatchString(const std::string& interface)
             _name, interface);
 }
 
+void TachSensor::setFunctional(bool functional)
+{
+    _functional = functional;
+    updateInventory(_functional);
+}
 
 /**
  * @brief Reads a property from the input message and stores it in value.
