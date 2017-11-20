@@ -104,12 +104,9 @@ class TachSensor
         }
 
         /**
-         * Sets functional status
+         * Set the functional status and update inventory to match
          */
-        inline void setFunctional(bool functional)
-        {
-            _functional = functional;
-        }
+        void setFunctional(bool functional);
 
         /**
          * @brief Says if the timer is running or not
@@ -212,7 +209,7 @@ class TachSensor
          * @brief If functional (not too slow).  The parent
          *        fan object sets this.
          */
-        bool _functional = true;
+        bool _functional;
 
         /**
          * @brief If the sensor has a Target property (can set speed)
