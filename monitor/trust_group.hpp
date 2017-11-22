@@ -112,7 +112,8 @@ class Group
         }
 
         /**
-         * Starts the timers on all functional sensors in the group.
+         * Starts the timers on all functional sensors in the group that
+         * their target and input values do not match.
          *
          * Called when the group just changed to trusted.
          */
@@ -125,7 +126,9 @@ class Group
                     {
                         //If a sensor isn't functional, then its timer
                         //already expired so don't bother starting it again
-                        if (s.get()->functional())
+                        if (s.get()->functional() &&
+                            static_cast<uint64_t>(s.get()->getInput()) !=
+                                    s.get()->getTarget())
                         {
                             s.get()->startTimer();
                         }
