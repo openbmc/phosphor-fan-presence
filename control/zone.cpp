@@ -275,6 +275,11 @@ void Zone::decTimerExpired()
     if (_incSpeedDelta == 0 && !_incTimer.running())
     {
         auto requestTarget = getRequestSpeedBase();
+        // Request target speed should not start above ceiling
+        if (requestTarget > _ceilingSpeed)
+        {
+            requestTarget = _ceilingSpeed;
+        }
         // Target speed can not go below the defined floor speed
         if ((requestTarget < _decSpeedDelta) ||
             (requestTarget - _decSpeedDelta < _floorSpeed))
