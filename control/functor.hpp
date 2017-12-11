@@ -96,7 +96,8 @@ struct PropertyChanged
             {
                 log<level::ERR>("Unable to find property on interface",
                                 entry("PROPERTY=%s", _property),
-                                entry("INTERFACE=%s", _iface));
+                                entry("INTERFACE=%s", _iface),
+                                entry("PATH=%s", _path));
                 return;
             }
 
