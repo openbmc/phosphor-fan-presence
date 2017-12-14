@@ -270,9 +270,17 @@ void Zone::requestSpeedDecrease(uint64_t targetDelta)
 
 void Zone::decTimerExpired()
 {
-    // Only decrease speeds when no requested increases exist and
-    // the increase timer is not running (i.e. not in the middle of increasing)
-    if (_incSpeedDelta == 0 && !_incTimer.running())
+    // Check all entries are set to allow a decrease
+    auto pred = [](auto const& entry) {return entry.second;};
+    auto decAllowed = std::all_of(_decAllowed.begin(),
+                                  _decAllowed.end(),
+                                  pred);
+
+    // Only decrease speeds when allowed,
+    // where no requested increases exist and
+    // the increase timer is not running
+    // (i.e. not in the middle of increasing)
+    if (decAllowed && _incSpeedDelta == 0 && !_incTimer.running())
     {
         auto requestTarget = getRequestSpeedBase();
         // Request target speed should not start above ceiling

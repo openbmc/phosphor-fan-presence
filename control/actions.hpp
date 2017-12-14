@@ -230,41 +230,45 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
             state = std::forward<T>(state)](auto& zone, auto& group)
     {
         auto netDelta = zone.getDecSpeedDelta();
-        std::for_each(
-            group.begin(),
-            group.end(),
-            [&zone, &state, &factor, &speedDelta, &netDelta](auto const& entry)
+        for (auto& entry : group)
+        {
+            try
             {
-                try
+                T value = zone.template getPropertyValue<T>(
+                        entry.first,
+                        std::get<intfPos>(entry.second),
+                        std::get<propPos>(entry.second));
+                // TODO openbmc/phosphor-fan-presence#7 - Support possible
+                // state types for comparison
+                if (value < state)
                 {
-                    T value = zone.template getPropertyValue<T>(
-                            entry.first,
-                            std::get<intfPos>(entry.second),
-                            std::get<propPos>(entry.second));
-                    // TODO openbmc/phosphor-fan-presence#7 - Support possible
-                    // state types for comparison
-                    if (value < state)
+                    if (netDelta == 0)
                     {
-                        if (netDelta == 0)
-                        {
-                            netDelta = ((state - value)/factor) * speedDelta;
-                        }
-                        else
-                        {
-                            // Decrease is the factor applied to the
-                            // difference times the given speed delta
-                            netDelta = std::min(
-                                netDelta,
-                                ((state - value)/factor) * speedDelta);
-                        }
+                        netDelta = ((state - value)/factor) * speedDelta;
+                    }
+                    else
+                    {
+                        // Decrease is the factor applied to the
+                        // difference times the given speed delta
+                        netDelta = std::min(
+                            netDelta,
+                            ((state - value)/factor) * speedDelta);
                     }
                 }
-                catch (const std::out_of_range& oore)
+                else
                 {
-                    // Property value not found, netDelta unchanged
+                    // No decrease allowed for this group
+                    netDelta = 0;
+                    break;
                 }
             }
-        );
+            catch (const std::out_of_range& oore)
+            {
+                // Property value not found, netDelta unchanged
+            }
+        }
+        // Update group's decrease allowed state
+        zone.setDecreaseAllow(&group, !(netDelta == 0));
         // Request speed decrease to occur on decrease interval
         zone.requestSpeedDecrease(netDelta);
     };

@@ -89,6 +89,17 @@ class Zone
         }
 
         /**
+         * @brief Sets the decrease allowed state of a group
+         *
+         * @param[in] group - A group that affects speed decreases
+         * @param[in] isAllow - Allow state according to group
+         */
+        inline void setDecreaseAllow(const Group* group, bool isAllow)
+        {
+            _decAllowed[*(group)] = isAllow;
+        }
+
+        /**
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
@@ -485,6 +496,11 @@ class Zone
          * @brief Map of floor change allowed by groups
          */
         std::map<const Group, bool> _floorChange;
+
+        /**
+         * @brief Map of groups controlling decreases allowed
+         */
+        std::map<const Group, bool> _decAllowed;
 
         /**
          * @brief Map of group service names
