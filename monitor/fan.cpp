@@ -180,9 +180,8 @@ bool Fan::outOfRange(const TachSensor& sensor)
     auto target = getTargetSpeed(sensor);
 
     uint64_t min = target * (100 - _deviation) / 100;
-    uint64_t max = target * (100 + _deviation) / 100;
 
-    if ((actual < min) || (actual > max))
+    if (actual < min)
     {
         return true;
     }
