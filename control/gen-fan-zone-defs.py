@@ -373,8 +373,11 @@ def getEvent(zone_num, zone_conditions, e, events_data):
         return
     event['groups'] = grps
 
-    # Add set speed actions and function parameters
-    event['action'] = getActions(e, e, events_data)
+    # Add optional set speed actions and function parameters
+    event['action'] = []
+    if ('actions' in e) and \
+       (e['actions'] is not None):
+        event['action'] = getActions(e, e, events_data)
 
     # Add signal handlers
     signals = []
