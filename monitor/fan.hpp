@@ -147,19 +147,6 @@ class Fan
     private:
 
         /**
-         * @brief Returns the target speed of the fan
-         *
-         * Retrieves the target speed using the given sensor which may or may
-         * not contain a target speed value. The sensor determines what its
-         * target speed is.
-         *
-         * @param[in] sensor - The sensor to use in getting the target speed
-         *
-         * @return - The target speed of the fan
-         */
-        uint64_t getTargetSpeed(const TachSensor& sensor);
-
-        /**
          * @brief Returns true if the sensor input is not within
          * some deviation of the target.
          *
