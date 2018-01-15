@@ -134,31 +134,29 @@ void Fan::tachChanged(TachSensor& sensor)
 }
 
 
-uint64_t Fan::getTargetSpeed(const TachSensor& sensor)
+uint64_t Fan::findTargetSpeed()
 {
     uint64_t target = 0;
+    //The sensor doesn't support a target,
+    //so get it from another sensor.
+    auto s = std::find_if(_sensors.begin(), _sensors.end(),
+                          [](const auto& s)
+                          {
+                              return s->hasTarget();
+                          });
 
-    if (sensor.hasTarget())
+    if (s != _sensors.end())
     {
-        target = sensor.getTarget();
-    }
-    else
-    {
-        //The sensor doesn't support a target,
-        //so get it from another sensor.
-        auto s = std::find_if(_sensors.begin(), _sensors.end(),
-                              [](const auto& s)
-                              {
-                                  return s->hasTarget();
-                              });
-
-        if (s != _sensors.end())
-        {
-            target = (*s)->getTarget();
-        }
+        target = (*s)->getTarget();
     }
 
     return target;
+}
+
+
+uint64_t Fan::getTargetSpeed(const TachSensor& sensor)
+{
+    return sensor.getTarget();
 }
 
 
