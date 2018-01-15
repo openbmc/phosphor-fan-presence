@@ -79,8 +79,7 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
 {
     // Start from a known state of functional
-    _functional = true;
-    updateInventory(_functional);
+    setFunctional(true);
 
     // Load in starting Target and Input values
     try
