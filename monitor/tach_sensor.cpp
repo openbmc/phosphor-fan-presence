@@ -126,11 +126,19 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
 
 }
 
-
 std::string TachSensor::getMatchString(const std::string& interface)
 {
     return sdbusplus::bus::match::rules::propertiesChanged(
             _name, interface);
+}
+
+uint64_t TachSensor::getTarget() const
+{
+    if (!_hasTarget)
+    {
+        return _fan.findTargetSpeed();
+    }
+    return _tachTarget;
 }
 
 void TachSensor::setFunctional(bool functional)
