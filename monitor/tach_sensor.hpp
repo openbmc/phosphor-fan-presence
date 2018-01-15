@@ -63,10 +63,7 @@ class TachSensor
         /**
          * @brief Returns the target speed value
          */
-        inline uint64_t getTarget() const
-        {
-            return _tachTarget;
-        }
+        uint64_t getTarget() const;
 
         /**
          * @brief Returns the input speed value

@@ -134,15 +134,28 @@ class Fan
             return _name;
         }
 
+        /**
+         * @brief Finds the target speed of this fan
+         *
+         * Finds the target speed from the list of sensors that make up this
+         * fan. Atleast one sensor should contain a target speed value.
+         *
+         * @return - The target speed found from the list of sensors on the fan
+         */
+        uint64_t findTargetSpeed();
+
     private:
 
         /**
-         * @brief Returns the target speed of the sensor
+         * @brief Returns the target speed of the fan
          *
-         * If the sensor itself doesn't have a target, it finds
-         * the target speed from another sensor.
+         * Retrieves the target speed using the given sensor which may or may
+         * not contain a target speed value. The sensor determines what its
+         * target speed is.
          *
-         * @param[in] sensor - the sensor to get the target speed for
+         * @param[in] sensor - The sensor to use in getting the target speed
+         *
+         * @return - The target speed of the fan
          */
         uint64_t getTargetSpeed(const TachSensor& sensor);
 
