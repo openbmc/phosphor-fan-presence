@@ -154,12 +154,6 @@ uint64_t Fan::findTargetSpeed()
 }
 
 
-uint64_t Fan::getTargetSpeed(const TachSensor& sensor)
-{
-    return sensor.getTarget();
-}
-
-
 bool Fan::tooManySensorsNonfunctional()
 {
     size_t numFailed =  std::count_if(_sensors.begin(), _sensors.end(),
@@ -175,7 +169,7 @@ bool Fan::tooManySensorsNonfunctional()
 bool Fan::outOfRange(const TachSensor& sensor)
 {
     auto actual = static_cast<uint64_t>(sensor.getInput());
-    auto target = getTargetSpeed(sensor);
+    auto target = sensor.getTarget();
 
     uint64_t min = target * (100 - _deviation) / 100;
     uint64_t max = target * (100 + _deviation) / 100;
@@ -203,7 +197,7 @@ void Fan::timerExpired(TachSensor& sensor)
                 entry("FAN=%s", _name.c_str()),
                 entry("TACH_SENSOR=%s", sensor.name().c_str()),
                 entry("ACTUAL_SPEED=%lld", sensor.getInput()),
-                entry("TARGET_SPEED=%lld", getTargetSpeed(sensor)));
+                entry("TARGET_SPEED=%lld", sensor.getTarget()));
 
         updateInventory(false);
     }
