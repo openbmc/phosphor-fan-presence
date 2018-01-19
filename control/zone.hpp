@@ -382,6 +382,34 @@ class Zone
          */
         void timerExpired(Group eventGroup, std::vector<Action> eventActions);
 
+        /**
+         * @brief Get the service for a given path and interface from cached
+         * dataset and add a service that's not found
+         *
+         * @param[in] path - Path to get service for
+         * @param[in] intf - Interface to get service for
+         *
+         * @return - The service name
+         */
+        const std::string& getService(const std::string& path,
+                                      const std::string& intf);
+
+        /**
+         * @brief Add a set of services for a path and interface
+         * by retrieving all the path subtrees to the given depth
+         * from root for the interface
+         *
+         * @param[in] path - Path to add services for
+         * @param[in] intf - Interface to add services for
+         * @param[in] depth - Depth of tree traversal from root path
+         *
+         * @return - The associated service to the given path and interface
+         * or empty string for no service found
+         */
+        const std::string& addServices(const std::string& path,
+                                       const std::string& intf,
+                                       int32_t depth);
+
     private:
 
         /**
@@ -506,6 +534,13 @@ class Zone
          * @brief Map of group service names
          */
         std::map<const Group, std::vector<Service>> _services;
+
+        /**
+         * @brief Map tree of paths to services of interfaces
+         */
+        std::map<std::string,
+                std::map<std::string,
+                std::vector<std::string>>> _servTree;
 
         /**
          * @brief List of signal event arguments and Dbus matches for callbacks
