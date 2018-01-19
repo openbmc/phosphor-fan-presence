@@ -479,6 +479,95 @@ void Zone::handleEvent(sdbusplus::message::message& msg,
         });
 }
 
+std::string Zone::getService(const std::string& path,
+                             const std::string& intf)
+{
+    std::string service = "";
+    // Retrieve service from cache
+    auto srvIter = _servTree.find(path);
+    if (srvIter != _servTree.end())
+    {
+        for (auto& serv : srvIter->second)
+        {
+            auto it = std::find_if(
+                serv.second.begin(),
+                serv.second.end(),
+                [&intf](auto const& interface)
+                {
+                    return intf == interface;
+                });
+            if (it != std::end(serv.second))
+            {
+                // Service found
+                service = serv.first;
+                break;
+            }
+            else
+            {
+                // Interface not found in cache, add and return
+                service = addServices(path, intf, 0);
+                break;
+            }
+        }
+    }
+    else
+    {
+        // Path not found in cache, add and return
+        service = addServices(path, intf, 0);
+    }
+
+    return service;
+}
+
+std::string Zone::addServices(const std::string& path,
+                              const std::string& intf,
+                              int32_t depth)
+{
+    std::string service = "";
+
+    // Get all subtree objects for the given interface
+    auto objects = util::SDBusPlus::getSubTree(_bus, "/", intf, depth);
+    // Add what's returned to the cache of path->services
+    for (auto& pIter : objects)
+    {
+        auto pathIter = _servTree.find(pIter.first);
+        if (pathIter != _servTree.end())
+        {
+            // Path found in cache
+            for (auto& sIter : pIter.second)
+            {
+                auto servIter = pathIter->second.find(sIter.first);
+                if (servIter != pathIter->second.end())
+                {
+                    // Service found in cache
+                    for (auto& iIter : sIter.second)
+                    {
+                        // Add interface to cache
+                        servIter->second.emplace_back(iIter);
+                    }
+                }
+                else
+                {
+                    // Service not found in cache
+                    pathIter->second.insert(sIter);
+                }
+            }
+        }
+        else
+        {
+            _servTree.insert(pIter);
+        }
+        // When the paths match, since a single interface constraint is given,
+        // that is the service to return
+        if (path == pIter.first)
+        {
+            service = pIter.second.begin()->first;
+        }
+    }
+
+    return service;
+}
+
 }
 }
 }
