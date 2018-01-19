@@ -186,10 +186,8 @@ void Zone::setServices(const Group* group)
         bool hasOwner = false;
         try
         {
-            name = util::SDBusPlus::getService(
-                    _bus,
-                    it->first,
-                    std::get<intfPos>(it->second));
+            name = getService(it->first,
+                              std::get<intfPos>(it->second));
             hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
                     _bus,
                     "org.freedesktop.DBus",
