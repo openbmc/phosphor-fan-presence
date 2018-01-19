@@ -245,6 +245,46 @@ class SDBusPlus
                     property);
         }
 
+        /** @brief Get a property without mapper lookup. */
+        template <typename Property>
+        static auto getProperty(
+            sdbusplus::bus::bus& bus,
+            const std::string& service,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            using namespace std::literals::string_literals;
+
+            auto msg = callMethod(
+                    bus,
+                    service,
+                    path,
+                    "org.freedesktop.DBus.Properties"s,
+                    "Get"s,
+                    interface,
+                    property);
+            sdbusplus::message::variant<Property> value;
+            msg.read(value);
+            return value.template get<Property>();
+        }
+
+        /** @brief Get a property without mapper lookup. */
+        template <typename Property>
+        static auto getProperty(
+            const std::string& service,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            return getProperty<Property>(
+                    getBus(),
+                    service,
+                    path,
+                    interface,
+                    property);
+        }
+
         /** @brief Set a property with mapper lookup. */
         template <typename Property>
         static void setProperty(
