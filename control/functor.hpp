@@ -107,7 +107,9 @@ struct PropertyChanged
         {
             try
             {
+                auto service = zone.getService(_path, _iface);
                 auto val = util::SDBusPlus::getProperty<T>(bus,
+                                                           service,
                                                            _path,
                                                            _iface,
                                                            _property);
@@ -306,9 +308,7 @@ struct NameOwnerChanged
             try
             {
                 // Initialize NameOwnerChanged data store with service name
-                name = util::SDBusPlus::getService(bus,
-                                                   _path,
-                                                   _iface);
+                name = zone.getService(_path, _iface);
                 hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
                         bus,
                         "org.freedesktop.DBus",
