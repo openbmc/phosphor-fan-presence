@@ -243,6 +243,7 @@ def convertToMap(listOfDict):
     """
     Converts a list of dictionary entries to a std::map initialization list.
     """
+    listOfDict = listOfDict.replace('\'', '\"')
     listOfDict = listOfDict.replace('[', '{')
     listOfDict = listOfDict.replace(']', '}')
     listOfDict = listOfDict.replace(':', ',')
@@ -285,9 +286,15 @@ def getActions(edata, actions, events):
                             param += "),"
                         param += "}"
                     elif p == 'property':
-                        param += (
-                            str(edata['property']['type']).lower() +
-                            ">(" + str(eActions[p]).lower() + ")")
+                        if isinstance(eActions[p], str) or \
+                           "string" in str(edata['property']['type']).lower():
+                            param += (
+                                str(edata['property']['type']).lower() +
+                                ">(\"" + str(eActions[p]) + "\")")
+                        else:
+                            param += (
+                                str(edata['property']['type']).lower() +
+                                ">(" + str(eActions[p]).lower() + ")")
                     else:
                         # Default type to 'size_t' when not given
                         param += ("size_t>(" + str(eActions[p]).lower() + ")")
@@ -301,7 +308,13 @@ def getActions(edata, actions, events):
                     else:
                         param += (str(eActions[p]['type']).lower() + ">(")
                         if p != 'map':
-                            param += str(eActions[p]['value']).lower() + ")"
+                            if isinstance(eActions[p]['value'], str) or \
+                               "string" in str(eActions[p]['type']).lower():
+                                param += \
+                                    "\"" + str(eActions[p]['value']) + "\")"
+                            else:
+                                param += \
+                                    str(eActions[p]['value']).lower() + ")"
                         else:
                             param += (
                                 str(eActions[p]['type']).lower() +
@@ -458,7 +471,11 @@ def addPrecondition(zNum, zCond, event, events_data):
             members['interface'] = grp['interface']
             members['property'] = grp['property']['name']
             members['type'] = grp['property']['type']
-            members['value'] = grp['property']['value']
+            if isinstance(grp['property']['value'], str) or \
+               "string" in str(members['type']).lower():
+                members['value'] = "\"" + grp['property']['value'] + "\""
+            else:
+                members['value'] = grp['property']['value']
             group.append(members)
     precond['pcgrp'] = group
 
@@ -484,8 +501,13 @@ def addPrecondition(zNum, zCond, event, events_data):
                     str(pcgrp['interface']) + "\",\"" +
                     str(pcgrp['property']) + "\"," +
                     "static_cast<" +
-                    str(pcgrp['type']).lower() + ">" +
-                    "(" + str(pcgrp['value']).lower() + ")}")
+                    str(pcgrp['type']).lower() + ">")
+                if isinstance(pcgrp['value'], str) or \
+                   "string" in str(pcgrp['type']).lower():
+                    value['value'] += ("(" + str(pcgrp['value']) + ")}")
+                else:
+                    value['value'] += \
+                        ("(" + str(pcgrp['value']).lower() + ")}")
                 values.append(value)
             param['values'] = values
         params.append(param)
