@@ -64,7 +64,8 @@ static void readProperty(const std::string& interface,
 }
 
 
-TachSensor::TachSensor(sdbusplus::bus::bus& bus,
+TachSensor::TachSensor(Mode mode,
+                       sdbusplus::bus::bus& bus,
                        Fan& fan,
                        const std::string& id,
                        bool hasTarget,
@@ -81,48 +82,50 @@ TachSensor::TachSensor(sdbusplus::bus::bus& bus,
     // Start from a known state of functional
     setFunctional(true);
 
-    // Load in starting Target and Input values
-    try
+    // Load in current Target and Input values when entering monitor mode
+    if (mode != Mode::init)
     {
-        // Use getProperty directly to allow a missing sensor object
-        // to abort construction.
-        _tachInput = util::SDBusPlus::getProperty<decltype(_tachInput)>(
+        try
+        {
+            // Use getProperty directly to allow a missing sensor object
+            // to abort construction.
+            _tachInput = util::SDBusPlus::getProperty<decltype(_tachInput)>(
+                    _bus,
+                    _name,
+                    FAN_SENSOR_VALUE_INTF,
+                    FAN_VALUE_PROPERTY);
+        }
+        catch (std::exception& e)
+        {
+            throw InvalidSensorError();
+        }
+
+        if (_hasTarget)
+        {
+            readProperty(FAN_SENSOR_CONTROL_INTF,
+                         FAN_TARGET_PROPERTY,
+                         _name,
+                         _bus,
+                         _tachTarget);
+        }
+
+        auto match = getMatchString(FAN_SENSOR_VALUE_INTF);
+
+        tachSignal = std::make_unique<sdbusplus::server::match::match>(
                 _bus,
-                _name,
-                FAN_SENSOR_VALUE_INTF,
-                FAN_VALUE_PROPERTY);
+                match.c_str(),
+                [this](auto& msg){ this->handleTachChange(msg); });
+
+        if (_hasTarget)
+        {
+            match = getMatchString(FAN_SENSOR_CONTROL_INTF);
+
+            targetSignal = std::make_unique<sdbusplus::server::match::match>(
+                    _bus,
+                    match.c_str(),
+                    [this](auto& msg){ this->handleTargetChange(msg); });
+        }
     }
-    catch (std::exception& e)
-    {
-        throw InvalidSensorError();
-    }
-
-    if (_hasTarget)
-    {
-        readProperty(FAN_SENSOR_CONTROL_INTF,
-                     FAN_TARGET_PROPERTY,
-                     _name,
-                     _bus,
-                     _tachTarget);
-    }
-
-    auto match = getMatchString(FAN_SENSOR_VALUE_INTF);
-
-    tachSignal = std::make_unique<sdbusplus::server::match::match>(
-                     _bus,
-                     match.c_str(),
-                     [this](auto& msg){ this->handleTachChange(msg); });
-
-    if (_hasTarget)
-    {
-        match = getMatchString(FAN_SENSOR_CONTROL_INTF);
-
-        targetSignal = std::make_unique<sdbusplus::server::match::match>(
-                           _bus,
-                           match.c_str(),
-                           [this](auto& msg){ this->handleTargetChange(msg); });
-    }
-
 }
 
 std::string TachSensor::getMatchString(const std::string& interface)
