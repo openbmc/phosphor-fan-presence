@@ -18,6 +18,17 @@ class Fan;
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 
 /**
+ * The mode fan monitor will run in:
+ *   - init - only do the initialization steps
+ *   - monitor - run normal monitoring algorithm
+ */
+enum class Mode
+{
+    init,
+    monitor
+};
+
+/**
  * @class TachSensor
  *
  * This class represents the sensor that reads a tach value.
@@ -45,6 +56,7 @@ class TachSensor
         /**
          * @brief Constructor
          *
+         * @param[in] mode - mode of fan monitor
          * @param[in] bus - the dbus object
          * @param[in] fan - the parent fan object
          * @param[in] id - the id of the sensor
@@ -53,7 +65,8 @@ class TachSensor
          * @param[in] timeout - Normal timeout value to use
          * @param[in] events - sd_event pointer
          */
-        TachSensor(sdbusplus::bus::bus& bus,
+        TachSensor(Mode mode,
+                   sdbusplus::bus::bus& bus,
                    Fan& fan,
                    const std::string& id,
                    bool hasTarget,
