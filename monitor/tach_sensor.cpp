@@ -69,6 +69,8 @@ TachSensor::TachSensor(Mode mode,
                        Fan& fan,
                        const std::string& id,
                        bool hasTarget,
+                       size_t factor,
+                       size_t offset,
                        size_t timeout,
                        phosphor::fan::event::EventPtr& events) :
     _bus(bus),
@@ -76,6 +78,8 @@ TachSensor::TachSensor(Mode mode,
     _name(FAN_SENSOR_PATH + id),
     _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget),
+    _factor(factor),
+    _offset(offset),
     _timeout(timeout),
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
 {

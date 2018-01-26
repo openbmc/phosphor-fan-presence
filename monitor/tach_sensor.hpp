@@ -70,6 +70,8 @@ class TachSensor
                    Fan& fan,
                    const std::string& id,
                    bool hasTarget,
+                   size_t factor,
+                   size_t offset,
                    size_t timeout,
                    phosphor::fan::event::EventPtr& events);
 
@@ -92,6 +94,22 @@ class TachSensor
         inline bool hasTarget() const
         {
             return _hasTarget;
+        }
+
+        /**
+         * @brief Returns the factor of the sensor target
+         */
+        inline size_t getFactor() const
+        {
+            return _factor;
+        }
+
+        /**
+         * @brief Returns the offset of the sensor target
+         */
+        inline size_t getOffset() const
+        {
+            return _offset;
         }
 
         /**
@@ -215,6 +233,16 @@ class TachSensor
          * @brief If the sensor has a Target property (can set speed)
          */
         const bool _hasTarget;
+
+        /**
+         * @brief The factor of target to get fan rpm
+         */
+        const size_t _factor;
+
+        /**
+         * @brief The offset of target to get fan rpm
+         */
+        const size_t _offset;
 
         /**
          * @brief The input speed, from the Value dbus property
