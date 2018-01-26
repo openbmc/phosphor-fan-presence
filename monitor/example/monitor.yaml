@@ -19,6 +19,10 @@
 #    - name [The name of the fan sensor]
 #      has_target [true|false  If this sensor has a Target property for
 #                  setting a fan speed (otherwise just for reads)]
+#      slope [The slope to multiply with target to calculate the expected
+#             fan speed. Default is 1 for fan speed target;
+#             Customized value for pwm target]
+#      offset [The offset to add to calculate the expected fan speed]
 #
 #sensor_trust_groups:
 # - class: [Group class name

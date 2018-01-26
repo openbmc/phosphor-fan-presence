@@ -36,8 +36,10 @@ const std::vector<FanDefinition> fanDefinitions
                   <%
                       #has_target is a bool, and we need a true instead of True
                       has_target = str(sensor['has_target']).lower()
+                      slope = 1 if 'slope' not in sensor else sensor['slope']
+                      offset = 0 if 'offset' not in sensor else sensor['offset']
                   %> \
-                      SensorDefinition{"${sensor['name']}", ${has_target}},
+                      SensorDefinition{"${sensor['name']}", ${has_target}, ${slope}, ${offset}},
                   %endfor
                   },
     },

@@ -18,8 +18,10 @@ using CreateGroupFunction =
 
 constexpr auto sensorNameField = 0;
 constexpr auto hasTargetField = 1;
+constexpr auto slopeField = 2;
+constexpr auto offsetField = 3;
 
-using SensorDefinition = std::tuple<std::string, bool>;
+using SensorDefinition = std::tuple<std::string, bool, size_t, size_t>;
 
 constexpr auto fanNameField = 0;
 constexpr auto timeoutField = 1;
