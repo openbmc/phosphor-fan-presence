@@ -53,6 +53,8 @@ Fan::Fan(Mode mode,
                             *this,
                             std::get<sensorNameField>(s),
                             std::get<hasTargetField>(s),
+                            std::get<factorField>(s),
+                            std::get<offsetField>(s),
                             std::get<timeoutField>(def),
                             events));
 
@@ -172,10 +174,17 @@ bool Fan::outOfRange(const TachSensor& sensor)
 {
     auto actual = static_cast<uint64_t>(sensor.getInput());
     auto target = sensor.getTarget();
+    auto factor = sensor.getFactor();
+    auto offset = sensor.getOffset();
 
     uint64_t min = target * (100 - _deviation) / 100;
     uint64_t max = target * (100 + _deviation) / 100;
 
+    // TODO: openbmc/openbmc#2937 enhance this function
+    // either by making it virtual, or by predefining different
+    // outOfRange ops and selecting by yaml config
+    min = min * factor + offset;
+    max = max * factor + offset;
     if ((actual < min) || (actual > max))
     {
         return true;
