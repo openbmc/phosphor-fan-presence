@@ -40,34 +40,36 @@ Fan::Fan(Mode mode,
     _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def)),
     _trustManager(trust)
 {
+    // Setup tach sensors for monitoring
+    auto& sensors = std::get<sensorListField>(def);
+    for (auto& s : sensors)
+    {
+        try
+        {
+            _sensors.emplace_back(
+                    std::make_unique<TachSensor>(
+                            mode,
+                            bus,
+                            *this,
+                            std::get<sensorNameField>(s),
+                            std::get<hasTargetField>(s),
+                            std::get<timeoutField>(def),
+                            events));
+
+            _trustManager->registerSensor(_sensors.back());
+        }
+        catch (InvalidSensorError& e)
+        {
+
+        }
+    }
+
     //Start from a known state of functional
     updateInventory(true);
 
-    // Setup tach sensors for monitoring when in monitor mode
+    // Check current tach state when entering monitor mode
     if (mode != Mode::init)
     {
-        auto& sensors = std::get<sensorListField>(def);
-        for (auto& s : sensors)
-        {
-            try
-            {
-                _sensors.emplace_back(
-                        std::make_unique<TachSensor>(
-                                bus,
-                                *this,
-                                std::get<sensorNameField>(s),
-                                std::get<hasTargetField>(s),
-                                std::get<timeoutField>(def),
-                                events));
-
-                _trustManager->registerSensor(_sensors.back());
-            }
-            catch (InvalidSensorError& e)
-            {
-
-            }
-        }
-
         //The TachSensors will now have already read the input
         //and target values, so check them.
         tachChanged();

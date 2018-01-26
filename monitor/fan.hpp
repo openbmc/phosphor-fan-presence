@@ -15,16 +15,16 @@ namespace fan
 namespace monitor
 {
 
-/**
- * The mode fan monitor will run in:
- *   - init - only do the initialization steps
- *   - monitor - run normal monitoring algorithm
- */
-enum class Mode
-{
-    init,
-    monitor
-};
+// /**
+//  * The mode fan monitor will run in:
+//  *   - init - only do the initialization steps
+//  *   - monitor - run normal monitoring algorithm
+//  */
+// enum class Mode
+// {
+//     init,
+//     monitor
+// };
 
 /**
  * @class InvalidSensorError
