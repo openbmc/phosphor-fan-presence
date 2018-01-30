@@ -30,9 +30,10 @@ class NonzeroSpeed : public Group
         /**
          * Constructor
          *
-         * @param[in] names - the names of the sensors in the group
+         * @param[in] names - the names of the sensors and its inclusion in
+         * determining trust for the group
          */
-        explicit NonzeroSpeed(const std::vector<std::string>& names) :
+        explicit NonzeroSpeed(const std::vector<TrustGroupDefinition>& names) :
                 Group(names)
         {
         }
@@ -53,7 +54,7 @@ class NonzeroSpeed : public Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        return s->getInput() != 0;
+                        return std::get<0>(s)->getInput() != 0;
                     });
         }
 };
