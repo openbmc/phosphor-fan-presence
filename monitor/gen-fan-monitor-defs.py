@@ -48,12 +48,17 @@ const std::vector<FanDefinition> fanDefinitions
 ##If a group were to ever need a different constructor,
 ##it could be handled here.
 <%def name="get_lambda_contents(group)">
-            std::vector<std::string> names{
-            %for sensor in group['sensors']:
-                "${sensor['name']}",
+            std::vector<TrustGroupDefinition> group{
+            %for member in group['group']:
+            <%
+                in_trust = ("true"
+                           if 'in_trust' not in member
+                           else str(member['in_trust']).lower())
+            %>
+                TrustGroupDefinition{"${member['name']}", ${in_trust}},
             %endfor
             };
-            return std::make_unique<${group['class']}>(names);
+            return std::make_unique<${group['class']}>(group);
 </%def>
 const std::vector<CreateGroupFunction> trustGroups
 {

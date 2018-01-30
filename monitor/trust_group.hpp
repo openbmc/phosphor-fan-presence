@@ -9,6 +9,9 @@ namespace fan
 namespace trust
 {
 
+using TrustGroupDefinition = std::tuple<std::string,
+                                        bool>;
+
 /**
  * @class Group
  *
@@ -45,7 +48,7 @@ class Group
          *
          * @param[in] names - the names of the sensors in the group
          */
-        explicit Group(const std::vector<std::string>& names) :
+        explicit Group(const std::vector<TrustGroupDefinition>& names) :
                 _names(names)
         {
         }
@@ -64,13 +67,15 @@ class Group
                     _names.end(),
                     [&sensor](const auto& name)
                     {
+                        // <0> = Name of sensor in trust group
                         return monitor::FAN_SENSOR_PATH +
-                                name == sensor->name();
+                                std::get<0>(name) == sensor->name();
                     });
 
             if (found != _names.end())
             {
-                _sensors.push_back(sensor);
+                // <1> = Include in trust determination
+                _sensors.push_back({sensor, std::get<1>(*found)});
             }
         }
 
@@ -89,7 +94,7 @@ class Group
                      _sensors.end(),
                      [&sensor](const auto& s)
                      {
-                         return sensor.name() == s->name();
+                         return sensor.name() == std::get<0>(s)->name();
                      }) != _sensors.end());
          }
 
@@ -107,7 +112,7 @@ class Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        s->stopTimer();
+                        std::get<0>(s)->stopTimer();
                     });
         }
 
@@ -126,11 +131,11 @@ class Group
                     {
                         //If a sensor isn't functional, then its timer
                         //already expired so don't bother starting it again
-                        if (s->functional() &&
-                            static_cast<uint64_t>(s->getInput()) !=
-                                    s->getTarget())
+                        if (std::get<0>(s)->functional() &&
+                            static_cast<uint64_t>(std::get<0>(s)->getInput()) !=
+                                    std::get<0>(s)->getTarget())
                         {
-                            s->startTimer();
+                            std::get<0>(s)->startTimer();
                         }
                     });
         }
@@ -190,11 +195,13 @@ class Group
     protected:
 
         /**
-         * The sensor objects in the group.
+         * The sensor objects and their trust inclusion in the group.
          *
          * Added by registerSensor().
          */
-        std::vector<std::shared_ptr<monitor::TachSensor>> _sensors;
+        std::vector<std::tuple<
+                std::shared_ptr<monitor::TachSensor>,
+                bool>> _sensors;
 
     private:
 
@@ -230,9 +237,10 @@ class Group
         bool _stateChange = false;
 
         /**
-         * The names of the sensors that should be added to this group
+         * The names of the sensors and whether it is included in
+         * determining trust for this group
          */
-        const std::vector<std::string> _names;
+        const std::vector<TrustGroupDefinition> _names;
 };
 
 }
