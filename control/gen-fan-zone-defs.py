@@ -140,7 +140,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %for sensor in fan['sensors']:
                             "${sensor}",
                         %endfor
-                        }
+                        },
+                        "${fan['target_interface']}"
                     },
                 %endfor
                 },
@@ -665,6 +666,9 @@ def getFansInZone(zone_num, profiles, fan_data):
         fan = {}
         fan['name'] = f['inventory']
         fan['sensors'] = f['sensors']
+        fan['target_interface'] = f.get(
+            'target_interface',
+            'xyz.openbmc_project.Control.FanSpeed')
         fans.append(fan)
 
     return fans
