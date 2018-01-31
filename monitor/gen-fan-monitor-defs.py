@@ -36,11 +36,15 @@ const std::vector<FanDefinition> fanDefinitions
                   <%
                       #has_target is a bool, and we need a true instead of True
                       has_target = str(sensor['has_target']).lower()
+                      target_interface = sensor.get(
+                          'target_interface',
+                          'xyz.openbmc_project.Control.FanSpeed')
                       factor = sensor.get('factor', 1)
                       offset = sensor.get('offset', 0)
                   %> \
                       SensorDefinition{"${sensor['name']}",
                                        ${has_target},
+                                       "${target_interface}",
                                        ${factor},
                                        ${offset}},
                   %endfor
