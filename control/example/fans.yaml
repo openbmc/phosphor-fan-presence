@@ -9,12 +9,15 @@
 #   cooling_zone: [The cooling zone number for the fan]
 #   cooling_profile: [The cooling profile for the fan]
 #   sensors: [The list of sensors for this fan]
+#   target_interface: [The interface implemented by the fan target.
+#                      Default is xyz.openbmc_project.Control.FanSpeed]
 
 #The cooling zone, a number, and the cooling profile, a string,
 #have to match the corresponding values in the fan zone yaml
 #so the fans can be merged into the zone definition.
 
-#Example entries for 2 fan system:
+#Example entries for 2 fan system where fan0 uses fan_target and
+#fa1 uses pwm:
 #fans:
 #  - inventory: /system/chassis/motherboard/fan0
 #    cooling_zone: 0
@@ -26,3 +29,4 @@
 #    cooling_profile: air
 #    sensors:
 #     - fan1
+#    target_interface: xyz.openbmc_project.Control.FanPwm
