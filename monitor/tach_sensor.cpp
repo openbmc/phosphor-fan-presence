@@ -27,7 +27,6 @@ namespace fan
 namespace monitor
 {
 
-constexpr auto FAN_SENSOR_CONTROL_INTF = "xyz.openbmc_project.Control.FanSpeed";
 constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 constexpr auto FAN_VALUE_PROPERTY = "Value";
@@ -69,6 +68,7 @@ TachSensor::TachSensor(Mode mode,
                        Fan& fan,
                        const std::string& id,
                        bool hasTarget,
+                       const std::string& interface,
                        size_t factor,
                        size_t offset,
                        size_t timeout,
@@ -78,6 +78,7 @@ TachSensor::TachSensor(Mode mode,
     _name(FAN_SENSOR_PATH + id),
     _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget),
+    _interface(interface),
     _factor(factor),
     _offset(offset),
     _timeout(timeout),
@@ -106,7 +107,7 @@ TachSensor::TachSensor(Mode mode,
 
         if (_hasTarget)
         {
-            readProperty(FAN_SENSOR_CONTROL_INTF,
+            readProperty(_interface,
                          FAN_TARGET_PROPERTY,
                          _name,
                          _bus,
@@ -122,7 +123,7 @@ TachSensor::TachSensor(Mode mode,
 
         if (_hasTarget)
         {
-            match = getMatchString(FAN_SENSOR_CONTROL_INTF);
+            match = getMatchString(_interface);
 
             targetSignal = std::make_unique<sdbusplus::server::match::match>(
                     _bus,
@@ -189,7 +190,7 @@ static void readPropertyFromMessage(sdbusplus::message::message& msg,
 void TachSensor::handleTargetChange(sdbusplus::message::message& msg)
 {
     readPropertyFromMessage(msg,
-                            FAN_SENSOR_CONTROL_INTF,
+                            _interface,
                             FAN_TARGET_PROPERTY,
                             _tachTarget);
 
