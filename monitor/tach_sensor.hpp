@@ -62,6 +62,7 @@ class TachSensor
          * @param[in] id - the id of the sensor
          * @param[in] hasTarget - if the sensor supports
          *                        setting the speed
+         * @param[in] interface - the interface of the target
          * @param[in] factor - the factor of the sensor target
          * @param[in] offset - the offset of the sensor target
          * @param[in] timeout - Normal timeout value to use
@@ -72,6 +73,7 @@ class TachSensor
                    Fan& fan,
                    const std::string& id,
                    bool hasTarget,
+                   const std::string& interface,
                    size_t factor,
                    size_t offset,
                    size_t timeout,
@@ -96,6 +98,14 @@ class TachSensor
         inline bool hasTarget() const
         {
             return _hasTarget;
+        }
+
+        /**
+         * @brief Returns the interface of the sensor target
+         */
+        inline std::string getInterface() const
+        {
+            return _interface;
         }
 
         /**
@@ -235,6 +245,11 @@ class TachSensor
          * @brief If the sensor has a Target property (can set speed)
          */
         const bool _hasTarget;
+
+        /**
+         * @brief The interface that the target implements
+         */
+        const std::string _interface;
 
         /**
          * @brief The factor of target to get fan rpm
