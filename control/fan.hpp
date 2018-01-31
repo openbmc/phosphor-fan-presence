@@ -83,6 +83,11 @@ class Fan
         std::vector<std::string> _sensors;
 
         /**
+         * The interface of the fan target
+         */
+        const std::string _interface;
+
+        /**
          * Target speed for this fan
          */
         uint64_t _targetSpeed;

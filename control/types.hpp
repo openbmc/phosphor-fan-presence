@@ -36,7 +36,10 @@ using PropertyVariantType = sdbusplus::message::variant<bool,
 
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
-using FanDefinition = std::tuple<std::string, std::vector<std::string>>;
+constexpr auto targetInterfacePos = 2;
+using FanDefinition = std::tuple<std::string,
+                                 std::vector<std::string>,
+                                 std::string>;
 
 constexpr auto intfPos = 0;
 constexpr auto propPos = 1;
