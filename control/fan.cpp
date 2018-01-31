@@ -36,13 +36,13 @@ using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
 
 constexpr auto PROPERTY_INTERFACE = "org.freedesktop.DBus.Properties";
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
-constexpr auto FAN_SENSOR_CONTROL_INTF = "xyz.openbmc_project.Control.FanSpeed";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 
 
 Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
     _bus(bus),
-    _name(std::get<fanNamePos>(def))
+    _name(std::get<fanNamePos>(def)),
+    _interface(std::get<targetInterfacePos>(def))
 {
     std::string path;
     auto sensors = std::get<sensorListPos>(def);
@@ -58,7 +58,7 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
         _targetSpeed = util::SDBusPlus::getProperty<uint64_t>(
                 bus,
                 path,
-                FAN_SENSOR_CONTROL_INTF,
+                _interface,
                 FAN_TARGET_PROPERTY);
     }
 }
@@ -69,7 +69,7 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
 std::string Fan::getService(const std::string& sensor)
 {
     return phosphor::fan::util::getService(sensor,
-                                           FAN_SENSOR_CONTROL_INTF,
+                                           _interface,
                                            _bus);
 }
 
@@ -87,7 +87,7 @@ void Fan::setSpeed(uint64_t speed)
                                            sensor.c_str(),
                                            PROPERTY_INTERFACE,
                                            "Set");
-        method.append(FAN_SENSOR_CONTROL_INTF, property, value);
+        method.append(_interface, property, value);
 
         auto response = _bus.call(method);
         if (response.is_method_error())
