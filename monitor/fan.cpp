@@ -47,7 +47,7 @@ Fan::Fan(Mode mode,
         try
         {
             _sensors.emplace_back(
-                    std::make_unique<TachSensor>(
+                    std::make_shared<TachSensor>(
                             mode,
                             bus,
                             *this,
