@@ -122,7 +122,7 @@ class Manager
          * @param[in] sensor - the sensor to register
          */
         void registerSensor(
-                std::unique_ptr<monitor::TachSensor>& sensor)
+                std::shared_ptr<monitor::TachSensor>& sensor)
         {
             std::for_each(
                     groups.begin(),
