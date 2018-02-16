@@ -12,6 +12,12 @@ namespace trust
 using TrustGroupDefinition = std::tuple<std::string,
                                         bool>;
 
+struct GroupSensor
+{
+    std::shared_ptr<monitor::TachSensor> sensor;
+    bool inTrust;
+};
+
 /**
  * @class Group
  *
@@ -95,7 +101,7 @@ class Group
                      _sensors.end(),
                      [&sensor](const auto& s)
                      {
-                         return sensor.name() == std::get<0>(s)->name();
+                         return sensor.name() == s.sensor->name();
                      }) != _sensors.end());
          }
 
@@ -113,7 +119,7 @@ class Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        std::get<0>(s)->stopTimer();
+                        s.sensor->stopTimer();
                     });
         }
 
@@ -132,11 +138,12 @@ class Group
                     {
                         //If a sensor isn't functional, then its timer
                         //already expired so don't bother starting it again
-                        if (std::get<0>(s)->functional() &&
-                            static_cast<uint64_t>(std::get<0>(s)->getInput()) !=
-                                    std::get<0>(s)->getTarget())
+                        if (s.sensor->functional() &&
+                            static_cast<uint64_t>(
+                                s.sensor->getInput()) !=
+                                    s.sensor->getTarget())
                         {
-                            std::get<0>(s)->startTimer();
+                            s.sensor->startTimer();
                         }
                     });
         }
@@ -200,9 +207,7 @@ class Group
          *
          * Added by registerSensor().
          */
-        std::vector<std::tuple<
-                std::shared_ptr<monitor::TachSensor>,
-                bool>> _sensors;
+        std::vector<GroupSensor> _sensors;
 
     private:
 
