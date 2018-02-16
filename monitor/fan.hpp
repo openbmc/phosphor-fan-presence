@@ -190,7 +190,7 @@ class Fan
         /**
          * The sensor objects for the fan
          */
-        std::vector<std::unique_ptr<TachSensor>> _sensors;
+        std::vector<std::shared_ptr<TachSensor>> _sensors;
 
         /**
          * The tach trust manager object

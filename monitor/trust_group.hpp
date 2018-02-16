@@ -57,7 +57,7 @@ class Group
          *
          * @param[in] sensor - the TachSensor to register
          */
-        void registerSensor(std::unique_ptr<monitor::TachSensor>& sensor)
+        void registerSensor(std::shared_ptr<monitor::TachSensor>& sensor)
         {
             auto found = std::find_if(
                     _names.begin(),
@@ -89,7 +89,7 @@ class Group
                      _sensors.end(),
                      [&sensor](const auto& s)
                      {
-                         return sensor.name() == s.get()->name();
+                         return sensor.name() == s->name();
                      }) != _sensors.end());
          }
 
@@ -107,7 +107,7 @@ class Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        s.get()->stopTimer();
+                        s->stopTimer();
                     });
         }
 
@@ -126,11 +126,11 @@ class Group
                     {
                         //If a sensor isn't functional, then its timer
                         //already expired so don't bother starting it again
-                        if (s.get()->functional() &&
-                            static_cast<uint64_t>(s.get()->getInput()) !=
-                                    s.get()->getTarget())
+                        if (s->functional() &&
+                            static_cast<uint64_t>(s->getInput()) !=
+                                    s->getTarget())
                         {
-                            s.get()->startTimer();
+                            s->startTimer();
                         }
                     });
         }
@@ -194,8 +194,7 @@ class Group
          *
          * Added by registerSensor().
          */
-        std::vector<std::reference_wrapper<
-                std::unique_ptr<monitor::TachSensor>>> _sensors;
+        std::vector<std::shared_ptr<monitor::TachSensor>> _sensors;
 
     private:
 
