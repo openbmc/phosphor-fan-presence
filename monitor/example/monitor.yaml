@@ -33,8 +33,10 @@
 #           Available classes:
 #           * NonzeroSpeed - Only trust if at least one sensor in the group
 #                            has a nonzero speed.]
-#   sensors:
+#   group:
 #     - name [The name of the fan sensor in this group]
+#       in_trust: [true|false] (optional)
+#         [Include in trust determination or not. Default = true]
 
 #The code uses these parameters as follows:
 #  After a speed reading of a sensor is outside of the allowed deviation of
@@ -45,8 +47,8 @@
 #  Sensor trust groups are used to specify that the speed values for the
 #  sensors in a group cannot be trusted based on some condition, where
 #  the condition is based on the class used to implement the group.  All
-#  sensors in the group go in and out of trust together.  This section
-#  is optional.
+#  sensors in the group go in and out of trust based on those defined
+#  to be part of determining the trust.  This section is optional.
 
 #Example entries for 1 fan system:
 #fans:
@@ -59,5 +61,7 @@
 #        has_target: true
 #sensor_trust_groups:
 # - class: NonzeroSpeed
-#    sensors:
+#    group:
 #      - name: fan0_0
+#        in_trust: false
+#      - name: fan0_1

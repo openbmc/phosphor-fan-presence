@@ -42,7 +42,8 @@ class NonzeroSpeed : public Group
 
         /**
          * Determines if the group is trusted by checking
-         * if any sensor has a nonzero speed.  If all speeds
+         * if any sensor included in the trust determination
+         * has a nonzero speed. If all the speeds of these sensors
          * are zero, then no sensors in the group are trusted.
          *
          * @return bool - if group is trusted or not
@@ -54,7 +55,7 @@ class NonzeroSpeed : public Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        return s.sensor->getInput() != 0;
+                        return s.inTrust && s.sensor->getInput() != 0;
                     });
         }
 };
