@@ -54,7 +54,7 @@ class NonzeroSpeed : public Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        return std::get<0>(s)->getInput() != 0;
+                        return s.sensor->getInput() != 0;
                     });
         }
 };
