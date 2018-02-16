@@ -53,7 +53,7 @@ class NonzeroSpeed : public Group
                     _sensors.end(),
                     [](const auto& s)
                     {
-                        return s.get()->getInput() != 0;
+                        return s->getInput() != 0;
                     });
         }
 };
