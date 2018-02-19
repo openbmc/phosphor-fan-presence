@@ -7,6 +7,9 @@
 #fans:
 # - inventory:
 #    [The system inventory location for the fan]
+#  functional_delay:
+#    [Delay (in secs) before a fan is marked functional after returning
+#     within the allowed deviation]
 #  allowed_out_of_range_time:
 #    [Time (in secs) actual speed can be outside of deviation of
 #     target speed]
@@ -45,6 +48,7 @@
 #Example entries for 1 fan system:
 #fans:
 #  - inventory: /system/chassis/motherboard/fan0
+#    functional_delay: 5
 #    allowed_out_of_range_time: 15
 #    deviation: 15
 #    num_sensors_nonfunc_for_fan_nonfunc: 1

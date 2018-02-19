@@ -53,6 +53,7 @@ Fan::Fan(Mode mode,
                             *this,
                             std::get<sensorNameField>(s),
                             std::get<hasTargetField>(s),
+                            std::get<funcDelay>(def),
                             std::get<timeoutField>(def),
                             events));
 
