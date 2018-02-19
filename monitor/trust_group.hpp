@@ -142,7 +142,8 @@ class Group
                                 s.sensor->getInput()) !=
                                     s.sensor->getTarget())
                         {
-                            s.sensor->startTimer();
+                            s.sensor->startTimer(
+                                phosphor::fan::monitor::TimerMode::nonfunc);
                         }
                     });
         }

@@ -15,6 +15,7 @@
  */
 #include <experimental/filesystem>
 #include <phosphor-logging/log.hpp>
+#include <phosphor-logging/elog.hpp>
 #include "fan.hpp"
 #include "sdbusplus.hpp"
 #include "tach_sensor.hpp"
@@ -32,6 +33,8 @@ constexpr auto FAN_TARGET_PROPERTY = "Target";
 constexpr auto FAN_VALUE_PROPERTY = "Value";
 
 using namespace std::experimental::filesystem;
+using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
+                            Error::InternalFailure;
 
 /**
  * @brief Helper function to read a property
@@ -84,6 +87,7 @@ TachSensor::TachSensor(Mode mode,
     _factor(factor),
     _offset(offset),
     _timeout(timeout),
+    _timerMode(TimerMode::func),
     _timer(events, [this, &fan](){ fan.timerExpired(*this); })
 {
     // Start from a known state of functional
@@ -212,12 +216,45 @@ void TachSensor::handleTachChange(sdbusplus::message::message& msg)
    _fan.tachChanged(*this);
 }
 
+void TachSensor::startTimer(TimerMode mode)
+{
+    if (!timerRunning())
+    {
+        _timer.start(
+                getDelay(mode),
+                util::Timer::TimerType::oneshot);
+        _timerMode = mode;
+    }
+    else
+    {
+        if (mode != _timerMode)
+        {
+            _timer.stop();
+            _timer.start(
+                    getDelay(mode),
+                    util::Timer::TimerType::oneshot);
+            _timerMode = mode;
+        }
+    }
+}
 
-std::chrono::microseconds TachSensor::getTimeout()
+std::chrono::microseconds TachSensor::getDelay(TimerMode mode)
 {
     using namespace std::chrono;
 
-    return duration_cast<microseconds>(seconds(_timeout));
+    switch(mode)
+    {
+        case TimerMode::nonfunc :
+                return duration_cast<microseconds>(seconds(_timeout));
+        case TimerMode::func :
+                return duration_cast<microseconds>(seconds(_funcDelay));
+        default :
+                // Log an internal error for undefined timer mode
+                log<level::ERR>("Undefined timer mode",
+                        entry("TIMER_MODE=%u", mode));
+                elog<InternalFailure>();
+                return duration_cast<microseconds>(seconds(0));
+    }
 }
 
 void TachSensor::updateInventory(bool functional)
