@@ -62,6 +62,7 @@ class TachSensor
          * @param[in] id - the id of the sensor
          * @param[in] hasTarget - if the sensor supports
          *                        setting the speed
+         * @param[in] funcDelay - Delay to mark functional
          * @param[in] timeout - Normal timeout value to use
          * @param[in] events - sd_event pointer
          */
@@ -70,6 +71,7 @@ class TachSensor
                    Fan& fan,
                    const std::string& id,
                    bool hasTarget,
+                   size_t funcDelay,
                    size_t timeout,
                    phosphor::fan::event::EventPtr& events);
 
@@ -227,6 +229,10 @@ class TachSensor
          */
         uint64_t _tachTarget = 0;
 
+        /**
+         * @brief Amount of time to delay updating to functional
+         */
+        const size_t _funcDelay;
         /**
          * @brief The timeout value to use
          */
