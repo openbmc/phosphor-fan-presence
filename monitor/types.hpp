@@ -29,12 +29,14 @@ using SensorDefinition = std::tuple<std::string,
                                     size_t>;
 
 constexpr auto fanNameField = 0;
-constexpr auto timeoutField = 1;
-constexpr auto fanDeviationField = 2;
-constexpr auto numSensorFailsForNonfuncField = 3;
-constexpr auto sensorListField = 4;
+constexpr auto funcDelay = 1;
+constexpr auto timeoutField = 2;
+constexpr auto fanDeviationField = 3;
+constexpr auto numSensorFailsForNonfuncField = 4;
+constexpr auto sensorListField = 5;
 
 using FanDefinition = std::tuple<std::string,
+                                 size_t,
                                  size_t,
                                  size_t,
                                  size_t,

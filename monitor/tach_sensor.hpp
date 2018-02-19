@@ -62,6 +62,7 @@ class TachSensor
          * @param[in] id - the id of the sensor
          * @param[in] hasTarget - if the sensor supports
          *                        setting the speed
+         * @param[in] funcDelay - Delay to mark functional
          * @param[in] interface - the interface of the target
          * @param[in] factor - the factor of the sensor target
          * @param[in] offset - the offset of the sensor target
@@ -73,6 +74,7 @@ class TachSensor
                    Fan& fan,
                    const std::string& id,
                    bool hasTarget,
+                   size_t funcDelay,
                    const std::string& interface,
                    size_t factor,
                    size_t offset,
@@ -245,6 +247,11 @@ class TachSensor
          * @brief If the sensor has a Target property (can set speed)
          */
         const bool _hasTarget;
+
+        /**
+         * @brief Amount of time to delay updating to functional
+         */
+        const size_t _funcDelay;
 
         /**
          * @brief The interface that the target implements
