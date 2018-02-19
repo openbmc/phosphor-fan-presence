@@ -112,7 +112,7 @@ void Fan::tachChanged(TachSensor& sensor)
     {
         if (sensor.functional() && !running)
         {
-            sensor.startTimer();
+            sensor.startTimer(TimerMode::nonfunc);
         }
     }
     else

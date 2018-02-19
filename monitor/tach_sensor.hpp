@@ -29,6 +29,17 @@ enum class Mode
 };
 
 /**
+ * The mode that the timer is running in:
+ *   - func - Transition to functional state timer
+ *   - nonfunc - Transition to nonfunctional state timer
+ */
+enum class TimerMode
+{
+    func,
+    nonfunc
+};
+
+/**
  * @class TachSensor
  *
  * This class represents the sensor that reads a tach value.
@@ -151,15 +162,12 @@ class TachSensor
         }
 
         /**
-         * @brief Starts the timer for the amount of time
-         *        specified in the constructor
+         * @brief Stops the timer when the given mode differs and starts
+         * the associated timer for the mode given if not already running
+         *
+         * @param[in] tMode - mode of timer to start
          */
-        inline void startTimer()
-        {
-            _timer.start(
-                    getTimeout(),
-                    phosphor::fan::util::Timer::TimerType::oneshot);
-        }
+        void startTimer(TimerMode tMode);
 
         /**
          * @brief Stops the timer
@@ -170,9 +178,11 @@ class TachSensor
         }
 
         /**
-         * @brief Returns the timeout value to use for the sensor
+         * @brief Return the given timer mode's delay time
+         *
+         * @param[in] tMode - mode of timer to get delay time for
          */
-        std::chrono::microseconds getTimeout();
+        std::chrono::microseconds getDelay(TimerMode tMode);
 
         /**
          * Returns the sensor name
@@ -283,6 +293,11 @@ class TachSensor
          * @brief The timeout value to use
          */
         const size_t _timeout;
+
+        /**
+         * @brief Mode that current timer is in
+         */
+        TimerMode _timerMode;
 
         /**
          * The timer object
