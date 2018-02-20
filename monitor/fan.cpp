@@ -100,8 +100,6 @@ void Fan::tachChanged(TachSensor& sensor)
         }
     }
 
-    auto running = sensor.timerRunning();
-
     //If this sensor is out of range at this moment, start
     //its timer, at the end of which the inventory
     //for the fan may get updated to not functional.
@@ -110,31 +108,22 @@ void Fan::tachChanged(TachSensor& sensor)
 
     if (outOfRange(sensor))
     {
-        if (sensor.functional() && !running)
+        if (sensor.functional())
         {
+            // Start nonfunctional timer if not already running
             sensor.startTimer(TimerMode::nonfunc);
         }
     }
     else
     {
-        if (!sensor.functional())
-        {
-            sensor.setFunctional(true);
-        }
-
-        if (running)
+        if (sensor.functional())
         {
             sensor.stopTimer();
         }
-
-        //If the fan was nonfunctional and enough sensors are now OK,
-        //the fan can go back to functional
-        if (!_functional && !tooManySensorsNonfunctional())
+        else
         {
-            log<level::INFO>("Setting a fan back to functional",
-                             entry("FAN=%s", _name.c_str()));
-
-            updateInventory(true);
+            // Start functional timer if not already running
+            sensor.startTimer(TimerMode::func);
         }
     }
 }
@@ -198,12 +187,21 @@ bool Fan::outOfRange(const TachSensor& sensor)
 
 void Fan::timerExpired(TachSensor& sensor)
 {
-    sensor.setFunctional(false);
+    sensor.setFunctional(!sensor.functional());
+
+    //If the fan was nonfunctional and enough sensors are now OK,
+    //the fan can go back to functional
+    if (!_functional && !tooManySensorsNonfunctional())
+    {
+        log<level::INFO>("Setting a fan back to functional",
+                         entry("FAN=%s", _name.c_str()));
+
+        updateInventory(true);
+    }
 
     //If the fan is currently functional, but too many
     //contained sensors are now nonfunctional, update
     //the whole fan nonfunctional.
-
     if (_functional && tooManySensorsNonfunctional())
     {
         log<level::ERR>("Setting a fan to nonfunctional",
