@@ -17,8 +17,7 @@ namespace precondition
  * @details Compares each entry within the precondition group to a given value
  * that when each entry's property value matches the given value, the set speed
  * event is then initialized. At any point a precondition entry's value no
- * longer matches, the set speed event is removed from being active and fans
- * are set to full speed.
+ * longer matches, the set speed event is removed from being active.
  *
  * @param[in] pg - Precondition property group of property values
  * @param[in] sse - Set speed event definition
@@ -75,10 +74,7 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
                 {
                     zone.removeEvent(entry);
                 });
-            zone.setFullSpeed();
         }
-        // Update group's fan control active allowed
-        zone.setActiveAllow(&group, (precondState == pg.size()));
     };
 }
 
