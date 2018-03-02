@@ -160,7 +160,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             ${event['pc']['pctime']['type']}
                         },
                         std::vector<Signal>{
-                        %for s in event['pc']['pcsigs']:
+                        %for s in event['pc']['triggers']['pcsigs']:
                             Signal{
                                 %if ('match' in s) and \
                                     (s['match'] is not None):
