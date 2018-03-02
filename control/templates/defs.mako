@@ -63,7 +63,7 @@ TimerConf{
     ${event['timer']['type']}
 },
 std::vector<Signal>{
-%for s in event['signals']:
+%for s in event['triggers']['signals']:
     Signal{
         %if ('match' in s) and \
             (s['match'] is not None):
