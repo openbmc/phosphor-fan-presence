@@ -63,7 +63,7 @@ Timer{
     ${event['timer']['type']}
 },
 std::vector<Signal>{
-%for s in event['signals']:
+%for s in event['triggers']['signal']:
     Signal{
         match::${s['match']}(
         %for i, mp in enumerate(s['mparams']):
