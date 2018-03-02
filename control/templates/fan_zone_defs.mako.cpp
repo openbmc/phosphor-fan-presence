@@ -125,7 +125,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             ${event['pc']['pctime']['type']}
                         },
                         std::vector<Signal>{
-                        %for s in event['pc']['pcsigs']:
+                        %for s in event['pc']['triggers']['pcsigs']:
                             Signal{
                                 match::${s['match']}(
                                 %for i, mp in enumerate(s['mparams']):
