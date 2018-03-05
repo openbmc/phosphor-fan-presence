@@ -152,6 +152,19 @@ def getSignal(eGrps, eTrig, events):
     return signals
 
 
+def getTimer(eTrig):
+    """
+    Extracts and constructs the required parameters for an
+    event timer.
+    """
+    timer = {}
+    timer['interval'] = (
+        "static_cast<std::chrono::microseconds>" +
+        "(" + str(eTrig['interval']) + ")")
+    timer['type'] = "util::Timer::TimerType::" + str(eTrig['type'])
+    return timer
+
+
 def getActions(edata, actions, events):
     """
     Extracts and constructs the make_action function call for
@@ -202,11 +215,9 @@ def getActions(edata, actions, events):
                         param += ("size_t>(" + str(eActions[p]).lower() + ")")
                 else:
                     if p == 'timer':
+                        t = getTimer(eActions[p])
                         param = (
-                            "Timer{static_cast<std::chrono::seconds>(" +
-                            str(eActions[p]['delay']) + "), " +
-                            "util::Timer::TimerType::" +
-                            str(eActions[p]['type']) + "}")
+                            "Timer{" + t['interval'] + "," + t['type'] + "}")
                     else:
                         param += (str(eActions[p]['type']).lower() + ">(")
                         if p != 'map':
@@ -250,24 +261,11 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     event['triggers'] = {}
     for trig in e['triggers']:
         triggers = []
-        if (trig['name'] == "signal"):
+        if (trig['name'] == "timer"):
+            event['triggers']['timer'] = getTimer(trig)
+        elif (trig['name'] == "signal"):
             triggers = getSignal(event['groups'], trig, events_data)
             event['triggers']['signal'] = triggers
-
-    # Add optional action call timer
-    timer = {}
-    interval = "static_cast<std::chrono::seconds>"
-    if ('timer' in e) and \
-       (e['timer'] is not None):
-        timer['interval'] = (interval +
-                             "(" +
-                             str(e['timer']['interval']) +
-                             ")")
-    else:
-        timer['interval'] = (interval +
-                             "(" + str(0) + ")")
-    timer['type'] = "util::Timer::TimerType::repeating"
-    event['timer'] = timer
 
     return event
 
@@ -333,24 +331,11 @@ def addPrecondition(zNum, zCond, event, events_data):
     precond['triggers'] = {}
     for trig in event['precondition']['triggers']:
         triggers = []
-        if (trig['name'] == "signal"):
+        if (trig['name'] == "timer"):
+            precond['triggers']['pctime'] = getTimer(trig)
+        elif (trig['name'] == "signal"):
             triggers = getSignal(precond['pcgrps'], trig, events_data)
             precond['triggers']['pcsigs'] = triggers
-
-    # Add optional action call timer
-    timer = {}
-    interval = "static_cast<std::chrono::seconds>"
-    if ('timer' in event['precondition']) and \
-       (event['precondition']['timer'] is not None):
-        timer['interval'] = (interval +
-                             "(" +
-                             str(event['precondition']['timer']['interval']) +
-                             ")")
-    else:
-        timer['interval'] = (interval +
-                             "(" + str(0) + ")")
-    timer['type'] = "util::Timer::TimerType::repeating"
-    precond['pctime'] = timer
 
     return precond
 

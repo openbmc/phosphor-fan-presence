@@ -335,7 +335,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
     }
     // Attach a timer to run the action of an event
     auto eventTimer = std::get<timerPos>(event);
-    if (std::get<intervalPos>(eventTimer) != seconds(0))
+    if (std::get<intervalPos>(eventTimer) != microseconds(0))
     {
         // Associate event data with timer
         std::unique_ptr<EventData> eventData =
