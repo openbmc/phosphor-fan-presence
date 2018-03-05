@@ -59,8 +59,11 @@ make_action(action::${a['name']}
 %endfor
 },
 TimerConf{
-    ${event['timer']['interval']},
-    ${event['timer']['type']}
+    %if ('timer' in event['triggers']) and \
+        (event['triggers']['timer'] is not None):
+    ${event['triggers']['timer']['interval']},
+    ${event['triggers']['timer']['type']}
+    %endif
 },
 std::vector<Signal>{
 %for s in event['triggers']['signal']:
