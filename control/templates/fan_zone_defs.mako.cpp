@@ -156,8 +156,11 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endif
                         },
                         TimerConf{
-                            ${event['pc']['pctime']['interval']},
-                            ${event['pc']['pctime']['type']}
+                            %if ('timer' in event['pc']['triggers']) and \
+                                (event['pc']['triggers']['timer'] is not None):
+                            ${event['pc']['triggers']['pctime']['interval']},
+                            ${event['pc']['triggers']['pctime']['type']}
+                            %endif
                         },
                         std::vector<Signal>{
                         %for s in event['pc']['triggers']['pcsigs']:

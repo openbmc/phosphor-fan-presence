@@ -71,7 +71,7 @@ enum class TimerType
     oneshot,
     repeating,
 };
-using TimerConf = std::tuple<std::chrono::seconds,
+using TimerConf = std::tuple<std::chrono::microseconds,
                              TimerType>;
 
 constexpr auto sigMatchPos = 0;
