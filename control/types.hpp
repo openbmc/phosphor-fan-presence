@@ -48,6 +48,9 @@ using Handler = std::function<void(sdbusplus::bus::bus&,
                                    sdbusplus::message::message&,
                                    Zone&)>;
 using Action = std::function<void(Zone&, const Group&)>;
+using Trigger = std::function<void(Zone&,
+                                   const Group&,
+                                   const std::vector<Action>&)>;
 
 constexpr auto pcPathPos = 0;
 constexpr auto pcIntfPos = 1;
@@ -73,11 +76,11 @@ using Signal = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
 constexpr auto actionsPos = 1;
-constexpr auto timerPos = 2;
+constexpr auto triggerPos = 2;
 constexpr auto signalsPos = 3;
 using SetSpeedEvent = std::tuple<Group,
                                  std::vector<Action>,
-                                 Timer,
+                                 std::vector<Trigger>,
                                  std::vector<Signal>>;
 
 constexpr auto eventGroupPos = 0;

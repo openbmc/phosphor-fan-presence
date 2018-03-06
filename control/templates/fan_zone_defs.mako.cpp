@@ -11,6 +11,7 @@ def indent(str, depth):
 #include "handlers.hpp"
 #include "preconditions.hpp"
 #include "matches.hpp"
+#include "triggers.hpp"
 
 using namespace phosphor::fan::control;
 
@@ -120,11 +121,13 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         ),
                         %endif
                         },
-                        Timer{
+                        std::vector<Trigger>{
                             %if ('timer' in event['pc']['triggers']) and \
                                 (event['pc']['triggers']['timer'] is not None):
+                            make_trigger(trigger::timer(Timer{
                             ${event['pc']['triggers']['pctime']['interval']},
                             ${event['pc']['triggers']['pctime']['type']}
+                        }))
                             %endif
                         },
                         std::vector<Signal>{

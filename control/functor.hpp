@@ -19,6 +19,19 @@ using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                                 Error::InternalFailure;
 
 /**
+ * @brief Create a trigger function object
+ *
+ * @param[in] trigger - The trigger being created
+ *
+ * @return - The created trigger function object
+ */
+template <typename T>
+auto make_trigger(T&& trigger)
+{
+    return Trigger(std::forward<T>(trigger));
+}
+
+/**
  * @brief Create a handler function object
  *
  * @param[in] handler - The handler being created
