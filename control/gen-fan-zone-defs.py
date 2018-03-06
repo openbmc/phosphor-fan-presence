@@ -162,11 +162,13 @@ def genEvent(event):
         e += "),\n"
     e += "},\n"
 
-    e += "TimerConf{\n"
+    e += "std::vector<Trigger>{\n"
     if ('timer' in event['triggers']) and \
        (event['triggers']['timer'] is not None):
+       e += "\tmake_trigger(trigger::timer(TimerConf{\n"
        e += "\t" + event['triggers']['timer']['interval'] + ",\n"
        e += "\t" + event['triggers']['timer']['type'] + "\n"
+       e += "\t}))\n"
     e += "},\n"
 
     e += "std::vector<Signal>{\n"

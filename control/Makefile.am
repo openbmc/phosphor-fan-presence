@@ -10,6 +10,7 @@ phosphor_fan_control_SOURCES = \
 	main.cpp \
 	manager.cpp \
 	actions.cpp \
+	triggers.cpp \
 	zone.cpp
 
 nodist_phosphor_fan_control_SOURCES = \
