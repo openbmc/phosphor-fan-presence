@@ -333,34 +333,18 @@ void Zone::initEvent(const SetSpeedEvent& event)
         }
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
-    // Attach a timer to run the action of an event
-    auto eventTimer = std::get<timerPos>(event);
-    if (std::get<intervalPos>(eventTimer) != microseconds(0))
-    {
-        // Associate event data with timer
-        std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    "",
-                    nullptr,
-                    std::get<actionsPos>(event)
-            );
-        std::unique_ptr<util::Timer> timer =
-            std::make_unique<util::Timer>(
-                _sdEvents,
-                [this,
-                 action = &(std::get<actionsPos>(event)),
-                 group = &(std::get<groupPos>(event))]()
-                 {
-                     this->timerExpired(*group, *action);
-                 });
-        if (!timer->running())
+    // Enable event triggers
+    std::for_each(
+        std::get<triggerPos>(event).begin(),
+        std::get<triggerPos>(event).end(),
+        [this, &event](auto const& trigger)
         {
-            timer->start(std::get<intervalPos>(eventTimer),
-                         std::get<typePos>(eventTimer));
+            trigger(*this,
+                    std::get<groupPos>(event),
+                    std::get<actionsPos>(event));
         }
-        addTimer(std::move(eventData), std::move(timer));
-    }
+    );
+
     // Run action functions for initial event state
     std::for_each(
         std::get<actionsPos>(event).begin(),
