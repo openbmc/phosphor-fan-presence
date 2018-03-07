@@ -76,5 +76,14 @@ std::vector<Trigger>{
     )),
     %endfor
     %endif
+    %if ('init' in event['triggers']):
+    %for s in event['triggers']['init']:
+    make_trigger(trigger::init(
+        make_handler(
+        ${indent(genHandler(sig=s), 3)}
+        )
+    )),
+    %endfor
+    %endif
 },
 </%def>\

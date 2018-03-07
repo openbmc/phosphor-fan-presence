@@ -148,6 +148,15 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             )),
                             %endfor
                             %endif
+                            %if ('init' in event['pc']['triggers']):
+                            %for s in event['pc']['triggers']['init']:
+                            make_trigger(trigger::init(
+                                make_handler(
+                                ${indent(genHandler(sig=s), 3)}
+                                )
+                            )),
+                            %endfor
+                            %endif
                         },
                     %endif
                     },
