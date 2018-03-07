@@ -330,16 +330,6 @@ void Zone::initEvent(const SetSpeedEvent& event)
                     std::get<actionsPos>(event));
         }
     );
-
-    // Run action functions for initial event state
-    std::for_each(
-        std::get<actionsPos>(event).begin(),
-        std::get<actionsPos>(event).end(),
-        [this, &event](auto const& action)
-        {
-            action(*this,
-                   std::get<groupPos>(event));
-        });
 }
 
 void Zone::removeEvent(const SetSpeedEvent& event)
