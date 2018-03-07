@@ -64,6 +64,36 @@ class Zone : public ThermalObject
              const ZoneDefinition& def);
 
         /**
+         * @brief Get the zone's bus
+         *
+         * @return The bus used by the zone
+         */
+         inline auto& getBus()
+         {
+             return _bus;
+         }
+
+        /**
+         * @brief Get the zone's path
+         *
+         * @return The path of this zone
+         */
+        inline auto& getPath()
+        {
+            return _path;
+        }
+
+        /**
+         * @brief Get the zone's hosted interfaces
+         *
+         * @return The interfaces hosted by this zone
+         */
+        inline auto& getIfaces()
+        {
+            return _ifaces;
+        }
+
+        /**
          * Sets all fans in the zone to the speed
          * passed in when the zone is active
          *
@@ -107,6 +137,17 @@ class Zone : public ThermalObject
         }
 
         /**
+         *
+         */
+        inline void setObjectData(const std::string& object,
+                                  const std::string& interface,
+                                  const std::string& property,
+                                  EventData* data)
+        {
+            _objects[object][interface][property] = data;
+        }
+
+        /**
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
@@ -118,6 +159,23 @@ class Zone : public ThermalObject
         void setPropertyValue(const char* object,
                               const char* interface,
                               const char* property,
+                              T value)
+        {
+            _properties[object][interface][property] = value;
+        };
+
+        /**
+         * @brief Sets a given object's property value
+         *
+         * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
+         * @param[in] property - Property name
+         * @param[in] value - Property value
+         */
+        template <typename T>
+        void setPropertyValue(const std::string& object,
+                              const std::string& interface,
+                              const std::string& property,
                               T value)
         {
             _properties[object][interface][property] = value;
@@ -368,7 +426,7 @@ class Zone : public ThermalObject
          * @return - Iterator to the stored signal event
          */
         std::vector<SignalEvent>::iterator findSignal(
-            const Signal& signal,
+            const Trigger& signal,
             const Group& eGroup,
             const std::vector<Action>& eActions);
 
@@ -468,6 +526,28 @@ class Zone : public ThermalObject
         const std::string& addServices(const std::string& path,
                                        const std::string& intf,
                                        int32_t depth);
+
+        /**
+         * @brief Dbus signal change callback handler
+         *
+         * @param[in] msg - Expanded sdbusplus message data
+         * @param[in] eventData - The single event's data
+         */
+        void handleEvent(sdbusplus::message::message& msg,
+                         const EventData* eventData);
+
+        /**
+         * @brief Add a signal to the list of signal based events
+         *
+         * @param[in] data - Event data for signal
+         * @param[in] match - Subscribed signal match
+         */
+        inline void addSignal(
+                std::unique_ptr<EventData>&& data,
+                std::unique_ptr<sdbusplus::server::match::match>&& match)
+        {
+            _signalEvents.emplace_back(std::move(data), std::move(match));
+        }
 
         /**
          * @brief Set a property to be persisted
@@ -739,15 +819,6 @@ class Zone : public ThermalObject
         {
             return (_requestSpeedBase != 0) ? _requestSpeedBase : _targetSpeed;
         };
-
-        /**
-         * @brief Dbus signal change callback handler
-         *
-         * @param[in] msg - Expanded sdbusplus message data
-         * @param[in] eventData - The single event's data
-         */
-        void handleEvent(sdbusplus::message::message& msg,
-                         const EventData* eventData);
 };
 
 }
