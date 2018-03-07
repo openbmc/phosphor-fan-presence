@@ -24,6 +24,19 @@ namespace trigger
  */
 Trigger timer(Timer&& tConf);
 
+/**
+ * @brief A trigger of a signal for an event
+ * @details Initializes a signal object's value and subscribes to the defined
+ * signal match.
+ *
+ * @param[in] match - Signal match to subscribe to
+ * @param[in] handler - Handler function for the received signal
+ *
+ * @return Trigger lambda function
+ *     A Trigger function that initializes and subscribes to a signal
+ */
+Trigger signal(const std::string& match, Handler&& handler);
+
 } // namespace trigger
 } // namespace control
 } // namespace fan
