@@ -3,6 +3,23 @@ def indent(str, depth):
     return ''.join(4*' '*depth+line for line in str.splitlines(True))
 %>\
 
+<%def name="genParams(par)" buffered="True">
+%if ('type' in par['hparams']) and \
+    (par['hparams']['type'] is not None):
+handler::${par['handler']}<${par['hparams']['type']}>(
+%else:
+handler::${par['handler']}(
+%endif
+%for i, hpk in enumerate(par['hparams']['params']):
+    %if (i+1) != len(par['hparams']['params']):
+    ${par['hparams'][hpk]},
+    %else:
+    ${par['hparams'][hpk]}
+    %endif
+%endfor
+)
+</%def>\
+
 <%def name="genHandler(sig)" buffered="True">
 %if ('type' in sig['sparams']) and \
     (sig['sparams']['type'] is not None):
@@ -13,20 +30,8 @@ ${sig['signal']}(
 %for spk in sig['sparams']['params']:
 ${sig['sparams'][spk]},
 %endfor
-%if ('type' in sig['hparams']) and \
-    (sig['hparams']['type'] is not None):
-handler::${sig['handler']}<${sig['hparams']['type']}>(
-%else:
-handler::${sig['handler']}(
-%endif
-%for i, hpk in enumerate(sig['hparams']['params']):
-    %if (i+1) != len(sig['hparams']['params']):
-    ${sig['hparams'][hpk]},
-    %else:
-    ${sig['hparams'][hpk]}
-    %endif
-%endfor
-))
+${genParams(par=sig)}\
+)
 </%def>\
 
 <%def name="genSSE(event)" buffered="True">
@@ -81,6 +86,19 @@ std::vector<Trigger>{
         ),
         make_handler(\
         ${indent(genHandler(sig=s), 3)}\
+        )
+    )),
+    %endfor
+    %endif
+    %if ('init' in event['triggers']):
+    %for i in event['triggers']['init']:
+    make_trigger(trigger::init(
+        make_handler(\
+        %if ('handler' in s):
+        ${indent(genParams(par=i), 3)}\
+        %else:
+        nullptr\
+        %endif
         )
     )),
     %endfor

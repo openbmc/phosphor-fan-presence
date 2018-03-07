@@ -68,6 +68,57 @@ auto removeInterface(const char* path, const char* interface)
     };
 }
 
+/**
+ * @brief A handler function to read and update property values
+ * @details Reads and updates each group member's property value
+ * from the given group
+ *
+ * @param[in] group - Group of objects to read/update property values for
+ *
+ * @return Lambda function
+ *      A lambda function to read and update each group member's property value
+ */
+template <typename T>
+auto updateProperty(Group&& group)
+{
+    return [group = std::move(group)](auto& bus,
+                                      sdbusplus::message::message& msg,
+                                      auto& zone)
+    {
+        try
+        {
+            std::for_each(
+                group.begin(),
+                group.end(),
+                [&bus, &zone](auto const& member)
+                {
+                    auto path = std::get<pathPos>(member);
+                    auto intf = std::get<intfPos>(member);
+                    auto prop = std::get<propPos>(member);
+                    auto serv = zone.getService(path, intf);
+                    auto val = util::SDBusPlus::getProperty<T>(bus,
+                                                               serv,
+                                                               path,
+                                                               intf,
+                                                               prop);
+                    zone.setPropertyValue(path.c_str(),
+                                          intf.c_str(),
+                                          prop.c_str(),
+                                          val);
+                }
+            );
+        }
+        catch (const sdbusplus::exception::SdBusError&)
+        {
+            // Property will not be updated or available
+        }
+        catch (const util::DBusError&)
+        {
+            // Property will not be updated or available
+        }
+    };
+}
+
 } // namespace handler
 } // namespace control
 } // namespace fan
