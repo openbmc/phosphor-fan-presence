@@ -64,12 +64,12 @@ std::vector<Trigger>{
     make_trigger(trigger::timer(TimerConf{
     ${event['triggers']['timer']['interval']},
     ${event['triggers']['timer']['type']}
-    }))
+    })),
     %endif
-},
-std::vector<Signal>{
-%for s in event['triggers']['signal']:
-    Signal{
+    %if ('signal' in event['triggers']) and \
+        (event['triggers']['signal'] is not None):
+    %for s in event['triggers']['signal']:
+    make_trigger(trigger::signal(
         match::${s['match']}(
         %for i, mp in enumerate(s['mparams']):
         %if (i+1) != len(s['mparams']):
@@ -82,7 +82,8 @@ std::vector<Signal>{
         make_handler(\
         ${indent(genHandler(sig=s), 3)}\
         )
-    },
-%endfor
-}
+    )),
+    %endfor
+    %endif
+},
 </%def>\

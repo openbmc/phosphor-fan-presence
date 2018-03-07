@@ -59,6 +59,16 @@ class Zone
              const ZoneDefinition& def);
 
         /**
+         * @brief Get the zone's bus
+         *
+         * @return The bus used by the zone
+         */
+         inline auto& getBus()
+         {
+             return _bus;
+         }
+
+        /**
          * Sets all fans in the zone to the speed
          * passed in when the zone is active
          *
@@ -363,7 +373,7 @@ class Zone
          * @return - Iterator to the stored signal event
          */
         std::vector<SignalEvent>::iterator findSignal(
-            const Signal& signal,
+            const Trigger& signal,
             const Group& eGroup,
             const std::vector<Action>& eActions);
 
@@ -466,6 +476,28 @@ class Zone
         const std::string& addServices(const std::string& path,
                                        const std::string& intf,
                                        int32_t depth);
+
+        /**
+         * @brief Dbus signal change callback handler
+         *
+         * @param[in] msg - Expanded sdbusplus message data
+         * @param[in] eventData - The single event's data
+         */
+        void handleEvent(sdbusplus::message::message& msg,
+                         const EventData* eventData);
+
+        /**
+         * @brief Add a signal to the list of signal based events
+         *
+         * @param[in] data - Event data for signal
+         * @param[in] match - Subscribed signal match
+         */
+        inline void addSignal(
+                std::unique_ptr<EventData>&& data,
+                std::unique_ptr<sdbusplus::server::match::match>&& match)
+        {
+            _signalEvents.emplace_back(std::move(data), std::move(match));
+        }
 
     private:
 
@@ -619,15 +651,6 @@ class Zone
         {
             return (_requestSpeedBase != 0) ? _requestSpeedBase : _targetSpeed;
         };
-
-        /**
-         * @brief Dbus signal change callback handler
-         *
-         * @param[in] msg - Expanded sdbusplus message data
-         * @param[in] eventData - The single event's data
-         */
-        void handleEvent(sdbusplus::message::message& msg,
-                         const EventData* eventData);
 };
 
 }
