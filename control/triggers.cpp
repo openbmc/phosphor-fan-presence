@@ -77,6 +77,31 @@ Trigger signal(const std::string& match, Handler&& handler)
     };
 }
 
+Trigger init(Handler&& handler)
+{
+    return [handler = std::move(handler)](control::Zone& zone,
+                                          const Group& group,
+                                          const std::vector<Action>& actions)
+    {
+        // A handler function is optional
+        if (handler)
+        {
+            sdbusplus::message::message nullMsg{nullptr};
+            // Execute the given handler function prior to running the actions
+            handler(zone.getBus(), nullMsg, zone);
+        }
+        // Run action functions for initial event state
+        std::for_each(
+            actions.begin(),
+            actions.end(),
+            [&zone, &group](auto const& action)
+            {
+                action(zone, group);
+            }
+        );
+    };
+}
+
 } // namespace trigger
 } // namespace control
 } // namespace fan

@@ -202,6 +202,26 @@ def genEvent(event):
             e += ")\n"
             e += "\t)),\n"
 
+    if ('init' in event['triggers']):
+        for i in event['triggers']['init']:
+            e += "\tmake_trigger(trigger::init(\n"
+            if ('handler' in i):
+                e += "\t\tmake_handler(\n"
+                if ('type' in i['hparams']) and \
+                    (i['hparams']['type'] is not None):
+                    e += ("handler::" + i['handler'] +
+                        "<" + i['hparams']['type'] + ">(\n")
+                else:
+                    e += "handler::" + i['handler'] + "(\n)"
+                for i, hp in enumerate(i['hparams']['params']):
+                    if (i+1) != len(i['hparams']['params']):
+                        e += i['hparams'][hp] + ",\n"
+                    else:
+                        e += i['hparams'][hp] + "\n"
+                e += ")\n"
+                e += "\t\t)\n"
+            e += "\t)),\n"
+
     e += "},\n"
 
     e += "}"
@@ -262,34 +282,65 @@ def getGroups(zNum, zCond, edata, events):
     return groups
 
 
-def getHandler(member, group, eHandler, events):
+def getParameters(member, groups, section, events):
     """
-    Extracts and constructs an event handler's parameters
+    Extracts and constructs a section's parameters
     """
-    hparams = {}
-    if ('parameters' in eHandler) and \
-       (eHandler['parameters'] is not None):
-        hplist = []
-        for p in eHandler['parameters']:
-            hp = str(p)
-            if (hp != 'type'):
-                hplist.append(hp)
-                if (hp != 'group'):
-                    hparams[hp] = "\"" + member[hp] + "\""
+    params = {}
+    if ('parameters' in section) and \
+       (section['parameters'] is not None):
+        plist = []
+        for sp in section['parameters']:
+            p = str(sp)
+            if (p != 'type'):
+                plist.append(p)
+                if (p != 'group'):
+                    params[p] = "\"" + member[p] + "\""
                 else:
-                    hparams[hp] = "Group{\n"
-                    for m in group['members']:
-                        hparams[hp] += (
-                            "{\n" +
-                            "\"" + str(m['object']) + "\",\n" +
-                            "\"" + str(m['interface']) + "\"," +
-                            "\"" + str(m['property']) + "\"\n" +
-                            "},\n")
-                    hparams[hp] += "}"
+                    params[p] = "Group\n{\n"
+                    for g in groups:
+                        for m in g['members']:
+                            params[p] += (
+                                "{\"" + str(m['object']) + "\",\n" +
+                                "\"" + str(m['interface']) + "\",\n" +
+                                "\"" + str(m['property']) + "\"},\n")
+                    params[p] += "}"
             else:
-                hparams[hp] = member[hp]
-        hparams['params'] = hplist
-    return hparams
+                params[p] = member[p]
+        params['params'] = plist
+    else:
+        params['params'] = []
+    return params
+
+
+def getInit(eGrps, eTrig, events):
+    """
+    Extracts and constructs an init trigger for the event's groups
+    which are required to be of the same type.
+    """
+    method = {}
+    methods = []
+    # Use the first group member for retrieving the type
+    member = eGrps[0]['members'][0]
+    if ('method' in eTrig) and \
+       (eTrig['method'] is not None):
+        # Add method parameters
+        eMethod = next(m for m in events['methods']
+                       if m['name'] == eTrig['method'])
+        method['method'] = eMethod['name']
+        method['mparams'] = getParameters(
+            member, eGrps, eMethod, events)
+
+        # Add handler parameters
+        eHandler = next(h for h in events['handlers']
+                        if h['name'] == eTrig['handler'])
+        method['handler'] = eHandler['name']
+        method['hparams'] = getParameters(
+            member, eGrps, eHandler, events)
+
+    methods.append(method)
+
+    return methods
 
 
 def getSignal(eGrps, eTrig, events):
@@ -300,36 +351,29 @@ def getSignal(eGrps, eTrig, events):
     signals = []
     for group in eGrps:
         for member in group['members']:
-            for eMatches in eTrig['matches']:
-                signal = {}
+            signal = {}
+            # Add signal parameters
+            eSignal = next(s for s in events['signals']
+                           if s['name'] == eTrig['signal'])
+            signal['signal'] = eSignal['name']
+            signal['sparams'] = getParameters(member, eGrps, eSignal, events)
+
+            # If service not given, subscribe to signal match
+            if ('service' not in member):
+                # Add signal match parameters
                 eMatch = next(m for m in events['matches']
-                              if m['name'] == eMatches['name'])
-                # If service not given, subscribe to signal match
-                if ('service' not in member):
-                    signal['match'] = eMatch['name']
-                    params = []
-                    if ('parameters' in eMatch) and \
-                       (eMatch['parameters'] is not None):
-                        for p in eMatch['parameters']:
-                            params.append(member[str(p)])
-                    signal['mparams'] = params
+                              if m['name'] == eSignal['match'])
+                signal['match'] = eMatch['name']
+                signal['mparams'] = getParameters(member, eGrps, eMatch, events)
 
-                if ('parameters' in eMatch['signal']) and \
-                   (eMatch['signal']['parameters'] is not None):
-                    eSignal = eMatch['signal']
-                else:
-                    eSignal = next(s for s in events['signals']
-                                   if s['name'] == eMatch['signal'])
-                signal['signal'] = eSignal['name']
-                signal['sparams'] = getHandler(member, group, eSignal, events)
+            # Add handler parameters
+            eHandler = next(h for h in events['handlers']
+                            if h['name'] == eTrig['handler'])
+            signal['handler'] = eHandler['name']
+            signal['hparams'] = getParameters(member, eGrps, eHandler, events)
 
-                # Add handler parameters
-                eHandler = next(h for h in events['handlers']
-                                if h['name'] == eSignal['handler'])
-                signal['handler'] = eHandler['name']
-                signal['hparams'] = getHandler(member, group, eHandler, events)
+            signals.append(signal)
 
-                signals.append(signal)
     return signals
 
 
@@ -469,6 +513,9 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                 event['triggers']['signals'] = []
             triggers = getSignal(event['groups'], trig, events_data)
             event['triggers']['signals'].extend(triggers)
+        elif (trig['name'] == "init"):
+            triggers = getInit(event['groups'], trig, events_data)
+            event['triggers']['init'] = triggers
 
     return event
 
@@ -541,6 +588,9 @@ def addPrecondition(zNum, zCond, event, events_data):
                 precond['triggers']['pcsigs'] = []
             triggers = getSignal(precond['pcgrps'], trig, events_data)
             precond['triggers']['pcsigs'].extend(triggers)
+        elif (trig['name'] == "init"):
+            triggers = getInit(precond['pcgrps'], trig, events_data)
+            precond['triggers']['init'] = triggers
 
     return precond
 
