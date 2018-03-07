@@ -71,18 +71,12 @@ using TimerType = phosphor::fan::util::Timer::TimerType;
 using TimerConf = std::tuple<std::chrono::microseconds,
                              TimerType>;
 
-constexpr auto sigMatchPos = 0;
-constexpr auto sigHandlerPos = 1;
-using Signal = std::tuple<std::string, Handler>;
-
 constexpr auto groupPos = 0;
 constexpr auto actionsPos = 1;
 constexpr auto triggerPos = 2;
-constexpr auto signalsPos = 3;
 using SetSpeedEvent = std::tuple<Group,
                                  std::vector<Action>,
-                                 std::vector<Trigger>,
-                                 std::vector<Signal>>;
+                                 std::vector<Trigger>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventMatchPos = 1;
