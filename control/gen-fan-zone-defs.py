@@ -266,6 +266,9 @@ def getEvent(zone_num, zone_conditions, e, events_data):
         elif (trig['name'] == "signal"):
             triggers = getSignal(event['groups'], trig, events_data)
             event['triggers']['signal'] = triggers
+        elif (trig['name'] == "init"):
+            # No parameters needed for init triggers
+            event['triggers']['init'] = {}
 
     return event
 
@@ -336,6 +339,8 @@ def addPrecondition(zNum, zCond, event, events_data):
         elif (trig['name'] == "signal"):
             triggers = getSignal(precond['pcgrps'], trig, events_data)
             precond['triggers']['pcsigs'] = triggers
+        elif (trig['name'] == "init"):
+            precond['triggers']['init'] = {}
 
     return precond
 

@@ -85,5 +85,9 @@ std::vector<Trigger>{
     )),
     %endfor
     %endif
+    %if ('init' in event['triggers']):
+    // Keep init triggers last
+    make_trigger(trigger::init())
+    %endif
 },
 </%def>\

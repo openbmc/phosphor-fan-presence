@@ -78,6 +78,24 @@ Trigger signal(const std::string& match, Handler&& handler)
     };
 }
 
+Trigger init()
+{
+    return [](control::Zone& zone,
+              const Group& group,
+              const std::vector<Action>& actions)
+    {
+        // Run action functions for initial event state
+        std::for_each(
+            actions.begin(),
+            actions.end(),
+            [&zone, &group](auto const& action)
+            {
+                action(zone, group);
+            }
+        );
+    };
+}
+
 } // namespace trigger
 } // namespace control
 } // namespace fan

@@ -148,6 +148,10 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             )),
                             %endfor
                             %endif
+                            %if ('init' in event['pc']['triggers']):
+                            // Keep init triggers last
+                            make_trigger(trigger::init())
+                            %endif
                         },
                     %endif
                     },

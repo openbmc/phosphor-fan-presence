@@ -37,6 +37,17 @@ Trigger timer(Timer&& tConf);
  */
 Trigger signal(const std::string& match, Handler&& handler);
 
+/**
+ * @brief A trigger for actions to run at event init
+ * @details Runs the event actions when the event is initialized. An event
+ * is initialized at application start or each time an event's precondition
+ * transitions to a valid state.
+ *
+ * @return Trigger lambda function
+ *     A Trigger function that runs actions at event init
+ */
+Trigger init();
+
 } // namespace trigger
 } // namespace control
 } // namespace fan
