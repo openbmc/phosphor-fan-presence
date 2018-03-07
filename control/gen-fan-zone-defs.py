@@ -168,40 +168,41 @@ def genEvent(event):
        e += "\tmake_trigger(trigger::timer(TimerConf{\n"
        e += "\t" + event['triggers']['timer']['interval'] + ",\n"
        e += "\t" + event['triggers']['timer']['type'] + "\n"
-       e += "\t}))\n"
-    e += "},\n"
+       e += "\t})),\n"
 
-    e += "std::vector<Signal>{\n"
-    for s in event['triggers']['signals']:
-        e += "Signal{\n"
-        e += "match::" + s['match'] + "(\n"
-        for i, mp in enumerate(s['mparams']):
-            if (i+1) != len(s['mparams']):
-                e += "\"" + mp + "\",\n"
+    if ('signals' in event['triggers']) and \
+       (event['triggers']['signals'] is not None):
+        for s in event['triggers']['signals']:
+            e += "\tmake_trigger(trigger::signal(\n"
+            e += "match::" + s['match'] + "(\n"
+            for i, mp in enumerate(s['mparams']):
+                if (i+1) != len(s['mparams']):
+                    e += "\"" + mp + "\",\n"
+                else:
+                    e += "\"" + mp + "\"\n"
+            e += "),\n"
+            e += "make_handler(\n"
+            if ('type' in s['sparams']) and (s['sparams']['type'] is not None):
+                e += s['signal'] + "<" + s['sparams']['type'] + ">(\n"
             else:
-                e += "\"" + mp + "\"\n"
-        e += "),\n"
-        e += "make_handler(\n"
-        if ('type' in s['sparams']) and (s['sparams']['type'] is not None):
-            e += s['signal'] + "<" + s['sparams']['type'] + ">(\n"
-        else:
-            e += s['signal'] + "(\n"
-        for sp in s['sparams']['params']:
-            e += s['sparams'][sp] + ",\n"
-        if ('type' in s['hparams']) and (s['hparams']['type'] is not None):
-            e += ("handler::" + s['handler'] +
-                  "<" + s['hparams']['type'] + ">(\n")
-        else:
-            e += "handler::" + s['handler'] + "(\n)"
-        for i, hp in enumerate(s['hparams']['params']):
-            if (i+1) != len(s['hparams']['params']):
-                e += s['hparams'][hp] + ",\n"
+                e += s['signal'] + "(\n"
+            for sp in s['sparams']['params']:
+                e += s['sparams'][sp] + ",\n"
+            if ('type' in s['hparams']) and (s['hparams']['type'] is not None):
+                e += ("handler::" + s['handler'] +
+                      "<" + s['hparams']['type'] + ">(\n")
             else:
-                e += s['hparams'][hp] + "\n"
-        e += "))\n"
-        e += ")\n"
+                e += "handler::" + s['handler'] + "(\n)"
+            for i, hp in enumerate(s['hparams']['params']):
+                if (i+1) != len(s['hparams']['params']):
+                    e += s['hparams'][hp] + ",\n"
+                else:
+                    e += s['hparams'][hp] + "\n"
+            e += "))\n"
+            e += ")\n"
+            e += "\t)),\n"
+
     e += "},\n"
-    e += "}\n"
 
     e += "}"
 

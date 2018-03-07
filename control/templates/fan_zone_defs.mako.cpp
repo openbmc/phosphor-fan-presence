@@ -162,12 +162,12 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             make_trigger(trigger::timer(TimerConf{
                             ${event['pc']['triggers']['pctime']['interval']},
                             ${event['pc']['triggers']['pctime']['type']}
-                        }))
+                            })),
                             %endif
-                        },
-                        std::vector<Signal>{
-                        %for s in event['pc']['triggers']['pcsigs']:
-                            Signal{
+                            %if ('pcsigs' in event['pc']['triggers']) and \
+                                (event['pc']['triggers']['pcsigs'] is not None):
+                            %for s in event['pc']['triggers']['pcsigs']:
+                            make_trigger(trigger::signal(
                                 %if ('match' in s) and \
                                     (s['match'] is not None):
                                 match::${s['match']}(
@@ -185,9 +185,10 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 make_handler(\
                                 ${indent(genHandler(sig=s), 9)}\
                                 )
-                            },
-                        %endfor
-                        }
+                            )),
+                            %endfor
+                            %endif
+                        },
                     %endif
                     },
                 %endfor
