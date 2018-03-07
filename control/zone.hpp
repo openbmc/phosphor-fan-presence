@@ -64,6 +64,36 @@ class Zone : public ThermalObject
              const ZoneDefinition& def);
 
         /**
+         * @brief Get the zone's bus
+         *
+         * @return The bus used by the zone
+         */
+         inline auto& getBus()
+         {
+             return _bus;
+         }
+
+        /**
+         * @brief Get the zone's path
+         *
+         * @return The path of this zone
+         */
+        inline auto& getPath()
+        {
+            return _path;
+        }
+
+        /**
+         * @brief Get the zone's hosted interfaces
+         *
+         * @return The interfaces hosted by this zone
+         */
+        inline auto& getIfaces()
+        {
+            return _ifaces;
+        }
+
+        /**
          * Sets all fans in the zone to the speed
          * passed in when the zone is active
          *
@@ -107,6 +137,17 @@ class Zone : public ThermalObject
         }
 
         /**
+         *
+         */
+        inline void setObjectData(const std::string& object,
+                                  const std::string& interface,
+                                  const std::string& property,
+                                  EventData* data)
+        {
+            _objects[object][interface][property] = data;
+        }
+
+        /**
          * @brief Sets a given object's property value
          *
          * @param[in] object - Name of the object containing the property
@@ -118,6 +159,23 @@ class Zone : public ThermalObject
         void setPropertyValue(const char* object,
                               const char* interface,
                               const char* property,
+                              T value)
+        {
+            _properties[object][interface][property] = value;
+        };
+
+        /**
+         * @brief Sets a given object's property value
+         *
+         * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
+         * @param[in] property - Property name
+         * @param[in] value - Property value
+         */
+        template <typename T>
+        void setPropertyValue(const std::string& object,
+                              const std::string& interface,
+                              const std::string& property,
                               T value)
         {
             _properties[object][interface][property] = value;
@@ -349,43 +407,17 @@ class Zone : public ThermalObject
         }
 
         /**
-         * @brief Get the list of signal events
-         *
-         * @return - List of signal events
-         */
-        inline auto& getSignalEvents()
-        {
-            return _signalEvents;
-        }
-
-        /**
-         * @brief Find the first instance of a signal event
-         *
-         * @param[in] signal - Event signal to find
-         * @param[in] eGroup - Group associated with the signal
-         * @param[in] eActions - List of actions associated with the signal
-         *
-         * @return - Iterator to the stored signal event
-         */
-        std::vector<SignalEvent>::iterator findSignal(
-            const Signal& signal,
-            const Group& eGroup,
-            const std::vector<Action>& eActions);
-
-        /**
          * @brief Remove the given signal event
          *
          * @param[in] seIter - Iterator pointing to the signal event to remove
          */
         inline void removeSignal(std::vector<SignalEvent>::iterator& seIter)
         {
-            assert(seIter != std::end(_signalEvents));
             std::get<signalEventDataPos>(*seIter).reset();
             if (std::get<signalMatchPos>(*seIter) != nullptr)
             {
                 std::get<signalMatchPos>(*seIter).reset();
             }
-            _signalEvents.erase(seIter);
         }
 
         /**
@@ -403,21 +435,25 @@ class Zone : public ThermalObject
          *
          * @param[in] eventGroup - Group associated with a timer
          * @param[in] eventActions - List of actions associated with a timer
+         * @param[in] eventTimers - List of timers to find the timer in
          *
          * @return - Iterator to the timer event
          */
         std::vector<TimerEvent>::iterator findTimer(
                 const Group& eventGroup,
-                const std::vector<Action>& eventActions);
+                const std::vector<Action>& eventActions,
+                std::vector<TimerEvent>& eventTimers);
 
         /**
          * @brief Add a timer to the list of timer based events
          *
+         * @param[in] name - Event name associated with timer
          * @param[in] group - Group associated with a timer
          * @param[in] actions - List of actions associated with a timer
          * @param[in] tConf - Configuration for the new timer
          */
-        void addTimer(const Group& group,
+        void addTimer(const std::string& name,
+                      const Group& group,
                       const std::vector<Action>& actions,
                       const TimerConf& tConf);
 
@@ -468,6 +504,30 @@ class Zone : public ThermalObject
         const std::string& addServices(const std::string& path,
                                        const std::string& intf,
                                        int32_t depth);
+
+        /**
+         * @brief Dbus signal change callback handler
+         *
+         * @param[in] msg - Expanded sdbusplus message data
+         * @param[in] eventData - The single event's data
+         */
+        void handleEvent(sdbusplus::message::message& msg,
+                         const EventData* eventData);
+
+        /**
+         * @brief Add a signal to the list of signal based events
+         *
+         * @param[in] name - Event name
+         * @param[in] data - Event data for signal
+         * @param[in] match - Subscribed signal match
+         */
+        inline void addSignal(
+                const std::string& name,
+                std::unique_ptr<EventData>&& data,
+                std::unique_ptr<sdbusplus::server::match::match>&& match)
+        {
+            _signalEvents[name].emplace_back(std::move(data), std::move(match));
+        }
 
         /**
          * @brief Set a property to be persisted
@@ -708,14 +768,15 @@ class Zone : public ThermalObject
                 std::vector<std::string>>> _servTree;
 
         /**
-         * @brief List of signal event arguments and Dbus matches for callbacks
+         * @brief List of signal event arguments and Dbus matches
+         * for callbacks per event name
          */
-        std::vector<SignalEvent> _signalEvents;
+        std::map<std::string, std::vector<SignalEvent>> _signalEvents;
 
         /**
-         * @brief List of timers for events
+         * @brief List of timers per event name
          */
-        std::vector<TimerEvent> _timerEvents;
+        std::map<std::string, std::vector<TimerEvent>> _timerEvents;
 
         /**
          * @brief Save the thermal control current mode property
@@ -739,15 +800,6 @@ class Zone : public ThermalObject
         {
             return (_requestSpeedBase != 0) ? _requestSpeedBase : _targetSpeed;
         };
-
-        /**
-         * @brief Dbus signal change callback handler
-         *
-         * @param[in] msg - Expanded sdbusplus message data
-         * @param[in] eventData - The single event's data
-         */
-        void handleEvent(sdbusplus::message::message& msg,
-                         const EventData* eventData);
 };
 
 }

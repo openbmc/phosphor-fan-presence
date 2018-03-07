@@ -319,61 +319,6 @@ void Zone::decTimerExpired()
 
 void Zone::initEvent(const SetSpeedEvent& event)
 {
-    sdbusplus::message::message nullMsg{nullptr};
-
-    for (auto& sig : std::get<signalsPos>(event))
-    {
-        // Setup signal matches of the property for event
-        std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    std::get<sigMatchPos>(sig),
-                    std::get<sigHandlerPos>(sig),
-                    std::get<actionsPos>(event)
-            );
-
-        // When match is empty, handle if zone object member
-        if (std::get<sigMatchPos>(sig).empty())
-        {
-            // Set event data for each host group member
-            for (auto it = std::get<groupPos>(event).begin();
-                 it != std::get<groupPos>(event).end(); ++it)
-            {
-                if (it->first == _path)
-                {
-                    // Group member interface in list owned by zone
-                    if (std::find(_ifaces.begin(), _ifaces.end(),
-                        std::get<intfPos>(it->second)) != _ifaces.end())
-                    {
-                        // Store path,interface,property as a managed object
-                        _objects[it->first]
-                                [std::get<intfPos>(it->second)]
-                                [std::get<propPos>(it->second)] =
-                                        eventData.get();
-                    }
-                }
-            }
-        }
-
-        // Initialize the event signal using handler
-        std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
-
-        // Subscribe to signal match
-        std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
-        if (!std::get<sigMatchPos>(sig).empty())
-        {
-            match = std::make_unique<sdbusplus::server::match::match>(
-                    _bus,
-                    std::get<sigMatchPos>(sig).c_str(),
-                    std::bind(std::mem_fn(&Zone::handleEvent),
-                              this,
-                              std::placeholders::_1,
-                              eventData.get())
-                );
-        }
-
-        _signalEvents.emplace_back(std::move(eventData), std::move(match));
-    }
     // Enable event triggers
     std::for_each(
         std::get<triggerPos>(event).begin(),
@@ -399,10 +344,10 @@ void Zone::initEvent(const SetSpeedEvent& event)
 
 void Zone::removeEvent(const SetSpeedEvent& event)
 {
-    // Remove signals of the event
-    for (auto& sig : std::get<signalsPos>(event))
+    // Remove triggers of the event
+    for (auto& trig : std::get<triggerPos>(event))
     {
-        auto it = findSignal(sig,
+        auto it = findSignal(trig,
                              std::get<groupPos>(event),
                              std::get<actionsPos>(event));
         if (it != std::end(getSignalEvents()))
@@ -420,7 +365,7 @@ void Zone::removeEvent(const SetSpeedEvent& event)
 }
 
 std::vector<SignalEvent>::iterator Zone::findSignal(
-        const Signal& signal,
+        const Trigger& signal,
         const Group& eGroup,
         const std::vector<Action>& eActions)
 {
@@ -429,10 +374,6 @@ std::vector<SignalEvent>::iterator Zone::findSignal(
     {
         const auto& seEventData = *std::get<signalEventDataPos>(*it);
         if (eGroup == std::get<eventGroupPos>(seEventData) &&
-            std::get<sigMatchPos>(signal) ==
-                std::get<eventMatchPos>(seEventData) &&
-            std::get<sigHandlerPos>(signal).target_type().name() ==
-                std::get<eventHandlerPos>(seEventData).target_type().name() &&
             eActions.size() == std::get<eventActionsPos>(seEventData).size())
         {
             // TODO openbmc/openbmc#2328 - Use the function target
