@@ -41,9 +41,12 @@ using FanDefinition = std::tuple<std::string,
                                  std::vector<std::string>,
                                  std::string>;
 
-constexpr auto intfPos = 0;
-constexpr auto propPos = 1;
-using Group = std::map<std::string, std::tuple<std::string, std::string>>;
+constexpr auto pathPos = 0;
+constexpr auto intfPos = 1;
+constexpr auto propPos = 2;
+using Group = std::vector<std::tuple<std::string,
+                                     std::string,
+                                     std::string>>;
 using Handler = std::function<void(sdbusplus::bus::bus&,
                                    sdbusplus::message::message&,
                                    Zone&)>;
