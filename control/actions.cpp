@@ -111,9 +111,9 @@ void set_request_speed_base_with_max(control::Zone& zone,
             try
             {
                 auto value = zone.template getPropertyValue<int64_t>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second));
+                        std::get<pathPos>(entry),
+                        std::get<intfPos>(entry),
+                        std::get<propPos>(entry));
                 base = std::max(base, value);
             }
             catch (const std::out_of_range& oore)
@@ -145,9 +145,9 @@ Action set_floor_from_average_sensor_value(
                         {
                             return sum +
                                 zone.template getPropertyValue<int64_t>(
-                                    entry.first,
-                                    std::get<intfPos>(entry.second),
-                                    std::get<propPos>(entry.second));
+                                    std::get<pathPos>(entry),
+                                    std::get<intfPos>(entry),
+                                    std::get<propPos>(entry));
                         }
                         catch (const std::out_of_range& oore)
                         {
@@ -197,9 +197,9 @@ Action set_ceiling_from_average_sensor_value(
                         {
                             return sum +
                                 zone.template getPropertyValue<int64_t>(
-                                    entry.first,
-                                    std::get<intfPos>(entry.second),
-                                    std::get<propPos>(entry.second));
+                                    std::get<pathPos>(entry),
+                                    std::get<intfPos>(entry),
+                                    std::get<propPos>(entry));
                         }
                         catch (const std::out_of_range& oore)
                         {

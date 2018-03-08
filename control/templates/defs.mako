@@ -35,8 +35,8 @@ Group{
 %for member in group['members']:
 {
     "${member['object']}",
-    {"${member['interface']}",
-     "${member['property']}"}
+    "${member['interface']}",
+    "${member['property']}"
 },
 %endfor
 %endfor
