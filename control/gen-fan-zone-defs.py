@@ -143,9 +143,9 @@ def genEvent(event):
         for member in group['members']:
             e += "{\n"
             e += "\"" + member['object'] + "\",\n"
-            e += "{\"" + member['interface'] + "\",\n"
-            e += " \"" + member['property'] + "\"}\n"
-        e += "},\n"
+            e += "\"" + member['interface'] + "\",\n"
+            e += "\"" + member['property'] + "\"\n"
+            e += "},\n"
     e += "},\n"
 
     e += "std::vector<Action>{\n"
