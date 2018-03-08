@@ -57,17 +57,17 @@ Trigger signal(const std::string& match, Handler&& handler)
             // Set event data for each host group member
             for (auto& entry : group)
             {
-                if (entry.first == zone.getPath())
+                if (std::get<pathPos>(entry) == zone.getPath())
                 {
                     auto ifaces = zone.getIfaces();
                     // Group member interface in list owned by zone
                     if (std::find(ifaces.begin(), ifaces.end(),
-                        std::get<intfPos>(entry.second)) != ifaces.end())
+                        std::get<intfPos>(entry)) != ifaces.end())
                     {
                         // Store path,interface,property as a managed object
-                        zone.setObjectData(entry.first,
-                                           std::get<intfPos>(entry.second),
-                                           std::get<propPos>(entry.second),
+                        zone.setObjectData(std::get<pathPos>(entry),
+                                           std::get<intfPos>(entry),
+                                           std::get<propPos>(entry),
                                            eventData.get());
                     }
                 }

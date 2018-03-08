@@ -94,9 +94,9 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
             try
             {
                 if (zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second)) == state)
+                        std::get<pathPos>(entry),
+                        std::get<intfPos>(entry),
+                        std::get<propPos>(entry)) == state)
                 {
                     numAtState++;
                 }
@@ -179,9 +179,9 @@ auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
                 try
                 {
                     T value = zone.template getPropertyValue<T>(
-                            entry.first,
-                            std::get<intfPos>(entry.second),
-                            std::get<propPos>(entry.second));
+                            std::get<pathPos>(entry),
+                            std::get<intfPos>(entry),
+                            std::get<propPos>(entry));
                     // TODO openbmc/phosphor-fan-presence#7 - Support possible
                     // state types for comparison
                     if (value >= state)
@@ -236,9 +236,9 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
             try
             {
                 T value = zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second));
+                        std::get<pathPos>(entry),
+                        std::get<intfPos>(entry),
+                        std::get<propPos>(entry));
                 // TODO openbmc/phosphor-fan-presence#7 - Support possible
                 // state types for comparison
                 if (value < state)
@@ -308,9 +308,9 @@ auto use_alternate_events_on_state(T&& state,
                 try
                 {
                     return zone.template getPropertyValue<T>(
-                            entry.first,
-                            std::get<intfPos>(entry.second),
-                            std::get<propPos>(entry.second)) == state;
+                            std::get<pathPos>(entry),
+                            std::get<intfPos>(entry),
+                            std::get<propPos>(entry)) == state;
                 }
                 catch (const std::out_of_range& oore)
                 {
