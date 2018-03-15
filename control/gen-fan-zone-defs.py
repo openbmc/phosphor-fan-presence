@@ -262,6 +262,36 @@ def getGroups(zNum, zCond, edata, events):
     return groups
 
 
+def getHandler(member, group, eHandler, events):
+    """
+    Extracts and constructs an event handler's parameters
+    """
+    hparams = {}
+    if ('parameters' in eHandler) and \
+       (eHandler['parameters'] is not None):
+        hplist = []
+        for p in eHandler['parameters']:
+            hp = str(p)
+            if (hp != 'type'):
+                hplist.append(hp)
+                if (hp != 'group'):
+                    hparams[hp] = "\"" + member[hp] + "\""
+                else:
+                    hparams[hp] = "Group{\n"
+                    for m in group['members']:
+                        hparams[hp] += (
+                            "{\n" +
+                            "\"" + str(m['object']) + "\",\n" +
+                            "\"" + str(m['interface']) + "\"," +
+                            "\"" + str(m['property']) + "\"\n" +
+                            "},\n")
+                    hparams[hp] += "}"
+            else:
+                hparams[hp] = member[hp]
+        hparams['params'] = hplist
+    return hparams
+
+
 def getSignal(eGrps, eTrig, events):
     """
     Extracts and constructs for each group member a signal
@@ -291,58 +321,14 @@ def getSignal(eGrps, eTrig, events):
                     eSignal = next(s for s in events['signals']
                                    if s['name'] == eMatch['signal'])
                 signal['signal'] = eSignal['name']
-                sparams = {}
-                if ('parameters' in eSignal) and \
-                   (eSignal['parameters'] is not None):
-                    splist = []
-                    for p in eSignal['parameters']:
-                        sp = str(p)
-                        if (sp != 'type'):
-                            splist.append(sp)
-                            if (sp != 'group'):
-                                sparams[sp] = "\"" + member[sp] + "\""
-                            else:
-                                sparams[sp] = "Group{\n"
-                                for m in group['members']:
-                                    sparams[sp] += (
-                                        "{\n" +
-                                        "\"" + str(m['object']) + "\",\n" +
-                                        "{\"" + str(m['interface']) + "\"," +
-                                        "\"" + str(m['property']) + "\"}\n" +
-                                        "},\n")
-                                sparams[sp] += "}"
-                        else:
-                            sparams[sp] = member[sp]
-                    sparams['params'] = splist
-                signal['sparams'] = sparams
-                # Add signal handler
+                signal['sparams'] = getHandler(member, group, eSignal, events)
+
+                # Add handler parameters
                 eHandler = next(h for h in events['handlers']
                                 if h['name'] == eSignal['handler'])
                 signal['handler'] = eHandler['name']
-                hparams = {}
-                if ('parameters' in eHandler) and \
-                   (eHandler['parameters'] is not None):
-                    hplist = []
-                    for p in eHandler['parameters']:
-                        hp = str(p)
-                        if (hp != 'type'):
-                            hplist.append(hp)
-                            if (hp != 'group'):
-                                hparams[hp] = "\"" + member[hp] + "\""
-                            else:
-                                hparams[hp] = "Group{\n"
-                                for m in group['members']:
-                                    hparams[hp] += (
-                                        "{\n" +
-                                        "\"" + str(m['object']) + "\",\n" +
-                                        "{\"" + str(m['interface']) + "\"," +
-                                        "\"" + str(m['property']) + "\"}\n" +
-                                        "},\n")
-                                hparams[hp] += "}"
-                        else:
-                            hparams[hp] = member[hp]
-                    hparams['params'] = hplist
-                signal['hparams'] = hparams
+                signal['hparams'] = getHandler(member, group, eHandler, events)
+
                 signals.append(signal)
     return signals
 
