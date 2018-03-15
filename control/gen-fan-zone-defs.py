@@ -123,7 +123,7 @@ def getSignal(eGrps, eTrig, events):
                     for p in eMatch['parameters']:
                         params.append(member[str(p)])
                 signal['mparams'] = params
-                # Add signal parameters
+                # Add signal handler parameters
                 if ('parameters' in eMatch['signal']) and \
                    (eMatch['signal']['parameters'] is not None):
                     eSignal = eMatch['signal']
@@ -131,13 +131,7 @@ def getSignal(eGrps, eTrig, events):
                     eSignal = next(s for s in events['signals']
                                    if s['name'] == eMatch['signal'])
                 signal['signal'] = eSignal['name']
-                signal['sparams'] = getHandler(member, group, eSignal, events)
-
-                # Add handler parameters
-                eHandler = next(h for h in events['handlers']
-                                if h['name'] == eSignal['handler'])
-                signal['handler'] = eHandler['name']
-                signal['hparams'] = getHandler(member, group, eHandler, events)
+                signal['hparams'] = getHandler(member, group, eSignal, events)
 
                 signals.append(signal)
     return signals

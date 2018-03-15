@@ -4,29 +4,20 @@ def indent(str, depth):
 %>\
 
 <%def name="genHandler(sig)" buffered="True">
-%if ('type' in sig['sparams']) and \
-    (sig['sparams']['type'] is not None):
-${sig['signal']}<${sig['sparams']['type']}>(
+%if ('type' in sig['hparams']) and \
+    (sig['hparams']['type'] is not None):
+${sig['signal']}<${sig['hparams']['type']}>(
 %else:
 ${sig['signal']}(
 %endif
-%for spk in sig['sparams']['params']:
-${sig['sparams'][spk]},
-%endfor
-%if ('type' in sig['hparams']) and \
-    (sig['hparams']['type'] is not None):
-handler::${sig['handler']}<${sig['hparams']['type']}>(
-%else:
-handler::${sig['handler']}(
-%endif
 %for i, hpk in enumerate(sig['hparams']['params']):
-    %if (i+1) != len(sig['hparams']['params']):
-    ${sig['hparams'][hpk]},
-    %else:
-    ${sig['hparams'][hpk]}
-    %endif
+%if (i+1) != len(sig['hparams']['params']):
+${sig['hparams'][hpk]},
+%else:
+${sig['hparams'][hpk]}
+%endif
 %endfor
-))
+)
 </%def>\
 
 <%def name="genSSE(event)" buffered="True">
