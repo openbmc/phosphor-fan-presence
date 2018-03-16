@@ -333,34 +333,20 @@ void Zone::initEvent(const SetSpeedEvent& event)
         }
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
-    // Attach a timer to run the action of an event
+
+    // Create or use cached timer
     auto eventTimer = std::get<timerPos>(event);
     if (std::get<intervalPos>(eventTimer) != seconds(0))
     {
-        // Associate event data with timer
-        std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    "",
-                    nullptr,
-                    std::get<actionsPos>(event)
-            );
-        std::unique_ptr<util::Timer> timer =
-            std::make_unique<util::Timer>(
-                _sdEvents,
-                [this,
-                 action = &(std::get<actionsPos>(event)),
-                 group = &(std::get<groupPos>(event))]()
-                 {
-                     this->timerExpired(*group, *action);
-                 });
-        if (!timer->running())
+        auto& timer = getTimer(std::get<actionsPos>(event), std::get<groupPos>(event));
+        if (timer->running())
         {
-            timer->start(std::get<intervalPos>(eventTimer),
-                         std::get<typePos>(eventTimer));
+            timer->stop();
         }
-        addTimer(std::move(eventData), std::move(timer));
+        timer->start(std::get<intervalPos>(eventTimer),
+                     std::get<typePos>(eventTimer));
     }
+
     // Run action functions for initial event state
     std::for_each(
         std::get<actionsPos>(event).begin(),
@@ -416,38 +402,6 @@ void Zone::removeEvent(const SetSpeedEvent& event)
         }
         _signalEvents.erase(it);
     }
-}
-
-std::vector<TimerEvent>::iterator Zone::findTimer(
-        const Group& eventGroup,
-        const std::vector<Action>& eventActions)
-{
-    for (auto it = _timerEvents.begin(); it != _timerEvents.end(); ++it)
-    {
-        auto teEventData = *std::get<timerEventDataPos>(*it);
-        if (std::get<eventActionsPos>(teEventData).size() ==
-            eventActions.size())
-        {
-            // TODO openbmc/openbmc#2328 - Use the action function target
-            // for comparison
-            auto actsEqual = [](auto const& a1,
-                                auto const& a2)
-                    {
-                        return a1.target_type().name() ==
-                               a2.target_type().name();
-                    };
-            if (std::get<eventGroupPos>(teEventData) == eventGroup &&
-                std::equal(eventActions.begin(),
-                           eventActions.end(),
-                           std::get<eventActionsPos>(teEventData).begin(),
-                           actsEqual))
-            {
-                return it;
-            }
-        }
-    }
-
-    return _timerEvents.end();
 }
 
 void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
@@ -562,6 +516,73 @@ const std::string& Zone::addServices(const std::string& path,
     }
 
     return empty;
+}
+
+const std::unique_ptr<phosphor::fan::util::Timer>&
+Zone::getTimer(const std::vector<Action>& actions, const Group& group)
+{
+    using key = std::pair<const std::vector<Action>&, const Group&>;
+    using value = std::unique_ptr<util::Timer>;
+
+    // The comparator of cachedTimers' key
+    struct KeyLess
+    {
+        bool operator()(const key& lhs, const key& rhs) const
+        {
+            // Compare the Actions' size first
+            if (lhs.first.size() != rhs.first.size())
+            {
+                return lhs.first.size() < rhs.first.size();
+            }
+
+            // If the sizes are the same, compare the target names
+            auto l = lhs.first.begin();
+            auto r = rhs.first.begin();
+            for (; l != lhs.first.end(); ++l, ++r)
+            {
+                if (l->target_type().name() != r->target_type().name())
+                {
+                    return l->target_type().name() < r->target_type().name();
+                }
+            }
+
+            // If they are all the same, comapre the group
+            if (lhs.second != rhs.second)
+            {
+                return lhs.second < rhs.second;
+            }
+
+            // Now they are all the same
+            return false;
+        }
+    };
+    static std::map<key, value, KeyLess> cachedTimers;
+
+
+    key k(actions, group);
+    auto it = cachedTimers.find(k);
+    if (cachedTimers.find(k) == cachedTimers.end())
+    {
+        // Create new timer
+        auto res = cachedTimers.emplace(
+            k,
+            std::make_unique<util::Timer>(
+                    getEventPtr(),
+                    [this,
+                    actions = &actions,
+                    group = &group]()
+                    {
+                        timerExpired(*group, *actions);
+                    }));
+        assert(res.second);
+        it = res.first;
+        fprintf(stderr, "MINEDBG: create a new timer: %p\n", it->second.get());
+    }
+    else
+    {
+        fprintf(stderr, "MINEDBG: return cached timer: %p\n", it->second.get());
+    }
+    return it->second;
 }
 
 }

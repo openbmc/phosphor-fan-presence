@@ -326,54 +326,6 @@ class Zone
         }
 
         /**
-         * @brief Get the list of timer events
-         *
-         * @return - List of timer events
-         */
-        inline auto& getTimerEvents()
-        {
-            return _timerEvents;
-        }
-
-        /**
-         * @brief Find the first instance of a timer event
-         *
-         * @param[in] eventGroup - Group associated with a timer
-         * @param[in] eventActions - List of actions associated with a timer
-         *
-         * @return - Iterator to the timer event
-         */
-        std::vector<TimerEvent>::iterator findTimer(
-                const Group& eventGroup,
-                const std::vector<Action>& eventActions);
-
-        /**
-         * @brief Add a timer to the list of timer based events
-         *
-         * @param[in] data - Event data for timer
-         * @param[in] timer - Timer to be added
-         */
-        inline void addTimer(
-                std::unique_ptr<EventData>&& data,
-                std::unique_ptr<phosphor::fan::util::Timer>&& timer)
-        {
-            _timerEvents.emplace_back(std::move(data), std::move(timer));
-        };
-
-        /**
-         * @brief Remove the given timer event
-         *
-         * @param[in] teIter - Iterator pointing to the timer event to remove
-         */
-        inline void removeTimer(std::vector<TimerEvent>::iterator& teIter)
-        {
-            assert(teIter != std::end(_timerEvents));
-            std::get<timerEventDataPos>(*teIter).reset();
-            std::get<timerTimerPos>(*teIter).reset();
-            _timerEvents.erase(teIter);
-        }
-
-        /**
          * @brief Callback function for event timers that processes the given
          * actions for a group
          *
@@ -409,6 +361,9 @@ class Zone
         const std::string& addServices(const std::string& path,
                                        const std::string& intf,
                                        int32_t depth);
+
+        const std::unique_ptr<phosphor::fan::util::Timer>&
+        getTimer(const std::vector<Action>& actions, const Group& group);
 
     private:
 
@@ -546,11 +501,6 @@ class Zone
          * @brief List of signal event arguments and Dbus matches for callbacks
          */
         std::vector<SignalEvent> _signalEvents;
-
-        /**
-         * @brief List of timers for events
-         */
-        std::vector<TimerEvent> _timerEvents;
 
         /**
          * @brief Get the request speed base if defined, otherwise the
