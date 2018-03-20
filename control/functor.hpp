@@ -255,6 +255,86 @@ auto objectSignal(const char* path,
 }
 
 /**
+ * @struct Interface Removed
+ * @brief A match filter functor for Dbus interface removed signals
+ *
+ * @tparam U - The type of the handler
+ */
+template <typename U>
+struct InterfaceRemoved
+{
+    InterfaceRemoved() = delete;
+    ~InterfaceRemoved() = default;
+    InterfaceRemoved(const InterfaceRemoved&) = default;
+    InterfaceRemoved& operator=(const InterfaceRemoved&) = default;
+    InterfaceRemoved(InterfaceRemoved&&) = default;
+    InterfaceRemoved& operator=(InterfaceRemoved&&) = default;
+    InterfaceRemoved(const char* path,
+                     const char* iface,
+                     U&& handler) :
+        _path(path),
+        _iface(iface),
+        _handler(std::forward<U>(handler)) { }
+
+    /** @brief Run signal handler function
+     *
+     * Extract the property from the InterfacesRemoved
+     * message and run the handler function.
+     */
+    void operator()(sdbusplus::bus::bus&,
+                    sdbusplus::message::message& msg,
+                    Zone& zone) const
+    {
+        if (msg)
+        {
+            std::vector<std::string> intfs;
+            sdbusplus::message::object_path op;
+
+            msg.read(op);
+            if (static_cast<const std::string&>(op) != _path)
+            {
+                // Object path does not match this handler's path
+                return;
+            }
+
+            msg.read(intfs);
+            auto itIntf = std::find(intfs.begin(), intfs.end(), _iface);
+            if (itIntf == intfs.cend())
+            {
+                // Interface not found on this handler's path
+                return;
+            }
+
+            _handler(zone);
+        }
+    }
+
+private:
+    const char* _path;
+    const char* _iface;
+    U _handler;
+};
+
+/**
+ * @brief Used to process a Dbus interface removed signal event
+ *
+ * @param[in] path - Object path
+ * @param[in] iface - Object interface
+ * @param[in] handler - Handler function to perform
+ *
+ * @tparam U - The type of the handler
+ */
+template <typename U>
+auto objectSignal(const char* path,
+                  const char* iface,
+                  U&& handler)
+{
+    return InterfaceRemoved<U>(path,
+                               iface,
+                               std::forward<U>(handler));
+}
+
+/**
  * @struct Name Owner Changed
  * @brief A match filter functor for Dbus name owner changed signals
  *

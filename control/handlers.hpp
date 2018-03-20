@@ -49,6 +49,25 @@ auto setService(Group&& group)
     };
 }
 
+/**
+ * @brief A handler function to remove an interface from an object path
+ * @details Removes an interface from an object's path which includes removing
+ * all properties that would be under that interface
+ *
+ * @param[in] path - Object's path name
+ * @param[in] interface - Object's interface name
+ *
+ * @return Lambda function
+ *     A lambda function to remove the interface
+ */
+auto removeInterface(const char* path, const char* interface)
+{
+    return[=](auto& zone)
+    {
+        zone.removeObjIntf(path, interface);
+    };
+}
+
 } // namespace handler
 } // namespace control
 } // namespace fan
