@@ -151,6 +151,18 @@ class Zone
         };
 
         /**
+         * @brief Remove an object's interface
+         *
+         * @param[in] object - Name of the object with the interface
+         * @param[in] interface - Interface name to remove
+         */
+        inline void removeObjIntf(const char* object,
+                                   const char* interface)
+        {
+            _properties[object].erase(interface);
+        }
+
+        /**
          * @brief Remove a service associated to a group
          *
          * @param[in] group - Group associated with service
