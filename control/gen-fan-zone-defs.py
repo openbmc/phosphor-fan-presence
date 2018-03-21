@@ -414,8 +414,12 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                     for p in eMatch['parameters']:
                         params.append(member[str(p)])
                 signal['mparams'] = params
-                eSignal = next(s for s in events_data['signals']
-                               if s['name'] == eMatch['signal'])
+                if ('parameters' in eMatch['signal']) and \
+                   (eMatch['signal']['parameters'] is not None):
+                    eSignal = eMatch['signal']
+                else:
+                    eSignal = next(s for s in events_data['signals']
+                                   if s['name'] == eMatch['signal'])
                 signal['signal'] = eSignal['name']
                 sparams = {}
                 if ('parameters' in eSignal) and \
@@ -562,8 +566,12 @@ def addPrecondition(zNum, zCond, event, events_data):
                     for p in eMatch['parameters']:
                         params.append(member[str(p)])
                 signal['mparams'] = params
-                eSignal = next(s for s in events_data['signals']
-                               if s['name'] == eMatch['signal'])
+                if ('parameters' in eMatch['signal']) and \
+                   (eMatch['signal']['parameters'] is not None):
+                    eSignal = eMatch['signal']
+                else:
+                    eSignal = next(s for s in events_data['signals']
+                                   if s['name'] == eMatch['signal'])
                 signal['signal'] = eSignal['name']
                 sparams = {}
                 if ('parameters' in eSignal) and \
