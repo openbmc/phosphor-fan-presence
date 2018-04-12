@@ -156,8 +156,8 @@ class Zone
          * @param[in] object - Name of the object with the interface
          * @param[in] interface - Interface name to remove
          */
-        inline void removeObjIntf(const char* object,
-                                  const char* interface)
+        inline void removeObjectInterface(const char* object,
+                                          const char* interface)
         {
             auto it = _properties.find(object);
             if (it != std::end(_properties))

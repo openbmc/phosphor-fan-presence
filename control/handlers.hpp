@@ -64,7 +64,7 @@ auto removeInterface(const char* path, const char* interface)
 {
     return[=](auto& zone)
     {
-        zone.removeObjIntf(path, interface);
+        zone.removeObjectInterface(path, interface);
     };
 }
 
