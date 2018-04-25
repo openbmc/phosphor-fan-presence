@@ -73,7 +73,7 @@ bool Tach::start()
             std::get<int64_t>(s) = 0;
             log<level::INFO>(
                     "Unable to read fan tach sensor.",
-                    entry("SENSOR=%s", tachPath));
+                    entry("SENSOR=%s", tachPath.c_str()));
 
         }
     }
