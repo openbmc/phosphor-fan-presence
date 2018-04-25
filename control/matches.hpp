@@ -14,8 +14,6 @@ namespace match
 
 using namespace phosphor::fan;
 using namespace sdbusplus::bus::match;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                             Error::InternalFailure;
 
 /**
  * @brief A match function that constructs a PropertiesChanged match string
@@ -77,7 +75,7 @@ inline auto nameOwnerChanged(const std::string& obj, const std::string& iface)
     {
         noc = rules::nameOwnerChanged(util::SDBusPlus::getService(obj, iface));
     }
-    catch (const InternalFailure& ife)
+    catch (const util::DBusError& e)
     {
         // Unable to construct NameOwnerChanged match string
     }

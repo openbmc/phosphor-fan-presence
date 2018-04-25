@@ -196,7 +196,7 @@ void Zone::setServices(const Group* group)
                     "NameHasOwner",
                     name);
         }
-        catch (const InternalFailure& ife)
+        catch (const util::DBusMethodError& e)
         {
             // Failed to get service name owner state
             hasOwner = false;

@@ -108,6 +108,8 @@ TachSensor::TachSensor(Mode mode,
         }
         catch (std::exception& e)
         {
+            log<level::INFO>("Not monitoring a tach sensor",
+                    entry("SENSOR=%s", _name.c_str()));
             throw InvalidSensorError();
         }
 

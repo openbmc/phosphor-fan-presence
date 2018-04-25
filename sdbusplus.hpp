@@ -19,6 +19,74 @@ namespace detail
 namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 } // namespace detail
 
+/**
+ * @class DBusError
+ *
+ * The base class for the exceptions thrown on fails in the various
+ * SDBusPlus calls.  Used so that a single catch statement can catch
+ * any type of these exceptions.
+ *
+ * None of these exceptions will log anything when they are created,
+ * it is up to the handler to do that if desired.
+ */
+class DBusError : public std::runtime_error
+{
+    public:
+        DBusError(const char* msg) :
+            std::runtime_error(msg)
+        {
+        }
+};
+
+/**
+ * @class DBusMethodError
+ *
+ * Thrown on a DBus Method call failure
+ */
+class DBusMethodError : public DBusError
+{
+    public:
+        DBusMethodError(
+                const std::string& busName,
+                const std::string& path,
+                const std::string& interface,
+                const std::string& method) :
+            DBusError("DBus method call failed"),
+            busName(busName),
+            path(path),
+            interface(interface),
+            method(method)
+            {
+            }
+
+        const std::string busName;
+        const std::string path;
+        const std::string interface;
+        const std::string method;
+};
+
+/**
+ * @class DBusServiceError
+ *
+ * Thrown when a service lookup fails.  Usually this points to
+ * the object path not being present in D-Bus.
+ */
+class DBusServiceError : public DBusError
+{
+    public:
+        DBusServiceError(
+                const std::string& path,
+                const std::string& interface) :
+            DBusError("DBus service lookup failed"),
+            path(path),
+            interface(interface)
+            {
+            }
+
+        const std::string path;
+        const std::string interface;
+};
+
 /** @brief Alias for PropertiesChanged signal callbacks. */
 template <typename ...T>
 using Properties = std::map<std::string, sdbusplus::message::variant<T...>>;
@@ -57,13 +125,7 @@ class SDBusPlus
 
             if (respMsg.is_method_error())
             {
-                phosphor::logging::log<phosphor::logging::level::INFO>(
-                        "Failed to invoke DBus method.",
-                        phosphor::logging::entry("PATH=%s", path.c_str()),
-                        phosphor::logging::entry(
-                                "INTERFACE=%s", interface.c_str()),
-                        phosphor::logging::entry("METHOD=%s", method.c_str()));
-                phosphor::logging::elog<detail::errors::InternalFailure>();
+                throw DBusMethodError{busName, path, interface, method};
             }
 
             return respMsg;
@@ -176,25 +238,31 @@ class SDBusPlus
             using namespace std::literals::string_literals;
             using GetObject = std::map<std::string, std::vector<std::string>>;
 
-            auto mapperResp = callMethodAndRead<GetObject>(
-                    bus,
-                    "xyz.openbmc_project.ObjectMapper"s,
-                    "/xyz/openbmc_project/object_mapper"s,
-                    "xyz.openbmc_project.ObjectMapper"s,
-                    "GetObject"s,
-                    path,
-                    GetObject::mapped_type{interface});
-
-            if (mapperResp.empty())
+            try
             {
-                phosphor::logging::log<phosphor::logging::level::INFO>(
-                        "Object not found.",
-                        phosphor::logging::entry("PATH=%s", path.c_str()),
-                        phosphor::logging::entry(
-                                "INTERFACE=%s", interface.c_str()));
-                phosphor::logging::elog<detail::errors::InternalFailure>();
+                auto mapperResp = callMethodAndRead<GetObject>(
+                        bus,
+                        "xyz.openbmc_project.ObjectMapper"s,
+                        "/xyz/openbmc_project/object_mapper"s,
+                        "xyz.openbmc_project.ObjectMapper"s,
+                        "GetObject"s,
+                        path,
+                        GetObject::mapped_type{interface});
+
+                if (mapperResp.empty())
+                {
+                    //Should never happen.  A missing object would fail
+                    //in callMethodAndRead()
+                    phosphor::logging::log<phosphor::logging::level::ERR>(
+                            "Empty mapper response on service lookup");
+                    throw DBusServiceError{path, interface};
+                }
+                return mapperResp.begin()->first;
             }
-            return mapperResp.begin()->first;
+            catch (DBusMethodError& e)
+            {
+                throw DBusServiceError{path, interface};
+            }
         }
 
         /** @brief Get service from the mapper. */
