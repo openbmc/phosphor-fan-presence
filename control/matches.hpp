@@ -81,6 +81,10 @@ inline auto nameOwnerChanged(const std::string& obj, const std::string& iface)
     {
         // Unable to construct NameOwnerChanged match string
     }
+    catch (const util::DBusMethodError& e)
+    {
+        // Unable to construct NameOwnerChanged match string
+    }
     return noc;
 }
 

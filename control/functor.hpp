@@ -115,7 +115,7 @@ struct PropertyChanged
                                                            _property);
                 _handler(zone, std::forward<T>(val));
             }
-            catch (const InternalFailure& ife)
+            catch (const util::DBusMethodError& e)
             {
                 // Property will not be used unless a property changed
                 // signal message is received for this property.
@@ -397,7 +397,7 @@ struct NameOwnerChanged
                         "NameHasOwner",
                         name);
             }
-            catch (const InternalFailure& ife)
+            catch (const util::DBusMethodError& e)
             {
                 // Failed to get service name owner state
                 hasOwner = false;
