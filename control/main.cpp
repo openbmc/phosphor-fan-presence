@@ -18,6 +18,7 @@
 #include "argument.hpp"
 #include "manager.hpp"
 #include "event.hpp"
+#include "sdbusplus.hpp"
 
 using namespace phosphor::fan::control;
 using namespace phosphor::logging;
@@ -64,22 +65,41 @@ int main(int argc, char* argv[])
     //handle both sd_events (for the timers) and dbus signals.
     bus.attach_event(eventPtr.get(), SD_EVENT_PRIORITY_NORMAL);
 
-    Manager manager(bus, eventPtr, mode);
+    try
+    {
+        Manager manager(bus, eventPtr, mode);
 
-    //Init mode will just set fans to max and delay
-    if (mode == Mode::init)
-    {
-        manager.doInit();
-        return 0;
-    }
-    else
-    {
-        r = sd_event_loop(eventPtr.get());
-        if (r < 0)
+        //Init mode will just set fans to max and delay
+        if (mode == Mode::init)
         {
-            log<level::ERR>("Failed call to sd_event_loop",
-                            entry("ERROR=%s", strerror(-r)));
+            manager.doInit();
+            return 0;
         }
+        else
+        {
+            r = sd_event_loop(eventPtr.get());
+            if (r < 0)
+            {
+                log<level::ERR>("Failed call to sd_event_loop",
+                        entry("ERROR=%s", strerror(-r)));
+            }
+        }
+    }
+    //Log the useful metadata on these exceptions and let the app
+    //return -1 so it is restarted without a core dump.
+    catch (phosphor::fan::util::DBusServiceError& e)
+    {
+        log<level::ERR>("Uncaught DBus service lookup failure exception",
+                entry("PATH=%s", e.path.c_str()),
+                entry("INTERFACE=%s", e.interface.c_str()));
+    }
+    catch (phosphor::fan::util::DBusMethodError& e)
+    {
+        log<level::ERR>("Uncaught DBus method failure exception",
+                entry("BUSNAME=%s", e.busName.c_str()),
+                entry("PATH=%s", e.path.c_str()),
+                entry("INTERFACE=%s", e.interface.c_str()),
+                entry("METHOD=%s", e.method.c_str()));
     }
 
     return -1;

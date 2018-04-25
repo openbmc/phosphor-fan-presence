@@ -15,8 +15,6 @@ class Zone;
 using namespace phosphor::fan;
 using namespace sdbusplus::bus::match;
 using namespace phosphor::logging;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                                Error::InternalFailure;
 
 /**
  * @brief Create a handler function object
@@ -115,7 +113,7 @@ struct PropertyChanged
                                                            _property);
                 _handler(zone, std::forward<T>(val));
             }
-            catch (const InternalFailure& ife)
+            catch (const util::DBusError& e)
             {
                 // Property will not be used unless a property changed
                 // signal message is received for this property.
@@ -397,7 +395,7 @@ struct NameOwnerChanged
                         "NameHasOwner",
                         name);
             }
-            catch (const InternalFailure& ife)
+            catch (const util::DBusMethodError& e)
             {
                 // Failed to get service name owner state
                 hasOwner = false;
