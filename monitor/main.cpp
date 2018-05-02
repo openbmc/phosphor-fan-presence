@@ -72,6 +72,16 @@ int main(int argc, char* argv[])
 
     for (const auto& fanDef : fanDefinitions)
     {
+        // Check if a condition exists on the fan
+        auto condition = std::get<conditionField>(fanDef);
+        if (condition)
+        {
+            // Condition exists, skip adding fan if it fails
+            if (!(*condition)(bus))
+            {
+                continue;
+            }
+        }
         fans.emplace_back(std::make_unique<Fan>(
                 mode, bus, eventPtr, trust, fanDef));
     }
