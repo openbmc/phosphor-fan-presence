@@ -4,6 +4,7 @@
 #include <string>
 #include <tuple>
 #include <vector>
+#include <experimental/optional>
 #include "trust_group.hpp"
 
 namespace phosphor
@@ -12,6 +13,23 @@ namespace fan
 {
 namespace monitor
 {
+
+constexpr auto propObj = 0;
+constexpr auto propIface = 1;
+constexpr auto propName = 2;
+using PropertyIdentity = std::tuple<std::string,
+                                    std::string,
+                                    std::string>;
+
+using PropertyValue = sdbusplus::message::variant<bool,
+                                                  int64_t,
+                                                  std::string>;
+constexpr auto propIdentity = 0;
+constexpr auto propValue = 1;
+using PropertyState = std::pair<PropertyIdentity,
+                                PropertyValue>;
+
+using Condition = std::function<bool(sdbusplus::bus::bus&)>;
 
 using CreateGroupFunction =
         std::function<std::unique_ptr<trust::Group>()>;
@@ -34,13 +52,15 @@ constexpr auto timeoutField = 2;
 constexpr auto fanDeviationField = 3;
 constexpr auto numSensorFailsForNonfuncField = 4;
 constexpr auto sensorListField = 5;
+constexpr auto conditionField = 6;
 
 using FanDefinition = std::tuple<std::string,
                                  size_t,
                                  size_t,
                                  size_t,
                                  size_t,
-                                 std::vector<SensorDefinition>>;
+                                 std::vector<SensorDefinition>,
+                                 std::experimental::optional<Condition>>;
 
 }
 }
