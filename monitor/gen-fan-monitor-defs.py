@@ -16,10 +16,32 @@ from the MRW.
 """
 
 
-tmpl = '''/* This is a generated file. */
+tmpl = '''\
+<%!
+def indent(str, depth):
+    return ''.join(4*' '*depth+line for line in str.splitlines(True))
+%>\
+<%def name="getCondParams(cond)" buffered="True">
+%if (cond['name'] == 'propertiesMatch'):
+std::vector<PropertyState>{
+    %for i in cond['properties']:
+    PropertyState{
+        {
+            "${i['object']}",
+            "${i['interface']}",
+            "${i['property']['name']}"
+        },
+        static_cast<${i['property']['type']}>(${str(i['property']['value']).lower()})
+    },
+    %endfor
+}
+%endif
+</%def>\
+/* This is a generated file. */
 #include "fan_defs.hpp"
 #include "types.hpp"
 #include "groups.hpp"
+#include "conditions.hpp"
 
 using namespace phosphor::fan::monitor;
 using namespace phosphor::fan::trust;
@@ -50,6 +72,14 @@ const std::vector<FanDefinition> fanDefinitions
                                        ${offset}},
                   %endfor
                   },
+                  %if ('condition' in fan_data) and \
+                  (fan_data['condition'] is not None):
+                  make_condition(condition::${fan_data['condition']['name']}(\
+                      ${indent(getCondParams(cond=fan_data['condition']), 5)}\
+                  ))
+                  %else:
+                  {}
+                  %endif
     },
 %endfor
 };

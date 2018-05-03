@@ -30,6 +30,15 @@
 #      offset [The offset to add to calculate the expected fan speed.
 #              Default is 0 for fan speed target;
 #              Customized value for pwm target]
+#  condition: [optional condition function to create fan functional monitoring]
+#    name: [The name of an available condition function]
+#    properties: [The properties used in the condition function]
+#        - object: [Object path of property to use]
+#          interface: [Interface of property to use]
+#          property:
+#              name: [Property name]
+#              type: [Property data type]
+#              value: [Property value to check condition against]
 #
 #sensor_trust_groups:
 # - class: [Group class name
@@ -63,6 +72,16 @@
 #    sensors:
 #      - name: fan0
 #        has_target: true
+#    # Only create fan functional properties and monitor on air cooled
+#    condition:
+#      name: propertiesMatch
+#      properties:
+#        - object: /xyz/openbmc_project/inventory/system/chassis
+#          interface: xyz.openbmc_project.Inventory.Decorator.CoolingType
+#          property:
+#            name: WaterCooled
+#            type: bool
+#            value: false
 #sensor_trust_groups:
 # - class: NonzeroSpeed
 #    group:
