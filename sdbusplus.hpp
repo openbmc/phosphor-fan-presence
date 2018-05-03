@@ -245,6 +245,43 @@ class SDBusPlus
                     property);
         }
 
+        /** @brief Get a property variant with mapper lookup. */
+        template <typename Variant>
+        static auto getPropertyVariant(
+            sdbusplus::bus::bus& bus,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            using namespace std::literals::string_literals;
+
+            auto msg = callMethod(
+                    bus,
+                    getService(bus, path, interface),
+                    path,
+                    "org.freedesktop.DBus.Properties"s,
+                    "Get"s,
+                    interface,
+                    property);
+            Variant value;
+            msg.read(value);
+            return value;
+        }
+
+        /** @brief Get a property variant with mapper lookup. */
+        template <typename Variant>
+        static auto getPropertyVariant(
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            return getPropertyVariant<Variant>(
+                    getBus(),
+                    path,
+                    interface,
+                    property);
+        }
+
         /** @brief Get a property without mapper lookup. */
         template <typename Property>
         static auto getProperty(
@@ -278,6 +315,46 @@ class SDBusPlus
             const std::string& property)
         {
             return getProperty<Property>(
+                    getBus(),
+                    service,
+                    path,
+                    interface,
+                    property);
+        }
+
+        /** @brief Get a property variant without mapper lookup. */
+        template <typename Variant>
+        static auto getPropertyVariant(
+            sdbusplus::bus::bus& bus,
+            const std::string& service,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            using namespace std::literals::string_literals;
+
+            auto msg = callMethod(
+                    bus,
+                    service,
+                    path,
+                    "org.freedesktop.DBus.Properties"s,
+                    "Get"s,
+                    interface,
+                    property);
+            Variant value;
+            msg.read(value);
+            return value;
+        }
+
+        /** @brief Get a property variant without mapper lookup. */
+        template <typename Variant>
+        static auto getPropertyVariant(
+            const std::string& service,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property)
+        {
+            return getPropertyVariant<Variant>(
                     getBus(),
                     service,
                     path,
