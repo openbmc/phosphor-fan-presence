@@ -169,14 +169,12 @@ bool Fan::outOfRange(const TachSensor& sensor)
     auto offset = sensor.getOffset();
 
     uint64_t min = target * (100 - _deviation) / 100;
-    uint64_t max = target * (100 + _deviation) / 100;
 
     // TODO: openbmc/openbmc#2937 enhance this function
     // either by making it virtual, or by predefining different
     // outOfRange ops and selecting by yaml config
     min = min * factor + offset;
-    max = max * factor + offset;
-    if ((actual < min) || (actual > max))
+    if ((actual < min))
     {
         return true;
     }
