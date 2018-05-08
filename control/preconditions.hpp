@@ -1,6 +1,7 @@
 #pragma once
 
 #include <algorithm>
+#include <phosphor-logging/log.hpp>
 
 namespace phosphor
 {
@@ -10,6 +11,8 @@ namespace control
 {
 namespace precondition
 {
+
+using namespace phosphor::logging;
 
 /**
  * @brief A precondition to compare a group of property values and
@@ -34,7 +37,7 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
             sse = std::move(sse)](auto& zone, auto& group)
     {
         // Compare given precondition entries
-        size_t precondState = std::count_if(
+        auto precondState = std::all_of(
             pg.begin(),
             pg.end(),
             [&zone](auto const& entry)
@@ -54,8 +57,11 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
                 }
             });
 
-        if (precondState == pg.size())
+        if (precondState)
         {
+            log<level::DEBUG>(
+                "Preconditions passed, init the associated events",
+                entry("EVENT_COUNT=%u", sse.size()));
             // Init the events when all the precondition(s) are true
             std::for_each(
                 sse.begin(),
@@ -67,6 +73,9 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
         }
         else
         {
+            log<level::DEBUG>(
+                "Preconditions not met for events, events removed if present",
+                entry("EVENT_COUNT=%u", sse.size()));
             // Unsubscribe the events' signals when any precondition is false
             std::for_each(
                 sse.begin(),
@@ -78,7 +87,7 @@ auto property_states_match(std::vector<PrecondGroup>&& pg,
             zone.setFullSpeed();
         }
         // Update group's fan control active allowed
-        zone.setActiveAllow(&group, (precondState == pg.size()));
+        zone.setActiveAllow(&group, precondState);
     };
 }
 
