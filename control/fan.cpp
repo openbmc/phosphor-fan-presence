@@ -75,19 +75,25 @@ void Fan::setSpeed(uint64_t speed)
 
     for (auto& sensor : _sensors)
     {
-        auto method = _bus.new_method_call(sensor.second.c_str(),
-                                           sensor.first.c_str(),
-                                           PROPERTY_INTERFACE,
-                                           "Set");
-        method.append(_interface, property, value);
+        auto response = util::SDBusPlus::callMethodAndReturn(
+                _bus,
+                sensor.second.c_str(),
+                sensor.first.c_str(),
+                PROPERTY_INTERFACE,
+                "Set",
+                _interface,
+                property,
+                value);
 
-        auto response = _bus.call(method);
         if (response.is_method_error())
         {
             log<level::ERR>(
-                "Failed call to set fan speed ",
+                "Failed to set fan speed target",
                 entry("SENSOR=%s", sensor.first));
-            elog<InternalFailure>();
+            throw util::DBusMethodError{sensor.second,
+                                        sensor.first,
+                                        _interface,
+                                        "Set"};
         }
     }
 
