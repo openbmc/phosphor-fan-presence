@@ -13,10 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <phosphor-logging/log.hpp>
-#include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
 #include <string>
 #include "fan.hpp"
 #include "sdbusplus.hpp"
@@ -30,13 +27,9 @@ namespace control
 
 // For throwing exception
 using namespace phosphor::logging;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                            Error::InternalFailure;
 
-constexpr auto PROPERTY_INTERFACE = "org.freedesktop.DBus.Properties";
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
-
 
 Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
     _bus(bus),
@@ -70,25 +63,16 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
 
 void Fan::setSpeed(uint64_t speed)
 {
-    sdbusplus::message::variant<uint64_t> value = speed;
-    std::string property{FAN_TARGET_PROPERTY};
-
     for (auto& sensor : _sensors)
     {
-        auto method = _bus.new_method_call(sensor.second.c_str(),
-                                           sensor.first.c_str(),
-                                           PROPERTY_INTERFACE,
-                                           "Set");
-        method.append(_interface, property, value);
-
-        auto response = _bus.call(method);
-        if (response.is_method_error())
-        {
-            log<level::ERR>(
-                "Failed call to set fan speed ",
-                entry("SENSOR=%s", sensor.first));
-            elog<InternalFailure>();
-        }
+        auto value = speed;
+        util::SDBusPlus::setProperty<uint64_t>(
+                _bus,
+                sensor.second,
+                sensor.first,
+                _interface,
+                FAN_TARGET_PROPERTY,
+                std::move(value));
     }
 
     _targetSpeed = speed;
