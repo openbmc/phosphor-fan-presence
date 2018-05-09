@@ -122,26 +122,14 @@ void Manager::doInit()
         delay = sleep(delay);
     }
 
-    startFanControlReadyTarget();
-}
-
-
-void Manager::startFanControlReadyTarget()
-{
-    auto method = _bus.new_method_call(SYSTEMD_SERVICE,
-                                       SYSTEMD_OBJ_PATH,
-                                       SYSTEMD_INTERFACE,
-                                       "StartUnit");
-
-    method.append(FAN_CONTROL_READY_TARGET);
-    method.append("replace");
-
-    auto response = _bus.call(method);
-    if (response.is_method_error())
-    {
-        log<level::ERR>("Failed to start fan control ready target");
-        elog<InternalFailure>();
-    }
+    util::SDBusPlus::callMethod(
+            _bus,
+            SYSTEMD_SERVICE,
+            SYSTEMD_OBJ_PATH,
+            SYSTEMD_INTERFACE,
+            "StartUnit",
+            FAN_CONTROL_READY_TARGET,
+            "replace");
 }
 
 } // namespace control
