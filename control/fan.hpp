@@ -59,15 +59,6 @@ class Fan
     private:
 
         /**
-         * Returns the service name to use for interacting
-         * with the fan sensor passed in.
-         *
-         * @param[in] sensor - the fan tach sensor name
-         * @return - the service name
-         */
-        std::string getService(const std::string& sensor);
-
-        /**
          * The dbus object
          */
         sdbusplus::bus::bus& _bus;
@@ -78,9 +69,9 @@ class Fan
         std::string _name;
 
         /**
-         * Vector of hwmon sensors for the rotors
+         * Map of hwmon target sensors to the service providing them
          */
-        std::vector<std::string> _sensors;
+        std::map<std::string, std::string> _sensors;
 
         /**
          * The interface of the fan target
