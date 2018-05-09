@@ -538,6 +538,27 @@ class SDBusPlus
                     method,
                     std::forward<Args>(args)...);
         }
+
+        /** @brief Invoke a method and return without checking for error. */
+        template <typename ...Args>
+        static auto callMethodAndReturn(
+            sdbusplus::bus::bus& bus,
+            const std::string& busName,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& method,
+            Args&& ... args)
+        {
+            auto reqMsg = bus.new_method_call(
+                    busName.c_str(),
+                    path.c_str(),
+                    interface.c_str(),
+                    method.c_str());
+            reqMsg.append(std::forward<Args>(args)...);
+            auto respMsg = bus.call(reqMsg);
+
+            return respMsg;
+        }
 };
 
 } // namespace util
