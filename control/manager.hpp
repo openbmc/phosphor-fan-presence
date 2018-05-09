@@ -53,11 +53,6 @@ class Manager
     private:
 
         /**
-         * Starts the obmc-fan-control-ready dbus target
-         */
-        void startFanControlReadyTarget();
-
-        /**
          * The dbus object
          */
         sdbusplus::bus::bus& _bus;
