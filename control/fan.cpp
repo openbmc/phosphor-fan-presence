@@ -19,7 +19,6 @@
 #include <xyz/openbmc_project/Common/error.hpp>
 #include <string>
 #include "fan.hpp"
-#include "utility.hpp"
 #include "sdbusplus.hpp"
 
 namespace phosphor
@@ -49,12 +48,18 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
     for (auto& s : sensors)
     {
         path = FAN_SENSOR_PATH + s;
-        _sensors.emplace_back(path);
+        auto service = util::SDBusPlus::getService(
+                bus,
+                path,
+                _interface);
+        _sensors[path] = service;
     }
-    // All sensors associated with this fan are set to same target speed,
+    // All sensors associated with this fan are set to the same target speed,
     // so only need to read target property from one.
     if (!path.empty())
     {
+        // Use getProperty with service lookup since each target sensor
+        // path given could have different services providing them
         _targetSpeed = util::SDBusPlus::getProperty<uint64_t>(
                 bus,
                 path,
@@ -63,17 +68,6 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
     }
 }
 
-
-//TODO openbmc/openbmc#1524  Can cache this value when
-//openbmc/openbmc#1496 is resolved.
-std::string Fan::getService(const std::string& sensor)
-{
-    return phosphor::fan::util::getService(sensor,
-                                           _interface,
-                                           _bus);
-}
-
-
 void Fan::setSpeed(uint64_t speed)
 {
     sdbusplus::message::variant<uint64_t> value = speed;
@@ -81,10 +75,8 @@ void Fan::setSpeed(uint64_t speed)
 
     for (auto& sensor : _sensors)
     {
-        auto service = getService(sensor);
-
-        auto method = _bus.new_method_call(service.c_str(),
-                                           sensor.c_str(),
+        auto method = _bus.new_method_call(sensor.second.c_str(),
+                                           sensor.first.c_str(),
                                            PROPERTY_INTERFACE,
                                            "Set");
         method.append(_interface, property, value);
@@ -93,7 +85,8 @@ void Fan::setSpeed(uint64_t speed)
         if (response.is_method_error())
         {
             log<level::ERR>(
-                "Failed call to set fan speed ", entry("SENSOR=%s", sensor));
+                "Failed call to set fan speed ",
+                entry("SENSOR=%s", sensor.first));
             elog<InternalFailure>();
         }
     }
