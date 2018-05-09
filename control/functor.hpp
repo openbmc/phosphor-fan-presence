@@ -117,11 +117,6 @@ struct PropertyChanged
             {
                 // Property will not be used unless a property changed
                 // signal message is received for this property.
-                log<level::INFO>(
-                    "Property not used, unless PropertyChanged signal received",
-                    entry("PATH=%s", _path),
-                    entry("INTERFACE=%s", _iface),
-                    entry("PROPERTY=%s", _property));
             }
         }
     }
