@@ -4,6 +4,7 @@
 #include <phosphor-logging/log.hpp>
 #include "argument.hpp"
 #include "cooling_type.hpp"
+#include "sdbusplus.hpp"
 
 using namespace phosphor::cooling::type;
 using namespace phosphor::fan::util;
@@ -63,7 +64,15 @@ int main(int argc, char* argv[])
             coolingType.updateInventory(objpath);
             rc = 0;
         }
-
+        catch (DBusMethodError& dme)
+        {
+            rc = -1;
+            log<level::ERR>("Uncaught DBus method failure exception",
+                    entry("BUSNAME=%s", dme.busName.c_str()),
+                    entry("PATH=%s", dme.path.c_str()),
+                    entry("INTERFACE=%s", dme.interface.c_str()),
+                    entry("METHOD=%s", dme.method.c_str()));
+        }
         catch (std::exception& err)
         {
             rc = -1;
