@@ -93,7 +93,7 @@ void Fan::setSpeed(uint64_t speed)
         if (response.is_method_error())
         {
             log<level::ERR>(
-                "Failed call to set fan speed ", entry("SENSOR=%s", sensor));
+                "Failed call to set fan speed ", entry("SENSOR=%s", sensor.c_str()));
             elog<InternalFailure>();
         }
     }
