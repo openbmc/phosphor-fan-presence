@@ -53,7 +53,7 @@ void Fallback::stateChanged(bool present, PresenceSensor& sensor)
             phosphor::logging::log<phosphor::logging::level::INFO>(
                     "Using backup presence sensor.",
                     phosphor::logging::entry(
-                        "FAN=%s", std::get<1>(fan)));
+                        "FAN=%s", std::get<1>(fan).c_str()));
             activeSensor = it;
         }
     }
@@ -81,7 +81,7 @@ void Fallback::monitor()
         phosphor::logging::log<phosphor::logging::level::INFO>(
                 "Using backup presence sensor.",
                 phosphor::logging::entry(
-                    "FAN=%s", std::get<1>(fan)));
+                    "FAN=%s", std::get<1>(fan).c_str()));
     }
 
     // Callout the broken sensors.
