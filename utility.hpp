@@ -80,14 +80,6 @@ class FileDescriptor
 };
 
 /**
- * @brief Get the inventory service name from the mapper object
- *
- * @return The inventory manager service name
- */
-std::string getInvService(sdbusplus::bus::bus& bus);
-
-
-/**
  * @brief Get the service name from the mapper for the
  *        interface and path passed in.
  *
