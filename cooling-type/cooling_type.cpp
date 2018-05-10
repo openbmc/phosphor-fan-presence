@@ -8,6 +8,7 @@
 #include <libevdev/libevdev.h>
 #include "utility.hpp"
 #include "cooling_type.hpp"
+#include "sdbusplus.hpp"
 
 namespace phosphor
 {
@@ -94,27 +95,17 @@ CoolingType::ObjectMap CoolingType::getObjectMap(const std::string& objpath)
 
 void CoolingType::updateInventory(const std::string& objpath)
 {
-    using namespace phosphor::logging;
+    using namespace phosphor::fan;
 
     ObjectMap invObj = getObjectMap(objpath);
 
-    std::string invService;
-
-    invService = phosphor::fan::util::getInvService(bus);
-
     // Update inventory
-    auto invMsg = bus.new_method_call(invService.c_str(),
-                                      INVENTORY_PATH,
-                                      INVENTORY_INTF,
-                                      "Notify");
-    invMsg.append(std::move(invObj));
-    auto invMgrResponseMsg = bus.call(invMsg);
-    if (invMgrResponseMsg.is_method_error())
-    {
-        log<level::ERR>(
-            "Error in inventory manager call to update inventory");
-        elog<InternalFailure>();
-    }
+    auto invMgrResponseMsg = util::SDBusPlus::lookupAndCallMethod(
+            bus,
+            util::INVENTORY_PATH,
+            util::INVENTORY_INTF,
+            "Notify",
+            std::move(invObj));
 }
 
 }

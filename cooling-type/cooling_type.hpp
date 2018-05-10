@@ -9,9 +9,6 @@ namespace cooling
 namespace type
 {
 
-constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
-constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
-
 struct FreeEvDev
 {
     void operator()(struct libevdev* device) const
