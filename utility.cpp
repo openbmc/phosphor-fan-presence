@@ -29,12 +29,6 @@ using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                             Error::InternalFailure;
 
-std::string getInvService(sdbusplus::bus::bus& bus)
-{
-    return getService(INVENTORY_PATH, INVENTORY_INTF, bus);
-}
-
-
 std::string getService(const std::string& path,
                        const std::string& interface,
                        sdbusplus::bus::bus& bus)
