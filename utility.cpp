@@ -13,7 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <string>
 #include "utility.hpp"
 
 namespace phosphor
@@ -22,50 +21,7 @@ namespace fan
 {
 namespace util
 {
-
-using namespace std::string_literals;
-
-using namespace phosphor::logging;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                            Error::InternalFailure;
-
-std::string getService(const std::string& path,
-                       const std::string& interface,
-                       sdbusplus::bus::bus& bus)
-{
-    auto mapperCall = bus.new_method_call(MAPPER_BUSNAME,
-                                          MAPPER_PATH,
-                                          MAPPER_INTERFACE,
-                                          "GetObject");
-
-    mapperCall.append(path);
-    mapperCall.append(std::vector<std::string>({interface}));
-
-    auto mapperResponseMsg = bus.call(mapperCall);
-    if (mapperResponseMsg.is_method_error())
-    {
-        log<level::ERR>("Error in mapper call to get service name",
-            entry("PATH=%s", path.c_str()),
-            entry("INTERFACE=%s", interface.c_str()));
-        elog<InternalFailure>();
-    }
-
-
-    std::map<std::string, std::vector<std::string>> mapperResponse;
-    mapperResponseMsg.read(mapperResponse);
-
-    if (mapperResponse.empty())
-    {
-        log<level::ERR>(
-            "Error in mapper response for getting service name",
-            entry("PATH=%s", path.c_str()),
-            entry("INTERFACE=%s", interface.c_str()));
-        elog<InternalFailure>();
-    }
-
-    return mapperResponse.begin()->first;
-}
-
+    // Keep for future functions
 }
 }
 }
