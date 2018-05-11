@@ -87,6 +87,34 @@ class DBusServiceError : public DBusError
         const std::string interface;
 };
 
+/**
+ * @class DBusPropertyError
+ *
+ * Thrown when a set/get property fails.
+ */
+class DBusPropertyError : public DBusError
+{
+    public:
+        DBusPropertyError(
+                const char* msg,
+                const std::string& busName,
+                const std::string& path,
+                const std::string& interface,
+                const std::string& property) :
+            DBusError(msg),
+            busName(busName),
+            path(path),
+            interface(interface),
+            property(property)
+            {
+            }
+
+        const std::string busName;
+        const std::string path;
+        const std::string interface;
+        const std::string property;
+};
+
 /** @brief Alias for PropertiesChanged signal callbacks. */
 template <typename ...T>
 using Properties = std::map<std::string, sdbusplus::message::variant<T...>>;
@@ -286,14 +314,24 @@ class SDBusPlus
         {
             using namespace std::literals::string_literals;
 
+            auto service = getService(bus, path, interface);
             auto msg = callMethod(
                     bus,
-                    getService(bus, path, interface),
+                    service,
                     path,
                     "org.freedesktop.DBus.Properties"s,
                     "Get"s,
                     interface,
                     property);
+            if (msg.is_method_error())
+            {
+                throw DBusPropertyError{
+                        "DBus get property failed",
+                        service,
+                        path,
+                        interface,
+                        property};
+            }
             sdbusplus::message::variant<Property> value;
             msg.read(value);
             return value.template get<Property>();
@@ -323,14 +361,24 @@ class SDBusPlus
         {
             using namespace std::literals::string_literals;
 
+            auto service = getService(bus, path, interface);
             auto msg = callMethod(
                     bus,
-                    getService(bus, path, interface),
+                    service,
                     path,
                     "org.freedesktop.DBus.Properties"s,
                     "Get"s,
                     interface,
                     property);
+            if (msg.is_method_error())
+            {
+                throw DBusPropertyError{
+                        "DBus get property variant failed",
+                        service,
+                        path,
+                        interface,
+                        property};
+            }
             Variant value;
             msg.read(value);
             return value;
@@ -361,7 +409,7 @@ class SDBusPlus
         {
             using namespace std::literals::string_literals;
 
-            auto msg = callMethod(
+            auto msg = callMethodAndReturn(
                     bus,
                     service,
                     path,
@@ -369,6 +417,15 @@ class SDBusPlus
                     "Get"s,
                     interface,
                     property);
+            if (msg.is_method_error())
+            {
+                throw DBusPropertyError{
+                        "DBus get property failed",
+                        service,
+                        path,
+                        interface,
+                        property};
+            }
             sdbusplus::message::variant<Property> value;
             msg.read(value);
             return value.template get<Property>();
@@ -401,7 +458,7 @@ class SDBusPlus
         {
             using namespace std::literals::string_literals;
 
-            auto msg = callMethod(
+            auto msg = callMethodAndReturn(
                     bus,
                     service,
                     path,
@@ -409,6 +466,15 @@ class SDBusPlus
                     "Get"s,
                     interface,
                     property);
+            if (msg.is_method_error())
+            {
+                throw DBusPropertyError{
+                        "DBus get property variant failed",
+                        service,
+                        path,
+                        interface,
+                        property};
+            }
             Variant value;
             msg.read(value);
             return value;
@@ -444,15 +510,25 @@ class SDBusPlus
             sdbusplus::message::variant<Property> varValue(
                     std::forward<Property>(value));
 
-            callMethod(
+            auto service = getService(bus, path, interface);
+            auto msg = callMethodAndReturn(
                     bus,
-                    getService(bus, path, interface),
+                    service,
                     path,
                     "org.freedesktop.DBus.Properties"s,
                     "Set"s,
                     interface,
                     property,
                     varValue);
+            if (msg.is_method_error())
+            {
+                throw DBusPropertyError{
+                        "DBus set property failed",
+                        service,
+                        path,
+                        interface,
+                        property};
+            }
         }
 
         /** @brief Set a property with mapper lookup. */
@@ -486,7 +562,7 @@ class SDBusPlus
             sdbusplus::message::variant<Property> varValue(
                     std::forward<Property>(value));
 
-            callMethod(
+            auto msg = callMethodAndReturn(
                     bus,
                     service,
                     path,
@@ -495,6 +571,15 @@ class SDBusPlus
                     interface,
                     property,
                     varValue);
+            if (msg.is_method_error())
+            {
+                throw DBusPropertyError{
+                        "DBus set property failed",
+                        service,
+                        path,
+                        interface,
+                        property};
+            }
         }
 
         /** @brief Set a property without mapper lookup. */

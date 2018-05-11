@@ -101,6 +101,14 @@ int main(int argc, char* argv[])
                 entry("INTERFACE=%s", e.interface.c_str()),
                 entry("METHOD=%s", e.method.c_str()));
     }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        log<level::ERR>("Uncaught DBus property access failure exception",
+                entry("BUSNAME=%s", e.busName.c_str()),
+                entry("PATH=%s", e.path.c_str()),
+                entry("INTERFACE=%s", e.interface.c_str()),
+                entry("PROPERTY=%s", e.property.c_str()));
+    }
 
     return -1;
 }
