@@ -471,6 +471,50 @@ class SDBusPlus
                     std::forward<Property>(value));
         }
 
+        /** @brief Set a property without mapper lookup. */
+        template <typename Property>
+        static void setProperty(
+            sdbusplus::bus::bus& bus,
+            const std::string& service,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property,
+            Property&& value)
+        {
+            using namespace std::literals::string_literals;
+
+            sdbusplus::message::variant<Property> varValue(
+                    std::forward<Property>(value));
+
+            callMethod(
+                    bus,
+                    service,
+                    path,
+                    "org.freedesktop.DBus.Properties"s,
+                    "Set"s,
+                    interface,
+                    property,
+                    varValue);
+        }
+
+        /** @brief Set a property without mapper lookup. */
+        template <typename Property>
+        static void setProperty(
+            const std::string& service,
+            const std::string& path,
+            const std::string& interface,
+            const std::string& property,
+            Property&& value)
+        {
+            return setProperty(
+                    getBus(),
+                    service,
+                    path,
+                    interface,
+                    property,
+                    std::forward<Property>(value));
+        }
+
         /** @brief Invoke method with mapper lookup. */
         template <typename ...Args>
         static auto lookupAndCallMethod(
