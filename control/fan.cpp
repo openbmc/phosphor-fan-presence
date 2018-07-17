@@ -65,13 +65,25 @@ void Fan::setSpeed(uint64_t speed)
     for (auto& sensor : _sensors)
     {
         auto value = speed;
-        util::SDBusPlus::setProperty<uint64_t>(
-                _bus,
-                sensor.second,
-                sensor.first,
-                _interface,
-                FAN_TARGET_PROPERTY,
-                std::move(value));
+        try
+        {
+            util::SDBusPlus::setProperty<uint64_t>(
+                    _bus,
+                    sensor.second,
+                    sensor.first,
+                    _interface,
+                    FAN_TARGET_PROPERTY,
+                    std::move(value));
+        }
+        catch (const sdbusplus::exception::SdBusError&)
+        {
+            throw util::DBusPropertyError{
+                    "DBus set property failed",
+                    sensor.second,
+                    sensor.first,
+                    _interface,
+                    FAN_TARGET_PROPERTY};
+        }
     }
 
     _targetSpeed = speed;

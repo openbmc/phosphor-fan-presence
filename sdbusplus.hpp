@@ -149,14 +149,19 @@ class SDBusPlus
                     interface.c_str(),
                     method.c_str());
             reqMsg.append(std::forward<Args>(args)...);
-            auto respMsg = bus.call(reqMsg);
-
-            if (respMsg.is_method_error())
+            try
+            {
+                auto respMsg = bus.call(reqMsg);
+                if (respMsg.is_method_error())
+                {
+                    throw DBusMethodError{busName, path, interface, method};
+                }
+                return respMsg;
+            }
+            catch (const sdbusplus::exception::SdBusError&)
             {
                 throw DBusMethodError{busName, path, interface, method};
             }
-
-            return respMsg;
         }
 
         /** @brief Invoke a method. */

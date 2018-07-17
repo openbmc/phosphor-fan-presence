@@ -113,7 +113,12 @@ struct PropertyChanged
                                                            _property);
                 _handler(zone, std::forward<T>(val));
             }
-            catch (const util::DBusError& e)
+            catch (const sdbusplus::exception::SdBusError&)
+            {
+                // Property will not be used unless a property changed
+                // signal message is received for this property.
+            }
+            catch (const util::DBusError&)
             {
                 // Property will not be used unless a property changed
                 // signal message is received for this property.
