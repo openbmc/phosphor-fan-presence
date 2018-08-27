@@ -26,7 +26,8 @@ phosphor_fan_monitor_LDADD = \
 phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
-	${PHOSPHOR_DBUS_INTERFACES_CFLAGS}
+	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
+	-flto
 
 fan_monitor_defs.cpp: ${srcdir}/gen-fan-monitor-defs.py
 	$(AM_V_GEN)$(GEN_FAN_MONITOR_DEFS)

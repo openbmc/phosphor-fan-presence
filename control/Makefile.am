@@ -24,7 +24,8 @@ phosphor_fan_control_LDADD = \
 phosphor_fan_control_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
-	${PHOSPHOR_DBUS_INTERFACES_CFLAGS}
+	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
+	-flto
 
 BUILT_SOURCES = fan_zone_defs.cpp
 

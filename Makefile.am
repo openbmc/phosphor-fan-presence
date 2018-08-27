@@ -5,7 +5,7 @@ libfan_la_LDFLAGS = -static
 libfan_la_LIBADD = \
 	$(SDBUSPLUS_LIBS)
 libfan_la_CXXFLAGS =
-	$(SDBUSPLUS_CFLAGS)
+	$(SDBUSPLUS_CFLAGS) -flto
 libfan_la_SOURCES = \
 	utility.cpp \
 	timer.cpp
