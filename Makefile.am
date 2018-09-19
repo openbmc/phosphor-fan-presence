@@ -4,7 +4,7 @@ noinst_LTLIBRARIES = libfan.la
 libfan_la_LDFLAGS = -static
 libfan_la_LIBADD = \
 	$(SDBUSPLUS_LIBS)
-libfan_la_CXXFLAGS =
+libfan_la_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) -flto
 libfan_la_SOURCES = \
 	utility.cpp \

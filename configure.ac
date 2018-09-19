@@ -7,6 +7,10 @@ AC_CONFIG_HEADERS([config.h])
 AM_INIT_AUTOMAKE([subdir-objects -Wall -Werror foreign dist-xz])
 AM_SILENT_RULES([yes])
 
+# Use gcc-ar and gcc-ranlib for static libraries built with -flto
+AC_SUBST([AR], [${ac_tool_prefix}gcc-ar])
+AC_SUBST([RANLIB], [${ac_tool_prefix}gcc-ranlib])
+
 # Checks for programs.
 AC_PROG_CXX
 AM_PROG_AR
