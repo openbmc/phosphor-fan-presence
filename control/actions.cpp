@@ -124,7 +124,7 @@ Action set_speed_on_missing_owner(uint64_t speed)
 void set_request_speed_base_with_max(control::Zone& zone,
                                      const Group& group)
 {
-    int64_t base = 0;
+    double base = 0;
     std::for_each(
             group.begin(),
             group.end(),
@@ -132,7 +132,7 @@ void set_request_speed_base_with_max(control::Zone& zone,
         {
             try
             {
-                auto value = zone.template getPropertyValue<int64_t>(
+                double value = zone.template getPropertyNumberVisitor<double>(
                         entry.first,
                         std::get<intfPos>(entry.second),
                         std::get<propPos>(entry.second));
@@ -161,12 +161,12 @@ Action set_floor_from_average_sensor_value(
                     group.begin(),
                     group.end(),
                     0,
-                    [&zone, &count](int64_t sum, auto const& entry)
+                    [&zone, &count](double sum, auto const& entry)
                     {
                         try
                         {
                             return sum +
-                                zone.template getPropertyValue<int64_t>(
+                                zone.template getPropertyNumberVisitor<double>(
                                     entry.first,
                                     std::get<intfPos>(entry.second),
                                     std::get<propPos>(entry.second));
@@ -213,12 +213,12 @@ Action set_ceiling_from_average_sensor_value(
                     group.begin(),
                     group.end(),
                     0,
-                    [&zone, &count](int64_t sum, auto const& entry)
+                    [&zone, &count](double sum, auto const& entry)
                     {
                         try
                         {
                             return sum +
-                                zone.template getPropertyValue<int64_t>(
+                                zone.template getPropertyNumberVisitor<double>(
                                     entry.first,
                                     std::get<intfPos>(entry.second),
                                     std::get<propPos>(entry.second));

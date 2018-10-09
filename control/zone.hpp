@@ -150,6 +150,38 @@ class Zone
             return _properties.at(object).at(interface).at(property);
         };
 
+        template <typename ReturnType> struct NumberVisitor {
+             template <typename T>
+             std::enable_if_t<std::is_arithmetic<T>::value, ReturnType>
+             operator()(const T &t) const {
+                  return static_cast<ReturnType>(t);
+             }
+
+             template <typename T>
+             std::enable_if_t<!std::is_arithmetic<T>::value, ReturnType>
+             operator()(const T &t) const {
+                throw std::invalid_argument("Cannot translate type to double");
+             }
+        };
+
+        /**
+         * @brief Get the object's property variant using a visitor
+         *
+         * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
+         * @param[in] property - Property name
+         *
+         * @return - The property variant
+         */
+        template <typename T>
+        inline auto getPropertyNumberVisitor(const std::string &object,
+                                            const std::string &interface,
+                                            const std::string &property) {
+         return sdbusplus::message::variant_ns::apply_visitor(
+             NumberVisitor<T>(),
+             _properties.at(object).at(interface).at(property));
+        }
+
         /**
          * @brief Remove an object's interface
          *
