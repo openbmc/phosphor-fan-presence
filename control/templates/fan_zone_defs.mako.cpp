@@ -171,19 +171,19 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 %if ('match' in s) and \
                                     (s['match'] is not None):
                                 match::${s['match']}(
-                                %for i, mp in enumerate(s['mparams']):
-                                %if (i+1) != len(s['mparams']):
-                                "${mp}",
+                                %for i, mp in enumerate(s['mparams']['params']):
+                                %if (i+1) != len(s['mparams']['params']):
+                                ${indent(s['mparams'][mp], 1)},
                                 %else:
-                                "${mp}"
+                                ${indent(s['mparams'][mp], 1)}
                                 %endif
                                 %endfor
                                 ),
                                 %else:
                                 "",
                                 %endif
-                                make_handler(\
-                                ${indent(genHandler(sig=s), 9)}\
+                                make_handler<SignalHandler>(\
+                                ${indent(genSignal(sig=s), 9)}\
                                 )
                             )),
                             %endfor
@@ -191,9 +191,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             %if ('init' in event['pc']['triggers']):
                             %for i in event['pc']['triggers']['init']:
                             make_trigger(trigger::init(
-                                %if ('handler' in i):
-                                make_handler(\
-                                ${indent(genParams(par=i), 3)}\
+                                %if ('method' in i):
+                                make_handler<MethodHandler>(\
+                                ${indent(genMethod(meth=i), 3)}\
                                 )
                                 %endif
                             )),
