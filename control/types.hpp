@@ -47,9 +47,10 @@ constexpr auto propPos = 2;
 using Group = std::vector<std::tuple<std::string,
                                      std::string,
                                      std::string>>;
-using Handler = std::function<void(sdbusplus::bus::bus&,
-                                   sdbusplus::message::message&,
-                                   Zone&)>;
+using SignalHandler = std::function<void(sdbusplus::bus::bus&,
+                                         sdbusplus::message::message&,
+                                         Zone&)>;
+using MethodHandler = std::function<void(Zone&, const Group&)>;
 using Action = std::function<void(Zone&, const Group&)>;
 using Trigger = std::function<void(Zone&,
                                    const Group&,
@@ -84,7 +85,10 @@ constexpr auto eventGroupPos = 0;
 constexpr auto eventMatchPos = 1;
 constexpr auto eventHandlerPos = 2;
 constexpr auto eventActionsPos = 3;
-using EventData = std::tuple<Group, std::string, Handler, std::vector<Action>>;
+using EventData = std::tuple<Group,
+                             std::string,
+                             SignalHandler,
+                             std::vector<Action>>;
 
 constexpr auto timerEventDataPos = 0;
 constexpr auto timerTimerPos = 1;

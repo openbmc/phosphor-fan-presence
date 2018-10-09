@@ -36,10 +36,10 @@ auto make_trigger(T&& trigger)
  *
  * @return - The created handler function object
  */
-template <typename T>
-auto make_handler(T&& handler)
+template <typename T, typename U>
+auto make_handler(U&& handler)
 {
-    return Handler(std::forward<T>(handler));
+    return T(std::forward<U>(handler));
 }
 
 /**
@@ -63,18 +63,23 @@ auto make_action(T&& action)
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-struct PropertyChanged
+struct Properties
 {
-    PropertyChanged() = delete;
-    ~PropertyChanged() = default;
-    PropertyChanged(const PropertyChanged&) = default;
-    PropertyChanged& operator=(const PropertyChanged&) = default;
-    PropertyChanged(PropertyChanged&&) = default;
-    PropertyChanged& operator=(PropertyChanged&&) = default;
-    PropertyChanged(const char* path,
-                    const char* iface,
-                    const char* property,
-                    U&& handler) :
+    Properties() = delete;
+    ~Properties() = default;
+    Properties(const Properties&) = default;
+    Properties& operator=(const Properties&) = default;
+    Properties(Properties&&) = default;
+    Properties& operator=(Properties&&) = default;
+    explicit Properties(U&& handler) :
+        _path(""),
+        _iface(""),
+        _property(""),
+        _handler(std::forward<U>(handler)) { }
+    Properties(const char* path,
+               const char* iface,
+               const char* property,
+               U&& handler) :
         _path(path),
         _iface(iface),
         _property(property),
@@ -83,8 +88,7 @@ struct PropertyChanged
     /** @brief Run signal handler function
      *
      * Extract the property from the PropertiesChanged
-     * message (or read the property when the message is null)
-     * and run the handler function.
+     * message and run the handler function.
      */
     void operator()(sdbusplus::bus::bus& bus,
                     sdbusplus::message::message& msg,
@@ -114,29 +118,43 @@ struct PropertyChanged
 
             _handler(zone, std::forward<T>(it->second.template get<T>()));
         }
-        else
-        {
-            try
+    }
+
+    /** @brief Run init handler function
+     *
+     * Get the property from each member object of the group
+     * and run the handler function.
+     */
+    void operator()(Zone& zone, const Group& group) const
+    {
+        std::for_each(
+            group.begin(),
+            group.end(),
+            [&zone, &group, handler = std::move(_handler)](auto const& member)
             {
-                auto service = zone.getService(_path, _iface);
-                auto val = util::SDBusPlus::getProperty<T>(bus,
-                                                           service,
-                                                           _path,
-                                                           _iface,
-                                                           _property);
-                _handler(zone, std::forward<T>(val));
+                auto path = std::get<pathPos>(member);
+                auto intf = std::get<intfPos>(member);
+                auto prop = std::get<propPos>(member);
+                try
+                {
+                    auto service = zone.getService(path, intf);
+                    auto val = util::SDBusPlus::getProperty<T>(zone.getBus(),
+                                                               service,
+                                                               path,
+                                                               intf,
+                                                               prop);
+                    handler(zone, std::forward<T>(val));
+                }
+                catch (const sdbusplus::exception::SdBusError&)
+                {
+                    // Property value not sent to handler
+                }
+                catch (const util::DBusError&)
+                {
+                    // Property value not sent to handler
+                }
             }
-            catch (const sdbusplus::exception::SdBusError&)
-            {
-                // Property will not be used unless a property changed
-                // signal message is received for this property.
-            }
-            catch (const util::DBusError&)
-            {
-                // Property will not be used unless a property changed
-                // signal message is received for this property.
-            }
-        }
+        );
     }
 
 private:
@@ -158,15 +176,29 @@ private:
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-auto propertySignal(const char* path,
-                    const char* iface,
-                    const char* property,
-                    U&& handler)
+auto propertiesChanged(const char* path,
+                       const char* iface,
+                       const char* property,
+                       U&& handler)
 {
-    return PropertyChanged<T, U>(path,
-                                 iface,
-                                 property,
-                                 std::forward<U>(handler));
+    return Properties<T, U>(path,
+                            iface,
+                            property,
+                            std::forward<U>(handler));
+}
+
+/**
+ * @brief Used to get the property value of an object
+ *
+ * @param[in] handler - Handler function to perform
+ *
+ * @tparam T - The type of the property
+ * @tparam U - The type of the handler
+ */
+template <typename T, typename U>
+auto getProperty(U&& handler)
+{
+    return Properties<T, U>(std::forward<U>(handler));
 }
 
 /**
@@ -243,7 +275,7 @@ private:
 };
 
 /**
- * @brief Used to process a Dbus interface added signal event
+ * @brief Used to process a Dbus interfaces added signal event
  *
  * @param[in] path - Object path
  * @param[in] iface - Object interface
@@ -254,10 +286,10 @@ private:
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-auto objectSignal(const char* path,
-                  const char* iface,
-                  const char* property,
-                  U&& handler)
+auto interfacesAdded(const char* path,
+                     const char* iface,
+                     const char* property,
+                     U&& handler)
 {
     return InterfaceAdded<T, U>(path,
                                 iface,
@@ -327,7 +359,7 @@ private:
 };
 
 /**
- * @brief Used to process a Dbus interface removed signal event
+ * @brief Used to process a Dbus interfaces removed signal event
  *
  * @param[in] path - Object path
  * @param[in] iface - Object interface
@@ -336,9 +368,9 @@ private:
  * @tparam U - The type of the handler
  */
 template <typename U>
-auto objectSignal(const char* path,
-                  const char* iface,
-                  U&& handler)
+auto interfacesRemoved(const char* path,
+                       const char* iface,
+                       U&& handler)
 {
     return InterfaceRemoved<U>(path,
                                iface,
@@ -346,32 +378,27 @@ auto objectSignal(const char* path,
 }
 
 /**
- * @struct Name Owner Changed
- * @brief A match filter functor for Dbus name owner changed signals
+ * @struct Name Owner
+ * @brief A functor for Dbus name owner signals and methods
  *
  * @tparam U - The type of the handler
  */
 template <typename U>
-struct NameOwnerChanged
+struct NameOwner
 {
-    NameOwnerChanged() = delete;
-    ~NameOwnerChanged() = default;
-    NameOwnerChanged(const NameOwnerChanged&) = default;
-    NameOwnerChanged& operator=(const NameOwnerChanged&) = default;
-    NameOwnerChanged(NameOwnerChanged&&) = default;
-    NameOwnerChanged& operator=(NameOwnerChanged&&) = default;
-    NameOwnerChanged(const char* path,
-                     const char* iface,
-                     U&& handler) :
-        _path(path),
-        _iface(iface),
+    NameOwner() = delete;
+    ~NameOwner() = default;
+    NameOwner(const NameOwner&) = default;
+    NameOwner& operator=(const NameOwner&) = default;
+    NameOwner(NameOwner&&) = default;
+    NameOwner& operator=(NameOwner&&) = default;
+    explicit NameOwner(U&& handler) :
         _handler(std::forward<U>(handler)) { }
 
     /** @brief Run signal handler function
      *
      * Extract the name owner from the NameOwnerChanged
-     * message (or read the name owner when the message is null)
-     * and run the handler function.
+     * message and run the handler function.
      */
     void operator()(sdbusplus::bus::bus& bus,
                     sdbusplus::message::message& msg,
@@ -393,42 +420,58 @@ struct NameOwnerChanged
             {
                 hasOwner = true;
             }
+            _handler(zone, name, hasOwner);
         }
-        else
-        {
-            try
-            {
-                // Initialize NameOwnerChanged data store with service name
-                name = zone.getService(_path, _iface);
-                hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
-                        bus,
-                        "org.freedesktop.DBus",
-                        "/org/freedesktop/DBus",
-                        "org.freedesktop.DBus",
-                        "NameHasOwner",
-                        name);
-            }
-            catch (const util::DBusMethodError& e)
-            {
-                // Failed to get service name owner state
-                hasOwner = false;
-            }
-        }
+    }
 
-        _handler(zone, name, hasOwner);
+    void operator()(Zone& zone,
+                    const Group& group) const
+    {
+        std::string name = "";
+        bool hasOwner = false;
+        std::for_each(
+            group.begin(),
+            group.end(),
+            [&zone, &group, &name, &hasOwner, handler = std::move(_handler)](
+                auto const& member)
+            {
+                auto path = std::get<pathPos>(member);
+                auto intf = std::get<intfPos>(member);
+                try
+                {
+                    auto servName = zone.getService(path, intf);
+                    if (name != servName)
+                    {
+                        name = servName;
+                        hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                                zone.getBus(),
+                                "org.freedesktop.DBus",
+                                "/org/freedesktop/DBus",
+                                "org.freedesktop.DBus",
+                                "NameHasOwner",
+                                name);
+                        // Update service name owner state list of a group
+                        handler(zone, name, hasOwner);
+                    }
+                }
+                catch (const util::DBusMethodError& e)
+                {
+                    // Failed to get service name owner state
+                    name = "";
+                    hasOwner = false;
+                }
+
+            }
+        );
     }
 
 private:
-    const char* _path;
-    const char* _iface;
     U _handler;
 };
 
 /**
  * @brief Used to process a Dbus name owner changed signal event
  *
- * @param[in] path - Object path
- * @param[in] iface - Object interface
  * @param[in] handler - Handler function to perform
  *
  * @tparam U - The type of the handler
@@ -436,13 +479,24 @@ private:
  * @return - The NameOwnerChanged signal struct
  */
 template <typename U>
-auto ownerSignal(const char* path,
-                 const char* iface,
-                 U&& handler)
+auto nameOwnerChanged(U&& handler)
 {
-    return NameOwnerChanged<U>(path,
-                               iface,
-                               std::forward<U>(handler));
+    return NameOwner<U>(std::forward<U>(handler));
+}
+
+/**
+ * @brief Used to process the init of a name owner event
+ *
+ * @param[in] handler - Handler function to perform
+ *
+ * @tparam U - The type of the handler
+ *
+ * @return - The NameOwnerChanged signal struct
+ */
+template <typename U>
+auto nameHasOwner(U&& handler)
+{
+    return NameOwner<U>(std::forward<U>(handler));
 }
 
 } // namespace control
