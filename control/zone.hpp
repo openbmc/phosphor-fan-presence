@@ -129,6 +129,23 @@ class Zone
         };
 
         /**
+         * @brief Sets a given object's property value
+         *
+         * @param[in] object - Name of the object containing the property
+         * @param[in] interface - Interface name containing the property
+         * @param[in] property - Property name
+         * @param[in] value - Property value
+         */
+        template <typename T>
+        void setPropertyValue(const std::string& object,
+                              const std::string& interface,
+                              const std::string& property,
+                              T value)
+        {
+            _properties[object][interface][property] = value;
+        };
+
+        /**
          * @brief Get the value of an object's property
          *
          * @param[in] object - Name of the object containing the property
