@@ -47,7 +47,7 @@ Trigger signal(const std::string& match, SignalHandler&& handler);
  * @return Trigger lambda function
  *     A Trigger function that runs actions at event init
  */
-Trigger init(MethodHandler&& handler);
+Trigger init(MethodHandler&& handler = nullptr);
 
 } // namespace trigger
 } // namespace control

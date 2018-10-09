@@ -106,13 +106,11 @@ std::vector<Trigger>{
     %if ('init' in event['triggers']):
     %for i in event['triggers']['init']:
     make_trigger(trigger::init(
+        %if ('method' in i):
         make_handler<MethodHandler>(\
-        %if ('handler' in s):
         ${indent(genMethod(meth=i), 3)}\
-        %else:
-        nullptr\
-        %endif
         )
+        %endif
     )),
     %endfor
     %endif

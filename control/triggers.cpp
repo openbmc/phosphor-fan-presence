@@ -80,7 +80,11 @@ Trigger init(MethodHandler&& handler)
                                           const Group& group,
                                           const std::vector<Action>& actions)
     {
-        handler(zone, group);
+        // A handler function is optional before running the actions
+        if (handler)
+        {
+            handler(zone, group);
+        }
 
         // Run action functions for initial event state
         std::for_each(
