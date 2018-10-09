@@ -64,14 +64,13 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                     %if ('pc' in event) and \
                         (event['pc'] is not None):
                     SetSpeedEvent{
-                        Group{
+                        Group
+                        {
                         %for group in event['pc']['pcgrps']:
                         %for member in group['members']:
-                        {
-                            "${member['object']}",
+                            {"${member['object']}",
                             "${member['interface']}",
-                            "${member['property']}"
-                        },
+                            "${member['property']}"},
                         %endfor
                         %endfor
                         },
@@ -134,15 +133,15 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             %for s in event['pc']['triggers']['pcsigs']:
                             make_trigger(trigger::signal(
                                 match::${s['match']}(
-                                %for i, mp in enumerate(s['mparams']):
-                                %if (i+1) != len(s['mparams']):
-                                "${mp}",
+                                %for i, mp in enumerate(s['mparams']['params']):
+                                %if (i+1) != len(s['mparams']['params']):
+                                ${indent(s['mparams'][mp], 1)},
                                 %else:
-                                "${mp}"
+                                ${indent(s['mparams'][mp], 1)}
                                 %endif
                                 %endfor
                                 ),
-                                make_handler(\
+                                make_handler<SignalHandler>(\
                                 ${indent(genHandler(sig=s), 9)}\
                                 )
                             )),
@@ -151,9 +150,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             %if ('init' in event['pc']['triggers']):
                             %for i in event['pc']['triggers']['init']:
                             make_trigger(trigger::init(
-                                make_handler(\
+                                make_handler<MethodHandler>(\
                                     %if ('handler' in i):
-                                    ${indent(genParams(par=i), 3)}\
+                                    ${indent(genMethod(meth=i), 3)}\
                                     %else:
                                     nullptr\
                                     %endif

@@ -34,7 +34,7 @@ Trigger timer(Timer&& tConf);
  * @return Trigger lambda function
  *     A Trigger function that subscribes to a signal
  */
-Trigger signal(const std::string& match, Handler&& handler);
+Trigger signal(const std::string& match, SignalHandler&& handler);
 
 /**
  * @brief A trigger for actions to run at event init
@@ -47,7 +47,7 @@ Trigger signal(const std::string& match, Handler&& handler);
  * @return Trigger lambda function
  *     A Trigger function that runs actions at event init
  */
-Trigger init(Handler&& handler);
+Trigger init(MethodHandler&& handler);
 
 } // namespace trigger
 } // namespace control
