@@ -175,13 +175,13 @@ def genEvent(event):
         for s in event['triggers']['signals']:
             e += "\tmake_trigger(trigger::signal(\n"
             e += "match::" + s['match'] + "(\n"
-            for i, mp in enumerate(s['mparams']):
-                if (i+1) != len(s['mparams']):
-                    e += "\"" + mp + "\",\n"
+            for i, mp in enumerate(s['mparams']['params']):
+                if (i+1) != len(s['mparams']['params']):
+                    e += "\t\t\t" + s['mparams'][mp] + ",\n"
                 else:
-                    e += "\"" + mp + "\"\n"
-            e += "),\n"
-            e += "make_handler(\n"
+                    e += "\t\t\t" + s['mparams'][mp] + "\n"
+            e += "\t\t),\n"
+            e += "\t\tmake_handler<SignalHandler>(\n"
             if ('type' in s['sparams']) and (s['sparams']['type'] is not None):
                 e += s['signal'] + "<" + s['sparams']['type'] + ">(\n"
             else:
@@ -199,14 +199,21 @@ def genEvent(event):
                 else:
                     e += s['hparams'][hp] + "\n"
             e += "))\n"
-            e += ")\n"
+            e += "\t\t)\n"
             e += "\t)),\n"
 
     if ('init' in event['triggers']):
         for i in event['triggers']['init']:
             e += "\tmake_trigger(trigger::init(\n"
-            if ('handler' in i):
-                e += "\t\tmake_handler(\n"
+            if ('method' in i):
+                e += "\t\tmake_handler<MethodHandler>(\n"
+                if ('type' in i['mparams']) and \
+                    (i['mparams']['type'] is not None):
+                    e += i['method'] + "<" + i['mparams']['type'] + ">(\n"
+                else:
+                    e += i['method'] + "(\n"
+                for ip in i['mparams']['params']:
+                    e += i['mparams'][ip] + ",\n"
                 if ('type' in i['hparams']) and \
                     (i['hparams']['type'] is not None):
                     e += ("handler::" + i['handler'] +
@@ -218,7 +225,7 @@ def genEvent(event):
                         e += i['hparams'][hp] + ",\n"
                     else:
                         e += i['hparams'][hp] + "\n"
-                e += ")\n"
+                e += "))\n"
                 e += "\t\t)\n"
             e += "\t)),\n"
 

@@ -11,26 +11,40 @@ handler::${par['handler']}<${par['hparams']['type']}>(
 handler::${par['handler']}(
 %endif
 %for i, hpk in enumerate(par['hparams']['params']):
-    %if (i+1) != len(par['hparams']['params']):
-    ${par['hparams'][hpk]},
-    %else:
-    ${par['hparams'][hpk]}
-    %endif
+%if (i+1) != len(par['hparams']['params']):
+${par['hparams'][hpk]},
+%else:
+${par['hparams'][hpk]}
+%endif
 %endfor
 )
 </%def>\
 
-<%def name="genHandler(sig)" buffered="True">
+<%def name="genSignal(sig)" buffered="True">
 %if ('type' in sig['sparams']) and \
     (sig['sparams']['type'] is not None):
-${sig['signal']}<${sig['sparams']['type']}>(
+${indent(sig['signal'], 3)}<${sig['sparams']['type']}>(\
 %else:
-${sig['signal']}(
+${indent(sig['signal'], 3)}(\
 %endif
 %for spk in sig['sparams']['params']:
-${sig['sparams'][spk]},
+${indent(sig['sparams'][spk], 3)},
 %endfor
-${genParams(par=sig)}\
+${genParams(par=sig)}
+)
+</%def>\
+
+<%def name="genMethod(meth)" buffered="True">
+%if ('type' in meth['mparams']) and \
+    (meth['mparams']['type'] is not None):
+${meth['method']}<${meth['mparams']['type']}>(
+%else:
+${meth['method']}(
+%endif
+%for spk in meth['mparams']['params']:
+${meth['mparams'][spk]},
+%endfor
+${genParams(par=meth)}\
 )
 </%def>\
 
@@ -78,19 +92,19 @@ std::vector<Trigger>{
         %if ('match' in s) and \
             (s['match'] is not None):
         match::${s['match']}(
-        %for i, mp in enumerate(s['mparams']):
-        %if (i+1) != len(s['mparams']):
-        "${mp}",
+        %for i, mp in enumerate(s['mparams']['params']):
+        %if (i+1) != len(s['mparams']['params']):
+        ${indent(s['mparams'][mp], 1)},
         %else:
-        "${mp}"
+        ${indent(s['mparams'][mp], 1)}
         %endif
         %endfor
         ),
         %else:
         "",
         %endif
-        make_handler(\
-        ${indent(genHandler(sig=s), 3)}\
+        make_handler<SignalHandler>(\
+        ${genSignal(sig=s)}
         )
     )),
     %endfor
@@ -98,9 +112,9 @@ std::vector<Trigger>{
     %if ('init' in event['triggers']):
     %for i in event['triggers']['init']:
     make_trigger(trigger::init(
-        %if ('handler' in i):
-        make_handler(\
-        ${indent(genParams(par=i), 3)}\
+        %if ('method' in i):
+        make_handler<MethodHandler>(\
+        ${indent(genMethod(meth=i), 3)}\
         )
         %endif
     )),

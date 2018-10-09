@@ -105,7 +105,7 @@ Trigger init(MethodHandler&& handler)
     };
 }
 
-Trigger init(Handler&& handler)
+Trigger init(MethodHandler&& handler)
 {
     return [handler = std::move(handler)](control::Zone& zone,
                                           const Group& group,
@@ -114,10 +114,9 @@ Trigger init(Handler&& handler)
         // A handler function is optional
         if (handler)
         {
-            sdbusplus::message::message nullMsg{nullptr};
-            // Execute the given handler function prior to running the actions
-            handler(zone.getBus(), nullMsg, zone);
+            handler(zone, group);
         }
+
         // Run action functions for initial event state
         std::for_each(
             actions.begin(),
