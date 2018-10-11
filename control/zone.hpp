@@ -126,6 +126,15 @@ class Zone
             _properties[object][interface][property] = value;
         };
 
+        template <typename T>
+        void setPropertyValue(const std::string& object,
+                              const std::string& interface,
+                              const std::string& property,
+                              T value)
+        {
+            _properties[object][interface][property] = value;
+        };
+
         /**
          * @brief Get the value of an object's property
          *
