@@ -87,17 +87,14 @@ struct Properties
     Properties(Properties&&) = default;
     Properties& operator=(Properties&&) = default;
     explicit Properties(U&& handler) :
-        _path(""),
-        _iface(""),
-        _property(""),
         _handler(std::forward<U>(handler)) { }
     Properties(const char* path,
-               const char* iface,
-               const char* property,
+               const char* intf,
+               const char* prop,
                U&& handler) :
         _path(path),
-        _iface(iface),
-        _property(property),
+        _intf(intf),
+        _prop(prop),
         _handler(std::forward<U>(handler)) { }
 
     /** @brief Run signal handler function
@@ -111,35 +108,33 @@ struct Properties
     {
         if (msg)
         {
-            std::map<std::string, sdbusplus::message::variant<T>> properties;
-            std::string iface;
+            std::string intf;
+            std::map<std::string, sdbusplus::message::variant<T>> props;
 
-            msg.read(iface);
-            if (iface != _iface)
+            msg.read(intf);
+            if (intf != _intf)
             {
+                // Interface name does not match on object
                 return;
             }
 
-            msg.read(properties);
-            auto it = properties.find(_property);
-            if (it == properties.cend())
+            msg.read(props);
+            auto it = props.find(_prop);
+            if (it == props.cend())
             {
-                log<level::ERR>("Unable to find property on interface",
-                                entry("PROPERTY=%s", _property),
-                                entry("INTERFACE=%s", _iface),
-                                entry("PATH=%s", _path));
+                // Property not included in dictionary of properties changed
                 return;
             }
 
-            _handler(zone, std::forward<T>(
-                         sdbusplus::message::variant_ns::get<T>(it->second)));
+            _handler(zone, _path, _intf, _prop, std::forward<T>(
+                sdbusplus::message::variant_ns::get<T>(it->second)));
         }
         else
         {
             try
             {
-                auto val = zone.getPropertyByName<T>(_path, _iface, _property);
-                _handler(zone, std::forward<T>(val));
+                auto val = zone.getPropertyByName<T>(_path, _intf, _prop);
+                _handler(zone, _path, _intf, _prop, std::forward<T>(val));
             }
             catch (const sdbusplus::exception::SdBusError&)
             {
@@ -164,7 +159,7 @@ struct Properties
         std::for_each(
             group.begin(),
             group.end(),
-            [&zone, &group, handler = std::move(_handler)](auto const& member)
+            [&zone, handler = std::move(_handler)](auto const& member)
             {
                 auto path = std::get<pathPos>(member);
                 auto intf = std::get<intfPos>(member);
@@ -172,7 +167,7 @@ struct Properties
                 try
                 {
                     auto val = zone.getPropertyByName<T>(path, intf, prop);
-                    handler(zone, std::forward<T>(val));
+                    handler(zone, path, intf, prop, std::forward<T>(val));
                 }
                 catch (const sdbusplus::exception::SdBusError&)
                 {
@@ -188,17 +183,17 @@ struct Properties
 
 private:
     const char* _path;
-    const char* _iface;
-    const char* _property;
+    const char* _intf;
+    const char* _prop;
     U _handler;
 };
 
 /**
- * @brief Used to process a Dbus property changed signal event
+ * @brief Used to process a Dbus properties changed signal event
  *
  * @param[in] path - Object path
- * @param[in] iface - Object interface
- * @param[in] property - Object property
+ * @param[in] intf - Object interface
+ * @param[in] prop - Object property
  * @param[in] handler - Handler function to perform
  *
  * @tparam T - The type of the property
@@ -206,53 +201,53 @@ private:
  */
 template <typename T, typename U>
 auto propertiesChanged(const char* path,
-                       const char* iface,
-                       const char* property,
+                       const char* intf,
+                       const char* prop,
                        U&& handler)
 {
     return Properties<T, U>(path,
-                            iface,
-                            property,
+                            intf,
+                            prop,
                             std::forward<U>(handler));
 }
 
 /**
- * @brief Used to get the property value of an object
+ * @brief Used to get the properties of an event's group
  *
  * @param[in] handler - Handler function to perform
  *
- * @tparam T - The type of the property
+ * @tparam T - The type of all the properties
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-auto getProperty(U&& handler)
+auto getProperties(U&& handler)
 {
     return Properties<T, U>(std::forward<U>(handler));
 }
 
 /**
- * @struct Interface Added
- * @brief A match filter functor for Dbus interface added signals
+ * @struct Interfaces Added
+ * @brief A match filter functor for Dbus interfaces added signals
  *
  * @tparam T - The type of the property value
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-struct InterfaceAdded
+struct InterfacesAdded
 {
-    InterfaceAdded() = delete;
-    ~InterfaceAdded() = default;
-    InterfaceAdded(const InterfaceAdded&) = default;
-    InterfaceAdded& operator=(const InterfaceAdded&) = default;
-    InterfaceAdded(InterfaceAdded&&) = default;
-    InterfaceAdded& operator=(InterfaceAdded&&) = default;
-    InterfaceAdded(const char* path,
-                   const char* iface,
-                   const char* property,
-                   U&& handler) :
+    InterfacesAdded() = delete;
+    ~InterfacesAdded() = default;
+    InterfacesAdded(const InterfacesAdded&) = default;
+    InterfacesAdded& operator=(const InterfacesAdded&) = default;
+    InterfacesAdded(InterfacesAdded&&) = default;
+    InterfacesAdded& operator=(InterfacesAdded&&) = default;
+    InterfacesAdded(const char* path,
+                    const char* intf,
+                    const char* prop,
+                    U&& handler) :
         _path(path),
-        _iface(iface),
-        _property(property),
+        _intf(intf),
+        _prop(prop),
         _handler(std::forward<U>(handler)) { }
 
     /** @brief Run signal handler function
@@ -279,28 +274,28 @@ struct InterfaceAdded
             }
 
             msg.read(intfProp);
-            auto itIntf = intfProp.find(_iface);
+            auto itIntf = intfProp.find(_intf);
             if (itIntf == intfProp.cend())
             {
                 // Interface not found on this handler's path
                 return;
             }
-            auto itProp = itIntf->second.find(_property);
+            auto itProp = itIntf->second.find(_prop);
             if (itProp == itIntf->second.cend())
             {
                 // Property not found on this handler's path
                 return;
             }
 
-            _handler(zone, std::forward<T>(
-                         sdbusplus::message::variant_ns::get<T>(itProp->second)));
+            _handler(zone, _path, _intf, _prop, std::forward<T>(
+                sdbusplus::message::variant_ns::get<T>(itProp->second)));
         }
     }
 
 private:
     const char* _path;
-    const char* _iface;
-    const char* _property;
+    const char* _intf;
+    const char* _prop;
     U _handler;
 };
 
@@ -308,8 +303,8 @@ private:
  * @brief Used to process a Dbus interfaces added signal event
  *
  * @param[in] path - Object path
- * @param[in] iface - Object interface
- * @param[in] property - Object property
+ * @param[in] intf - Object interface
+ * @param[in] prop - Object property
  * @param[in] handler - Handler function to perform
  *
  * @tparam T - The type of the property
@@ -317,41 +312,41 @@ private:
  */
 template <typename T, typename U>
 auto interfacesAdded(const char* path,
-                     const char* iface,
-                     const char* property,
+                     const char* intf,
+                     const char* prop,
                      U&& handler)
 {
-    return InterfaceAdded<T, U>(path,
-                                iface,
-                                property,
-                                std::forward<U>(handler));
+    return InterfacesAdded<T, U>(path,
+                                 intf,
+                                 prop,
+                                 std::forward<U>(handler));
 }
 
 /**
- * @struct Interface Removed
- * @brief A match filter functor for Dbus interface removed signals
+ * @struct Interfaces Removed
+ * @brief A match filter functor for Dbus interfaces removed signals
  *
  * @tparam U - The type of the handler
  */
 template <typename U>
-struct InterfaceRemoved
+struct InterfacesRemoved
 {
-    InterfaceRemoved() = delete;
-    ~InterfaceRemoved() = default;
-    InterfaceRemoved(const InterfaceRemoved&) = default;
-    InterfaceRemoved& operator=(const InterfaceRemoved&) = default;
-    InterfaceRemoved(InterfaceRemoved&&) = default;
-    InterfaceRemoved& operator=(InterfaceRemoved&&) = default;
-    InterfaceRemoved(const char* path,
-                     const char* iface,
-                     U&& handler) :
+    InterfacesRemoved() = delete;
+    ~InterfacesRemoved() = default;
+    InterfacesRemoved(const InterfacesRemoved&) = default;
+    InterfacesRemoved& operator=(const InterfacesRemoved&) = default;
+    InterfacesRemoved(InterfacesRemoved&&) = default;
+    InterfacesRemoved& operator=(InterfacesRemoved&&) = default;
+    InterfacesRemoved(const char* path,
+                      const char* intf,
+                      U&& handler) :
         _path(path),
-        _iface(iface),
+        _intf(intf),
         _handler(std::forward<U>(handler)) { }
 
     /** @brief Run signal handler function
      *
-     * Extract the property from the InterfacesRemoved
+     * Extract the interfaces from the InterfacesRemoved
      * message and run the handler function.
      */
     void operator()(sdbusplus::bus::bus&,
@@ -371,7 +366,7 @@ struct InterfaceRemoved
             }
 
             msg.read(intfs);
-            auto itIntf = std::find(intfs.begin(), intfs.end(), _iface);
+            auto itIntf = std::find(intfs.begin(), intfs.end(), _intf);
             if (itIntf == intfs.cend())
             {
                 // Interface not found on this handler's path
@@ -384,7 +379,7 @@ struct InterfaceRemoved
 
 private:
     const char* _path;
-    const char* _iface;
+    const char* _intf;
     U _handler;
 };
 
@@ -392,19 +387,19 @@ private:
  * @brief Used to process a Dbus interfaces removed signal event
  *
  * @param[in] path - Object path
- * @param[in] iface - Object interface
+ * @param[in] intf - Object interface
  * @param[in] handler - Handler function to perform
  *
  * @tparam U - The type of the handler
  */
 template <typename U>
 auto interfacesRemoved(const char* path,
-                       const char* iface,
+                       const char* intf,
                        U&& handler)
 {
-    return InterfaceRemoved<U>(path,
-                               iface,
-                               std::forward<U>(handler));
+    return InterfacesRemoved<U>(path,
+                                intf,
+                                std::forward<U>(handler));
 }
 
 /**
@@ -490,7 +485,6 @@ struct NameOwner
                     name = "";
                     hasOwner = false;
                 }
-
             }
         );
     }
