@@ -40,9 +40,9 @@ auto setProperty()
  * @return Lambda function
  *     A lambda function to set/update the service name owner state
  */
-auto setService(Group&& group)
+auto setService()
 {
-    return [group = std::move(group)](auto& zone, auto& name, bool hasOwner)
+    return [](auto& zone, auto& group, auto& name, bool hasOwner)
     {
         // Update service name owner state list of a group
         zone.setServiceOwner(&group, name, hasOwner);
