@@ -12,7 +12,7 @@ namespace handler
 /**
  * @brief A handler function to set/update a property
  * @details Sets or updates a property's value determined by a combination of
- * an object's path and property names
+ * an object's path, interface, and property names
  *
  * @param[in] path - Object's path name
  * @param[in] interface - Object's interface name
@@ -22,11 +22,11 @@ namespace handler
  *     A lambda function to set/update the property value
  */
 template <typename T>
-auto setProperty(const char* path, const char* interface, const char* property)
+auto setProperty()
 {
-    return [=](auto& zone, T&& arg)
+    return [](auto& zone, auto& path, auto& intf, auto& prop, T&& arg)
     {
-        zone.setPropertyValue(path, interface, property, std::forward<T>(arg));
+        zone.setPropertyValue(path, intf, prop, std::forward<T>(arg));
     };
 }
 
