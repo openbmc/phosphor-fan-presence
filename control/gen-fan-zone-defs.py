@@ -120,7 +120,7 @@ def getInit(eGrps, eTrig, events):
                               if m['name'] == eTrig['method'])
                method['method'] = eMethod['name']
                method['mparams'] = getParameters(
-                   member, eGrps, eMethod, events)
+                   member, {}, eMethod, events)
 
                # Add handler parameters
                eHandler = next(h for h in events['handlers']
