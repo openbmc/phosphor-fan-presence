@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 #include <phosphor-logging/log.hpp>
 #include "argument.hpp"
 #include "manager.hpp"
-#include "event.hpp"
 #include "sdbusplus.hpp"
 
 using namespace phosphor::fan::control;
@@ -25,8 +25,8 @@ using namespace phosphor::logging;
 
 int main(int argc, char* argv[])
 {
+    auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();
-    sd_event* events = nullptr;
     phosphor::fan::util::ArgumentParser args(argc, argv);
 
     if (argc != 2)
@@ -51,23 +51,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    auto r = sd_event_default(&events);
-    if (r < 0)
-    {
-        log<level::ERR>("Failed call to sd_event_default()",
-                        entry("ERROR=%s", strerror(-r)));
-        return 1;
-    }
-
-    phosphor::fan::event::EventPtr eventPtr{events};
-
     //Attach the event object to the bus object so we can
     //handle both sd_events (for the timers) and dbus signals.
-    bus.attach_event(eventPtr.get(), SD_EVENT_PRIORITY_NORMAL);
+    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
     try
     {
-        Manager manager(bus, eventPtr, mode);
+        Manager manager(bus, event, mode);
 
         //Init mode will just set fans to max and delay
         if (mode == Mode::init)
@@ -75,15 +65,8 @@ int main(int argc, char* argv[])
             manager.doInit();
             return 0;
         }
-        else
-        {
-            r = sd_event_loop(eventPtr.get());
-            if (r < 0)
-            {
-                log<level::ERR>("Failed call to sd_event_loop",
-                        entry("ERROR=%s", strerror(-r)));
-            }
-        }
+
+        return event.loop();
     }
     //Log the useful metadata on these exceptions and let the app
     //return 1 so it is restarted without a core dump.

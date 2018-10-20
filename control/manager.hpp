@@ -3,6 +3,7 @@
 #include <memory>
 #include <vector>
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 #include "types.hpp"
 #include "zone.hpp"
 
@@ -36,11 +37,11 @@ class Manager
          * _zoneLayouts data.
          *
          * @param[in] bus - The dbus object
-         * @param[in] events - The sd_event pointer
+         * @param[in] event - The event loop
          * @param[in] mode - The control mode
          */
         Manager(sdbusplus::bus::bus& bus,
-                phosphor::fan::event::EventPtr& events,
+                const sdeventplus::Event& event,
                 Mode mode);
 
         /**

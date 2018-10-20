@@ -3,7 +3,7 @@
 #include <chrono>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server.hpp>
-#include "event.hpp"
+#include <sdeventplus/event.hpp>
 #include "timer.hpp"
 
 namespace phosphor
@@ -78,7 +78,7 @@ class TachSensor
          * @param[in] factor - the factor of the sensor target
          * @param[in] offset - the offset of the sensor target
          * @param[in] timeout - Normal timeout value to use
-         * @param[in] events - sd_event pointer
+         * @param[in] event - Event loop reference
          */
         TachSensor(Mode mode,
                    sdbusplus::bus::bus& bus,
@@ -90,7 +90,7 @@ class TachSensor
                    size_t factor,
                    size_t offset,
                    size_t timeout,
-                   phosphor::fan::event::EventPtr& events);
+                   const sdeventplus::Event& event);
 
         /**
          * @brief Returns the target speed value

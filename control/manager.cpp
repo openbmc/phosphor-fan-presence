@@ -75,7 +75,7 @@ bool checkCondition(sdbusplus::bus::bus& bus, const auto& c)
 
 //Note: Future code will check 'mode' before starting control algorithm
 Manager::Manager(sdbusplus::bus::bus& bus,
-                 phosphor::fan::event::EventPtr& events,
+                 const sdeventplus::Event& event,
                  Mode mode) :
     _bus(bus)
 {
@@ -99,7 +99,7 @@ Manager::Manager(sdbusplus::bus::bus& bus,
             for (auto& z : zones)
             {
                 _zones.emplace(std::get<zoneNumPos>(z),
-                               std::make_unique<Zone>(mode, _bus, events, z));
+                               std::make_unique<Zone>(mode, _bus, event, z));
             }
 
             break;
