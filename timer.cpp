@@ -32,16 +32,15 @@ using namespace phosphor::logging;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                             Error::InternalFailure;
 
-Timer::Timer(phosphor::fan::event::EventPtr& events,
+Timer::Timer(const sdeventplus::Event& event,
              std::function<void()> callbackFunc) :
-    timeEvent(events),
     callback(callbackFunc),
     timeout(0)
 {
     sd_event_source* source = nullptr;
 
     // Start with an infinite expiration time
-    auto r = sd_event_add_time(timeEvent.get(),
+    auto r = sd_event_add_time(event.get(),
                                &source,
                                CLOCK_MONOTONIC, // Time base
                                UINT64_MAX,      // Expire time - way long time

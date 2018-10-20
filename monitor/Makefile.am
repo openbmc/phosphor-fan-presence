@@ -19,12 +19,14 @@ BUILT_SOURCES = fan_monitor_defs.cpp
 phosphor_fan_monitor_LDADD = \
 	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
+	$(SDEVENTPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
 	-lstdc++fs
 
 phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
+	$(SDEVENTPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
 	-flto

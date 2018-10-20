@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <memory>
+#include <functional>
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
+#include <sdeventplus/event.hpp>
 #include <tuple>
 #include <xyz/openbmc_project/Common/Callout/error.hpp>
 #include "gpio.hpp"
 #include "rpolicy.hpp"
-#include "sdevent.hpp"
 
 namespace phosphor
 {
@@ -37,25 +37,23 @@ Gpio::Gpio(
     evdevfd(open(device.c_str(), O_RDONLY | O_NONBLOCK)),
     evdev(evdevpp::evdev::newFromFD(evdevfd())),
     phys(physDevice),
-    pin(physPin),
-    callback(nullptr)
+    pin(physPin)
 {
 
 }
 
 bool Gpio::start()
 {
-    callback = std::make_unique<sdevent::event::io::IO>(
-            util::SDEvent::getEvent(),
-            evdevfd(),
-            [this](auto& s){this->ioCallback(s);});
+    source.emplace(sdeventplus::Event::get_default(),
+            evdevfd(), EPOLLIN,
+            std::bind(&Gpio::ioCallback, this));
     currentState = present();
     return currentState;
 }
 
 void Gpio::stop()
 {
-    callback = nullptr;
+    source.reset();
 }
 
 bool Gpio::present()
@@ -75,7 +73,7 @@ void Gpio::fail()
             GPIO::CALLOUT_DEVICE_PATH(phys.c_str()));
 }
 
-void Gpio::ioCallback(sdevent::source::Source& source)
+void Gpio::ioCallback()
 {
     unsigned int type, code, value;
 

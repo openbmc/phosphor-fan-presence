@@ -31,7 +31,7 @@ using namespace phosphor::logging;
 
 Fan::Fan(Mode mode,
          sdbusplus::bus::bus& bus,
-         phosphor::fan::event::EventPtr&  events,
+         const sdeventplus::Event&  event,
          std::unique_ptr<trust::Manager>& trust,
          const FanDefinition& def) :
     _bus(bus),
@@ -58,7 +58,7 @@ Fan::Fan(Mode mode,
                             std::get<factorField>(s),
                             std::get<offsetField>(s),
                             std::get<timeoutField>(def),
-                            events));
+                            event));
 
             _trustManager->registerSensor(_sensors.back());
         }

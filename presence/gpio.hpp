@@ -1,9 +1,8 @@
 #pragma once
 
-#include <memory>
+#include <sdeventplus/source/io.hpp>
+#include <optional>
 #include "evdevpp/evdev.hpp"
-#include "sdevent/io.hpp"
-#include "sdevent/source.hpp"
 #include "psensor.hpp"
 #include "utility.hpp"
 
@@ -85,7 +84,7 @@ class Gpio : public PresenceSensor
         virtual RedundancyPolicy& getPolicy() = 0;
 
          /** @brief sdevent io callback. */
-        void ioCallback(sdevent::source::Source& source);
+        void ioCallback();
 
         /** The current state of the sensor. */
         bool currentState;
@@ -102,8 +101,8 @@ class Gpio : public PresenceSensor
         /** Gpio pin number. */
         unsigned int pin;
 
-        /** sdevent io callback handle. */
-        std::unique_ptr<sdevent::event::io::IO> callback;
+        /** sdevent io handle. */
+        std::optional<sdeventplus::source::IO> source;
 };
 
 } // namespace presence
