@@ -16,7 +16,7 @@
 #include <iostream>
 #include <chrono>
 #include <gtest/gtest.h>
-#include "event.hpp"
+#include <sdeventplus/event.hpp>
 #include "timer.hpp"
 
 /**
@@ -34,21 +34,12 @@ using namespace std::chrono;
 class TimerTest : public ::testing::Test
 {
     public:
-        // systemd event handler
-        phosphor::fan::event::EventPtr events;
-
-        // Need this so that events can be initialized.
-        int rc;
+        // event loop
+        sdeventplus::Event event;
 
         // Gets called as part of each TEST_F construction
-        TimerTest()
-        {
-            sd_event* event = nullptr;
-            auto rc = sd_event_default(&event);
-            EXPECT_GE(rc, 0);
-
-            events.reset(event);
-        }
+        TimerTest() : event(sdeventplus::Event::get_default())
+        { }
 };
 
 /**
@@ -91,8 +82,8 @@ class CallbackTester
 class CallbackTesterWithTimer : public CallbackTester
 {
     public:
-        CallbackTesterWithTimer(phosphor::fan::event::EventPtr& events) :
-            _timer(events,
+        CallbackTesterWithTimer(const sdeventplus::Event& event) :
+            _timer(event,
                    std::bind(&CallbackTesterWithTimer::callbackFunction,
                              this))
         {
@@ -135,7 +126,7 @@ TEST_F(TimerTest, timerExpiresAfter2seconds)
 {
     CallbackTester tester;
 
-    Timer timer(events,
+    Timer timer(event,
                 std::bind(&CallbackTester::callbackFunction, &tester));
 
 
@@ -148,13 +139,12 @@ TEST_F(TimerTest, timerExpiresAfter2seconds)
     EXPECT_EQ(true, timer.running());
 
     int count = 0;
-    auto sleepTime = duration_cast<microseconds>(seconds(1));
 
     //Wait for 2 1s timeouts
     while (count < 2)
     {
         // Returns 0 on timeout and positive number on dispatch
-        if (sd_event_run(events.get(), sleepTime.count()) == 0)
+        if (event.run(seconds(1)) == 0)
         {
             count++;
         }
@@ -172,7 +162,7 @@ TEST_F(TimerTest, timerRestart)
 {
     CallbackTester tester;
 
-    Timer timer(events,
+    Timer timer(event,
                 std::bind(&CallbackTester::callbackFunction, &tester));
 
 
@@ -180,8 +170,7 @@ TEST_F(TimerTest, timerRestart)
     timer.start(time, Timer::TimerType::oneshot);
 
     //wait for a second
-    auto sleepTime = duration_cast<microseconds>(seconds(1));
-    auto rc = sd_event_run(events.get(), sleepTime.count());
+    auto rc = event.run(seconds(1));
 
     //expect the timeout, not the dispatch
     //and the timer should still be running
@@ -192,7 +181,7 @@ TEST_F(TimerTest, timerRestart)
     timer.start(time, Timer::TimerType::oneshot);
 
     //Wait just 1s, make sure not done
-    rc = sd_event_run(events.get(), sleepTime.count());
+    rc = event.run(seconds(1));
     EXPECT_EQ(0, rc);
     EXPECT_EQ(true, timer.running());
     EXPECT_EQ(false, tester.gotCallback());
@@ -202,7 +191,7 @@ TEST_F(TimerTest, timerRestart)
     while (count < 1)
     {
         // Returns 0 on timeout and positive number on dispatch
-        if (sd_event_run(events.get(), sleepTime.count()) == 0)
+        if (event.run(seconds(1)) == 0)
         {
             count++;
         }
@@ -221,17 +210,15 @@ TEST_F(TimerTest, timerStop)
 {
     CallbackTester tester;
 
-    Timer timer(events,
+    Timer timer(event,
                 std::bind(&CallbackTester::callbackFunction, &tester));
 
 
     auto time = duration_cast<microseconds>(seconds(2));
     timer.start(time, Timer::TimerType::oneshot);
 
-    auto sleepTime = duration_cast<microseconds>(seconds(1));
-
     //wait 1s
-    auto rc = sd_event_run(events.get(), sleepTime.count());
+    auto rc = event.run(seconds(1));
 
     //expect the timeout, not the dispatch
     EXPECT_EQ(rc, 0);
@@ -243,8 +230,7 @@ TEST_F(TimerTest, timerStop)
     EXPECT_EQ(false, tester.gotCallback());
 
     //Wait another 2s, make sure no callbacks happened
-    sleepTime = duration_cast<microseconds>(seconds(2));
-    rc = sd_event_run(events.get(), sleepTime.count());
+    rc = event.run(seconds(2));
 
     EXPECT_EQ(rc, 0);
     EXPECT_EQ(false, timer.running());
@@ -258,7 +244,7 @@ TEST_F(TimerTest, timerStop)
  */
 TEST_F(TimerTest, timerRestartFromCallback)
 {
-    CallbackTesterWithTimer tester(events);
+    CallbackTesterWithTimer tester(event);
 
     auto& timer = tester.getTimer();
 
@@ -269,11 +255,10 @@ TEST_F(TimerTest, timerRestartFromCallback)
     //for another 1s
 
     int count = 0;
-    auto sleepTime = duration_cast<microseconds>(seconds(1));
     while (count < 3)
     {
         // Returns 0 on timeout and positive number on dispatch
-        if (sd_event_run(events.get(), sleepTime.count()) == 0)
+        if (event.run(seconds(1)) == 0)
         {
             count++;
         }
@@ -293,7 +278,7 @@ TEST_F(TimerTest, timerNoEventRun)
 {
     CallbackTester tester;
 
-    Timer timer(events,
+    Timer timer(event,
                 std::bind(&CallbackTester::callbackFunction, &tester));
 
 
@@ -310,8 +295,7 @@ TEST_F(TimerTest, timerNoEventRun)
     EXPECT_EQ(false, tester.gotCallback());
 
     //Now process an event
-    auto sleepTime = duration_cast<microseconds>(milliseconds(5));
-    auto rc = sd_event_run(events.get(), sleepTime.count());
+    auto rc = event.run(milliseconds(5));
 
     EXPECT_GT(rc, 0);
     EXPECT_EQ(false, timer.running());
@@ -327,18 +311,17 @@ TEST_F(TimerTest, RepeatingTimer)
 {
     CallbackTester tester;
 
-    Timer timer(events,
+    Timer timer(event,
                 std::bind(&CallbackTester::callbackFunction, &tester));
 
     auto time = duration_cast<microseconds>(seconds(1));
     timer.start(time, Timer::TimerType::repeating);
 
     int count = 0;
-    auto sleepTime = duration_cast<microseconds>(milliseconds(500));
 
     while (count < 5)
     {
-        if (sd_event_run(events.get(), sleepTime.count()) == 0)
+        if (event.run(milliseconds(500)) == 0)
         {
             count++;
         }

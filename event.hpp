@@ -23,19 +23,6 @@ struct EventSourceDeleter
 
 using EventSourcePtr = std::unique_ptr<sd_event_source, EventSourceDeleter>;
 
-/**
- * Customer deleter for sd_event
- */
-struct EventDeleter
-{
-    void operator()(sd_event* event) const
-    {
-        sd_event_unref(event);
-    }
-};
-
-using EventPtr = std::unique_ptr<sd_event, EventDeleter>;
-
 }
 }
 }

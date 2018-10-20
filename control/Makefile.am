@@ -18,11 +18,13 @@ nodist_phosphor_fan_control_SOURCES = \
 phosphor_fan_control_LDADD = \
 	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
+	$(SDEVENTPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	${PHOSPHOR_DBUS_INTERFACES_LIBS}
 
 phosphor_fan_control_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
+	$(SDEVENTPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
 	-flto

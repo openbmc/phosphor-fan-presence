@@ -4,6 +4,7 @@
 #include <cassert>
 #include <algorithm>
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 #include "fan.hpp"
 #include "types.hpp"
 #include "timer.hpp"
@@ -48,12 +49,12 @@ class Zone
          *
          * @param[in] mode - mode of fan control
          * @param[in] bus - the dbus object
-         * @param[in] events - sd_event pointer
+         * @param[in] event - Event loop reference
          * @param[in] def - the fan zone definition data
          */
         Zone(Mode mode,
              sdbusplus::bus::bus& bus,
-             phosphor::fan::event::EventPtr& events,
+             const sdeventplus::Event& event,
              const ZoneDefinition& def);
 
         /**
@@ -332,13 +333,13 @@ class Zone
         void decTimerExpired();
 
         /**
-         * @brief Get the event pointer used with this zone's timers
+         * @brief Get the event loop used with this zone's timers
          *
-         * @return - The Dbus event pointer for timers
+         * @return - The event loop for timers
          */
-        inline auto& getEventPtr()
+        inline auto& getEventLoop()
         {
-            return _sdEvents;
+            return _eventLoop;
         }
 
         /**
@@ -514,9 +515,9 @@ class Zone
         phosphor::fan::util::Timer _decTimer;
 
         /**
-         * Dbus event used on set speed event timers
+         * Event loop used on set speed event timers
          */
-        phosphor::fan::event::EventPtr& _sdEvents;
+        sdeventplus::Event _eventLoop;
 
         /**
          * The vector of fans in this zone

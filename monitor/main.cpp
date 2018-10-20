@@ -15,9 +15,8 @@
  */
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
-#include <systemd/sd-daemon.h>
+#include <sdeventplus/event.hpp>
 #include "argument.hpp"
-#include "event.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
 #include "trust_manager.hpp"
@@ -27,8 +26,8 @@ using namespace phosphor::logging;
 
 int main(int argc, char* argv[])
 {
+    auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();
-    sd_event* events = nullptr;
     std::vector<std::unique_ptr<Fan>> fans;
     phosphor::fan::util::ArgumentParser args(argc, argv);
 
@@ -53,22 +52,12 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    auto r = sd_event_default(&events);
-    if (r < 0)
-    {
-        log<level::ERR>("Failed call to sd_event_default()",
-                        entry("ERROR=%s", strerror(-r)));
-        return 1;
-    }
-
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
             std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
 
-    phosphor::fan::event::EventPtr eventPtr{events};
-
     //Attach the event object to the bus object so we can
     //handle both sd_events (for the timers) and dbus signals.
-    bus.attach_event(eventPtr.get(), SD_EVENT_PRIORITY_NORMAL);
+    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
     for (const auto& fanDef : fanDefinitions)
     {
@@ -83,7 +72,7 @@ int main(int argc, char* argv[])
             }
         }
         fans.emplace_back(std::make_unique<Fan>(
-                mode, bus, eventPtr, trust, fanDef));
+                mode, bus, event, trust, fanDef));
     }
 
     if (mode == Mode::init)
@@ -91,15 +80,6 @@ int main(int argc, char* argv[])
         // Fans were initialized to be functional, exit
         return 0;
     }
-    else
-    {
-        r = sd_event_loop(eventPtr.get());
-        if (r < 0)
-        {
-            log<level::ERR>("Failed call to sd_event_loop",
-                            entry("ERROR=%s", strerror(-r)));
-        }
-    }
 
-    return 1;
+    return event.loop();
 }

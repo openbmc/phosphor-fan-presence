@@ -76,7 +76,7 @@ TachSensor::TachSensor(Mode mode,
                        size_t factor,
                        size_t offset,
                        size_t timeout,
-                       phosphor::fan::event::EventPtr& events) :
+                       const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan),
     _name(FAN_SENSOR_PATH + id),
@@ -88,7 +88,7 @@ TachSensor::TachSensor(Mode mode,
     _offset(offset),
     _timeout(timeout),
     _timerMode(TimerMode::func),
-    _timer(events, [this, &fan](){ fan.timerExpired(*this); })
+    _timer(event, [this, &fan](){ fan.timerExpired(*this); })
 {
     // Start from a known state of functional
     setFunctional(true);
