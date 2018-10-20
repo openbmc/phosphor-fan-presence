@@ -37,7 +37,7 @@ using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
 
 Zone::Zone(Mode mode,
            sdbusplus::bus::bus& bus,
-           phosphor::fan::event::EventPtr& events,
+           const sdeventplus::Event& event,
            const ZoneDefinition& def) :
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
@@ -46,9 +46,9 @@ Zone::Zone(Mode mode,
     _defCeilingSpeed(std::get<fullSpeedPos>(def)),
     _incDelay(std::get<incDelayPos>(def)),
     _decInterval(std::get<decIntervalPos>(def)),
-    _incTimer(events, [this](){ this->incTimerExpired(); }),
-    _decTimer(events, [this](){ this->decTimerExpired(); }),
-    _sdEvents(events)
+    _incTimer(event, [this](){ this->incTimerExpired(); }),
+    _decTimer(event, [this](){ this->decTimerExpired(); }),
+    _eventLoop(event)
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
@@ -347,7 +347,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
             );
         std::unique_ptr<util::Timer> timer =
             std::make_unique<util::Timer>(
-                _sdEvents,
+                _eventLoop,
                 [this,
                  action = &(std::get<actionsPos>(event)),
                  group = &(std::get<groupPos>(event))]()

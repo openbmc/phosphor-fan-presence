@@ -43,7 +43,7 @@ Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
                 // Create/start timer and associate event data with it
                 std::unique_ptr<util::Timer> timer =
                     std::make_unique<util::Timer>(
-                            zone.getEventPtr(),
+                            zone.getEventLoop(),
                             [&zone,
                             actions = &actions,
                             group = &group]()

@@ -3,6 +3,7 @@
 #include <chrono>
 #include <functional>
 #include <memory>
+#include <sdeventplus/event.hpp>
 #include "event.hpp"
 
 namespace phosphor
@@ -46,10 +47,10 @@ class Timer
         /**
          * @brief Constructs timer object
          *
-         * @param[in] events - sd_event pointer, previously created
+         * @param[in] event - Event loop reference, previously created
          * @param[in] callbackFunc - The function to call on timer expiration
          */
-        Timer(phosphor::fan::event::EventPtr& events,
+        Timer(const sdeventplus::Event& event,
               std::function<void()> callbackFunc);
 
         /**
@@ -133,11 +134,6 @@ class Timer
          * Sets it to timeout microseconds in the future
          */
         void setTimeout();
-
-        /**
-         * @brief The sd_event structure
-         */
-        phosphor::fan::event::EventPtr& timeEvent;
 
         /**
          * @brief Source of events
