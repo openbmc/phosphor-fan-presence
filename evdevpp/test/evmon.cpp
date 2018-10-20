@@ -40,7 +40,7 @@ ArgumentParser::ArgumentParser(int argc, char** argv)
         if ((option == '?') || (option == 'h'))
         {
             usage(argv);
-            exit(-1);
+            exit(1);
         }
 
         auto i = &options[0];
@@ -97,7 +97,7 @@ static void exit_with_error(const char* err, char** argv)
     ArgumentParser::usage(argv);
     std::cerr << "\n";
     std::cerr << "ERROR: " << err << "\n";
-    exit(-1);
+    exit(1);
 }
 
 } // namespace util

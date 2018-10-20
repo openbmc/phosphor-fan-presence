@@ -600,7 +600,7 @@ if __name__ == '__main__':
 
     if not args.zone_yaml or not args.fan_yaml:
         parser.print_usage()
-        sys.exit(-1)
+        sys.exit(1)
 
     with open(args.zone_yaml, 'r') as zone_input:
         zone_data = yaml.safe_load(zone_input) or {}

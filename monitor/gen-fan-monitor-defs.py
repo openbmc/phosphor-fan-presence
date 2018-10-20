@@ -126,7 +126,7 @@ if __name__ == '__main__':
 
     if not args.monitor_yaml:
         parser.print_usage()
-        sys.exit(-1)
+        sys.exit(1)
 
     with open(args.monitor_yaml, 'r') as monitor_input:
         monitor_data = yaml.safe_load(monitor_input) or {}

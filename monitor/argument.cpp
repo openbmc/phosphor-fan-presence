@@ -33,7 +33,7 @@ ArgumentParser::ArgumentParser(int argc, char** argv)
         if ((option == '?') || (option == 'h'))
         {
             usage(argv);
-            exit(-1);
+            exit(1);
         }
 
         auto i = &options[0];

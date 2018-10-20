@@ -35,7 +35,7 @@ int main(int argc, char* argv[])
     if (argc != 2)
     {
         args.usage(argv);
-        exit(-1);
+        return 1;
     }
 
     Mode mode;
@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
     else
     {
         args.usage(argv);
-        exit(-1);
+        return 1;
     }
 
     auto r = sd_event_default(&events);
@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
     {
         log<level::ERR>("Failed call to sd_event_default()",
                         entry("ERROR=%s", strerror(-r)));
-        return -1;
+        return 1;
     }
 
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
@@ -101,5 +101,5 @@ int main(int argc, char* argv[])
         }
     }
 
-    return -1;
+    return 1;
 }

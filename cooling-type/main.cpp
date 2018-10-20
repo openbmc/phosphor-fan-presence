@@ -12,7 +12,7 @@ using namespace phosphor::logging;
 
 int main(int argc, char* argv[])
 {
-    auto rc = -1;
+    auto rc = 1;
     auto options = ArgumentParser(argc, argv);
 
     auto objpath = (options)["path"];
@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
                 else
                 {
                     log<level::ERR>("--event=<keycode> argument required\n");
-                    exit(-1);
+                    return rc;
                 }
             }
 
@@ -66,7 +66,6 @@ int main(int argc, char* argv[])
         }
         catch (DBusMethodError& dme)
         {
-            rc = -1;
             log<level::ERR>("Uncaught DBus method failure exception",
                     entry("BUSNAME=%s", dme.busName.c_str()),
                     entry("PATH=%s", dme.path.c_str()),
@@ -75,7 +74,6 @@ int main(int argc, char* argv[])
         }
         catch (std::exception& err)
         {
-            rc = -1;
             log<phosphor::logging::level::ERR>(err.what());
         }
 

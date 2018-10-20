@@ -32,7 +32,7 @@ int main(int argc, char* argv[])
     if (argc != 2)
     {
         args.usage(argv);
-        exit(-1);
+        return 1;
     }
 
     Mode mode;
@@ -48,7 +48,7 @@ int main(int argc, char* argv[])
     else
     {
         args.usage(argv);
-        exit(-1);
+        return 1;
     }
 
     auto r = sd_event_default(&events);
@@ -56,7 +56,7 @@ int main(int argc, char* argv[])
     {
         log<level::ERR>("Failed call to sd_event_default()",
                         entry("ERROR=%s", strerror(-r)));
-        return -1;
+        return 1;
     }
 
     phosphor::fan::event::EventPtr eventPtr{events};
@@ -86,7 +86,7 @@ int main(int argc, char* argv[])
         }
     }
     //Log the useful metadata on these exceptions and let the app
-    //return -1 so it is restarted without a core dump.
+    //return 1 so it is restarted without a core dump.
     catch (phosphor::fan::util::DBusServiceError& e)
     {
         log<level::ERR>("Uncaught DBus service lookup failure exception",
@@ -110,5 +110,5 @@ int main(int argc, char* argv[])
                 entry("PROPERTY=%s", e.property.c_str()));
     }
 
-    return -1;
+    return 1;
 }
