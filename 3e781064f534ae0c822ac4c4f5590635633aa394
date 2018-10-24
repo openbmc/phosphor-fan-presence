@@ -1,0 +1,10 @@
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Brad Bishop <bradleyb@fuzziesquirrel.com>
+Code-Review+1: Matt Spinler <spinler@us.ibm.com>
+Code-Review+2: Matthew Barth <msbarth@linux.ibm.com>
+Submitted-by: William A. Kennington III <wak@google.com>
+Submitted-at: Wed, 24 Oct 2018 18:41:43 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/14442
+Project: openbmc/phosphor-fan-presence
+Branch: refs/heads/master
