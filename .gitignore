@@ -27,3 +27,5 @@ test-driver
 *.sw*
 *.log
 *.trs
+libtool
+
