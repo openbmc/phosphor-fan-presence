@@ -4,7 +4,11 @@
 #include "zone.hpp"
 
 #include <algorithm>
+#include <map>
 #include <numeric>
+#include <stdexcept>
+#include <utility>
+#include <vector>
 
 namespace phosphor
 {
