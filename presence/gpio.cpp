@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "gpio.hpp"
+
+#include "rpolicy.hpp"
+#include "sdevent.hpp"
+
 #include <memory>
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <tuple>
 #include <xyz/openbmc_project/Common/Callout/error.hpp>
-#include "gpio.hpp"
-#include "rpolicy.hpp"
-#include "sdevent.hpp"
 
 namespace phosphor
 {
@@ -29,26 +31,20 @@ namespace fan
 namespace presence
 {
 
-Gpio::Gpio(
-        const std::string& physDevice,
-        const std::string& device,
-        unsigned int physPin) :
+Gpio::Gpio(const std::string& physDevice, const std::string& device,
+           unsigned int physPin) :
     currentState(false),
     evdevfd(open(device.c_str(), O_RDONLY | O_NONBLOCK)),
-    evdev(evdevpp::evdev::newFromFD(evdevfd())),
-    phys(physDevice),
-    pin(physPin),
+    evdev(evdevpp::evdev::newFromFD(evdevfd())), phys(physDevice), pin(physPin),
     callback(nullptr)
 {
-
 }
 
 bool Gpio::start()
 {
     callback = std::make_unique<sdevent::event::io::IO>(
-            util::SDEvent::getEvent(),
-            evdevfd(),
-            [this](auto& s){this->ioCallback(s);});
+        util::SDEvent::getEvent(), evdevfd(),
+        [this](auto& s) { this->ioCallback(s); });
     currentState = present();
     return currentState;
 }
@@ -70,9 +66,8 @@ void Gpio::fail()
     using namespace xyz::openbmc_project::Common::Callout;
 
     report<sdbusplus::xyz::openbmc_project::Common::Callout::Error::GPIO>(
-            GPIO::CALLOUT_GPIO_NUM(pin),
-            GPIO::CALLOUT_ERRNO(0),
-            GPIO::CALLOUT_DEVICE_PATH(phys.c_str()));
+        GPIO::CALLOUT_GPIO_NUM(pin), GPIO::CALLOUT_ERRNO(0),
+        GPIO::CALLOUT_DEVICE_PATH(phys.c_str()));
 }
 
 void Gpio::ioCallback(sdevent::source::Source& source)

@@ -1,9 +1,10 @@
 #pragma once
 
-#include <algorithm>
-#include <numeric>
 #include "types.hpp"
 #include "zone.hpp"
+
+#include <algorithm>
+#include <numeric>
 
 namespace phosphor
 {
@@ -25,9 +26,8 @@ namespace action
  * @return Action lambda function
  *     An Action function that creates a timer
  */
-Action call_actions_based_on_timer(
-        Timer&& tConf,
-        std::vector<Action>&& actions);
+Action call_actions_based_on_timer(Timer&& tConf,
+                                   std::vector<Action>&& actions);
 
 /**
  * @brief An action that sets the floor to the default fan floor speed
@@ -84,18 +84,15 @@ void set_request_speed_base_with_max(Zone& zone, const Group& group);
 template <typename T>
 auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
 {
-    return [count,
-            speed,
-            state = std::forward<T>(state)](auto& zone, auto& group)
-    {
+    return [count, speed, state = std::forward<T>(state)](auto& zone,
+                                                          auto& group) {
         size_t numAtState = 0;
         for (auto& entry : group)
         {
             try
             {
                 if (zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
+                        entry.first, std::get<intfPos>(entry.second),
                         std::get<propPos>(entry.second)) == state)
                 {
                     numAtState++;
@@ -129,7 +126,7 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
  *     property values within the group is below the lowest sensor value given
  */
 Action set_floor_from_average_sensor_value(
-        std::map<int64_t, uint64_t>&& val_to_speed);
+    std::map<int64_t, uint64_t>&& val_to_speed);
 
 /**
  * @brief An action to set the ceiling speed on a zone
@@ -146,7 +143,7 @@ Action set_floor_from_average_sensor_value(
  *     below(decreasing) the key transition point
  */
 Action set_ceiling_from_average_sensor_value(
-        std::map<int64_t, uint64_t>&& val_to_speed);
+    std::map<int64_t, uint64_t>&& val_to_speed);
 
 /**
  * @brief An action to set the speed increase delta and request speed change
@@ -165,45 +162,36 @@ Action set_ceiling_from_average_sensor_value(
 template <typename T>
 auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
 {
-    return [speedDelta,
-            factor = std::forward<T>(factor),
-            state = std::forward<T>(state)](auto& zone, auto& group)
-    {
+    return [speedDelta, factor = std::forward<T>(factor),
+            state = std::forward<T>(state)](auto& zone, auto& group) {
         auto netDelta = zone.getIncSpeedDelta();
-        std::for_each(
-            group.begin(),
-            group.end(),
-            [&zone, &state, &factor, &speedDelta, &netDelta](
-                auto const& entry)
-            {
-                try
-                {
-                    T value = zone.template getPropertyValue<T>(
-                            entry.first,
-                            std::get<intfPos>(entry.second),
-                            std::get<propPos>(entry.second));
-                    // TODO openbmc/phosphor-fan-presence#7 - Support possible
-                    // state types for comparison
-                    if (value >= state)
-                    {
-                        // Increase by at least a single delta(factor)
-                        // to attempt bringing under 'state'
-                        auto delta = std::max(
-                            (value - state),
-                            factor);
-                        // Increase is the factor applied to the
-                        // difference times the given speed delta
-                        netDelta = std::max(
-                            netDelta,
-                            (delta/factor) * speedDelta);
-                    }
-                }
-                catch (const std::out_of_range& oore)
-                {
-                    // Property value not found, netDelta unchanged
-                }
-            }
-        );
+        std::for_each(group.begin(), group.end(),
+                      [&zone, &state, &factor, &speedDelta,
+                       &netDelta](auto const& entry) {
+                          try
+                          {
+                              T value = zone.template getPropertyValue<T>(
+                                  entry.first, std::get<intfPos>(entry.second),
+                                  std::get<propPos>(entry.second));
+                              // TODO openbmc/phosphor-fan-presence#7 - Support
+                              // possible state types for comparison
+                              if (value >= state)
+                              {
+                                  // Increase by at least a single delta(factor)
+                                  // to attempt bringing under 'state'
+                                  auto delta =
+                                      std::max((value - state), factor);
+                                  // Increase is the factor applied to the
+                                  // difference times the given speed delta
+                                  netDelta = std::max(
+                                      netDelta, (delta / factor) * speedDelta);
+                              }
+                          }
+                          catch (const std::out_of_range& oore)
+                          {
+                              // Property value not found, netDelta unchanged
+                          }
+                      });
         // Request speed change for target speed update
         zone.requestSpeedIncrease(netDelta);
     };
@@ -226,34 +214,30 @@ auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
 template <typename T>
 auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
 {
-    return [speedDelta,
-            factor = std::forward<T>(factor),
-            state = std::forward<T>(state)](auto& zone, auto& group)
-    {
+    return [speedDelta, factor = std::forward<T>(factor),
+            state = std::forward<T>(state)](auto& zone, auto& group) {
         auto netDelta = zone.getDecSpeedDelta();
         for (auto& entry : group)
         {
             try
             {
                 T value = zone.template getPropertyValue<T>(
-                        entry.first,
-                        std::get<intfPos>(entry.second),
-                        std::get<propPos>(entry.second));
+                    entry.first, std::get<intfPos>(entry.second),
+                    std::get<propPos>(entry.second));
                 // TODO openbmc/phosphor-fan-presence#7 - Support possible
                 // state types for comparison
                 if (value < state)
                 {
                     if (netDelta == 0)
                     {
-                        netDelta = ((state - value)/factor) * speedDelta;
+                        netDelta = ((state - value) / factor) * speedDelta;
                     }
                     else
                     {
                         // Decrease is the factor applied to the
                         // difference times the given speed delta
                         netDelta = std::min(
-                            netDelta,
-                            ((state - value)/factor) * speedDelta);
+                            netDelta, ((state - value) / factor) * speedDelta);
                     }
                 }
                 else

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <memory>
 #include <systemd/sd-event.h>
+
+#include <memory>
 
 namespace phosphor
 {
@@ -36,6 +37,6 @@ struct EventDeleter
 
 using EventPtr = std::unique_ptr<sd_event, EventDeleter>;
 
-}
-}
-}
+} // namespace event
+} // namespace fan
+} // namespace phosphor

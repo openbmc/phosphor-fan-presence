@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <string>
 #include "fan.hpp"
+
 #include "sdbusplus.hpp"
+
+#include <string>
 
 namespace phosphor
 {
@@ -30,9 +32,8 @@ using namespace phosphor::logging;
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 
-Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
-    _bus(bus),
-    _name(std::get<fanNamePos>(def)),
+Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def) :
+    _bus(bus), _name(std::get<fanNamePos>(def)),
     _interface(std::get<targetInterfacePos>(def))
 {
     std::string path;
@@ -40,10 +41,7 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
     for (auto& s : sensors)
     {
         path = FAN_SENSOR_PATH + s;
-        auto service = util::SDBusPlus::getService(
-                bus,
-                path,
-                _interface);
+        auto service = util::SDBusPlus::getService(bus, path, _interface);
         _sensors[path] = service;
     }
     // All sensors associated with this fan are set to the same target speed,
@@ -53,10 +51,7 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def):
         // Use getProperty with service lookup since each target sensor
         // path given could have different services providing them
         _targetSpeed = util::SDBusPlus::getProperty<uint64_t>(
-                bus,
-                path,
-                _interface,
-                FAN_TARGET_PROPERTY);
+            bus, path, _interface, FAN_TARGET_PROPERTY);
     }
 }
 
@@ -68,27 +63,20 @@ void Fan::setSpeed(uint64_t speed)
         try
         {
             util::SDBusPlus::setProperty<uint64_t>(
-                    _bus,
-                    sensor.second,
-                    sensor.first,
-                    _interface,
-                    FAN_TARGET_PROPERTY,
-                    std::move(value));
+                _bus, sensor.second, sensor.first, _interface,
+                FAN_TARGET_PROPERTY, std::move(value));
         }
         catch (const sdbusplus::exception::SdBusError&)
         {
-            throw util::DBusPropertyError{
-                    "DBus set property failed",
-                    sensor.second,
-                    sensor.first,
-                    _interface,
-                    FAN_TARGET_PROPERTY};
+            throw util::DBusPropertyError{"DBus set property failed",
+                                          sensor.second, sensor.first,
+                                          _interface, FAN_TARGET_PROPERTY};
         }
     }
 
     _targetSpeed = speed;
 }
 
-}
-}
-}
+} // namespace control
+} // namespace fan
+} // namespace phosphor

@@ -1,11 +1,12 @@
 #pragma once
 
+#include <systemd/sd-event.h>
+
 #include <chrono>
 #include <memory>
-#include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
 #include <sdbusplus/bus.hpp>
-#include <systemd/sd-event.h>
 #include <xyz/openbmc_project/Common/error.hpp>
 
 namespace sdevent
@@ -49,142 +50,138 @@ using namespace phosphor::logging;
  */
 class Event
 {
-    private:
-        using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-            Error::InternalFailure;
+  private:
+    using InternalFailure =
+        sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-    public:
-        /* Define all of the basic class operations:
-         *     Not allowed:
-         *         - Default constructor to avoid nullptrs.
-         *         - Copy operations due to internal unique_ptr.
-         *     Allowed:
-         *         - Move operations.
-         *         - Destructor.
-         */
-        Event() = delete;
-        Event(const Event&) = delete;
-        Event& operator=(const Event&) = delete;
-        Event(Event&&) = default;
-        Event& operator=(Event&&) = default;
-        ~Event() = default;
+  public:
+    /* Define all of the basic class operations:
+     *     Not allowed:
+     *         - Default constructor to avoid nullptrs.
+     *         - Copy operations due to internal unique_ptr.
+     *     Allowed:
+     *         - Move operations.
+     *         - Destructor.
+     */
+    Event() = delete;
+    Event(const Event&) = delete;
+    Event& operator=(const Event&) = delete;
+    Event(Event&&) = default;
+    Event& operator=(Event&&) = default;
+    ~Event() = default;
 
-        /** @brief Conversion constructor from 'EventPtr'.
-         *
-         *  Increments ref-count of the event-pointer and releases it when
-         *  done.
-         */
-        explicit Event(EventPtr e);
+    /** @brief Conversion constructor from 'EventPtr'.
+     *
+     *  Increments ref-count of the event-pointer and releases it when
+     *  done.
+     */
+    explicit Event(EventPtr e);
 
-        /** @brief Constructor for 'Event'.
-         *
-         *  Takes ownership of the event-pointer and releases it when done.
-         */
-        Event(EventPtr e, std::false_type);
+    /** @brief Constructor for 'Event'.
+     *
+     *  Takes ownership of the event-pointer and releases it when done.
+     */
+    Event(EventPtr e, std::false_type);
 
-        /** @brief Release ownership of the stored event-pointer. */
-        EventPtr release()
+    /** @brief Release ownership of the stored event-pointer. */
+    EventPtr release()
+    {
+        return evt.release();
+    }
+
+    /** @brief Wait indefinitely for new event sources. */
+    void loop()
+    {
+        auto rc = sd_event_loop(evt.get());
+        if (rc < 0)
         {
-            return evt.release();
+            log<level::ERR>("Error in call to sd_event_loop",
+                            entry("RC=%d", rc));
+            elog<InternalFailure>();
+        }
+    }
+
+    /** @brief Stop the loop. */
+    void exit(int status = 0)
+    {
+        auto rc = sd_event_exit(evt.get(), status);
+        if (rc < 0)
+        {
+            log<level::ERR>("Error in call to sd_event_exit",
+                            entry("RC=%d", rc), entry("STATUS=%d", status));
+            elog<InternalFailure>();
+        }
+    }
+
+    /** @brief Get the loop exit code. */
+    auto getExitStatus()
+    {
+        int status;
+        auto rc = sd_event_get_exit_code(evt.get(), &status);
+        if (rc < 0)
+        {
+            log<level::ERR>("Error in call to sd_event_get_exit_code",
+                            entry("RC=%d", rc));
+            elog<InternalFailure>();
         }
 
-        /** @brief Wait indefinitely for new event sources. */
-        void loop()
+        return status;
+    }
+
+    /** @brief Attach to a DBus loop. */
+    void attach(sdbusplus::bus::bus& bus)
+    {
+        bus.attach_event(evt.get(), SD_EVENT_PRIORITY_NORMAL);
+    }
+
+    /** @brief C++ wrapper for sd_event_now. */
+    auto now()
+    {
+        using namespace std::chrono;
+
+        uint64_t usec;
+        auto rc = sd_event_now(evt.get(), CLOCK_MONOTONIC, &usec);
+        if (rc < 0)
         {
-            auto rc = sd_event_loop(evt.get());
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_loop",
-                        entry("RC=%d", rc));
-                elog<InternalFailure>();
-            }
+            log<level::ERR>("Error in call to sd_event_now",
+                            entry("RC=%d", rc));
+            elog<InternalFailure>();
         }
 
-        /** @brief Stop the loop. */
-        void exit(int status = 0)
-        {
-            auto rc = sd_event_exit(evt.get(), status);
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_exit",
-                        entry("RC=%d", rc),
-                        entry("STATUS=%d", status));
-                elog<InternalFailure>();
-            }
-        }
+        microseconds d(usec);
+        return steady_clock::time_point(d);
+    }
 
-        /** @brief Get the loop exit code. */
-        auto getExitStatus()
-        {
-            int status;
-            auto rc = sd_event_get_exit_code(evt.get(), &status);
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_get_exit_code",
-                        entry("RC=%d", rc));
-                elog<InternalFailure>();
-            }
+    friend class io::IO;
 
-            return status;
-        }
+  private:
+    EventPtr get()
+    {
+        return evt.get();
+    }
 
-        /** @brief Attach to a DBus loop. */
-        void attach(sdbusplus::bus::bus& bus)
-        {
-            bus.attach_event(evt.get(), SD_EVENT_PRIORITY_NORMAL);
-        }
-
-        /** @brief C++ wrapper for sd_event_now. */
-        auto now()
-        {
-            using namespace std::chrono;
-
-            uint64_t usec;
-            auto rc = sd_event_now(evt.get(), CLOCK_MONOTONIC, &usec);
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_now",
-                        entry("RC=%d", rc));
-                elog<InternalFailure>();
-            }
-
-            microseconds d(usec);
-            return steady_clock::time_point(d);
-        }
-
-        friend class io::IO;
-
-    private:
-
-        EventPtr get()
-        {
-            return evt.get();
-        }
-
-        details::Event evt;
+    details::Event evt;
 };
 
 inline Event::Event(EventPtr l) : evt(sd_event_ref(l))
 {
-
 }
 
 inline Event::Event(EventPtr l, std::false_type) : evt(l)
 {
-
 }
 
 inline Event newDefault()
 {
-    using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-        Error::InternalFailure;
+    using InternalFailure =
+        sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
     sd_event* e = nullptr;
     auto rc = sd_event_default(&e);
     if (rc < 0)
     {
         log<level::ERR>("Error in call to sd_event_default",
-                entry("RC=%d", rc));
+                        entry("RC=%d", rc));
         elog<InternalFailure>();
     }
 

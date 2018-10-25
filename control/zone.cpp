@@ -13,14 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <chrono>
-#include <phosphor-logging/log.hpp>
-#include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/elog-errors.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
 #include "zone.hpp"
-#include "utility.hpp"
+
 #include "sdbusplus.hpp"
+#include "utility.hpp"
+
+#include <chrono>
+#include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/log.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 namespace phosphor
 {
@@ -32,13 +34,11 @@ namespace control
 using namespace std::chrono;
 using namespace phosphor::fan;
 using namespace phosphor::logging;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                             Error::InternalFailure;
+using InternalFailure =
+    sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-Zone::Zone(Mode mode,
-           sdbusplus::bus::bus& bus,
-           phosphor::fan::event::EventPtr& events,
-           const ZoneDefinition& def) :
+Zone::Zone(Mode mode, sdbusplus::bus::bus& bus,
+           phosphor::fan::event::EventPtr& events, const ZoneDefinition& def) :
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
     _zoneNum(std::get<zoneNumPos>(def)),
@@ -46,9 +46,8 @@ Zone::Zone(Mode mode,
     _defCeilingSpeed(std::get<fullSpeedPos>(def)),
     _incDelay(std::get<incDelayPos>(def)),
     _decInterval(std::get<decIntervalPos>(def)),
-    _incTimer(events, [this](){ this->incTimerExpired(); }),
-    _decTimer(events, [this](){ this->decTimerExpired(); }),
-    _sdEvents(events)
+    _incTimer(events, [this]() { this->incTimerExpired(); }),
+    _decTimer(events, [this]() { this->decTimerExpired(); }), _sdEvents(events)
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
@@ -73,8 +72,7 @@ Zone::Zone(Mode mode,
         // Start timer for fan speed decreases
         if (!_decTimer.running() && _decInterval != seconds::zero())
         {
-            _decTimer.start(_decInterval,
-                            util::Timer::TimerType::repeating);
+            _decTimer.start(_decInterval, util::Timer::TimerType::repeating);
         }
     }
 }
@@ -113,27 +111,20 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
     else
     {
         // Check all entries are set to allow control active
-        auto actPred = [](auto const& entry) {return entry.second;};
-        _isActive = std::all_of(_active.begin(),
-                                _active.end(),
-                                actPred);
+        auto actPred = [](auto const& entry) { return entry.second; };
+        _isActive = std::all_of(_active.begin(), _active.end(), actPred);
     }
 }
 
-void Zone::removeService(const Group* group,
-                         const std::string& name)
+void Zone::removeService(const Group* group, const std::string& name)
 {
     try
     {
         auto& sNames = _services.at(*group);
-        auto it = std::find_if(
-            sNames.begin(),
-            sNames.end(),
-            [&name](auto const& entry)
-            {
-                return name == std::get<namePos>(entry);
-            }
-        );
+        auto it = std::find_if(sNames.begin(), sNames.end(),
+                               [&name](auto const& entry) {
+                                   return name == std::get<namePos>(entry);
+                               });
         if (it != std::end(sNames))
         {
             // Remove service name from group
@@ -146,21 +137,16 @@ void Zone::removeService(const Group* group,
     }
 }
 
-void Zone::setServiceOwner(const Group* group,
-                           const std::string& name,
+void Zone::setServiceOwner(const Group* group, const std::string& name,
                            const bool hasOwner)
 {
     try
     {
         auto& sNames = _services.at(*group);
-        auto it = std::find_if(
-            sNames.begin(),
-            sNames.end(),
-            [&name](auto const& entry)
-            {
-                return name == std::get<namePos>(entry);
-            }
-        );
+        auto it = std::find_if(sNames.begin(), sNames.end(),
+                               [&name](auto const& entry) {
+                                   return name == std::get<namePos>(entry);
+                               });
         if (it != std::end(sNames))
         {
             std::get<hasOwnerPos>(*it) = hasOwner;
@@ -186,15 +172,10 @@ void Zone::setServices(const Group* group)
         bool hasOwner = false;
         try
         {
-            name = getService(it->first,
-                              std::get<intfPos>(it->second));
+            name = getService(it->first, std::get<intfPos>(it->second));
             hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
-                    _bus,
-                    "org.freedesktop.DBus",
-                    "/org/freedesktop/DBus",
-                    "org.freedesktop.DBus",
-                    "NameHasOwner",
-                    name);
+                _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+                "org.freedesktop.DBus", "NameHasOwner", name);
         }
         catch (const util::DBusMethodError& e)
         {
@@ -208,10 +189,8 @@ void Zone::setServices(const Group* group)
 void Zone::setFloor(uint64_t speed)
 {
     // Check all entries are set to allow floor to be set
-    auto pred = [](auto const& entry) {return entry.second;};
-    auto setFloor = std::all_of(_floorChange.begin(),
-                                _floorChange.end(),
-                                pred);
+    auto pred = [](auto const& entry) { return entry.second; };
+    auto setFloor = std::all_of(_floorChange.begin(), _floorChange.end(), pred);
     if (setFloor)
     {
         _floorSpeed = speed;
@@ -227,8 +206,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
 {
     // Only increase speed when delta is higher than
     // the current increase delta for the zone and currently under ceiling
-    if (targetDelta > _incSpeedDelta &&
-        _targetSpeed < _ceilingSpeed)
+    if (targetDelta > _incSpeedDelta && _targetSpeed < _ceilingSpeed)
     {
         auto requestTarget = getRequestSpeedBase();
         requestTarget = (targetDelta - _incSpeedDelta) + requestTarget;
@@ -245,8 +223,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         }
         setSpeed(requestTarget);
         // Start timer countdown for fan speed increase
-        _incTimer.start(_incDelay,
-                        util::Timer::TimerType::oneshot);
+        _incTimer.start(_incDelay, util::Timer::TimerType::oneshot);
     }
 }
 
@@ -269,10 +246,8 @@ void Zone::requestSpeedDecrease(uint64_t targetDelta)
 void Zone::decTimerExpired()
 {
     // Check all entries are set to allow a decrease
-    auto pred = [](auto const& entry) {return entry.second;};
-    auto decAllowed = std::all_of(_decAllowed.begin(),
-                                  _decAllowed.end(),
-                                  pred);
+    auto pred = [](auto const& entry) { return entry.second; };
+    auto decAllowed = std::all_of(_decAllowed.begin(), _decAllowed.end(), pred);
 
     // Only decrease speeds when allowed,
     // where no requested increases exist and
@@ -312,24 +287,16 @@ void Zone::initEvent(const SetSpeedEvent& event)
         // Initialize the event signal using handler
         std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
         // Setup signal matches of the property for event
-        std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    std::get<sigMatchPos>(sig),
-                    std::get<sigHandlerPos>(sig),
-                    std::get<actionsPos>(event)
-            );
+        std::unique_ptr<EventData> eventData = std::make_unique<EventData>(
+            std::get<groupPos>(event), std::get<sigMatchPos>(sig),
+            std::get<sigHandlerPos>(sig), std::get<actionsPos>(event));
         std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
         if (!std::get<sigMatchPos>(sig).empty())
         {
             match = std::make_unique<sdbusplus::server::match::match>(
-                    _bus,
-                    std::get<sigMatchPos>(sig).c_str(),
-                    std::bind(std::mem_fn(&Zone::handleEvent),
-                              this,
-                              std::placeholders::_1,
-                              eventData.get())
-                );
+                _bus, std::get<sigMatchPos>(sig).c_str(),
+                std::bind(std::mem_fn(&Zone::handleEvent), this,
+                          std::placeholders::_1, eventData.get()));
         }
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
@@ -339,21 +306,13 @@ void Zone::initEvent(const SetSpeedEvent& event)
     {
         // Associate event data with timer
         std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    "",
-                    nullptr,
-                    std::get<actionsPos>(event)
-            );
-        std::unique_ptr<util::Timer> timer =
-            std::make_unique<util::Timer>(
-                _sdEvents,
-                [this,
-                 action = &(std::get<actionsPos>(event)),
-                 group = &(std::get<groupPos>(event))]()
-                 {
-                     this->timerExpired(*group, *action);
-                 });
+            std::make_unique<EventData>(std::get<groupPos>(event), "", nullptr,
+                                        std::get<actionsPos>(event));
+        std::unique_ptr<util::Timer> timer = std::make_unique<util::Timer>(
+            _sdEvents, [this, action = &(std::get<actionsPos>(event)),
+                        group = &(std::get<groupPos>(event))]() {
+                this->timerExpired(*group, *action);
+            });
         if (!timer->running())
         {
             timer->start(std::get<intervalPos>(eventTimer),
@@ -362,24 +321,18 @@ void Zone::initEvent(const SetSpeedEvent& event)
         addTimer(std::move(eventData), std::move(timer));
     }
     // Run action functions for initial event state
-    std::for_each(
-        std::get<actionsPos>(event).begin(),
-        std::get<actionsPos>(event).end(),
-        [this, &event](auto const& action)
-        {
-            action(*this,
-                   std::get<groupPos>(event));
-        });
+    std::for_each(std::get<actionsPos>(event).begin(),
+                  std::get<actionsPos>(event).end(),
+                  [this, &event](auto const& action) {
+                      action(*this, std::get<groupPos>(event));
+                  });
 }
 
 void Zone::removeEvent(const SetSpeedEvent& event)
 {
     // Find the signal event to be removed
     auto it = std::find_if(
-        _signalEvents.begin(),
-        _signalEvents.end(),
-        [&event](auto const& se)
-        {
+        _signalEvents.begin(), _signalEvents.end(), [&event](auto const& se) {
             auto seEventData = *std::get<signalEventDataPos>(se);
             if (std::get<eventActionsPos>(seEventData).size() !=
                 std::get<actionsPos>(event).size())
@@ -390,21 +343,16 @@ void Zone::removeEvent(const SetSpeedEvent& event)
             {
                 // TODO openbmc/openbmc#2328 - Use the action function target
                 // for comparison
-                auto actsEqual = [](auto const& a1,
-                                    auto const& a2)
-                        {
-                            return a1.target_type().name() ==
-                                   a2.target_type().name();
-                        };
-                return
-                (
+                auto actsEqual = [](auto const& a1, auto const& a2) {
+                    return a1.target_type().name() == a2.target_type().name();
+                };
+                return (
                     std::get<eventGroupPos>(seEventData) ==
                         std::get<groupPos>(event) &&
                     std::equal(std::get<actionsPos>(event).begin(),
                                std::get<actionsPos>(event).end(),
                                std::get<eventActionsPos>(seEventData).begin(),
-                               actsEqual)
-                );
+                               actsEqual));
             }
         });
     if (it != std::end(_signalEvents))
@@ -418,9 +366,9 @@ void Zone::removeEvent(const SetSpeedEvent& event)
     }
 }
 
-std::vector<TimerEvent>::iterator Zone::findTimer(
-        const Group& eventGroup,
-        const std::vector<Action>& eventActions)
+std::vector<TimerEvent>::iterator
+    Zone::findTimer(const Group& eventGroup,
+                    const std::vector<Action>& eventActions)
 {
     for (auto it = _timerEvents.begin(); it != _timerEvents.end(); ++it)
     {
@@ -430,15 +378,11 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
         {
             // TODO openbmc/openbmc#2328 - Use the action function target
             // for comparison
-            auto actsEqual = [](auto const& a1,
-                                auto const& a2)
-                    {
-                        return a1.target_type().name() ==
-                               a2.target_type().name();
-                    };
+            auto actsEqual = [](auto const& a1, auto const& a2) {
+                return a1.target_type().name() == a2.target_type().name();
+            };
             if (std::get<eventGroupPos>(teEventData) == eventGroup &&
-                std::equal(eventActions.begin(),
-                           eventActions.end(),
+                std::equal(eventActions.begin(), eventActions.end(),
                            std::get<eventActionsPos>(teEventData).begin(),
                            actsEqual))
             {
@@ -453,28 +397,22 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
 void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
 {
     // Perform the actions
-    std::for_each(eventActions.begin(),
-                  eventActions.end(),
-                  [this, &eventGroup](auto const& action)
-                  {
-                      action(*this, eventGroup);
-                  });
+    std::for_each(
+        eventActions.begin(), eventActions.end(),
+        [this, &eventGroup](auto const& action) { action(*this, eventGroup); });
 }
 
 void Zone::handleEvent(sdbusplus::message::message& msg,
                        const EventData* eventData)
 {
     // Handle the callback
-    std::get<eventHandlerPos>(*eventData)(_bus, msg, *this);
+    std::get<eventHandlerPos> (*eventData)(_bus, msg, *this);
     // Perform the actions
-    std::for_each(
-        std::get<eventActionsPos>(*eventData).begin(),
-        std::get<eventActionsPos>(*eventData).end(),
-        [this, &eventData](auto const& action)
-        {
-            action(*this,
-                   std::get<eventGroupPos>(*eventData));
-        });
+    std::for_each(std::get<eventActionsPos>(*eventData).begin(),
+                  std::get<eventActionsPos>(*eventData).end(),
+                  [this, &eventData](auto const& action) {
+                      action(*this, std::get<eventGroupPos>(*eventData));
+                  });
 }
 
 const std::string& Zone::getService(const std::string& path,
@@ -487,12 +425,8 @@ const std::string& Zone::getService(const std::string& path,
         for (auto& serv : srvIter->second)
         {
             auto it = std::find_if(
-                serv.second.begin(),
-                serv.second.end(),
-                [&intf](auto const& interface)
-                {
-                    return intf == interface;
-                });
+                serv.second.begin(), serv.second.end(),
+                [&intf](auto const& interface) { return intf == interface; });
             if (it != std::end(serv.second))
             {
                 // Service found
@@ -510,8 +444,7 @@ const std::string& Zone::getService(const std::string& path,
 }
 
 const std::string& Zone::addServices(const std::string& path,
-                                     const std::string& intf,
-                                     int32_t depth)
+                                     const std::string& intf, int32_t depth)
 {
     static const std::string empty = "";
     auto it = _servTree.end();
@@ -564,6 +497,6 @@ const std::string& Zone::addServices(const std::string& path,
     return empty;
 }
 
-}
-}
-}
+} // namespace control
+} // namespace fan
+} // namespace phosphor

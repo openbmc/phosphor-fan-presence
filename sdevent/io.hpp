@@ -1,14 +1,15 @@
 #pragma once
 
+#include "sdevent/event.hpp"
+#include "sdevent/source.hpp"
+
+#include <systemd/sd-event.h>
+
 #include <functional>
 #include <memory>
-#include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
-#include <systemd/sd-event.h>
+#include <phosphor-logging/elog.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
-
-#include "sdevent/source.hpp"
-#include "sdevent/event.hpp"
 
 namespace sdevent
 {
@@ -23,85 +24,75 @@ using namespace phosphor::logging;
  */
 class IO
 {
-    private:
-        using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-            Error::InternalFailure;
+  private:
+    using InternalFailure =
+        sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-    public:
-        /* Define all of the basic class operations:
-         *     Not allowed:
-         *         - Default constructor to avoid nullptrs.
-         *         - Copy operations due to internal unique_ptr.
-         *     Allowed:
-         *         - Move operations.
-         *         - Destructor.
-         */
-        IO() = delete;
-        IO(const IO&) = delete;
-        IO& operator=(const IO&) = delete;
-        IO(IO&&) = default;
-        IO& operator=(IO&&) = default;
-        ~IO() = default;
+  public:
+    /* Define all of the basic class operations:
+     *     Not allowed:
+     *         - Default constructor to avoid nullptrs.
+     *         - Copy operations due to internal unique_ptr.
+     *     Allowed:
+     *         - Move operations.
+     *         - Destructor.
+     */
+    IO() = delete;
+    IO(const IO&) = delete;
+    IO& operator=(const IO&) = delete;
+    IO(IO&&) = default;
+    IO& operator=(IO&&) = default;
+    ~IO() = default;
 
-        using Callback = std::function<void(source::Source&)>;
+    using Callback = std::function<void(source::Source&)>;
 
-        /** @brief Register an io callback.
-         *
-         *  @param[in] event - The event to register on.
-         *  @param[in] fd - The file descriptor to poll.
-         *  @param[in] callback - The callback method.
-         */
-        IO(
-            sdevent::event::Event& event,
-            int fd,
-            Callback callback)
-            : src(nullptr),
-              cb(std::make_unique<Callback>(std::move(callback)))
+    /** @brief Register an io callback.
+     *
+     *  @param[in] event - The event to register on.
+     *  @param[in] fd - The file descriptor to poll.
+     *  @param[in] callback - The callback method.
+     */
+    IO(sdevent::event::Event& event, int fd, Callback callback) :
+        src(nullptr), cb(std::make_unique<Callback>(std::move(callback)))
+    {
+        sd_event_source* source = nullptr;
+        auto rc = sd_event_add_io(event.get(), &source, fd, EPOLLIN,
+                                  callCallback, cb.get());
+        if (rc < 0)
         {
-            sd_event_source* source = nullptr;
-            auto rc = sd_event_add_io(
-                event.get(),
-                &source,
-                fd,
-                EPOLLIN,
-                callCallback,
-                cb.get());
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_add_io",
-                        entry("RC=%d", rc),
-                        entry("FD=%d", fd));
-                elog<InternalFailure>();
-            }
-
-            src = decltype(src){source, std::false_type()};
+            log<level::ERR>("Error in call to sd_event_add_io",
+                            entry("RC=%d", rc), entry("FD=%d", fd));
+            elog<InternalFailure>();
         }
 
-        /** @brief Set the IO source enable state. */
-        void enable(int enable)
-        {
-            src.enable(enable);
-        }
+        src = decltype(src){source, std::false_type()};
+    }
 
-        /** @brief Query the IO enable state. */
-        auto enabled()
-        {
-            return src.enabled();
-        }
+    /** @brief Set the IO source enable state. */
+    void enable(int enable)
+    {
+        src.enable(enable);
+    }
 
-    private:
-        source::Source src;
-        std::unique_ptr<Callback> cb = nullptr;
+    /** @brief Query the IO enable state. */
+    auto enabled()
+    {
+        return src.enabled();
+    }
 
-        static int callCallback(sd_event_source* s, int fd, uint32_t events,
-                                void* context)
-        {
-            source::Source source(s);
-            auto c = static_cast<Callback*>(context);
-            (*c)(source);
+  private:
+    source::Source src;
+    std::unique_ptr<Callback> cb = nullptr;
 
-            return 0;
-        }
+    static int callCallback(sd_event_source* s, int fd, uint32_t events,
+                            void* context)
+    {
+        source::Source source(s);
+        auto c = static_cast<Callback*>(context);
+        (*c)(source);
+
+        return 0;
+    }
 };
 } // namespace io
 } // namespace event

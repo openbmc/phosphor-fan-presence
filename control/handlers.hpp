@@ -24,8 +24,7 @@ namespace handler
 template <typename T>
 auto setProperty(const char* path, const char* interface, const char* property)
 {
-    return [=](auto& zone, T&& arg)
-    {
+    return [=](auto& zone, T&& arg) {
         zone.setPropertyValue(path, interface, property, std::forward<T>(arg));
     };
 }
@@ -42,8 +41,7 @@ auto setProperty(const char* path, const char* interface, const char* property)
  */
 auto setService(Group&& group)
 {
-    return [group = std::move(group)](auto& zone, auto& name, bool hasOwner)
-    {
+    return [group = std::move(group)](auto& zone, auto& name, bool hasOwner) {
         // Update service name owner state list of a group
         zone.setServiceOwner(&group, name, hasOwner);
     };
@@ -62,10 +60,7 @@ auto setService(Group&& group)
  */
 auto removeInterface(const char* path, const char* interface)
 {
-    return[=](auto& zone)
-    {
-        zone.removeObjectInterface(path, interface);
-    };
+    return [=](auto& zone) { zone.removeObjectInterface(path, interface); };
 }
 
 } // namespace handler

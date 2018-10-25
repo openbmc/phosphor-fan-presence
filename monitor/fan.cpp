@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <algorithm>
-#include <phosphor-logging/log.hpp>
 #include "fan.hpp"
+
+#include "sdbusplus.hpp"
 #include "types.hpp"
 #include "utility.hpp"
-#include "sdbusplus.hpp"
+
+#include <algorithm>
+#include <phosphor-logging/log.hpp>
 
 namespace phosphor
 {
@@ -29,11 +31,9 @@ namespace monitor
 
 using namespace phosphor::logging;
 
-Fan::Fan(Mode mode,
-         sdbusplus::bus::bus& bus,
-         phosphor::fan::event::EventPtr&  events,
-         std::unique_ptr<trust::Manager>& trust,
-         const FanDefinition& def) :
+Fan::Fan(Mode mode, sdbusplus::bus::bus& bus,
+         phosphor::fan::event::EventPtr& events,
+         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def) :
     _bus(bus),
     _name(std::get<fanNameField>(def)),
     _deviation(std::get<fanDeviationField>(def)),
@@ -46,40 +46,30 @@ Fan::Fan(Mode mode,
     {
         try
         {
-            _sensors.emplace_back(
-                    std::make_shared<TachSensor>(
-                            mode,
-                            bus,
-                            *this,
-                            std::get<sensorNameField>(s),
-                            std::get<hasTargetField>(s),
-                            std::get<funcDelay>(def),
-                            std::get<targetInterfaceField>(s),
-                            std::get<factorField>(s),
-                            std::get<offsetField>(s),
-                            std::get<timeoutField>(def),
-                            events));
+            _sensors.emplace_back(std::make_shared<TachSensor>(
+                mode, bus, *this, std::get<sensorNameField>(s),
+                std::get<hasTargetField>(s), std::get<funcDelay>(def),
+                std::get<targetInterfaceField>(s), std::get<factorField>(s),
+                std::get<offsetField>(s), std::get<timeoutField>(def), events));
 
             _trustManager->registerSensor(_sensors.back());
         }
         catch (InvalidSensorError& e)
         {
-
         }
     }
 
-    //Start from a known state of functional
+    // Start from a known state of functional
     updateInventory(true);
 
     // Check current tach state when entering monitor mode
     if (mode != Mode::init)
     {
-        //The TachSensors will now have already read the input
-        //and target values, so check them.
+        // The TachSensors will now have already read the input
+        // and target values, so check them.
         tachChanged();
     }
 }
-
 
 void Fan::tachChanged()
 {
@@ -88,7 +78,6 @@ void Fan::tachChanged()
         tachChanged(*s);
     }
 }
-
 
 void Fan::tachChanged(TachSensor& sensor)
 {
@@ -100,11 +89,11 @@ void Fan::tachChanged(TachSensor& sensor)
         }
     }
 
-    //If this sensor is out of range at this moment, start
-    //its timer, at the end of which the inventory
-    //for the fan may get updated to not functional.
+    // If this sensor is out of range at this moment, start
+    // its timer, at the end of which the inventory
+    // for the fan may get updated to not functional.
 
-    //If this sensor is OK, put everything back into a good state.
+    // If this sensor is OK, put everything back into a good state.
 
     if (outOfRange(sensor))
     {
@@ -128,17 +117,13 @@ void Fan::tachChanged(TachSensor& sensor)
     }
 }
 
-
 uint64_t Fan::findTargetSpeed()
 {
     uint64_t target = 0;
-    //The sensor doesn't support a target,
-    //so get it from another sensor.
+    // The sensor doesn't support a target,
+    // so get it from another sensor.
     auto s = std::find_if(_sensors.begin(), _sensors.end(),
-                          [](const auto& s)
-                          {
-                              return s->hasTarget();
-                          });
+                          [](const auto& s) { return s->hasTarget(); });
 
     if (s != _sensors.end())
     {
@@ -148,18 +133,14 @@ uint64_t Fan::findTargetSpeed()
     return target;
 }
 
-
 bool Fan::tooManySensorsNonfunctional()
 {
-    size_t numFailed =  std::count_if(_sensors.begin(), _sensors.end(),
-                                      [](const auto& s)
-                                      {
-                                          return !s->functional();
-                                      });
+    size_t numFailed =
+        std::count_if(_sensors.begin(), _sensors.end(),
+                      [](const auto& s) { return !s->functional(); });
 
     return (numFailed >= _numSensorFailsForNonFunc);
 }
-
 
 bool Fan::outOfRange(const TachSensor& sensor)
 {
@@ -184,13 +165,12 @@ bool Fan::outOfRange(const TachSensor& sensor)
     return false;
 }
 
-
 void Fan::timerExpired(TachSensor& sensor)
 {
     sensor.setFunctional(!sensor.functional());
 
-    //If the fan was nonfunctional and enough sensors are now OK,
-    //the fan can go back to functional
+    // If the fan was nonfunctional and enough sensors are now OK,
+    // the fan can go back to functional
     if (!_functional && !tooManySensorsNonfunctional())
     {
         log<level::INFO>("Setting a fan back to functional",
@@ -199,45 +179,38 @@ void Fan::timerExpired(TachSensor& sensor)
         updateInventory(true);
     }
 
-    //If the fan is currently functional, but too many
-    //contained sensors are now nonfunctional, update
-    //the whole fan nonfunctional.
+    // If the fan is currently functional, but too many
+    // contained sensors are now nonfunctional, update
+    // the whole fan nonfunctional.
     if (_functional && tooManySensorsNonfunctional())
     {
         log<level::ERR>("Setting a fan to nonfunctional",
-                entry("FAN=%s", _name.c_str()),
-                entry("TACH_SENSOR=%s", sensor.name().c_str()),
-                entry("ACTUAL_SPEED=%lld", sensor.getInput()),
-                entry("TARGET_SPEED=%lld", sensor.getTarget()));
+                        entry("FAN=%s", _name.c_str()),
+                        entry("TACH_SENSOR=%s", sensor.name().c_str()),
+                        entry("ACTUAL_SPEED=%lld", sensor.getInput()),
+                        entry("TARGET_SPEED=%lld", sensor.getTarget()));
 
         updateInventory(false);
     }
 }
 
-
 void Fan::updateInventory(bool functional)
 {
-    auto objectMap = util::getObjMap<bool>(
-            _name,
-            util::OPERATIONAL_STATUS_INTF,
-            util::FUNCTIONAL_PROPERTY,
-            functional);
+    auto objectMap =
+        util::getObjMap<bool>(_name, util::OPERATIONAL_STATUS_INTF,
+                              util::FUNCTIONAL_PROPERTY, functional);
     auto response = util::SDBusPlus::lookupAndCallMethod(
-            _bus,
-            util::INVENTORY_PATH,
-            util::INVENTORY_INTF,
-            "Notify",
-            objectMap);
+        _bus, util::INVENTORY_PATH, util::INVENTORY_INTF, "Notify", objectMap);
     if (response.is_method_error())
     {
         log<level::ERR>("Error in Notify call to update inventory");
         return;
     }
 
-    //This will always track the current state of the inventory.
+    // This will always track the current state of the inventory.
     _functional = functional;
 }
 
-}
-}
-}
+} // namespace monitor
+} // namespace fan
+} // namespace phosphor

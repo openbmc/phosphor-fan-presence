@@ -1,7 +1,8 @@
 #pragma once
 
-#include "types.hpp"
 #include "sdbusplus.hpp"
+#include "types.hpp"
+
 #include <phosphor-logging/log.hpp>
 
 namespace phosphor
@@ -58,14 +59,12 @@ struct PropertyChanged
     PropertyChanged& operator=(const PropertyChanged&) = default;
     PropertyChanged(PropertyChanged&&) = default;
     PropertyChanged& operator=(PropertyChanged&&) = default;
-    PropertyChanged(const char* path,
-                    const char* iface,
-                    const char* property,
+    PropertyChanged(const char* path, const char* iface, const char* property,
                     U&& handler) :
         _path(path),
-        _iface(iface),
-        _property(property),
-        _handler(std::forward<U>(handler)) { }
+        _iface(iface), _property(property), _handler(std::forward<U>(handler))
+    {
+    }
 
     /** @brief Run signal handler function
      *
@@ -73,8 +72,7 @@ struct PropertyChanged
      * message (or read the property when the message is null)
      * and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus& bus,
-                    sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus::bus& bus, sdbusplus::message::message& msg,
                     Zone& zone) const
     {
         if (msg)
@@ -106,11 +104,8 @@ struct PropertyChanged
             try
             {
                 auto service = zone.getService(_path, _iface);
-                auto val = util::SDBusPlus::getProperty<T>(bus,
-                                                           service,
-                                                           _path,
-                                                           _iface,
-                                                           _property);
+                auto val = util::SDBusPlus::getProperty<T>(bus, service, _path,
+                                                           _iface, _property);
                 _handler(zone, std::forward<T>(val));
             }
             catch (const sdbusplus::exception::SdBusError&)
@@ -126,7 +121,7 @@ struct PropertyChanged
         }
     }
 
-private:
+  private:
     const char* _path;
     const char* _iface;
     const char* _property;
@@ -145,14 +140,10 @@ private:
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-auto propertySignal(const char* path,
-                    const char* iface,
-                    const char* property,
+auto propertySignal(const char* path, const char* iface, const char* property,
                     U&& handler)
 {
-    return PropertyChanged<T, U>(path,
-                                 iface,
-                                 property,
+    return PropertyChanged<T, U>(path, iface, property,
                                  std::forward<U>(handler));
 }
 
@@ -172,29 +163,26 @@ struct InterfaceAdded
     InterfaceAdded& operator=(const InterfaceAdded&) = default;
     InterfaceAdded(InterfaceAdded&&) = default;
     InterfaceAdded& operator=(InterfaceAdded&&) = default;
-    InterfaceAdded(const char* path,
-                   const char* iface,
-                   const char* property,
+    InterfaceAdded(const char* path, const char* iface, const char* property,
                    U&& handler) :
         _path(path),
-        _iface(iface),
-        _property(property),
-        _handler(std::forward<U>(handler)) { }
+        _iface(iface), _property(property), _handler(std::forward<U>(handler))
+    {
+    }
 
     /** @brief Run signal handler function
      *
      * Extract the property from the InterfacesAdded
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus&,
-                    sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus::bus&, sdbusplus::message::message& msg,
                     Zone& zone) const
     {
         if (msg)
         {
             std::map<std::string,
-                     std::map<std::string,
-                              sdbusplus::message::variant<T>>> intfProp;
+                     std::map<std::string, sdbusplus::message::variant<T>>>
+                intfProp;
             sdbusplus::message::object_path op;
 
             msg.read(op);
@@ -222,7 +210,7 @@ struct InterfaceAdded
         }
     }
 
-private:
+  private:
     const char* _path;
     const char* _iface;
     const char* _property;
@@ -241,14 +229,10 @@ private:
  * @tparam U - The type of the handler
  */
 template <typename T, typename U>
-auto objectSignal(const char* path,
-                  const char* iface,
-                  const char* property,
+auto objectSignal(const char* path, const char* iface, const char* property,
                   U&& handler)
 {
-    return InterfaceAdded<T, U>(path,
-                                iface,
-                                property,
+    return InterfaceAdded<T, U>(path, iface, property,
                                 std::forward<U>(handler));
 }
 
@@ -267,20 +251,17 @@ struct InterfaceRemoved
     InterfaceRemoved& operator=(const InterfaceRemoved&) = default;
     InterfaceRemoved(InterfaceRemoved&&) = default;
     InterfaceRemoved& operator=(InterfaceRemoved&&) = default;
-    InterfaceRemoved(const char* path,
-                     const char* iface,
-                     U&& handler) :
-        _path(path),
-        _iface(iface),
-        _handler(std::forward<U>(handler)) { }
+    InterfaceRemoved(const char* path, const char* iface, U&& handler) :
+        _path(path), _iface(iface), _handler(std::forward<U>(handler))
+    {
+    }
 
     /** @brief Run signal handler function
      *
      * Extract the property from the InterfacesRemoved
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus&,
-                    sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus::bus&, sdbusplus::message::message& msg,
                     Zone& zone) const
     {
         if (msg)
@@ -307,7 +288,7 @@ struct InterfaceRemoved
         }
     }
 
-private:
+  private:
     const char* _path;
     const char* _iface;
     U _handler;
@@ -323,13 +304,9 @@ private:
  * @tparam U - The type of the handler
  */
 template <typename U>
-auto objectSignal(const char* path,
-                  const char* iface,
-                  U&& handler)
+auto objectSignal(const char* path, const char* iface, U&& handler)
 {
-    return InterfaceRemoved<U>(path,
-                               iface,
-                               std::forward<U>(handler));
+    return InterfaceRemoved<U>(path, iface, std::forward<U>(handler));
 }
 
 /**
@@ -347,12 +324,10 @@ struct NameOwnerChanged
     NameOwnerChanged& operator=(const NameOwnerChanged&) = default;
     NameOwnerChanged(NameOwnerChanged&&) = default;
     NameOwnerChanged& operator=(NameOwnerChanged&&) = default;
-    NameOwnerChanged(const char* path,
-                     const char* iface,
-                     U&& handler) :
-        _path(path),
-        _iface(iface),
-        _handler(std::forward<U>(handler)) { }
+    NameOwnerChanged(const char* path, const char* iface, U&& handler) :
+        _path(path), _iface(iface), _handler(std::forward<U>(handler))
+    {
+    }
 
     /** @brief Run signal handler function
      *
@@ -360,8 +335,7 @@ struct NameOwnerChanged
      * message (or read the name owner when the message is null)
      * and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus& bus,
-                    sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus::bus& bus, sdbusplus::message::message& msg,
                     Zone& zone) const
     {
         std::string name;
@@ -388,12 +362,8 @@ struct NameOwnerChanged
                 // Initialize NameOwnerChanged data store with service name
                 name = zone.getService(_path, _iface);
                 hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
-                        bus,
-                        "org.freedesktop.DBus",
-                        "/org/freedesktop/DBus",
-                        "org.freedesktop.DBus",
-                        "NameHasOwner",
-                        name);
+                    bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+                    "org.freedesktop.DBus", "NameHasOwner", name);
             }
             catch (const util::DBusMethodError& e)
             {
@@ -405,7 +375,7 @@ struct NameOwnerChanged
         _handler(zone, name, hasOwner);
     }
 
-private:
+  private:
     const char* _path;
     const char* _iface;
     U _handler;
@@ -423,13 +393,9 @@ private:
  * @return - The NameOwnerChanged signal struct
  */
 template <typename U>
-auto ownerSignal(const char* path,
-                 const char* iface,
-                 U&& handler)
+auto ownerSignal(const char* path, const char* iface, U&& handler)
 {
-    return NameOwnerChanged<U>(path,
-                               iface,
-                               std::forward<U>(handler));
+    return NameOwnerChanged<U>(path, iface, std::forward<U>(handler));
 }
 
 } // namespace control

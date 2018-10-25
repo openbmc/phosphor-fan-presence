@@ -13,12 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <sdbusplus/bus.hpp>
-#include <phosphor-logging/log.hpp>
 #include "argument.hpp"
-#include "manager.hpp"
 #include "event.hpp"
+#include "manager.hpp"
 #include "sdbusplus.hpp"
+
+#include <phosphor-logging/log.hpp>
+#include <sdbusplus/bus.hpp>
 
 using namespace phosphor::fan::control;
 using namespace phosphor::logging;
@@ -61,15 +62,15 @@ int main(int argc, char* argv[])
 
     phosphor::fan::event::EventPtr eventPtr{events};
 
-    //Attach the event object to the bus object so we can
-    //handle both sd_events (for the timers) and dbus signals.
+    // Attach the event object to the bus object so we can
+    // handle both sd_events (for the timers) and dbus signals.
     bus.attach_event(eventPtr.get(), SD_EVENT_PRIORITY_NORMAL);
 
     try
     {
         Manager manager(bus, eventPtr, mode);
 
-        //Init mode will just set fans to max and delay
+        // Init mode will just set fans to max and delay
         if (mode == Mode::init)
         {
             manager.doInit();
@@ -81,33 +82,33 @@ int main(int argc, char* argv[])
             if (r < 0)
             {
                 log<level::ERR>("Failed call to sd_event_loop",
-                        entry("ERROR=%s", strerror(-r)));
+                                entry("ERROR=%s", strerror(-r)));
             }
         }
     }
-    //Log the useful metadata on these exceptions and let the app
-    //return 1 so it is restarted without a core dump.
+    // Log the useful metadata on these exceptions and let the app
+    // return 1 so it is restarted without a core dump.
     catch (phosphor::fan::util::DBusServiceError& e)
     {
         log<level::ERR>("Uncaught DBus service lookup failure exception",
-                entry("PATH=%s", e.path.c_str()),
-                entry("INTERFACE=%s", e.interface.c_str()));
+                        entry("PATH=%s", e.path.c_str()),
+                        entry("INTERFACE=%s", e.interface.c_str()));
     }
     catch (phosphor::fan::util::DBusMethodError& e)
     {
         log<level::ERR>("Uncaught DBus method failure exception",
-                entry("BUSNAME=%s", e.busName.c_str()),
-                entry("PATH=%s", e.path.c_str()),
-                entry("INTERFACE=%s", e.interface.c_str()),
-                entry("METHOD=%s", e.method.c_str()));
+                        entry("BUSNAME=%s", e.busName.c_str()),
+                        entry("PATH=%s", e.path.c_str()),
+                        entry("INTERFACE=%s", e.interface.c_str()),
+                        entry("METHOD=%s", e.method.c_str()));
     }
     catch (phosphor::fan::util::DBusPropertyError& e)
     {
         log<level::ERR>("Uncaught DBus property access failure exception",
-                entry("BUSNAME=%s", e.busName.c_str()),
-                entry("PATH=%s", e.path.c_str()),
-                entry("INTERFACE=%s", e.interface.c_str()),
-                entry("PROPERTY=%s", e.property.c_str()));
+                        entry("BUSNAME=%s", e.busName.c_str()),
+                        entry("PATH=%s", e.path.c_str()),
+                        entry("INTERFACE=%s", e.interface.c_str()),
+                        entry("PROPERTY=%s", e.property.c_str()));
     }
 
     return 1;

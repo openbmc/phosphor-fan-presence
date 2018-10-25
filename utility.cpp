@@ -21,7 +21,7 @@ namespace fan
 {
 namespace util
 {
-    // Keep for future functions
+// Keep for future functions
 }
-}
-}
+} // namespace fan
+} // namespace phosphor
