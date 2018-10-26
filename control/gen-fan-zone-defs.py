@@ -112,23 +112,24 @@ def getInit(eGrps, eTrig, events):
     """
     method = {}
     methods = []
-    # Use the first group member for retrieving the type
-    member = eGrps[0]['members'][0]
-    if ('method' in eTrig) and \
-       (eTrig['method'] is not None):
-        # Add method parameters
-        eMethod = next(m for m in events['methods']
-                       if m['name'] == eTrig['method'])
-        method['method'] = eMethod['name']
-        method['mparams'] = getParameters(
-            member, eGrps, eMethod, events)
+    if (len(eGrps) > 0):
+        # Use the first group member for retrieving the type
+        member = eGrps[0]['members'][0]
+        if ('method' in eTrig) and \
+           (eTrig['method'] is not None):
+            # Add method parameters
+            eMethod = next(m for m in events['methods']
+                           if m['name'] == eTrig['method'])
+            method['method'] = eMethod['name']
+            method['mparams'] = getParameters(
+                member, eGrps, eMethod, events)
 
-        # Add handler parameters
-        eHandler = next(h for h in events['handlers']
-                        if h['name'] == eTrig['handler'])
-        method['handler'] = eHandler['name']
-        method['hparams'] = getParameters(
-            member, eGrps, eHandler, events)
+            # Add handler parameters
+            eHandler = next(h for h in events['handlers']
+                            if h['name'] == eTrig['handler'])
+            method['handler'] = eHandler['name']
+            method['hparams'] = getParameters(
+                member, eGrps, eHandler, events)
 
     methods.append(method)
 
@@ -262,10 +263,7 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     event = {}
 
     # Add set speed event groups
-    grps = getGroups(zone_num, zone_conditions, e, events_data)
-    if not grps:
-        return
-    event['groups'] = grps
+    event['groups'] = getGroups(zone_num, zone_conditions, e, events_data)
 
     # Add optional set speed actions and function parameters
     event['action'] = []
@@ -298,10 +296,10 @@ def addPrecondition(zNum, zCond, event, events_data):
     """
     precond = {}
     # Add set speed event precondition group
-    grps = getGroups(zNum, zCond, event['precondition'], events_data)
-    if not grps:
-        return
-    precond['pcgrps'] = grps
+    precond['pcgrps'] = getGroups(zNum,
+                                  zCond,
+                                  event['precondition'],
+                                  events_data)
 
     # Add set speed event precondition actions
     pc = []
