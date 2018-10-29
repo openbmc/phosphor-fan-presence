@@ -16,7 +16,6 @@ nodist_phosphor_fan_control_SOURCES = \
 	fan_zone_defs.cpp
 
 phosphor_fan_control_LDADD = \
-	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(SDEVENTPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
