@@ -17,7 +17,6 @@ phosphor_cooling_type_CXXFLAGS = \
 	-flto
 
 phosphor_cooling_type_LDADD = \
-	${top_builddir}/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(LIBEVDEV_LIBS) \

@@ -14,7 +14,6 @@ phosphor_fan_presence_tach_SOURCES = \
 	tach_detect.cpp
 
 phosphor_fan_presence_tach_LDADD = \
-	$(top_builddir)/libfan.la \
 	$(SDBUSPLUS_LIBS) \
 	$(SDEVENTPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
