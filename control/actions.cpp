@@ -32,30 +32,7 @@ Action call_actions_based_on_timer(TimerConf&& tConf, std::vector<Action>&& acti
                 zone.findTimer(group, actions) ==
                     std::end(zone.getTimerEvents()))
             {
-                // Associate event data with timer
-                std::unique_ptr<EventData> eventData =
-                    std::make_unique<EventData>(
-                            group,
-                            "",
-                            nullptr,
-                            actions
-                    );
-                // Create/start timer and associate event data with it
-                std::unique_ptr<util::Timer> timer =
-                    std::make_unique<util::Timer>(
-                            zone.getEventLoop(),
-                            [&zone,
-                            actions = &actions,
-                            group = &group]()
-                            {
-                                zone.timerExpired(*group, *actions);
-                            });
-                if (!timer->running())
-                {
-                    timer->start(std::get<intervalPos>(tConf),
-                                 std::get<typePos>(tConf));
-                }
-                zone.addTimer(std::move(eventData), std::move(timer));
+                zone.addTimer(group, actions, tConf);
             }
             else
             {

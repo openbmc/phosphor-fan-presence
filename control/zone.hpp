@@ -367,15 +367,13 @@ class Zone
         /**
          * @brief Add a timer to the list of timer based events
          *
-         * @param[in] data - Event data for timer
-         * @param[in] timer - Timer to be added
+         * @param[in] group - Group associated with a timer
+         * @param[in] actions - List of actions associated with a timer
+         * @param[in] tConf - Configuration for the new timer
          */
-        inline void addTimer(
-                std::unique_ptr<EventData>&& data,
-                std::unique_ptr<phosphor::fan::util::Timer>&& timer)
-        {
-            _timerEvents.emplace_back(std::move(data), std::move(timer));
-        };
+        void addTimer(const Group& group,
+                      const std::vector<Action>& actions,
+                      const TimerConf& tConf);
 
         /**
          * @brief Remove the given timer event
