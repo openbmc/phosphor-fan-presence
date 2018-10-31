@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include <chrono>
+#include <functional>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
@@ -46,8 +47,8 @@ Zone::Zone(Mode mode,
     _defCeilingSpeed(std::get<fullSpeedPos>(def)),
     _incDelay(std::get<incDelayPos>(def)),
     _decInterval(std::get<decIntervalPos>(def)),
-    _incTimer(event, [this](){ this->incTimerExpired(); }),
-    _decTimer(event, [this](){ this->decTimerExpired(); }),
+    _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
+    _decTimer(event, std::bind(&Zone::decTimerExpired, this)),
     _eventLoop(event)
 {
     auto& fanDefs = std::get<fanListPos>(def);
