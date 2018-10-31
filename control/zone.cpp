@@ -441,7 +441,10 @@ void Zone::addTimer(const Group& group,
     );
     auto timer = std::make_unique<util::Timer>(
         _eventLoop,
-        std::bind(&Zone::timerExpired, this, group, actions)
+        std::bind(&Zone::timerExpired,
+                  this,
+                  std::cref(std::get<Group>(*data)),
+                  std::cref(std::get<std::vector<Action>>(*data)))
     );
     if (!timer->running())
     {
@@ -451,7 +454,8 @@ void Zone::addTimer(const Group& group,
     _timerEvents.emplace_back(std::move(data), std::move(timer));
 }
 
-void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
+void Zone::timerExpired(const Group& eventGroup,
+                        const std::vector<Action>& eventActions)
 {
     // Perform the actions
     std::for_each(eventActions.begin(),
