@@ -64,6 +64,7 @@ using Service = std::tuple<std::string, bool>;
 
 constexpr auto intervalPos = 0;
 constexpr auto typePos = 1;
+using TimerType = phosphor::fan::util::Timer::TimerType;
 using Timer = std::tuple<std::chrono::seconds,
                          util::Timer::TimerType>;
 
