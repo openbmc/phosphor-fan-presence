@@ -332,8 +332,8 @@ void Zone::initEvent(const SetSpeedEvent& event)
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
     // Attach a timer to run the action of an event
-    auto eventTimer = std::get<timerPos>(event);
-    if (std::get<intervalPos>(eventTimer) != seconds(0))
+    auto timerConf = std::get<timerConfPos>(event);
+    if (std::get<intervalPos>(timerConf) != seconds(0))
     {
         // Associate event data with timer
         std::unique_ptr<EventData> eventData =
@@ -354,8 +354,8 @@ void Zone::initEvent(const SetSpeedEvent& event)
                  });
         if (!timer->running())
         {
-            timer->start(std::get<intervalPos>(eventTimer),
-                         std::get<typePos>(eventTimer));
+            timer->start(std::get<intervalPos>(timerConf),
+                         std::get<typePos>(timerConf));
         }
         addTimer(std::move(eventData), std::move(timer));
     }
