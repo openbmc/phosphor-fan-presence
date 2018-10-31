@@ -58,7 +58,7 @@ make_action(action::${a['name']}
 ),
 %endfor
 },
-Timer{
+TimerConf{
     ${event['timer']['interval']},
     ${event['timer']['type']}
 },

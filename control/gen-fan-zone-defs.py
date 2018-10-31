@@ -125,7 +125,7 @@ def getActions(edata, actions, events):
                 else:
                     if p == 'timer':
                         param = (
-                            "Timer{static_cast<std::chrono::seconds>(" +
+                            "TimerConf{static_cast<std::chrono::seconds>(" +
                             str(eActions[p]['delay']) + "), " +
                             "TimerType::" +
                             str(eActions[p]['type']) + "}")

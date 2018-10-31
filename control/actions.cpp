@@ -11,7 +11,8 @@ namespace action
 
 using namespace phosphor::fan;
 
-Action call_actions_based_on_timer(Timer&& tConf, std::vector<Action>&& actions)
+Action call_actions_based_on_timer(TimerConf&& tConf,
+                                   std::vector<Action>&& actions)
 {
     return [tConf = std::move(tConf),
             actions = std::move(actions)](control::Zone& zone,

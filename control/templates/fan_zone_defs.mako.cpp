@@ -120,7 +120,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         ),
                         %endif
                         },
-                        Timer{
+                        TimerConf{
                             ${event['pc']['pctime']['interval']},
                             ${event['pc']['pctime']['type']}
                         },

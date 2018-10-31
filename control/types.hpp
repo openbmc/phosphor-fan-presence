@@ -65,8 +65,8 @@ using Service = std::tuple<std::string, bool>;
 constexpr auto intervalPos = 0;
 constexpr auto typePos = 1;
 using TimerType = phosphor::fan::util::Timer::TimerType;
-using Timer = std::tuple<std::chrono::seconds,
-                         TimerType>;
+using TimerConf = std::tuple<std::chrono::seconds,
+                             TimerType>;
 
 constexpr auto sigMatchPos = 0;
 constexpr auto sigHandlerPos = 1;
@@ -74,11 +74,11 @@ using Signal = std::tuple<std::string, Handler>;
 
 constexpr auto groupPos = 0;
 constexpr auto actionsPos = 1;
-constexpr auto timerPos = 2;
+constexpr auto timerConfPos = 2;
 constexpr auto signalsPos = 3;
 using SetSpeedEvent = std::tuple<Group,
                                  std::vector<Action>,
-                                 Timer,
+                                 TimerConf,
                                  std::vector<Signal>>;
 
 constexpr auto eventGroupPos = 0;
