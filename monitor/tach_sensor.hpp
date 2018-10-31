@@ -3,8 +3,9 @@
 #include <chrono>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server.hpp>
+#include <sdeventplus/clock.hpp>
 #include <sdeventplus/event.hpp>
-#include "timer.hpp"
+#include <sdeventplus/utility/timer.hpp>
 
 namespace phosphor
 {
@@ -158,7 +159,7 @@ class TachSensor
          */
         inline bool timerRunning()
         {
-            return _timer.running();
+            return _timer.isEnabled();
         }
 
         /**
@@ -174,7 +175,7 @@ class TachSensor
          */
         inline void stopTimer()
         {
-            _timer.stop();
+            _timer.setEnabled(false);
         }
 
         /**
@@ -302,7 +303,7 @@ class TachSensor
         /**
          * The timer object
          */
-        phosphor::fan::util::Timer _timer;
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic> _timer;
 
         /**
          * @brief The match object for the Value properties changed signal

@@ -5,18 +5,16 @@ libfan_la_LDFLAGS = -static
 libfan_la_LIBADD = \
 	$(PHOSPHOR_DBUS_INTERFACES_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
-	$(SDBUSPLUS_LIBS) \
-	$(SDEVENTPLUS_LIBS)
+	$(SDBUSPLUS_LIBS)
 libfan_la_CXXFLAGS = \
 	$(PHOSPHOR_DBUS_INTERFACES_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
 	$(SDBUSPLUS_CFLAGS) \
-	$(SDEVENTPLUS_CFLAGS) -flto
+	-flto
 libfan_la_SOURCES = \
-	utility.cpp \
-	timer.cpp
+	utility.cpp
 
-SUBDIRS = . test sdevent/test evdevpp/test
+SUBDIRS = . sdevent/test evdevpp/test
 
 if WANT_PRESENCE
 SUBDIRS += presence

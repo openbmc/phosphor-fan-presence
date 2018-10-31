@@ -41,10 +41,6 @@ Action call_actions_based_on_timer(TimerConf&& tConf,
                 auto timer = zone.findTimer(group, actions);
                 if (timer != std::end(zone.getTimerEvents()))
                 {
-                    if (std::get<timerTimerPos>(*timer)->running())
-                    {
-                        std::get<timerTimerPos>(*timer)->stop();
-                    }
                     zone.removeTimer(timer);
                 }
             }
