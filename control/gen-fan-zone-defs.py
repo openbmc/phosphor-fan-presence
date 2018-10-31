@@ -127,7 +127,7 @@ def getActions(edata, actions, events):
                         param = (
                             "Timer{static_cast<std::chrono::seconds>(" +
                             str(eActions[p]['delay']) + "), " +
-                            "util::Timer::TimerType::" +
+                            "TimerType::" +
                             str(eActions[p]['type']) + "}")
                     else:
                         param += (str(eActions[p]['type']).lower() + ">(")
@@ -257,7 +257,7 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     else:
         timer['interval'] = (interval +
                              "(" + str(0) + ")")
-    timer['type'] = "util::Timer::TimerType::repeating"
+    timer['type'] = "TimerType::repeating"
     event['timer'] = timer
 
     return event
@@ -409,7 +409,7 @@ def addPrecondition(zNum, zCond, event, events_data):
     else:
         timer['interval'] = (interval +
                              "(" + str(0) + ")")
-    timer['type'] = "util::Timer::TimerType::repeating"
+    timer['type'] = "TimerType::repeating"
     precond['pctime'] = timer
 
     return precond

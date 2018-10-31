@@ -73,8 +73,7 @@ Zone::Zone(Mode mode,
         // Start timer for fan speed decreases
         if (!_decTimer.running() && _decInterval != seconds::zero())
         {
-            _decTimer.start(_decInterval,
-                            util::Timer::TimerType::repeating);
+            _decTimer.start(_decInterval, TimerType::repeating);
         }
     }
 }
@@ -245,8 +244,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         }
         setSpeed(requestTarget);
         // Start timer countdown for fan speed increase
-        _incTimer.start(_incDelay,
-                        util::Timer::TimerType::oneshot);
+        _incTimer.start(_incDelay, TimerType::oneshot);
     }
 }
 
