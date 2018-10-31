@@ -335,29 +335,9 @@ void Zone::initEvent(const SetSpeedEvent& event)
     auto timerConf = std::get<timerConfPos>(event);
     if (std::get<intervalPos>(timerConf) != seconds(0))
     {
-        // Associate event data with timer
-        std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    "",
-                    nullptr,
-                    std::get<actionsPos>(event)
-            );
-        std::unique_ptr<util::Timer> timer =
-            std::make_unique<util::Timer>(
-                _eventLoop,
-                [this,
-                 action = &(std::get<actionsPos>(event)),
-                 group = &(std::get<groupPos>(event))]()
-                 {
-                     this->timerExpired(*group, *action);
-                 });
-        if (!timer->running())
-        {
-            timer->start(std::get<intervalPos>(timerConf),
-                         std::get<typePos>(timerConf));
-        }
-        addTimer(std::move(eventData), std::move(timer));
+        addTimer(std::get<groupPos>(event),
+                 std::get<actionsPos>(event),
+                 timerConf);
     }
     // Run action functions for initial event state
     std::for_each(
@@ -446,6 +426,29 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
     }
 
     return _timerEvents.end();
+}
+
+void Zone::addTimer(const Group& group,
+                    const std::vector<Action>& actions,
+                    const TimerConf& tConf)
+{
+    // Associate event data with timer
+    auto data = std::make_unique<EventData>(
+            group,
+            "",
+            nullptr,
+            actions
+    );
+    auto timer = std::make_unique<util::Timer>(
+        _eventLoop,
+        std::bind(&Zone::timerExpired, this, group, actions)
+    );
+    if (!timer->running())
+    {
+        timer->start(std::get<intervalPos>(tConf),
+                     std::get<typePos>(tConf));
+    }
+    _timerEvents.emplace_back(std::move(data), std::move(timer));
 }
 
 void Zone::timerExpired(Group eventGroup, std::vector<Action> eventActions)
