@@ -26,7 +26,7 @@ namespace action
  *     An Action function that creates a timer
  */
 Action call_actions_based_on_timer(
-        Timer&& tConf,
+        TimerConf&& tConf,
         std::vector<Action>&& actions);
 
 /**
