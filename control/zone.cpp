@@ -419,7 +419,7 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
 {
     for (auto it = _timerEvents.begin(); it != _timerEvents.end(); ++it)
     {
-        auto teEventData = *std::get<timerEventDataPos>(*it);
+        const auto& teEventData = *std::get<timerEventDataPos>(*it);
         if (std::get<eventActionsPos>(teEventData).size() ==
             eventActions.size())
         {
