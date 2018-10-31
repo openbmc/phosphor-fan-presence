@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include <experimental/filesystem>
+#include <functional>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include "fan.hpp"
@@ -88,7 +89,7 @@ TachSensor::TachSensor(Mode mode,
     _offset(offset),
     _timeout(timeout),
     _timerMode(TimerMode::func),
-    _timer(event, [this, &fan](){ fan.timerExpired(*this); })
+    _timer(event, std::bind(&Fan::timerExpired, &fan, std::ref(*this)))
 {
     // Start from a known state of functional
     setFunctional(true);
