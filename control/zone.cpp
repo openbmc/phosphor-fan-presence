@@ -18,6 +18,7 @@
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
+#include <stdexcept>
 #include <xyz/openbmc_project/Common/error.hpp>
 #include "zone.hpp"
 #include "utility.hpp"
@@ -72,10 +73,7 @@ Zone::Zone(Mode mode,
             initEvent(event);
         }
         // Start timer for fan speed decreases
-        if (!_decTimer.running() && _decInterval != seconds::zero())
-        {
-            _decTimer.start(_decInterval, TimerType::repeating);
-        }
+        _decTimer.restart(_decInterval);
     }
 }
 
@@ -238,14 +236,9 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
         {
             requestTarget = _ceilingSpeed;
         }
-        // Cancel current timer countdown
-        if (_incTimer.running())
-        {
-            _incTimer.stop();
-        }
         setSpeed(requestTarget);
-        // Start timer countdown for fan speed increase
-        _incTimer.start(_incDelay, TimerType::oneshot);
+        // Retart timer countdown for fan speed increase
+        _incTimer.restartOnce(_incDelay);
     }
 }
 
@@ -277,7 +270,7 @@ void Zone::decTimerExpired()
     // where no requested increases exist and
     // the increase timer is not running
     // (i.e. not in the middle of increasing)
-    if (decAllowed && _incSpeedDelta == 0 && !_incTimer.running())
+    if (decAllowed && _incSpeedDelta == 0 && !_incTimer.isEnabled())
     {
         auto requestTarget = getRequestSpeedBase();
         // Request target speed should not start above ceiling
@@ -419,7 +412,7 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
 {
     for (auto it = _timerEvents.begin(); it != _timerEvents.end(); ++it)
     {
-        const auto& teEventData = *std::get<timerEventDataPos>(*it);
+        const auto& teEventData = std::get<timerEventDataPos>(*it);
         if (std::get<eventActionsPos>(teEventData).size() ==
             eventActions.size())
         {
@@ -449,26 +442,32 @@ void Zone::addTimer(const Group& group,
                     const std::vector<Action>& actions,
                     const TimerConf& tConf)
 {
-    // Associate event data with timer
-    auto data = std::make_unique<EventData>(
+    EventData eventData(
             group,
             "",
             nullptr,
             actions
     );
-    auto timer = std::make_unique<util::Timer>(
-        _eventLoop,
+    Timer timer(_eventLoop, nullptr);
+    auto& r = _timerEvents.emplace_back(std::move(eventData), std::move(timer));
+    std::get<Timer>(r).set_callback(
         std::bind(&Zone::timerExpired,
                   this,
-                  std::cref(std::get<Group>(*data)),
-                  std::cref(std::get<std::vector<Action>>(*data)))
-    );
-    if (!timer->running())
+                  std::cref(std::get<Group>(std::get<EventData>(r))),
+                  std::cref(std::get<std::vector<Action>>(
+                      std::get<EventData>(r)))));
+    if (std::get<TimerType>(tConf) == TimerType::repeating)
     {
-        timer->start(std::get<intervalPos>(tConf),
-                     std::get<typePos>(tConf));
+        std::get<Timer>(r).restart(std::get<intervalPos>(tConf));
     }
-    _timerEvents.emplace_back(std::move(data), std::move(timer));
+    else if (std::get<TimerType>(tConf) == TimerType::oneshot)
+    {
+        std::get<Timer>(r).restartOnce(std::get<intervalPos>(tConf));
+    }
+    else
+    {
+        throw std::invalid_argumnt("Invalid Timer Type");
+    }
 }
 
 void Zone::timerExpired(const Group& eventGroup,

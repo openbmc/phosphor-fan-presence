@@ -3,7 +3,8 @@
 #include <tuple>
 #include <vector>
 #include <sdbusplus/server.hpp>
-#include "timer.hpp"
+#include <sdeventplus/clock.hpp>
+#include <sdeventplus/utility/timer.hpp>
 
 namespace phosphor
 {
@@ -64,7 +65,11 @@ using Service = std::tuple<std::string, bool>;
 
 constexpr auto intervalPos = 0;
 constexpr auto typePos = 1;
-using TimerType = phosphor::fan::util::Timer::TimerType;
+enum class TimerType
+{
+    oneshot,
+    repeating,
+};
 using TimerConf = std::tuple<std::chrono::seconds,
                              TimerType>;
 
@@ -89,9 +94,8 @@ using EventData = std::tuple<Group, std::string, Handler, std::vector<Action>>;
 
 constexpr auto timerEventDataPos = 0;
 constexpr auto timerTimerPos = 1;
-using TimerEvent =
-    std::tuple<std::unique_ptr<EventData>,
-               std::unique_ptr<phosphor::fan::util::Timer>>;
+using Timer = sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>;
+using TimerEvent = std::tuple<EventData, Timer>;
 
 constexpr auto signalEventDataPos = 0;
 constexpr auto signalMatchPos = 1;
