@@ -395,7 +395,8 @@ class Zone
          * @param[in] eventGroup - Group to process actions on
          * @param[in] eventActions - List of event actions to run
          */
-        void timerExpired(Group eventGroup, std::vector<Action> eventActions);
+        void timerExpired(const Group& eventGroup,
+                          const std::vector<Action>& eventActions);
 
         /**
          * @brief Get the service for a given path and interface from cached
