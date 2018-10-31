@@ -1,13 +1,11 @@
 #pragma once
-#include <chrono>
-#include <vector>
-#include <cassert>
 #include <algorithm>
+#include <chrono>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <vector>
 #include "fan.hpp"
 #include "types.hpp"
-#include "timer.hpp"
 
 namespace phosphor
 {
@@ -382,9 +380,6 @@ class Zone
          */
         inline void removeTimer(std::vector<TimerEvent>::iterator& teIter)
         {
-            assert(teIter != std::end(_timerEvents));
-            std::get<timerEventDataPos>(*teIter).reset();
-            std::get<timerTimerPos>(*teIter).reset();
             _timerEvents.erase(teIter);
         }
 
@@ -506,12 +501,12 @@ class Zone
         /**
          * The increase timer object
          */
-        phosphor::fan::util::Timer _incTimer;
+        Timer _incTimer;
 
         /**
          * The decrease timer object
          */
-        phosphor::fan::util::Timer _decTimer;
+        Timer _decTimer;
 
         /**
          * Event loop used on set speed event timers
