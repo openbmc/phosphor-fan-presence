@@ -221,23 +221,10 @@ void TachSensor::handleTachChange(sdbusplus::message::message& msg)
 
 void TachSensor::startTimer(TimerMode mode)
 {
-    if (!timerRunning())
+    if (!timerRunning() || mode != _timerMode)
     {
-        _timer.start(
-                getDelay(mode),
-                util::Timer::TimerType::oneshot);
+        _timer.restartOnce(getDelay(mode));
         _timerMode = mode;
-    }
-    else
-    {
-        if (mode != _timerMode)
-        {
-            _timer.stop();
-            _timer.start(
-                    getDelay(mode),
-                    util::Timer::TimerType::oneshot);
-            _timerMode = mode;
-        }
     }
 }
 
