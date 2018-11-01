@@ -82,7 +82,7 @@ constexpr auto actionsPos = 2;
 constexpr auto triggerPos = 3;
 using SetSpeedEvent = std::tuple<std::string,
                                  Group,
-                                 std::vector<Action>,
+                                 std::tuple<Group, std::vector<Action>>,
                                  std::vector<Trigger>>;
 
 constexpr auto eventGroupPos = 0;
