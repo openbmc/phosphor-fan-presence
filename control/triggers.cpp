@@ -73,6 +73,8 @@ Trigger init(MethodHandler&& handler)
             actions.end(),
             [&zone, &group](auto const& action)
             {
+                // TODO Use action groups instead of event groups if exists
+                // Similarly on the timer and signal events
                 action(zone, group);
             }
         );

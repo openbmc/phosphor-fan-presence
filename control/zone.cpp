@@ -23,6 +23,9 @@
 #include "utility.hpp"
 #include "sdbusplus.hpp"
 
+#include "triggers.hpp"
+#include <iostream>
+
 namespace phosphor
 {
 namespace fan
@@ -322,24 +325,30 @@ void Zone::removeEvent(const SetSpeedEvent& event)
     // Remove triggers of the event
     for (auto& trig : std::get<triggerPos>(event))
     {
-        auto it = findSignal(trig,
-                             std::get<groupPos>(event),
-                             std::get<actionsPos>(event));
-        if (it != std::end(getSignalEvents()))
-        {
-            removeSignal(it);
-        }
+        std::cout << "Trigger target_type name: " << trig.target_type().name() << std::endl;
+        // void (*const* ptr)(Zone&, const Group&, const std::vector<Action>&) =
+        //     trig.target<void(*)(Zone&, const Group&, const std::vector<Action>&)>();
+        // if (ptr)// && *ptr == Trigger(trigger::signal))
+        // {
+            auto it = findSignal(trig,
+                                 std::get<groupPos>(event),
+                                 std::get<actionsPos>(event));
+            if (it != std::end(getSignalEvents()))
+            {
+                removeSignal(it);
+            }
+        // }
     }
     // Remove timers of the event
-    if (std::get<intervalPos>(std::get<timerConfPos>(event)) != seconds(0))
-    {
+    // if (std::get<intervalPos>(std::get<timerConfPos>(event)) != seconds(0))
+    // {
         auto it = findTimer(std::get<groupPos>(event),
                             std::get<actionsPos>(event));
         if (it != std::end(getTimerEvents()))
         {
             removeTimer(it);
         }
-    }
+    // }
 }
 
 std::vector<SignalEvent>::iterator Zone::findSignal(
@@ -441,6 +450,7 @@ void Zone::timerExpired(const Group& eventGroup,
                   eventActions.end(),
                   [this, &eventGroup](auto const& action)
                   {
+                      // TODO Use action groups instead of event groups if exists
                       action(*this, eventGroup);
                   });
 }
@@ -456,6 +466,7 @@ void Zone::handleEvent(sdbusplus::message::message& msg,
         std::get<eventActionsPos>(*eventData).end(),
         [this, &eventData](auto const& action)
         {
+            // TODO Use action groups instead of event groups if exists
             action(*this,
                    std::get<eventGroupPos>(*eventData));
         });
