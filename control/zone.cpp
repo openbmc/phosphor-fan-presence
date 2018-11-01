@@ -413,6 +413,7 @@ void Zone::timerExpired(const Group& eventGroup,
                   eventActions.end(),
                   [this, &eventGroup](auto const& action)
                   {
+                      // TODO Use action groups instead of event groups if exists
                       action(*this, eventGroup);
                   });
 }
@@ -428,6 +429,7 @@ void Zone::handleEvent(sdbusplus::message::message& msg,
         std::get<eventActionsPos>(*eventData).end(),
         [this, &eventData](auto const& action)
         {
+            // TODO Use action groups instead of event groups if exists
             action(*this,
                    std::get<eventGroupPos>(*eventData));
         });
