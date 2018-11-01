@@ -148,6 +148,7 @@ def genEvent(event):
             e += "},\n"
     e += "},\n"
 
+    e += "{Group{},\n"
     e += "std::vector<Action>{\n"
     for a in event['action']:
         if len(a['parameters']) != 0:
@@ -160,7 +161,7 @@ def genEvent(event):
             else:
                 e += p + ")\n"
         e += "),\n"
-    e += "},\n"
+    e += "}},\n"
 
     e += "std::vector<Trigger>{\n"
     if ('timer' in event['triggers']) and \
