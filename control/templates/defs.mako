@@ -60,6 +60,7 @@ Group{
 %endfor
 %endfor
 },
+{Group{},
 std::vector<Action>{
 %for a in event['action']:
 %if len(a['parameters']) != 0:
@@ -76,7 +77,7 @@ make_action(action::${a['name']}
 %endfor
 ),
 %endfor
-},
+}},
 std::vector<Trigger>{
     %if ('timer' in event['triggers']) and \
         (event['triggers']['timer'] is not None):

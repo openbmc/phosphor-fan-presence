@@ -325,10 +325,33 @@ void Zone::initEvent(const SetSpeedEvent& event)
         std::get<triggerPos>(event).end(),
         [this, &event](auto const& trigger)
         {
-            trigger(*this,
-                    std::get<sseNamePos>(event),
-                    std::get<groupPos>(event),
-                    std::get<actionsPos>(event));
+            auto group = std::get<groupPos>(event);
+            if (!std::get<actionsPos>(event).empty())
+            {
+                std::for_each(
+                    std::get<actionsPos>(event).begin(),
+                    std::get<actionsPos>(event).end(),
+                    [this, &trigger, &group, &event](auto const& action)
+                    {
+                        // Default to use group defined with action if exists
+                        if (!std::get<adGroupPos>(action).empty())
+                        {
+                            group = std::get<adGroupPos>(action);
+                        }
+                        trigger(*this,
+                                std::get<sseNamePos>(event),
+                                group,
+                                std::get<adActionsPos>(action));
+                    }
+                );
+            }
+            else
+            {
+                trigger(*this,
+                        std::get<sseNamePos>(event),
+                        group,
+                        {});
+            }
         }
     );
 }
