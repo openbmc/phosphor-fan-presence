@@ -57,6 +57,10 @@ using Trigger = std::function<void(Zone&,
                                    const Group&,
                                    const std::vector<Action>&)>;
 
+constexpr auto adGroupPos = 0;
+constexpr auto adActionsPos = 1;
+using ActionData = std::vector<std::tuple<Group, std::vector<Action>>>;
+
 constexpr auto pcPathPos = 0;
 constexpr auto pcIntfPos = 1;
 constexpr auto pcPropPos = 2;
@@ -76,13 +80,15 @@ using TimerType = phosphor::fan::util::Timer::TimerType;
 using TimerConf = std::tuple<std::chrono::microseconds,
                              TimerType>;
 
+// TODO Remove event group (groupPos)
+// Bind groups directly to list of actions after optimized code generated
 constexpr auto sseNamePos = 0;
 constexpr auto groupPos = 1;
 constexpr auto actionsPos = 2;
 constexpr auto triggerPos = 3;
 using SetSpeedEvent = std::tuple<std::string,
                                  Group,
-                                 std::vector<Action>,
+                                 ActionData,
                                  std::vector<Trigger>>;
 
 constexpr auto eventGroupPos = 0;

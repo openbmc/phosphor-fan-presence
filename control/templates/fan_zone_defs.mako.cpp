@@ -76,6 +76,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endfor
                         %endfor
                         },
+                        {Group{},
                         std::vector<Action>{
                         %for i, a in enumerate(event['pc']['pcact']):
                         %if len(a['params']) != 0:
@@ -123,7 +124,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %else:
                         ),
                         %endif
-                        },
+                        }},
                         std::vector<Trigger>{
                             %if ('timer' in event['pc']['triggers']) and \
                                 (event['pc']['triggers']['timer'] is not None):
