@@ -374,48 +374,64 @@ void Zone::initEvent(const SetSpeedEvent& event)
 
 void Zone::removeEvent(const SetSpeedEvent& event)
 {
-    // Find the signal event to be removed
-    auto it = std::find_if(
-        _signalEvents.begin(),
-        _signalEvents.end(),
-        [&event](auto const& se)
-        {
-            auto seEventData = *std::get<signalEventDataPos>(se);
-            if (std::get<eventActionsPos>(seEventData).size() !=
-                std::get<actionsPos>(event).size())
-            {
-                return false;
-            }
-            else
-            {
-                // TODO openbmc/openbmc#2328 - Use the action function target
-                // for comparison
-                auto actsEqual = [](auto const& a1,
-                                    auto const& a2)
-                        {
-                            return a1.target_type().name() ==
-                                   a2.target_type().name();
-                        };
-                return
-                (
-                    std::get<eventGroupPos>(seEventData) ==
-                        std::get<groupPos>(event) &&
-                    std::equal(std::get<actionsPos>(event).begin(),
-                               std::get<actionsPos>(event).end(),
-                               std::get<eventActionsPos>(seEventData).begin(),
-                               actsEqual)
-                );
-            }
-        });
-    if (it != std::end(_signalEvents))
+    // Remove signals of the event
+    for (auto& sig : std::get<signalsPos>(event))
     {
-        std::get<signalEventDataPos>(*it).reset();
-        if (std::get<signalMatchPos>(*it) != nullptr)
+        auto it = findSignal(sig,
+                             std::get<groupPos>(event),
+                             std::get<actionsPos>(event));
+        if (it != std::end(getSignalEvents()))
         {
-            std::get<signalMatchPos>(*it).reset();
+            removeSignal(it);
         }
-        _signalEvents.erase(it);
     }
+    // Remove timers of the event
+    if (std::get<intervalPos>(std::get<timerPos>(event)) != seconds(0))
+    {
+        auto it = findTimer(std::get<groupPos>(event),
+                            std::get<actionsPos>(event));
+        if (it != std::end(getTimerEvents()))
+        {
+            removeTimer(it);
+        }
+    }
+}
+
+std::vector<SignalEvent>::iterator Zone::findSignal(
+        const Signal& signal,
+        const Group& eGroup,
+        const std::vector<Action>& eActions)
+{
+    // Find the signal in the event to be removed
+    for (auto it = _signalEvents.begin(); it != _signalEvents.end(); ++ it)
+    {
+        const auto& seEventData = *std::get<signalEventDataPos>(*it);
+        if (eGroup == std::get<eventGroupPos>(seEventData) &&
+            std::get<sigMatchPos>(signal) ==
+                std::get<eventMatchPos>(seEventData) &&
+            std::get<sigHandlerPos>(signal).target_type().name() ==
+                std::get<eventHandlerPos>(seEventData).target_type().name() &&
+            eActions.size() == std::get<eventActionsPos>(seEventData).size())
+        {
+            // TODO openbmc/openbmc#2328 - Use the function target
+            // for comparison
+            auto actsEqual = [](auto const& a1,
+                                auto const& a2)
+                    {
+                        return a1.target_type().name() ==
+                               a2.target_type().name();
+                    };
+            if (std::equal(eActions.begin(),
+                           eActions.end(),
+                           std::get<eventActionsPos>(seEventData).begin(),
+                           actsEqual))
+            {
+                return it;
+            }
+        }
+    }
+
+    return _signalEvents.end();
 }
 
 std::vector<TimerEvent>::iterator Zone::findTimer(
