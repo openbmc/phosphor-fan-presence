@@ -343,6 +343,46 @@ class Zone
         }
 
         /**
+         * @brief Get the list of signal events
+         *
+         * @return - List of signal events
+         */
+        inline auto& getSignalEvents()
+        {
+            return _signalEvents;
+        }
+
+        /**
+         * @brief Find the first instance of a signal event
+         *
+         * @param[in] signal - Event signal to find
+         * @param[in] eGroup - Group associated with the signal
+         * @param[in] eActions - List of actions associated with the signal
+         *
+         * @return - Iterator to the stored signal event
+         */
+        std::vector<SignalEvent>::iterator findSignal(
+            const Signal& signal,
+            const Group& eGroup,
+            const std::vector<Action>& eActions);
+
+        /**
+         * @brief Remove the given signal event
+         *
+         * @param[in] seIter - Iterator pointing to the signal event to remove
+         */
+        inline void removeSignal(std::vector<SignalEvent>::iterator& seIter)
+        {
+            assert(seIter != std::end(_signalEvents));
+            std::get<signalEventDataPos>(*seIter).reset();
+            if (std::get<signalMatchPos>(*seIter) != nullptr)
+            {
+                std::get<signalMatchPos>(*seIter).reset();
+            }
+            _signalEvents.erase(seIter);
+        }
+
+        /**
          * @brief Get the list of timer events
          *
          * @return - List of timer events
