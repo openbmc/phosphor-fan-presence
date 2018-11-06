@@ -365,7 +365,7 @@ void Zone::removeEvent(const SetSpeedEvent& event)
         }
     }
     // Remove timers of the event
-    if (std::get<intervalPos>(std::get<timerPos>(event)) != seconds(0))
+    if (std::get<intervalPos>(std::get<timerConfPos>(event)) != seconds(0))
     {
         auto it = findTimer(std::get<groupPos>(event),
                             std::get<actionsPos>(event));
