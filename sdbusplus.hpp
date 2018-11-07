@@ -339,7 +339,7 @@ class SDBusPlus
             }
             sdbusplus::message::variant<Property> value;
             msg.read(value);
-            return value.template get<Property>();
+            return sdbusplus::message::variant_ns::get<Property>(value);
         }
 
         /** @brief Get a property with mapper lookup. */
@@ -433,7 +433,7 @@ class SDBusPlus
             }
             sdbusplus::message::variant<Property> value;
             msg.read(value);
-            return value.template get<Property>();
+            return sdbusplus::message::variant_ns::get<Property>(value);
         }
 
         /** @brief Get a property without mapper lookup. */
