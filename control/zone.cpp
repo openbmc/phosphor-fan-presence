@@ -555,8 +555,13 @@ const std::string& Zone::addServices(const std::string& path,
                     // Service found in cache
                     for (auto& iIter : sIter.second)
                     {
-                        // Add interface to cache
-                        servIter->second.emplace_back(iIter);
+                        if (std::find(servIter->second.begin(),
+                                      servIter->second.end(),
+                                      iIter) == servIter->second.end())
+                        {
+                            // Add interface to cache
+                            servIter->second.emplace_back(iIter);
+                        }
                     }
                 }
                 else
