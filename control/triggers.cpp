@@ -105,31 +105,6 @@ Trigger init(MethodHandler&& handler)
     };
 }
 
-Trigger init(MethodHandler&& handler)
-{
-    return [handler = std::move(handler)](control::Zone& zone,
-                                          const std::string& name,
-                                          const Group& group,
-                                          const std::vector<Action>& actions)
-    {
-        // A handler function is optional
-        if (handler)
-        {
-            handler(zone, group);
-        }
-
-        // Run action functions for initial event state
-        std::for_each(
-            actions.begin(),
-            actions.end(),
-            [&zone, &group](auto const& action)
-            {
-                action(zone, group);
-            }
-        );
-    };
-}
-
 } // namespace trigger
 } // namespace control
 } // namespace fan
