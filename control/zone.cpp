@@ -323,23 +323,18 @@ void Zone::initEvent(const SetSpeedEvent& event)
 
 void Zone::removeEvent(const SetSpeedEvent& event)
 {
-    // Remove triggers of the event
-    for (auto& trig : std::get<triggerPos>(event))
+    // Remove event signals
+    auto sigIter = _signalEvents.find(std::get<sseNamePos>(event));
+    if (sigIter != _signalEvents.end())
     {
-        std::cout << "Trigger target_type name: " << trig.target_type().name() << std::endl;
-        // void (*const* ptr)(Zone&, const Group&, const std::vector<Action>&) =
-        //     trig.target<void(*)(Zone&, const Group&, const std::vector<Action>&)>();
-        // if (ptr)// && *ptr == Trigger(trigger::signal))
-        // {
-            auto it = findSignal(trig,
-                                 std::get<groupPos>(event),
-                                 std::get<actionsPos>(event));
-            if (it != std::end(getSignalEvents()))
-            {
-                removeSignal(it);
-            }
-        // }
+        auto& signals = sigIter->second;
+        for (auto it = signals.begin(); it != signals.end(); ++it)
+        {
+            removeSignal(it);
+        }
+        _signalEvents.erase(sigIter);
     }
+
     // Remove timers of the event
     // if (std::get<intervalPos>(std::get<timerConfPos>(event)) != seconds(0))
     // {
@@ -350,39 +345,6 @@ void Zone::removeEvent(const SetSpeedEvent& event)
             removeTimer(it);
         }
     // }
-}
-
-std::vector<SignalEvent>::iterator Zone::findSignal(
-        const Trigger& signal,
-        const Group& eGroup,
-        const std::vector<Action>& eActions)
-{
-    // Find the signal in the event to be removed
-    for (auto it = _signalEvents.begin(); it != _signalEvents.end(); ++ it)
-    {
-        const auto& seEventData = *std::get<signalEventDataPos>(*it);
-        if (eGroup == std::get<eventGroupPos>(seEventData) &&
-            eActions.size() == std::get<eventActionsPos>(seEventData).size())
-        {
-            // TODO openbmc/openbmc#2328 - Use the function target
-            // for comparison
-            auto actsEqual = [](auto const& a1,
-                                auto const& a2)
-                    {
-                        return a1.target_type().name() ==
-                               a2.target_type().name();
-                    };
-            if (std::equal(eActions.begin(),
-                           eActions.end(),
-                           std::get<eventActionsPos>(seEventData).begin(),
-                           actsEqual))
-            {
-                return it;
-            }
-        }
-    }
-
-    return _signalEvents.end();
 }
 
 std::vector<TimerEvent>::iterator Zone::findTimer(

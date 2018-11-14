@@ -53,7 +53,7 @@ Trigger signal(const std::string& match, SignalHandler&& handler)
                               eventData.get())
             );
         }
-        zone.addSignal(std::move(eventData), std::move(mPtr));
+        zone.addSignal(name, std::move(eventData), std::move(mPtr));
     };
 }
 
