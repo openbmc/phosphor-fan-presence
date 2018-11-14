@@ -64,6 +64,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                     %if ('pc' in event) and \
                         (event['pc'] is not None):
                     SetSpeedEvent{
+                        "${event['pc']['pcname']}",
                         Group{
                         %for group in event['pc']['pcgrps']:
                         %for member in group['members']:
@@ -105,12 +106,14 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endfor
                     std::vector<SetSpeedEvent>{
                     %for pcevt in event['pc']['pcevts']:
-                    SetSpeedEvent{\
+                    SetSpeedEvent{
+                        "${pcevt['name']}",\
                     ${indent(genSSE(event=pcevt), 6)}\
                     },
                     %endfor
                     %else:
-                    SetSpeedEvent{\
+                    SetSpeedEvent{
+                        "${event['name']}",\
                     ${indent(genSSE(event=event), 6)}
                     %endif
                     %if ('pc' in event) and (event['pc'] is not None):
