@@ -326,6 +326,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
         [this, &event](auto const& trigger)
         {
             trigger(*this,
+                    std::get<sseNamePos>(event),
                     std::get<groupPos>(event),
                     std::get<actionsPos>(event));
         }
