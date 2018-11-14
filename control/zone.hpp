@@ -412,43 +412,17 @@ class Zone : public ThermalObject
         }
 
         /**
-         * @brief Get the list of signal events
-         *
-         * @return - List of signal events
-         */
-        inline auto& getSignalEvents()
-        {
-            return _signalEvents;
-        }
-
-        /**
-         * @brief Find the first instance of a signal event
-         *
-         * @param[in] signal - Event signal to find
-         * @param[in] eGroup - Group associated with the signal
-         * @param[in] eActions - List of actions associated with the signal
-         *
-         * @return - Iterator to the stored signal event
-         */
-        std::vector<SignalEvent>::iterator findSignal(
-            const Trigger& signal,
-            const Group& eGroup,
-            const std::vector<Action>& eActions);
-
-        /**
          * @brief Remove the given signal event
          *
          * @param[in] seIter - Iterator pointing to the signal event to remove
          */
         inline void removeSignal(std::vector<SignalEvent>::iterator& seIter)
         {
-            assert(seIter != std::end(_signalEvents));
             std::get<signalEventDataPos>(*seIter).reset();
             if (std::get<signalMatchPos>(*seIter) != nullptr)
             {
                 std::get<signalMatchPos>(*seIter).reset();
             }
-            _signalEvents.erase(seIter);
         }
 
         /**
@@ -544,14 +518,16 @@ class Zone : public ThermalObject
         /**
          * @brief Add a signal to the list of signal based events
          *
+         * @param[in] name - Event name
          * @param[in] data - Event data for signal
          * @param[in] match - Subscribed signal match
          */
         inline void addSignal(
+                const std::string& name,
                 std::unique_ptr<EventData>&& data,
                 std::unique_ptr<sdbusplus::server::match::match>&& match)
         {
-            _signalEvents.emplace_back(std::move(data), std::move(match));
+            _signalEvents[name].emplace_back(std::move(data), std::move(match));
         }
 
         /**
@@ -793,9 +769,10 @@ class Zone : public ThermalObject
                 std::vector<std::string>>> _servTree;
 
         /**
-         * @brief List of signal event arguments and Dbus matches for callbacks
+         * @brief List of signal event arguments and Dbus matches
+         * for callbacks per event name
          */
-        std::vector<SignalEvent> _signalEvents;
+        std::map<std::string, std::vector<SignalEvent>> _signalEvents;
 
         /**
          * @brief List of timers for events
