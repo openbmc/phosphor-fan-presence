@@ -55,6 +55,7 @@ using SignalHandler = std::function<void(sdbusplus::bus::bus&,
 using MethodHandler = std::function<void(Zone&, const Group&)>;
 using Action = std::function<void(Zone&, const Group&)>;
 using Trigger = std::function<void(Zone&,
+                                   const std::string&,
                                    const Group&,
                                    const std::vector<Action>&)>;
 
