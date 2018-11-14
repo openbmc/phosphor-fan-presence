@@ -81,10 +81,12 @@ enum class TimerType
 using TimerConf = std::tuple<std::chrono::microseconds,
                              TimerType>;
 
-constexpr auto groupPos = 0;
-constexpr auto actionsPos = 1;
-constexpr auto triggerPos = 2;
-using SetSpeedEvent = std::tuple<Group,
+constexpr auto sseNamePos = 0;
+constexpr auto groupPos = 1;
+constexpr auto actionsPos = 2;
+constexpr auto triggerPos = 3;
+using SetSpeedEvent = std::tuple<std::string,
+                                 Group,
                                  std::vector<Action>,
                                  std::vector<Trigger>>;
 
