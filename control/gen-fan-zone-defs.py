@@ -262,6 +262,9 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     """
     event = {}
 
+    # Add set speed event name
+    event['name'] = e['name']
+
     # Add set speed event groups
     event['groups'] = getGroups(zone_num, zone_conditions, e, events_data)
 
@@ -293,6 +296,10 @@ def addPrecondition(zNum, zCond, event, events_data):
     structures to generate a precondition for a set speed event.
     """
     precond = {}
+
+    # Add set speed event precondition name
+    precond['pcname'] = event['name']
+
     # Add set speed event precondition group
     precond['pcgrps'] = getGroups(zNum,
                                   zCond,
@@ -370,6 +377,7 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
     if 'events' in events_data:
         for e in events_data['events']:
             event = {}
+
             # Add precondition if given
             if ('precondition' in e) and \
                (e['precondition'] is not None):
