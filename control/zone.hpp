@@ -399,21 +399,25 @@ class Zone
          *
          * @param[in] eventGroup - Group associated with a timer
          * @param[in] eventActions - List of actions associated with a timer
+         * @param[in] eventTimers - List of timers to find the timer in
          *
          * @return - Iterator to the timer event
          */
         std::vector<TimerEvent>::iterator findTimer(
                 const Group& eventGroup,
-                const std::vector<Action>& eventActions);
+                const std::vector<Action>& eventActions,
+                std::vector<TimerEvent>& eventTimers);
 
         /**
          * @brief Add a timer to the list of timer based events
          *
+         * @param[in] name - Event name associated with timer
          * @param[in] group - Group associated with a timer
          * @param[in] actions - List of actions associated with a timer
          * @param[in] tConf - Configuration for the new timer
          */
-        void addTimer(const Group& group,
+        void addTimer(const std::string& name,
+                      const Group& group,
                       const std::vector<Action>& actions,
                       const TimerConf& tConf);
 
@@ -424,10 +428,8 @@ class Zone
          */
         inline void removeTimer(std::vector<TimerEvent>::iterator& teIter)
         {
-            assert(teIter != std::end(_timerEvents));
             std::get<timerEventDataPos>(*teIter).reset();
             std::get<timerTimerPos>(*teIter).reset();
-            _timerEvents.erase(teIter);
         }
 
         /**
@@ -631,9 +633,9 @@ class Zone
         std::map<std::string, std::vector<SignalEvent>> _signalEvents;
 
         /**
-         * @brief List of timers for events
+         * @brief List of timers per event name
          */
-        std::vector<TimerEvent> _timerEvents;
+        std::map<std::string, std::vector<TimerEvent>> _timerEvents;
 
         /**
          * @brief Get the request speed base if defined, otherwise the
