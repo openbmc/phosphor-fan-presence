@@ -335,26 +335,29 @@ void Zone::removeEvent(const SetSpeedEvent& event)
         _signalEvents.erase(sigIter);
     }
 
-    // Remove timers of the event
-    // if (std::get<intervalPos>(std::get<timerConfPos>(event)) != seconds(0))
-    // {
-        auto it = findTimer(std::get<groupPos>(event),
-                            std::get<actionsPos>(event));
-        if (it != std::end(getTimerEvents()))
+    // Remove event timers
+    auto timIter = _timerEvents.find(std::get<sseNamePos>(event));
+    if (timIter != _timerEvents.end())
+    {
+        auto& timers = timIter->second;
+        for (auto it = timers.begin(); it != timers.end(); ++it)
         {
             removeTimer(it);
         }
-    // }
+        _timerEvents.erase(timIter);
+    }
 }
 
 std::vector<TimerEvent>::iterator Zone::findTimer(
         const Group& eventGroup,
-        const std::vector<Action>& eventActions)
+        const std::vector<Action>& eventActions,
+        std::vector<TimerEvent>& eventTimers)
 {
-    for (auto it = _timerEvents.begin(); it != _timerEvents.end(); ++it)
+    for (auto it = eventTimers.begin(); it != eventTimers.end(); ++it)
     {
         const auto& teEventData = *std::get<timerEventDataPos>(*it);
-        if (std::get<eventActionsPos>(teEventData).size() ==
+        if (std::get<eventGroupPos>(teEventData) == eventGroup &&
+            std::get<eventActionsPos>(teEventData).size() ==
             eventActions.size())
         {
             // TODO openbmc/openbmc#2328 - Use the action function target
@@ -365,8 +368,7 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
                         return a1.target_type().name() ==
                                a2.target_type().name();
                     };
-            if (std::get<eventGroupPos>(teEventData) == eventGroup &&
-                std::equal(eventActions.begin(),
+            if (std::equal(eventActions.begin(),
                            eventActions.end(),
                            std::get<eventActionsPos>(teEventData).begin(),
                            actsEqual))
@@ -376,10 +378,11 @@ std::vector<TimerEvent>::iterator Zone::findTimer(
         }
     }
 
-    return _timerEvents.end();
+    return eventTimers.end();
 }
 
-void Zone::addTimer(const Group& group,
+void Zone::addTimer(const std::string& name,
+                    const Group& group,
                     const std::vector<Action>& actions,
                     const TimerConf& tConf)
 {
@@ -402,7 +405,7 @@ void Zone::addTimer(const Group& group,
         timer->start(std::get<intervalPos>(tConf),
                      std::get<typePos>(tConf));
     }
-    _timerEvents.emplace_back(std::move(data), std::move(timer));
+    _timerEvents[name].emplace_back(std::move(data), std::move(timer));
 }
 
 void Zone::timerExpired(const Group& eventGroup,

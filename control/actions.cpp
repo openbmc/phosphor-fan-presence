@@ -29,24 +29,35 @@ Action call_actions_based_on_timer(TimerConf&& tConf,
                 {
                     return !std::get<hasOwnerPos>(s);
                 });
-            if (setTimer &&
-                zone.findTimer(group, actions) ==
-                    std::end(zone.getTimerEvents()))
+            auto it = zone.getTimerEvents().find(__func__);
+            if (it != zone.getTimerEvents().end())
             {
-                zone.addTimer(group, actions, tConf);
-            }
-            else
-            {
-                // Stop and remove any timers for this group
-                auto timer = zone.findTimer(group, actions);
-                if (timer != std::end(zone.getTimerEvents()))
+                auto& timers = it->second;
+                auto timerIter = zone.findTimer(group, actions, timers);
+                if (setTimer && timerIter == timers.end())
                 {
-                    if (std::get<timerTimerPos>(*timer)->running())
-                    {
-                        std::get<timerTimerPos>(*timer)->stop();
-                    }
-                    zone.removeTimer(timer);
+                    // No timer exists yet for action, add timer
+                    zone.addTimer(__func__, group, actions, tConf);
                 }
+                else if (!setTimer && timerIter != timers.end())
+                {
+                    // Stop and remove any timer for this group
+                    if (std::get<timerTimerPos>(*timerIter)->running())
+                    {
+                        std::get<timerTimerPos>(*timerIter)->stop();
+                    }
+                    zone.removeTimer(timerIter);
+                    timers.erase(timerIter);
+                    if (timers.empty())
+                    {
+                        zone.getTimerEvents().erase(it);
+                    }
+                }
+            }
+            else if (setTimer)
+            {
+                // No timer exists yet for event, add timer
+                zone.addTimer(__func__, group, actions, tConf);
             }
         }
         catch (const std::out_of_range& oore)
