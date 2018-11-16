@@ -435,33 +435,27 @@ class Zone : public ThermalObject
          *
          * @param[in] eventGroup - Group associated with a timer
          * @param[in] eventActions - List of actions associated with a timer
+         * @param[in] eventTimers - List of timers to find the timer in
          *
          * @return - Iterator to the timer event
          */
         std::vector<TimerEvent>::iterator findTimer(
                 const Group& eventGroup,
-                const std::vector<Action>& eventActions);
+                const std::vector<Action>& eventActions,
+                std::vector<TimerEvent>& eventTimers);
 
         /**
          * @brief Add a timer to the list of timer based events
          *
+         * @param[in] name - Event name associated with timer
          * @param[in] group - Group associated with a timer
          * @param[in] actions - List of actions associated with a timer
          * @param[in] tConf - Configuration for the new timer
          */
-        void addTimer(const Group& group,
+        void addTimer(const std::string& name,
+                      const Group& group,
                       const std::vector<Action>& actions,
                       const TimerConf& tConf);
-
-        /**
-         * @brief Remove the given timer event
-         *
-         * @param[in] teIter - Iterator pointing to the timer event to remove
-         */
-        inline void removeTimer(std::vector<TimerEvent>::iterator& teIter)
-        {
-            _timerEvents.erase(teIter);
-        }
 
         /**
          * @brief Callback function for event timers that processes the given
@@ -770,9 +764,9 @@ class Zone : public ThermalObject
         std::map<std::string, std::vector<SignalEvent>> _signalEvents;
 
         /**
-         * @brief List of timers for events
+         * @brief List of timers per event name
          */
-        std::vector<TimerEvent> _timerEvents;
+        std::map<std::string, std::vector<TimerEvent>> _timerEvents;
 
         /**
          * @brief Save the thermal control current mode property

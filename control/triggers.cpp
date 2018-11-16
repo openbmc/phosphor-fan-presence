@@ -18,7 +18,8 @@ Trigger timer(TimerConf&& tConf)
                                       const Group& group,
                                       const std::vector<Action>& actions)
     {
-        zone.addTimer(group,
+        zone.addTimer(name,
+                      group,
                       actions,
                       tConf);
     };
