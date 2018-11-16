@@ -458,16 +458,6 @@ class Zone : public ThermalObject
                       const TimerConf& tConf);
 
         /**
-         * @brief Remove the given timer event
-         *
-         * @param[in] teIter - Iterator pointing to the timer event to remove
-         */
-        inline void removeTimer(std::vector<TimerEvent>::iterator& teIter)
-        {
-            _timerEvents.erase(teIter);
-        }
-
-        /**
          * @brief Callback function for event timers that processes the given
          * actions for a group
          *
