@@ -241,51 +241,52 @@ def getGroups(zNum, zCond, edata, events):
     Extract and construct the groups for the given event.
     """
     groups = []
-    for eGroups in edata['groups']:
-        if ('zone_conditions' in eGroups) and \
-           (eGroups['zone_conditions'] is not None):
-            # Zone conditions are optional in the events yaml but skip
-            # if this event's condition is not in this zone's conditions
-            if all('name' in z and z['name'] is not None and
-                   not any(c['name'] == z['name'] for c in zCond)
-                   for z in eGroups['zone_conditions']):
-                continue
+    if ('groups' in edata) and (edata['groups'] is not None):
+        for eGroups in edata['groups']:
+            if ('zone_conditions' in eGroups) and \
+               (eGroups['zone_conditions'] is not None):
+                # Zone conditions are optional in the events yaml but skip
+                # if this event's condition is not in this zone's conditions
+                if all('name' in z and z['name'] is not None and
+                       not any(c['name'] == z['name'] for c in zCond)
+                       for z in eGroups['zone_conditions']):
+                    continue
 
-            # Zone numbers are optional in the events yaml but skip if this
-            # zone's zone number is not in the event's zone numbers
-            if all('zones' in z and z['zones'] is not None and
-                   zNum not in z['zones']
-                   for z in eGroups['zone_conditions']):
-                continue
-        eGroup = next(g for g in events['groups']
-                      if g['name'] == eGroups['name'])
+                # Zone numbers are optional in the events yaml but skip if this
+                # zone's zone number is not in the event's zone numbers
+                if all('zones' in z and z['zones'] is not None and
+                       zNum not in z['zones']
+                       for z in eGroups['zone_conditions']):
+                    continue
+            eGroup = next(g for g in events['groups']
+                          if g['name'] == eGroups['name'])
 
-        group = {}
-        members = []
-        group['name'] = eGroup['name']
-        for m in eGroup['members']:
-            member = {}
-            member['path'] = eGroup['type']
-            member['object'] = (eGroup['type'] + m)
-            member['interface'] = eGroups['interface']
-            member['property'] = eGroups['property']['name']
-            member['type'] = eGroups['property']['type']
-            # Use defined service to note member on zone object
-            if ('service' in eGroup) and \
-               (eGroup['service'] is not None):
-                member['service'] = eGroup['service']
-            # Add expected group member's property value if given
-            if ('value' in eGroups['property']) and \
-               (eGroups['property']['value'] is not None):
-                    if isinstance(eGroups['property']['value'], str) or \
-                            "string" in str(member['type']).lower():
-                        member['value'] = (
-                            "\"" + eGroups['property']['value'] + "\"")
-                    else:
-                        member['value'] = eGroups['property']['value']
-            members.append(member)
-        group['members'] = members
-        groups.append(group)
+            group = {}
+            members = []
+            group['name'] = eGroup['name']
+            for m in eGroup['members']:
+                member = {}
+                member['path'] = eGroup['type']
+                member['object'] = (eGroup['type'] + m)
+                member['interface'] = eGroups['interface']
+                member['property'] = eGroups['property']['name']
+                member['type'] = eGroups['property']['type']
+                # Use defined service to note member on zone object
+                if ('service' in eGroup) and \
+                   (eGroup['service'] is not None):
+                    member['service'] = eGroup['service']
+                # Add expected group member's property value if given
+                if ('value' in eGroups['property']) and \
+                   (eGroups['property']['value'] is not None):
+                        if isinstance(eGroups['property']['value'], str) or \
+                                "string" in str(member['type']).lower():
+                            member['value'] = (
+                                "\"" + eGroups['property']['value'] + "\"")
+                        else:
+                            member['value'] = eGroups['property']['value']
+                members.append(member)
+            group['members'] = members
+            groups.append(group)
     return groups
 
 
