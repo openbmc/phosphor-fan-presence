@@ -299,7 +299,7 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                 del eAction['groups']
                 actList = []
                 actList.append(eAction)
-                sseActions.append({'groups':grps, 'actions':actList})
+                sseActions.append({'groups': grps, 'actions': actList})
         event['action'] = sseActions
 
     # Add event triggers
@@ -419,7 +419,11 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
                                               events_data)
             else:
                 event = getEvent(zone_num, zone_conditions, e, events_data)
-                if not event:
+                # Remove empty events and events that have
+                # no groups defined for the event or any of the actions
+                if not event or \
+                    (not event['groups'] and
+                        all(not a['groups'] for a in event['action'])):
                     continue
             events.append(event)
 
