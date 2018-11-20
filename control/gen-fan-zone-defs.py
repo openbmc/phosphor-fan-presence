@@ -141,27 +141,31 @@ def genEvent(event):
     e += "Group{\n"
     for group in event['groups']:
         for member in group['members']:
-            e += "{\n"
-            e += "\"" + member['object'] + "\",\n"
+            e += "{\"" + member['object'] + "\",\n"
             e += "\"" + member['interface'] + "\",\n"
-            e += "\"" + member['property'] + "\"\n"
-            e += "},\n"
+            e += "\"" + member['property'] + "\"},\n"
     e += "},\n"
 
-    e += "{Group{},\n"
-    e += "std::vector<Action>{\n"
-    for a in event['action']:
-        if len(a['parameters']) != 0:
+    e += "ActionData{\n"
+    for d in event['action']:
+        e += "{Group{\n"
+        for g in d['groups']:
+            for m in g['members']:
+                e += "{" + m['object'] + ",\n"
+                e += m['interface'] + ",\n"
+                e += m['property'] + "},\n"
+        e += "},\n"
+        e += "std::vector<Action>{\n"
+        for a in d['actions']:
             e += "make_action(action::" + a['name'] + "(\n"
-        else:
-            e += "make_action(action::" + a['name'] + "\n"
-        for i, p in enumerate(a['parameters']):
-            if (i+1) != len(a['parameters']):
-                e += p + ",\n"
-            else:
-                e += p + ")\n"
-        e += "),\n"
-    e += "}},\n"
+            for i, p in enumerate(a['parameters']):
+                if (i+1) != len(a['parameters']):
+                    e += p + ",\n"
+                else:
+                    e += p + "\n"
+            e += ")),\n"
+        e += "}},\n"
+    e += "},\n"
 
     e += "std::vector<Trigger>{\n"
     if ('timer' in event['triggers']) and \
@@ -411,6 +415,7 @@ def getActions(zNum, zCond, edata, actions, events):
         eAction = next(a for a in events['actions']
                        if a['name'] == eActions['name'])
         actions['name'] = eAction['name']
+        actions['groups'] = getGroups(zNum, zCond, eActions, events)
         params = []
         if ('parameters' in eAction) and \
            (eAction['parameters'] is not None):
@@ -506,11 +511,29 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     event['action'] = []
     if ('actions' in e) and \
        (e['actions'] is not None):
-        event['action'] = getActions(zone_num,
-                                     zone_conditions,
-                                     e,
-                                     e,
-                                     events_data)
+        # List of dicts containing the list of groups and list of actions
+        sseActions = []
+        eActions = getActions(zone_num, zone_conditions, e, e, events_data)
+        for eAction in eActions:
+            # Skip events that have no groups defined for the event or actions
+            if not event['groups'] and not eAction['groups']:
+                continue
+            # Find group in sseActions
+            grpExists = False
+            for sseDict in sseActions:
+                if eAction['groups'] == sseDict['groups']:
+                    # Extend 'actions' list
+                    del eAction['groups']
+                    sseDict['actions'].append(eAction)
+                    grpExists = True
+                    break
+            if not grpExists:
+                grps = eAction['groups']
+                del eAction['groups']
+                actList = []
+                actList.append(eAction)
+                sseActions.append({'groups':grps, 'actions':actList})
+        event['action'] = sseActions
 
     # Add event triggers
     event['triggers'] = {}
