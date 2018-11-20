@@ -49,35 +49,42 @@ ${genParams(par=meth)}\
 </%def>\
 
 <%def name="genSSE(event)" buffered="True">
-Group{
+Group
+{
 %for group in event['groups']:
 %for member in group['members']:
-{
-    "${member['object']}",
+    {"${member['object']}",
     "${member['interface']}",
-    "${member['property']}"
-},
+    "${member['property']}"},
 %endfor
 %endfor
 },
-{Group{},
+ActionData{
+%for e in event['action']:
+{Group{
+%for g in e['groups']:
+%for m in g['members']:
+    {"${m['object']}",
+    "${m['interface']}",
+    "${m['property']}"},
+%endfor
+%endfor
+},
 std::vector<Action>{
-%for a in event['action']:
-%if len(a['parameters']) != 0:
+%for a in e['actions']:
 make_action(action::${a['name']}(
-%else:
-make_action(action::${a['name']}
-%endif
 %for i, p in enumerate(a['parameters']):
 %if (i+1) != len(a['parameters']):
     ${p},
 %else:
-    ${p})
+    ${p}
 %endif
 %endfor
-),
+)),
 %endfor
 }},
+%endfor
+},
 std::vector<Trigger>{
     %if ('timer' in event['triggers']) and \
         (event['triggers']['timer'] is not None):

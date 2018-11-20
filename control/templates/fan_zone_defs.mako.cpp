@@ -65,17 +65,17 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         (event['pc'] is not None):
                     SetSpeedEvent{
                         "${event['pc']['pcname']}",
-                        Group{
+                        Group
+                        {
                         %for group in event['pc']['pcgrps']:
                         %for member in group['members']:
-                        {
-                            "${member['object']}",
+                            {"${member['object']}",
                             "${member['interface']}",
-                            "${member['property']}"
-                        },
+                            "${member['property']}"},
                         %endfor
                         %endfor
                         },
+                        ActionData{
                         {Group{},
                         std::vector<Action>{
                         %for i, a in enumerate(event['pc']['pcact']):
@@ -125,6 +125,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         ),
                         %endif
                         }},
+                        },
                         std::vector<Trigger>{
                             %if ('timer' in event['pc']['triggers']) and \
                                 (event['pc']['triggers']['timer'] is not None):
