@@ -45,7 +45,7 @@ constexpr auto FAN_CONTROL_READY_TARGET = "obmc-fan-control-ready@0.target";
  * @param[in] condition - The condition to check if true
  * @return result       - True if the condition is true
  */
-bool checkCondition(sdbusplus::bus::bus& bus, const auto& c)
+bool checkCondition(sdbusplus::bus::bus& bus, const Condition& c)
 {
     auto& type = std::get<conditionTypePos>(c);
     auto& properties = std::get<conditionPropertyListPos>(c);
