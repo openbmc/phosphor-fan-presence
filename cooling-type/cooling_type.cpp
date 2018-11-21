@@ -1,14 +1,17 @@
-#include <fcntl.h>
-#include <unistd.h>
-#include <sdbusplus/bus.hpp>
-#include <phosphor-logging/log.hpp>
-#include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/elog-errors.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
-#include <libevdev/libevdev.h>
-#include "utility.hpp"
 #include "cooling_type.hpp"
+
 #include "sdbusplus.hpp"
+#include "utility.hpp"
+
+#include <fcntl.h>
+#include <libevdev/libevdev.h>
+#include <unistd.h>
+
+#include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/log.hpp>
+#include <sdbusplus/bus.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 namespace phosphor
 {
@@ -19,10 +22,10 @@ namespace type
 
 // For throwing exception
 using namespace phosphor::logging;
-using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-                            Error::InternalFailure;
+using InternalFailure =
+    sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-std::unique_ptr<libevdev, FreeEvDev>  evdevOpen(int fd)
+std::unique_ptr<libevdev, FreeEvDev> evdevOpen(int fd)
 {
     libevdev* gpioDev = nullptr;
 
@@ -33,7 +36,7 @@ std::unique_ptr<libevdev, FreeEvDev>  evdevOpen(int fd)
     }
 
     log<level::ERR>("Failed to get libevdev from file descriptor",
-             entry("RC=%d", rc));
+                    entry("RC=%d", rc));
     elog<InternalFailure>();
     return decltype(evdevOpen(0))(nullptr);
 }
@@ -57,13 +60,13 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
     auto gpioDev = evdevOpen(gpioFd());
 
     auto value = static_cast<int>(0);
-    auto fetch_rc = libevdev_fetch_event_value(gpioDev.get(), EV_KEY,
-                                               keycode, &value);
+    auto fetch_rc =
+        libevdev_fetch_event_value(gpioDev.get(), EV_KEY, keycode, &value);
     if (0 == fetch_rc)
     {
-       log<level::ERR>("Device does not support event type",
-            entry("KEYCODE=%d", keycode));
-       elog<InternalFailure>();
+        log<level::ERR>("Device does not support event type",
+                        entry("KEYCODE=%d", keycode));
+        elog<InternalFailure>();
     }
 
     // TODO openbmc/phosphor-fan-presence#6
@@ -75,7 +78,6 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
     {
         setWaterCooled();
     }
-
 }
 
 CoolingType::ObjectMap CoolingType::getObjectMap(const std::string& objpath)
@@ -101,14 +103,11 @@ void CoolingType::updateInventory(const std::string& objpath)
 
     // Update inventory
     auto invMgrResponseMsg = util::SDBusPlus::lookupAndCallMethod(
-            bus,
-            util::INVENTORY_PATH,
-            util::INVENTORY_INTF,
-            "Notify",
-            std::move(invObj));
+        bus, util::INVENTORY_PATH, util::INVENTORY_INTF, "Notify",
+        std::move(invObj));
 }
 
-}
-}
-}
+} // namespace type
+} // namespace cooling
+} // namespace phosphor
 // vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

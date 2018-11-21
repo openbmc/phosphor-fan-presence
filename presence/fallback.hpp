@@ -1,9 +1,10 @@
 #pragma once
 
-#include <functional>
-#include <vector>
 #include "fan.hpp"
 #include "rpolicy.hpp"
+
+#include <functional>
+#include <vector>
 
 namespace phosphor
 {
@@ -25,54 +26,53 @@ class PresenceSensor;
  */
 class Fallback : public RedundancyPolicy
 {
-    public:
-        Fallback() = delete;
-        Fallback(const Fallback&) = default;
-        Fallback& operator=(const Fallback&) = default;
-        Fallback(Fallback&&) = default;
-        Fallback& operator=(Fallback&&) = default;
-        ~Fallback() = default;
+  public:
+    Fallback() = delete;
+    Fallback(const Fallback&) = default;
+    Fallback& operator=(const Fallback&) = default;
+    Fallback(Fallback&&) = default;
+    Fallback& operator=(Fallback&&) = default;
+    ~Fallback() = default;
 
-        /**
-         * @brief Construct a fallback policy.
-         *
-         * @param[in] fan - The fan associated with the policy.
-         * @param[in] s - The set of sensors associated with the policy.
-         */
-        Fallback(
-                const Fan& fan,
-                const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
-            RedundancyPolicy(fan), sensors(s)
-        {
-            activeSensor = sensors.begin();
-        }
+    /**
+     * @brief Construct a fallback policy.
+     *
+     * @param[in] fan - The fan associated with the policy.
+     * @param[in] s - The set of sensors associated with the policy.
+     */
+    Fallback(const Fan& fan,
+             const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
+        RedundancyPolicy(fan),
+        sensors(s)
+    {
+        activeSensor = sensors.begin();
+    }
 
-        /**
-         * @brief stateChanged
-         *
-         * Update the inventory and execute the fallback
-         * policy.
-         *
-         * @param[in] present - The new presence state according
-         *             to the active sensor.
-         * @param[in] sensor - The sensor that changed state.
-         */
-        void stateChanged(bool present, PresenceSensor& sensor) override;
+    /**
+     * @brief stateChanged
+     *
+     * Update the inventory and execute the fallback
+     * policy.
+     *
+     * @param[in] present - The new presence state according
+     *             to the active sensor.
+     * @param[in] sensor - The sensor that changed state.
+     */
+    void stateChanged(bool present, PresenceSensor& sensor) override;
 
-        /**
-         * @brief monitor
-         *
-         * Start monitoring the fan.
-         */
-        void monitor() override;
+    /**
+     * @brief monitor
+     *
+     * Start monitoring the fan.
+     */
+    void monitor() override;
 
-    private:
+  private:
+    /** @brief All presence sensors in the redundancy set. */
+    std::vector<std::reference_wrapper<PresenceSensor>> sensors;
 
-        /** @brief All presence sensors in the redundancy set. */
-        std::vector<std::reference_wrapper<PresenceSensor>> sensors;
-
-        /** @brief The active presence sensor. */
-        decltype(sensors)::iterator activeSensor;
+    /** @brief The active presence sensor. */
+    decltype(sensors)::iterator activeSensor;
 };
 
 } // namespace presence

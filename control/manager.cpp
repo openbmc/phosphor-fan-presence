@@ -13,15 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <algorithm>
-#include <phosphor-logging/log.hpp>
-#include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/elog-errors.hpp>
-#include <xyz/openbmc_project/Common/error.hpp>
-#include <unistd.h>
 #include "manager.hpp"
-#include "utility.hpp"
+
 #include "sdbusplus.hpp"
+#include "utility.hpp"
+
+#include <unistd.h>
+
+#include <algorithm>
+#include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/log.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
 
 namespace phosphor
 {
@@ -32,8 +35,8 @@ namespace control
 
 using namespace phosphor::logging;
 
-constexpr auto SYSTEMD_SERVICE   = "org.freedesktop.systemd1";
-constexpr auto SYSTEMD_OBJ_PATH  = "/org/freedesktop/systemd1";
+constexpr auto SYSTEMD_SERVICE = "org.freedesktop.systemd1";
+constexpr auto SYSTEMD_OBJ_PATH = "/org/freedesktop/systemd1";
 constexpr auto SYSTEMD_INTERFACE = "org.freedesktop.systemd1.Manager";
 constexpr auto FAN_CONTROL_READY_TARGET = "obmc-fan-control-ready@0.target";
 
@@ -58,10 +61,9 @@ bool checkCondition(sdbusplus::bus::bus& bus, const auto& c)
         if (type.compare("getProperty") == 0)
         {
             auto propertyValue = util::SDBusPlus::getProperty<decltype(value)>(
-                    bus,
-                    std::get<propertyPathPos>(p),
-                    std::get<propertyInterfacePos>(p),
-                    std::get<propertyNamePos>(p));
+                bus, std::get<propertyPathPos>(p),
+                std::get<propertyInterfacePos>(p),
+                std::get<propertyNamePos>(p));
 
             if (value != propertyValue)
             {
@@ -72,28 +74,25 @@ bool checkCondition(sdbusplus::bus::bus& bus, const auto& c)
     return true;
 }
 
-
-//Note: Future code will check 'mode' before starting control algorithm
-Manager::Manager(sdbusplus::bus::bus& bus,
-                 const sdeventplus::Event& event,
+// Note: Future code will check 'mode' before starting control algorithm
+Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                  Mode mode) :
     _bus(bus)
 {
-    //Create the appropriate Zone objects based on the
-    //actual system configuration.
+    // Create the appropriate Zone objects based on the
+    // actual system configuration.
 
-    //Find the 1 ZoneGroup that meets all of its conditions
+    // Find the 1 ZoneGroup that meets all of its conditions
     for (auto& group : _zoneLayouts)
     {
         auto& conditions = std::get<conditionListPos>(group);
 
         if (std::all_of(conditions.begin(), conditions.end(),
-                        [&bus](const auto& condition)
+                        [&bus](const auto& condition) {
+                            return checkCondition(bus, condition);
+                        }))
         {
-            return checkCondition(bus, condition);
-        }))
-        {
-            //Create a Zone object for each zone in this group
+            // Create a Zone object for each zone in this group
             auto& zones = std::get<zoneListPos>(group);
 
             for (auto& z : zones)
@@ -105,9 +104,7 @@ Manager::Manager(sdbusplus::bus::bus& bus,
             break;
         }
     }
-
 }
-
 
 void Manager::doInit()
 {
@@ -122,14 +119,9 @@ void Manager::doInit()
         delay = sleep(delay);
     }
 
-    util::SDBusPlus::callMethod(
-            _bus,
-            SYSTEMD_SERVICE,
-            SYSTEMD_OBJ_PATH,
-            SYSTEMD_INTERFACE,
-            "StartUnit",
-            FAN_CONTROL_READY_TARGET,
-            "replace");
+    util::SDBusPlus::callMethod(_bus, SYSTEMD_SERVICE, SYSTEMD_OBJ_PATH,
+                                SYSTEMD_INTERFACE, "StartUnit",
+                                FAN_CONTROL_READY_TARGET, "replace");
 }
 
 } // namespace control

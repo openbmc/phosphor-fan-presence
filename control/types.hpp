@@ -1,9 +1,10 @@
 #pragma once
+#include "timer.hpp"
+
+#include <sdbusplus/server.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
-#include <sdbusplus/server.hpp>
-#include "timer.hpp"
 
 namespace phosphor
 {
@@ -20,51 +21,39 @@ constexpr auto propertyPathPos = 2;
 constexpr auto propertyValuePos = 3;
 
 // TODO openbmc/openbmc#1769: Support more property types.
-using ConditionProperty = std::tuple<std::string,
-                          std::string,
-                          std::string,
-                          bool>;
+using ConditionProperty =
+    std::tuple<std::string, std::string, std::string, bool>;
 
 constexpr auto conditionTypePos = 0;
 constexpr auto conditionPropertyListPos = 1;
-using Condition = std::tuple<std::string,
-                             std::vector<ConditionProperty>>;
+using Condition = std::tuple<std::string, std::vector<ConditionProperty>>;
 
-using PropertyVariantType = sdbusplus::message::variant<bool,
-                                                        int64_t,
-                                                        std::string>;
+using PropertyVariantType =
+    sdbusplus::message::variant<bool, int64_t, std::string>;
 
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
 constexpr auto targetInterfacePos = 2;
-using FanDefinition = std::tuple<std::string,
-                                 std::vector<std::string>,
-                                 std::string>;
+using FanDefinition =
+    std::tuple<std::string, std::vector<std::string>, std::string>;
 
 constexpr auto pathPos = 0;
 constexpr auto intfPos = 1;
 constexpr auto propPos = 2;
-using Group = std::vector<std::tuple<std::string,
-                                     std::string,
-                                     std::string>>;
+using Group = std::vector<std::tuple<std::string, std::string, std::string>>;
 using SignalHandler = std::function<void(sdbusplus::bus::bus&,
-                                         sdbusplus::message::message&,
-                                         Zone&)>;
+                                         sdbusplus::message::message&, Zone&)>;
 using MethodHandler = std::function<void(Zone&, const Group&)>;
 using Action = std::function<void(Zone&, const Group&)>;
-using Trigger = std::function<void(Zone&,
-                                   const std::string&,
-                                   const Group&,
+using Trigger = std::function<void(Zone&, const std::string&, const Group&,
                                    const std::vector<Action>&)>;
 
 constexpr auto pcPathPos = 0;
 constexpr auto pcIntfPos = 1;
 constexpr auto pcPropPos = 2;
 constexpr auto pcValuePos = 3;
-using PrecondGroup = std::tuple<std::string,
-                                std::string,
-                                std::string,
-                                PropertyVariantType>;
+using PrecondGroup =
+    std::tuple<std::string, std::string, std::string, PropertyVariantType>;
 
 constexpr auto namePos = 0;
 constexpr auto hasOwnerPos = 1;
@@ -73,32 +62,27 @@ using Service = std::tuple<std::string, bool>;
 constexpr auto intervalPos = 0;
 constexpr auto typePos = 1;
 using TimerType = phosphor::fan::util::Timer::TimerType;
-using TimerConf = std::tuple<std::chrono::microseconds,
-                             TimerType>;
+using TimerConf = std::tuple<std::chrono::microseconds, TimerType>;
 
 constexpr auto sseNamePos = 0;
 constexpr auto groupPos = 1;
 constexpr auto actionsPos = 2;
 constexpr auto triggerPos = 3;
-using SetSpeedEvent = std::tuple<std::string,
-                                 Group,
-                                 std::tuple<Group, std::vector<Action>>,
-                                 std::vector<Trigger>>;
+using SetSpeedEvent =
+    std::tuple<std::string, Group, std::tuple<Group, std::vector<Action>>,
+               std::vector<Trigger>>;
 
 constexpr auto eventGroupPos = 0;
 constexpr auto eventMatchPos = 1;
 constexpr auto eventHandlerPos = 2;
 constexpr auto eventActionsPos = 3;
-using EventData = std::tuple<Group,
-                             std::string,
-                             SignalHandler,
-                             std::vector<Action>>;
+using EventData =
+    std::tuple<Group, std::string, SignalHandler, std::vector<Action>>;
 
 constexpr auto timerEventDataPos = 0;
 constexpr auto timerTimerPos = 1;
-using TimerEvent =
-    std::tuple<std::unique_ptr<EventData>,
-               std::unique_ptr<phosphor::fan::util::Timer>>;
+using TimerEvent = std::tuple<std::unique_ptr<EventData>,
+                              std::unique_ptr<phosphor::fan::util::Timer>>;
 
 constexpr auto signalEventDataPos = 0;
 constexpr auto signalMatchPos = 1;
@@ -113,19 +97,15 @@ constexpr auto incDelayPos = 3;
 constexpr auto decIntervalPos = 4;
 constexpr auto fanListPos = 5;
 constexpr auto setSpeedEventsPos = 6;
-using ZoneDefinition = std::tuple<size_t,
-                                  uint64_t,
-                                  uint64_t,
-                                  size_t,
-                                  size_t,
-                                  std::vector<FanDefinition>,
-                                  std::vector<SetSpeedEvent>>;
+using ZoneDefinition =
+    std::tuple<size_t, uint64_t, uint64_t, size_t, size_t,
+               std::vector<FanDefinition>, std::vector<SetSpeedEvent>>;
 
 constexpr auto conditionListPos = 0;
 constexpr auto zoneListPos = 1;
-using ZoneGroup = std::tuple<std::vector<Condition>,
-                             std::vector<ZoneDefinition>>;
+using ZoneGroup =
+    std::tuple<std::vector<Condition>, std::vector<ZoneDefinition>>;
 
-}
-}
-}
+} // namespace control
+} // namespace fan
+} // namespace phosphor

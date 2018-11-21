@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "tach.hpp"
+
+#include "rpolicy.hpp"
+
 #include <phosphor-logging/log.hpp>
 #include <string>
 #include <tuple>
 #include <vector>
-#include "tach.hpp"
-#include "rpolicy.hpp"
 
 namespace phosphor
 {
@@ -34,8 +36,7 @@ static const auto tachNamespace = "/xyz/openbmc_project/sensors/fan_tach/"s;
 static const auto tachIface = "xyz.openbmc_project.Sensor.Value"s;
 static const auto tachProperty = "Value"s;
 
-Tach::Tach(
-        const std::vector<std::string>& sensors) : currentState(false)
+Tach::Tach(const std::vector<std::string>& sensors) : currentState(false)
 {
     // Initialize state.
     for (const auto& s : sensors)
@@ -53,39 +54,31 @@ bool Tach::start()
 
         // Register for signal callbacks.
         std::get<1>(s) = std::make_unique<sdbusplus::bus::match::match>(
-                util::SDBusPlus::getBus(),
-                sdbusplus::bus::match::rules::propertiesChanged(
-                    tachPath, tachIface),
-                [this, i](auto& msg){ this->propertiesChanged(i, msg);});
+            util::SDBusPlus::getBus(),
+            sdbusplus::bus::match::rules::propertiesChanged(tachPath,
+                                                            tachIface),
+            [this, i](auto& msg) { this->propertiesChanged(i, msg); });
 
         // Get an initial tach speed.
         try
         {
             std::get<int64_t>(s) = util::SDBusPlus::getProperty<int64_t>(
-                    tachPath,
-                    tachIface,
-                    tachProperty);
+                tachPath, tachIface, tachProperty);
         }
         catch (std::exception&)
         {
             // Assume not spinning.
 
             std::get<int64_t>(s) = 0;
-            log<level::INFO>(
-                    "Unable to read fan tach sensor.",
-                    entry("SENSOR=%s", tachPath.c_str()));
-
+            log<level::INFO>("Unable to read fan tach sensor.",
+                             entry("SENSOR=%s", tachPath.c_str()));
         }
     }
 
     // Set the initial state of the sensor.
-    currentState = std::any_of(
-            state.begin(),
-            state.end(),
-            [](const auto & s)
-            {
-                return std::get<int64_t>(s) != 0;
-            });
+    currentState = std::any_of(state.begin(), state.end(), [](const auto& s) {
+        return std::get<int64_t>(s) != 0;
+    });
 
     return currentState;
 }
@@ -105,22 +98,15 @@ bool Tach::present()
     std::vector<int64_t> values;
     for (const auto& s : state)
     {
-        values.push_back(
-                util::SDBusPlus::getProperty<int64_t>(
-                        tachNamespace + std::get<std::string>(s),
-                        tachIface,
-                        tachProperty));
+        values.push_back(util::SDBusPlus::getProperty<int64_t>(
+            tachNamespace + std::get<std::string>(s), tachIface, tachProperty));
     }
 
-    return std::any_of(
-            values.begin(),
-            values.end(),
-            [](const auto & v) {return v != 0;});
+    return std::any_of(values.begin(), values.end(),
+                       [](const auto& v) { return v != 0; });
 }
 
-void Tach::propertiesChanged(
-        size_t sensor,
-        sdbusplus::message::message& msg)
+void Tach::propertiesChanged(size_t sensor, sdbusplus::message::message& msg)
 {
     std::string iface;
     util::Properties<int64_t> properties;
@@ -129,9 +115,8 @@ void Tach::propertiesChanged(
     propertiesChanged(sensor, properties);
 }
 
-void Tach::propertiesChanged(
-        size_t sensor,
-        const util::Properties<int64_t>& props)
+void Tach::propertiesChanged(size_t sensor,
+                             const util::Properties<int64_t>& props)
 {
     auto& s = state[sensor];
 
@@ -142,13 +127,10 @@ void Tach::propertiesChanged(
         std::get<int64_t>(s) =
             sdbusplus::message::variant_ns::get<int64_t>(it->second);
 
-        auto newState = std::any_of(
-                state.begin(),
-                state.end(),
-                [](const auto & s)
-                {
-                    return std::get<int64_t>(s) != 0;
-                });
+        auto newState =
+            std::any_of(state.begin(), state.end(), [](const auto& s) {
+                return std::get<int64_t>(s) != 0;
+            });
 
         if (currentState != newState)
         {

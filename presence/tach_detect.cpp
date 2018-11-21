@@ -15,6 +15,7 @@
  */
 #include "generated.hpp"
 #include "sdbusplus.hpp"
+
 #include <sdeventplus/event.hpp>
 
 int main(void)
@@ -22,10 +23,10 @@ int main(void)
     using namespace phosphor::fan;
 
     auto event = sdeventplus::Event::get_default();
-    util::SDBusPlus::getBus().attach_event(
-            event.get(), SD_EVENT_PRIORITY_NORMAL);
+    util::SDBusPlus::getBus().attach_event(event.get(),
+                                           SD_EVENT_PRIORITY_NORMAL);
 
-    for (auto& p: presence::ConfigPolicy::get())
+    for (auto& p : presence::ConfigPolicy::get())
     {
         p->monitor();
     }

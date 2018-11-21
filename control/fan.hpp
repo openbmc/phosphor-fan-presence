@@ -1,6 +1,7 @@
 #pragma once
-#include <sdbusplus/bus.hpp>
 #include "types.hpp"
+
+#include <sdbusplus/bus.hpp>
 
 namespace phosphor
 {
@@ -8,7 +9,6 @@ namespace fan
 {
 namespace control
 {
-
 
 /**
  * @class Fan
@@ -21,70 +21,67 @@ namespace control
  */
 class Fan
 {
-    public:
+  public:
+    Fan() = delete;
+    Fan(const Fan&) = delete;
+    Fan(Fan&&) = default;
+    Fan& operator=(const Fan&) = delete;
+    Fan& operator=(Fan&&) = default;
+    ~Fan() = default;
 
-        Fan() = delete;
-        Fan(const Fan&) = delete;
-        Fan(Fan&&) = default;
-        Fan& operator=(const Fan&) = delete;
-        Fan& operator=(Fan&&) = default;
-        ~Fan() = default;
+    /**
+     * Creates a fan object with sensors specified by
+     * the fan definition data.
+     *
+     * @param[in] bus - the dbus object
+     * @param[in] def - the fan definition data
+     */
+    Fan(sdbusplus::bus::bus& bus, const FanDefinition& def);
 
-        /**
-         * Creates a fan object with sensors specified by
-         * the fan definition data.
-         *
-         * @param[in] bus - the dbus object
-         * @param[in] def - the fan definition data
-         */
-        Fan(sdbusplus::bus::bus& bus, const FanDefinition& def);
+    /**
+     * Sets the speed value on all contained sensors
+     *
+     * @param[in] speed - the value to set
+     */
+    void setSpeed(uint64_t speed);
 
-        /**
-         * Sets the speed value on all contained sensors
-         *
-         * @param[in] speed - the value to set
-         */
-        void setSpeed(uint64_t speed);
+    /**
+     * @brief Get the current fan target speed
+     *
+     * @return - The target speed of the fan
+     */
+    inline auto getTargetSpeed() const
+    {
+        return _targetSpeed;
+    }
 
-        /**
-         * @brief Get the current fan target speed
-         *
-         * @return - The target speed of the fan
-         */
-        inline auto getTargetSpeed() const
-        {
-            return _targetSpeed;
-        }
+  private:
+    /**
+     * The dbus object
+     */
+    sdbusplus::bus::bus& _bus;
 
-    private:
+    /**
+     * The inventory name of the fan
+     */
+    std::string _name;
 
-        /**
-         * The dbus object
-         */
-        sdbusplus::bus::bus& _bus;
+    /**
+     * Map of hwmon target sensors to the service providing them
+     */
+    std::map<std::string, std::string> _sensors;
 
-        /**
-         * The inventory name of the fan
-         */
-        std::string _name;
+    /**
+     * The interface of the fan target
+     */
+    const std::string _interface;
 
-        /**
-         * Map of hwmon target sensors to the service providing them
-         */
-        std::map<std::string, std::string> _sensors;
-
-        /**
-         * The interface of the fan target
-         */
-        const std::string _interface;
-
-        /**
-         * Target speed for this fan
-         */
-        uint64_t _targetSpeed;
+    /**
+     * Target speed for this fan
+     */
+    uint64_t _targetSpeed;
 };
 
-
-}
-}
-}
+} // namespace control
+} // namespace fan
+} // namespace phosphor

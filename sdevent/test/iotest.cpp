@@ -1,8 +1,12 @@
-#include <gtest/gtest.h>
-#include <thread>
-#include <unistd.h>
-#include "sdevent/event.hpp"
 #include "sdevent/io.hpp"
+
+#include "sdevent/event.hpp"
+
+#include <unistd.h>
+
+#include <thread>
+
+#include <gtest/gtest.h>
 
 TEST(IoTest, TestIo)
 {
@@ -18,13 +22,10 @@ TEST(IoTest, TestIo)
     auto rc = pipe(fds.data());
     ASSERT_EQ(rc, 0);
 
-    auto t = std::thread([&loop](){loop.loop();});
+    auto t = std::thread([&loop]() { loop.loop(); });
 
     sdevent::event::io::IO io(
-        loop,
-        fds.data()[0],
-        [&fds, &actual, &loop](auto& s)
-        {
+        loop, fds.data()[0], [&fds, &actual, &loop](auto& s) {
             auto tmp = 0;
             auto rc = read(fds.data()[0], &tmp, sizeof(tmp));
             ASSERT_GT(rc, 0);
