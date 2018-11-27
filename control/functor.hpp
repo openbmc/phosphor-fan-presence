@@ -99,7 +99,8 @@ struct PropertyChanged
                 return;
             }
 
-            _handler(zone, std::forward<T>(it->second.template get<T>()));
+            _handler(zone, std::forward<T>(
+                         sdbusplus::message::variant_ns::get<T>(it->second)));
         }
         else
         {
@@ -218,7 +219,8 @@ struct InterfaceAdded
                 return;
             }
 
-            _handler(zone, std::forward<T>(itProp->second.template get<T>()));
+            _handler(zone, std::forward<T>(
+                         sdbusplus::message::variant_ns::get<T>(itProp->second)));
         }
     }
 
