@@ -1,7 +1,6 @@
 #pragma once
 
-#include <algorithm>
-#include <phosphor-logging/log.hpp>
+#include "types.hpp"
 
 namespace phosphor
 {
@@ -30,66 +29,8 @@ using namespace phosphor::logging;
  *     A lambda function to compare precondition property value states
  *     and either subscribe or unsubscribe a set speed event group.
  */
-auto property_states_match(std::vector<PrecondGroup>&& pg,
-                           std::vector<SetSpeedEvent>&& sse)
-{
-    return [pg = std::move(pg),
-            sse = std::move(sse)](auto& zone, auto& group)
-    {
-        // Compare given precondition entries
-        auto precondState = std::all_of(
-            pg.begin(),
-            pg.end(),
-            [&zone](auto const& entry)
-            {
-                try
-                {
-                    return zone.getPropValueVariant(
-                        std::get<pcPathPos>(entry),
-                        std::get<pcIntfPos>(entry),
-                        std::get<pcPropPos>(entry)) ==
-                                std::get<pcValuePos>(entry);
-                }
-                catch (const std::out_of_range& oore)
-                {
-                    // Default to property variants not equal when not found
-                    return false;
-                }
-            });
-
-        if (precondState)
-        {
-            log<level::DEBUG>(
-                "Preconditions passed, init the associated events",
-                entry("EVENT_COUNT=%u", sse.size()));
-            // Init the events when all the precondition(s) are true
-            std::for_each(
-                sse.begin(),
-                sse.end(),
-                [&zone](auto const& entry)
-                {
-                    zone.initEvent(entry);
-                });
-        }
-        else
-        {
-            log<level::DEBUG>(
-                "Preconditions not met for events, events removed if present",
-                entry("EVENT_COUNT=%u", sse.size()));
-            // Unsubscribe the events' signals when any precondition is false
-            std::for_each(
-                sse.begin(),
-                sse.end(),
-                [&zone](auto const& entry)
-                {
-                    zone.removeEvent(entry);
-                });
-            zone.setFullSpeed();
-        }
-        // Update group's fan control active allowed
-        zone.setActiveAllow(&group, precondState);
-    };
-}
+Action property_states_match(std::vector<PrecondGroup>&& pg,
+                             std::vector<SetSpeedEvent>&& sse);
 
 } // namespace precondition
 } // namespace control
