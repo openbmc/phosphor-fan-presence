@@ -20,26 +20,17 @@ Action call_actions_based_on_timer(TimerConf&& tConf,
     {
         try
         {
-            // Find any services that do not have an owner
-            auto services = zone.getGroupServices(&group);
-            auto setTimer = std::any_of(
-                services.begin(),
-                services.end(),
-                [](const auto& s)
-                {
-                    return !std::get<hasOwnerPos>(s);
-                });
             auto it = zone.getTimerEvents().find(__func__);
             if (it != zone.getTimerEvents().end())
             {
                 auto& timers = it->second;
                 auto timerIter = zone.findTimer(group, actions, timers);
-                if (setTimer && timerIter == timers.end())
+                if (timerIter == timers.end())
                 {
                     // No timer exists yet for action, add timer
                     zone.addTimer(__func__, group, actions, tConf);
                 }
-                else if (!setTimer && timerIter != timers.end())
+                else if (timerIter != timers.end())
                 {
                     // Stop and remove any timer for this group
                     if (std::get<timerTimerPos>(*timerIter)->running())
@@ -54,7 +45,7 @@ Action call_actions_based_on_timer(TimerConf&& tConf,
                     }
                 }
             }
-            else if (setTimer)
+            else
             {
                 // No timer exists yet for event, add timer
                 zone.addTimer(__func__, group, actions, tConf);
