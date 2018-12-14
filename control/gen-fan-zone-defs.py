@@ -157,13 +157,19 @@ def genEvent(event):
         e += "},\n"
         e += "std::vector<Action>{\n"
         for a in d['actions']:
-            e += "make_action(action::" + a['name'] + "(\n"
+            if len(a['parameters']) != 0:
+                e += "make_action(action::" + a['name'] + "(\n"
+            else:
+                e += "make_action(action::" + a['name'] + "\n"
             for i, p in enumerate(a['parameters']):
                 if (i+1) != len(a['parameters']):
                     e += p + ",\n"
                 else:
                     e += p + "\n"
-            e += ")),\n"
+            if len(a['parameters']) != 0:
+                e += ")),\n"
+            else:
+                e += "),\n"
         e += "}},\n"
     e += "},\n"
 
@@ -576,7 +582,7 @@ def addPrecondition(zNum, zCond, event, events_data):
     epc = next(p for p in events_data['preconditions']
                if p['name'] == event['precondition']['name'])
     params = []
-    for p in epc['parameters']:
+    for p in epc['parameters'] or []:
         param = {}
         if p == 'groups':
             param['type'] = "std::vector<PrecondGroup>"
