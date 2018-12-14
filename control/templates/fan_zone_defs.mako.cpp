@@ -79,13 +79,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         {Group{},
                         std::vector<Action>{
                         %for i, a in enumerate(event['pc']['pcact']):
-                        %if len(a['params']) != 0:
                         make_action(
                             precondition::${a['name']}(
-                        %else:
-                        make_action(
-                            precondition::${a['name']}
-                        %endif
                         %for p in a['params']:
                         ${p['type']}${p['open']}
                         %for j, v in enumerate(p['values']):
@@ -97,13 +92,6 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         %endfor
                         ${p['close']},
                         %endfor
-                        %if (i+1) != len(event['pc']['pcact']):
-                        %if len(a['params']) != 0:
-                        )),
-                        %else:
-                        ),
-                        %endif
-                        %endif
                         %endfor
                     std::vector<SetSpeedEvent>{
                     %for pcevt in event['pc']['pcevts']:
@@ -119,11 +107,7 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                     %endif
                     %if ('pc' in event) and (event['pc'] is not None):
                     }
-                        %if len(event['pc']['pcact'][-1]['params']) != 0:
                         )),
-                        %else:
-                        ),
-                        %endif
                         }},
                         },
                         std::vector<Trigger>{

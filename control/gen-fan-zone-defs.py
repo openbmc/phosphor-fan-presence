@@ -343,7 +343,7 @@ def addPrecondition(zNum, zCond, event, events_data):
     epc = next(p for p in events_data['preconditions']
                if p['name'] == event['precondition']['name'])
     params = []
-    for p in epc['parameters']:
+    for p in epc['parameters'] or []:
         param = {}
         if p == 'groups':
             param['type'] = "std::vector<PrecondGroup>"
