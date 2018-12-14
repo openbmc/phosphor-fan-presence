@@ -72,7 +72,11 @@ ActionData{
 },
 std::vector<Action>{
 %for a in e['actions']:
+%if len(a['parameters']) != 0:
 make_action(action::${a['name']}(
+%else:
+make_action(action::${a['name']}
+%endif
 %for i, p in enumerate(a['parameters']):
 %if (i+1) != len(a['parameters']):
     ${p},
@@ -80,7 +84,11 @@ make_action(action::${a['name']}(
     ${p}
 %endif
 %endfor
+%if len(a['parameters']) != 0:
 )),
+%else:
+),
+%endif
 %endfor
 }},
 %endfor
