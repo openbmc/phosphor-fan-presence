@@ -32,6 +32,22 @@ using namespace phosphor::logging;
 Action property_states_match(std::vector<PrecondGroup>&& pg,
                              std::vector<SetSpeedEvent>&& sse);
 
+/**
+ * @brief A precondition to determine if there are any missing owners
+ * of the services for the group to init/remove a set speed event
+ * @details Checks each service associated with a group has an owner and
+ * if any of the services are missing an owner, the precondition passes
+ * and the events are initialized. Once all services associated with a
+ * group have an owner, the events are removed from being active.
+ *
+ * @param[in] sse - Set speed event definitions
+ *
+ * @return Lambda function
+ *     A lambda function precondition to check for group member services
+ *     that are not owned to either initialize or remove set speed events.
+ */
+Action services_missing_owner(std::vector<SetSpeedEvent>&& sse);
+
 } // namespace precondition
 } // namespace control
 } // namespace fan
