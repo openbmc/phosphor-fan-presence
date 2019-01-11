@@ -275,6 +275,78 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
     };
 }
 
+/**
+ * @brief An action to use an alternate set of events
+ * @details Provides the ability to replace a default set of events with an
+ * alternate set of events based on all members of a group being at a specified
+ * state. When any member of the group no longer matches the provided state,
+ * the alternate set of events are replaced with the defaults.
+ *
+ * @param[in] state - State to compare the group's property value to
+ * @param[in] defEvents - The default set of events
+ * @param[in] altEvents - The alternate set of events
+ *
+ * @return Lambda function
+ *     A lambda function that checks all group members are at a specified state
+ * and replacing the default set of events with an alternate set of events.
+ */
+template <typename T>
+auto use_alternate_events_on_state(T&& state,
+                                   std::vector<SetSpeedEvent>&& defEvents,
+                                   std::vector<SetSpeedEvent>&& altEvents)
+{
+    return [state = std::forward<T>(state),
+            defEvents = std::move(defEvents),
+            altEvents = std::move(altEvents)](auto& zone, auto& group)
+    {
+        // Compare all group entries to the state
+        auto useAlt = std::all_of(
+            group.begin(),
+            group.end(),
+            [&zone, &state](auto const& entry)
+            {
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
+            });
+
+        const std::vector<SetSpeedEvent> *rmEvents = &altEvents;
+        const std::vector<SetSpeedEvent> *initEvents = &defEvents;
+
+        if (useAlt)
+        {
+            rmEvents = &defEvents;
+            initEvents = &altEvents;
+        }
+
+        // Remove events
+        std::for_each(
+            rmEvents->begin(),
+            rmEvents->end(),
+            [&zone](auto const& entry)
+            {
+                zone.removeEvent(entry);
+            });
+        // Init events
+        std::for_each(
+            initEvents->begin(),
+            initEvents->end(),
+            [&zone](auto const& entry)
+            {
+                zone.initEvent(entry);
+            });
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan
