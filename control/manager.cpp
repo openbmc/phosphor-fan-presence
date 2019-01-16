@@ -19,6 +19,7 @@
 #include <phosphor-logging/elog-errors.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 #include <unistd.h>
+#include "config.h"
 #include "manager.hpp"
 #include "utility.hpp"
 #include "sdbusplus.hpp"
@@ -106,6 +107,7 @@ Manager::Manager(sdbusplus::bus::bus& bus,
         }
     }
 
+    bus.request_name(CONTROL_BUSNAME);
 }
 
 
