@@ -24,6 +24,78 @@ def convertToMap(listOfDict):
     return listOfDict
 
 
+def genEvent(event):
+    """
+    Generates the source code of an event and returns it as a string
+    """
+    e = "SetSpeedEvent{\n"
+
+    e += "Group{\n"
+    for group in event['groups']:
+        for member in group['members']:
+            e += "{\n"
+            e += "\"" + member['object'] + "\",\n"
+            e += "{\"" + member['interface'] + "\",\n"
+            e += " \"" + member['property'] + "\"}\n"
+        e += "},\n"
+    e += "},\n"
+
+    e += "std::vector<Action>{\n"
+    for a in event['action']:
+        if len(a['parameters']) != 0:
+            e += "make_action(action::" + a['name'] + "(\n"
+        else:
+            e += "make_action(action::" + a['name'] + "\n"
+        for i, p in enumerate(a['parameters']):
+            if (i+1) != len(a['parameters']):
+                e += p + ",\n"
+            else:
+                e += p + ")\n"
+        e += "),\n"
+    e += "},\n"
+
+    e += "TimerConf{\n"
+    e += "\t" + event['timer']['interval'] + ",\n"
+    e += "\t" + event['timer']['type'] + "\n"
+    e += "},\n"
+
+    e += "std::vector<Signal>{\n"
+    for s in event['signals']:
+        e += "Signal{\n"
+        e += "match::" + s['match'] + "(\n"
+        for i, mp in enumerate(s['mparams']):
+            if (i+1) != len(s['mparams']):
+                e += "\"" + mp + "\",\n"
+            else:
+                e += "\"" + mp + "\"\n"
+        e += "),\n"
+        e += "make_handler(\n"
+        if ('type' in s['sparams']) and (s['sparams']['type'] is not None):
+            e += s['signal'] + "<" + s['sparams']['type'] + ">(\n"
+        else:
+            e += s['signal'] + "(\n"
+        for sp in s['sparams']['params']:
+            e += s['sparams'][sp] + ",\n"
+        if ('type' in s['hparams']) and (s['hparams']['type'] is not None):
+            e += ("handler::" + s['handler'] +
+                  "<" + s['hparams']['type'] + ">(\n")
+        else:
+            e += "handler::" + s['handler'] + "(\n)"
+        for i, hp in enumerate(s['hparams']['params']):
+            if (i+1) != len(s['hparams']['params']):
+                e += s['hparams'][hp] + ",\n"
+            else:
+                e += s['hparams'][hp] + "\n"
+        e += "))\n"
+        e += ")\n"
+    e += "},\n"
+    e += "}\n"
+
+    e += "}"
+
+    return e
+
+
 def getGroups(zNum, zCond, edata, events):
     """
     Extract and construct the groups for the given event.
@@ -45,7 +117,6 @@ def getGroups(zNum, zCond, edata, events):
                    zNum not in z['zones']
                    for z in eGroups['zone_conditions']):
                 continue
-
         eGroup = next(g for g in events['groups']
                       if g['name'] == eGroups['name'])
 
@@ -74,7 +145,7 @@ def getGroups(zNum, zCond, edata, events):
     return groups
 
 
-def getActions(edata, actions, events):
+def getActions(zNum, zCond, edata, actions, events):
     """
     Extracts and constructs the make_action function call for
     all the actions within the given event.
@@ -93,7 +164,11 @@ def getActions(edata, actions, events):
                 if type(eActions[p]) is not dict:
                     if p == 'actions':
                         param = "std::vector<Action>{"
-                        pActs = getActions(edata, eActions, events)
+                        pActs = getActions(zNum,
+                                           zCond,
+                                           edata,
+                                           eActions,
+                                           events)
                         for a in pActs:
                             if (len(a['parameters']) != 0):
                                 param += (
@@ -109,6 +184,17 @@ def getActions(edata, actions, events):
                                 param += ("make_action(action::" + a['name'])
                             param += "),"
                         param += "}"
+                    elif p == 'defevents' or p == 'altevents':
+                        param = "std::vector<SetSpeedEvent>{\n"
+                        for i, e in enumerate(eActions[p]):
+                            aEvent = getEvent(zNum, zCond, e, events)
+                            if not aEvent:
+                                continue
+                            if (i+1) != len(eActions[p]):
+                                param += genEvent(aEvent) + ",\n"
+                            else:
+                                param += genEvent(aEvent) + "\n"
+                        param += "\t}"
                     elif p == 'property':
                         if isinstance(eActions[p], str) or \
                            "string" in str(eActions[p]['type']).lower():
@@ -166,7 +252,11 @@ def getEvent(zone_num, zone_conditions, e, events_data):
     event['action'] = []
     if ('actions' in e) and \
        (e['actions'] is not None):
-        event['action'] = getActions(e, e, events_data)
+        event['action'] = getActions(zone_num,
+                                     zone_conditions,
+                                     e,
+                                     e,
+                                     events_data)
 
     # Add signal handlers
     signals = []
