@@ -96,6 +96,19 @@ AS_IF([test "x$enable_presence" != "xno"], [
        ])
 
 AS_IF([test "x$enable_control" != "xno"], [
+       # Add fan control Dbus attributes
+       AC_ARG_VAR(CONTROL_BUSNAME, [The fan control busname to own])
+       AS_IF([test "x$CONTROL_BUSNAME" == "x"],
+             [CONTROL_BUSNAME="xyz.openbmc_project.Control.Thermal"])
+       AC_DEFINE_UNQUOTED([CONTROL_BUSNAME], ["$CONTROL_BUSNAME"],
+                          [The fan control busname to own])
+
+       AC_ARG_VAR(CONTROL_OBJPATH, [The fan control root object path])
+       AS_IF([test "x$CONTROL_OBJPATH" == "x"],
+             [CONTROL_OBJPATH="/xyz/openbmc_project/control/thermal"])
+       AC_DEFINE_UNQUOTED([CONTROL_OBJPATH], ["$CONTROL_OBJPATH"],
+                          [The fan control root object path])
+
        # Add optional yaml file arguments
        AC_ARG_VAR(FAN_DEF_YAML_FILE,
                   [The fan definition file to use])
