@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 #include <algorithm>
+#include <experimental/filesystem>
+#include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
@@ -32,6 +34,7 @@ namespace control
 {
 
 using namespace phosphor::logging;
+namespace fs = std::experimental::filesystem;
 
 constexpr auto SYSTEMD_SERVICE   = "org.freedesktop.systemd1";
 constexpr auto SYSTEMD_OBJ_PATH  = "/org/freedesktop/systemd1";
@@ -78,7 +81,8 @@ bool checkCondition(sdbusplus::bus::bus& bus, const Condition& c)
 Manager::Manager(sdbusplus::bus::bus& bus,
                  const sdeventplus::Event& event,
                  Mode mode) :
-    _bus(bus)
+    _bus(bus),
+    _objMgr(bus, CONTROL_OBJPATH)
 {
     //Create the appropriate Zone objects based on the
     //actual system configuration.
@@ -99,15 +103,24 @@ Manager::Manager(sdbusplus::bus::bus& bus,
 
             for (auto& z : zones)
             {
+                fs::path path{CONTROL_OBJPATH};
+                path /= std::to_string(std::get<zoneNumPos>(z));
                 _zones.emplace(std::get<zoneNumPos>(z),
-                               std::make_unique<Zone>(mode, _bus, event, z));
+                               std::make_unique<Zone>(mode,
+                                                      _bus,
+                                                      path.string(),
+                                                      event,
+                                                      z));
             }
 
             break;
         }
     }
 
-    bus.request_name(CONTROL_BUSNAME);
+    if (mode == Mode::control)
+    {
+        bus.request_name(CONTROL_BUSNAME);
+    }
 }
 
 
