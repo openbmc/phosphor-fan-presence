@@ -37,9 +37,11 @@ using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                              Error::InternalFailure;
 
 Zone::Zone(Mode mode,
+           const std::string& path,
            sdbusplus::bus::bus& bus,
            const sdeventplus::Event& event,
            const ZoneDefinition& def) :
+    ThermalObject(bus, path.c_str(), true),
     _bus(bus),
     _fullSpeed(std::get<fullSpeedPos>(def)),
     _zoneNum(std::get<zoneNumPos>(def)),
@@ -59,7 +61,7 @@ Zone::Zone(Mode mode,
     }
 
     // Do not enable set speed events when in init mode
-    if (mode != Mode::init)
+    if (mode == Mode::control)
     {
         // Update target speed to current zone target speed
         if (!_fans.empty())
@@ -76,6 +78,11 @@ Zone::Zone(Mode mode,
         {
             _decTimer.start(_decInterval, TimerType::repeating);
         }
+
+        // TODO Determine thermal control mode state(Default or persisted value)
+        this->mode("Default");
+        // Emit objects added in control mode only
+        this->emit_object_added();
     }
 }
 

@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include <algorithm>
+#include <sdbusplus/bus.hpp>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
@@ -78,7 +79,8 @@ bool checkCondition(sdbusplus::bus::bus& bus, const Condition& c)
 Manager::Manager(sdbusplus::bus::bus& bus,
                  const sdeventplus::Event& event,
                  Mode mode) :
-    _bus(bus)
+    _bus(bus),
+    _objMgr(bus, CONTROL_OBJPATH)
 {
     //Create the appropriate Zone objects based on the
     //actual system configuration.
@@ -99,15 +101,28 @@ Manager::Manager(sdbusplus::bus::bus& bus,
 
             for (auto& z : zones)
             {
+                auto path = std::string(CONTROL_OBJPATH);
+                if (!path.empty() && path.back() != '/')
+                {
+                    path += '/';
+                }
+                path += std::to_string(std::get<zoneNumPos>(z));
                 _zones.emplace(std::get<zoneNumPos>(z),
-                               std::make_unique<Zone>(mode, _bus, event, z));
+                               std::make_unique<Zone>(mode,
+                                                      path,
+                                                      _bus,
+                                                      event,
+                                                      z));
             }
 
             break;
         }
     }
 
-    bus.request_name(CONTROL_BUSNAME);
+    if (mode == Mode::control)
+    {
+        bus.request_name(CONTROL_BUSNAME);
+    }
 }
 
 
