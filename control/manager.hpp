@@ -59,6 +59,11 @@ class Manager
         sdbusplus::bus::bus& _bus;
 
         /**
+         * The sdbusplus object manager
+         */
+        sdbusplus::server::manager::manager _objMgr;
+
+        /**
          * The fan zones in the system
          */
         ZoneMap _zones;
