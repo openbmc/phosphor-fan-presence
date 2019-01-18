@@ -9,6 +9,7 @@
 #include "fan.hpp"
 #include "types.hpp"
 #include "timer.hpp"
+#include "xyz/openbmc_project/Control/ThermalMode/server.hpp"
 
 namespace phosphor
 {
@@ -16,6 +17,9 @@ namespace fan
 {
 namespace control
 {
+
+using ThermalObject = sdbusplus::server::object::object<
+    sdbusplus::xyz::openbmc_project::Control::server::ThermalMode>;
 
 /**
  * The mode fan control will run in:
@@ -32,7 +36,7 @@ enum class Mode
  * @class Represents a fan control zone, which is a group of fans
  * that behave the same.
  */
-class Zone
+class Zone : public ThermalObject
 {
     public:
 
@@ -50,11 +54,13 @@ class Zone
          *
          * @param[in] mode - mode of fan control
          * @param[in] bus - the dbus object
+         * @param[in] path - object instance path
          * @param[in] event - Event loop reference
          * @param[in] def - the fan zone definition data
          */
         Zone(Mode mode,
              sdbusplus::bus::bus& bus,
+             const std::string& path,
              const sdeventplus::Event& event,
              const ZoneDefinition& def);
 
@@ -473,6 +479,11 @@ class Zone
          * The dbus object
          */
         sdbusplus::bus::bus& _bus;
+
+        /**
+         * Zone object path
+         */
+        const std::string _path;
 
         /**
          * Full speed for the zone
