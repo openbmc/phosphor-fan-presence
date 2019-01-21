@@ -15,10 +15,15 @@
  */
 #include <chrono>
 #include <functional>
+#include <fstream>
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+#include <experimental/filesystem>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+#include "config.h"
 #include "zone.hpp"
 #include "utility.hpp"
 #include "sdbusplus.hpp"
@@ -33,6 +38,7 @@ namespace control
 using namespace std::chrono;
 using namespace phosphor::fan;
 using namespace phosphor::logging;
+namespace fs = std::experimental::filesystem;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                              Error::InternalFailure;
 
@@ -596,6 +602,14 @@ const std::string& Zone::addServices(const std::string& path,
     }
 
     return empty;
+}
+
+void Zone::persistMode()
+{
+    fs::path path{CONTROL_MODE_PERSIST_PATH};
+    std::ofstream ofs(path.c_str(), std::ios::binary);
+    cereal::JSONOutputArchive oArch(ofs);
+    oArch(ThermalObject::mode());
 }
 
 }
