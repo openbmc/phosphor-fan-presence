@@ -15,10 +15,15 @@
  */
 #include <chrono>
 #include <functional>
+#include <fstream>
+#include <cereal/cereal.hpp>
+#include <cereal/archives/json.hpp>
+#include <experimental/filesystem>
 #include <phosphor-logging/log.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/elog-errors.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+#include "config.h"
 #include "zone.hpp"
 #include "utility.hpp"
 #include "sdbusplus.hpp"
@@ -33,6 +38,7 @@ namespace control
 using namespace std::chrono;
 using namespace phosphor::fan;
 using namespace phosphor::logging;
+namespace fs = std::experimental::filesystem;
 using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
                              Error::InternalFailure;
 
@@ -65,7 +71,7 @@ Zone::Zone(Mode mode,
     if (mode == Mode::control)
     {
         // TODO Determine thermal control mode states
-        
+
         // Emit objects added in control mode only
         this->emit_object_added();
 
@@ -597,6 +603,17 @@ const std::string& Zone::addServices(const std::string& path,
     }
 
     return empty;
+}
+
+void Zone::saveCustomMode()
+{
+    fs::path path{CONTROL_PERSIST_ROOT_PATH};
+    // Append zone and property description
+    path /= std::to_string(_zoneNum);
+    path /= "CustomMode";
+    std::ofstream ofs(path.c_str(), std::ios::binary);
+    cereal::JSONOutputArchive oArch(ofs);
+    oArch(ThermalObject::custom());
 }
 
 }
