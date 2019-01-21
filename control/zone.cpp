@@ -608,6 +608,7 @@ const std::string& Zone::addServices(const std::string& path,
 void Zone::persistMode()
 {
     fs::path path{CONTROL_MODE_PERSIST_PATH};
+    path /= std::to_string(_zoneNum);
     std::ofstream ofs(path.c_str(), std::ios::binary);
     cereal::JSONOutputArchive oArch(ofs);
     oArch(ThermalObject::mode());
@@ -618,6 +619,7 @@ void Zone::restoreMode()
     std::string mode = "Default";
     fs::path path{CONTROL_MODE_PERSIST_PATH};
     fs::create_directories(path);
+    path /= std::to_string(_zoneNum);
 
     try
     {
