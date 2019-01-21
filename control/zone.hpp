@@ -622,6 +622,12 @@ class Zone : public ThermalObject
         void saveCustomMode();
 
         /**
+         * @brief Restore persisted thermal control custom mode property value,
+         * setting the mode to fasle otherwise
+         */
+        void restoreCustomMode();
+
+        /**
          * @brief Get the request speed base if defined, otherwise the
          * the current target speed is returned
          *
