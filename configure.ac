@@ -109,6 +109,12 @@ AS_IF([test "x$enable_control" != "xno"], [
        AC_DEFINE_UNQUOTED([CONTROL_OBJPATH], ["$CONTROL_OBJPATH"],
                           [The fan control root object path])
 
+       AC_ARG_VAR(CONTROL_PERSIST_ROOT_PATH, [Root path for persisting zone property states])
+       AS_IF([test "x$CONTROL_PERSIST_ROOT_PATH" == "x"],
+             [CONTROL_PERSIST_ROOT_PATH="/var/lib/phosphor-fan-presence/control"])
+       AC_DEFINE_UNQUOTED([CONTROL_PERSIST_ROOT_PATH], ["$CONTROL_PERSIST_ROOT_PATH"],
+                          [Root path for persisting zone property states])
+
        # Add optional yaml file arguments
        AC_ARG_VAR(FAN_DEF_YAML_FILE,
                   [The fan definition file to use])
