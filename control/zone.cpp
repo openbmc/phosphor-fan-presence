@@ -71,7 +71,8 @@ Zone::Zone(Mode mode,
     // Do not enable set speed events when in init mode
     if (mode == Mode::control)
     {
-        // TODO Determine thermal control mode states
+        // Restore thermal control mode states
+        restoreCustomMode();
 
         // Emit objects added in control mode only
         this->emit_object_added();
@@ -612,6 +613,33 @@ void Zone::saveCustomMode()
     std::ofstream ofs(path.c_str(), std::ios::binary);
     cereal::JSONOutputArchive oArch(ofs);
     oArch(ThermalObject::custom());
+}
+
+void Zone::restoreCustomMode()
+{
+    auto custom = false;
+    fs::path path{CONTROL_PERSIST_ROOT_PATH};
+    path /= std::to_string(_zoneNum);
+    path /= "CustomMode";
+    fs::create_directories(path.parent_path());
+
+    try
+    {
+        if (fs::exists(path))
+        {
+            std::ifstream ifs(path.c_str(), std::ios::in | std::ios::binary);
+            cereal::JSONInputArchive iArch(ifs);
+            iArch(custom);
+        }
+    }
+    catch (std::exception& e)
+    {
+        log<level::ERR>(e.what());
+        fs::remove(path);
+        custom = false;
+    }
+
+    this->custom(custom);
 }
 
 }
