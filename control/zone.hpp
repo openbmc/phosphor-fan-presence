@@ -621,6 +621,12 @@ class Zone : public ThermalObject
         void persistMode();
 
         /**
+         * @brief Restore persisted thermal control mode property value,
+         * setting the mode to "Default" otherwise
+         */
+        void restoreMode();
+
+        /**
          * @brief Get the request speed base if defined, otherwise the
          * the current target speed is returned
          *

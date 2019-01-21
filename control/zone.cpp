@@ -85,8 +85,9 @@ Zone::Zone(Mode mode,
             _decTimer.start(_decInterval, TimerType::repeating);
         }
 
-        // TODO Determine thermal control mode state(Default or persisted value)
-        this->mode("Default");
+        // Restore thermal control mode state(Default or persisted value)
+        restoreMode();
+
         // Emit objects added in control mode only
         this->emit_object_added();
     }
@@ -610,6 +611,31 @@ void Zone::persistMode()
     std::ofstream ofs(path.c_str(), std::ios::binary);
     cereal::JSONOutputArchive oArch(ofs);
     oArch(ThermalObject::mode());
+}
+
+void Zone::restoreMode()
+{
+    std::string mode = "Default";
+    fs::path path{CONTROL_MODE_PERSIST_PATH};
+    fs::create_directories(path);
+
+    try
+    {
+        if (fs::exists(path))
+        {
+            std::ifstream ifs(path.c_str(), std::ios::in | std::ios::binary);
+            cereal::JSONInputArchive iArch(ifs);
+            iArch(mode);
+        }
+    }
+    catch (std::exception& e)
+    {
+        log<level::ERR>(e.what());
+        fs::remove(path);
+        mode = "Default";
+    }
+
+    this->mode(mode);
 }
 
 }
