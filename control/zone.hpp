@@ -616,6 +616,12 @@ class Zone : public ThermalObject
         std::vector<TimerEvent> _timerEvents;
 
         /**
+         * @brief Save the thermal control current mode property
+         * to persisted storage
+         */
+        void saveCurrentMode();
+
+        /**
          * @brief Get the request speed base if defined, otherwise the
          * the current target speed is returned
          *
