@@ -606,6 +606,18 @@ const std::string& Zone::addServices(const std::string& path,
     return empty;
 }
 
+bool Zone::custom(bool value)
+{
+    auto custom = value;
+    if (custom != ThermalObject::custom())
+    {
+        custom = ThermalObject::custom(value);
+        saveCustomMode();
+        // TODO Trigger event(s) for mode property change
+    }
+    return custom;
+}
+
 void Zone::saveCustomMode()
 {
     fs::path path{CONTROL_PERSIST_ROOT_PATH};
