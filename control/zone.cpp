@@ -605,6 +605,18 @@ const std::string& Zone::addServices(const std::string& path,
     return empty;
 }
 
+std::string Zone::mode(std::string value)
+{
+    auto mode = value;
+    if (mode != ThermalObject::mode())
+    {
+        mode = ThermalObject::mode(value);
+        persistMode();
+        // TODO Trigger event(s) for mode property change
+    }
+    return mode;
+}
+
 void Zone::persistMode()
 {
     fs::path path{CONTROL_MODE_PERSIST_PATH};
@@ -636,7 +648,6 @@ void Zone::restoreMode()
         fs::remove(path);
         mode = "Default";
     }
-
     this->mode(mode);
 }
 

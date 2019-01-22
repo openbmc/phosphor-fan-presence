@@ -473,6 +473,15 @@ class Zone : public ThermalObject
                                        const std::string& intf,
                                        int32_t depth);
 
+        /**
+         * @brief Overridden thermal object's set 'Mode' property function
+         *
+         * @param[in] value - Value to set 'Mode' to
+         *
+         * @return - The updated value of the 'Mode' property
+         */
+        virtual std::string mode(std::string value);
+
     private:
 
         /**
