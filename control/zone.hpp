@@ -468,6 +468,15 @@ class Zone : public ThermalObject
                                        const std::string& intf,
                                        int32_t depth);
 
+        /**
+         * @brief Overridden thermal object's set 'Current' property function
+         *
+         * @param[in] value - Value to set 'Current' to
+         *
+         * @return - The updated value of the 'Current' property
+         */
+        virtual std::string current(std::string value);
+
     private:
 
         /**

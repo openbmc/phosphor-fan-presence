@@ -604,6 +604,18 @@ const std::string& Zone::addServices(const std::string& path,
     return empty;
 }
 
+std::string Zone::current(std::string value)
+{
+    auto current = value;
+    if (current != ThermalObject::current())
+    {
+        current = ThermalObject::current(value);
+        saveCurrentMode();
+        // TODO Trigger event(s) for mode property change
+    }
+    return current;
+}
+
 void Zone::saveCurrentMode()
 {
     fs::path path{CONTROL_PERSIST_ROOT_PATH};
