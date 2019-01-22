@@ -468,6 +468,15 @@ class Zone : public ThermalObject
                                        const std::string& intf,
                                        int32_t depth);
 
+        /**
+         * @brief Overridden thermal object's set 'Custom' property function
+         *
+         * @param[in] value - Value to set 'Custom' to
+         *
+         * @return - The updated value of the 'Custom' property
+         */
+        virtual bool custom(bool value);
+
     private:
 
         /**
