@@ -654,6 +654,17 @@ class Zone : public ThermalObject
          */
         void handleEvent(sdbusplus::message::message& msg,
                          const EventData* eventData);
+
+        /**
+         * @brief Determines if the signal match is for an internal or external
+         * property to the zone. This is only checked on PropertiesChanged
+         * signal subscriptions
+         *
+         * @param[in] signalMatch - Signal match string
+         *
+         * @return - Whether its an internal property or not
+         */
+        bool intSignal(const std::string& signalMatch);
 };
 
 }

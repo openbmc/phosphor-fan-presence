@@ -322,29 +322,37 @@ void Zone::initEvent(const SetSpeedEvent& event)
 
     for (auto& sig : std::get<signalsPos>(event))
     {
-        // Initialize the event signal using handler
-        std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
-        // Setup signal matches of the property for event
-        std::unique_ptr<EventData> eventData =
-            std::make_unique<EventData>(
-                    std::get<groupPos>(event),
-                    std::get<sigMatchPos>(sig),
-                    std::get<sigHandlerPos>(sig),
-                    std::get<actionsPos>(event)
-            );
-        std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
-        if (!std::get<sigMatchPos>(sig).empty())
+        // Check signal for an internal or external property
+        if (!intSignal(std::get<sigMatchPos>(sig)))
         {
-            match = std::make_unique<sdbusplus::server::match::match>(
-                    _bus,
-                    std::get<sigMatchPos>(sig).c_str(),
-                    std::bind(std::mem_fn(&Zone::handleEvent),
-                              this,
-                              std::placeholders::_1,
-                              eventData.get())
+            // Initialize the event signal using handler
+            std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
+            // Setup signal matches of the property for event
+            std::unique_ptr<EventData> eventData =
+                std::make_unique<EventData>(
+                        std::get<groupPos>(event),
+                        std::get<sigMatchPos>(sig),
+                        std::get<sigHandlerPos>(sig),
+                        std::get<actionsPos>(event)
                 );
+            std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
+            if (!std::get<sigMatchPos>(sig).empty())
+            {
+                match = std::make_unique<sdbusplus::server::match::match>(
+                        _bus,
+                        std::get<sigMatchPos>(sig).c_str(),
+                        std::bind(std::mem_fn(&Zone::handleEvent),
+                                  this,
+                                  std::placeholders::_1,
+                                  eventData.get())
+                    );
+            }
+            _signalEvents.emplace_back(std::move(eventData), std::move(match));
         }
-        _signalEvents.emplace_back(std::move(eventData), std::move(match));
+        else
+        {
+            // TODO Event signal for internal property
+        }
     }
     // Attach a timer to run the action of an event
     auto timerConf = std::get<timerConfPos>(event);
@@ -603,6 +611,39 @@ const std::string& Zone::addServices(const std::string& path,
     }
 
     return empty;
+}
+
+bool Zone::intSignal(const std::string& signalMatch)
+{
+    // This zone's object path
+    fs::path path{CONTROL_OBJPATH};
+    path /= std::to_string(_zoneNum);
+
+    // Determine where interface is hosted
+    // (for PropertiesChanged only since we're looking for internal properties)
+    if (signalMatch.find("member='PropertiesChanged'") != std::string::npos)
+    {
+        auto arg0 = std::string("arg0='");
+        auto arg0Start = signalMatch.find(arg0);
+        if (arg0Start != std::string::npos)
+        {
+            auto intf = signalMatch.substr(arg0Start);
+            auto arg0End = intf.find("'", arg0.length());
+            if (arg0End != std::string::npos)
+            {
+                intf = intf.substr(arg0.length(),
+                                   arg0End-arg0.length());
+                // Use service name to determine if internal or external
+                auto serv = getService(path, intf);
+                if (serv == std::string(CONTROL_BUSNAME))
+                {
+                    return true;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
 std::string Zone::mode(std::string value)
