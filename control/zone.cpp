@@ -69,6 +69,12 @@ Zone::Zone(Mode mode,
     // Do not enable set speed events when in init mode
     if (mode == Mode::control)
     {
+        // Restore thermal control mode state(Default or persisted value)
+        restoreMode();
+
+        // Emit objects added in control mode only
+        this->emit_object_added();
+
         // Update target speed to current zone target speed
         if (!_fans.empty())
         {
@@ -84,12 +90,6 @@ Zone::Zone(Mode mode,
         {
             _decTimer.start(_decInterval, TimerType::repeating);
         }
-
-        // Restore thermal control mode state(Default or persisted value)
-        restoreMode();
-
-        // Emit objects added in control mode only
-        this->emit_object_added();
     }
 }
 
