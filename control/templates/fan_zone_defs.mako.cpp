@@ -127,6 +127,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                         std::vector<Signal>{
                         %for s in event['pc']['pcsigs']:
                             Signal{
+                                %if ('match' in s) and \
+                                    (s['match'] is not None):
                                 match::${s['match']}(
                                 %for i, mp in enumerate(s['mparams']):
                                 %if (i+1) != len(s['mparams']):
@@ -136,6 +138,9 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 %endif
                                 %endfor
                                 ),
+                                %else:
+                                "",
+                                %endif
                                 make_handler(\
                                 ${indent(genHandler(sig=s), 9)}\
                                 )

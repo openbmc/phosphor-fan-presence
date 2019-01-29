@@ -130,6 +130,10 @@ def getGroups(zNum, zCond, edata, events):
             member['interface'] = eGroups['interface']
             member['property'] = eGroups['property']['name']
             member['type'] = eGroups['property']['type']
+            # Use defined service to note member on zone object
+            if ('service' in eGroup) and \
+               (eGroup['service'] is not None):
+                member['service'] = eGroup['service']
             # Add expected group member's property value if given
             if ('value' in eGroups['property']) and \
                (eGroups['property']['value'] is not None):
@@ -266,13 +270,16 @@ def getEvent(zone_num, zone_conditions, e, events_data):
                 signal = {}
                 eMatch = next(m for m in events_data['matches']
                               if m['name'] == eMatches['name'])
-                signal['match'] = eMatch['name']
-                params = []
-                if ('parameters' in eMatch) and \
-                   (eMatch['parameters'] is not None):
-                    for p in eMatch['parameters']:
-                        params.append(member[str(p)])
-                signal['mparams'] = params
+                # If service not given, subscribe to signal match
+                if ('service' not in member):
+                    signal['match'] = eMatch['name']
+                    params = []
+                    if ('parameters' in eMatch) and \
+                       (eMatch['parameters'] is not None):
+                        for p in eMatch['parameters']:
+                            params.append(member[str(p)])
+                    signal['mparams'] = params
+
                 if ('parameters' in eMatch['signal']) and \
                    (eMatch['signal']['parameters'] is not None):
                     eSignal = eMatch['signal']
@@ -418,13 +425,16 @@ def addPrecondition(zNum, zCond, event, events_data):
                 signal = {}
                 eMatch = next(m for m in events_data['matches']
                               if m['name'] == eMatches['name'])
-                signal['match'] = eMatch['name']
-                params = []
-                if ('parameters' in eMatch) and \
-                   (eMatch['parameters'] is not None):
-                    for p in eMatch['parameters']:
-                        params.append(member[str(p)])
-                signal['mparams'] = params
+                # If service not given, subscribe to signal match
+                if ('service' not in member):
+                    signal['match'] = eMatch['name']
+                    params = []
+                    if ('parameters' in eMatch) and \
+                       (eMatch['parameters'] is not None):
+                        for p in eMatch['parameters']:
+                            params.append(member[str(p)])
+                    signal['mparams'] = params
+
                 if ('parameters' in eMatch['signal']) and \
                    (eMatch['signal']['parameters'] is not None):
                     eSignal = eMatch['signal']
