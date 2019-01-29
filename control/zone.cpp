@@ -644,7 +644,17 @@ bool Zone::custom(bool value)
     {
         custom = ThermalObject::custom(value);
         saveCustomMode();
-        // TODO Trigger event(s) for mode property change
+        // Trigger event(s) for custom mode property change
+        fs::path path{CONTROL_OBJPATH};
+        path /= std::to_string(_zoneNum);
+        auto eData = _objects[path.string()]
+                             ["xyz.openbmc_project.Control.ThermalMode"]
+                             ["Custom"];
+        if (eData != nullptr)
+        {
+            sdbusplus::message::message nullMsg{nullptr};
+            handleEvent(nullMsg, eData);
+        }
     }
     return custom;
 }
