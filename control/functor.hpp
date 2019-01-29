@@ -106,12 +106,7 @@ struct PropertyChanged
         {
             try
             {
-                auto service = zone.getService(_path, _iface);
-                auto val = util::SDBusPlus::getProperty<T>(bus,
-                                                           service,
-                                                           _path,
-                                                           _iface,
-                                                           _property);
+                auto val = zone.getPropertyByName<T>(_path, _iface, _property);
                 _handler(zone, std::forward<T>(val));
             }
             catch (const sdbusplus::exception::SdBusError&)
