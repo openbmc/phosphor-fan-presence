@@ -9,6 +9,7 @@
 #include "fan.hpp"
 #include "types.hpp"
 #include "timer.hpp"
+#include "sdbusplus.hpp"
 #include "xyz/openbmc_project/Control/ThermalMode/server.hpp"
 
 namespace phosphor
@@ -474,6 +475,51 @@ class Zone : public ThermalObject
                                        int32_t depth);
 
         /**
+         * @brief Get a property value from the zone object or the bus when
+         * the property requested is not on the zone object
+         *
+         * @param[in] path - Path of object
+         * @param[in] intf - Object interface
+         * @param[in] prop - Object property
+         *
+         * @return - Property's value
+         */
+        template <typename T>
+        auto getPropertyByName(const std::string& path,
+                               const std::string& intf,
+                               const std::string& prop)
+        {
+            T value;
+            auto pathIter = _objects.find(path);
+            if (pathIter != _objects.end())
+            {
+                auto intfIter = pathIter->second.find(intf);
+                if (intfIter != pathIter->second.end())
+                {
+                    if (intf == "xyz.openbmc_project.Control.ThermalMode")
+                    {
+                        auto var = ThermalMode::getPropertyByName(prop);
+                        // Using type 'T' fails to compile here
+                        // TODO Determine a better solution to retrieving
+                        // property values from the zone object
+                        value = sdbusplus::message::variant_ns::get<bool>(var);
+
+                        return value;
+                    }
+                }
+            }
+
+            auto service = getService(path, intf);
+            value = util::SDBusPlus::getProperty<T>(_bus,
+                                                    service,
+                                                    path,
+                                                    intf,
+                                                    prop);
+
+            return value;
+        };
+
+        /**
          * @brief Overridden thermal object's set 'Custom' property function
          *
          * @param[in] value - Value to set 'Custom' to
@@ -493,6 +539,11 @@ class Zone : public ThermalObject
          * Zone object path
          */
         const std::string _path;
+
+        /**
+         * Zone supported interfaces
+         */
+        const std::vector<std::string> _ifaces;
 
         /**
          * Full speed for the zone
@@ -591,6 +642,14 @@ class Zone : public ThermalObject
                  std::map<std::string,
                           std::map<std::string,
                                    PropertyVariantType>>> _properties;
+
+        /**
+         * @brief Map of zone objects
+         */
+        std::map<std::string,
+                 std::map<std::string,
+                          std::map<std::string,
+                                   EventData*>>> _objects;
 
         /**
          * @brief Map of active fan control allowed by groups
