@@ -65,6 +65,8 @@ TimerConf{
 std::vector<Signal>{
 %for s in event['signals']:
     Signal{
+        %if ('match' in s) and \
+            (s['match'] is not None):
         match::${s['match']}(
         %for i, mp in enumerate(s['mparams']):
         %if (i+1) != len(s['mparams']):
@@ -74,6 +76,9 @@ std::vector<Signal>{
         %endif
         %endfor
         ),
+        %else:
+        "",
+        %endif
         make_handler(\
         ${indent(genHandler(sig=s), 3)}\
         )
