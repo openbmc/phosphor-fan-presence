@@ -51,6 +51,7 @@ Zone::Zone(Mode mode,
     ThermalObject(bus, path.c_str(), true),
     _bus(bus),
     _path(path),
+    _ifaces({"xyz.openbmc_project.Control.ThermalMode"}),
     _fullSpeed(std::get<fullSpeedPos>(def)),
     _zoneNum(std::get<zoneNumPos>(def)),
     _defFloorSpeed(std::get<floorSpeedPos>(def)),
@@ -316,8 +317,6 @@ void Zone::initEvent(const SetSpeedEvent& event)
 
     for (auto& sig : std::get<signalsPos>(event))
     {
-        // Initialize the event signal using handler
-        std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
         // Setup signal matches of the property for event
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(
@@ -326,6 +325,37 @@ void Zone::initEvent(const SetSpeedEvent& event)
                     std::get<sigHandlerPos>(sig),
                     std::get<actionsPos>(event)
             );
+
+        // When match is empty, handle if zone object member
+        if (std::get<sigMatchPos>(sig).empty())
+        {
+            fs::path path{CONTROL_OBJPATH};
+            path /= std::to_string(_zoneNum);
+
+            // Set event data for each host group member
+            for (auto it = std::get<groupPos>(event).begin();
+                 it != std::get<groupPos>(event).end(); ++it)
+            {
+                if (it->first == path.string())
+                {
+                    // Group member interface in list owned by zone
+                    if (std::find(_ifaces.begin(), _ifaces.end(),
+                        std::get<intfPos>(it->second)) != _ifaces.end())
+                    {
+                        // Store path,interface,property as a managed object
+                        _objects[it->first]
+                                [std::get<intfPos>(it->second)]
+                                [std::get<propPos>(it->second)] =
+                                        eventData.get();
+                    }
+                }
+            }
+        }
+
+        // Initialize the event signal using handler
+        std::get<sigHandlerPos>(sig)(_bus, nullMsg, *this);
+
+        // Subscribe to signal match
         std::unique_ptr<sdbusplus::server::match::match> match = nullptr;
         if (!std::get<sigMatchPos>(sig).empty())
         {
@@ -338,6 +368,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
                               eventData.get())
                 );
         }
+
         _signalEvents.emplace_back(std::move(eventData), std::move(match));
     }
     // Attach a timer to run the action of an event
