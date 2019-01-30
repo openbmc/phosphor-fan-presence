@@ -329,14 +329,11 @@ void Zone::initEvent(const SetSpeedEvent& event)
         // When match is empty, handle if zone object member
         if (std::get<sigMatchPos>(sig).empty())
         {
-            fs::path path{CONTROL_OBJPATH};
-            path /= std::to_string(_zoneNum);
-
             // Set event data for each host group member
             for (auto it = std::get<groupPos>(event).begin();
                  it != std::get<groupPos>(event).end(); ++it)
             {
-                if (it->first == path.string())
+                if (it->first == _path)
                 {
                     // Group member interface in list owned by zone
                     if (std::find(_ifaces.begin(), _ifaces.end(),
@@ -643,9 +640,7 @@ std::string Zone::current(std::string value)
         current = ThermalObject::current(value);
         saveCurrentMode();
         // Trigger event(s) for custom mode property change
-        fs::path path{CONTROL_OBJPATH};
-        path /= std::to_string(_zoneNum);
-        auto eData = _objects[path.string()]
+        auto eData = _objects[_path]
                              ["xyz.openbmc_project.Control.ThermalMode"]
                              ["Current"];
         if (eData != nullptr)
