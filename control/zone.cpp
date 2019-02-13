@@ -72,6 +72,12 @@ Zone::Zone(Mode mode,
     // Do not enable set speed events when in init mode
     if (mode == Mode::control)
     {
+        // Process any zone handlers defined
+        for (auto& hand : std::get<handlerPos>(def))
+        {
+            hand(*this);
+        }
+
         // Restore thermal control current mode state
         restoreCurrentMode();
 
