@@ -10,6 +10,26 @@ namespace handler
 {
 
 /**
+ * @brief A handler function to set/update a property on a zone
+ * @details Sets or updates a zone property to the given value using the
+ * provided zone dbus object's set property function
+ *
+ * @param[in] value - Value to set property to
+ * @param[in] func - Zone set property function pointer
+ *
+ * @return Lambda function
+ *     A lambda function to set/update the zone property
+ */
+template <typename T>
+auto setZoneProperty(T (Zone::*func)(T), T&& value)
+{
+    return [func, value = std::forward<T>(value)](auto& zone)
+    {
+        (zone.*func)(value);
+    };
+}
+
+/**
  * @brief A handler function to set/update a property
  * @details Sets or updates a property's value determined by a combination of
  * an object's path and property names
