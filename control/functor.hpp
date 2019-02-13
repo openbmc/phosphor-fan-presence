@@ -17,6 +17,19 @@ using namespace sdbusplus::bus::match;
 using namespace phosphor::logging;
 
 /**
+ * @brief Create a zone handler function object
+ *
+ * @param[in] handler - The handler being created
+ *
+ * @return - The created zone handler function object
+ */
+template <typename T>
+auto make_zoneHandler(T&& handler)
+{
+    return ZoneHandler(std::forward<T>(handler));
+}
+
+/**
  * @brief Create a handler function object
  *
  * @param[in] handler - The handler being created
