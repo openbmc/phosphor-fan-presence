@@ -45,6 +45,7 @@ using FanDefinition = std::tuple<std::string,
 constexpr auto intfPos = 0;
 constexpr auto propPos = 1;
 using Group = std::map<std::string, std::tuple<std::string, std::string>>;
+using ZoneHandler = std::function<void(Zone&)>;
 using Handler = std::function<void(sdbusplus::bus::bus&,
                                    sdbusplus::message::message&,
                                    Zone&)>;
@@ -108,13 +109,15 @@ constexpr auto fullSpeedPos = 1;
 constexpr auto floorSpeedPos = 2;
 constexpr auto incDelayPos = 3;
 constexpr auto decIntervalPos = 4;
-constexpr auto fanListPos = 5;
-constexpr auto setSpeedEventsPos = 6;
+constexpr auto handlerPos = 5;
+constexpr auto fanListPos = 6;
+constexpr auto setSpeedEventsPos = 7;
 using ZoneDefinition = std::tuple<size_t,
                                   uint64_t,
                                   uint64_t,
                                   size_t,
                                   size_t,
+                                  std::vector<ZoneHandler>,
                                   std::vector<FanDefinition>,
                                   std::vector<SetSpeedEvent>>;
 
