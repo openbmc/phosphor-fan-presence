@@ -26,18 +26,12 @@ AX_CXX_COMPILE_STDCXX_17([noext])
 AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
 
 # Checks for libraries.
-PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus], ,
-[AC_MSG_ERROR([The openbmc/sdbusplus package is required])])
-PKG_CHECK_MODULES([SDEVENTPLUS], [sdeventplus], ,
-[AC_MSG_ERROR([The openbmc/sdeventplus package is required])])
-PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging], ,
-[AC_MSG_ERROR([The openbmc/phosphor-logging package is required])])
-PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221], ,
-[AC_MSG_ERROR([Could not find systemd...systemd development package required])])
-PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces], ,
-[AC_MSG_ERROR([Could not find phosphor-dbus-interfaces...openbmc/phosphor-dbus-interfaces package required])])
-PKG_CHECK_MODULES([LIBEVDEV], [libevdev], ,
-[AC_MSG_ERROR([The libevdev package is required])])
+PKG_CHECK_MODULES([SDBUSPLUS], [sdbusplus])
+PKG_CHECK_MODULES([SDEVENTPLUS], [sdeventplus])
+PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging])
+PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
+PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces])
+PKG_CHECK_MODULES([LIBEVDEV], [libevdev])
 
 # Checks for library functions.
 LT_INIT # Required for systemd linking
