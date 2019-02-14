@@ -640,12 +640,16 @@ const std::string& Zone::addServices(const std::string& path,
 
 std::string Zone::current(std::string value)
 {
-    auto current = value;
-    if (current != ThermalObject::current())
+    auto next = value;
+    std::transform(next.begin(), next.end(), next.begin(), tolower);
+    auto current = ThermalObject::current();
+    std::transform(current.begin(), current.end(), current.begin(), tolower);
+
+    if (next != current)
     {
         current = ThermalObject::current(value);
         saveCurrentMode();
-        // Trigger event(s) for custom mode property change
+        // Trigger event(s) for current mode property change
         auto eData = _objects[_path]
                              ["xyz.openbmc_project.Control.ThermalMode"]
                              ["Current"];
@@ -655,7 +659,8 @@ std::string Zone::current(std::string value)
             handleEvent(nullMsg, eData);
         }
     }
-    return current;
+
+    return ThermalObject::current();
 }
 
 void Zone::saveCurrentMode()
