@@ -676,7 +676,7 @@ void Zone::saveCurrentMode()
 
 void Zone::restoreCurrentMode()
 {
-    std::string current = "Default";
+    auto current = ThermalObject::current();
     fs::path path{CONTROL_PERSIST_ROOT_PATH};
     path /= std::to_string(_zoneNum);
     path /= "CurrentMode";
@@ -695,7 +695,7 @@ void Zone::restoreCurrentMode()
     {
         log<level::ERR>(e.what());
         fs::remove(path);
-        current = "Default";
+        current = ThermalObject::current();
     }
 
     this->current(current);
