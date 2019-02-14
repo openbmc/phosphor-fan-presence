@@ -13,6 +13,114 @@ from mako.template import Template
 from mako.lookup import TemplateLookup
 
 
+def parse_cpp_type(typeName):
+    """
+    Take a list of dbus types from YAML and convert it to a recursive cpp
+    formed data structure. Each entry of the original list gets converted
+    into a tuple consisting of the type name and a list with the params
+    for this type,
+        e.g.
+            ['dict', ['string', 'dict', ['string', 'int64']]]
+        is converted to
+            [('dict', [('string', []), ('dict', [('string', []),
+             ('int64', [])]]]
+    """
+
+    if not typeName:
+        return None
+
+    # Type names are _almost_ valid YAML. Insert a , before each [
+    # and then wrap it in a [ ] and it becomes valid YAML (assuming
+    # the user gave us a valid typename).
+    typeArray = yaml.safe_load("[" + ",[".join(typeName.split("[")) + "]")
+    typeTuple = preprocess_yaml_type_array(typeArray).pop(0)
+    return get_cpp_type(typeTuple)
+
+
+def preprocess_yaml_type_array(typeArray):
+    """
+    Flattens an array type into a tuple list that can be used to get the
+    supported cpp type from each element.
+    """
+
+    result = []
+
+    for i in range(len(typeArray)):
+        # Ignore lists because we merge them with the previous element
+        if type(typeArray[i]) is list:
+            continue
+
+        # If there is a next element and it is a list, merge it with the
+        # current element.
+        if i < len(typeArray)-1 and type(typeArray[i+1]) is list:
+            result.append(
+                (typeArray[i],
+                 preprocess_yaml_type_array(typeArray[i+1])))
+        else:
+            result.append((typeArray[i], []))
+
+    return result
+
+
+def get_cpp_type(typeTuple):
+    """
+    Take a list of dbus types and perform validity checking, such as:
+        [ variant [ dict [ int32, int32 ], double ] ]
+    This function then converts the type-list into a C++ type string.
+    """
+
+    propertyMap = {
+        'byte': {'cppName': 'uint8_t', 'params': 0},
+        'boolean': {'cppName': 'bool', 'params': 0},
+        'int16': {'cppName': 'int16_t', 'params': 0},
+        'uint16': {'cppName': 'uint16_t', 'params': 0},
+        'int32': {'cppName': 'int32_t', 'params': 0},
+        'uint32': {'cppName': 'uint32_t', 'params': 0},
+        'int64': {'cppName': 'int64_t', 'params': 0},
+        'uint64': {'cppName': 'uint64_t', 'params': 0},
+        'double': {'cppName': 'double', 'params': 0},
+        'string': {'cppName': 'std::string', 'params': 0},
+        'array': {'cppName': 'std::vector', 'params': 1},
+        'dict': {'cppName': 'std::map', 'params': 2}}
+
+    if len(typeTuple) != 2:
+        raise RuntimeError("Invalid typeTuple %s" % typeTuple)
+
+    first = typeTuple[0]
+    entry = propertyMap[first]
+
+    result = entry['cppName']
+
+    # Handle 0-entry parameter lists.
+    if (entry['params'] == 0):
+        if (len(typeTuple[1]) != 0):
+            raise RuntimeError("Invalid typeTuple %s" % typeTuple)
+        else:
+            return result
+
+    # Get the parameter list
+    rest = typeTuple[1]
+
+    # Confirm parameter count matches.
+    if (entry['params'] != -1) and (entry['params'] != len(rest)):
+        raise RuntimeError("Invalid entry count for %s : %s" %
+                           (first, rest))
+
+    # Parse each parameter entry, if appropriate, and create C++ template
+    # syntax.
+    result += '<'
+    if entry.get('noparse'):
+        # Do not parse the parameter list, just use the first element
+        # of each tuple and ignore possible parameters
+        result += ", ".join([e[0] for e in rest])
+    else:
+        result += ", ".join(map(lambda e: get_cpp_type(e),
+                                rest))
+    result += '>'
+
+    return result
+
+
 def convertToMap(listOfDict):
     """
     Converts a list of dictionary entries to a std::map initialization list.
@@ -575,6 +683,46 @@ def getFansInZone(zone_num, profiles, fan_data):
     return fans
 
 
+def getIfacesInZone(zone_ifaces):
+    """
+    Parse given interfaces for a zone for associating a zone with an interface
+    and set any properties listed to defined values upon fan control starting
+    on the zone.
+    """
+
+    ifaces = []
+    for i in zone_ifaces:
+        iface = {}
+        # Interface name not needed yet for fan zones but
+        # may be necessary as more interfaces are extended by the zones
+        iface['name'] = i['name']
+
+        if ('properties' in i) and \
+                (i['properties'] is not None):
+            props = []
+            for p in i['properties']:
+                prop = {}
+                prop['name'] = str(p['name']).lower()
+                prop['type'] = parse_cpp_type(p['type'])
+                vals = []
+                for v in p['values']:
+                    val = v['value']
+                    if (val is not None):
+                        if (isinstance(val, bool)):
+                            # Convert True/False to 'true'/'false'
+                            val = 'true' if val else 'false'
+                        elif (isinstance(val, str)):
+                            # Wrap strings with double-quotes
+                            val = "\"" + val + "\""
+                        vals.append(val)
+                prop['values'] = vals
+                props.append(prop)
+            iface['props'] = props
+        ifaces.append(iface)
+
+    return ifaces
+
+
 def getConditionInZoneConditions(zone_condition, zone_conditions_data):
     """
     Parses the zone conditions definition YAML files to find the condition
@@ -661,6 +809,11 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
             else:
                 profiles = z['cooling_profiles']
 
+            # 'interfaces' is optional (no default)
+            if ('interfaces' in z) and \
+                    (z['interfaces'] is not None):
+                ifaces = getIfacesInZone(z['interfaces'])
+
             fans = getFansInZone(z['zone'], profiles, fan_data)
             events = getEventsInZone(z['zone'], group['zone_conditions'],
                                      events_data)
@@ -668,6 +821,8 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
             if len(fans) == 0:
                 sys.exit("Didn't find any fans in zone " + str(zone['num']))
 
+            if (ifaces):
+                zone['ifaces'] = ifaces
             zone['fans'] = fans
             zone['events'] = events
             zones.append(zone)

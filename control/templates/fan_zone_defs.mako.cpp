@@ -45,6 +45,38 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                 ${zone['default_floor']},
                 ${zone['increase_delay']},
                 ${zone['decrease_interval']},
+                std::vector<ZoneHandler>{
+                    %if ('ifaces' in zone) and \
+                        (zone['ifaces'] is not None):
+                        %for i in zone['ifaces']:
+                            %if ('props' in i) and \
+                                (i['props'] is not None):
+                                %for p in i['props']:
+                    ZoneHandler{
+                        make_zoneHandler(handler::setZoneProperty(
+                            &Zone::${p['name']},
+                            static_cast<${p['type']}>(
+                                %if "vector" in p['type'] or "map" in p['type']:
+                                ${p['type']}{
+                                %endif
+                                %for i, v in enumerate(p['values']):
+                                %if (i+1) != len(p['values']):
+                                    ${v},
+                                %else:
+                                    ${v}
+                                %endif
+                                %endfor
+                                %if "vector" in p['type'] or "map" in p['type']:
+                                }
+                                %endif
+                            )
+                        ))
+                    },
+                                %endfor
+                            %endif
+                        %endfor
+                    %endif
+                },
                 std::vector<FanDefinition>{
                 %for fan in zone['fans']:
                     FanDefinition{
