@@ -643,7 +643,17 @@ std::string Zone::current(std::string value)
     auto current = ThermalObject::current();
     std::transform(value.begin(), value.end(), value.begin(), toupper);
 
-    if (value != current)
+    auto supported = ThermalObject::supported();
+    auto isSupported = std::any_of(
+        supported.begin(),
+        supported.end(),
+        [&value](auto& s)
+        {
+            std::transform(s.begin(), s.end(), s.begin(), toupper);
+            return value == s;
+        });
+
+    if (value != current && isSupported)
     {
         current = ThermalObject::current(value);
         saveCurrentMode();
