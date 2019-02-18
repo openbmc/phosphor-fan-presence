@@ -470,6 +470,29 @@ class Zone : public ThermalObject
                                        int32_t depth);
 
         /**
+         * @brief Set a property to be persisted
+         *
+         * @param[in] intf - Interface containing property
+         * @param[in] prop - Property to be persisted
+         */
+        inline void setPersisted(const std::string& intf,
+                                 const std::string& prop)
+        {
+            _persisted[intf].emplace_back(prop);
+        }
+
+        /**
+         * @brief Get persisted property
+         *
+         * @param[in] intf - Interface containing property
+         * @param[in] prop - Property persisted
+         *
+         * @return - True if property is to be persisted, false otherwise
+         */
+        auto getPersisted(const std::string& intf,
+                          const std::string& prop);
+
+        /**
          * @brief Get a property value from the zone object or the bus when
          * the property requested is not on the zone object
          *
@@ -651,6 +674,11 @@ class Zone : public ThermalObject
                  std::map<std::string,
                           std::map<std::string,
                                    EventData*>>> _objects;
+
+        /**
+         * @brief Map of interfaces to persisted properties
+         */
+        std::map<std::string, std::vector<std::string>> _persisted;
 
         /**
          * @brief Map of active fan control allowed by groups

@@ -638,6 +638,25 @@ const std::string& Zone::addServices(const std::string& path,
     return empty;
 }
 
+auto Zone::getPersisted(const std::string& intf,
+                        const std::string& prop)
+{
+    auto persisted = false;
+
+    auto it = _persisted.find(intf);
+    if (it != _persisted.end())
+    {
+        return std::any_of(it->second.begin(),
+                           it->second.end(),
+                           [&prop](auto& p)
+                           {
+                               return prop == p;
+                           });
+    }
+
+    return persisted;
+}
+
 std::string Zone::current(std::string value)
 {
     auto current = ThermalObject::current();
@@ -656,7 +675,10 @@ std::string Zone::current(std::string value)
     if (value != current && isSupported)
     {
         current = ThermalObject::current(value);
-        saveCurrentMode();
+        if (getPersisted("xyz.openbmc_project.Control.ThermalMode", "Current"))
+        {
+            saveCurrentMode();
+        }
         // Trigger event(s) for current mode property change
         auto eData = _objects[_path]
                              ["xyz.openbmc_project.Control.ThermalMode"]
