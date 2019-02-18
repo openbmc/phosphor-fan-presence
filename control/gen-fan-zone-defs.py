@@ -810,6 +810,7 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
                 profiles = z['cooling_profiles']
 
             # 'interfaces' is optional (no default)
+            ifaces = []
             if ('interfaces' in z) and \
                     (z['interfaces'] is not None):
                 ifaces = getIfacesInZone(z['interfaces'])
