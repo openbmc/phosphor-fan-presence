@@ -702,8 +702,16 @@ def getIfacesInZone(zone_ifaces):
             props = []
             for p in i['properties']:
                 prop = {}
-                prop['name'] = str(p['name']).lower()
+                prop['name'] = p['name']
+                prop['func'] = str(p['name']).lower()
                 prop['type'] = parse_cpp_type(p['type'])
+                if ('persist' in p):
+                    persist = p['persist']
+                    if (persist is not None):
+                        if (isinstance(persist, bool)):
+                            prop['persist'] = 'true' if persist else 'false'
+                else:
+                    prop['persist'] = 'false'
                 vals = []
                 for v in p['values']:
                     val = v['value']

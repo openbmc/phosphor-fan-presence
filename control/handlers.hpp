@@ -14,18 +14,29 @@ namespace handler
  * @details Sets or updates a zone property to the given value using the
  * provided zone dbus object's set property function
  *
- * @param[in] value - Value to set property to
+ * @param[in] intf - Interface on zone object
+ * @param[in] prop - Property on interface
  * @param[in] func - Zone set property function pointer
+ * @param[in] value - Value to set property to
+ * @param[in] persist - Persist property value or not
  *
  * @return Lambda function
  *     A lambda function to set/update the zone property
  */
 template <typename T>
-auto setZoneProperty(T (Zone::*func)(T), T&& value)
+auto setZoneProperty(const char* intf,
+                     const char* prop,
+                     T (Zone::*func)(T),
+                     T&& value,
+                     bool persist)
 {
-    return [func, value = std::forward<T>(value)](auto& zone)
+    return [=, value = std::forward<T>(value)](auto& zone)
     {
         (zone.*func)(value);
+        if (persist)
+        {
+            zone.setPersisted(intf, prop);
+        }
     };
 }
 

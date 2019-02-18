@@ -54,13 +54,15 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 %for p in i['props']:
                     ZoneHandler{
                         make_zoneHandler(handler::setZoneProperty(
-                            &Zone::${p['name']},
+                            "${i['name']}",
+                            "${p['name']}",
+                            &Zone::${p['func']},
                             static_cast<${p['type']}>(
                                 %if "vector" in p['type'] or "map" in p['type']:
                                 ${p['type']}{
                                 %endif
-                                %for i, v in enumerate(p['values']):
-                                %if (i+1) != len(p['values']):
+                                %for j, v in enumerate(p['values']):
+                                %if (j+1) != len(p['values']):
                                     ${v},
                                 %else:
                                     ${v}
@@ -69,7 +71,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                                 %if "vector" in p['type'] or "map" in p['type']:
                                 }
                                 %endif
-                            )
+                            ),
+                            ${p['persist']}
                         ))
                     },
                                 %endfor
