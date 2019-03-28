@@ -1,7 +1,7 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
 AM_CPPFLAGS = -iquote ${top_srcdir}
 
-sbin_PROGRAMS = \
+binPROGRAMS = \
 	phosphor-cooling-type
 
 phosphor_cooling_type_SOURCES = \

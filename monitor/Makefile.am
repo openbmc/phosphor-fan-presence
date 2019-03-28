@@ -1,7 +1,7 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
 AM_CPPFLAGS = -iquote ${top_srcdir}
 
-sbin_PROGRAMS = \
+binPROGRAMS = \
 	phosphor-fan-monitor
 
 phosphor_fan_monitor_SOURCES = \
