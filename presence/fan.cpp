@@ -31,6 +31,7 @@ using namespace std::literals::string_literals;
 static const auto invNamespace = "/xyz/openbmc_project/inventory"s;
 static const auto itemIface = "xyz.openbmc_project.Inventory.Item"s;
 static const auto invMgrIface = "xyz.openbmc_project.Inventory.Manager"s;
+static const auto fanIface = "xyz.openbmc_project.Inventory.Item.Fan"s;
 
 void setPresence(const Fan& fan, bool newState)
 {
@@ -48,7 +49,10 @@ void setPresence(const Fan& fan, bool newState)
                 {"Present"s, newState},
                 {"PrettyName"s, std::get<0>(fan)},
             }
-        }}
+        },
+        {
+            fanIface, {}
+        }},
     }};
 
     util::SDBusPlus::lookupAndCallMethod(
