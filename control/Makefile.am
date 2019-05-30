@@ -9,6 +9,7 @@ phosphor_fan_control_SOURCES = \
 	fan.cpp \
 	main.cpp \
 	manager.cpp \
+	utility.cpp \
 	preconditions.cpp \
 	actions.cpp \
 	triggers.cpp \
