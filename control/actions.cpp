@@ -1,4 +1,5 @@
 #include "actions.hpp"
+#include "utility.hpp"
 
 namespace phosphor
 {
@@ -283,6 +284,75 @@ Action set_ceiling_from_average_sensor_value(
             }
         }
         zone.setCeiling(speed);
+    };
+}
+
+Action set_floor_from_median_sensor_value(
+        int64_t lowerBound,
+        int64_t upperBound,
+        std::map<int64_t, uint64_t>&& valueToSpeed)
+{
+    return [lowerBound,
+            upperBound,
+            valueToSpeed = std::move(valueToSpeed)](control::Zone& zone,
+                                                    const Group& group)
+    {
+        auto speed = zone.getDefFloor();
+        if (group.size() != 0)
+        {
+            std::vector<int64_t> validValues;
+            for (auto const& member : group)
+            {
+                try
+                {
+                    auto value = zone.template getPropertyValue<int64_t>(
+                            std::get<pathPos>(member),
+                            std::get<intfPos>(member),
+                            std::get<propPos>(member));
+                    if (value == std::clamp(value, lowerBound, upperBound))
+                    {
+                        // Sensor value is valid
+                        validValues.emplace_back(value);
+                    }
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    continue;
+                }
+            }
+
+            if (!validValues.empty())
+            {
+                auto median = validValues.front();
+                // Get the determined median value
+                if (validValues.size() == 2)
+                {
+                    // For 2 values, use the highest instead of the average
+                    // for a thermally safe floor
+                    median = *std::max_element(validValues.begin(),
+                                               validValues.end());
+                }
+                else if (validValues.size() > 2)
+                {
+                    median = utility::getMedian(validValues);
+                }
+
+                // Use determined median sensor value to find floor speed
+                auto it = std::find_if(
+                    valueToSpeed.begin(),
+                    valueToSpeed.end(),
+                    [&median](auto const& entry)
+                    {
+                        return median < entry.first;
+                    }
+                );
+                if (it != std::end(valueToSpeed))
+                {
+                    speed = (*it).second;
+                }
+            }
+        }
+        zone.setFloor(speed);
     };
 }
 

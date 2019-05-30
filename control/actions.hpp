@@ -347,6 +347,28 @@ auto use_alternate_events_on_state(T&& state,
     };
 }
 
+/**
+ * @brief An action to set the floor speed on a zone
+ * @details Using sensor group values that are within a defined range, the
+ * floor speed is selected from the first map key entry that the median
+ * sensor value is less than where 3 or more sensor group values are valid.
+ * In the case where less than 3 sensor values are valid, use the highest
+ * sensor group value and default the floor speed when 0 sensor group values
+ * are valid.
+ *
+ * @param[in] lowerBound - Lowest allowed sensor value to be valid
+ * @param[in] upperBound - Highest allowed sensor value to be valid
+ * @param[in] valueToSpeed - Ordered map of sensor value-to-speed
+ *
+ * @return Action lambda function
+ *     An Action function to set the zone's floor speed from a resulting group
+ * of valid sensor values based on their highest value or median.
+ */
+Action set_floor_from_median_sensor_value(
+        int64_t lowerBound,
+        int64_t upperBound,
+        std::map<int64_t, uint64_t>&& valueToSpeed);
+
 } // namespace action
 } // namespace control
 } // namespace fan
