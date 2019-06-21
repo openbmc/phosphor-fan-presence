@@ -75,7 +75,7 @@ TachSensor::TachSensor(Mode mode,
                        size_t funcDelay,
                        const std::string& interface,
                        size_t factor,
-                       size_t offset,
+                       int64_t offset,
                        size_t timeout,
                        const sdeventplus::Event& event) :
     _bus(bus),

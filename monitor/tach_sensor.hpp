@@ -89,7 +89,7 @@ class TachSensor
                    size_t funcDelay,
                    const std::string& interface,
                    size_t factor,
-                   size_t offset,
+                   int64_t offset,
                    size_t timeout,
                    const sdeventplus::Event& event);
 
@@ -133,7 +133,7 @@ class TachSensor
         /**
          * @brief Returns the offset of the sensor target
          */
-        inline size_t getOffset() const
+        inline int64_t getOffset() const
         {
             return _offset;
         }
@@ -277,7 +277,7 @@ class TachSensor
         /**
          * @brief The offset of target to get fan rpm
          */
-        const size_t _offset;
+        const int64_t _offset;
 
         /**
          * @brief The input speed, from the Value dbus property
