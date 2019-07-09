@@ -543,7 +543,7 @@ def getEvent(zone_num, zone_conditions, e, events_data):
 
     # Add event triggers
     event['triggers'] = {}
-    for trig in e['triggers']:
+    for trig in event['triggers']:
         triggers = []
         if (trig['name'] == "timer"):
             event['triggers']['timer'] = getTimer(trig)
