@@ -11,41 +11,94 @@
 #    - name: [The name associated with a supported match string function]
 #      description: [A user description of what this match string represents]
 #      parameters:
-#          [List of required parameters for the match string function]
-#      signal: [Signal function name used with this match string]
+#          [Ordered list of required parameters for the match string function]
 #
 #signals:
 #    - name: [The name associated with a supported signal function]
 #      description: [A user description of what this signal does]
 #      parameters:
-#          [List of required parameters for the signal function]
+#          [Ordered list of required parameters for the signal function]
+#      match: [Match string function to use in subscribing to the signal]
 #
-#preconditions:
-#    - name: [Name associated with a supported precondition]
+#methods:
+#    - name: [The name associated with a supported method function]
+#      description: [A user description of what this method does]
+#      parameters:
+#          [Ordered list of required parameteres for the method function]
+#
+#handlers:
+#    - name: [The name associated with a supported handler function]
+#      description: [A user descriptiion of what this handler does]
+#      parameters:
+#          [Ordered list of required parameters for the handler function]
+#
+#preconditions: [Preconditions are intended to load or unload events based
+#                on the precondition's resulting state]
+#    - name: [Name associated with an available precondition function]
 #      description: [A user description of the precondition's use]
 #      parameters:
-#          [List of required parameters for the precondition function]
+#          [Ordered list of required parameters for the precondition function]
 #
 #actions:
-#    - name: [The name associated with a supported action function]
+#    - name: [Name associated with an available action function]
 #      description: [A user description of what this action does]
 #      parameters:
 #          [Ordered list of required parameters for the associated function]
 #
 #events:
 #    - name: [A unique name for this event]
-#      zone_conditions:
-#          - name: [The name of the zone condition]
-#            zones:
-#                - [Zone number to include this set speed event with]
-#      group: [A group name from the list of groups]
-#      interface: [The Dbus interface on the group members' object path]
-#      property: [The property name and type on the interface to be used]
-#      action:
-#          name: [Name of an action from the list of actions]
-#          [List each required action parameter with a defined type and value
-#           for this event. The 'property' parameter utilizes the same type
-#           defined under the 'property' attribute.]
+#      precondition{OPTIONAL}:
+#          name: [Name of the precondition function]
+#          groups:
+#              - name: [A group name from the list of groups]
+#                zone_conditions{OPTIONAL}:
+#                    - name: [The name of the zone condition]
+#                      zones:
+#                          - [Zone number to include this set speed event with]
+#                interface: [Dbus interface on the group members' object path]
+#                property:
+#                    name: [Name of the property on the interface]
+#                    type: [The property's data type]
+#          triggers:
+#              [At least 1 trigger is required per event from those available:
+#               "init"   - Executes a method(with associated handler) at startup
+#                          and then process the event actions
+#               "signal" - Subscribes to a signal and executes the associated
+#                          handler when the signal is received and then process
+#                          the event actions
+#               "timer"  - Configures a type of timer over an interval that
+#                          processess the event actions each time the timer
+#                          expires]
+#              - name: [Name of trigger to execute the event]
+#                [Provide the required trigger parameter(s)]
+#          events: [Define the event that is to be loaded when the precondition
+#                   succeeds]
+#      groups:
+#          - name: [A group name from the list of groups]
+#            zone_conditions{OPTIONAL}:
+#                - name: [The name of the zone condition]
+#                  zones:
+#                      - [Zone number to include this set speed event with]
+#            interface: [The Dbus interface on the group members' object path]
+#            property:
+#                name: [Name of the property on the interface]
+#                type: [The property's data type]
+#      triggers:
+#          [At least 1 trigger is required per event from those available:
+#           "init"   - Executes a method(with associated handler) at startup
+#                      and then process the event actions
+#           "signal" - Subscribes to a signal and executes the associated
+#                      handler when the signal is received and then process
+#                      the event actions
+#           "timer"  - Configures a type of timer over an interval that
+#                      processess the event actions each time the timer expires]
+#          - name: [Name of trigger to execute the event]
+#            [Provide the required trigger parameter(s)]
+#      actions:
+#          - name: [Name of an action from the list of actions]
+#            [Ordered list of each required action parameter with a defined
+#             type and value for this event. The 'property' parameter utilizes
+#             the same type defined under the 'property' attribute.]
 
 #Example:
 #groups:
@@ -83,6 +136,18 @@
 #          - /temperature/dimm3_temp
 #          - /temperature/dimm4_temp
 #
+#matches:
+#    - name: propertiesChanged
+#      parameters:
+#          - object
+#          - interface
+#    - name: interfacesAdded
+#      parameters:
+#          - object
+#    - name: interfacesRemoved
+#      parameters:
+#          - object
+#
 #signals:
 #    - name: propertiesChanged
 #      description: >
@@ -90,31 +155,38 @@
 #      parameters:
 #          - object
 #          - interface
-#      handler: propertySignal
+#      match: propertiesChanged
 #    - name: interfacesAdded
 #      description: >
 #          An interfaces added signal
 #      parameters:
+#          - type
 #          - object
-#      handler: objectSignal
+#          - interface
+#          - property
+#      match: interfacesAdded
+#    - name: interfacesRemoved
+#      description: >
+#          An interfaces removed match
+#      parameters:
+#          - object
+#          - interface
+#      match: interfacesRemoved
+#
+#methods:
+#    - name: getProperties
+#      description: >
+#          Get the property values of the given group members
+#          by performing a `GetProperty` method call on each
+#      parameters:
+#          - type
 #
 #handlers:
-#    - name: propertySignal
+#    - name: setProperty
 #      description: >
-#          Handle property signals
+#          Sets a value for the givent object/interface/property
 #      parameters:
 #          - type
-#          - object
-#          - interface
-#          - property
-#    - name: objectSignal
-#      description: >
-#          Handle object signals
-#      parameters:
-#          - type
-#          - object
-#          - interface
-#          - property
 #
 #preconditions:
 #    - name: property_states_match
@@ -158,37 +230,50 @@
 #
 #events:
 #    - name: missing_before_high_speed
-#      zone_conditions:
-#          - name: air_cooled_chassis
-#            zones:
-#                - 0
-#      group: zone0_fans
-#      interface: xyz.openbmc_project.Inventory.Item
-#      property:
-#          name: Present
-#          type: bool
-#      signals:
-#          - name: interfacesAdded
-#          - name: propertiesChanged
+#      groups:
+#          - name: zone0_fans
+#            zone_conditions:
+#                - name: air_cooled_chassis
+#                  zones:
+#                      - 0
+#            interface: xyz.openbmc_project.Inventory.Item
+#            property:
+#                name: Present
+#                type: bool
+#      triggers:
+#          - name: init
+#            method: getProperties
+#            handler: setProperty
+#          - name: signal
+#            signal: propertiesChanged
+#            handler: setProperty
 #      actions:
 #          - name: count_state_before_speed
 #            count: 1
-#            property: false
+#            property:
+#                value: false
+#                type: bool
 #            speed:
 #                value: 10500
 #                type: uint64_t
 #    - name: set_air_cooled_speed_boundaries_based_on_ambient
-#      zone_conditions:
-#          - name: air_cooled_chassis
-#            zones:
-#                - 0
-#      group: zone0_ambient
-#      interface: xyz.openbmc_project.Sensor.Value
-#      property:
-#          name: Value
-#          type: int64_t
-#      signals:
-#          - name: propertiesChanged
+#      groups:
+#          - name: zone0_ambient
+#            zone_conditions:
+#                - name: air_cooled_chassis
+#                  zones:
+#                      - 0
+#            interface: xyz.openbmc_project.Sensor.Value
+#            property:
+#                name: Value
+#                type: int64_t
+#      triggers:
+#          - name: init
+#            method: getProperties
+#            handler: setProperty
+#          - name: signal
+#            signal: propertiesChanged
+#            handler: setProperty
 #      actions:
 #          - name: set_floor_from_average_sensor_value
 #            map:
@@ -205,17 +290,23 @@
 #                    - 27000: 10500
 #                type: std::map<int64_t, uint64_t>
 #    - name: set_water_cooled_speed_boundaries_based_on_ambient
-#      zone_conditions:
-#          - name: water_and_air_cooled_chassis
-#            zones:
-#                - 0
-#      group: zone0_ambient
-#      interface: xyz.openbmc_project.Sensor.Value
-#      property:
-#          name: Value
-#          type: int64_t
-#      signals:
-#          - name: propertiesChanged
+#      groups:
+#          - name: zone0_ambient
+#            zone_conditions:
+#                - name: water_and_air_cooled_chassis
+#                  zones:
+#                      - 0
+#            interface: xyz.openbmc_project.Sensor.Value
+#            property:
+#                name: Value
+#                type: int64_t
+#      triggers:
+#          - name: init
+#            method: getProperties
+#            handler: setProperty
+#          - name: signal
+#            signal: propertiesChanged
+#            handler: setProperty
 #      actions:
 #          - name: set_floor_from_average_sensor_value
 #            map:
@@ -231,40 +322,6 @@
 #                    - 25000: 7200
 #                    - 27000: 10500
 #                type: std::map<int64_t, uint64_t>
-#    - name: speed_changes_based_on_regulator_temps
-#      zone_conditions:
-#          - name: air_cooled_chassis
-#            zones:
-#                - 0
-#          - name: water_and_air_cooled_chassis
-#            zones:
-#                - 0
-#      group: zone0_regulators
-#      interface: xyz.openbmc_project.Sensor.Value
-#      property:
-#          name: Value
-#          type: int64_t
-#      signals:
-#          - name: propertiesChanged
-#      actions:
-#          - name: set_net_increase_speed
-#            property: 85000
-#            factor:
-#                value: 1000
-#                type: int64_t
-#            delta:
-#                value: 400
-#                type: uint64_t
-#          - name: set_net_decrease_speed
-#            property: 82000
-#            factor:
-#                value: 1000
-#                type: int64_t
-#            delta:
-#                value: 40
-#                type: uint64_t
-#      timer:
-#          interval: 5
 #    - name: occ_active_speed_changes
 #      precondition:
 #          name: property_states_match
@@ -281,29 +338,92 @@
 #                    name: OccActive
 #                    type: bool
 #                    value: true
-#          signals:
-#              - name: interfacesAdded
-#              - name: propertiesChanged
+#          triggers:
+#              - name: init
+#                method: getProperties
+#                handler: setProperty
+#              - name: signal
+#                signal: interfacesAdded
+#                handler: setProperty
+#              - name: signal
+#                signal: propertiesChanged
+#                handler: setProperty
 #          events:
-#              - name: speed_changes_based_on_dimm_temps
-#                zone_conditions:
-#                    - name: air_cooled_chassis
-#                      zones:
-#                          - 0
-#                    - name: water_and_air_cooled_chassis
-#                      zones:
-#                          - 0
-#                group: zone0_dimms
-#                interface: xyz.openbmc_project.Sensor.Value
-#                property:
-#                    name: Value
-#                    type: int64_t
-#                signals:
-#                    - name: interfacesAdded
-#                    - name: propertiesChanged
+#              - name: speed_control_sensors
+#                groups:
+#                    - name: zone0_regulators
+#                      interface: xyz.openbmc_project.Sensor.Value
+#                      property:
+#                          name: Value
+#                          type: int64_t
+#                    - name: zone0_dimms
+#                      interface: xyz.openbmc_project.Sensor.Value
+#                      property:
+#                          name: Value
+#                          type: int64_t
+#                triggers:
+#                    - name: init
+#                      method: getProperties
+#                      handler: setProperty
+#                    - name: signal
+#                      signal: interfacesAdded
+#                      handler: setProperty
+#                    - name: signal
+#                      signal: propertiesChanged
+#                      handler: setProperty
+#                    - name: signal
+#                      signal: interfacesRemoved
+#                      handler: removeInterface
+#              - name: 1sec_speed_change_request_sampling
+#                triggers:
+#                    - name: timer
+#                      interval: 1000000
+#                      type: repeating
 #                actions:
+#                    # Speed changes based on regulator temps
 #                    - name: set_net_increase_speed
-#                      property: 64000
+#                      groups:
+#                          - name: zone0_regulators
+#                            interface: xyz.openbmc_project.Sensor.Value
+#                            property:
+#                                name: Value
+#                                type: int64_t
+#                      property:
+#                          value: 85000
+#                          type: int64_t
+#                      factor:
+#                          value: 1000
+#                          type: int64_t
+#                      delta:
+#                          value: 400
+#                          type: uint64_t
+#                    - name: set_net_decrease_speed
+#                      groups:
+#                          - name: zone0_regulators
+#                            interface: xyz.openbmc_project.Sensor.Value
+#                            property:
+#                                name: Value
+#                                type: int64_t
+#                      property:
+#                          value: 82000
+#                          type: int64_t
+#                      factor:
+#                          value: 1000
+#                          type: int64_t
+#                       delta:
+#                          value: 40
+#                          type: uint64_t
+#                    # Speed changes based on dimm temps
+#                    - name: set_net_increase_speed
+#                      groups:
+#                          - name: zone0_dimms
+#                            interface: xyz.openbmc_project.Sensor.Value
+#                            property:
+#                                name: Value
+#                                type: int64_t
+#                      property:
+#                          value: 64000
+#                          type: int64_t
 #                      factor:
 #                          value: 1000
 #                          type: int64_t
@@ -311,12 +431,18 @@
 #                          value: 200
 #                          type: uint64_t
 #                    - name: set_net_decrease_speed
-#                      property: 61000
+#                      groups:
+#                          - name: zone0_dimms
+#                            interface: xyz.openbmc_project.Sensor.Value
+#                            property:
+#                                name: Value
+#                                type: int64_t
+#                      property:
+#                          value: 61000
+#                          type: int64_t
 #                      factor:
 #                          value: 1000
 #                          type: int64_t
 #                      delta:
 #                          value: 40
 #                          type: uint64_t
-#                timer:
-#                    interval: 5
