@@ -32,6 +32,7 @@ using Condition = std::tuple<std::string,
                              std::vector<ConditionProperty>>;
 
 using PropertyVariantType = sdbusplus::message::variant<bool,
+                                                        int32_t,
                                                         int64_t,
                                                         std::string>;
 
