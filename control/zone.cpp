@@ -289,10 +289,12 @@ void Zone::decTimerExpired()
                                   pred);
 
     // Only decrease speeds when allowed,
+    // a requested decrease speed delta exists, 
     // where no requested increases exist and
     // the increase timer is not running
     // (i.e. not in the middle of increasing)
-    if (decAllowed && _incSpeedDelta == 0 && !_incTimer.isEnabled())
+    if (decAllowed && _decSpeedDelta != 0 &&
+        _incSpeedDelta == 0 && !_incTimer.isEnabled())
     {
         auto requestTarget = getRequestSpeedBase();
         // Request target speed should not start above ceiling
