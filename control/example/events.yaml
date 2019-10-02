@@ -227,6 +227,12 @@
 #          - property
 #          - factor
 #          - delta
+#    - name: update_default_floor
+#      description: >
+#          Update the default fan floor to the given speed
+#      parameters:
+#          - property
+#          - speed
 #
 #events:
 #    - name: missing_before_high_speed
