@@ -300,6 +300,16 @@ class Zone : public ThermalObject
         };
 
         /**
+         * @brief Set the default floor
+         *
+         * @param[in] speed - Speed to set the default floor to
+         */
+        inline void setDefFloor(uint64_t speed)
+        {
+            _defFloorSpeed = speed;
+        };
+
+        /**
          * @brief Get the ceiling speed
          *
          * @return - The current ceiling speed
@@ -637,7 +647,7 @@ class Zone : public ThermalObject
         /**
          * The default floor speed for the zone
          */
-        const uint64_t _defFloorSpeed;
+        uint64_t _defFloorSpeed;
 
         /**
          * The default ceiling speed for the zone
