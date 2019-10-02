@@ -369,6 +369,53 @@ Action set_floor_from_median_sensor_value(
         int64_t upperBound,
         std::map<int64_t, uint64_t>&& valueToSpeed);
 
+/**
+ * @brief An action to update the default floor speed
+ * @details Provides the ability to update the default fan floor speed when
+ * all of the group members property values match the value given
+ *
+ * @param[in] state - State to compare the group's property value to
+ * @param[in] speed - Speed to set the default fan floor to
+ *
+ * @return Lambda function
+ *     A lambda function that checks all group members are at a specified state
+ * and updates the default fan floor speed.
+ */
+template <typename T>
+auto update_default_floor(T&& state, uint64_t speed)
+{
+    return [speed, state = std::forward<T>(state)](auto& zone, auto& group)
+    {
+        auto updateDefFloor = std::all_of(
+            group.begin(),
+            group.end(),
+            [&zone, &state](auto const& entry)
+            {
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                            entry.first,
+                            std::get<intfPos>(entry.second),
+                            std::get<propPos>(entry.second)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
+            });
+
+        if (!updateDefFloor)
+        {
+            // Do not update the default floor
+            return;
+        }
+
+        // Set/update the default floor of the zone
+        zone.setDefFloor(speed);
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan
