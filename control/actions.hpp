@@ -416,6 +416,71 @@ auto update_default_floor(T&& state, uint64_t speed)
     };
 }
 
+/**
+ * @brief An action to use a set of events
+ * @details Provides the ability to use a set of events when all members of
+ * a group are at a specified state. When any member of the group no longer
+ * matches the provided state the set of events are removed.
+ *
+ * @param[in] state - State to compare the group's property value to
+ * @param[in] events - The set of events
+ *
+ * @return Lambda function
+ *     A lambda function that checks all group members are at a specified state
+ * and initializes the set of events, otherwise removes them.
+ */
+template <typename T>
+auto use_events_on_state(T&& state,
+                         std::vector<SetSpeedEvent>&& events)
+{
+    return [state = std::forward<T>(state),
+            events = std::move(events)](auto& zone, auto& group)
+    {
+        // Compare all group entries to the state
+        auto useEvents = std::all_of(
+            group.begin(),
+            group.end(),
+            [&zone, &state](auto const& entry)
+            {
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                            std::get<pathPos>(entry),
+                            std::get<intfPos>(entry),
+                            std::get<propPos>(entry)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
+            });
+
+        if (useEvents)
+        {
+            // Init events
+            std::for_each(
+                events.begin(),
+                events.end(),
+                [&zone](auto const& entry)
+                {
+                    zone.initEvent(entry);
+                });
+        }
+        else
+        {
+            // Remove events
+            std::for_each(
+                events.begin(),
+                events.end(),
+                [&zone](auto const& entry)
+                {
+                    zone.removeEvent(entry);
+                });
+        }
+    };
+}
+
 } // namespace action
 } // namespace control
 } // namespace fan

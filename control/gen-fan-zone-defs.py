@@ -450,7 +450,7 @@ def getActions(zNum, zCond, edata, actions, events):
                                 param += ("make_action(action::" + a['name'])
                             param += "),"
                         param += "}"
-                    elif p == 'defevents' or p == 'altevents':
+                    elif p == 'defevents' or p == 'altevents' or p == 'events':
                         param = "std::vector<SetSpeedEvent>{\n"
                         for i, e in enumerate(eActions[p]):
                             aEvent = getEvent(zNum, zCond, e, events)
