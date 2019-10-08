@@ -233,6 +233,13 @@
 #      parameters:
 #          - property
 #          - speed
+#    - name: use_events_on_state
+#      description: >
+#          Use a set of events when all the group properties are at a given
+#          state, otherwise remove the events
+#      parameters:
+#          - property
+#          - events
 #
 #events:
 #    - name: missing_before_high_speed
