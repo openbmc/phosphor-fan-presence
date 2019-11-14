@@ -13,7 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "config.h"
+#ifndef PRESENCE_JSON_FILE
 #include "generated.hpp"
+#endif
 #include "sdbusplus.hpp"
 #include <sdeventplus/event.hpp>
 
@@ -25,10 +28,12 @@ int main(void)
     util::SDBusPlus::getBus().attach_event(
             event.get(), SD_EVENT_PRIORITY_NORMAL);
 
+#ifndef PRESENCE_JSON_FILE
     for (auto& p: presence::ConfigPolicy::get())
     {
         p->monitor();
     }
+#endif
 
     return event.loop();
 }
