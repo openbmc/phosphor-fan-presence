@@ -14,7 +14,9 @@
  * limitations under the License.
  */
 #include "config.h"
-#ifndef PRESENCE_JSON_FILE
+#ifdef PRESENCE_JSON_FILE
+#include "json_config.hpp"
+#else
 #include "generated.hpp"
 #endif
 #include "sdbusplus.hpp"
@@ -28,7 +30,14 @@ int main(void)
     util::SDBusPlus::getBus().attach_event(
             event.get(), SD_EVENT_PRIORITY_NORMAL);
 
-#ifndef PRESENCE_JSON_FILE
+#ifdef PRESENCE_JSON_FILE
+    // Use json file for presence config
+    presence::JsonConfig config(PRESENCE_JSON_FILE);
+    for (auto& p: config.get())
+    {
+        p->monitor();
+    }
+#else
     for (auto& p: presence::ConfigPolicy::get())
     {
         p->monitor();

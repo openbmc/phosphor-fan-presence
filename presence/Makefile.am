@@ -11,7 +11,8 @@ phosphor_fan_presence_tach_SOURCES = \
 	gpio.cpp \
 	psensor.cpp \
 	tach.cpp \
-	tach_detect.cpp
+	tach_detect.cpp \
+	json_config.cpp
 
 phosphor_fan_presence_tach_LDADD = \
 	$(SDBUSPLUS_LIBS) \
