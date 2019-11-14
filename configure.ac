@@ -57,6 +57,8 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
 
+AC_ARG_ENABLE([runtime_json],
+    AS_HELP_STRING([--enable-runtime-json], [Use json at runtime to configure fan packages.]))
 AC_ARG_ENABLE([presence],
     AS_HELP_STRING([--disable-presence], [Disable fan presence package.]))
 AC_ARG_ENABLE([control],
@@ -73,21 +75,56 @@ AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
 
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
-       # Add optional yaml file argument
-       AC_ARG_VAR(PRESENCE_CONFIG,
-                  [The fan presence config file.])
+    # Use runtime(json) config, otherwise default to compile time(yaml) config
+    AM_CONDITIONAL([WANT_JSON],
+        [test "x$enable_runtime_json" != "x"])
+        #[test "x$enable_runtime_json" == "xfile" -o "x$enable_runtime_json" == "xdbus"])
+    AM_COND_IF([WANT_JSON],
+    [
+        AC_CHECK_HEADER(nlohmann/json.hpp, ,
+                [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
+        AS_IF([test "x$enable_runtime_json" != "xfile" -o "x$enable_runtime_json" != "xdbus"], [
+            AC_MSG_ERROR([Supported method for json configuration data not provided... supported methods are "file" or "dbus". i.e.) --enable-runtime-json=file])
+        ])
+        AS_IF([test "x$enable_runtime_json" == "xfile"], [
+            # Set config flag for runtime json file usage
+            AC_ARG_VAR(PRESENCE_JSON_FILE, [The fan presence runtime json config file.])
+            AS_IF([test "x$PRESENCE_JSON_FILE" == "x"],
+                [PRESENCE_JSON_FILE="/usr/share/phosphor-fan-presence/presence/config.json"])
+            AC_DEFINE_UNQUOTED([PRESENCE_JSON_FILE], ["$PRESENCE_JSON_FILE"],
+                [The fan presence runtime json config file])
+            AC_MSG_NOTICE([Fan presence json config enabled using file "$PRESENCE_JSON_FILE" on the BMC])
+        ])
+        AS_IF([test "x$enable_runtime_json" == "xdbus"], [
+            # Set config flag for runtime json dbus usage
+            AC_ARG_VAR(PRESENCE_JSON_DBUS_INTF, [The fan presence runtime json dbus interface.])
+            AS_IF([test "x$PRESENCE_JSON_DBUS_INTF" == "x"],
+                [PRESENCE_JSON_DBUS_INTF="xyz.openbmc_project.Configs.ThermalApps"])
+            AC_DEFINE_UNQUOTED([PRESENCE_JSON_DBUS_INTF], ["$PRESENCE_JSON_DBUS_INTF"],
+                [The fan presence runtime json dbus interface])
+            AC_ARG_VAR(PRESENCE_JSON_DBUS_PROP, [The fan presence runtime json dbus property.])
+            AS_IF([test "x$PRESENCE_JSON_DBUS_PROP" == "x"],
+                [PRESENCE_JSON_DBUS_PROP="FanPresence"])
+            AC_DEFINE_UNQUOTED([PRESENCE_JSON_DBUS_PROP], ["$PRESENCE_JSON_DBUS_PROP"],
+                [The fan presence runtime json dbus property])
+            AC_MSG_NOTICE([Fan presence json config enabled using file from dbus])
+        ])
+    ],
+    [
+        # Add optional yaml file argument
+        AC_ARG_VAR(PRESENCE_CONFIG, [The fan presence config file.])
 
-       AS_IF([test "x$PRESENCE_CONFIG" == "x"],
-             [PRESENCE_CONFIG="\${top_srcdir}/presence/example/example.yaml"])
+        AS_IF([test "x$PRESENCE_CONFIG" == "x"],
+            [PRESENCE_CONFIG="\${top_srcdir}/presence/example/example.yaml"])
 
-       AC_DEFINE_UNQUOTED([PRESENCE_CONFIG], ["$PRESENCE_CONFIG"],
-                          [The fan presence config file.])
+        AC_DEFINE_UNQUOTED([PRESENCE_CONFIG], ["$PRESENCE_CONFIG"],
+            [The fan presence config file.])
 
-       AC_SUBST([PFPGEN],
-                ["$PYTHON \${top_srcdir}/presence/pfpgen.py generate-cpp -i $PRESENCE_CONFIG"])
-
-       AC_CONFIG_FILES([presence/Makefile])
-       ])
+        AC_SUBST([PFPGEN],
+            ["$PYTHON \${top_srcdir}/presence/pfpgen.py generate-cpp -i $PRESENCE_CONFIG"])
+    ])
+    AC_CONFIG_FILES([presence/Makefile])
+])
 
 AS_IF([test "x$enable_control" != "xno"], [
        # Add fan control Dbus attributes
