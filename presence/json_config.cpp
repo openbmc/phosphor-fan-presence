@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 #include <string>
+#include <filesystem>
+#include <fstream>
+#include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
 
 #include "json_config.hpp"
 
@@ -24,11 +28,37 @@ namespace fan
 namespace presence
 {
 
+namespace fs = std::filesystem;
+using namespace phosphor::logging;
+
 policies JsonConfig::_policies;
 
 JsonConfig::JsonConfig(const std::string& jsonFile)
 {
+    fs::path confFile{jsonFile};
+    std::ifstream file;
 
+    if (fs::exists(confFile))
+    {
+        file.open(confFile);
+        try
+        {
+            _jsonConf = json::parse(file);
+        }
+        catch (std::exception& e)
+        {
+            log<level::ERR>("Failed to parse JSON config file",
+                            entry("JSON_FILE=%s", jsonFile.c_str()),
+                            entry("JSON_ERROR=%s", e.what()));
+            throw std::runtime_error("Failed to parse JSON config file");
+        }
+    }
+    else
+    {
+        log<level::ERR>("Unable to open JSON config file",
+                        entry("JSON_FILE=%s", jsonFile.c_str()));
+        throw std::runtime_error("Unable to open JSON config file");
+    }
 }
 
 const policies& JsonConfig::getPolicies()
