@@ -3,9 +3,11 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <nlohmann/json.hpp>
 
 #include "config.h"
 #include "rpolicy.hpp"
+#include "fan.hpp"
 
 namespace phosphor
 {
@@ -14,6 +16,7 @@ namespace fan
 namespace presence
 {
 
+using json = nlohmann::json;
 using policies = std::vector<std::unique_ptr<RedundancyPolicy>>;
 
 class JsonConfig
@@ -46,6 +49,17 @@ class JsonConfig
 
         /* Fan presence policies */
         static policies _policies;
+
+        /* List of Fan objects to have presence policies */
+        std::vector<Fan> _fans;
+
+        /**
+         * @brief Process the json config to extract the defined fan presence
+         * policies.
+         *
+         * @param[in] jsonConf - parsed json configuration data
+         */
+        void process(const json& jsonConf);
 };
 
 } // namespace presence

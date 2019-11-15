@@ -61,11 +61,30 @@ JsonConfig::JsonConfig(const std::string& jsonFile)
                         entry("JSON_FILE=%s", jsonFile.c_str()));
         throw std::runtime_error("Unable to open JSON config file");
     }
+
+    process(jsonConf);
 }
 
 const policies& JsonConfig::get()
 {
     return _policies;
+}
+
+void JsonConfig::process(const json& jsonConf)
+{
+    for (auto& member : jsonConf)
+    {
+        if (!member.contains("name") || !member.contains("path"))
+        {
+            log<level::ERR>(
+                "Missing required fan presence properties",
+                entry("REQUIRED_PROPERTIES=%s", "{name, path}"));
+            throw std::runtime_error(
+                "Missing required fan presence properties");
+        }
+        // Create a fan object
+        _fans.emplace_back(std::make_tuple(member["name"], member["path"]));
+    }
 }
 
 } // namespace presence
