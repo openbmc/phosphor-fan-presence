@@ -7,6 +7,7 @@
 
 #include "config.h"
 #include "rpolicy.hpp"
+#include "fan.hpp"
 
 namespace phosphor
 {
@@ -51,6 +52,15 @@ class JsonConfig
 
         /* Parsed json configuration */
         json _jsonConf;
+
+        /* List of Fan objects to have presence policies */
+        std::vector<Fan> _fans;
+
+        /**
+         * @brief Process the json config to extract the defined fan presence
+         * policies.
+         */
+        void process();
 };
 
 } // namespace presence
