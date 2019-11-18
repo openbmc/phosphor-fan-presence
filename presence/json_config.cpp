@@ -20,6 +20,8 @@
 #include <phosphor-logging/log.hpp>
 
 #include "json_config.hpp"
+#include "tach.hpp"
+#include "gpio.hpp"
 
 namespace phosphor
 {
@@ -33,6 +35,11 @@ namespace fs = std::filesystem;
 using namespace phosphor::logging;
 
 policies JsonConfig::_policies;
+const std::map<std::string, methodHandler> JsonConfig::_methods =
+{
+    {"tach", method::getTach},
+    {"gpio", method::getGpio}
+};
 
 JsonConfig::JsonConfig(const std::string& jsonFile)
 {
@@ -74,18 +81,74 @@ void JsonConfig::process(const json& jsonConf)
 {
     for (auto& member : jsonConf)
     {
-        if (!member.contains("name") || !member.contains("path"))
+        if (!member.contains("name") || !member.contains("path") ||
+            !member.contains("methods"))
         {
             log<level::ERR>(
                 "Missing required fan presence properties",
-                entry("REQUIRED_PROPERTIES=%s", "{name, path}"));
+                entry("REQUIRED_PROPERTIES=%s", "{name, path, methods}"));
             throw std::runtime_error(
                 "Missing required fan presence properties");
         }
         // Create a fan object
         _fans.emplace_back(std::make_tuple(member["name"], member["path"]));
+
+        // Loop thru the configured methods of presence detection
+        for (auto& method : member["methods"].items())
+        {
+            if (!method.value().contains("type"))
+            {
+                log<level::ERR>(
+                    "Missing required fan presence method type",
+                    entry("FAN_NAME=%s",
+                        member["name"].get<std::string>().c_str()));
+                throw std::runtime_error(
+                    "Missing required fan presence method type");
+            }
+            // The method type of fan presence detection
+            // (Must have a supported function within the method namespace)
+            auto type = method.value()["type"].get<std::string>();
+            std::transform(type.begin(), type.end(), type.begin(), tolower);
+            auto func = _methods.find(type);
+            if (func != _methods.end())
+            {
+                // Call function for method type
+                auto sensor = func->second((_fans.size() - 1), method.value());
+                if (sensor)
+                {
+                    _sensors.emplace_back(std::move(sensor));
+                }
+            }
+            else
+            {
+                log<level::ERR>("Invalid fan presence method type",
+                                entry("FAN_NAME=%s",
+                                    member["name"].get<std::string>().c_str()),
+                                entry("METHOD_TYPE=%s", type.c_str()));
+                throw std::runtime_error("Invalid fan presence method type");
+            }
+        }
     }
 }
+
+/**
+ * Methods of fan presence detection function definitions
+ */
+namespace method
+{
+    // Get a constructed presence sensor for fan presence detection by tach
+    std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
+    {
+        return nullptr;
+    }
+
+    // Get a constructed presence sensor for fan presence detection by gpio
+    std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
+    {
+        return nullptr;
+    }
+
+} // namespace method
 
 } // namespace presence
 } // namespace fan
