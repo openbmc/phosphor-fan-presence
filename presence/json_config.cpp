@@ -139,13 +139,46 @@ namespace method
     // Get a constructed presence sensor for fan presence detection by tach
     std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
     {
-        return nullptr;
+        if (!method.contains("sensors") ||
+            method["sensors"].size() == 0)
+        {
+            log<level::ERR>(
+                "Missing required tach method properties",
+                entry("FAN_ENTRY=%d", fanIndex),
+                entry("REQUIRED_PROPERTIES=%s", "{sensors}"));
+            throw std::runtime_error("Missing required tach method properties");
+        }
+
+        std::vector<std::string> sensors;
+        for (auto& sensor : method["sensors"])
+        {
+            sensors.emplace_back(sensor.get<std::string>());
+        }
+
+        return std::make_unique<PolicyAccess<Tach, JsonConfig>>(
+            fanIndex, std::move(sensors));
     }
 
     // Get a constructed presence sensor for fan presence detection by gpio
     std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
     {
-        return nullptr;
+        if (!method.contains("physpath") ||
+            !method.contains("devpath") ||
+            !method.contains("key"))
+        {
+            log<level::ERR>(
+                "Missing required gpio method properties",
+                entry("FAN_ENTRY=%d", fanIndex),
+                entry("REQUIRED_PROPERTIES=%s", "{physpath, devpath, key}"));
+            throw std::runtime_error("Missing required gpio method properties");
+        }
+
+        auto physpath = method["physpath"].get<std::string>();
+        auto devpath = method["devpath"].get<std::string>();
+        auto key = method["key"].get<unsigned int>();
+
+        return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(
+            fanIndex, physpath, devpath, key);
     }
 
 } // namespace method
