@@ -22,6 +22,8 @@
 #include "json_config.hpp"
 #include "tach.hpp"
 #include "gpio.hpp"
+#include "anyof.hpp"
+#include "fallback.hpp"
 
 namespace phosphor
 {
@@ -39,6 +41,11 @@ const std::map<std::string, methodHandler> JsonConfig::_methods =
 {
     {"tach", method::getTach},
     {"gpio", method::getGpio}
+};
+const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies =
+{
+    {"anyof", rpolicy::getAnyof},
+    {"fallback", rpolicy::getFallback}
 };
 
 JsonConfig::JsonConfig(const std::string& jsonFile)
@@ -79,21 +86,25 @@ const policies& JsonConfig::get()
 
 void JsonConfig::process(const json& jsonConf)
 {
+    // Set the expected number of fan entries
+    // to be size of the list of fan json config entries
+    // (Must be done to eliminate vector reallocation of fan references)
+    _fans.reserve(jsonConf.size());
     for (auto& member : jsonConf)
     {
         if (!member.contains("name") || !member.contains("path") ||
-            !member.contains("methods"))
+            !member.contains("methods") || !member.contains("rpolicy"))
         {
             log<level::ERR>(
                 "Missing required fan presence properties",
-                entry("REQUIRED_PROPERTIES=%s", "{name, path, methods}"));
+                entry("REQUIRED_PROPERTIES=%s",
+                      "{name, path, methods, rpolicy}"));
             throw std::runtime_error(
                 "Missing required fan presence properties");
         }
-        // Create a fan object
-        _fans.emplace_back(std::make_tuple(member["name"], member["path"]));
 
         // Loop thru the configured methods of presence detection
+        std::vector<std::unique_ptr<PresenceSensor>> sensors;
         for (auto& method : member["methods"].items())
         {
             if (!method.value().contains("type"))
@@ -113,10 +124,10 @@ void JsonConfig::process(const json& jsonConf)
             if (func != _methods.end())
             {
                 // Call function for method type
-                auto sensor = func->second((_fans.size() - 1), method.value());
+                auto sensor = func->second(_fans.size(), method.value());
                 if (sensor)
                 {
-                    _sensors.emplace_back(std::move(sensor));
+                    sensors.emplace_back(std::move(sensor));
                 }
             }
             else
@@ -128,6 +139,48 @@ void JsonConfig::process(const json& jsonConf)
                 throw std::runtime_error("Invalid fan presence method type");
             }
         }
+        auto fan = std::make_tuple(member["name"], member["path"]);
+        // Create a fan object
+        _fans.emplace_back(std::make_tuple(fan, std::move(sensors)));
+
+        // Add fan presence policy
+        addPolicy(member["rpolicy"]);
+    }
+}
+
+void JsonConfig::addPolicy(const json& rpolicy)
+{
+    if (!rpolicy.contains("type"))
+    {
+        log<level::ERR>("Missing required fan presence policy type",
+                        entry("FAN_NAME=%s",
+                            std::get<fanPolicyFanPos>(
+                                std::get<Fan>(_fans.back())).c_str()),
+                        entry("REQUIRED_PROPERTIES=%s", "{type}"));
+        throw std::runtime_error("Missing required fan presence policy type");
+    }
+
+    // The redundancy policy type for fan presence detection
+    // (Must have a supported function within the rpolicy namespace)
+    auto type = rpolicy["type"].get<std::string>();
+    std::transform(type.begin(), type.end(), type.begin(), tolower);
+    auto func = _rpolicies.find(type);
+    if (func != _rpolicies.end())
+    {
+        // Call function for redundancy policy type
+        auto policy = func->second(_fans.back());
+        if (policy)
+        {
+            _policies.emplace_back(std::move(policy));
+        }
+    }
+    else
+    {
+        log<level::ERR>("Invalid fan presence policy type",
+            entry("FAN_NAME=%s",
+                std::get<fanPolicyFanPos>(std::get<Fan>(_fans.back())).c_str()),
+            entry("RPOLICY_TYPE=%s", type.c_str()));
+        throw std::runtime_error("Invalid fan presence methods policy type");
     }
 }
 
@@ -182,6 +235,25 @@ namespace method
     }
 
 } // namespace method
+
+/**
+ * Redundancy policies for fan presence detection function definitions
+ */
+namespace rpolicy
+{
+    // Get an `Anyof` redundancy policy for the fan
+    std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
+    {
+        return nullptr;
+    }
+
+    // Get a `Fallback` redundancy policy for the fan
+    std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
+    {
+        return nullptr;
+    }
+
+} // namespace policy
 
 } // namespace presence
 } // namespace fan
