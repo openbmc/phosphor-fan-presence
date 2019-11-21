@@ -19,9 +19,17 @@ namespace presence
 
 using json = nlohmann::json;
 using policies = std::vector<std::unique_ptr<RedundancyPolicy>>;
+
+constexpr auto fanPolicyFanPos = 0;
+constexpr auto fanPolicySensorListPos = 1;
+using fanPolicy = std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>;
+
 // Presence method handler function
 using methodHandler = std::function<
     std::unique_ptr<PresenceSensor>(size_t, const json&)>;
+// Presence redundancy policy handler function
+using rpolicyHandler = std::function<
+    std::unique_ptr<RedundancyPolicy>(const fanPolicy&)>;
 
 class JsonConfig
 {
@@ -58,13 +66,16 @@ class JsonConfig
         json _jsonConf;
 
         /* List of Fan objects to have presence policies */
-        std::vector<Fan> _fans;
+        std::vector<fanPolicy> _fans;
 
         /* Presence methods mapping to their associated handler function */
         static const std::map<std::string, methodHandler> _methods;
 
-        /* List of fan presence sensors */
-        std::vector<std::unique_ptr<PresenceSensor>> _sensors;
+        /**
+         * Presence redundancy policy mapping to their associated handler
+         * function
+         */
+        static const std::map<std::string, rpolicyHandler> _rpolicies;
 
         /**
          * @brief Process the json config to extract the defined fan presence
@@ -72,6 +83,12 @@ class JsonConfig
          */
         void process();
 
+        /**
+         * @brief Add to the list of policies of presence detection
+         *
+         * @param[in] rpolicy - policy to add
+         */
+        void addPolicy(const json& rpolicy);
 };
 
 /**
@@ -102,6 +119,33 @@ namespace method
                                             const json& method);
 
 } // namespace method
+
+/**
+ * Redundancy policies for fan presence detection function declarations
+ */
+namespace rpolicy
+{
+    /**
+     * @brief Create an `Anyof` redundancy policy on the created presence
+     * sensors for a fan
+     *
+     * @param[in] fan - fan policy object with the presence sensors for the fan
+     *
+     * @return - An `Anyof` redundancy policy
+     */
+    std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan);
+
+    /**
+     * @brief Create a `Fallback` redundancy policy on the created presence
+     * sensors for a fan
+     *
+     * @param[in] fan - fan policy object with the presence sensors for the fan
+     *
+     * @return - A `Fallback` redundancy policy
+     */
+    std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan);
+
+} // namespace policy
 
 } // namespace presence
 } // namespace fan
