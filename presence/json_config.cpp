@@ -242,13 +242,28 @@ namespace rpolicy
     // Get an `Anyof` redundancy policy for the fan
     std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
     {
-        return nullptr;
+        std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
+        for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
+        {
+            pSensors.emplace_back(*fanSensor);
+        }
+
+        return std::make_unique<AnyOf>(
+            std::get<fanPolicyFanPos>(fan), pSensors);
     }
 
     // Get a `Fallback` redundancy policy for the fan
     std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
     {
-        return nullptr;
+        std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
+        for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
+        {
+            // Place in the order given to fallback correctly
+            pSensors.emplace_back(*fanSensor);
+        }
+
+        return std::make_unique<Fallback>(
+            std::get<fanPolicyFanPos>(fan), pSensors);
     }
 
 } // namespace policy
