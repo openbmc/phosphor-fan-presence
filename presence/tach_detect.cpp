@@ -21,6 +21,9 @@
 #endif
 #include "sdbusplus.hpp"
 #include <sdeventplus/event.hpp>
+#include <functional>
+#include <stdplus/signal.hpp>
+#include <sdeventplus/source/signal.hpp>
 
 int main(void)
 {
@@ -37,6 +40,11 @@ int main(void)
     {
         p->monitor();
     }
+
+    stdplus::signal::block(SIGHUP);
+    sdeventplus::source::Signal signal(event, SIGHUP,
+        std::bind(&presence::JsonConfig::sighupHandler,
+                  &config, std::placeholders::_1, std::placeholders::_2));
 #else
     for (auto& p: presence::ConfigPolicy::get())
     {

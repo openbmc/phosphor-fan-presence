@@ -47,34 +47,11 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies =
     {"fallback", rpolicy::getFallback}
 };
 
-JsonConfig::JsonConfig(const std::string& jsonFile)
+JsonConfig::JsonConfig(const std::string& jsonFile) :
+    _defaultFile(fs::path(jsonFile))
 {
-    fs::path confFile{jsonFile};
-    std::ifstream file;
-
-    if (fs::exists(confFile))
-    {
-        file.open(confFile);
-        try
-        {
-            _jsonConf = json::parse(file);
-        }
-        catch (std::exception& e)
-        {
-            log<level::ERR>("Failed to parse JSON config file",
-                            entry("JSON_FILE=%s", jsonFile.c_str()),
-                            entry("JSON_ERROR=%s", e.what()));
-            throw std::runtime_error("Failed to parse JSON config file");
-        }
-    }
-    else
-    {
-        log<level::ERR>("Unable to open JSON config file",
-                        entry("JSON_FILE=%s", jsonFile.c_str()));
-        throw std::runtime_error("Unable to open JSON config file");
-    }
-
-    process();
+    // Load and process the json configuration
+    load();
 }
 
 const policies& JsonConfig::get()
@@ -82,8 +59,58 @@ const policies& JsonConfig::get()
     return _policies;
 }
 
+void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
+                               const struct signalfd_siginfo* sigInfo)
+{
+    try
+    {
+        // Load and process the json configuration
+        load();
+        for (auto& p: _policies)
+        {
+            p->monitor();
+        }
+        log<level::INFO>("Configuration loaded successfully");
+    }
+    catch (std::runtime_error& re)
+    {
+        log<level::ERR>("Error loading config, no config changes made",
+                        entry("LOAD_ERROR=%s", re.what()));
+    }
+}
+
+void JsonConfig::load()
+{
+    std::ifstream file;
+
+    if (fs::exists(_defaultFile))
+    {
+        file.open(_defaultFile);
+        try
+        {
+            _jsonConf = json::parse(file);
+        }
+        catch (std::exception& e)
+        {
+            log<level::ERR>("Failed to parse JSON config file",
+                            entry("JSON_FILE=%s", _defaultFile.c_str()),
+                            entry("JSON_ERROR=%s", e.what()));
+            throw std::runtime_error("Failed to parse JSON config file");
+        }
+    }
+    else
+    {
+        log<level::ERR>("Unable to open JSON config file",
+                        entry("JSON_FILE=%s", _defaultFile.c_str()));
+        throw std::runtime_error("Unable to open JSON config file");
+    }
+
+    process();
+}
+
 void JsonConfig::process()
 {
+    policies policies;
     // Set the expected number of fan entries
     // to be size of the list of fan json config entries
     // (Must be done to eliminate vector reallocation of fan references)
@@ -142,11 +169,18 @@ void JsonConfig::process()
         _fans.emplace_back(std::make_tuple(fan, std::move(sensors)));
 
         // Add fan presence policy
-        addPolicy(member["rpolicy"]);
+        auto policy = getPolicy(member["rpolicy"]);
+        if (policy)
+        {
+            policies.emplace_back(std::move(policy));
+        }
     }
+
+    _policies.clear();
+    _policies.swap(policies);
 }
 
-void JsonConfig::addPolicy(const json& rpolicy)
+std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(const json& rpolicy)
 {
     if (!rpolicy.contains("type"))
     {
@@ -165,12 +199,8 @@ void JsonConfig::addPolicy(const json& rpolicy)
     auto func = _rpolicies.find(type);
     if (func != _rpolicies.end())
     {
-        // Call function for redundancy policy type
-        auto policy = func->second(_fans.back());
-        if (policy)
-        {
-            _policies.emplace_back(std::move(policy));
-        }
+        // Call function for redundancy policy type and return the policy
+        return func->second(_fans.back());
     }
     else
     {

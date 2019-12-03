@@ -4,6 +4,8 @@
 #include <vector>
 #include <memory>
 #include <nlohmann/json.hpp>
+#include <filesystem>
+#include <sdeventplus/source/signal.hpp>
 
 #include "config.h"
 #include "rpolicy.hpp"
@@ -17,6 +19,7 @@ namespace fan
 namespace presence
 {
 
+namespace fs = std::filesystem;
 using json = nlohmann::json;
 using policies = std::vector<std::unique_ptr<RedundancyPolicy>>;
 
@@ -57,10 +60,23 @@ class JsonConfig
          */
         static const policies& get();
 
+        /**
+         * @brief Callback function to handle receiving a HUP signal to
+         * reload the json configuration.
+         *
+         * @param[in] sigSrc - sd_event_source signal wrapper
+         * @param[in] sigInfo - signal info on signal fd
+         */
+        void sighupHandler(sdeventplus::source::Signal& sigSrc,
+                           const struct signalfd_siginfo* sigInfo);
+
     private:
 
         /* Fan presence policies */
         static policies _policies;
+
+        /* Default json configuration file */
+        const fs::path _defaultFile;
 
         /* Parsed json configuration */
         json _jsonConf;
@@ -78,17 +94,24 @@ class JsonConfig
         static const std::map<std::string, rpolicyHandler> _rpolicies;
 
         /**
+         * @brief Load the json config file
+         */
+        void load();
+
+        /**
          * @brief Process the json config to extract the defined fan presence
          * policies.
          */
         void process();
 
         /**
-         * @brief Add to the list of policies of presence detection
+         * @brief Get the redundancy policy of presence detection for a fan
          *
-         * @param[in] rpolicy - policy to add
+         * @param[in] rpolicy - policy type to construct
+         *
+         * @return - The constructed redundancy policy type for the fan
          */
-        void addPolicy(const json& rpolicy);
+        std::unique_ptr<RedundancyPolicy> getPolicy(const json& rpolicy);
 };
 
 /**
