@@ -32,6 +32,7 @@ PKG_CHECK_MODULES([PHOSPHOR_LOGGING], [phosphor-logging])
 PKG_CHECK_MODULES([SYSTEMD], [libsystemd >= 221])
 PKG_CHECK_MODULES([PHOSPHOR_DBUS_INTERFACES], [phosphor-dbus-interfaces])
 PKG_CHECK_MODULES([LIBEVDEV], [libevdev])
+PKG_CHECK_MODULES([STDPLUS], [stdplus])
 
 # Checks for library functions.
 LT_INIT # Required for systemd linking
