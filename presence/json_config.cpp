@@ -35,6 +35,8 @@ namespace presence
 namespace fs = std::filesystem;
 using namespace phosphor::logging;
 
+constexpr auto jsonFileAlt = "/etc/phosphor-fan-presence/presence/config.json";
+
 policies JsonConfig::_policies;
 const std::map<std::string, methodHandler> JsonConfig::_methods =
 {
@@ -81,11 +83,21 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
 
 void JsonConfig::load()
 {
+    fs::path confFile{jsonFileAlt};
+    if (!fs::exists(confFile))
+    {
+        confFile = _defaultFile;
+    }
+    else
+    {
+        log<level::INFO>("Loading alternate configuration",
+                         entry("JSON_FILE=%s", confFile.c_str()));
+    }
     std::ifstream file;
 
-    if (fs::exists(_defaultFile))
+    if (fs::exists(confFile))
     {
-        file.open(_defaultFile);
+        file.open(confFile);
         try
         {
             _jsonConf = json::parse(file);
@@ -93,7 +105,7 @@ void JsonConfig::load()
         catch (std::exception& e)
         {
             log<level::ERR>("Failed to parse JSON config file",
-                            entry("JSON_FILE=%s", _defaultFile.c_str()),
+                            entry("JSON_FILE=%s", confFile.c_str()),
                             entry("JSON_ERROR=%s", e.what()));
             throw std::runtime_error("Failed to parse JSON config file");
         }
@@ -101,7 +113,7 @@ void JsonConfig::load()
     else
     {
         log<level::ERR>("Unable to open JSON config file",
-                        entry("JSON_FILE=%s", _defaultFile.c_str()));
+                        entry("JSON_FILE=%s", confFile.c_str()));
         throw std::runtime_error("Unable to open JSON config file");
     }
 
