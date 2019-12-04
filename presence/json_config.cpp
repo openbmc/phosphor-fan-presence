@@ -35,6 +35,8 @@ namespace presence
 namespace fs = std::filesystem;
 using namespace phosphor::logging;
 
+constexpr auto jsonFileAlt = "/etc/phosphor-fan-presence/presence/config.json";
+
 policies JsonConfig::_policies;
 const std::map<std::string, methodHandler> JsonConfig::_methods =
 {
@@ -81,7 +83,16 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
 
 void JsonConfig::load()
 {
-    fs::path confFile{_defaultFile};
+    fs::path confFile{jsonFileAlt};
+    if (!fs::exists(confFile))
+    {
+        confFile = _defaultFile;
+    }
+    else
+    {
+        log<level::INFO>("Loading alternate configuration",
+                         entry("JSON_FILE=%s", jsonFileAlt));
+    }
     std::ifstream file;
 
     if (fs::exists(confFile))
