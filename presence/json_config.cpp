@@ -53,8 +53,16 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies =
 JsonConfig::JsonConfig(const std::string& jsonFile) :
     _defaultFile(fs::path(jsonFile))
 {
-    // Load and process the json configuration
-    load();
+    if (!_defaultFile.empty())
+    {
+        // Load and process the json configuration
+        load();
+    }
+    else
+    {
+        log<level::ERR>("No JSON config file provided");
+        throw std::runtime_error("No JSON config file provided");
+    }
 }
 
 const policies& JsonConfig::get()
