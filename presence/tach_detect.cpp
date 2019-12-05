@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 #include "config.h"
-#ifdef PRESENCE_JSON_FILE
+#if defined(PRESENCE_JSON_FILE) || \
+    (defined(PRESENCE_JSON_DBUS_INTF) && defined(PRESENCE_JSON_DBUS_PROP))
 #include "json_config.hpp"
 #else
 #include "generated.hpp"
@@ -29,13 +30,36 @@ int main(void)
 {
     using namespace phosphor::fan;
 
+    auto bus = sdbusplus::bus::new_default();
     auto event = sdeventplus::Event::get_default();
-    util::SDBusPlus::getBus().attach_event(
-            event.get(), SD_EVENT_PRIORITY_NORMAL);
+    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
 #ifdef PRESENCE_JSON_FILE
     // Use json file for presence config
     presence::JsonConfig config(PRESENCE_JSON_FILE);
+#elif defined(PRESENCE_JSON_DBUS_INTF) && defined(PRESENCE_JSON_DBUS_PROP)
+    // Use first object returned in the subtree
+    // (There should really only be one object with the config interface)
+    std::string jsonFile = "";
+    auto objects = util::SDBusPlus::getSubTree(
+        bus, "/", PRESENCE_JSON_DBUS_INTF, 0);
+    auto itObj = objects.begin();
+    if (itObj != objects.end())
+    {
+        auto itServ = itObj->second.begin();
+        if (itServ != itObj->second.end())
+        {
+            // Retrieve json config file location from dbus
+            jsonFile = util::SDBusPlus::getProperty<std::string>(
+                bus, itServ->first, itObj->first,
+                    PRESENCE_JSON_DBUS_INTF, PRESENCE_JSON_DBUS_PROP);
+        }
+    }
+    presence::JsonConfig config(jsonFile);
+#endif
+
+#if defined(PRESENCE_JSON_FILE) || \
+    (defined(PRESENCE_JSON_DBUS_INTF) && defined(PRESENCE_JSON_DBUS_PROP))
     for (auto& p: config.get())
     {
         p->monitor();
