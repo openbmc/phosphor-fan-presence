@@ -21,6 +21,10 @@ namespace presence
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
+
+constexpr auto jsonFileName = "config.json";
+constexpr auto jsonOverridePath = "/etc/phosphor-fan-presence/presence";
+
 using policies = std::vector<std::unique_ptr<RedundancyPolicy>>;
 
 constexpr auto fanPolicyFanPos = 0;
@@ -49,9 +53,9 @@ class JsonConfig
          * Constructor
          * Parses and populates the fan presence policies from a json file
          *
-         * @param[in] jsonFile - json configuration file
+         * @param[in] jsonConfigPath - json configuration path
          */
-        explicit JsonConfig(const std::string& jsonFile);
+        explicit JsonConfig(const std::string& jsonConfigPath);
 
         /**
          * @brief Get the json config based fan presence policies

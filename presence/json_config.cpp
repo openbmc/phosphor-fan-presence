@@ -36,8 +36,6 @@ using json = nlohmann::json;
 namespace fs = std::filesystem;
 using namespace phosphor::logging;
 
-constexpr auto jsonFileAlt = "/etc/phosphor-fan-presence/presence/config.json";
-
 policies JsonConfig::_policies;
 const std::map<std::string, methodHandler> JsonConfig::_methods =
 {
@@ -50,8 +48,8 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies =
     {"fallback", rpolicy::getFallback}
 };
 
-JsonConfig::JsonConfig(const std::string& jsonFile) :
-    _defaultFile(fs::path(jsonFile))
+JsonConfig::JsonConfig(const std::string& jsonConfigPath) :
+    _defaultFile(fs::path(fs::path{jsonConfigPath} / jsonFileName))
 {
     if (!_defaultFile.empty())
     {
@@ -92,7 +90,7 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
 
 void JsonConfig::load()
 {
-    fs::path confFile{jsonFileAlt};
+    fs::path confFile{fs::path{jsonOverridePath} / jsonFileName};
     if (!fs::exists(confFile))
     {
         confFile = _defaultFile;
