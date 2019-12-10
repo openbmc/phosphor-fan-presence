@@ -21,6 +21,10 @@ namespace presence
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
+
+constexpr auto jsonFileName = "config.json";
+constexpr auto jsonOverridePath = "/etc/phosphor-fan-presence/presence";
+
 using policies = std::vector<std::unique_ptr<RedundancyPolicy>>;
 
 constexpr auto fanPolicyFanPos = 0;
