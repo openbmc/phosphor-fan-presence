@@ -223,8 +223,8 @@ class SDBusPlus
                     std::forward<Args>(args)...);
         }
 
-        /** @brief Get subtree from the mapper. */
-        static auto getSubTree(
+        /** @brief Get subtree from the mapper without checking response. */
+        static auto getSubTreeRaw(
             sdbusplus::bus::bus& bus,
             const std::string& path,
             const std::string& interface,
@@ -239,7 +239,7 @@ class SDBusPlus
             using Objects = std::map<Path, std::map<Serv, Intfs>>;
             Intfs intfs = {interface};
 
-            auto mapperResp = callMethodAndRead<Objects>(
+            return callMethodAndRead<Objects>(
                     bus,
                     "xyz.openbmc_project.ObjectMapper"s,
                     "/xyz/openbmc_project/object_mapper"s,
@@ -248,7 +248,16 @@ class SDBusPlus
                     path,
                     depth,
                     intfs);
+        }
 
+        /** @brief Get subtree from the mapper. */
+        static auto getSubTree(
+            sdbusplus::bus::bus& bus,
+            const std::string& path,
+            const std::string& interface,
+            int32_t depth)
+        {
+            auto mapperResp = getSubTreeRaw(bus, path, interface, depth);
             if (mapperResp.empty())
             {
                 phosphor::logging::log<phosphor::logging::level::ERR>(
