@@ -262,6 +262,33 @@ class SDBusPlus
             return mapperResp;
         }
 
+        /** @brief Get subtree from the mapper without checking response. */
+        static auto getSubTreeRaw(
+            sdbusplus::bus::bus& bus,
+            const std::string& path,
+            const std::string& interface,
+            int32_t depth)
+        {
+            using namespace std::literals::string_literals;
+
+            using Path = std::string;
+            using Intf = std::string;
+            using Serv = std::string;
+            using Intfs = std::vector<Intf>;
+            using Objects = std::map<Path, std::map<Serv, Intfs>>;
+            Intfs intfs = {interface};
+
+            return callMethodAndRead<Objects>(
+                    bus,
+                    "xyz.openbmc_project.ObjectMapper"s,
+                    "/xyz/openbmc_project/object_mapper"s,
+                    "xyz.openbmc_project.ObjectMapper"s,
+                    "GetSubTree"s,
+                    path,
+                    depth,
+                    intfs);
+        }
+
         /** @brief Get service from the mapper. */
         static auto getService(
             sdbusplus::bus::bus& bus,
