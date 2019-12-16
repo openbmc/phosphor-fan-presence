@@ -18,12 +18,15 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
+#include <sdbusplus/bus.hpp>
 
 #include "json_config.hpp"
+#include "config.h"
 #include "tach.hpp"
 #include "gpio.hpp"
 #include "anyof.hpp"
 #include "fallback.hpp"
+#include "sdbusplus.hpp"
 
 namespace phosphor
 {
@@ -48,19 +51,13 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies =
     {"fallback", rpolicy::getFallback}
 };
 
-JsonConfig::JsonConfig(const std::string& jsonConfigPath) :
-    _defaultFile(fs::path(fs::path{jsonConfigPath} / jsonFileName))
+JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) :
+    _bus(bus)
 {
-    if (!_defaultFile.empty())
-    {
-        // Load and process the json configuration
-        load();
-    }
-    else
-    {
-        log<level::ERR>("No JSON config file provided");
-        throw std::runtime_error("No JSON config file provided");
-    }
+    // Determine the configuration file to use
+    _confFile = getConfFile();
+    // Load and process the json configuration
+    load();
 }
 
 const policies& JsonConfig::get()
@@ -73,6 +70,10 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
 {
     try
     {
+        // Determine the configuration file to use
+        _confFile = getConfFile();
+        log<level::INFO>("Loading configuration",
+                         entry("JSON_FILE=%s", _confFile.c_str()));
         // Load and process the json configuration
         load();
         for (auto& p: _policies)
@@ -88,24 +89,61 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
     }
 }
 
-void JsonConfig::load()
+const fs::path JsonConfig::getConfFile()
 {
-    fs::path confFile{fs::path{jsonOverridePath} / jsonFileName};
-    if (!fs::exists(confFile))
+    // Check override location
+    fs::path confFile = fs::path{confOverridePath} / confFileName;
+    if (fs::exists(confFile))
     {
-        confFile = _defaultFile;
+        return confFile;
+    }
+
+    // Check base path location
+    confFile = fs::path{confBasePath} / confFileName;
+    if (fs::exists(confFile))
+    {
+        return confFile;
+    }
+
+    // Check dbus interface & property
+    // Use first object returned in the subtree
+    // (Should really be only one object with the config interface)
+    auto objects = util::SDBusPlus::getSubTreeRaw(_bus, "/", confDbusIntf, 0);
+    auto itObj = objects.begin();
+    if (itObj != objects.end())
+    {
+        auto itServ = itObj->second.begin();
+        if (itServ != itObj->second.end())
+        {
+            // Retrieve json config relative path location from dbus
+            auto relPathLoc = util::SDBusPlus::getProperty<std::string>(
+                _bus, itServ->first, itObj->first,
+                confDbusIntf, confDbusProp);
+            confFile = fs::path{confBasePath} / relPathLoc / confFileName;
+            if (!fs::exists(confFile))
+            {
+                log<level::ERR>("No JSON config file found");
+                throw std::runtime_error("No JSON config file found");
+            }
+        }
     }
     else
     {
-        log<level::INFO>("Loading alternate configuration",
-                         entry("JSON_FILE=%s", confFile.c_str()));
+        log<level::ERR>("No JSON config file found");
+        throw std::runtime_error("No JSON config file found");
     }
+
+    return confFile;
+}
+
+void JsonConfig::load()
+{
     std::ifstream file;
     json jsonConf;
 
-    if (fs::exists(confFile))
+    if (fs::exists(_confFile))
     {
-        file.open(confFile);
+        file.open(_confFile);
         try
         {
             jsonConf = json::parse(file);
@@ -113,7 +151,7 @@ void JsonConfig::load()
         catch (std::exception& e)
         {
             log<level::ERR>("Failed to parse JSON config file",
-                            entry("JSON_FILE=%s", confFile.c_str()),
+                            entry("JSON_FILE=%s", _confFile.c_str()),
                             entry("JSON_ERROR=%s", e.what()));
             throw std::runtime_error("Failed to parse JSON config file");
         }
@@ -121,7 +159,7 @@ void JsonConfig::load()
     else
     {
         log<level::ERR>("Unable to open JSON config file",
-                        entry("JSON_FILE=%s", confFile.c_str()));
+                        entry("JSON_FILE=%s", _confFile.c_str()));
         throw std::runtime_error("Unable to open JSON config file");
     }
 
