@@ -58,6 +58,8 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
 
+AC_ARG_ENABLE([json],
+    AS_HELP_STRING([--enable-json], [Use json at runtime to configure fan packages.]))
 AC_ARG_ENABLE([presence],
     AS_HELP_STRING([--disable-presence], [Disable fan presence package.]))
 AC_ARG_ENABLE([control],
@@ -67,6 +69,7 @@ AC_ARG_ENABLE([cooling-type],
 AC_ARG_ENABLE([monitor],
     AS_HELP_STRING([--disable-monitor], [Disable monitor]))
 
+AM_CONDITIONAL([WANT_JSON], [test "x$enable_json" != "xno"])
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
 AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling_type" != "xno"])
@@ -74,9 +77,18 @@ AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
 
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
-       # Add optional yaml file argument
-       AC_ARG_VAR(PRESENCE_CONFIG,
-                  [The fan presence config file.])
+    # Use runtime(json) config, otherwise default to compile time(yaml) config
+    AM_COND_IF([WANT_JSON],
+    [
+        AC_CHECK_HEADER(nlohmann/json.hpp, ,
+                [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
+        # Set config flag for runtime json usage
+        AC_DEFINE([PRESENCE_USE_JSON], [1], [Fan presence use runtime json configuration])
+        AC_MSG_NOTICE([Fan presence json configuration usage enabled])
+    ],
+    [
+        # Add optional yaml file argument
+        AC_ARG_VAR(PRESENCE_CONFIG, [The fan presence config file.])
 
        AS_IF([test "x$PRESENCE_CONFIG" == "x"],
              [PRESENCE_CONFIG="\${top_srcdir}/presence/example/example.yaml"])
@@ -86,9 +98,9 @@ AS_IF([test "x$enable_presence" != "xno"], [
 
        AC_SUBST([PFPGEN],
                 ["$PYTHON \${top_srcdir}/presence/pfpgen.py generate-cpp -i $PRESENCE_CONFIG"])
-
-       AC_CONFIG_FILES([presence/Makefile])
-       ])
+    ])
+    AC_CONFIG_FILES([presence/Makefile])
+])
 
 AS_IF([test "x$enable_control" != "xno"], [
        # Add fan control Dbus attributes
