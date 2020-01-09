@@ -30,9 +30,11 @@ phosphor_fan_presence_tach_CXXFLAGS = \
 	-flto \
 	$(STDPLUS_CFLAGS)
 
+if !WANT_JSON
 BUILT_SOURCES = generated.hpp
 TEMPLATES = \
 	templates/generated.mako.hpp
 
 generated.hpp: $(TEMPLATES) ${srcdir}/pfpgen.py $(PRESENCE_CONFIG)
 	$(AM_V_GEN)$(PFPGEN) > $(builddir)/$@
+endif
