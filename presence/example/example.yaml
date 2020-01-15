@@ -18,7 +18,7 @@
     be found in the /xyz/openbmc_project/sensors/fan_tach
     namespace as required by the OpenBMC DBus API.
 
-    Supported policy types are all_of or any_of.'
+    Supported policy types are fallback or anyof.'
   path: /system/chassis/motherboard/fan0
   methods:
     - type: tach
@@ -83,4 +83,3 @@
         - fan3
   rpolicy:
     type: anyof
-
