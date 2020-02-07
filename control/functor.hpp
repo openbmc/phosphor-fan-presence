@@ -109,8 +109,6 @@ struct Properties
         if (msg)
         {
             std::string intf;
-            std::map<std::string, sdbusplus::message::variant<T>> props;
-
             msg.read(intf);
             if (intf != _intf)
             {
@@ -118,6 +116,7 @@ struct Properties
                 return;
             }
 
+            std::map<std::string, PropertyVariantType> props;
             msg.read(props);
             auto it = props.find(_prop);
             if (it == props.cend())
@@ -126,8 +125,11 @@ struct Properties
                 return;
             }
 
-            _handler(zone, _path, _intf, _prop, std::forward<T>(
-                sdbusplus::message::variant_ns::get<T>(it->second)));
+            // Retrieve the property's value applying any visitors necessary
+            auto value =
+                zone.getPropertyValueVisitor<T>(_intf, _prop, it->second);
+
+            _handler(zone, _path, _intf, _prop, std::forward<T>(value));
         }
         else
         {
@@ -261,9 +263,6 @@ struct InterfacesAdded
     {
         if (msg)
         {
-            std::map<std::string,
-                     std::map<std::string,
-                              sdbusplus::message::variant<T>>> intfProp;
             sdbusplus::message::object_path op;
 
             msg.read(op);
@@ -273,6 +272,8 @@ struct InterfacesAdded
                 return;
             }
 
+            std::map<std::string, std::map<std::string,
+                    PropertyVariantType>> intfProp;
             msg.read(intfProp);
             auto itIntf = intfProp.find(_intf);
             if (itIntf == intfProp.cend())
@@ -287,8 +288,11 @@ struct InterfacesAdded
                 return;
             }
 
-            _handler(zone, _path, _intf, _prop, std::forward<T>(
-                sdbusplus::message::variant_ns::get<T>(itProp->second)));
+            // Retrieve the property's value applying any visitors necessary
+            auto value =
+                zone.getPropertyValueVisitor<T>(_intf, _prop, itProp->second);
+
+            _handler(zone, _path, _intf, _prop, std::forward<T>(value));
         }
     }
 
