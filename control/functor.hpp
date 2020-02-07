@@ -109,8 +109,6 @@ struct Properties
         if (msg)
         {
             std::string intf;
-            std::map<std::string, sdbusplus::message::variant<T>> props;
-
             msg.read(intf);
             if (intf != _intf)
             {
@@ -118,16 +116,21 @@ struct Properties
                 return;
             }
 
+            std::map<std::string, PropertyVariantType> props;
             msg.read(props);
             auto it = props.find(_prop);
             if (it == props.cend())
             {
-                // Property not included in dictionary of properties changed
+                // Property not included in dictionary
+                // of properties changed
                 return;
             }
 
-            _handler(zone, _path, _intf, _prop, std::forward<T>(
-                sdbusplus::message::variant_ns::get<T>(it->second)));
+            // Retrieve the property's value applying any visitors necessary
+            auto value =
+                zone.getPropertyValueVisitor<T>(_intf, _prop, it->second);
+
+            _handler(zone, _path, _intf, _prop, std::forward<T>(value));
         }
         else
         {
@@ -161,9 +164,9 @@ struct Properties
             group.end(),
             [&zone, handler = std::move(_handler)](auto const& member)
             {
-                auto path = std::get<pathPos>(member);
-                auto intf = std::get<intfPos>(member);
-                auto prop = std::get<propPos>(member);
+                auto path = std::get<pathPos>(member).c_str();
+                auto intf = std::get<intfPos>(member).c_str();
+                auto prop = std::get<propPos>(member).c_str();
                 try
                 {
                     auto val = zone.getPropertyByName<T>(path, intf, prop);
@@ -261,9 +264,6 @@ struct InterfacesAdded
     {
         if (msg)
         {
-            std::map<std::string,
-                     std::map<std::string,
-                              sdbusplus::message::variant<T>>> intfProp;
             sdbusplus::message::object_path op;
 
             msg.read(op);
@@ -273,6 +273,8 @@ struct InterfacesAdded
                 return;
             }
 
+            std::map<std::string, std::map<std::string,
+                    PropertyVariantType>> intfProp;
             msg.read(intfProp);
             auto itIntf = intfProp.find(_intf);
             if (itIntf == intfProp.cend())
@@ -287,8 +289,11 @@ struct InterfacesAdded
                 return;
             }
 
-            _handler(zone, _path, _intf, _prop, std::forward<T>(
-                sdbusplus::message::variant_ns::get<T>(itProp->second)));
+            // Retrieve the property's value applying any visitors necessary
+            auto value =
+                zone.getPropertyValueVisitor<T>(_intf, _prop, itProp->second);
+
+            _handler(zone, _path, _intf, _prop, std::forward<T>(value));
         }
     }
 

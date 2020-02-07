@@ -34,6 +34,7 @@ using Condition = std::tuple<std::string,
 using PropertyVariantType = sdbusplus::message::variant<bool,
                                                         int32_t,
                                                         int64_t,
+                                                        double,
                                                         std::string>;
 
 constexpr auto fanNamePos = 0;
