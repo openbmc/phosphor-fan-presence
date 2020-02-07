@@ -221,6 +221,64 @@ class Zone : public ThermalObject
         };
 
         /**
+         * @brief Get a property's value after applying a set of visitors
+         * to translate the property value's type change to keep from
+         * affecting the configured use of the property.
+         *
+         * @param[in] intf = Interface name containing the property
+         * @param[in] prop = Property name
+         * @param[in] variant = Variant containing the property's value from
+         *                      the supported property types.
+         */
+        template <typename T>
+        inline auto getPropertyValueVisitor(
+            const char* intf,
+            const char* prop,
+            PropertyVariantType& variant)
+        {
+            T value;
+
+            // Handle the transition of the dbus sensor value type from
+            // int64 to double which also removed the scale property.
+            // https://gerrit.openbmc-project.xyz/11739
+            if (strcmp(intf, "xyz.openbmc_project.Sensor.Value") == 0 &&
+                strcmp(prop, "Value") == 0)
+            {
+                std::visit([&value](auto&& val)
+                {
+                    // If the type configured is int64, but the sensor value
+                    // property's type is double, scale it by 1000 and return
+                    // the value as an int64 as configured.
+                    using V = std::decay_t<decltype(val)>;
+                    if constexpr(std::is_same_v<T, int64_t> &&
+                                 std::is_same_v<V, double>)
+                    {
+                        val = val * 1000;
+                        value = static_cast<T>(val);
+                    }
+                    // If the type configured matches the sensor value
+                    // property's type, just return the value as its
+                    // given type.
+                    else if constexpr((std::is_same_v<T, int64_t> &&
+                                       std::is_same_v<V, int64_t>) ||
+                                      (std::is_same_v<T, double> &&
+                                       std::is_same_v<V, double>))
+                    {
+                        value = val;
+                    }
+                }, variant);
+
+                return value;
+            }
+
+            // Default to return the property's value by the data type
+            // configured, applying no visitors to the variant.
+            value = sdbusplus::message::variant_ns::get<T>(variant);
+
+            return value;
+        };
+
+        /**
          * @brief Remove an object's interface
          *
          * @param[in] object - Name of the object with the interface
@@ -598,12 +656,13 @@ class Zone : public ThermalObject
                 }
             }
 
+            // Retrieve the property's value applying any visitors necessary
             auto service = getService(path, intf);
-            value = util::SDBusPlus::getProperty<T>(_bus,
-                                                    service,
-                                                    path,
-                                                    intf,
-                                                    prop);
+            auto variant =
+                util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+                    _bus, service, path, intf, prop);
+            value = getPropertyValueVisitor<T>(
+                intf.c_str(), prop.c_str(), variant);
 
             return value;
         };
