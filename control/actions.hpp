@@ -195,7 +195,7 @@ auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
                         // difference times the given speed delta
                         netDelta = std::max(
                             netDelta,
-                            (delta/factor) * speedDelta);
+                            static_cast<uint64_t>((delta/factor) * speedDelta));
                     }
                 }
                 catch (const std::out_of_range& oore)
@@ -253,7 +253,8 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
                         // difference times the given speed delta
                         netDelta = std::min(
                             netDelta,
-                            ((state - value)/factor) * speedDelta);
+                            static_cast<uint64_t>(
+                                ((state - value)/factor) * speedDelta));
                     }
                 }
                 else
