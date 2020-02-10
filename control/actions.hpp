@@ -130,6 +130,8 @@ auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
  */
 Action set_floor_from_average_sensor_value(
         std::map<int64_t, uint64_t>&& val_to_speed);
+Action set_floor_from_average_sensor_value(
+        std::map<double, uint64_t>&& val_to_speed);
 
 /**
  * @brief An action to set the ceiling speed on a zone
@@ -147,6 +149,8 @@ Action set_floor_from_average_sensor_value(
  */
 Action set_ceiling_from_average_sensor_value(
         std::map<int64_t, uint64_t>&& val_to_speed);
+Action set_ceiling_from_average_sensor_value(
+        std::map<double, uint64_t>&& val_to_speed);
 
 /**
  * @brief An action to set the speed increase delta and request speed change
@@ -195,7 +199,7 @@ auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
                         // difference times the given speed delta
                         netDelta = std::max(
                             netDelta,
-                            (delta/factor) * speedDelta);
+                            static_cast<uint64_t>((delta/factor) * speedDelta));
                     }
                 }
                 catch (const std::out_of_range& oore)
@@ -253,7 +257,8 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
                         // difference times the given speed delta
                         netDelta = std::min(
                             netDelta,
-                            ((state - value)/factor) * speedDelta);
+                            static_cast<uint64_t>(
+                                ((state - value)/factor) * speedDelta));
                     }
                 }
                 else

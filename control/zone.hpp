@@ -265,6 +265,9 @@ class Zone : public ThermalObject
                                        std::is_same_v<V, double>))
                     {
                         value = val;
+                        char txt[31];
+                        sprintf(txt, "INT:INT or DOUBLE:DOUBLE %f", value);
+                        phosphor::logging::log<phosphor::logging::level::ERR>(txt);
                     }
                 }, variant);
 
