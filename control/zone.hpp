@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cassert>
 #include <chrono>
+#include <cmath>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <vector>
@@ -254,7 +255,7 @@ class Zone : public ThermalObject
                                  std::is_same_v<V, double>)
                     {
                         val = val * 1000;
-                        value = static_cast<T>(val);
+                        value = std::lround(val);
                     }
                     // If the type configured matches the sensor value
                     // property's type, just return the value as its
