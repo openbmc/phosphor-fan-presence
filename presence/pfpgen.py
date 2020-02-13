@@ -313,7 +313,7 @@ class Everything(Renderer):
                 factory_objs.setdefault('fan', []).append(obj)
                 objs.setdefault('fan', []).append(obj)
 
-            for cls, items in factory_objs.items():
+            for cls, items in list(factory_objs.items()):
                 for obj in items:
                     # Add objects for template consumption.
                     obj.factory(objs)
@@ -325,7 +325,7 @@ class Everything(Renderer):
             # At this point all objects have been created but references
             # have not been resolved to array indices.  Instruct objects
             # to do that now.
-            for cls, items in objs.items():
+            for cls, items in list(objs.items()):
                 for obj in items:
                     obj.setup(objs)
 
@@ -372,8 +372,8 @@ if __name__ == '__main__':
         help='The space delimited mako template search path.')
     parser.add_argument(
         'command', metavar='COMMAND', type=str,
-        choices=valid_commands.keys(),
-        help='%s.' % ' | '.join(valid_commands.keys()))
+        choices=list(valid_commands.keys()),
+        help='%s.' % ' | '.join(list(valid_commands.keys())))
 
     args = parser.parse_args()
 
