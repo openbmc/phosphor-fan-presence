@@ -114,8 +114,7 @@ def get_cpp_type(typeTuple):
         # of each tuple and ignore possible parameters
         result += ", ".join([e[0] for e in rest])
     else:
-        result += ", ".join(map(lambda e: get_cpp_type(e),
-                                rest))
+        result += ", ".join([get_cpp_type(e) for e in rest])
     result += '>'
 
     return result
