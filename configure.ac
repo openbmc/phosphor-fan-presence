@@ -19,7 +19,7 @@ AC_PROG_MAKE_SET
 
 # Python
 AM_PATH_PYTHON([2.7], [AC_SUBST([PYTHON], [echo "$PYTHON"])],
-[AC_MSG_ERROR([Could not find python-2.7 installed...python-2.7 is required])])
+[AC_MSG_ERROR([Minimum python version(2.7) not found])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_17([noext])
