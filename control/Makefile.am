@@ -35,4 +35,4 @@ phosphor_fan_control_CXXFLAGS = \
 BUILT_SOURCES = fan_zone_defs.cpp
 
 fan_zone_defs.cpp: ${srcdir}/gen-fan-zone-defs.py
-	$(AM_V_GEN)$(GEN_FAN_ZONE_DEFS)
+	$(AM_V_GEN)$(GEN_FAN_ZONE_DEFS) > ${builddir}/$@
