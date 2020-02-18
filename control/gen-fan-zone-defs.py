@@ -786,6 +786,9 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
 
     zone_groups = []
 
+    # Allow zone_conditions to not be in yaml (since its optional)
+    if not isinstance(zone_data, list) and zone_data != {}:
+        zone_data = [zone_data]
     for group in zone_data:
         conditions = []
         # zone conditions are optional
@@ -843,7 +846,8 @@ def buildZoneData(zone_data, fan_data, events_data, zone_conditions_data):
                 ifaces = getIfacesInZone(z['interfaces'])
 
             fans = getFansInZone(z['zone'], profiles, fan_data)
-            events = getEventsInZone(z['zone'], group['zone_conditions'],
+            events = getEventsInZone(z['zone'],
+                                     group.get('zone_conditions', {}),
                                      events_data)
 
             if len(fans) == 0:
