@@ -31,4 +31,4 @@ phosphor_fan_monitor_CXXFLAGS = \
 	-flto
 
 fan_monitor_defs.cpp: ${srcdir}/gen-fan-monitor-defs.py
-	$(AM_V_GEN)$(GEN_FAN_MONITOR_DEFS)
+	$(AM_V_GEN)$(GEN_FAN_MONITOR_DEFS) > ${builddir}/$@

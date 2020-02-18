@@ -151,21 +151,13 @@ AS_IF([test "x$enable_control" != "xno"], [
       AC_DEFINE_UNQUOTED([ZONE_CONDITIONS_YAML_FILE], ["$ZONE_CONDITIONS_YAML_FILE"],
                          [The zone conditions definition file to use])
 
-       AC_ARG_VAR(FAN_ZONE_OUTPUT_DIR,
-                  [The output directory for the generated fan zone data file])
-       AS_IF([test "x$FAN_ZONE_OUTPUT_DIR" == "x"],
-             [FAN_ZONE_OUTPUT_DIR="\${top_srcdir}/control/"])
-       AC_DEFINE_UNQUOTED([FAN_ZONE_OUTPUT_DIR], ["$FAN_ZONE_OUTPUT_DIR"],
-                          [The output directory for the generated fan zone data file])
-
-       AC_SUBST([GEN_FAN_ZONE_DEFS],
-                ["$PYTHON \${top_srcdir}/control/gen-fan-zone-defs.py \
+      AC_SUBST([GEN_FAN_ZONE_DEFS],
+               ["$PYTHON \${top_srcdir}/control/gen-fan-zone-defs.py \
                          -f $FAN_DEF_YAML_FILE \
                          -z $FAN_ZONE_YAML_FILE \
                          -e $ZONE_EVENTS_YAML_FILE \
-                         -c $ZONE_CONDITIONS_YAML_FILE \
-                         -o $FAN_ZONE_OUTPUT_DIR"])
-       AC_CONFIG_FILES([control/Makefile])
+                         -c $ZONE_CONDITIONS_YAML_FILE"])
+      AC_CONFIG_FILES([control/Makefile])
 ])
 
 AS_IF([test "x$enable_cooling_type" != "xno"], [
@@ -176,21 +168,13 @@ AS_IF([test "x$enable_monitor" != "xno"], [
        AC_ARG_VAR(FAN_MONITOR_YAML_FILE,
                   [The fan monitor definition file to use])
        AS_IF([test "x$FAN_MONITOR_YAML_FILE" == "x"],
-             [FAN_MONITOR_YAML_FILE="${srcdir}/monitor/example/monitor.yaml"])
+             [FAN_MONITOR_YAML_FILE="\${top_srcdir}/monitor/example/monitor.yaml"])
        AC_DEFINE_UNQUOTED([FAN_MONITOR_YAML_FILE], ["$FAN_MONITOR_YAML_FILE"],
                           [The fan monitor definition file to use])
 
-       AC_ARG_VAR(FAN_MONITOR_OUTPUT_DIR,
-                  [The output directory for the generated fan monitor data file])
-       AS_IF([test "x$FAN_MONITOR_OUTPUT_DIR" == "x"],
-             [FAN_MONITOR_OUTPUT_DIR="${srcdir}/monitor/"])
-       AC_DEFINE_UNQUOTED([FAN_MONITOR_OUTPUT_DIR], ["$FAN_MONITOR_OUTPUT_DIR"],
-                          [The output directory for the generated fan monitor data file])
-
        AC_SUBST([GEN_FAN_MONITOR_DEFS],
-                [$PYTHON ${srcdir}/monitor/gen-fan-monitor-defs.py \
-                         -m $FAN_MONITOR_YAML_FILE \
-                         -o $FAN_MONITOR_OUTPUT_DIR])
+                ["$PYTHON \${top_srcdir}/monitor/gen-fan-monitor-defs.py \
+                         -m $FAN_MONITOR_YAML_FILE"])
 
        AC_CONFIG_FILES([monitor/Makefile])
 ])
