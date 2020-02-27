@@ -1,5 +1,6 @@
 /**
  * Copyright © 2017 IBM Corporation
+ * Copyright © 2017-2018 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -45,6 +46,10 @@ int main(int argc, char* argv[])
     {
         mode = Mode::control;
     }
+    else if (args["shutdown"] == "true")
+    {
+        mode = Mode::shutdown;
+    }
     else
     {
         args.usage(argv);
@@ -63,6 +68,11 @@ int main(int argc, char* argv[])
         if (mode == Mode::init)
         {
             manager.doInit();
+            return 0;
+        }
+        else if (mode == Mode::shutdown)
+        {
+            manager.doShutdown();
             return 0;
         }
 

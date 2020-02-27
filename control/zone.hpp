@@ -25,11 +25,13 @@ using ThermalObject = sdbusplus::server::object::object<
  * The mode fan control will run in:
  *   - init - only do the initialization steps
  *   - control - run normal control algorithms
+ *   - init - shutdown fans, stopping all rotors
  */
 enum class Mode
 {
     init,
-    control
+    control,
+    shutdown
 };
 
 /**
@@ -106,6 +108,12 @@ class Zone : public ThermalObject
          * Sets the zone to full speed regardless of zone's active state
          */
         void setFullSpeed();
+
+        /**
+         * Disables the zone and stops all zone fans regardless of
+         * zone's active state
+         */
+        void disableRotors();
 
         /**
          * @brief Sets the automatic fan control allowed active state

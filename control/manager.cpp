@@ -1,5 +1,6 @@
 /**
  * Copyright © 2017 IBM Corporation
+ * Copyright © 2017-2018 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -145,6 +146,14 @@ void Manager::doInit()
             "StartUnit",
             FAN_CONTROL_READY_TARGET,
             "replace");
+}
+
+void Manager::doShutdown()
+{
+    for (auto& z : _zones)
+    {
+        z.second->disableRotors();
+    }
 }
 
 } // namespace control

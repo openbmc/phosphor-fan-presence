@@ -56,6 +56,11 @@ class Fan
             return _targetSpeed;
         }
 
+        /**
+         * Disables the fan, stopping the rotor
+         */
+        void disableRotor();
+
     private:
 
         /**

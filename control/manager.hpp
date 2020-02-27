@@ -51,6 +51,12 @@ class Manager
          */
         void doInit();
 
+        /**
+         * Does the fan control and chassis fan shutdown, which
+         * disables the fans entirely (stops all rotors)
+         */
+        void doShutdown();
+
     private:
 
         /**

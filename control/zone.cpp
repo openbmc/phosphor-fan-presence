@@ -1,5 +1,6 @@
 /**
  * Copyright © 2017 IBM Corporation
+ * Copyright © 2017-2018 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -120,6 +121,14 @@ void Zone::setFullSpeed()
         {
             fan->setSpeed(_targetSpeed);
         }
+    }
+}
+
+void Zone::disableRotors()
+{
+    for (auto& fan : _fans)
+    {
+        fan->disableRotor();
     }
 }
 

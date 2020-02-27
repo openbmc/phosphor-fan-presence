@@ -1,5 +1,6 @@
 /**
  * Copyright © 2017 IBM Corporation
+ * Copyright © 2017-2018 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -87,6 +88,15 @@ void Fan::setSpeed(uint64_t speed)
     }
 
     _targetSpeed = speed;
+}
+
+void Fan::disableRotor()
+{
+    // TODO
+    // This should set the enable value of the hwmon PWM entry
+    // For now, just set the fan speed to 0
+
+    setSpeed(0);
 }
 
 }

@@ -1,5 +1,6 @@
 /**
  * Copyright © 2017 IBM Corporation
+ * Copyright © 2017-2018 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -69,6 +70,7 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "    --help               Print this menu\n";
     std::cerr << "    --init               Sets fans to full speed, delays, exits\n";
     std::cerr << "    --control            Start fan control algorithm\n";
+    std::cerr << "    --shutdown           Shut down fan control algorithm *and* fans.  ONLY use after chassis powerdown!\n";
     std::cerr << std::flush;
 }
 
@@ -76,11 +78,12 @@ const option ArgumentParser::options[] =
 {
     { "init",    no_argument,  NULL,   'i' },
     { "control",  no_argument,  NULL,   'c' },
+    { "shutdown",  no_argument,  NULL,   's' },
     { "help",   no_argument,        NULL,   'h' },
     { 0, 0, 0, 0},
 };
 
-const char* ArgumentParser::optionstr = "ich?";
+const char* ArgumentParser::optionstr = "icsh?";
 
 const std::string ArgumentParser::true_string = "true";
 const std::string ArgumentParser::empty_string = "";
