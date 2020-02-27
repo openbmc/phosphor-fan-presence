@@ -651,10 +651,29 @@ def getEventsInZone(zone_num, zone_conditions, events_data):
             # Add precondition if given
             if ('precondition' in e) and \
                (e['precondition'] is not None):
-                event['pc'] = addPrecondition(zone_num,
+                precondition_applies_to_zone = True
+                if 'events' in e['precondition']:
+                    for p in e['precondition']['events']:
+                        # Verify precondition applies to current zone
+                        if 'groups' in p:
+                            for g in p['groups']:
+                                if 'zone_conditions' in g:
+                                    zone_allowed = False
+                                    for zc in g['zone_conditions']:
+                                        if 'zones' in zc:
+                                            for z in zc['zones']:
+                                                if z == zone_num:
+                                                    zone_allowed = True
+                                            if zone_allowed == False:
+                                                precondition_applies_to_zone = False
+
+                if precondition_applies_to_zone == True:
+                    event['pc'] = addPrecondition(zone_num,
                                               zone_conditions,
                                               e,
                                               events_data)
+                else:
+                    continue
             else:
                 event = getEvent(zone_num, zone_conditions, e, events_data)
                 # Remove empty events and events that have
