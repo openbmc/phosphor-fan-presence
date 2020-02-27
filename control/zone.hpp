@@ -1,3 +1,6 @@
+// PID controls (c) 2018 Raptor Engineering, LLC
+// Licensed under the terms of the GPL v3
+
 #pragma once
 #include <algorithm>
 #include <cassert>
@@ -467,6 +470,18 @@ class Zone : public ThermalObject
         void requestSpeedDecrease(uint64_t targetDelta);
 
         /**
+         * @brief Run PID algorithm based on provided error, Kp, Ki, and Kd
+         * values.
+         *
+         * @param[in] error - Current error value
+         * @param[in] integrator_timestep - Integrator time step
+         * @param[in] kp - PID proportional constant
+         * @param[in] ki - PID integral constant
+         * @param[in] kd - PID derivative constant
+         */
+        void runPidLoop(int64_t error, uint64_t integrator_timestep, int64_t kp, int64_t ki, int64_t kd);
+
+        /**
          * @brief Callback function for the increase timer that delays
          * processing of requested speed increases while fans are increasing
          */
@@ -477,6 +492,11 @@ class Zone : public ThermalObject
          * requested speed decreases if allowed
          */
         void decTimerExpired();
+
+        /**
+         * @brief Callback function for the PID timer
+         */
+        void pidTimerExpired();
 
         /**
          * @brief Get the event loop used with this zone's timers
@@ -763,6 +783,31 @@ class Zone : public ThermalObject
         uint64_t _requestSpeedBase = 0;
 
         /**
+         * PID active
+         */
+        bool _pidActive = false;
+        bool _pidActivePrev = false;
+
+        /**
+         * PID integrator
+         */
+        int64_t _pidIntegrator = 0;
+
+        /**
+         * PID values
+         */
+        int64_t _pidLastError = 0;
+        uint64_t _pidLastIntegratorTimestep = 0;
+        int64_t _pidLastKp = 0;
+        int64_t _pidLastKi = 0;
+        int64_t _pidLastKd = 0;
+
+        /**
+         * PID prior state tracker
+         */
+        int64_t _pidPrevError = 0;
+
+        /**
          * Speed increase delay in seconds
          */
         std::chrono::seconds _incDelay;
@@ -781,6 +826,11 @@ class Zone : public ThermalObject
          * The decrease timer object
          */
         Timer _decTimer;
+
+        /**
+         * The PID timer object
+         */
+        Timer _pidTimer;
 
         /**
          * Event loop used on set speed event timers

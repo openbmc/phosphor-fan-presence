@@ -1,3 +1,6 @@
+// PID controls (c) 2018-2019 Raptor Engineering, LLC
+// Licensed under the terms of the GPL v3
+
 #pragma once
 
 #include <algorithm>
@@ -345,7 +348,7 @@ auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
                             std::get<propPos>(entry));
                     // TODO openbmc/phosphor-fan-presence#7 - Support possible
                     // state types for comparison
-                    if (value >= state)
+                    if ((value >= state) && (factor != 0))
                     {
                         // Increase by at least a single delta(factor)
                         // to attempt bringing under 'state'
@@ -402,7 +405,7 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
                         std::get<propPos>(entry));
                 // TODO openbmc/phosphor-fan-presence#7 - Support possible
                 // state types for comparison
-                if (value < state)
+                if ((value < state) && (factor != 0))
                 {
                     if (netDelta == 0)
                     {
@@ -704,6 +707,41 @@ auto use_events_on_state(T&& state,
                 {
                     zone.removeEvent(entry);
                 });
+        }
+    };
+}
+
+template <typename T>
+auto run_pid_control(T&& state, T&& integrator_timestep, T&& kp, T&& ki, T&& kd)
+{
+    return [integrator_timestep = std::forward<T>(integrator_timestep),
+            kp = std::forward<T>(kp),
+            ki = std::forward<T>(ki),
+            kd = std::forward<T>(kd),
+            state = std::forward<T>(state)](auto& zone, auto& group)
+    {
+        auto error_accum = 0;
+        auto error_items = 0;
+        for (auto& entry : group)
+        {
+            try
+            {
+                T value = zone.template getPropertyValue<T>(
+                        entry.first,
+                        std::get<intfPos>(entry.second),
+                        std::get<propPos>(entry.second));
+                error_accum += (value - state);
+                error_items++;
+            }
+            catch (const std::out_of_range& oore)
+            {
+                // Property value not found
+            }
+        }
+
+        if (error_items > 0)
+        {
+            zone.runPidLoop((error_accum / error_items), integrator_timestep, kp, ki, kd);
         }
     };
 }

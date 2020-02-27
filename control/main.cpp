@@ -76,8 +76,10 @@ int main(int argc, char* argv[])
             return 0;
         }
 
+        printf("Setup complete.  Starting event loop...\n");
         return event.loop();
     }
+
     //Log the useful metadata on these exceptions and let the app
     //return 1 so it is restarted without a core dump.
     catch (phosphor::fan::util::DBusServiceError& e)

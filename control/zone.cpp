@@ -1,6 +1,6 @@
 /**
  * Copyright © 2017 IBM Corporation
- * Copyright © 2017-2018 Raptor Engineering, LLC
+ * Copyright © 2017-2019 Raptor Engineering, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,6 +13,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * PID controls (c) 2018-2019 Raptor Engineering, LLC
+ * Licensed under the terms of the GPL v3
  */
 #include <chrono>
 #include <functional>
@@ -61,6 +64,7 @@ Zone::Zone(Mode mode,
     _decInterval(std::get<decIntervalPos>(def)),
     _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
     _decTimer(event, std::bind(&Zone::decTimerExpired, this)),
+    _pidTimer(event, std::bind(&Zone::pidTimerExpired, this)),
     _eventLoop(event)
 {
     auto& fanDefs = std::get<fanListPos>(def);
@@ -97,6 +101,8 @@ Zone::Zone(Mode mode,
         }
         // Start timer for fan speed decreases
         _decTimer.restart(_decInterval);
+        // Start timer for PID loops
+        _pidTimer.restart(std::chrono::seconds(1));
     }
 }
 
@@ -122,6 +128,9 @@ void Zone::setFullSpeed()
             fan->setSpeed(_targetSpeed);
         }
     }
+
+    _pidIntegrator = 0;
+    _pidPrevError = 0;
 }
 
 void Zone::disableRotors()
@@ -130,6 +139,9 @@ void Zone::disableRotors()
     {
         fan->disableRotor();
     }
+
+    _pidIntegrator = 0;
+    _pidPrevError = 0;
 }
 
 void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
@@ -147,6 +159,9 @@ void Zone::setActiveAllow(const Group* group, bool isActiveAllow)
                                 _active.end(),
                                 actPred);
     }
+
+    _pidIntegrator = 0;
+    _pidPrevError = 0;
 }
 
 void Zone::removeService(const Group* group,
@@ -289,6 +304,16 @@ void Zone::requestSpeedDecrease(uint64_t targetDelta)
     }
 }
 
+void Zone::runPidLoop(int64_t error, uint64_t integrator_timestep, int64_t kp, int64_t ki, int64_t kd)
+{
+    _pidLastError = error;
+    _pidLastIntegratorTimestep = integrator_timestep;
+    _pidLastKp = kp;
+    _pidLastKi = ki;
+    _pidLastKd = kd;
+    _pidActive = true;
+}
+
 void Zone::decTimerExpired()
 {
     // Check all entries are set to allow a decrease
@@ -326,6 +351,67 @@ void Zone::decTimerExpired()
     // Clear decrease delta when timer expires
     _decSpeedDelta = 0;
     // Decrease timer is restarted since its repeating
+}
+
+void Zone::pidTimerExpired()
+{
+    if (!_pidActive)
+    {
+        return;
+    }
+
+    /* If error is positive on startup, set fans to full by forcing integrator to maximum value */
+    if (!_pidActivePrev) {
+        if (_pidLastError > 0) {
+            _pidIntegrator = ((_ceilingSpeed - _floorSpeed) * 100000) / _pidLastKi;
+        }
+    }
+
+    auto pidIntegrator_orig = _pidIntegrator;
+    _pidIntegrator += _pidLastError * _pidLastIntegratorTimestep;
+    int64_t derivative = (_pidLastError - _pidPrevError) / _pidLastIntegratorTimestep;
+    int64_t pid_output = ((_pidLastError * _pidLastKp) + (_pidIntegrator * _pidLastKi) + (derivative * _pidLastKd)) / 100000;
+    _pidPrevError = _pidLastError;
+
+    uint64_t requestTarget = _floorSpeed;
+    if (pid_output > 0)
+    {
+        requestTarget = _floorSpeed + pid_output;
+    }
+    else {
+        _pidIntegrator = pidIntegrator_orig;
+    }
+    // Target speed can not go above a defined ceiling speed
+    if (requestTarget > _ceilingSpeed)
+    {
+        requestTarget = _ceilingSpeed;
+        _pidIntegrator = pidIntegrator_orig;
+    }
+    // Target speed can not go below a defined floor speed
+    if (requestTarget < _floorSpeed)
+    {
+        requestTarget = _floorSpeed;
+        _pidIntegrator = pidIntegrator_orig;
+    }
+
+    /* Cap integrator wind-up */
+    if (_pidLastKi != 0) {
+        if (_pidIntegrator > (int64_t)(((_ceilingSpeed - _floorSpeed) * 100000) / _pidLastKi))
+        {
+            _pidIntegrator = ((_ceilingSpeed - _floorSpeed) * 100000) / _pidLastKi;
+        }
+        if (_pidIntegrator < ((int64_t)((_ceilingSpeed - _floorSpeed) * -100000) / _pidLastKi))
+        {
+            _pidIntegrator = ((_ceilingSpeed - _floorSpeed) * -100000) / _pidLastKi;
+        }
+    }
+    else {
+        _pidIntegrator = 0;
+    }
+
+    setRequestSpeedBase(requestTarget);
+
+    _pidActivePrev = true;
 }
 
 void Zone::initEvent(const SetSpeedEvent& event)
