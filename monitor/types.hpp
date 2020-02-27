@@ -57,7 +57,7 @@ constexpr auto conditionField = 6;
 using FanDefinition = std::tuple<std::string,
                                  size_t,
                                  size_t,
-                                 size_t,
+                                 ssize_t,
                                  size_t,
                                  std::vector<SensorDefinition>,
                                  std::experimental::optional<Condition>>;

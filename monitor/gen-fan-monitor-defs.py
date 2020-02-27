@@ -133,7 +133,7 @@ if __name__ == '__main__':
 
     #Do some minor input validation
     for fan in monitor_data.get('fans', {}):
-        if ((fan['deviation'] < 0) or (fan['deviation'] > 100)):
+        if (fan['deviation'] > 100):
             sys.exit("Invalid deviation value " + str(fan['deviation']))
 
     output_file = os.path.join(args.output_dir, "fan_monitor_defs.cpp")

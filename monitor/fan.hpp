@@ -176,6 +176,11 @@ class Fan
         const size_t _deviation;
 
         /**
+         * @brief True if deviation indicates minimum absolute RPM
+         */
+        bool _deviationIsMinRPM;
+
+        /**
          * The number of sensors that must be nonfunctional at the
          * same time in order for the fan to be set to nonfunctional
          * in the inventory.
