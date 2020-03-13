@@ -6,6 +6,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <vector>
+#include <optional>
 #include "fan.hpp"
 #include "types.hpp"
 #include "sdbusplus.hpp"
@@ -237,14 +238,16 @@ class Zone : public ThermalObject
             const char* prop,
             PropertyVariantType& variant)
         {
-            T value;
-
             // Handle the transition of the dbus sensor value type from
             // int64 to double which also removed the scale property.
             // https://gerrit.openbmc-project.xyz/11739
             if (strcmp(intf, "xyz.openbmc_project.Sensor.Value") == 0 &&
                 strcmp(prop, "Value") == 0)
             {
+                // Use 'optional' variable to determine if the sensor value
+                // is set within the visitor based on the supported types.
+                // A non-supported type configured will assert.
+                std::optional<T> value;
                 std::visit([&value](auto&& val)
                 {
                     // If the type configured is int64, but the sensor value
@@ -260,23 +263,22 @@ class Zone : public ThermalObject
                     // If the type configured matches the sensor value
                     // property's type, just return the value as its
                     // given type.
-                    else if constexpr((std::is_same_v<T, int64_t> &&
-                                       std::is_same_v<V, int64_t>) ||
-                                      (std::is_same_v<T, double> &&
-                                       std::is_same_v<V, double>))
+                    else if constexpr(std::is_same_v<T, V>)
                     {
                         value = val;
                     }
                 }, variant);
 
-                return value;
+                // Unable to return Sensor Value property
+                // as given type configured.
+                assert(value);
+
+                return value.value();
             }
 
             // Default to return the property's value by the data type
             // configured, applying no visitors to the variant.
-            value = std::get<T>(variant);
-
-            return value;
+            return std::get<T>(variant);
         };
 
         /**
