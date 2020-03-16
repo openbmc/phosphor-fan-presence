@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2bd92d8f_6215d8f2",
+        "filename": "control/actions.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-03-16T19:43:10Z",
+      "side": 1,
+      "message": "The OpenBMC charter requires an Apache-2.0 license making this invalid. Please remove.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 41
+      },
+      "revId": "ffe3070e3d09031089d3511da65e7737cecd60ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a14a02d_c34b804c",
+        "filename": "control/main.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-03-16T19:43:10Z",
+      "side": 1,
+      "message": "I dont see much value add to this printf statement on good path execution. Could you please remove it?",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 60
+      },
+      "revId": "ffe3070e3d09031089d3511da65e7737cecd60ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "03f07d9b_1308e104",
+        "filename": "control/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-03-16T19:43:10Z",
+      "side": 1,
+      "message": "Does this represent something not captured by your copyright entry above on line 3? or can it be removed in favor of that?",
+      "range": {
+        "startLine": 17,
+        "startChar": 1,
+        "endLine": 17,
+        "endChar": 53
+      },
+      "revId": "ffe3070e3d09031089d3511da65e7737cecd60ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cd64cfa1_3f0d9a46",
+        "filename": "control/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-03-16T19:43:10Z",
+      "side": 1,
+      "message": "The OpenBMC charter requires an Apache-2.0 license making this invalid. Please remove.",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 41
+      },
+      "revId": "ffe3070e3d09031089d3511da65e7737cecd60ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6807fa86_f72e5082",
+        "filename": "control/zone.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-03-16T19:43:10Z",
+      "side": 1,
+      "message": "The OpenBMC charter requires an Apache-2.0 license making this invalid. Please remove.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 41
+      },
+      "revId": "ffe3070e3d09031089d3511da65e7737cecd60ca",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
