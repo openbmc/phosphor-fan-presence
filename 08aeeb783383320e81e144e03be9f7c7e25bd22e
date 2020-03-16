@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0978235_802d12d0",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-03-16T15:33:44Z",
+      "side": 1,
+      "message": "FWIW, there is talk of using an up/down counter style determination of a fan being out-of-range. So this function will likely be externalized into the configuration (select which \"out of range\" function to use within the config file) to handle these multiple ways users wish to have fans determined as being out-of-range/faulted.",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 178,
+        "endChar": 5
+      },
+      "revId": "08aeeb783383320e81e144e03be9f7c7e25bd22e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
