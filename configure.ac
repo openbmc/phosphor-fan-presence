@@ -18,8 +18,8 @@ AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 
 # Python
-AM_PATH_PYTHON([2.7], [AC_SUBST([PYTHON], [echo "$PYTHON"])],
-[AC_MSG_ERROR([Minimum python version(2.7) not found])])
+AM_PATH_PYTHON([3], [AC_SUBST([PYTHON], [echo "$PYTHON"])],
+[AC_MSG_ERROR([Minimum python version(3) not found])])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AX_CXX_COMPILE_STDCXX_17([noext])

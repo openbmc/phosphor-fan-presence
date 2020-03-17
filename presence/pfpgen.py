@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 '''
 Phosphor Fan Presence (PFP) YAML parser and code generator.
