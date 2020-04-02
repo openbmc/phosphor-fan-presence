@@ -1,0 +1,10 @@
+Code-Review+1: Bruce Mitchell <Bruce_Mitchell@Phoenix.com>
+Ok-To-Test+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Verified+1: Jenkins <openbmc-ci-admin@ozlabs.org>
+Code-Review+1: Patrick Williams <patrick@stwcx.xyz>
+Code-Review+2: Matthew Barth <msbarth@linux.ibm.com>
+Submitted-by: Matthew Barth <msbarth@linux.ibm.com>
+Submitted-at: Thu, 02 Apr 2020 21:28:14 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/30437
+Project: openbmc/phosphor-fan-presence
+Branch: refs/heads/master
