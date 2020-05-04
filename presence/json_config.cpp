@@ -98,46 +98,39 @@ const fs::path JsonConfig::getConfFile()
         return confFile;
     }
 
-    // Check base path location
-    confFile = fs::path{confBasePath} / confFileName;
-    if (fs::exists(confFile))
+    try
     {
-        return confFile;
+        // Retrieve json config relative path location from dbus
+        auto confDbusValue =
+            util::SDBusPlus::getProperty<std::vector<std::string>>(
+                _bus, confDbusPath, confDbusIntf, confDbusProp);
+        // Look for a config file at each entry relative to the base
+        // path and use the first one found
+        auto it = std::find_if(
+            confDbusValue.begin(),
+            confDbusValue.end(),
+            [&confFile](auto const& entry)
+            {
+                confFile = fs::path{confBasePath} / entry / confFileName;
+                return fs::exists(confFile);
+            }
+        );
+        if (it == confDbusValue.end())
+        {
+            // Property exists, but no config file found. Use default base path
+            confFile = fs::path{confBasePath} / confFileName;
+        }
+    }
+    catch (const util::DBusError&)
+    {
+        // Property unavailable, attempt default base path
+        confFile = fs::path{confBasePath} / confFileName;
     }
 
-    // Check dbus interface & property
-    // Use first object returned in the subtree
-    // (Should really be only one object with the config interface)
-    auto objects = util::SDBusPlus::getSubTreeRaw(_bus, "/", confDbusIntf, 0);
-    auto itObj = objects.begin();
-    if (itObj != objects.end())
-    {
-        auto itServ = itObj->second.begin();
-        if (itServ != itObj->second.end())
-        {
-            // Retrieve json config relative path location from dbus
-            auto relPathLoc = util::SDBusPlus::getProperty<std::string>(
-                _bus, itServ->first, itObj->first,
-                confDbusIntf, confDbusProp);
-            confFile = fs::path{confBasePath} / relPathLoc / confFileName;
-            if (!fs::exists(confFile))
-            {
-                log<level::ERR>("No JSON config file found",
-                                entry("NO_FILE=%s", confFile.c_str()));
-                throw std::runtime_error("No JSON config file found");
-            }
-        }
-        else
-        {
-            log<level::ERR>("No JSON config file found",
-                            entry("NO_SERVICE=%s", itObj->first.c_str()));
-            throw std::runtime_error("No JSON config file found");
-        }
-    }
-    else
+    if (!fs::exists(confFile))
     {
         log<level::ERR>("No JSON config file found",
-                        entry("NO_INTERFACE=%s", confDbusIntf));
+                        entry("DEFAULT_FILE=%s", confFile.c_str()));
         throw std::runtime_error("No JSON config file found");
     }
 
