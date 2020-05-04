@@ -26,8 +26,10 @@ using json = nlohmann::json;
 constexpr auto confFileName = "config.json";
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence/presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence/presence";
-constexpr auto confDbusIntf = "xyz.openbmc_project.Configs.ThermalApps";
-constexpr auto confDbusProp = "FanPresence";
+constexpr auto confDbusPath = "/xyz/openbmc_project/inventory/system/chassis";
+constexpr auto confDbusIntf =
+    "xyz.openbmc_project.Inventory.Decorator.Compatible";
+constexpr auto confDbusProp = "Names";
 
 using policies = std::vector<std::unique_ptr<RedundancyPolicy>>;
 
