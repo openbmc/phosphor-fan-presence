@@ -104,11 +104,13 @@ class JsonConfig
     /**
      * Get the json configuration file. The first location found to contain
      * the json config file is used from the following locations in order.
-     * 1.) confOverridePath ("/etc/phosphor-fan-presence/presence")
-     * 2.) confBasePath ("/usr/share/phosphor-fan-presence/presence")
-     * 3.) From first dbus object found hosting
+     * 1.) From the confOverridePath location
+     * 2.) From config file found using property value(s) as a relative
+     * path extension on the base path from the dbus object where:
+     *     path = Path set in confDbusPath
      *     interface = Interface set in confDbusIntf
      *     property = Property set in confDbusProp
+     * 3.) *DEFAULT* - From the confBasePath location
      */
     const fs::path getConfFile();
 
@@ -136,6 +138,89 @@ class JsonConfig
     std::unique_ptr<RedundancyPolicy> getPolicy(const json& rpolicy,
                                                 const fanPolicy& fpolicy);
 };
+
+/**
+ * Constructor
+ * Parses and populates the fan presence policies from a json file
+ *
+ * @param[in] bus - sdbusplus bus object
+ */
+explicit JsonConfig(sdbusplus::bus::bus& bus);
+
+/**
+ * @brief Get the json config based fan presence policies
+ *
+ * @return - The fan presence policies
+ */
+static const policies& get();
+
+/**
+ * @brief Callback function to handle receiving a HUP signal to
+ * reload the json configuration.
+ *
+ * @param[in] sigSrc - sd_event_source signal wrapper
+ * @param[in] sigInfo - signal info on signal fd
+ */
+void sighupHandler(sdeventplus::source::Signal& sigSrc,
+                   const struct signalfd_siginfo* sigInfo);
+
+private:
+/* Fan presence policies */
+static policies _policies;
+
+/* The sdbusplus bus object */
+sdbusplus::bus::bus& _bus;
+
+/* Config file to be used */
+fs::path _confFile;
+
+/* List of Fan objects to have presence policies */
+std::vector<fanPolicy> _fans;
+
+/* Presence methods mapping to their associated handler function */
+static const std::map<std::string, methodHandler> _methods;
+
+/**
+ * Presence redundancy policy mapping to their associated handler
+ * function
+ */
+static const std::map<std::string, rpolicyHandler> _rpolicies;
+
+/**
+ * Get the json configuration file. The first location found to contain
+ * the json config file is used from the following locations in order.
+ * 1.) confOverridePath ("/etc/phosphor-fan-presence/presence")
+ * 2.) confBasePath ("/usr/share/phosphor-fan-presence/presence")
+ * 3.) From first dbus object found hosting
+ *     interface = Interface set in confDbusIntf
+ *     property = Property set in confDbusProp
+ */
+const fs::path getConfFile();
+
+/**
+ * @brief Load the json config file
+ */
+void load();
+
+/**
+ * @brief Process the json config to extract the defined fan presence
+ * policies.
+ *
+ * @param[in] jsonConf - parsed json configuration data
+ */
+void process(const json& jsonConf);
+
+/**
+ * @brief Get the redundancy policy of presence detection for a fan
+ *
+ * @param[in] rpolicy - policy type to construct
+ * @param[in] fpolicy - fan policy object
+ *
+ * @return - The constructed redundancy policy type for the fan
+ */
+std::unique_ptr<RedundancyPolicy> getPolicy(const json& rpolicy,
+                                            const fanPolicy& fpolicy);
+}; // namespace presence
 
 /**
  * Methods of fan presence detection function declarations
@@ -191,6 +276,6 @@ std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan);
 
 } // namespace rpolicy
 
-} // namespace presence
 } // namespace fan
+} // namespace phosphor
 } // namespace phosphor
