@@ -8,7 +8,6 @@
 #include <sdeventplus/source/signal.hpp>
 #include <sdbusplus/bus.hpp>
 
-#include "config.h"
 #include "rpolicy.hpp"
 #include "fan.hpp"
 #include "psensor.hpp"

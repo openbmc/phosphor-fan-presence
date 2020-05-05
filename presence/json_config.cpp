@@ -21,7 +21,6 @@
 #include <sdbusplus/bus.hpp>
 
 #include "json_config.hpp"
-#include "config.h"
 #include "tach.hpp"
 #include "gpio.hpp"
 #include "anyof.hpp"
