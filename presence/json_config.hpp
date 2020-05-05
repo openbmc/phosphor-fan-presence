@@ -104,11 +104,13 @@ class JsonConfig
     /**
      * Get the json configuration file. The first location found to contain
      * the json config file is used from the following locations in order.
-     * 1.) confOverridePath ("/etc/phosphor-fan-presence/presence")
-     * 2.) confBasePath ("/usr/share/phosphor-fan-presence/presence")
-     * 3.) From first dbus object found hosting
+     * 1.) From the confOverridePath location
+     * 2.) From config file found using property value(s) as a relative
+     * path extension on the base path from the dbus object where:
+     *     path = Path set in confDbusPath
      *     interface = Interface set in confDbusIntf
      *     property = Property set in confDbusProp
+     * 3.) *DEFAULT* - From the confBasePath location
      */
     const fs::path getConfFile();
 
