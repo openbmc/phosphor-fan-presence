@@ -139,8 +139,7 @@ void Tach::propertiesChanged(
     auto it = props.find(tachProperty);
     if (it != props.end())
     {
-        std::get<int64_t>(s) =
-            sdbusplus::message::variant_ns::get<int64_t>(it->second);
+        std::get<int64_t>(s) = std::get<int64_t>(it->second);
 
         auto newState = std::any_of(
                 state.begin(),

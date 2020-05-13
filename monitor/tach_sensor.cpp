@@ -189,8 +189,7 @@ static void readPropertyFromMessage(sdbusplus::message::message& msg,
         auto propertyMap = data.find(propertyName);
         if (propertyMap != data.end())
         {
-            value = sdbusplus::message::variant_ns::get<T>(
-                        propertyMap->second);
+            value = std::get<T>(propertyMap->second);
         }
     }
 }
