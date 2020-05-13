@@ -202,7 +202,7 @@ class Zone : public ThermalObject
                                      const std::string& interface,
                                      const std::string& property)
         {
-            return sdbusplus::message::variant_ns::get<T>(
+            return std::get<T>(
                     _properties.at(object).at(interface).at(property));
         };
 
