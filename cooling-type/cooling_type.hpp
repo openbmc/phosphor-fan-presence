@@ -20,7 +20,7 @@ struct FreeEvDev
 class CoolingType
 {
         using Property = std::string;
-        using Value = sdbusplus::message::variant<bool>;
+        using Value = std::variant<bool>;
         // Association between property and its value
         using PropertyMap = std::map<Property, Value>;
         using Interface = std::string;

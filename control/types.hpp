@@ -31,11 +31,11 @@ constexpr auto conditionPropertyListPos = 1;
 using Condition = std::tuple<std::string,
                              std::vector<ConditionProperty>>;
 
-using PropertyVariantType = sdbusplus::message::variant<bool,
-                                                        int32_t,
-                                                        int64_t,
-                                                        double,
-                                                        std::string>;
+using PropertyVariantType = std::variant<bool,
+                                         int32_t,
+                                         int64_t,
+                                         double,
+                                         std::string>;
 
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;

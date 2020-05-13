@@ -21,9 +21,9 @@ using PropertyIdentity = std::tuple<std::string,
                                     std::string,
                                     std::string>;
 
-using PropertyValue = sdbusplus::message::variant<bool,
-                                                  int64_t,
-                                                  std::string>;
+using PropertyValue = std::variant<bool,
+                                   int64_t,
+                                   std::string>;
 constexpr auto propIdentity = 0;
 constexpr auto propValue = 1;
 using PropertyState = std::pair<PropertyIdentity,

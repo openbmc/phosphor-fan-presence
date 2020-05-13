@@ -117,7 +117,7 @@ class DBusPropertyError : public DBusError
 
 /** @brief Alias for PropertiesChanged signal callbacks. */
 template <typename ...T>
-using Properties = std::map<std::string, sdbusplus::message::variant<T...>>;
+using Properties = std::map<std::string, std::variant<T...>>;
 
 /** @class SDBusPlus
  *  @brief DBus access delegate implementation for sdbusplus.
@@ -346,7 +346,7 @@ class SDBusPlus
                         interface,
                         property};
             }
-            sdbusplus::message::variant<Property> value;
+            std::variant<Property> value;
             msg.read(value);
             return std::get<Property>(value);
         }
@@ -440,7 +440,7 @@ class SDBusPlus
                         interface,
                         property};
             }
-            sdbusplus::message::variant<Property> value;
+            std::variant<Property> value;
             msg.read(value);
             return std::get<Property>(value);
         }
@@ -521,7 +521,7 @@ class SDBusPlus
         {
             using namespace std::literals::string_literals;
 
-            sdbusplus::message::variant<Property> varValue(
+            std::variant<Property> varValue(
                     std::forward<Property>(value));
 
             auto service = getService(bus, path, interface);
@@ -573,7 +573,7 @@ class SDBusPlus
         {
             using namespace std::literals::string_literals;
 
-            sdbusplus::message::variant<Property> varValue(
+            std::variant<Property> varValue(
                     std::forward<Property>(value));
 
             auto msg = callMethodAndReturn(

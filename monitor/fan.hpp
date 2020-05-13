@@ -55,7 +55,7 @@ class InvalidSensorError : public std::exception {};
 class Fan
 {
     using Property = std::string;
-    using Value = sdbusplus::message::variant<bool>;
+    using Value = std::variant<bool>;
     using PropertyMap = std::map<Property, Value>;
 
     using Interface = std::string;

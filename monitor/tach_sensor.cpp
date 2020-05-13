@@ -181,7 +181,7 @@ static void readPropertyFromMessage(sdbusplus::message::message& msg,
                                     T& value)
 {
     std::string sensor;
-    std::map<std::string, sdbusplus::message::variant<T>> data;
+    std::map<std::string, std::variant<T>> data;
     msg.read(sensor, data);
 
     if (sensor.compare(interface) == 0)

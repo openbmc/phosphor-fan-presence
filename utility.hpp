@@ -96,7 +96,7 @@ auto getObjMap(const std::string& path,
                const T& value)
 {
     using Property = std::string;
-    using Value = sdbusplus::message::variant<T>;
+    using Value = std::variant<T>;
     using PropertyMap = std::map<Property, Value>;
 
     using Interface = std::string;
