@@ -88,7 +88,7 @@ class TachSensor
                    bool hasTarget,
                    size_t funcDelay,
                    const std::string& interface,
-                   size_t factor,
+                   double factor,
                    int64_t offset,
                    size_t timeout,
                    const sdeventplus::Event& event);
@@ -125,7 +125,7 @@ class TachSensor
         /**
          * @brief Returns the factor of the sensor target
          */
-        inline size_t getFactor() const
+        inline double getFactor() const
         {
             return _factor;
         }
@@ -272,7 +272,7 @@ class TachSensor
         /**
          * @brief The factor of target to get fan rpm
          */
-        const size_t _factor;
+        const double _factor;
 
         /**
          * @brief The offset of target to get fan rpm

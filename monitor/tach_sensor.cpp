@@ -74,7 +74,7 @@ TachSensor::TachSensor(Mode mode,
                        bool hasTarget,
                        size_t funcDelay,
                        const std::string& interface,
-                       size_t factor,
+                       double factor,
                        int64_t offset,
                        size_t timeout,
                        const sdeventplus::Event& event) :

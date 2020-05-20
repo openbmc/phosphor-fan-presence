@@ -43,7 +43,7 @@ constexpr auto offsetField = 4;
 using SensorDefinition = std::tuple<std::string,
                                     bool,
                                     std::string,
-                                    size_t,
+                                    double,
                                     int64_t>;
 
 constexpr auto fanNameField = 0;
