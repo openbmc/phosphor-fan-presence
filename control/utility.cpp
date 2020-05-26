@@ -1,7 +1,7 @@
+#include "utility.hpp"
+
 #include <algorithm>
 #include <stdexcept>
-
-#include "utility.hpp"
 
 namespace phosphor
 {
