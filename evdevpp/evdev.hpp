@@ -2,13 +2,15 @@
 
 #include <fcntl.h>
 #include <libevdev/libevdev.h>
-#include <memory>
-#include <phosphor-logging/elog.hpp>
+#include <unistd.h>
+
 #include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
+#include <xyz/openbmc_project/Common/error.hpp>
+
+#include <memory>
 #include <string>
 #include <tuple>
-#include <unistd.h>
-#include <xyz/openbmc_project/Common/error.hpp>
 
 namespace evdevpp
 {
@@ -42,82 +44,81 @@ using namespace phosphor::logging;
  */
 class EvDev
 {
-    private:
-        using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-            Error::InternalFailure;
+  private:
+    using InternalFailure =
+        sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-    public:
-        /* Define all of the basic class operations:
-         *     Not allowed:
-         *         - Default constructor to avoid nullptrs.
-         *         - Copy operations due to internal unique_ptr.
-         *     Allowed:
-         *         - Move operations.
-         *         - Destructor.
-         */
-        EvDev() = delete;
-        EvDev(const EvDev&) = delete;
-        EvDev& operator=(const EvDev&) = delete;
-        EvDev(EvDev&&) = default;
-        EvDev& operator=(EvDev&&) = default;
-        ~EvDev() = default;
+  public:
+    /* Define all of the basic class operations:
+     *     Not allowed:
+     *         - Default constructor to avoid nullptrs.
+     *         - Copy operations due to internal unique_ptr.
+     *     Allowed:
+     *         - Move operations.
+     *         - Destructor.
+     */
+    EvDev() = delete;
+    EvDev(const EvDev&) = delete;
+    EvDev& operator=(const EvDev&) = delete;
+    EvDev(EvDev&&) = default;
+    EvDev& operator=(EvDev&&) = default;
+    ~EvDev() = default;
 
-        /** @brief Conversion constructor from evdev. */
-        explicit EvDev(EvDevPtr ptr) : evdev(ptr) {}
+    /** @brief Conversion constructor from evdev. */
+    explicit EvDev(EvDevPtr ptr) : evdev(ptr)
+    {}
 
-        /** @brief Get the current event state. */
-        auto fetch(unsigned int type, unsigned int code)
+    /** @brief Get the current event state. */
+    auto fetch(unsigned int type, unsigned int code)
+    {
+        int val;
+        auto rc = libevdev_fetch_event_value(evdev.get(), type, code, &val);
+        if (!rc)
         {
-            int val;
-            auto rc = libevdev_fetch_event_value(
-                    evdev.get(), type, code, &val);
-            if (!rc)
+            log<level::ERR>("Error in call to libevdev_fetch_event_value",
+                            entry("TYPE=%d", type), entry("CODE=%d", code));
+            elog<InternalFailure>();
+        }
+
+        return val;
+    }
+
+    /** @brief Get the next event. */
+    auto next()
+    {
+        struct input_event ev;
+        while (true)
+        {
+            auto rc = libevdev_next_event(evdev.get(),
+                                          LIBEVDEV_READ_FLAG_NORMAL, &ev);
+            if (rc < 0)
             {
-                log<level::ERR>("Error in call to libevdev_fetch_event_value",
-                        entry("TYPE=%d", type),
-                        entry("CODE=%d", code));
+                log<level::ERR>("Error in call to libevdev_next_event",
+                                entry("RC=%d", rc));
                 elog<InternalFailure>();
             }
 
-            return val;
+            if (ev.type == EV_SYN && ev.code == SYN_REPORT)
+                continue;
+
+            break;
         }
+        return std::make_tuple(ev.type, ev.code, ev.value);
+    }
 
-        /** @brief Get the next event. */
-        auto next()
-        {
-            struct input_event ev;
-            while (true)
-            {
-                auto rc = libevdev_next_event(
-                        evdev.get(), LIBEVDEV_READ_FLAG_NORMAL, &ev);
-                if (rc < 0)
-                {
-                    log<level::ERR>("Error in call to libevdev_next_event",
-                            entry("RC=%d", rc));
-                    elog<InternalFailure>();
-                }
+  private:
+    EvDevPtr get()
+    {
+        return evdev.get();
+    }
 
-                if (ev.type == EV_SYN && ev.code == SYN_REPORT)
-                    continue;
-
-                break;
-            }
-            return std::make_tuple(ev.type, ev.code, ev.value);
-        }
-
-    private:
-        EvDevPtr get()
-        {
-            return evdev.get();
-        }
-
-        details::EvDev evdev;
+    details::EvDev evdev;
 };
 
 inline auto newFromFD(int fd)
 {
-    using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-        Error::InternalFailure;
+    using InternalFailure =
+        sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
     EvDevPtr dev = nullptr;
     auto rc = libevdev_new_from_fd(fd, &dev);
@@ -125,8 +126,7 @@ inline auto newFromFD(int fd)
     if (rc)
     {
         log<level::ERR>("Error in call to libevdev_new_from_fd",
-                entry("RC=%d", rc),
-                entry("FD=%d", fd));
+                        entry("RC=%d", rc), entry("FD=%d", fd));
         elog<InternalFailure>();
     }
 
