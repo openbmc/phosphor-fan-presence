@@ -14,10 +14,8 @@ using namespace phosphor::fan;
 Action call_actions_based_on_timer(TimerConf&& tConf,
                                    std::vector<Action>&& actions)
 {
-    return [tConf = std::move(tConf),
-            actions = std::move(actions)](control::Zone& zone,
-                                          const Group& group)
-    {
+    return [tConf = std::move(tConf), actions = std::move(actions)](
+               control::Zone& zone, const Group& group) {
         try
         {
             auto it = zone.getTimerEvents().find(__func__);
@@ -58,13 +56,9 @@ void default_floor_on_missing_owner(Zone& zone, const Group& group)
     // Set/update the services of the group
     zone.setServices(&group);
     auto services = zone.getGroupServices(&group);
-    auto defFloor = std::any_of(
-        services.begin(),
-        services.end(),
-        [](const auto& s)
-        {
-            return !std::get<hasOwnerPos>(s);
-        });
+    auto defFloor =
+        std::any_of(services.begin(), services.end(),
+                    [](const auto& s) { return !std::get<hasOwnerPos>(s); });
     if (defFloor)
     {
         zone.setFloor(zone.getDefFloor());
@@ -75,16 +69,12 @@ void default_floor_on_missing_owner(Zone& zone, const Group& group)
 
 Action set_speed_on_missing_owner(uint64_t speed)
 {
-    return [speed](control::Zone& zone, const Group& group)
-    {
+    return [speed](control::Zone& zone, const Group& group) {
         // Set/update the services of the group
         zone.setServices(&group);
         auto services = zone.getGroupServices(&group);
-        auto missingOwner = std::any_of(
-            services.begin(),
-            services.end(),
-            [](const auto& s)
-            {
+        auto missingOwner =
+            std::any_of(services.begin(), services.end(), [](const auto& s) {
                 return !std::get<hasOwnerPos>(s);
             });
         if (missingOwner)
@@ -96,21 +86,16 @@ Action set_speed_on_missing_owner(uint64_t speed)
     };
 }
 
-void set_request_speed_base_with_max(control::Zone& zone,
-                                     const Group& group)
+void set_request_speed_base_with_max(control::Zone& zone, const Group& group)
 {
     int64_t base = 0;
     std::for_each(
-            group.begin(),
-            group.end(),
-            [&zone, &base](auto const& entry)
-        {
+        group.begin(), group.end(), [&zone, &base](auto const& entry) {
             try
             {
                 auto value = zone.template getPropertyValue<int64_t>(
-                        std::get<pathPos>(entry),
-                        std::get<intfPos>(entry),
-                        std::get<propPos>(entry));
+                    std::get<pathPos>(entry), std::get<intfPos>(entry),
+                    std::get<propPos>(entry));
                 base = std::max(base, value);
             }
             catch (const std::out_of_range& oore)

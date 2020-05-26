@@ -11,8 +11,6 @@ namespace control
 namespace precondition
 {
 
-using namespace phosphor::logging;
-
 /**
  * @brief A precondition to compare a group of property values and
  * subscribe/unsubscribe a set speed event group
