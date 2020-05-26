@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <algorithm>
-#include <phosphor-logging/log.hpp>
-#include "fan.hpp"
 #include "fallback.hpp"
+
+#include "fan.hpp"
 #include "psensor.hpp"
+
+#include <phosphor-logging/log.hpp>
+
+#include <algorithm>
 
 namespace phosphor
 {
@@ -32,10 +35,8 @@ void Fallback::stateChanged(bool present, PresenceSensor& sensor)
     {
         // Starting with the first backup, find the first
         // sensor that reports the fan as present, if any.
-        auto it = std::find_if(
-                std::next(activeSensor),
-                sensors.end(),
-                [](auto& s){return s.get().present();});
+        auto it = std::find_if(std::next(activeSensor), sensors.end(),
+                               [](auto& s) { return s.get().present(); });
 
         if (it != sensors.end())
         {
@@ -51,9 +52,8 @@ void Fallback::stateChanged(bool present, PresenceSensor& sensor)
                 ++activeSensor;
             }
             phosphor::logging::log<phosphor::logging::level::INFO>(
-                    "Using backup presence sensor.",
-                    phosphor::logging::entry(
-                        "FAN=%s", std::get<1>(fan).c_str()));
+                "Using backup presence sensor.",
+                phosphor::logging::entry("FAN=%s", std::get<1>(fan).c_str()));
             activeSensor = it;
         }
     }
@@ -65,10 +65,8 @@ void Fallback::monitor()
 {
     // Find the first sensor that says the fan is present
     // and set it as the active sensor.
-    activeSensor = std::find_if(
-            sensors.begin(),
-            sensors.end(),
-            [](auto& s){return s.get().present();});
+    activeSensor = std::find_if(sensors.begin(), sensors.end(),
+                                [](auto& s) { return s.get().present(); });
     if (activeSensor == sensors.end())
     {
         // The first sensor is working or all sensors
@@ -79,9 +77,8 @@ void Fallback::monitor()
     if (activeSensor != sensors.begin())
     {
         phosphor::logging::log<phosphor::logging::level::INFO>(
-                "Using backup presence sensor.",
-                phosphor::logging::entry(
-                    "FAN=%s", std::get<1>(fan).c_str()));
+            "Using backup presence sensor.",
+            phosphor::logging::entry("FAN=%s", std::get<1>(fan).c_str()));
     }
 
     // Callout the broken sensors.
