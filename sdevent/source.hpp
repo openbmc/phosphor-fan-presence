@@ -1,10 +1,12 @@
 #pragma once
 
-#include <memory>
-#include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/elog-errors.hpp>
 #include <systemd/sd-event.h>
+
+#include <phosphor-logging/elog-errors.hpp>
+#include <phosphor-logging/elog.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+
+#include <memory>
 
 namespace sdevent
 {
@@ -39,75 +41,76 @@ using namespace phosphor::logging;
  */
 class Source
 {
-    private:
-        using InternalFailure = sdbusplus::xyz::openbmc_project::Common::
-            Error::InternalFailure;
+  private:
+    using InternalFailure =
+        sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-    public:
-        /* Define all of the basic class operations:
-         *     Not allowed:
-         *         - Default constructor to avoid nullptrs.
-         *         - Copy operations due to internal unique_ptr.
-         *     Allowed:
-         *         - Move operations.
-         *         - Destructor.
-         */
-        Source() = delete;
-        Source(const Source&) = delete;
-        Source& operator=(const Source&) = delete;
-        Source(Source&&) = default;
-        Source& operator=(Source&&) = default;
-        ~Source() = default;
+  public:
+    /* Define all of the basic class operations:
+     *     Not allowed:
+     *         - Default constructor to avoid nullptrs.
+     *         - Copy operations due to internal unique_ptr.
+     *     Allowed:
+     *         - Move operations.
+     *         - Destructor.
+     */
+    Source() = delete;
+    Source(const Source&) = delete;
+    Source& operator=(const Source&) = delete;
+    Source(Source&&) = default;
+    Source& operator=(Source&&) = default;
+    ~Source() = default;
 
-        /** @brief Conversion constructor from 'SourcePtr'.
-         *
-         *  Increments ref-count of the source-pointer and releases it
-         *  when done.
-         */
-        explicit Source(SourcePtr s) : src(sd_event_source_ref(s)) {}
+    /** @brief Conversion constructor from 'SourcePtr'.
+     *
+     *  Increments ref-count of the source-pointer and releases it
+     *  when done.
+     */
+    explicit Source(SourcePtr s) : src(sd_event_source_ref(s))
+    {}
 
-        /** @brief Constructor for 'source'.
-         *
-         *  Takes ownership of the source-pointer and releases it when done.
-         */
-        Source(SourcePtr s, std::false_type) : src(s) {}
+    /** @brief Constructor for 'source'.
+     *
+     *  Takes ownership of the source-pointer and releases it when done.
+     */
+    Source(SourcePtr s, std::false_type) : src(s)
+    {}
 
-        /** @brief Check if source contains a real pointer. (non-nullptr). */
-        explicit operator bool() const
+    /** @brief Check if source contains a real pointer. (non-nullptr). */
+    explicit operator bool() const
+    {
+        return bool(src);
+    }
+
+    /** @brief Test whether or not the source can generate events. */
+    auto enabled()
+    {
+        int enabled;
+        auto rc = sd_event_source_get_enabled(src.get(), &enabled);
+        if (rc < 0)
         {
-            return bool(src);
+            log<level::ERR>("Error in call to sd_event_source_get_enabled",
+                            entry("RC=%d", rc));
+            elog<InternalFailure>();
         }
 
-        /** @brief Test whether or not the source can generate events. */
-        auto enabled()
+        return enabled;
+    }
+
+    /** @brief Allow the source to generate events. */
+    void enable(int enable)
+    {
+        auto rc = sd_event_source_set_enabled(src.get(), enable);
+        if (rc < 0)
         {
-            int enabled;
-            auto rc = sd_event_source_get_enabled(src.get(), &enabled);
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_source_get_enabled",
-                        entry("RC=%d", rc));
-                elog<InternalFailure>();
-            }
-
-            return enabled;
+            log<level::ERR>("Error in call to sd_event_source_set_enabled",
+                            entry("RC=%d", rc), entry("ENABLE=%d", enable));
+            elog<InternalFailure>();
         }
+    }
 
-        /** @brief Allow the source to generate events. */
-        void enable(int enable)
-        {
-            auto rc = sd_event_source_set_enabled(src.get(), enable);
-            if (rc < 0)
-            {
-                log<level::ERR>("Error in call to sd_event_source_set_enabled",
-                        entry("RC=%d", rc),
-                        entry("ENABLE=%d", enable));
-                elog<InternalFailure>();
-            }
-        }
-
-    private:
-        details::source src;
+  private:
+    details::source src;
 };
 } // namespace source
 } // namespace sdevent
