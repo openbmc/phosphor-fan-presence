@@ -13,13 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <phosphor-logging/log.hpp>
-#include <sdbusplus/bus.hpp>
-#include <sdeventplus/event.hpp>
 #include "argument.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
 #include "trust_manager.hpp"
+
+#include <phosphor-logging/log.hpp>
+#include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 
 using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
@@ -53,10 +54,10 @@ int main(int argc, char* argv[])
     }
 
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
-            std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
+        std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
 
-    //Attach the event object to the bus object so we can
-    //handle both sd_events (for the timers) and dbus signals.
+    // Attach the event object to the bus object so we can
+    // handle both sd_events (for the timers) and dbus signals.
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
     for (const auto& fanDef : fanDefinitions)
@@ -71,8 +72,8 @@ int main(int argc, char* argv[])
                 continue;
             }
         }
-        fans.emplace_back(std::make_unique<Fan>(
-                mode, bus, event, trust, fanDef));
+        fans.emplace_back(
+            std::make_unique<Fan>(mode, bus, event, trust, fanDef));
     }
 
     if (mode == Mode::init)
