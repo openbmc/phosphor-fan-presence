@@ -13,13 +13,13 @@ namespace util
  */
 class SDEvent
 {
-    public:
-        /** @brief Get the event loop. */
-        static auto& getEvent()
-        {
-            static auto event = sdevent::event::newDefault();
-            return event;
-        }
+  public:
+    /** @brief Get the event loop. */
+    static auto& getEvent()
+    {
+        static auto event = sdevent::event::newDefault();
+        return event;
+    }
 };
 
 } // namespace util
