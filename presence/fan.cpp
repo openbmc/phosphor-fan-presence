@@ -13,11 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <map>
-#include <sdbusplus/message.hpp>
-#include <string>
 #include "fan.hpp"
+
 #include "sdbusplus.hpp"
+
+#include <sdbusplus/message.hpp>
+
+#include <map>
+#include <string>
 
 namespace phosphor
 {
@@ -40,34 +43,24 @@ void setPresence(const Fan& fan, bool newState)
     using Properties = std::map<std::string, variant<std::string, bool>>;
     using Interfaces = std::map<std::string, Properties>;
 
-    std::map<object_path, Interfaces> obj =
-    {{
+    std::map<object_path, Interfaces> obj = {{
         std::get<1>(fan),
-        {{
-            itemIface,
-            {
-                {"Present"s, newState},
-                {"PrettyName"s, std::get<0>(fan)},
-            }
-        },
-        {
-            fanIface, {}
-        }},
+        {{itemIface,
+          {
+              {"Present"s, newState},
+              {"PrettyName"s, std::get<0>(fan)},
+          }},
+         {fanIface, {}}},
     }};
 
-    util::SDBusPlus::lookupAndCallMethod(
-            invNamespace,
-            invMgrIface,
-            "Notify"s,
-            obj);
+    util::SDBusPlus::lookupAndCallMethod(invNamespace, invMgrIface, "Notify"s,
+                                         obj);
 }
 
 bool getPresence(const Fan& fan)
 {
-    return util::SDBusPlus::getProperty<bool>(
-            std::get<1>(fan),
-            itemIface,
-            "Present"s);
+    return util::SDBusPlus::getProperty<bool>(std::get<1>(fan), itemIface,
+                                              "Present"s);
 }
 
 } // namespace presence

@@ -20,9 +20,10 @@
 #include "generated.hpp"
 #endif
 #include <sdeventplus/event.hpp>
-#include <functional>
-#include <stdplus/signal.hpp>
 #include <sdeventplus/source/signal.hpp>
+#include <stdplus/signal.hpp>
+
+#include <functional>
 
 int main(void)
 {
@@ -35,17 +36,18 @@ int main(void)
 #ifdef PRESENCE_USE_JSON
     // Use json file for presence config
     presence::JsonConfig config(bus);
-    for (auto& p: presence::JsonConfig::get())
+    for (auto& p : presence::JsonConfig::get())
     {
         p->monitor();
     }
 
     stdplus::signal::block(SIGHUP);
-    sdeventplus::source::Signal signal(event, SIGHUP,
-        std::bind(&presence::JsonConfig::sighupHandler,
-                  &config, std::placeholders::_1, std::placeholders::_2));
+    sdeventplus::source::Signal signal(
+        event, SIGHUP,
+        std::bind(&presence::JsonConfig::sighupHandler, &config,
+                  std::placeholders::_1, std::placeholders::_2));
 #else
-    for (auto& p: presence::ConfigPolicy::get())
+    for (auto& p : presence::ConfigPolicy::get())
     {
         p->monitor();
     }
