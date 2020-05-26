@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <iostream>
-#include <iterator>
+#include "argument.hpp"
+
 #include <algorithm>
 #include <cassert>
-#include "argument.hpp"
+#include <iostream>
+#include <iterator>
 
 namespace phosphor
 {
@@ -71,30 +72,30 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "Options:\n";
     std::cerr << "    --help               print this menu\n";
     std::cerr << "    --air                Force 'AirCooled' property to be set"
-              " to true.\n";
+                 " to true.\n";
     std::cerr << "    --water              Force 'WaterCooled' property to be "
-              "set to true.\n";
+                 "set to true.\n";
     std::cerr << "    --dev=<pin>          Device to read for GPIO pin state to"
-              " determine 'WaterCooled' (true) and 'AirCooled' (false)\n";
+                 " determine 'WaterCooled' (true) and 'AirCooled' (false)\n";
     std::cerr << "    --event=<keycode>    Keycode for pin to read\n";
-    std::cerr <<
-              "    --path=<objpath>     *Required* object path under inventory "
-              "to have CoolingType updated\n";
-    std::cerr << "\nThe --air / --water options may be given in addition to "
-              "--gpio, in which case both their setting and the GPIO will take "
-              "effect.\n";
+    std::cerr
+        << "    --path=<objpath>     *Required* object path under inventory "
+           "to have CoolingType updated\n";
+    std::cerr
+        << "\nThe --air / --water options may be given in addition to "
+           "--gpio, in which case both their setting and the GPIO will take "
+           "effect.\n";
     std::cerr << std::flush;
 }
 
-const option ArgumentParser::options[] =
-{
-    { "path",   required_argument,  NULL,   'p' },
-    { "dev",    required_argument,  NULL,   'd' },
-    { "event",  required_argument,  NULL,   'e' },
-    { "air",    no_argument,        NULL,   'a' },
-    { "water",  no_argument,        NULL,   'w' },
-    { "help",   no_argument,        NULL,   'h' },
-    { 0, 0, 0, 0},
+const option ArgumentParser::options[] = {
+    {"path", required_argument, NULL, 'p'},
+    {"dev", required_argument, NULL, 'd'},
+    {"event", required_argument, NULL, 'e'},
+    {"air", no_argument, NULL, 'a'},
+    {"water", no_argument, NULL, 'w'},
+    {"help", no_argument, NULL, 'h'},
+    {0, 0, 0, 0},
 };
 
 const char* ArgumentParser::optionstr = "p:d:e:aw?h";
@@ -102,7 +103,7 @@ const char* ArgumentParser::optionstr = "p:d:e:aw?h";
 const std::string ArgumentParser::true_string = "true";
 const std::string ArgumentParser::empty_string = "";
 
-}
-}
-}
+} // namespace util
+} // namespace fan
+} // namespace phosphor
 // vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
