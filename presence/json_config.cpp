@@ -13,19 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include <string>
-#include <filesystem>
-#include <fstream>
+#include "json_config.hpp"
+
+#include "anyof.hpp"
+#include "fallback.hpp"
+#include "gpio.hpp"
+#include "sdbusplus.hpp"
+#include "tach.hpp"
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
-#include "json_config.hpp"
-#include "tach.hpp"
-#include "gpio.hpp"
-#include "anyof.hpp"
-#include "fallback.hpp"
-#include "sdbusplus.hpp"
+#include <filesystem>
+#include <fstream>
+#include <string>
 
 namespace phosphor
 {
@@ -39,19 +41,12 @@ namespace fs = std::filesystem;
 using namespace phosphor::logging;
 
 policies JsonConfig::_policies;
-const std::map<std::string, methodHandler> JsonConfig::_methods =
-{
-    {"tach", method::getTach},
-    {"gpio", method::getGpio}
-};
-const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies =
-{
-    {"anyof", rpolicy::getAnyof},
-    {"fallback", rpolicy::getFallback}
-};
+const std::map<std::string, methodHandler> JsonConfig::_methods = {
+    {"tach", method::getTach}, {"gpio", method::getGpio}};
+const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
+    {"anyof", rpolicy::getAnyof}, {"fallback", rpolicy::getFallback}};
 
-JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) :
-    _bus(bus)
+JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
 {
     // Determine the configuration file to use
     _confFile = getConfFile();
@@ -75,7 +70,7 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
                          entry("JSON_FILE=%s", _confFile.c_str()));
         // Load and process the json configuration
         load();
-        for (auto& p: _policies)
+        for (auto& p : _policies)
         {
             p->monitor();
         }
@@ -116,8 +111,7 @@ const fs::path JsonConfig::getConfFile()
         {
             // Retrieve json config relative path location from dbus
             auto relPathLoc = util::SDBusPlus::getProperty<std::string>(
-                _bus, itServ->first, itObj->first,
-                confDbusIntf, confDbusProp);
+                _bus, itServ->first, itObj->first, confDbusIntf, confDbusProp);
             confFile = fs::path{confBasePath} / relPathLoc / confFileName;
             if (!fs::exists(confFile))
             {
@@ -186,10 +180,9 @@ void JsonConfig::process(const json& jsonConf)
         if (!member.contains("name") || !member.contains("path") ||
             !member.contains("methods") || !member.contains("rpolicy"))
         {
-            log<level::ERR>(
-                "Missing required fan presence properties",
-                entry("REQUIRED_PROPERTIES=%s",
-                      "{name, path, methods, rpolicy}"));
+            log<level::ERR>("Missing required fan presence properties",
+                            entry("REQUIRED_PROPERTIES=%s",
+                                  "{name, path, methods, rpolicy}"));
             throw std::runtime_error(
                 "Missing required fan presence properties");
         }
@@ -203,7 +196,7 @@ void JsonConfig::process(const json& jsonConf)
                 log<level::ERR>(
                     "Missing required fan presence method type",
                     entry("FAN_NAME=%s",
-                        member["name"].get<std::string>().c_str()));
+                          member["name"].get<std::string>().c_str()));
                 throw std::runtime_error(
                     "Missing required fan presence method type");
             }
@@ -223,10 +216,11 @@ void JsonConfig::process(const json& jsonConf)
             }
             else
             {
-                log<level::ERR>("Invalid fan presence method type",
-                                entry("FAN_NAME=%s",
-                                    member["name"].get<std::string>().c_str()),
-                                entry("METHOD_TYPE=%s", type.c_str()));
+                log<level::ERR>(
+                    "Invalid fan presence method type",
+                    entry("FAN_NAME=%s",
+                          member["name"].get<std::string>().c_str()),
+                    entry("METHOD_TYPE=%s", type.c_str()));
                 throw std::runtime_error("Invalid fan presence method type");
             }
         }
@@ -250,17 +244,16 @@ void JsonConfig::process(const json& jsonConf)
     _policies.swap(policies);
 }
 
-std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(
-    const json& rpolicy,
-    const fanPolicy& fpolicy)
+std::unique_ptr<RedundancyPolicy>
+    JsonConfig::getPolicy(const json& rpolicy, const fanPolicy& fpolicy)
 {
     if (!rpolicy.contains("type"))
     {
-        log<level::ERR>("Missing required fan presence policy type",
-                        entry("FAN_NAME=%s",
-                            std::get<fanPolicyFanPos>(
-                                std::get<Fan>(fpolicy)).c_str()),
-                        entry("REQUIRED_PROPERTIES=%s", "{type}"));
+        log<level::ERR>(
+            "Missing required fan presence policy type",
+            entry("FAN_NAME=%s",
+                  std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
+            entry("REQUIRED_PROPERTIES=%s", "{type}"));
         throw std::runtime_error("Missing required fan presence policy type");
     }
 
@@ -276,9 +269,10 @@ std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(
     }
     else
     {
-        log<level::ERR>("Invalid fan presence policy type",
+        log<level::ERR>(
+            "Invalid fan presence policy type",
             entry("FAN_NAME=%s",
-                std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
+                  std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
             entry("RPOLICY_TYPE=%s", type.c_str()));
         throw std::runtime_error("Invalid fan presence methods policy type");
     }
@@ -289,50 +283,47 @@ std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(
  */
 namespace method
 {
-    // Get a constructed presence sensor for fan presence detection by tach
-    std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
+// Get a constructed presence sensor for fan presence detection by tach
+std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
+{
+    if (!method.contains("sensors") || method["sensors"].size() == 0)
     {
-        if (!method.contains("sensors") ||
-            method["sensors"].size() == 0)
-        {
-            log<level::ERR>(
-                "Missing required tach method properties",
-                entry("FAN_ENTRY=%d", fanIndex),
-                entry("REQUIRED_PROPERTIES=%s", "{sensors}"));
-            throw std::runtime_error("Missing required tach method properties");
-        }
-
-        std::vector<std::string> sensors;
-        for (auto& sensor : method["sensors"])
-        {
-            sensors.emplace_back(sensor.get<std::string>());
-        }
-
-        return std::make_unique<PolicyAccess<Tach, JsonConfig>>(
-            fanIndex, std::move(sensors));
+        log<level::ERR>("Missing required tach method properties",
+                        entry("FAN_ENTRY=%d", fanIndex),
+                        entry("REQUIRED_PROPERTIES=%s", "{sensors}"));
+        throw std::runtime_error("Missing required tach method properties");
     }
 
-    // Get a constructed presence sensor for fan presence detection by gpio
-    std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
+    std::vector<std::string> sensors;
+    for (auto& sensor : method["sensors"])
     {
-        if (!method.contains("physpath") ||
-            !method.contains("devpath") ||
-            !method.contains("key"))
-        {
-            log<level::ERR>(
-                "Missing required gpio method properties",
-                entry("FAN_ENTRY=%d", fanIndex),
-                entry("REQUIRED_PROPERTIES=%s", "{physpath, devpath, key}"));
-            throw std::runtime_error("Missing required gpio method properties");
-        }
-
-        auto physpath = method["physpath"].get<std::string>();
-        auto devpath = method["devpath"].get<std::string>();
-        auto key = method["key"].get<unsigned int>();
-
-        return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(
-            fanIndex, physpath, devpath, key);
+        sensors.emplace_back(sensor.get<std::string>());
     }
+
+    return std::make_unique<PolicyAccess<Tach, JsonConfig>>(fanIndex,
+                                                            std::move(sensors));
+}
+
+// Get a constructed presence sensor for fan presence detection by gpio
+std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
+{
+    if (!method.contains("physpath") || !method.contains("devpath") ||
+        !method.contains("key"))
+    {
+        log<level::ERR>(
+            "Missing required gpio method properties",
+            entry("FAN_ENTRY=%d", fanIndex),
+            entry("REQUIRED_PROPERTIES=%s", "{physpath, devpath, key}"));
+        throw std::runtime_error("Missing required gpio method properties");
+    }
+
+    auto physpath = method["physpath"].get<std::string>();
+    auto devpath = method["devpath"].get<std::string>();
+    auto key = method["key"].get<unsigned int>();
+
+    return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(fanIndex, physpath,
+                                                            devpath, key);
+}
 
 } // namespace method
 
@@ -341,34 +332,32 @@ namespace method
  */
 namespace rpolicy
 {
-    // Get an `Anyof` redundancy policy for the fan
-    std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
+// Get an `Anyof` redundancy policy for the fan
+std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
+{
+    std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
+    for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
     {
-        std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
-        for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
-        {
-            pSensors.emplace_back(*fanSensor);
-        }
-
-        return std::make_unique<AnyOf>(
-            std::get<fanPolicyFanPos>(fan), pSensors);
+        pSensors.emplace_back(*fanSensor);
     }
 
-    // Get a `Fallback` redundancy policy for the fan
-    std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
-    {
-        std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
-        for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
-        {
-            // Place in the order given to fallback correctly
-            pSensors.emplace_back(*fanSensor);
-        }
+    return std::make_unique<AnyOf>(std::get<fanPolicyFanPos>(fan), pSensors);
+}
 
-        return std::make_unique<Fallback>(
-            std::get<fanPolicyFanPos>(fan), pSensors);
+// Get a `Fallback` redundancy policy for the fan
+std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
+{
+    std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
+    for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
+    {
+        // Place in the order given to fallback correctly
+        pSensors.emplace_back(*fanSensor);
     }
 
-} // namespace policy
+    return std::make_unique<Fallback>(std::get<fanPolicyFanPos>(fan), pSensors);
+}
+
+} // namespace rpolicy
 
 } // namespace presence
 } // namespace fan

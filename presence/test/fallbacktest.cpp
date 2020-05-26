@@ -1,8 +1,11 @@
+#include "../fallback.hpp"
+
+#include "../psensor.hpp"
+
 #include <iostream>
 #include <string>
+
 #include <gtest/gtest.h>
-#include "../fallback.hpp"
-#include "../psensor.hpp"
 
 int pstate = -1;
 
@@ -26,32 +29,32 @@ void setPresence(const Fan& fan, bool newState)
 
 class TestSensor : public PresenceSensor
 {
-    public:
-        bool start() override
-        {
-            ++started;
-            return _present;
-        }
+  public:
+    bool start() override
+    {
+        ++started;
+        return _present;
+    }
 
-        void stop() override
-        {
-            ++stopped;
-        }
+    void stop() override
+    {
+        ++stopped;
+    }
 
-        bool present() override
-        {
-            return _present;
-        }
+    bool present() override
+    {
+        return _present;
+    }
 
-        void fail() override
-        {
-            ++failed;
-        }
+    void fail() override
+    {
+        ++failed;
+    }
 
-        bool _present = false;
-        size_t started = 0;
-        size_t stopped = 0;
-        size_t failed = 0;
+    bool _present = false;
+    size_t started = 0;
+    size_t stopped = 0;
+    size_t failed = 0;
 };
 
 } // namespace presence
@@ -135,7 +138,6 @@ TEST(FallbackTest, TestTwoA)
     ASSERT_EQ(ts2.stopped, 0);
     ASSERT_EQ(ts2.started, 0);
 }
-
 
 TEST(FallbackTest, TestTwoB)
 {
