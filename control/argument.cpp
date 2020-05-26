@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "argument.hpp"
+
+#include <algorithm>
 #include <iostream>
 #include <iterator>
-#include <algorithm>
-#include "argument.hpp"
 
 namespace phosphor
 {
@@ -67,17 +68,17 @@ void ArgumentParser::usage(char** argv)
     std::cerr << "Usage: " << argv[0] << " [options]\n";
     std::cerr << "Options:\n";
     std::cerr << "    --help               Print this menu\n";
-    std::cerr << "    --init               Sets fans to full speed, delays, exits\n";
+    std::cerr
+        << "    --init               Sets fans to full speed, delays, exits\n";
     std::cerr << "    --control            Start fan control algorithm\n";
     std::cerr << std::flush;
 }
 
-const option ArgumentParser::options[] =
-{
-    { "init",    no_argument,  NULL,   'i' },
-    { "control",  no_argument,  NULL,   'c' },
-    { "help",   no_argument,        NULL,   'h' },
-    { 0, 0, 0, 0},
+const option ArgumentParser::options[] = {
+    {"init", no_argument, NULL, 'i'},
+    {"control", no_argument, NULL, 'c'},
+    {"help", no_argument, NULL, 'h'},
+    {0, 0, 0, 0},
 };
 
 const char* ArgumentParser::optionstr = "ich?";
@@ -85,7 +86,7 @@ const char* ArgumentParser::optionstr = "ich?";
 const std::string ArgumentParser::true_string = "true";
 const std::string ArgumentParser::empty_string = "";
 
-}
-}
-}
+} // namespace util
+} // namespace fan
+} // namespace phosphor
 // vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4

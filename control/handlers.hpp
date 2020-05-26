@@ -24,14 +24,10 @@ namespace handler
  *     A lambda function to set/update the zone property
  */
 template <typename T>
-auto setZoneProperty(const char* intf,
-                     const char* prop,
-                     T (Zone::*func)(T),
-                     T&& value,
-                     bool persist)
+auto setZoneProperty(const char* intf, const char* prop, T (Zone::*func)(T),
+                     T&& value, bool persist)
 {
-    return [=, value = std::forward<T>(value)](auto& zone)
-    {
+    return [=, value = std::forward<T>(value)](auto& zone) {
         (zone.*func)(value);
         if (persist)
         {
@@ -55,8 +51,7 @@ auto setZoneProperty(const char* intf,
 template <typename T>
 auto setProperty()
 {
-    return [](auto& zone, auto& path, auto& intf, auto& prop, T&& arg)
-    {
+    return [](auto& zone, auto& path, auto& intf, auto& prop, T&& arg) {
         zone.setPropertyValue(path, intf, prop, std::forward<T>(arg));
     };
 }
@@ -73,8 +68,7 @@ auto setProperty()
  */
 auto setService(Group&& group)
 {
-    return [group = std::move(group)](auto& zone, auto& name, bool hasOwner)
-    {
+    return [group = std::move(group)](auto& zone, auto& name, bool hasOwner) {
         // Update service name owner state list of a group
         zone.setServiceOwner(&group, name, hasOwner);
     };
@@ -93,10 +87,7 @@ auto setService(Group&& group)
  */
 auto removeInterface(const char* path, const char* interface)
 {
-    return[=](auto& zone)
-    {
-        zone.removeObjectInterface(path, interface);
-    };
+    return [=](auto& zone) { zone.removeObjectInterface(path, interface); };
 }
 
 } // namespace handler

@@ -1,7 +1,8 @@
 #pragma once
 
-#include <vector>
 #include "types.hpp"
+
+#include <vector>
 
 namespace phosphor
 {
