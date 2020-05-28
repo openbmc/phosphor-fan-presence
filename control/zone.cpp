@@ -63,9 +63,9 @@ Zone::Zone(Mode mode, sdbusplus::bus::bus& bus, const std::string& path,
 {
     auto& fanDefs = std::get<fanListPos>(def);
 
-    for (auto& def : fanDefs)
+    for (auto& fanDef : fanDefs)
     {
-        _fans.emplace_back(std::make_unique<Fan>(bus, def));
+        _fans.emplace_back(std::make_unique<Fan>(bus, fanDef));
     }
 
     // Do not enable set speed events when in init mode
@@ -89,9 +89,9 @@ Zone::Zone(Mode mode, sdbusplus::bus::bus& bus, const std::string& path,
             _targetSpeed = _fans.front()->getTargetSpeed();
         }
         // Setup signal trigger for set speed events
-        for (auto& event : std::get<setSpeedEventsPos>(def))
+        for (auto& ssEvent : std::get<setSpeedEventsPos>(def))
         {
-            initEvent(event);
+            initEvent(ssEvent);
         }
         // Start timer for fan speed decreases
         _decTimer.restart(_decInterval);
@@ -523,7 +523,7 @@ auto Zone::getPersisted(const std::string& intf, const std::string& prop)
     if (it != _persisted.end())
     {
         return std::any_of(it->second.begin(), it->second.end(),
-                           [&prop](auto& p) { return prop == p; });
+                           [&prop](const auto& p) { return prop == p; });
     }
 
     return persisted;

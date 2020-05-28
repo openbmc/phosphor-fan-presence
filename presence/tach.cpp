@@ -119,12 +119,11 @@ void Tach::propertiesChanged(size_t sensor, sdbusplus::message::message& msg)
 void Tach::propertiesChanged(size_t sensor,
                              const util::Properties<int64_t>& props)
 {
-    auto& s = state[sensor];
-
     // Find the Value property containing the speed.
     auto it = props.find(tachProperty);
     if (it != props.end())
     {
+        auto& s = state[sensor];
         std::get<int64_t>(s) = std::get<int64_t>(it->second);
 
         auto newState =

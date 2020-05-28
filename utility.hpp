@@ -40,7 +40,7 @@ class FileDescriptor
     FileDescriptor& operator=(const FileDescriptor&) = delete;
     FileDescriptor& operator=(FileDescriptor&&) = default;
 
-    FileDescriptor(int fd) : fd(fd)
+    explicit FileDescriptor(int fd) : fd(fd)
     {}
 
     ~FileDescriptor()

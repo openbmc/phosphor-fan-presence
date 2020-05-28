@@ -87,7 +87,8 @@ struct Properties
     Properties& operator=(const Properties&) = default;
     Properties(Properties&&) = default;
     Properties& operator=(Properties&&) = default;
-    explicit Properties(U&& handler) : _handler(std::forward<U>(handler))
+    explicit Properties(U&& handler) :
+        _path(""), _intf(""), _prop(""), _handler(std::forward<U>(handler))
     {}
     Properties(const char* path, const char* intf, const char* prop,
                U&& handler) :
@@ -404,10 +405,11 @@ struct NameOwner
     void operator()(sdbusplus::bus::bus& bus, sdbusplus::message::message& msg,
                     Zone& zone) const
     {
-        std::string name;
-        bool hasOwner = false;
         if (msg)
         {
+            std::string name;
+            bool hasOwner = false;
+
             // Handle NameOwnerChanged signals
             msg.read(name);
 
