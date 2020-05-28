@@ -1,6 +1,6 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
 
-SUBDIRS = . sdevent/test evdevpp/test
+SUBDIRS = . evdevpp/test
 
 if WANT_PRESENCE
 SUBDIRS += presence
