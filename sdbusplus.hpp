@@ -32,7 +32,7 @@ namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 class DBusError : public std::runtime_error
 {
   public:
-    DBusError(const char* msg) : std::runtime_error(msg)
+    explicit DBusError(const char* msg) : std::runtime_error(msg)
     {}
 };
 

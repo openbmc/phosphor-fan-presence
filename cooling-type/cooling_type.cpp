@@ -102,9 +102,9 @@ void CoolingType::updateInventory(const std::string& objpath)
     ObjectMap invObj = getObjectMap(objpath);
 
     // Update inventory
-    auto invMgrResponseMsg = util::SDBusPlus::lookupAndCallMethod(
+    static_cast<void>(util::SDBusPlus::lookupAndCallMethod(
         bus, util::INVENTORY_PATH, util::INVENTORY_INTF, "Notify",
-        std::move(invObj));
+        std::move(invObj)));
 }
 
 } // namespace type
