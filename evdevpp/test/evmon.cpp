@@ -16,8 +16,9 @@
 
 #include "argument.hpp"
 #include "evdevpp/evdev.hpp"
-#include "sdevent/event.hpp"
-#include "sdevent/io.hpp"
+// TODO https://github.com/openbmc/phosphor-fan-presence/issues/22
+// #include "sdevent/event.hpp"
+// #include "sdevent/io.hpp"
 #include "utility.hpp"
 
 #include <algorithm>
@@ -129,24 +130,25 @@ int main(int argc, char* argv[])
     }
     options.reset();
 
-    auto loop = sdevent::event::newDefault();
+    // TODO https://github.com/openbmc/phosphor-fan-presence/issues/22
+    // auto loop = sdevent::event::newDefault();
     phosphor::fan::util::FileDescriptor fd(
         open(path.c_str(), O_RDONLY | O_NONBLOCK));
     auto evdev = evdevpp::evdev::newFromFD(fd());
-    sdevent::event::io::IO callback(loop, fd(), [&evdev](auto& s) {
-        unsigned int type, code, value;
-        std::tie(type, code, value) = evdev.next();
-        std::cout << "type: " << libevdev_event_type_get_name(type)
-                  << " code: " << libevdev_event_code_get_name(type, code)
-                  << " value: " << value << "\n";
-    });
+    // sdevent::event::io::IO callback(loop, fd(), [&evdev](auto& s) {
+    //     unsigned int type, code, value;
+    //     std::tie(type, code, value) = evdev.next();
+    //     std::cout << "type: " << libevdev_event_type_get_name(type)
+    //               << " code: " << libevdev_event_code_get_name(type, code)
+    //               << " value: " << value << "\n";
+    // });
 
     auto value = evdev.fetch(type, stoul(scode));
     std::cout << "type: " << libevdev_event_type_get_name(type)
               << " code: " << libevdev_event_code_get_name(type, stoul(scode))
               << " value: " << value << "\n";
 
-    loop.loop();
+    // loop.loop();
 
     return 0;
 }
