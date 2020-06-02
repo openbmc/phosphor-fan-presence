@@ -163,20 +163,30 @@ AS_IF([test "x$enable_control" != "xno"], [
 AS_IF([test "x$enable_cooling_type" != "xno"], [
        AC_CONFIG_FILES([cooling-type/Makefile])
 ])
+
 AS_IF([test "x$enable_monitor" != "xno"], [
+    # Use runtime(json) config, otherwise default to compile time(yaml) config
+    AM_COND_IF([WANT_JSON],
+    [
+        AC_CHECK_HEADER(nlohmann/json.hpp, ,
+                [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
+        # Set config flag for runtime json usage
+        AC_DEFINE([MONITOR_USE_JSON], [1], [Fan monitor use runtime json configuration])
+        AC_MSG_NOTICE([Fan monitor json configuration usage enabled])
+    ],
+    [
+        AC_ARG_VAR(FAN_MONITOR_YAML_FILE,
+                   [The fan monitor definition file to use])
+        AS_IF([test "x$FAN_MONITOR_YAML_FILE" == "x"],
+              [FAN_MONITOR_YAML_FILE="\${top_srcdir}/monitor/example/monitor.yaml"])
+        AC_DEFINE_UNQUOTED([FAN_MONITOR_YAML_FILE], ["$FAN_MONITOR_YAML_FILE"],
+                           [The fan monitor definition file to use])
 
-       AC_ARG_VAR(FAN_MONITOR_YAML_FILE,
-                  [The fan monitor definition file to use])
-       AS_IF([test "x$FAN_MONITOR_YAML_FILE" == "x"],
-             [FAN_MONITOR_YAML_FILE="\${top_srcdir}/monitor/example/monitor.yaml"])
-       AC_DEFINE_UNQUOTED([FAN_MONITOR_YAML_FILE], ["$FAN_MONITOR_YAML_FILE"],
-                          [The fan monitor definition file to use])
-
-       AC_SUBST([GEN_FAN_MONITOR_DEFS],
-                ["$PYTHON \${top_srcdir}/monitor/gen-fan-monitor-defs.py \
-                         -m $FAN_MONITOR_YAML_FILE"])
-
-       AC_CONFIG_FILES([monitor/Makefile])
+        AC_SUBST([GEN_FAN_MONITOR_DEFS],
+                 ["$PYTHON \${top_srcdir}/monitor/gen-fan-monitor-defs.py \
+                  -m $FAN_MONITOR_YAML_FILE"])
+    ])
+    AC_CONFIG_FILES([monitor/Makefile])
 ])
 
 # Create configured output
