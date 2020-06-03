@@ -40,7 +40,7 @@ void setPresence(const Fan& fan, bool newState)
 {
     using namespace sdbusplus::message;
 
-    using Properties = std::map<std::string, variant<std::string, bool>>;
+    using Properties = std::map<std::string, std::variant<std::string, bool>>;
     using Interfaces = std::map<std::string, Properties>;
 
     std::map<object_path, Interfaces> obj = {{
