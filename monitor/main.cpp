@@ -13,14 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+#include "config.h"
+
 #include "argument.hpp"
 #include "fan.hpp"
+#ifdef MONITOR_USE_JSON
+#include "json_parser.hpp"
+#endif
 #include "fan_defs.hpp"
 #include "trust_manager.hpp"
 
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
+#include <stdplus/signal.hpp>
 
 using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
@@ -53,12 +61,16 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    std::unique_ptr<phosphor::fan::trust::Manager> trust =
-        std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
-
     // Attach the event object to the bus object so we can
     // handle both sd_events (for the timers) and dbus signals.
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
+
+#ifdef MONITOR_USE_JSON
+    // Get JSON object from monitor JSON config file
+    const auto& jsonObj = getJsonObj(bus);
+#else
+    std::unique_ptr<phosphor::fan::trust::Manager> trust =
+        std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
 
     for (const auto& fanDef : fanDefinitions)
     {
@@ -75,6 +87,7 @@ int main(int argc, char* argv[])
         fans.emplace_back(
             std::make_unique<Fan>(mode, bus, event, trust, fanDef));
     }
+#endif
 
     if (mode == Mode::init)
     {
