@@ -16,6 +16,8 @@
 #pragma once
 
 #include "json_config.hpp"
+#include "trust_group.hpp"
+#include "types.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
@@ -27,6 +29,10 @@ using json = nlohmann::json;
 
 constexpr auto confAppName = "monitor";
 constexpr auto confFileName = "config.json";
+
+// Trust group class handler function
+using trustHandler = std::function<CreateGroupFunction(
+    const std::vector<trust::GroupDefinition>&)>;
 
 /**
  * @brief Get the JSON object
@@ -41,5 +47,14 @@ inline const json getJsonObj(sdbusplus::bus::bus& bus)
     return fan::JsonConfig::load(
         fan::JsonConfig::getConfFile(bus, confAppName, confFileName));
 }
+
+/**
+ * @brief Get any configured trust groups
+ *
+ * @param[in] obj - JSON object to parse from
+ *
+ * @return List of functions applied on trust groups
+ */
+const std::vector<CreateGroupFunction> getTrustGrps(const json& obj);
 
 } // namespace phosphor::fan::monitor

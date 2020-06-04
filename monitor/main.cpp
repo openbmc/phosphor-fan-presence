@@ -66,6 +66,10 @@ int main(int argc, char* argv[])
 #ifdef MONITOR_USE_JSON
     // Get JSON object from monitor JSON config file
     const auto& jsonObj = getJsonObj(bus);
+
+    // Retrieve and set trust groups within the trust manager
+    std::unique_ptr<phosphor::fan::trust::Manager> trust =
+        std::make_unique<phosphor::fan::trust::Manager>(getTrustGrps(jsonObj));
 #else
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
         std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
