@@ -51,6 +51,8 @@ CreateGroupFunction
 
 const std::map<std::string, trustHandler> trusts = {
     {"nonzerospeed", tClass::getNonZeroSpeed}};
+const std::map<std::string, condHandler> conditions = {
+    {"propertiesmatch", condition::getPropertiesMatch}};
 
 const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
 {
@@ -149,7 +151,6 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
         {
             offset = sensor["offset"].get<int64_t>();
         }
-
         sensorDefs.emplace_back(std::tuple(sensor["name"].get<std::string>(),
                                            sensor["has_target"].get<bool>(),
                                            targetIntf, factor, offset));
@@ -189,8 +190,29 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             funcDelay = fan["functional_delay"].get<size_t>();
         }
 
-        // TODO Handle optional conditions
+        // Handle optional conditions
         auto cond = std::experimental::optional<Condition>();
+        if (fan.contains("condition"))
+        {
+            if (!fan["condition"].contains("name"))
+            {
+                // Log error on missing required parameter
+                log<level::ERR>(
+                    "Missing required fan monitor condition parameter",
+                    entry("REQUIRED_PARAMETER=%s", "{name}"));
+                throw std::runtime_error(
+                    "Missing required fan monitor condition parameter");
+            }
+            auto name = fan["condition"]["name"].get<std::string>();
+            // The function for fan monitoring condition
+            // (Must have a supported function within the condition namespace)
+            std::transform(name.begin(), name.end(), name.begin(), tolower);
+            auto handler = conditions.find(name);
+            if (handler != conditions.end())
+            {
+                cond = handler->second(fan["condition"]);
+            }
+        }
 
         fanDefs.emplace_back(
             std::tuple(fan["inventory"].get<std::string>(), funcDelay,
