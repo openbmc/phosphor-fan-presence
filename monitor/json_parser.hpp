@@ -33,6 +33,8 @@ constexpr auto confFileName = "config.json";
 // Trust group class handler function
 using trustHandler = std::function<CreateGroupFunction(
     const std::vector<trust::GroupDefinition>&)>;
+// Fan monitoring condition handler function
+using condHandler = std::function<Condition(const json&)>;
 
 /**
  * @brief Get the JSON object

@@ -72,6 +72,23 @@ int main(int argc, char* argv[])
     // Retrieve and set trust groups within the trust manager
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
         std::make_unique<phosphor::fan::trust::Manager>(getTrustGrps(jsonObj));
+
+    // Retrieve fan definitions and create fan objects to be monitored
+    for (const auto& fanDef : getFanDefs(jsonObj))
+    {
+        // Check if a condition exists on the fan
+        auto condition = std::get<conditionField>(fanDef);
+        if (condition)
+        {
+            // Condition exists, skip adding fan if it fails
+            if (!(*condition)(bus))
+            {
+                continue;
+            }
+        }
+        fans.emplace_back(
+            std::make_unique<Fan>(mode, bus, event, trust, fanDef));
+    }
 #else
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
         std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
