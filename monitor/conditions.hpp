@@ -2,12 +2,16 @@
 
 #include "types.hpp"
 
+#include <nlohmann/json.hpp>
+
 namespace phosphor
 {
 namespace fan
 {
 namespace monitor
 {
+
+using json = nlohmann::json;
 
 /**
  * @brief Create a condition function object
@@ -36,6 +40,21 @@ namespace condition
  *     A Condition function that checks all properties match
  */
 Condition propertiesMatch(std::vector<PropertyState>&& propStates);
+
+/**
+ * @brief Parse the propertiesMatch condition's parameters from the given JSON
+ * configuration
+ * @details Parses and verifies all the required parameters are given in the
+ * JSON configuration to construct and return a function pointer to the
+ * propertiesMatch condition function.
+ *
+ * @param[in] condParams - JSON object containing all the propertiesMatch
+ *                         condition parameters
+ *
+ * @return Condition lambda function
+ *     The propertiesMatch condition function that checks all properties match
+ */
+Condition getPropertiesMatch(const json& condParams);
 
 } // namespace condition
 } // namespace monitor
