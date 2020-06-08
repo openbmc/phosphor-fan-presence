@@ -57,4 +57,22 @@ inline const json getJsonObj(sdbusplus::bus::bus& bus)
  */
 const std::vector<CreateGroupFunction> getTrustGrps(const json& obj);
 
+/**
+ * @brief Get the configured sensor definitions that make up a fan
+ *
+ * @param[in] sensor - JSON object containing a list of sensors
+ *
+ * @return List of sensor definition data that make up a fan being monitored
+ */
+const std::vector<SensorDefinition> getSensorDefs(const json& sensors);
+
+/**
+ * @brief Get the configured fan definitions to be monitored
+ *
+ * @param[in] obj - JSON object to parse from
+ *
+ * @return List of fan definition data on the fans to be monitored
+ */
+const std::vector<FanDefinition> getFanDefs(const json& obj);
+
 } // namespace phosphor::fan::monitor

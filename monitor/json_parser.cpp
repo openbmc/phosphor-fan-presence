@@ -15,6 +15,7 @@
  */
 #include "json_parser.hpp"
 
+#include "conditions.hpp"
 #include "json_config.hpp"
 #include "nonzero_speed_trust.hpp"
 #include "types.hpp"
@@ -25,6 +26,7 @@
 #include <algorithm>
 #include <map>
 #include <memory>
+#include <optional>
 #include <vector>
 
 namespace phosphor::fan::monitor
@@ -111,6 +113,94 @@ const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
     }
 
     return grpFuncs;
+}
+
+const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
+{
+    std::vector<SensorDefinition> sensorDefs;
+
+    for (const auto& sensor : sensors)
+    {
+        if (!sensor.contains("name") || !sensor.contains("has_target"))
+        {
+            // Log error on missing required parameters
+            log<level::ERR>(
+                "Missing required fan sensor definition parameters",
+                entry("REQUIRED_PARAMETERS=%s", "{name, has_target}"));
+            throw std::runtime_error(
+                "Missing required fan sensor definition parameters");
+        }
+        // Target interface is optional and defaults to
+        // 'xyz.openbmc_project.Control.FanSpeed'
+        std::string targetIntf = "xyz.openbmc_project.Control.FanSpeed";
+        if (sensor.contains("target_interface"))
+        {
+            targetIntf = sensor["target_interface"].get<std::string>();
+        }
+        // Factor is optional and defaults to 1
+        auto factor = 1.0;
+        if (sensor.contains("factor"))
+        {
+            factor = sensor["factor"].get<double>();
+        }
+        // Offset is optional and defaults to 0
+        auto offset = 0;
+        if (sensor.contains("offset"))
+        {
+            offset = sensor["offset"].get<int64_t>();
+        }
+
+        sensorDefs.emplace_back(std::tuple(sensor["name"].get<std::string>(),
+                                           sensor["has_target"].get<bool>(),
+                                           targetIntf, factor, offset));
+    }
+
+    return sensorDefs;
+}
+
+const std::vector<FanDefinition> getFanDefs(const json& obj)
+{
+    std::vector<FanDefinition> fanDefs;
+
+    for (const auto& fan : obj["fans"])
+    {
+        if (!fan.contains("inventory") ||
+            !fan.contains("allowed_out_of_range_time") ||
+            !fan.contains("deviation") ||
+            !fan.contains("num_sensors_nonfunc_for_fan_nonfunc") ||
+            !fan.contains("sensors"))
+        {
+            // Log error on missing required parameters
+            log<level::ERR>(
+                "Missing required fan monitor definition parameters",
+                entry("REQUIRED_PARAMETERS=%s",
+                      "{inventory, allowed_out_of_range_time, deviation, "
+                      "num_sensors_nonfunc_for_fan_nonfunc, sensors}"));
+            throw std::runtime_error(
+                "Missing required fan monitor definition parameters");
+        }
+        // Construct the sensor definitions for this fan
+        auto sensorDefs = getSensorDefs(fan["sensors"]);
+
+        // Functional delay is optional and defaults to 0
+        size_t funcDelay = 0;
+        if (fan.contains("functional_delay"))
+        {
+            funcDelay = fan["functional_delay"].get<size_t>();
+        }
+
+        // TODO Handle optional conditions
+        auto cond = std::experimental::optional<Condition>();
+
+        fanDefs.emplace_back(
+            std::tuple(fan["inventory"].get<std::string>(), funcDelay,
+                       fan["allowed_out_of_range_time"].get<size_t>(),
+                       fan["deviation"].get<size_t>(),
+                       fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>(),
+                       sensorDefs, cond));
+    }
+
+    return fanDefs;
 }
 
 } // namespace phosphor::fan::monitor
