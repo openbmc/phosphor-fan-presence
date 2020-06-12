@@ -16,14 +16,16 @@ phosphor_fan_monitor_LDADD = \
 	$(SDEVENTPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
-	-lstdc++fs
+	-lstdc++fs \
+	$(STDPLUS_LIBS)
 
 phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \
 	$(SDEVENTPLUS_CFLAGS) \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
-	-flto
+	-flto \
+	$(STDPLUS_CFLAGS)
 
 if WANT_JSON
 phosphor_fan_monitor_SOURCES += json_parser.cpp

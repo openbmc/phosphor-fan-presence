@@ -27,6 +27,8 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
+#include <stdplus/signal.hpp>
 
 using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
@@ -87,6 +89,13 @@ int main(int argc, char* argv[])
         fans.emplace_back(
             std::make_unique<Fan>(mode, bus, event, trust, fanDef));
     }
+
+    // TODO Enable SIGHUP handling to reload JSON config
+    // stdplus::signal::block(SIGHUP);
+    // sdeventplus::source::Signal signal(event, SIGHUP,
+    //                                    std::bind(sighupHandler,
+    //                                              std::placeholders::_1,
+    //                                              std::placeholders::_2));
 #else
     std::unique_ptr<phosphor::fan::trust::Manager> trust =
         std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
