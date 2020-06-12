@@ -27,13 +27,16 @@
 #endif
 
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
 
 namespace phosphor::fan::monitor
 {
 
 using json = nlohmann::json;
+using namespace phosphor::logging;
 
 System::System(Mode mode, sdbusplus::bus::bus& bus,
                const sdeventplus::Event& event) :
@@ -62,6 +65,45 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
         }
         _fans.emplace_back(
             std::make_unique<Fan>(mode, bus, event, _trust, fanDef));
+    }
+}
+
+void System::sighupHandler(sdeventplus::source::Signal&,
+                           const struct signalfd_siginfo*)
+{
+    try
+    {
+        json jsonObj = json::object();
+#ifdef MONITOR_USE_JSON
+        jsonObj = getJsonObj(_bus);
+#endif
+        auto trustGrps = getTrustGroups(jsonObj);
+        auto fanDefs = getFanDefinitions(jsonObj);
+        // Set configured trust groups
+        _trust = std::make_unique<trust::Manager>(trustGrps);
+        // Clear/set configured fan definitions
+        _fans.clear();
+        for (const auto& fanDef : fanDefs)
+        {
+            // Check if a condition exists on the fan
+            auto condition = std::get<conditionField>(fanDef);
+            if (condition)
+            {
+                // Condition exists, skip adding fan if it fails
+                if (!(*condition)(_bus))
+                {
+                    continue;
+                }
+            }
+            _fans.emplace_back(
+                std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef));
+        }
+        log<level::INFO>("Configuration reloaded successfully");
+    }
+    catch (std::runtime_error& re)
+    {
+        log<level::ERR>("Error reloading config, no config changes made",
+                        entry("LOAD_ERROR=%s", re.what()));
     }
 }
 

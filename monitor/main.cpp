@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "config.h"
+
 #include "argument.hpp"
 #include "fan.hpp"
 #include "system.hpp"
@@ -21,6 +23,8 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
+#include <stdplus/signal.hpp>
 
 using namespace phosphor::fan::monitor;
 using namespace phosphor::logging;
@@ -57,6 +61,15 @@ int main(int argc, char* argv[])
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
     System system(mode, bus, event);
+
+#ifdef MONITOR_USE_JSON
+    // Enable SIGHUP handling to reload JSON config
+    stdplus::signal::block(SIGHUP);
+    sdeventplus::source::Signal signal(event, SIGHUP,
+                                       std::bind(&System::sighupHandler,
+                                                 &system, std::placeholders::_1,
+                                                 std::placeholders::_2));
+#endif
 
     if (mode == Mode::init)
     {

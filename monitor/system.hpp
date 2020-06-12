@@ -23,6 +23,7 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
 
 #include <memory>
 #include <optional>
@@ -53,6 +54,13 @@ class System
      */
     System(Mode mode, sdbusplus::bus::bus& bus,
            const sdeventplus::Event& event);
+
+    /**
+     * @brief Callback function to handle receiving a HUP signal to reload the
+     * JSON configuration.
+     */
+    void sighupHandler(sdeventplus::source::Signal&,
+                       const struct signalfd_siginfo*);
 
   private:
     /* The mode of fan monitor */
