@@ -127,6 +127,8 @@ class JsonConfig
 
         if (fs::exists(confFile))
         {
+            log<level::INFO>("Loading configuration",
+                             entry("JSON_FILE=%s", confFile.c_str()));
             file.open(confFile);
             try
             {

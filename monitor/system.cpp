@@ -27,13 +27,16 @@
 #endif
 
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
 
 namespace phosphor::fan::monitor
 {
 
 using json = nlohmann::json;
+using namespace phosphor::logging;
 
 System::System(Mode mode, sdbusplus::bus::bus& bus,
                const sdeventplus::Event& event) :
@@ -45,23 +48,34 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     jsonObj = getJsonObj(bus);
 #endif
     // Retrieve and set trust groups within the trust manager
-    _trust = std::make_unique<trust::Manager>(getTrustGroups(jsonObj));
-
+    setTrustMgr(getTrustGroups(jsonObj));
     // Retrieve fan definitions and create fan objects to be monitored
-    for (const auto& fanDef : getFanDefinitions(jsonObj))
+    setFans(getFanDefinitions(jsonObj));
+    log<level::INFO>("Configuration loaded");
+}
+
+void System::sighupHandler(sdeventplus::source::Signal&,
+                           const struct signalfd_siginfo*)
+{
+    try
     {
-        // Check if a condition exists on the fan
-        auto condition = std::get<conditionField>(fanDef);
-        if (condition)
-        {
-            // Condition exists, skip adding fan if it fails
-            if (!(*condition)(bus))
-            {
-                continue;
-            }
-        }
-        _fans.emplace_back(
-            std::make_unique<Fan>(mode, bus, event, _trust, fanDef));
+        json jsonObj = json::object();
+#ifdef MONITOR_USE_JSON
+        jsonObj = getJsonObj(_bus);
+#endif
+        auto trustGrps = getTrustGroups(jsonObj);
+        auto fanDefs = getFanDefinitions(jsonObj);
+        // Set configured trust groups
+        setTrustMgr(trustGrps);
+        // Clear/set configured fan definitions
+        _fans.clear();
+        setFans(fanDefs);
+        log<level::INFO>("Configuration reloaded successfully");
+    }
+    catch (std::runtime_error& re)
+    {
+        log<level::ERR>("Error reloading config, no config changes made",
+                        entry("LOAD_ERROR=%s", re.what()));
     }
 }
 
@@ -75,6 +89,11 @@ const std::vector<CreateGroupFunction>
 #endif
 }
 
+void System::setTrustMgr(const std::vector<CreateGroupFunction>& groupFuncs)
+{
+    _trust = std::make_unique<trust::Manager>(groupFuncs);
+}
+
 const std::vector<FanDefinition> System::getFanDefinitions(const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
@@ -82,6 +101,25 @@ const std::vector<FanDefinition> System::getFanDefinitions(const json& jsonObj)
 #else
     return fanDefinitions;
 #endif
+}
+
+void System::setFans(const std::vector<FanDefinition>& fanDefs)
+{
+    for (const auto& fanDef : fanDefs)
+    {
+        // Check if a condition exists on the fan
+        auto condition = std::get<conditionField>(fanDef);
+        if (condition)
+        {
+            // Condition exists, skip adding fan if it fails
+            if (!(*condition)(_bus))
+            {
+                continue;
+            }
+        }
+        _fans.emplace_back(
+            std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef));
+    }
 }
 
 } // namespace phosphor::fan::monitor
