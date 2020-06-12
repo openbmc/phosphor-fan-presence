@@ -23,6 +23,7 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
 
 #include <memory>
 #include <optional>
@@ -54,6 +55,13 @@ class System
     System(Mode mode, sdbusplus::bus::bus& bus,
            const sdeventplus::Event& event);
 
+    /**
+     * @brief Callback function to handle receiving a HUP signal to reload the
+     * JSON configuration.
+     */
+    void sighupHandler(sdeventplus::source::Signal&,
+                       const struct signalfd_siginfo*);
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
@@ -80,6 +88,13 @@ class System
     const std::vector<CreateGroupFunction> getTrustGroups(const json& jsonObj);
 
     /**
+     * @brief Set the trust manager's list of trust group functions
+     *
+     * @param[in] groupFuncs - list of trust group functions
+     */
+    void setTrustMgr(const std::vector<CreateGroupFunction>& groupFuncs);
+
+    /**
      * @brief Retrieve the configured fan definitions
      *
      * @param[in] jsonObj - JSON object to parse from
@@ -87,6 +102,13 @@ class System
      * @return List of fan definition data on the fans configured
      */
     const std::vector<FanDefinition> getFanDefinitions(const json& jsonObj);
+
+    /**
+     * @brief Set the list of fans to be monitored
+     *
+     * @param[in] fanDefs - list of fan definitions to create fans monitored
+     */
+    void setFans(const std::vector<FanDefinition>& fanDefs);
 };
 
 } // namespace phosphor::fan::monitor
