@@ -9,7 +9,8 @@ phosphor_fan_monitor_SOURCES = \
 	fan.cpp \
 	main.cpp \
 	tach_sensor.cpp \
-	conditions.cpp
+	conditions.cpp \
+	system.cpp
 
 phosphor_fan_monitor_LDADD = \
 	$(SDBUSPLUS_LIBS) \

@@ -13,15 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-#include "config.h"
-
 #include "argument.hpp"
 #include "fan.hpp"
-#ifdef MONITOR_USE_JSON
-#include "json_parser.hpp"
-#endif
-#include "fan_defs.hpp"
+#include "system.hpp"
 #include "trust_manager.hpp"
 
 #include <phosphor-logging/log.hpp>
@@ -35,7 +29,6 @@ int main(int argc, char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();
-    std::vector<std::unique_ptr<Fan>> fans;
     phosphor::fan::util::ArgumentParser args(argc, argv);
 
     if (argc != 2)
@@ -63,49 +56,7 @@ int main(int argc, char* argv[])
     // handle both sd_events (for the timers) and dbus signals.
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
-#ifdef MONITOR_USE_JSON
-    // Get JSON object from monitor JSON config file
-    const auto& jsonObj = getJsonObj(bus);
-
-    // Retrieve and set trust groups within the trust manager
-    auto trust =
-        std::make_unique<phosphor::fan::trust::Manager>(getTrustGrps(jsonObj));
-
-    // Retrieve fan definitions and create fan objects to be monitored
-    for (const auto& fanDef : getFanDefs(jsonObj))
-    {
-        // Check if a condition exists on the fan
-        auto condition = std::get<conditionField>(fanDef);
-        if (condition)
-        {
-            // Condition exists, skip adding fan if it fails
-            if (!(*condition)(bus))
-            {
-                continue;
-            }
-        }
-        fans.emplace_back(
-            std::make_unique<Fan>(mode, bus, event, trust, fanDef));
-    }
-#else
-    auto trust = std::make_unique<phosphor::fan::trust::Manager>(trustGroups);
-
-    for (const auto& fanDef : fanDefinitions)
-    {
-        // Check if a condition exists on the fan
-        auto condition = std::get<conditionField>(fanDef);
-        if (condition)
-        {
-            // Condition exists, skip adding fan if it fails
-            if (!(*condition)(bus))
-            {
-                continue;
-            }
-        }
-        fans.emplace_back(
-            std::make_unique<Fan>(mode, bus, event, trust, fanDef));
-    }
-#endif
+    System system(mode, bus, event);
 
     if (mode == Mode::init)
     {
