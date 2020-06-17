@@ -192,7 +192,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         }
 
         // Handle optional conditions
-        auto cond = std::experimental::optional<Condition>();
+        auto cond = std::optional<Condition>();
         if (fan.contains("condition"))
         {
             if (!fan["condition"].contains("name"))
