@@ -5,8 +5,8 @@
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
-#include <experimental/optional>
 #include <functional>
+#include <optional>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -109,9 +109,9 @@ constexpr auto numSensorFailsForNonfuncField = 4;
 constexpr auto sensorListField = 5;
 constexpr auto conditionField = 6;
 
-using FanDefinition = std::tuple<std::string, size_t, size_t, size_t, size_t,
-                                 std::vector<SensorDefinition>,
-                                 std::experimental::optional<Condition>>;
+using FanDefinition =
+    std::tuple<std::string, size_t, size_t, size_t, size_t,
+               std::vector<SensorDefinition>, std::optional<Condition>>;
 
 } // namespace monitor
 } // namespace fan
