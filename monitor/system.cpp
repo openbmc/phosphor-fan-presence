@@ -48,24 +48,9 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     jsonObj = getJsonObj(bus);
 #endif
     // Retrieve and set trust groups within the trust manager
-    _trust = std::make_unique<trust::Manager>(getTrustGroups(jsonObj));
-
+    setTrustMgr(getTrustGroups(jsonObj));
     // Retrieve fan definitions and create fan objects to be monitored
-    for (const auto& fanDef : getFanDefinitions(jsonObj))
-    {
-        // Check if a condition exists on the fan
-        auto condition = std::get<conditionField>(fanDef);
-        if (condition)
-        {
-            // Condition exists, skip adding fan if it fails
-            if (!(*condition)(bus))
-            {
-                continue;
-            }
-        }
-        _fans.emplace_back(
-            std::make_unique<Fan>(mode, bus, event, _trust, fanDef));
-    }
+    setFans(getFanDefinitions(jsonObj));
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
@@ -80,24 +65,10 @@ void System::sighupHandler(sdeventplus::source::Signal&,
         auto trustGrps = getTrustGroups(jsonObj);
         auto fanDefs = getFanDefinitions(jsonObj);
         // Set configured trust groups
-        _trust = std::make_unique<trust::Manager>(trustGrps);
+        setTrustMgr(trustGrps);
         // Clear/set configured fan definitions
         _fans.clear();
-        for (const auto& fanDef : fanDefs)
-        {
-            // Check if a condition exists on the fan
-            auto condition = std::get<conditionField>(fanDef);
-            if (condition)
-            {
-                // Condition exists, skip adding fan if it fails
-                if (!(*condition)(_bus))
-                {
-                    continue;
-                }
-            }
-            _fans.emplace_back(
-                std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef));
-        }
+        setFans(fanDefs);
         log<level::INFO>("Configuration reloaded successfully");
     }
     catch (std::runtime_error& re)
@@ -117,6 +88,11 @@ const std::vector<CreateGroupFunction>
 #endif
 }
 
+void System::setTrustMgr(const std::vector<CreateGroupFunction>& groupFuncs)
+{
+    _trust = std::make_unique<trust::Manager>(groupFuncs);
+}
+
 const std::vector<FanDefinition> System::getFanDefinitions(const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
@@ -124,6 +100,25 @@ const std::vector<FanDefinition> System::getFanDefinitions(const json& jsonObj)
 #else
     return fanDefinitions;
 #endif
+}
+
+void System::setFans(const std::vector<FanDefinition>& fanDefs)
+{
+    for (const auto& fanDef : fanDefs)
+    {
+        // Check if a condition exists on the fan
+        auto condition = std::get<conditionField>(fanDef);
+        if (condition)
+        {
+            // Condition exists, skip adding fan if it fails
+            if (!(*condition)(_bus))
+            {
+                continue;
+            }
+        }
+        _fans.emplace_back(
+            std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef));
+    }
 }
 
 } // namespace phosphor::fan::monitor

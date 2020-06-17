@@ -88,6 +88,13 @@ class System
     const std::vector<CreateGroupFunction> getTrustGroups(const json& jsonObj);
 
     /**
+     * @brief Set the trust manager's list of trust group functions
+     *
+     * @param[in] groupFuncs - list of trust group functions
+     */
+    void setTrustMgr(const std::vector<CreateGroupFunction>& groupFuncs);
+
+    /**
      * @brief Retrieve the configured fan definitions
      *
      * @param[in] jsonObj - JSON object to parse from
@@ -95,6 +102,13 @@ class System
      * @return List of fan definition data on the fans configured
      */
     const std::vector<FanDefinition> getFanDefinitions(const json& jsonObj);
+
+    /**
+     * @brief Set the list of fans to be monitored
+     *
+     * @param[in] fanDefs - list of fan definitions to create fans monitored
+     */
+    void setFans(const std::vector<FanDefinition>& fanDefs);
 };
 
 } // namespace phosphor::fan::monitor
