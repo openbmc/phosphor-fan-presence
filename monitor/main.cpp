@@ -20,14 +20,12 @@
 #include "system.hpp"
 #include "trust_manager.hpp"
 
-#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 #include <stdplus/signal.hpp>
 
 using namespace phosphor::fan::monitor;
-using namespace phosphor::logging;
 
 int main(int argc, char* argv[])
 {
