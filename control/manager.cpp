@@ -90,6 +90,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     // actual system configuration.
 
     // Find the 1 ZoneGroup that meets all of its conditions
+#ifndef CONTROL_USE_JSON
     for (auto& group : _zoneLayouts)
     {
         auto& conditions = std::get<conditionListPos>(group);
@@ -114,6 +115,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             break;
         }
     }
+#endif
 
     if (mode == Mode::control)
     {
@@ -127,13 +129,13 @@ void Manager::doInit()
     {
         z.second->setFullSpeed();
     }
-
+#ifndef CONTROL_USE_JSON
     auto delay = _powerOnDelay;
     while (delay > 0)
     {
         delay = sleep(delay);
     }
-
+#endif
     util::SDBusPlus::callMethod(_bus, SYSTEMD_SERVICE, SYSTEMD_OBJ_PATH,
                                 SYSTEMD_INTERFACE, "StartUnit",
                                 FAN_CONTROL_READY_TARGET, "replace");
