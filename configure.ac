@@ -103,61 +103,72 @@ AS_IF([test "x$enable_presence" != "xno"], [
 ])
 
 AS_IF([test "x$enable_control" != "xno"], [
-       # Add fan control Dbus attributes
-       AC_ARG_VAR(CONTROL_BUSNAME, [The fan control busname to own])
-       AS_IF([test "x$CONTROL_BUSNAME" == "x"],
-             [CONTROL_BUSNAME="xyz.openbmc_project.Control.Thermal"])
-       AC_DEFINE_UNQUOTED([CONTROL_BUSNAME], ["$CONTROL_BUSNAME"],
-                          [The fan control busname to own])
+    # Add fan control Dbus attributes
+    AC_ARG_VAR(CONTROL_BUSNAME, [The fan control busname to own])
+    AS_IF([test "x$CONTROL_BUSNAME" == "x"],
+          [CONTROL_BUSNAME="xyz.openbmc_project.Control.Thermal"])
+    AC_DEFINE_UNQUOTED([CONTROL_BUSNAME], ["$CONTROL_BUSNAME"],
+                       [The fan control busname to own])
 
-       AC_ARG_VAR(CONTROL_OBJPATH, [The fan control root object path])
-       AS_IF([test "x$CONTROL_OBJPATH" == "x"],
-             [CONTROL_OBJPATH="/xyz/openbmc_project/control/thermal"])
-       AC_DEFINE_UNQUOTED([CONTROL_OBJPATH], ["$CONTROL_OBJPATH"],
-                          [The fan control root object path])
+    AC_ARG_VAR(CONTROL_OBJPATH, [The fan control root object path])
+    AS_IF([test "x$CONTROL_OBJPATH" == "x"],
+          [CONTROL_OBJPATH="/xyz/openbmc_project/control/thermal"])
+    AC_DEFINE_UNQUOTED([CONTROL_OBJPATH], ["$CONTROL_OBJPATH"],
+                       [The fan control root object path])
 
-       AC_ARG_VAR(CONTROL_PERSIST_ROOT_PATH, [Root path for persisting zone property states])
-       AS_IF([test "x$CONTROL_PERSIST_ROOT_PATH" == "x"],
-             [CONTROL_PERSIST_ROOT_PATH="/var/lib/phosphor-fan-presence/control"])
-       AC_DEFINE_UNQUOTED([CONTROL_PERSIST_ROOT_PATH], ["$CONTROL_PERSIST_ROOT_PATH"],
-                          [Root path for persisting zone property states])
+    AC_ARG_VAR(CONTROL_PERSIST_ROOT_PATH, [Root path for persisting zone property states])
+    AS_IF([test "x$CONTROL_PERSIST_ROOT_PATH" == "x"],
+          [CONTROL_PERSIST_ROOT_PATH="/var/lib/phosphor-fan-presence/control"])
+    AC_DEFINE_UNQUOTED([CONTROL_PERSIST_ROOT_PATH], ["$CONTROL_PERSIST_ROOT_PATH"],
+                       [Root path for persisting zone property states])
 
-       # Add optional yaml file arguments
-       AC_ARG_VAR(FAN_DEF_YAML_FILE,
-                  [The fan definition file to use])
-       AS_IF([test "x$FAN_DEF_YAML_FILE" == "x"],
-             [FAN_DEF_YAML_FILE="\${top_srcdir}/control/example/fans.yaml"])
-       AC_DEFINE_UNQUOTED([FAN_DEF_YAML_FILE], ["$FAN_DEF_YAML_FILE"],
-                          [The fan definition file to use])
+    # Use runtime(json) config, otherwise default to compile time(yaml) config
+    AM_COND_IF([WANT_JSON],
+    [
+        AC_CHECK_HEADER(nlohmann/json.hpp, ,
+                [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
+        # Set config flag for runtime json usage
+        AC_DEFINE([CONTROL_USE_JSON], [1], [Fan control use runtime json configuration])
+        AC_MSG_NOTICE([Fan control json configuration usage enabled])
+    ],
+    [
+        # Add optional yaml file arguments
+        AC_ARG_VAR(FAN_DEF_YAML_FILE,
+                   [The fan definition file to use])
+        AS_IF([test "x$FAN_DEF_YAML_FILE" == "x"],
+              [FAN_DEF_YAML_FILE="\${top_srcdir}/control/example/fans.yaml"])
+        AC_DEFINE_UNQUOTED([FAN_DEF_YAML_FILE], ["$FAN_DEF_YAML_FILE"],
+                           [The fan definition file to use])
 
-       AC_ARG_VAR(FAN_ZONE_YAML_FILE,
-                  [The fan zone definition file to use])
-       AS_IF([test "x$FAN_ZONE_YAML_FILE" == "x"],
-             [FAN_ZONE_YAML_FILE="\${top_srcdir}/control/example/zones.yaml"])
-       AC_DEFINE_UNQUOTED([FAN_ZONE_YAML_FILE], ["$FAN_ZONE_YAML_FILE"],
-                          [The fan zone definition file to use])
+        AC_ARG_VAR(FAN_ZONE_YAML_FILE,
+                   [The fan zone definition file to use])
+        AS_IF([test "x$FAN_ZONE_YAML_FILE" == "x"],
+              [FAN_ZONE_YAML_FILE="\${top_srcdir}/control/example/zones.yaml"])
+        AC_DEFINE_UNQUOTED([FAN_ZONE_YAML_FILE], ["$FAN_ZONE_YAML_FILE"],
+                           [The fan zone definition file to use])
 
-      AC_ARG_VAR(ZONE_EVENTS_YAML_FILE,
-                 [The zone events definition file to use])
-      AS_IF([test "x$ZONE_EVENTS_YAML_FILE" == "x"],
-             [ZONE_EVENTS_YAML_FILE="\${top_srcdir}/control/example/events.yaml"])
-      AC_DEFINE_UNQUOTED([ZONE_EVENTS_YAML_FILE], ["$ZONE_EVENTS_YAML_FILE"],
-                         [The zone events definition file to use])
+        AC_ARG_VAR(ZONE_EVENTS_YAML_FILE,
+                   [The zone events definition file to use])
+        AS_IF([test "x$ZONE_EVENTS_YAML_FILE" == "x"],
+              [ZONE_EVENTS_YAML_FILE="\${top_srcdir}/control/example/events.yaml"])
+        AC_DEFINE_UNQUOTED([ZONE_EVENTS_YAML_FILE], ["$ZONE_EVENTS_YAML_FILE"],
+                           [The zone events definition file to use])
 
-      AC_ARG_VAR(ZONE_CONDITIONS_YAML_FILE,
-                 [The zone conditions definition file to use])
-      AS_IF([test "x$ZONE_CONDITIONS_YAML_FILE" == "x"],
-             [ZONE_CONDITIONS_YAML_FILE="\${top_srcdir}/control/example/zone_conditions.yaml"])
-      AC_DEFINE_UNQUOTED([ZONE_CONDITIONS_YAML_FILE], ["$ZONE_CONDITIONS_YAML_FILE"],
-                         [The zone conditions definition file to use])
+        AC_ARG_VAR(ZONE_CONDITIONS_YAML_FILE,
+                   [The zone conditions definition file to use])
+        AS_IF([test "x$ZONE_CONDITIONS_YAML_FILE" == "x"],
+              [ZONE_CONDITIONS_YAML_FILE="\${top_srcdir}/control/example/zone_conditions.yaml"])
+        AC_DEFINE_UNQUOTED([ZONE_CONDITIONS_YAML_FILE], ["$ZONE_CONDITIONS_YAML_FILE"],
+                           [The zone conditions definition file to use])
 
-      AC_SUBST([GEN_FAN_ZONE_DEFS],
-               ["$PYTHON \${top_srcdir}/control/gen-fan-zone-defs.py \
-                         -f $FAN_DEF_YAML_FILE \
-                         -z $FAN_ZONE_YAML_FILE \
-                         -e $ZONE_EVENTS_YAML_FILE \
-                         -c $ZONE_CONDITIONS_YAML_FILE"])
-      AC_CONFIG_FILES([control/Makefile])
+        AC_SUBST([GEN_FAN_ZONE_DEFS],
+                 ["$PYTHON \${top_srcdir}/control/gen-fan-zone-defs.py \
+                      -f $FAN_DEF_YAML_FILE \
+                      -z $FAN_ZONE_YAML_FILE \
+                      -e $ZONE_EVENTS_YAML_FILE \
+                      -c $ZONE_CONDITIONS_YAML_FILE"])
+    ])
+    AC_CONFIG_FILES([control/Makefile])
 ])
 
 AS_IF([test "x$enable_cooling_type" != "xno"], [
