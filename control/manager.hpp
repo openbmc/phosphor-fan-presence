@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.h"
+
 #include "types.hpp"
 #include "zone.hpp"
 
@@ -65,7 +67,7 @@ class Manager
      * The fan zones in the system
      */
     ZoneMap _zones;
-
+#ifndef CONTROL_USE_JSON
     /**
      * The fan zone layout for the system.
      * This is generated data.
@@ -78,6 +80,7 @@ class Manager
      * to give them a chance to get there.
      */
     static const unsigned int _powerOnDelay;
+#endif
 };
 
 } // namespace control
