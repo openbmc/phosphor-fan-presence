@@ -34,4 +34,15 @@ constexpr auto confAppName = "control";
  */
 const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus);
 
+/**
+ * @brief Get the delay(in seconds) to allow the fans to ramp up to the defined
+ * power on speed
+ *
+ * @param[in] bus - The dbus bus object
+ *
+ * @return Time to delay in seconds
+ *     Amount of time to delay in seconds after a power on
+ */
+const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus);
+
 } // namespace phosphor::fan::control
