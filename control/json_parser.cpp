@@ -15,5 +15,18 @@
  */
 #include "json_parser.hpp"
 
+#include "types.hpp"
+
+#include <sdbusplus/bus.hpp>
+
 namespace phosphor::fan::control
-{} // namespace phosphor::fan::control
+{
+
+const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
+{
+    std::vector<ZoneGroup> zoneGrps;
+
+    return zoneGrps;
+}
+
+} // namespace phosphor::fan::control
