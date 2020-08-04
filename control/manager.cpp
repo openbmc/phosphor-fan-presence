@@ -19,6 +19,9 @@
 
 #include "sdbusplus.hpp"
 #include "utility.hpp"
+#ifdef CONTROL_USE_JSON
+#include "json_parser.hpp"
+#endif
 
 #include <unistd.h>
 
@@ -88,10 +91,14 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
 {
     // Create the appropriate Zone objects based on the
     // actual system configuration.
+#ifdef CONTROL_USE_JSON
+    auto zoneLayouts = getZoneGroups(bus);
+#else
+    auto zoneLayouts = _zoneLayouts;
+#endif
 
     // Find the 1 ZoneGroup that meets all of its conditions
-#ifndef CONTROL_USE_JSON
-    for (auto& group : _zoneLayouts)
+    for (auto& group : zoneLayouts)
     {
         auto& conditions = std::get<conditionListPos>(group);
 
@@ -115,7 +122,6 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             break;
         }
     }
-#endif
 
     if (mode == Mode::control)
     {
