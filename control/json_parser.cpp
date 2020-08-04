@@ -29,4 +29,11 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
     return zoneGrps;
 }
 
+const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus)
+{
+    auto powerOnDelay = 0;
+
+    return powerOnDelay;
+}
+
 } // namespace phosphor::fan::control
