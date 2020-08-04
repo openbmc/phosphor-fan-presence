@@ -15,9 +15,23 @@
  */
 #pragma once
 
+#include "types.hpp"
+
+#include <sdbusplus/bus.hpp>
+
 namespace phosphor::fan::control
 {
 
 constexpr auto confAppName = "control";
+
+/**
+ * @brief Get the configuration definitions for zone groups
+ *
+ * @param[in] bus - The dbus bus object
+ *
+ * @return List of zone group objects
+ *     Generated list of zone groups including their control configurations
+ */
+const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus);
 
 } // namespace phosphor::fan::control
