@@ -135,13 +135,16 @@ void Manager::doInit()
     {
         z.second->setFullSpeed();
     }
-#ifndef CONTROL_USE_JSON
+#ifdef CONTROL_USE_JSON
+    auto delay = getPowerOnDelay(_bus);
+#else
     auto delay = _powerOnDelay;
+#endif
     while (delay > 0)
     {
         delay = sleep(delay);
     }
-#endif
+
     util::SDBusPlus::callMethod(_bus, SYSTEMD_SERVICE, SYSTEMD_OBJ_PATH,
                                 SYSTEMD_INTERFACE, "StartUnit",
                                 FAN_CONTROL_READY_TARGET, "replace");
