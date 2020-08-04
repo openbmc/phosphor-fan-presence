@@ -13,11 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#pragma once
+#include "profiles.hpp"
 
-namespace phosphor::fan::control
+#include "json_config.hpp"
+#include "json_parser.hpp"
+
+#include <sdbusplus/bus.hpp>
+
+namespace phosphor::fan::control::json
 {
 
-constexpr auto confAppName = "control";
+Profiles::Profiles(sdbusplus::bus::bus& bus)
+{
+    _jsonObj = fan::JsonConfig::load(
+        fan::JsonConfig::getConfFile(bus, confAppName, confFileName));
+}
 
-} // namespace phosphor::fan::control
+} // namespace phosphor::fan::control::json
