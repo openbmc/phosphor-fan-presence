@@ -31,6 +31,8 @@ phosphor_fan_control_CXXFLAGS = \
 	-flto
 
 if WANT_JSON
+SUBDIRS = json .
+phosphor_fan_control_LDADD += ${builddir}/json/libfan-control-json.la
 phosphor_fan_control_SOURCES += json_parser.cpp
 else
 BUILT_SOURCES = fan_zone_defs.cpp
