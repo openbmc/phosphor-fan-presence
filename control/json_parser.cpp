@@ -15,6 +15,7 @@
  */
 #include "json_parser.hpp"
 
+#include "json/manager.hpp"
 #include "types.hpp"
 
 #include <sdbusplus/bus.hpp>
@@ -31,9 +32,8 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
 
 const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus)
 {
-    auto powerOnDelay = 0;
-
-    return powerOnDelay;
+    auto mgr = json::Manager(bus);
+    return mgr.getPowerOnDelay();
 }
 
 } // namespace phosphor::fan::control
