@@ -59,13 +59,15 @@ class JsonConfig
      * @param[in] bus - The dbus bus object
      * @param[in] appName - The phosphor-fan-presence application name
      * @param[in] fileName - Application's configuration file's name
+     * @param[in] isOptional - Config file is optional, default to 'false'
      *
      * @return filesystem path
      *     The filesystem path to the configuration file to use
      */
     static const fs::path getConfFile(sdbusplus::bus::bus& bus,
                                       const std::string& appName,
-                                      const std::string& fileName)
+                                      const std::string& fileName,
+                                      bool isOptional = false)
     {
         // Check override location
         fs::path confFile = fs::path{confOverridePath} / appName / fileName;
@@ -102,11 +104,15 @@ class JsonConfig
             confFile = fs::path{confBasePath} / appName / fileName;
         }
 
-        if (!fs::exists(confFile))
+        if (!fs::exists(confFile) && !isOptional)
         {
             log<level::ERR>("No JSON config file found",
                             entry("DEFAULT_FILE=%s", confFile.c_str()));
             throw std::runtime_error("No JSON config file found");
+        }
+        else
+        {
+            confFile.clear();
         }
 
         return confFile;
@@ -125,7 +131,7 @@ class JsonConfig
         std::ifstream file;
         json jsonConf;
 
-        if (fs::exists(confFile))
+        if (!confFile.empty() && fs::exists(confFile))
         {
             log<level::INFO>("Loading configuration",
                              entry("JSON_FILE=%s", confFile.c_str()));
