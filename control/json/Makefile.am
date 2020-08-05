@@ -10,4 +10,5 @@ libfan_control_json_la_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS)
 
 libfan_control_json_la_SOURCES = \
+	manager.cpp \
 	profiles.cpp
