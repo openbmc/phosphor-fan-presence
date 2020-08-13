@@ -83,8 +83,9 @@ class Tach : public PresenceSensor
      * @param[in] sensor - The sensor that changed.
      * @param[in] props - The properties that changed.
      */
-    void propertiesChanged(
-        size_t sensor, const phosphor::fan::util::Properties<int64_t>& props);
+    void
+        propertiesChanged(size_t sensor,
+                          const phosphor::fan::util::Properties<double>& props);
 
     /**
      * @brief Properties changed handler for tach sensor updates.
@@ -96,7 +97,7 @@ class Tach : public PresenceSensor
 
     /** @brief array of tach sensors dbus matches, and tach values. */
     std::vector<std::tuple<
-        std::string, std::unique_ptr<sdbusplus::bus::match::match>, int64_t>>
+        std::string, std::unique_ptr<sdbusplus::bus::match::match>, double>>
         state;
 
     /** The current state of the sensor. */

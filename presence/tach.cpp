@@ -63,14 +63,14 @@ bool Tach::start()
         // Get an initial tach speed.
         try
         {
-            std::get<int64_t>(s) = util::SDBusPlus::getProperty<int64_t>(
+            std::get<double>(s) = util::SDBusPlus::getProperty<double>(
                 tachPath, tachIface, tachProperty);
         }
         catch (std::exception&)
         {
             // Assume not spinning.
 
-            std::get<int64_t>(s) = 0;
+            std::get<double>(s) = 0;
             log<level::INFO>("Unable to read fan tach sensor.",
                              entry("SENSOR=%s", tachPath.c_str()));
         }
@@ -78,7 +78,7 @@ bool Tach::start()
 
     // Set the initial state of the sensor.
     currentState = std::any_of(state.begin(), state.end(), [](const auto& s) {
-        return std::get<int64_t>(s) != 0;
+        return std::get<double>(s) != 0;
     });
 
     return currentState;
@@ -96,10 +96,10 @@ void Tach::stop()
 bool Tach::present()
 {
     // Live query the tach readings.
-    std::vector<int64_t> values;
+    std::vector<double> values;
     for (const auto& s : state)
     {
-        values.push_back(util::SDBusPlus::getProperty<int64_t>(
+        values.push_back(util::SDBusPlus::getProperty<double>(
             tachNamespace + std::get<std::string>(s), tachIface, tachProperty));
     }
 
@@ -110,26 +110,25 @@ bool Tach::present()
 void Tach::propertiesChanged(size_t sensor, sdbusplus::message::message& msg)
 {
     std::string iface;
-    util::Properties<int64_t> properties;
+    util::Properties<double> properties;
     msg.read(iface, properties);
 
     propertiesChanged(sensor, properties);
 }
 
 void Tach::propertiesChanged(size_t sensor,
-                             const util::Properties<int64_t>& props)
+                             const util::Properties<double>& props)
 {
     // Find the Value property containing the speed.
     auto it = props.find(tachProperty);
     if (it != props.end())
     {
         auto& s = state[sensor];
-        std::get<int64_t>(s) = std::get<int64_t>(it->second);
+        std::get<double>(s) = std::get<double>(it->second);
 
         auto newState =
-            std::any_of(state.begin(), state.end(), [](const auto& s) {
-                return std::get<int64_t>(s) != 0;
-            });
+            std::any_of(state.begin(), state.end(),
+                        [](const auto& s) { return std::get<double>(s) != 0; });
 
         if (currentState != newState)
         {
