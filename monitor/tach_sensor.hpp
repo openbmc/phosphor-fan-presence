@@ -94,7 +94,7 @@ class TachSensor
     /**
      * @brief Returns the input speed value
      */
-    inline int64_t getInput() const
+    inline double getInput() const
     {
         return _tachInput;
     }
@@ -274,7 +274,7 @@ class TachSensor
     /**
      * @brief The input speed, from the Value dbus property
      */
-    int64_t _tachInput = 0;
+    double _tachInput = 0;
 
     /**
      * @brief The current target speed, from the Target dbus property
