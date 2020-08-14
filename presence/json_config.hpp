@@ -24,7 +24,7 @@ namespace fs = std::filesystem;
 using json = nlohmann::json;
 
 constexpr auto confFileName = "config.json";
-constexpr auto confOverridePath = "/etc/phosphor-fan-presence/presence";
+constexpr auto confAppName = "presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence/presence";
 constexpr auto confDbusPath = "/xyz/openbmc_project/inventory/system/chassis";
 constexpr auto confDbusIntf =
@@ -100,24 +100,6 @@ class JsonConfig
      * function
      */
     static const std::map<std::string, rpolicyHandler> _rpolicies;
-
-    /**
-     * Get the json configuration file. The first location found to contain
-     * the json config file is used from the following locations in order.
-     * 1.) From the confOverridePath location
-     * 2.) From config file found using property value(s) as a relative
-     * path extension on the base path from the dbus object where:
-     *     path = Path set in confDbusPath
-     *     interface = Interface set in confDbusIntf
-     *     property = Property set in confDbusProp
-     * 3.) *DEFAULT* - From the confBasePath location
-     */
-    const fs::path getConfFile();
-
-    /**
-     * @brief Load the json config file
-     */
-    void load();
 
     /**
      * @brief Process the json config to extract the defined fan presence

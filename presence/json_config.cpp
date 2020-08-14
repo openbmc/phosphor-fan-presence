@@ -15,6 +15,7 @@
  */
 #include "json_config.hpp"
 
+#include "../json_config.hpp"
 #include "anyof.hpp"
 #include "fallback.hpp"
 #include "gpio.hpp"
@@ -49,9 +50,10 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
 JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
 {
     // Determine the configuration file to use
-    _confFile = getConfFile();
+    _confFile = fan::JsonConfig::getConfFile(bus, confAppName, confFileName);
+
     // Load and process the json configuration
-    load();
+    process(fan::JsonConfig::load(_confFile));
 }
 
 const policies& JsonConfig::get()
@@ -65,11 +67,15 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
     try
     {
         // Determine the configuration file to use
-        _confFile = getConfFile();
+        auto bus = sdbusplus::bus::new_default();
+        _confFile =
+            fan::JsonConfig::getConfFile(bus, confAppName, confFileName);
         log<level::INFO>("Loading configuration",
                          entry("JSON_FILE=%s", _confFile.c_str()));
+
         // Load and process the json configuration
-        load();
+        process(fan::JsonConfig::load(_confFile));
+
         for (auto& p : _policies)
         {
             p->monitor();
@@ -81,81 +87,6 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
         log<level::ERR>("Error loading config, no config changes made",
                         entry("LOAD_ERROR=%s", re.what()));
     }
-}
-
-const fs::path JsonConfig::getConfFile()
-{
-    // Check override location
-    fs::path confFile = fs::path{confOverridePath} / confFileName;
-    if (fs::exists(confFile))
-    {
-        return confFile;
-    }
-
-    try
-    {
-        // Retrieve json config relative path location from dbus
-        auto confDbusValue =
-            util::SDBusPlus::getProperty<std::vector<std::string>>(
-                _bus, confDbusPath, confDbusIntf, confDbusProp);
-        // Look for a config file at each entry relative to the base
-        // path and use the first one found
-        auto it = std::find_if(confDbusValue.begin(), confDbusValue.end(),
-                               [&confFile](auto const& entry) {
-                                   confFile = fs::path{confBasePath} / entry /
-                                              confFileName;
-                                   return fs::exists(confFile);
-                               });
-        if (it == confDbusValue.end())
-        {
-            // Property exists, but no config file found. Use default base path
-            confFile = fs::path{confBasePath} / confFileName;
-        }
-    }
-    catch (const util::DBusError&)
-    {
-        // Property unavailable, attempt default base path
-        confFile = fs::path{confBasePath} / confFileName;
-    }
-
-    if (!fs::exists(confFile))
-    {
-        log<level::ERR>("No JSON config file found",
-                        entry("DEFAULT_FILE=%s", confFile.c_str()));
-        throw std::runtime_error("No JSON config file found");
-    }
-
-    return confFile;
-}
-
-void JsonConfig::load()
-{
-    std::ifstream file;
-    json jsonConf;
-
-    if (fs::exists(_confFile))
-    {
-        file.open(_confFile);
-        try
-        {
-            jsonConf = json::parse(file);
-        }
-        catch (std::exception& e)
-        {
-            log<level::ERR>("Failed to parse JSON config file",
-                            entry("JSON_FILE=%s", _confFile.c_str()),
-                            entry("JSON_ERROR=%s", e.what()));
-            throw std::runtime_error("Failed to parse JSON config file");
-        }
-    }
-    else
-    {
-        log<level::ERR>("Unable to open JSON config file",
-                        entry("JSON_FILE=%s", _confFile.c_str()));
-        throw std::runtime_error("Unable to open JSON config file");
-    }
-
-    process(jsonConf);
 }
 
 void JsonConfig::process(const json& jsonConf)
