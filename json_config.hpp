@@ -106,13 +106,16 @@ class JsonConfig
 
         if (!fs::exists(confFile) && !isOptional)
         {
-            log<level::ERR>("No JSON config file found",
-                            entry("DEFAULT_FILE=%s", confFile.c_str()));
-            throw std::runtime_error("No JSON config file found");
-        }
-        else
-        {
-            confFile.clear();
+            if (!isOptional)
+            {
+                log<level::ERR>("No JSON config file found",
+                                entry("DEFAULT_FILE=%s", confFile.c_str()));
+                throw std::runtime_error("No JSON config file found");
+            }
+            else
+            {
+                confFile.clear();
+            }
         }
 
         return confFile;
