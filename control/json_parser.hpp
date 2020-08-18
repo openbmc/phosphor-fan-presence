@@ -15,14 +15,51 @@
  */
 #pragma once
 
+#include "json/profile.hpp"
+#include "json_config.hpp"
 #include "types.hpp"
 
+#include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
+
+#include <map>
+#include <memory>
 
 namespace phosphor::fan::control
 {
 
+/* Application name to be appended to the path for loading a JSON config file */
 constexpr auto confAppName = "control";
+
+/**
+ * @brief Load the configuration of a given JSON class object type
+ *
+ * @param[in] bus - The dbus bus object
+ * @param[in] isOptional - JSON configuration file is optional or not
+ *                         Defaults to false
+ *
+ * @return Map of configuration entries
+ *     Map of configuration names to their corresponding configuration object
+ */
+template <typename T>
+std::map<std::string, std::unique_ptr<T>> getConfig(sdbusplus::bus::bus& bus,
+                                                    bool isOptional = false)
+{
+    std::map<std::string, std::unique_ptr<T>> config;
+
+    auto confFile = fan::JsonConfig::getConfFile(bus, confAppName,
+                                                 T::confFileName, isOptional);
+    if (!confFile.empty())
+    {
+        for (const auto& entry : fan::JsonConfig::load(confFile))
+        {
+            auto obj = std::make_unique<T>(bus, entry);
+            config.emplace(obj->getName(), std::move(obj));
+        }
+    }
+
+    return config;
+}
 
 /**
  * @brief Get the configuration definitions for zone groups
