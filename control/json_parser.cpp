@@ -16,9 +16,12 @@
 #include "json_parser.hpp"
 
 #include "json/manager.hpp"
+#include "json/profile.hpp"
 #include "types.hpp"
 
 #include <sdbusplus/bus.hpp>
+
+#include <utility>
 
 namespace phosphor::fan::control
 {
@@ -26,6 +29,11 @@ namespace phosphor::fan::control
 const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
 {
     std::vector<ZoneGroup> zoneGrps;
+
+    // Profiles are optional
+    auto profiles = std::move(getConfig<json::Profile>(bus, true));
+
+    // TODO Create zone groups after loading all JSON config files
 
     return zoneGrps;
 }
