@@ -13,20 +13,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "profiles.hpp"
+#include "profile.hpp"
 
-#include "json_config.hpp"
-#include "json_parser.hpp"
-
+#include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
 namespace phosphor::fan::control::json
 {
 
-Profiles::Profiles(sdbusplus::bus::bus& bus)
-{
-    _jsonObj = fan::JsonConfig::load(
-        fan::JsonConfig::getConfFile(bus, confAppName, confFileName));
-}
+using json = nlohmann::json;
+using namespace phosphor::logging;
+
+Profile::Profile(sdbusplus::bus::bus& bus, const json& jsonObj) :
+    ConfigAttr(jsonObj), _bus(bus)
+{}
 
 } // namespace phosphor::fan::control::json
