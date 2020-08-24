@@ -24,6 +24,7 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
+using methodHandler = std::function<bool(const json&)>;
 
 /**
  * @class Profile - Represents a configured fan control profile
@@ -58,9 +59,56 @@ class Profile : public ConfigBase
      */
     Profile(sdbusplus::bus::bus& bus, const json& jsonObj);
 
+    /**
+     * @brief Get the active state
+     *
+     * @return The active state of the profile
+     */
+    inline bool isActive() const
+    {
+        return _active;
+    }
+
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
+
+    /* Active state of the profile */
+    bool _active;
+
+    /* Supported methods to their corresponding handler functions */
+    static const std::map<std::string, methodHandler> _methods;
+
+    /**
+     * @brief Parse and set the profile's active state
+     *
+     * @param[in] jsonObj - JSON object for the profile
+     *
+     * Sets the active state of the profile using the configured method of
+     * determining its active state.
+     */
+    void setActive(const json& jsonObj);
+
+    /**
+     * @brief An active state method where all must be true
+     *
+     * @param[in] method - JSON for the profile's method
+     *
+     * Active state method that takes a list of configured dbus properties where
+     * all of those properties must equal their configured values to set the
+     * profile to be active.
+     *
+     * "name": "all_of",
+     * "properties": [
+     *     {
+     *         "path": "[DBUS PATH]",
+     *         "interface": "[DBUS INTERFACE]",
+     *         "property": "[DBUS PROPERTY]",
+     *         "value": [VALUE TO BE ACTIVE]
+     *     }
+     * ]
+     */
+    static bool allOf(const json& method);
 };
 
 } // namespace phosphor::fan::control::json
