@@ -15,6 +15,8 @@
  */
 #pragma once
 
+#include "types.hpp"
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
@@ -53,6 +55,47 @@ class ConfigBase
     inline const std::string& getName() const
     {
         return _name;
+    }
+
+  protected:
+    /**
+     * @brief Determines the data type of a JSON configured parameter that is
+     * used as a variant within the fan control application and returns the
+     * value as that variant.
+     * @details Retrieves a JSON object by the first derived data type that
+     * is not null. Expected data types should appear in a logical order of
+     * conversion. i.e.) uint and int could both be uint
+     *
+     * @param[in] object - A single JSON object
+     *
+     * @return A `PropertyVariantType` variant containing the JSON object's
+     * value
+     */
+    static const PropertyVariantType getJsonValue(const json& object)
+    {
+        if (auto boolPtr = object.get_ptr<const bool*>())
+        {
+            return *boolPtr;
+        }
+        if (auto intPtr = object.get_ptr<const int64_t*>())
+        {
+            return *intPtr;
+        }
+        if (auto doublePtr = object.get_ptr<const double*>())
+        {
+            return *doublePtr;
+        }
+        if (auto stringPtr = object.get_ptr<const std::string*>())
+        {
+            return *stringPtr;
+        }
+
+        log<level::ERR>(
+            "Unsupported data type for JSON object's value",
+            entry("JSON_ENTRY=%s", object.dump().c_str()),
+            entry("SUPPORTED_TYPES=%s", "{bool, int, double, string}"));
+        throw std::runtime_error(
+            "Unsupported data type for JSON object's value");
     }
 
   private:
