@@ -15,7 +15,7 @@
  */
 #include "config.h"
 #ifdef PRESENCE_USE_JSON
-#include "json_config.hpp"
+#include "json_parser.hpp"
 #else
 #include "generated.hpp"
 #endif

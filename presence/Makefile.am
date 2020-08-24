@@ -12,7 +12,7 @@ phosphor_fan_presence_tach_SOURCES = \
 	psensor.cpp \
 	tach.cpp \
 	tach_detect.cpp \
-	json_config.cpp
+	json_parser.cpp
 
 phosphor_fan_presence_tach_LDADD = \
 	$(SDBUSPLUS_LIBS) \
