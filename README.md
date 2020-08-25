@@ -23,5 +23,6 @@ To enable the use of JSON configuration file(s) at runtime, provide the
 *Note: The following fan applications support the use of a JSON configuration
 file.*
 * Fan presence detection(presence)
+* Fan monitoring(monitor)
 
 To clean the repository run `./bootstrap.sh clean`.
