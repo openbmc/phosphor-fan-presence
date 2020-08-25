@@ -125,6 +125,45 @@ class Fan : public ConfigBase
      * to use in controlling the fan's speed
      */
     std::string _interface;
+
+    /**
+     * @brief Parse and set the fan's profiles
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Sets the list of profiles this fan belongs to if any are configured,
+     * otherwise an empty list of profiles results in the fan always being
+     * included in the zone.
+     */
+    void setProfiles(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the fan's zone
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Sets the zone this fan is included in.
+     */
+    void setZone(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the fan's sensor list
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Sets the list of sensors that contain a `Target` property on dbus
+     * that make up this fan.
+     */
+    void setSensors(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the fan's sensor interface
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Sets the sensor interface to use when setting the `Target` property
+     */
+    void setInterface(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::control::json
