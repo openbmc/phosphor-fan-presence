@@ -27,8 +27,7 @@ using namespace phosphor::logging;
 
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 
-Fan::Fan(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _bus(bus)
+Fan::Fan(sdbusplus::bus::bus& bus, const json& jsonObj) : ConfigBase(jsonObj)
 {
     if (jsonObj.contains("profiles"))
     {
