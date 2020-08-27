@@ -61,16 +61,6 @@ class Fan : public ConfigBase
     Fan(sdbusplus::bus::bus& bus, const json& jsonObj);
 
     /**
-     * @brief Get the list of profiles
-     *
-     * @return List of profiles this fan belongs to
-     */
-    inline const auto& getProfiles() const
-    {
-        return _profiles;
-    }
-
-    /**
      * @brief Get the zone
      *
      * @return Zone this fan belongs in
@@ -104,13 +94,6 @@ class Fan : public ConfigBase
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
 
-    /**
-     * Profiles this fan belongs to (OPTIONAL).
-     * Otherwise always include this fan in the zone
-     * it belongs to when no profiles given
-     */
-    std::vector<std::string> _profiles;
-
     /* The zone this fan belongs to */
     std::string _zone;
 
@@ -125,17 +108,6 @@ class Fan : public ConfigBase
      * to use in controlling the fan's speed
      */
     std::string _interface;
-
-    /**
-     * @brief Parse and set the fan's profiles
-     *
-     * @param[in] jsonObj - JSON object for the fan
-     *
-     * Sets the list of profiles this fan belongs to if any are configured,
-     * otherwise an empty list of profiles results in the fan always being
-     * included in the zone.
-     */
-    void setProfiles(const json& jsonObj);
 
     /**
      * @brief Parse and set the fan's zone
