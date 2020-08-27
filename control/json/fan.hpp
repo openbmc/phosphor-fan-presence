@@ -91,9 +91,6 @@ class Fan : public ConfigBase
     }
 
   private:
-    /* The sdbusplus bus object */
-    sdbusplus::bus::bus& _bus;
-
     /* The zone this fan belongs to */
     std::string _zone;
 
