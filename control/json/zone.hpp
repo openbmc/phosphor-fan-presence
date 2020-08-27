@@ -20,10 +20,18 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <any>
+#include <functional>
+#include <map>
+#include <tuple>
+
 namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
+
+/* Interface property handler function */
+using propertyHandler = std::function<std::any(const json&)>;
 
 /**
  * @class Zone - Represents a configured fan control zone
@@ -43,6 +51,13 @@ class Zone : public ConfigBase
   public:
     /* JSON file name for zones */
     static constexpr auto confFileName = "zones.json";
+
+    /* Map of interfaces to properties with their values and persistency */
+    static constexpr auto propValue = 0;
+    static constexpr auto propPersist = 1;
+    using Interfaces =
+        std::map<std::string,
+                 std::map<std::string, std::tuple<std::any, bool>>>;
 
     Zone() = delete;
     Zone(const Zone&) = delete;
@@ -120,6 +135,20 @@ class Zone : public ConfigBase
         return _decInterval;
     }
 
+    /**
+     * @brief Get the configuration of interfaces
+     *
+     * Interfaces hosted by a zone can optionally be configured to set their
+     * property values and/or persistency. These interfaces must be supported
+     * by the zone object they are configured for.
+     *
+     * @return Map of interfaces to properties with their values and persistency
+     */
+    inline const auto& getInterfaces() const
+    {
+        return _interfaces;
+    }
+
   private:
     /* The zone's full speed value for fans */
     uint64_t _fullSpeed;
@@ -132,6 +161,12 @@ class Zone : public ConfigBase
 
     /* Zone's speed decrease interval(in seconds) */
     uint64_t _decInterval;
+
+    /* Map of interfaces to properties with their values and persistency */
+    Interfaces _interfaces;
+
+    /* Interface properties mapping to their associated handler function */
+    static const std::map<std::string, propertyHandler> _props;
 
     /**
      * @brief Parse and set the zone's full speed value
@@ -161,6 +196,43 @@ class Zone : public ConfigBase
      * configuration object
      */
     void setDecInterval(const json& jsonObj);
+
+    /**
+     * @brief Parse and set properties on interfaces the zone serves(OPTIONAL)
+     *
+     * @param[in] jsonObj - JSON object for the zone
+     *
+     * Sets any properties on the interfaces that the zone to serves along
+     * with the property's persistency state (OPTIONAL). A property's "persist"
+     * state is defaulted to not be persisted when not given.
+     */
+    void setInterfaces(const json& jsonObj);
 };
+
+/**
+ * Properties of interfaces supported by the zone configuration
+ */
+namespace property
+{
+
+/**
+ * @brief "Supported" property on the "ThermalMode" interface
+ *
+ * @param[in] jsonObj - JSON object for the "Supported" property
+ *
+ * @return - A std::any object of the "Supported" property's value
+ */
+std::any supported(const json& jsonObj);
+
+/**
+ * @brief "Current property on the "ThermalMode" interface
+ *
+ * @param[in] jsonObj - JSON object for the "Current" property
+ *
+ * @return - A std::any object of the "Current" property's value
+ */
+std::any current(const json& jsonObj);
+
+} // namespace property
 
 } // namespace phosphor::fan::control::json
