@@ -14,4 +14,5 @@ libfan_control_json_la_CXXFLAGS = \
 libfan_control_json_la_SOURCES = \
 	manager.cpp \
 	profile.cpp \
-	fan.cpp
+	fan.cpp \
+	zone.cpp
