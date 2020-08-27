@@ -32,6 +32,14 @@ namespace phosphor::fan::control
 constexpr auto confAppName = "control";
 
 /**
+ * Configuration object key to uniquely map to the configuration object
+ * Pair constructed of:
+ *      std::string = Configuration object's name
+ *      std::vector<std::string> = List of profiles the configuration object
+ *                                 is included in
+ */
+typedef std::pair<std::string, std::vector<std::string>> configKey;
+/**
  * @brief Load the configuration of a given JSON class object type
  *
  * @param[in] bus - The dbus bus object
@@ -39,13 +47,13 @@ constexpr auto confAppName = "control";
  *                         Defaults to false
  *
  * @return Map of configuration entries
- *     Map of configuration names to their corresponding configuration object
+ *     Map of configuration keys to their corresponding configuration object
  */
 template <typename T>
-std::map<std::string, std::unique_ptr<T>> getConfig(sdbusplus::bus::bus& bus,
-                                                    bool isOptional = false)
+std::map<configKey, std::unique_ptr<T>> getConfig(sdbusplus::bus::bus& bus,
+                                                  bool isOptional = false)
 {
-    std::map<std::string, std::unique_ptr<T>> config;
+    std::map<configKey, std::unique_ptr<T>> config;
 
     auto confFile = fan::JsonConfig::getConfFile(bus, confAppName,
                                                  T::confFileName, isOptional);
@@ -54,10 +62,10 @@ std::map<std::string, std::unique_ptr<T>> getConfig(sdbusplus::bus::bus& bus,
         for (const auto& entry : fan::JsonConfig::load(confFile))
         {
             auto obj = std::make_unique<T>(bus, entry);
-            config.emplace(obj->getName(), std::move(obj));
+            config.emplace(std::make_pair(obj->getName(), obj->getProfiles()),
+                           std::move(obj));
         }
     }
-
     return config;
 }
 
