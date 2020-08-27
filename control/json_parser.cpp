@@ -18,6 +18,7 @@
 #include "json/fan.hpp"
 #include "json/manager.hpp"
 #include "json/profile.hpp"
+#include "json/zone.hpp"
 #include "types.hpp"
 
 #include <sdbusplus/bus.hpp>
@@ -33,6 +34,8 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
     auto profiles = getConfig<json::Profile>(bus, true);
     // Fans to be controlled
     auto fans = getConfig<json::Fan>(bus);
+    // Zones within the system
+    auto zones = getConfig<json::Zone>(bus);
 
     // TODO Create zone groups after loading all JSON config files
 
