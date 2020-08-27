@@ -57,6 +57,20 @@ class ConfigBase
         return _name;
     }
 
+    /**
+     * @brief Get the configuration object's list of profiles
+     *
+     * Gets the list of profiles this configuration object belongs to if any
+     * are configured, otherwise an empty list of profiles results in the
+     * object always being included in the configuration.
+     *
+     * @return List of profiles the configuration object belongs to
+     */
+    inline const auto& getProfiles() const
+    {
+        return _profiles;
+    }
+
   protected:
     /**
      * @brief Determines the data type of a JSON configured parameter that is
@@ -97,6 +111,13 @@ class ConfigBase
         throw std::runtime_error(
             "Unsupported data type for JSON object's value");
     }
+
+    /**
+     * Profiles this configuration object belongs to (OPTIONAL).
+     * Otherwise always include this object in the configuration
+     * when no profiles are given
+     */
+    std::vector<std::string> _profiles;
 
   private:
     /* Name of the configuration object */
