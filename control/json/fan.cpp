@@ -25,8 +25,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-Fan::Fan(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _bus(bus)
+Fan::Fan(sdbusplus::bus::bus& bus, const json& jsonObj) : ConfigBase(jsonObj)
 {
     if (jsonObj.contains("profiles"))
     {
