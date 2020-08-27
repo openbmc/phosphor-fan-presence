@@ -28,15 +28,6 @@ using namespace phosphor::logging;
 Fan::Fan(sdbusplus::bus::bus& bus, const json& jsonObj) :
     ConfigBase(jsonObj), _bus(bus)
 {
-    setProfiles(jsonObj);
-    setZone(jsonObj);
-    setSensors(jsonObj);
-    setInterface(jsonObj);
-}
-
-void Fan::setProfiles(const json& jsonObj)
-{
-    _profiles = {};
     if (jsonObj.contains("profiles"))
     {
         for (const auto& profile : jsonObj["profiles"])
@@ -44,6 +35,9 @@ void Fan::setProfiles(const json& jsonObj)
             _profiles.emplace_back(profile.get<std::string>());
         }
     }
+    setZone(jsonObj);
+    setSensors(jsonObj);
+    setInterface(jsonObj);
 }
 
 void Fan::setZone(const json& jsonObj)
