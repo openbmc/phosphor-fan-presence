@@ -41,7 +41,7 @@ class ConfigBase
     ConfigBase& operator=(ConfigBase&&) = delete;
     virtual ~ConfigBase() = default;
 
-    explicit ConfigBase(const json& jsonObj)
+    explicit ConfigBase(const json& jsonObj) : _profiles({})
     {
         // Set the name of this configuration object
         setName(jsonObj);
@@ -55,6 +55,20 @@ class ConfigBase
     inline const std::string& getName()
     {
         return _name;
+    }
+
+    /**
+     * @brief Get the configuration object's list of profiles
+     *
+     * Gets the list of profiles this configuration object belongs to if any
+     * are configured, otherwise an empty list of profiles results in the
+     * object always being included in the configuration.
+     *
+     * @return List of profiles the configuration object belongs to
+     */
+    inline const auto& getProfiles()
+    {
+        return _profiles;
     }
 
   protected:
@@ -97,6 +111,13 @@ class ConfigBase
         throw std::runtime_error(
             "Unsupported data type for JSON object's value");
     }
+
+    /**
+     * Profiles this configuration object belongs to (OPTIONAL).
+     * Otherwise always include this object in the configuration
+     * when no profiles are given
+     */
+    std::vector<std::string> _profiles;
 
   private:
     /* Name of the configuration object */
