@@ -18,7 +18,8 @@ phosphor_fan_monitor_LDADD = \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
 	-lstdc++fs \
-	$(STDPLUS_LIBS)
+	$(STDPLUS_LIBS) \
+	$(FMT_LIBS)
 
 phosphor_fan_monitor_CXXFLAGS = \
 	$(SDBUSPLUS_CFLAGS) \

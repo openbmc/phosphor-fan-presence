@@ -17,6 +17,8 @@
 
 #include "sdbusplus.hpp"
 
+#include <fmt/format.h>
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -108,9 +110,14 @@ class JsonConfig
         {
             if (!isOptional)
             {
-                log<level::ERR>("No JSON config file found",
-                                entry("DEFAULT_FILE=%s", confFile.c_str()));
-                throw std::runtime_error("No JSON config file found");
+                log<level::ERR>(
+                    fmt::format("No JSON config file found. Default file: {}",
+                                confFile.string())
+                        .c_str());
+                throw std::runtime_error(
+                    fmt::format("No JSON config file found. Default file: {}",
+                                confFile.string())
+                        .c_str());
             }
             else
             {
@@ -136,8 +143,9 @@ class JsonConfig
 
         if (!confFile.empty() && fs::exists(confFile))
         {
-            log<level::INFO>("Loading configuration",
-                             entry("JSON_FILE=%s", confFile.c_str()));
+            log<level::INFO>(
+                fmt::format("Loading configuration from {}", confFile.string())
+                    .c_str());
             file.open(confFile);
             try
             {
@@ -145,17 +153,27 @@ class JsonConfig
             }
             catch (std::exception& e)
             {
-                log<level::ERR>("Failed to parse JSON config file",
-                                entry("JSON_FILE=%s", confFile.c_str()),
-                                entry("JSON_ERROR=%s", e.what()));
-                throw std::runtime_error("Failed to parse JSON config file");
+                log<level::ERR>(
+                    fmt::format(
+                        "Failed to parse JSON config file: {}, error: {}",
+                        confFile.string(), e.what())
+                        .c_str());
+                throw std::runtime_error(
+                    fmt::format(
+                        "Failed to parse JSON config file: {}, error: {}",
+                        confFile.string(), e.what())
+                        .c_str());
             }
         }
         else
         {
-            log<level::ERR>("Unable to open JSON config file",
-                            entry("JSON_FILE=%s", confFile.c_str()));
-            throw std::runtime_error("Unable to open JSON config file");
+            log<level::ERR>(fmt::format("Unable to open JSON config file: {}",
+                                        confFile.string())
+                                .c_str());
+            throw std::runtime_error(
+                fmt::format("Unable to open JSON config file: {}",
+                            confFile.string())
+                    .c_str());
         }
 
         return jsonConf;
