@@ -15,4 +15,5 @@ libfan_control_json_la_SOURCES = \
 	manager.cpp \
 	profile.cpp \
 	fan.cpp \
-	zone.cpp
+	zone.cpp \
+	group.cpp
