@@ -40,6 +40,9 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def)),
     _trustManager(trust)
 {
+    // Start from a known state of functional
+    updateInventory(true);
+
     // Setup tach sensors for monitoring
     auto& sensors = std::get<sensorListField>(def);
     for (auto& s : sensors)
@@ -55,11 +58,11 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             _trustManager->registerSensor(_sensors.back());
         }
         catch (InvalidSensorError& e)
-        {}
+        {
+            // mark associated fan as nonfunctional
+            updateInventory(false);
+        }
     }
-
-    // Start from a known state of functional
-    updateInventory(true);
 
     // Check current tach state when entering monitor mode
     if (mode != Mode::init)
