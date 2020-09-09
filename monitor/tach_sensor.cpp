@@ -19,6 +19,8 @@
 #include "sdbusplus.hpp"
 #include "utility.hpp"
 
+#include <fmt/format.h>
+
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/log.hpp>
 
@@ -92,8 +94,11 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
         }
         catch (std::exception& e)
         {
-            log<level::INFO>("Not monitoring a tach sensor",
-                             entry("SENSOR=%s", _name.c_str()));
+            log<level::ERR>(
+                fmt::format("Failed to retrieve tach sensor {}", _name)
+                    .c_str());
+            // mark tach sensor as nonfunctional
+            setFunctional(false);
             throw InvalidSensorError();
         }
 
