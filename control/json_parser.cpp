@@ -15,6 +15,7 @@
  */
 #include "json_parser.hpp"
 
+#include "json/event.hpp"
 #include "json/fan.hpp"
 #include "json/group.hpp"
 #include "json/manager.hpp"
@@ -37,8 +38,13 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
     auto fans = getConfig<json::Fan>(bus);
     // Zones within the system
     auto zones = getConfig<json::Zone>(bus);
-    // Groups to include in events
-    auto groups = getConfig<json::Group>(bus);
+    // Fan control events are optional
+    auto events = getConfig<json::Event>(bus, true);
+    if (!events.empty())
+    {
+        // Groups to include in events
+        auto groups = getConfig<json::Group>(bus);
+    }
 
     // TODO Create zone groups after loading all JSON config files
 
