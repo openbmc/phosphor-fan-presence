@@ -23,6 +23,8 @@
 #include <unistd.h>
 
 #include <phosphor-logging/log.hpp>
+#include <xyz/openbmc_project/Logging/Create/server.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
 namespace phosphor::fan::presence
 {
@@ -35,6 +37,8 @@ namespace fs = std::filesystem;
 
 const auto itemIface = "xyz.openbmc_project.Inventory.Item"s;
 const auto invPrefix = "/xyz/openbmc_project/inventory"s;
+const auto loggingPath = "/xyz/openbmc_project/logging";
+const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 ErrorReporter::ErrorReporter(
     sdbusplus::bus::bus& bus, const json& jsonConf,
@@ -146,7 +150,55 @@ void ErrorReporter::checkFan(const std::string& fanPath)
 }
 
 void ErrorReporter::fanMissingTimerExpired(const std::string& fanPath)
-{}
+{
+    getLogger().log(
+        fmt::format("Creating event log for missing fan {}", fanPath),
+        Logger::error);
+
+    std::map<std::string, std::string> additionalData;
+    additionalData.emplace("_PID", std::to_string(getpid()));
+    additionalData.emplace("CALLOUT_INVENTORY_PATH", fanPath);
+
+    auto severity =
+        sdbusplus::xyz::openbmc_project::Logging::server::convertForMessage(
+            sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level::
+                Error);
+
+    // Save our logs in JSON to a temp file and get the file descriptor
+    // so it can be passed in as FFDC data.
+    auto logFile = getLogger().saveToTempFile();
+    util::FileDescriptor fd{-1};
+    fd.open(logFile, O_RDONLY);
+
+    std::vector<std::tuple<
+        sdbusplus::xyz::openbmc_project::Logging::server::Create::FFDCFormat,
+        uint8_t, uint8_t, sdbusplus::message::unix_fd>>
+        ffdc;
+
+    ffdc.emplace_back(sdbusplus::xyz::openbmc_project::Logging::server::Create::
+                          FFDCFormat::JSON,
+                      0x01, 0x01, fd());
+
+    try
+    {
+        util::SDBusPlus::lookupAndCallMethod(
+            loggingPath, loggingCreateIface, "CreateWithFFDCFiles",
+            "xyz.openbmc_project.Fan.Error.Missing", severity, additionalData,
+            ffdc);
+    }
+    catch (const util::DBusError& e)
+    {
+        getLogger().log(
+            fmt::format(
+                "Call to create an error log for missing fan {} failed: {}",
+                fanPath, e.what()),
+            Logger::error);
+        fs::remove(logFile);
+        throw;
+    }
+
+    fs::remove(logFile);
+}
 
 void ErrorReporter::powerStateChanged(bool powerState)
 {
