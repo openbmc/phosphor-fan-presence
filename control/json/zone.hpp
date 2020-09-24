@@ -16,6 +16,7 @@
 #pragma once
 
 #include "config_base.hpp"
+#include "types.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
@@ -31,7 +32,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 
 /* Interface property handler function */
-using propertyHandler = std::function<std::any(const json&)>;
+using propHandler = std::function<ZoneHandler(const json&, bool)>;
 
 /**
  * @class Zone - Represents a configured fan control zone
@@ -51,13 +52,10 @@ class Zone : public ConfigBase
   public:
     /* JSON file name for zones */
     static constexpr auto confFileName = "zones.json";
-
-    /* Map of interfaces to properties with their values and persistency */
-    static constexpr auto propValue = 0;
-    static constexpr auto propPersist = 1;
-    using Interfaces =
-        std::map<std::string,
-                 std::map<std::string, std::tuple<std::any, bool>>>;
+    static constexpr auto thermModeIntf =
+        "xyz.openbmc_project.Control.ThermalMode";
+    static constexpr auto supportedProp = "Supported";
+    static constexpr auto currentProp = "Current";
 
     Zone() = delete;
     Zone(const Zone&) = delete;
@@ -136,17 +134,18 @@ class Zone : public ConfigBase
     }
 
     /**
-     * @brief Get the configuration of interfaces
+     * @brief Get the configuration of zone interface handlers
      *
      * Interfaces hosted by a zone can optionally be configured to set their
      * property values and/or persistency. These interfaces must be supported
      * by the zone object they are configured for.
      *
-     * @return Map of interfaces to properties with their values and persistency
+     * @return List of zone interface handler functions that set an interface's
+     * property values and persistency states
      */
-    inline const auto& getInterfaces() const
+    inline const auto& getZoneHandlers() const
     {
-        return _interfaces;
+        return _zoneHandlers;
     }
 
   private:
@@ -162,11 +161,15 @@ class Zone : public ConfigBase
     /* Zone's speed decrease interval(in seconds) */
     uint64_t _decInterval;
 
-    /* Map of interfaces to properties with their values and persistency */
-    Interfaces _interfaces;
+    /**
+     * Zone interface handler functions for its
+     * configured interfaces (OPTIONAL)
+     */
+    std::vector<ZoneHandler> _zoneHandlers;
 
-    /* Interface properties mapping to their associated handler function */
-    static const std::map<std::string, propertyHandler> _props;
+    /* Interface to property mapping of their associated handler function */
+    static const std::map<std::string, std::map<std::string, propHandler>>
+        _intfPropHandlers;
 
     /**
      * @brief Parse and set the zone's full speed value
@@ -198,13 +201,14 @@ class Zone : public ConfigBase
     void setDecInterval(const json& jsonObj);
 
     /**
-     * @brief Parse and set properties on interfaces the zone serves(OPTIONAL)
+     * @brief Parse and set the interfaces served by the zone(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the zone
      *
-     * Sets any properties on the interfaces that the zone to serves along
-     * with the property's persistency state (OPTIONAL). A property's "persist"
-     * state is defaulted to not be persisted when not given.
+     * Constructs any zone interface handler functions for interfaces that the
+     * zone serves which contains the interface's property's value and
+     * persistency state (OPTIONAL). A property's "persist" state is defaulted
+     * to not be persisted when not given.
      */
     void setInterfaces(const json& jsonObj);
 };
@@ -216,22 +220,26 @@ namespace zone::property
 {
 
 /**
- * @brief "Supported" property on the "ThermalMode" interface
+ * @brief "Supported" property on the "xyz.openbmc_project.Control.ThermalMode"
+ * interface
  *
  * @param[in] jsonObj - JSON object for the "Supported" property
+ * @param[in] persist - Whether to persist the value or not
  *
- * @return - A std::any object of the "Supported" property's value
+ * @return Zone interface handler function for the property
  */
-std::any supported(const json& jsonObj);
+ZoneHandler supported(const json& jsonObj, bool persist);
 
 /**
- * @brief "Current property on the "ThermalMode" interface
+ * @brief "Current" property on the "xyz.openbmc_project.Control.ThermalMode"
+ * interface
  *
  * @param[in] jsonObj - JSON object for the "Current" property
+ * @param[in] persist - Whether to persist the value or not
  *
- * @return - A std::any object of the "Current" property's value
+ * @return Zone interface handler function for the property
  */
-std::any current(const json& jsonObj);
+ZoneHandler current(const json& jsonObj, bool persist);
 
 } // namespace zone::property
 
