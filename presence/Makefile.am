@@ -6,6 +6,7 @@ bin_PROGRAMS = \
 
 phosphor_fan_presence_tach_SOURCES = \
 	anyof.cpp \
+	error_reporter.cpp \
 	fallback.cpp \
 	fan.cpp \
 	gpio.cpp \

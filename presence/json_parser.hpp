@@ -1,5 +1,6 @@
 #pragma once
 
+#include "error_reporter.hpp"
 #include "fan.hpp"
 #include "psensor.hpp"
 #include "rpolicy.hpp"
@@ -92,6 +93,11 @@ class JsonConfig
      * function
      */
     static const std::map<std::string, rpolicyHandler> _rpolicies;
+
+    /**
+     * Class that handles reporting errors for missing fans.
+     */
+    std::unique_ptr<ErrorReporter> _reporter;
 
     /**
      * @brief Process the json config to extract the defined fan presence
