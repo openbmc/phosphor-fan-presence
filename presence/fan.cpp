@@ -59,8 +59,8 @@ void setPresence(const Fan& fan, bool newState)
 
 bool getPresence(const Fan& fan)
 {
-    return util::SDBusPlus::getProperty<bool>(std::get<1>(fan), itemIface,
-                                              "Present"s);
+    return util::SDBusPlus::getProperty<bool>(invNamespace + std::get<1>(fan),
+                                              itemIface, "Present"s);
 }
 
 } // namespace presence
