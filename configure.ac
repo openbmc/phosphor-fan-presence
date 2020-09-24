@@ -100,6 +100,12 @@ AS_IF([test "x$enable_presence" != "xno"], [
        AC_SUBST([PFPGEN],
                 ["$PYTHON \${top_srcdir}/presence/pfpgen.py generate-cpp -i $PRESENCE_CONFIG"])
     ])
+
+    AC_ARG_VAR(NUM_PRESENCE_LOG_ENTRIES, [Maximum number of entries in the message log])
+    AS_IF([test "x$NUM_PRESENCE_LOG_ENTRIES" == "x"], [NUM_PRESENCE_LOG_ENTRIES=50])
+    AC_DEFINE_UNQUOTED([NUM_PRESENCE_LOG_ENTRIES], [$NUM_PRESENCE_LOG_ENTRIES],
+                       [Maximum number of entries in the message log])
+
     AC_CONFIG_FILES([presence/Makefile])
 ])
 
@@ -191,5 +197,5 @@ AS_IF([test "x$enable_monitor" != "xno"], [
 ])
 
 # Create configured output
-AC_CONFIG_FILES([Makefile presence/test/Makefile])
+AC_CONFIG_FILES([Makefile test/Makefile presence/test/Makefile])
 AC_OUTPUT
