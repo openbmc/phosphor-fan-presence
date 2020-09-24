@@ -15,16 +15,20 @@
  */
 #include "zone.hpp"
 
+#include "../zone.hpp"
+#include "functor.hpp"
+#include "handlers.hpp"
+#include "types.hpp"
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
-#include <any>
 #include <iterator>
 #include <map>
 #include <numeric>
-#include <tuple>
 #include <utility>
+#include <vector>
 
 namespace phosphor::fan::control::json
 {
@@ -32,9 +36,10 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-const std::map<std::string, propertyHandler> Zone::_props = {
-    {"Supported", zone::property::supported},
-    {"Current", zone::property::current}};
+const std::map<std::string, std::map<std::string, propHandler>>
+    Zone::_intfPropHandlers = {{thermModeIntf,
+                                {{supportedProp, zone::property::supported},
+                                 {currentProp, zone::property::current}}}};
 
 Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     ConfigBase(jsonObj), _incDelay(0)
@@ -105,73 +110,127 @@ void Zone::setInterfaces(const json& jsonObj)
             throw std::runtime_error(
                 "Missing required zone interface attributes");
         }
-        std::map<std::string, std::tuple<std::any, bool>> props;
-        for (const auto& property : interface["properties"])
+        auto propFuncs =
+            _intfPropHandlers.find(interface["name"].get<std::string>());
+        if (propFuncs != _intfPropHandlers.end())
         {
-            if (!property.contains("name"))
+            for (const auto& property : interface["properties"])
             {
-                log<level::ERR>(
-                    "Missing required interface property attributes",
-                    entry("JSON=%s", property.dump().c_str()));
-                throw std::runtime_error(
-                    "Missing required interface property attributes");
-            }
-            // Attribute "persist" is optional, defaults to `false`
-            auto persist = false;
-            if (property.contains("persist"))
-            {
-                persist = property["persist"].get<bool>();
-            }
-            // Property name from JSON must exactly match supported
-            // index names to functions in property namespace
-            auto prop = property["name"].get<std::string>();
-            auto propFunc = _props.find(prop);
-            if (propFunc != _props.end())
-            {
-                auto value = propFunc->second(property);
-                props.emplace(prop, std::make_tuple(value, persist));
-            }
-            else
-            {
-                // Construct list of available properties
-                auto props = std::accumulate(
-                    std::next(_props.begin()), _props.end(),
-                    _props.begin()->first, [](auto list, auto prop) {
-                        return std::move(list) + ", " + prop.first;
-                    });
-                log<level::ERR>("Configured property function not available",
-                                entry("JSON=%s", property.dump().c_str()),
-                                entry("AVAILABLE_PROPS=%s", props.c_str()));
-                throw std::runtime_error(
-                    "Configured property function not available");
+                if (!property.contains("name"))
+                {
+                    log<level::ERR>(
+                        "Missing required interface property attributes",
+                        entry("JSON=%s", property.dump().c_str()));
+                    throw std::runtime_error(
+                        "Missing required interface property attributes");
+                }
+                // Attribute "persist" is optional, defaults to `false`
+                auto persist = false;
+                if (property.contains("persist"))
+                {
+                    persist = property["persist"].get<bool>();
+                }
+                // Property name from JSON must exactly match supported
+                // index names to functions in property namespace
+                auto propFunc =
+                    propFuncs->second.find(property["name"].get<std::string>());
+                if (propFunc != propFuncs->second.end())
+                {
+                    auto zHandler = propFunc->second(property, persist);
+                    // Only add non-null zone handler functions
+                    if (zHandler)
+                    {
+                        _zoneHandlers.emplace_back(zHandler);
+                    }
+                }
+                else
+                {
+                    // Construct list of available configurable properties
+                    auto props = std::accumulate(
+                        std::next(propFuncs->second.begin()),
+                        propFuncs->second.end(),
+                        propFuncs->second.begin()->first,
+                        [](auto list, auto prop) {
+                            return std::move(list) + ", " + prop.first;
+                        });
+                    log<level::ERR>("Configured property not available",
+                                    entry("JSON=%s", property.dump().c_str()),
+                                    entry("AVAILABLE_PROPS=%s", props.c_str()));
+                    throw std::runtime_error(
+                        "Configured property function not available");
+                }
             }
         }
-        _interfaces.emplace(interface["name"].get<std::string>(), props);
+        else
+        {
+            // Construct list of available configurable interfaces
+            auto intfs = std::accumulate(
+                std::next(_intfPropHandlers.begin()), _intfPropHandlers.end(),
+                _intfPropHandlers.begin()->first, [](auto list, auto intf) {
+                    return std::move(list) + ", " + intf.first;
+                });
+            log<level::ERR>("Configured interface not available",
+                            entry("JSON=%s", interface.dump().c_str()),
+                            entry("AVAILABLE_INTFS=%s", intfs.c_str()));
+        }
     }
 }
 
 /**
- * Properties of interfaces supported by the zone configuration
+ * Properties of interfaces supported by the zone configuration that return
+ * a ZoneHandler function that sets the zone's property value(s).
  */
 namespace zone::property
 {
-// Get an any object for the configured value of the "Supported" property
-std::any supported(const json& jsonObj)
+// Get a zone handler function for the configured values of the "Supported"
+// property
+ZoneHandler supported(const json& jsonObj, bool persist)
 {
     std::vector<std::string> values;
-    for (const auto& value : jsonObj["values"])
+    if (!jsonObj.contains("values"))
     {
-        values.emplace_back(value["value"].get<std::string>());
+        log<level::ERR>(
+            "No 'values' found for \"Supported\" property, using an empty list",
+            entry("JSON=%s", jsonObj.dump().c_str()));
+    }
+    else
+    {
+        for (const auto& value : jsonObj["values"])
+        {
+            if (!value.contains("value"))
+            {
+                log<level::ERR>("No 'value' found for \"Supported\" property "
+                                "entry, skipping",
+                                entry("JSON=%s", value.dump().c_str()));
+            }
+            else
+            {
+                values.emplace_back(value["value"].get<std::string>());
+            }
+        }
     }
 
-    return std::make_any<std::vector<std::string>>(values);
+    return make_zoneHandler(handler::setZoneProperty<std::vector<std::string>>(
+        Zone::thermModeIntf, Zone::supportedProp, &control::Zone::supported,
+        std::move(values), persist));
 }
 
-// Get an any object for the configured value of the "Current" property
-std::any current(const json& jsonObj)
+// Get a zone handler function for a configured value of the "Current"
+// property
+ZoneHandler current(const json& jsonObj, bool persist)
 {
-    auto value = jsonObj["value"].get<std::string>();
-    return std::make_any<std::string>(value);
+    // Use default value for "Current" property if no "value" entry given
+    if (!jsonObj.contains("value"))
+    {
+        log<level::ERR>("No 'value' found for \"Current\" property, "
+                        "using default",
+                        entry("JSON=%s", jsonObj.dump().c_str()));
+        return {};
+    }
+
+    return make_zoneHandler(handler::setZoneProperty<std::string>(
+        Zone::thermModeIntf, Zone::currentProp, &control::Zone::current,
+        jsonObj["value"].get<std::string>(), persist));
 }
 } // namespace zone::property
 
