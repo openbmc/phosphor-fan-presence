@@ -88,11 +88,25 @@ void JsonConfig::process(const json& jsonConf)
 {
     policies policies;
     std::vector<fanPolicy> fans;
+    const json* fanJSON;
+
+    // The original JSON had the fan array at the root, but the new JSON
+    // has it under a 'fans' element.  Support both.
+    // This can be removed after the new JSON is in the image.
+    if (jsonConf.is_array())
+    {
+        fanJSON = &jsonConf;
+    }
+    else
+    {
+        fanJSON = &jsonConf["fans"];
+    }
+
     // Set the expected number of fan entries
     // to be size of the list of fan json config entries
     // (Must be done to eliminate vector reallocation of fan references)
-    fans.reserve(jsonConf.size());
-    for (auto& member : jsonConf)
+    fans.reserve(fanJSON->size());
+    for (auto& member : *fanJSON)
     {
         if (!member.contains("name") || !member.contains("path") ||
             !member.contains("methods") || !member.contains("rpolicy"))
@@ -159,6 +173,13 @@ void JsonConfig::process(const json& jsonConf)
 
     _policies.clear();
     _policies.swap(policies);
+
+    // Create the error reporter class if necessary
+    if (jsonConf.contains("reporting"))
+    {
+        _reporter = std::make_unique<ErrorReporter>(
+            _bus, jsonConf.at("reporting"), _fans);
+    }
 }
 
 std::unique_ptr<RedundancyPolicy>
