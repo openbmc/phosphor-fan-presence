@@ -92,13 +92,21 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     // Create the appropriate Zone objects based on the
     // actual system configuration.
 #ifdef CONTROL_USE_JSON
-    auto zoneLayouts = getZoneGroups(bus);
+    for (auto& group : getZoneGroups(bus))
+    {
+        // Create a Zone object for each zone in the group
+        for (auto& z : std::get<zoneListPos>(group))
+        {
+            fs::path path{CONTROL_OBJPATH};
+            path /= std::to_string(std::get<zoneNumPos>(z));
+            _zones.emplace(
+                std::get<zoneNumPos>(z),
+                std::make_unique<Zone>(mode, _bus, path.string(), event, z));
+        }
+    }
 #else
-    auto zoneLayouts = _zoneLayouts;
-#endif
-
     // Find the 1 ZoneGroup that meets all of its conditions
-    for (auto& group : zoneLayouts)
+    for (auto& group : _zoneLayouts)
     {
         auto& conditions = std::get<conditionListPos>(group);
 
@@ -122,6 +130,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             break;
         }
     }
+#endif
 
     if (mode == Mode::control)
     {

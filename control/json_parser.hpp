@@ -72,6 +72,28 @@ std::map<configKey, std::unique_ptr<T>> getConfig(sdbusplus::bus::bus& bus,
 }
 
 /**
+ * @brief Helper function to determine when a configuration entry is included
+ * based on the list of active profiles and its list of profiles
+ *
+ * A configuration entry may include a list of profiles that when any one of
+ * the profiles are active, the entry should be included. When the list of
+ * profiles for a configuration entry is empty, that results in always
+ * including the entry. An empty list of active profiles results in including
+ * only those entries configured without a list of profiles.
+ *
+ * i.e.) No profiles configured results in always being included, whereas
+ * providing a list of profiles on an entry results only in that entry being
+ * included when a profile in the list is active.
+ *
+ * @param[in] activeProfiles - List of active system profiles
+ * @param[in] entryProfiles - List of the configuration entry's profiles
+ *
+ * @return Whether the configuration entry should be included or not
+ */
+bool checkEntry(const std::vector<std::string>& activeProfiles,
+                const std::vector<std::string>& entryProfiles);
+
+/**
  * @brief Get the configuration definitions for zone groups
  *
  * @param[in] bus - The dbus bus object
