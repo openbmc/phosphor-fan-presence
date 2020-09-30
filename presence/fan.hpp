@@ -1,5 +1,6 @@
 #pragma once
 
+#include <optional>
 #include <string>
 #include <tuple>
 
@@ -10,8 +11,8 @@ namespace fan
 namespace presence
 {
 
-/** @brief PrettyName and inventory path. */
-using Fan = std::tuple<std::string, std::string>;
+/** @brief PrettyName, inventory path and time until error. */
+using Fan = std::tuple<std::string, std::string, std::optional<size_t>>;
 
 /**
  * @brief Update the presence state.
