@@ -39,23 +39,15 @@ class ErrorReporter
      * @brief Constructor
      *
      * @param[in] bus - The sdbusplus bus object
-     * @param[in] jsonConf - The 'reporting' section of the JSON config file
      * @param[in] fans - The fans for this configuration
      */
     ErrorReporter(
-        sdbusplus::bus::bus& bus, const nlohmann::json& jsonConf,
+        sdbusplus::bus::bus& bus,
         const std::vector<
             std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>&
             fans);
 
   private:
-    /**
-     * @brief Reads in the configuration from the JSON section
-     *
-     * @param[in] jsonConf - The 'reporting' section of the JSON
-     */
-    void loadConfig(const nlohmann::json& jsonConf);
-
     /**
      * @brief The propertiesChanged callback for the interface that
      *        contains the Present property of a fan.
@@ -115,21 +107,18 @@ class ErrorReporter
     std::unique_ptr<PowerState> _powerState;
 
     /**
-     * @brief The amount of time in seconds that a fan must be missing
-     *        before an event log is created for it.
-     */
-    std::chrono::seconds _fanMissingErrorTime;
-
-    /**
      * @brief The map of fan paths to their presence states.
      */
     std::map<std::string, bool> _fanStates;
 
     /**
-     * @brief The map of fan paths to their Timer objects.
+     * @brief The map of fan paths to their Timer objects with
+     *        the timer expiration time.
      */
-    std::map<std::string, std::unique_ptr<sdeventplus::utility::Timer<
-                              sdeventplus::ClockId::Monotonic>>>
+    std::map<std::string,
+             std::tuple<std::unique_ptr<sdeventplus::utility::Timer<
+                            sdeventplus::ClockId::Monotonic>>,
+                        std::chrono::seconds>>
         _fanMissingTimers;
 };
 
