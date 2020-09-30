@@ -33,6 +33,7 @@ using json = nlohmann::json;
 using namespace phosphor::logging;
 using namespace sdbusplus::bus::match;
 using namespace std::literals::string_literals;
+using namespace std::chrono;
 namespace fs = std::filesystem;
 
 const auto itemIface = "xyz.openbmc_project.Inventory.Item"s;
@@ -41,14 +42,12 @@ const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 ErrorReporter::ErrorReporter(
-    sdbusplus::bus::bus& bus, const json& jsonConf,
+    sdbusplus::bus::bus& bus,
     const std::vector<
         std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>& fans) :
     _bus(bus),
     _event(sdeventplus::Event::get_default())
 {
-    loadConfig(jsonConf);
-
     // If different methods to check the power state are needed across the
     // various platforms, the method/class to use could be read out of JSON
     // or set with a compilation flag.
@@ -58,25 +57,34 @@ ErrorReporter::ErrorReporter(
 
     for (const auto& fan : fans)
     {
-        auto path = invPrefix + std::get<1>(std::get<0>(fan));
+        const auto& fanData = std::get<0>(fan);
 
-        // Register for fan presence changes, get their initial states,
-        // and create the fan missing timers for each fan.
+        // Only deal with fans that have an error time defined.
+        if (std::get<std::optional<size_t>>(fanData))
+        {
+            auto path = invPrefix + std::get<1>(fanData);
 
-        _matches.emplace_back(
-            _bus, rules::propertiesChanged(path, itemIface),
-            std::bind(std::mem_fn(&ErrorReporter::presenceChanged), this,
-                      std::placeholders::_1));
+            // Register for fan presence changes, get their initial states,
+            // and create the fan missing timers.
 
-        _fanStates.emplace(path, getPresence(std::get<0>(fan)));
+            _matches.emplace_back(
+                _bus, rules::propertiesChanged(path, itemIface),
+                std::bind(std::mem_fn(&ErrorReporter::presenceChanged), this,
+                          std::placeholders::_1));
 
-        auto timer = std::make_unique<
-            sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
-            _event,
-            std::bind(std::mem_fn(&ErrorReporter::fanMissingTimerExpired), this,
-                      path));
+            _fanStates.emplace(path, getPresence(fanData));
 
-        _fanMissingTimers.emplace(path, std::move(timer));
+            auto timer = std::make_unique<
+                sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
+                _event,
+                std::bind(std::mem_fn(&ErrorReporter::fanMissingTimerExpired),
+                          this, path));
+
+            seconds errorTime{std::get<std::optional<size_t>>(fanData).value()};
+
+            _fanMissingTimers.emplace(
+                path, std::make_tuple(std::move(timer), std::move(errorTime)));
+        }
     }
 
     // If power is already on, check for currently missing fans.
@@ -84,20 +92,6 @@ ErrorReporter::ErrorReporter(
     {
         powerStateChanged(true);
     }
-}
-
-void ErrorReporter::loadConfig(const json& jsonConf)
-{
-    if (!jsonConf.contains("fan_missing_error_time"))
-    {
-        log<level::ERR>("Missing 'fan_missing_error_time' entry in JSON "
-                        "'reporting' section");
-
-        throw std::runtime_error("Missing fan missing time entry in JSON");
-    }
-
-    _fanMissingErrorTime = std::chrono::seconds{
-        jsonConf.at("fan_missing_error_time").get<std::size_t>()};
 }
 
 void ErrorReporter::presenceChanged(sdbusplus::message::message& msg)
@@ -126,25 +120,29 @@ void ErrorReporter::presenceChanged(sdbusplus::message::message& msg)
 
 void ErrorReporter::checkFan(const std::string& fanPath)
 {
+    auto& timer = std::get<0>(_fanMissingTimers[fanPath]);
+
     if (!_fanStates[fanPath])
     {
         // Fan is missing. If power is on, start the timer.
         // If power is off, stop a running timer.
         if (_powerState->isPowerOn())
         {
-            _fanMissingTimers[fanPath]->restartOnce(_fanMissingErrorTime);
+            const auto& errorTime =
+                std::get<seconds>(_fanMissingTimers[fanPath]);
+            timer->restartOnce(errorTime);
         }
-        else if (_fanMissingTimers[fanPath]->isEnabled())
+        else if (timer->isEnabled())
         {
-            _fanMissingTimers[fanPath]->setEnabled(false);
+            timer->setEnabled(false);
         }
     }
     else
     {
         // Fan is present. Stop a running timer.
-        if (_fanMissingTimers[fanPath]->isEnabled())
+        if (timer->isEnabled())
         {
-            _fanMissingTimers[fanPath]->setEnabled(false);
+            timer->setEnabled(false);
         }
     }
 }
