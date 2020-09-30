@@ -4,6 +4,7 @@
 
 #include <array>
 #include <memory>
+#include <optional>
 #include <string>
 #include "anyof.hpp"
 #include "fallback.hpp"
@@ -51,6 +52,7 @@ struct ConfigFans
                 Fans::value_type{
                     "${f.name}"s,
                     "${f.path}"s,
+                    std::nullopt
                 },
 % endfor
             }

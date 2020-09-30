@@ -88,25 +88,11 @@ void JsonConfig::process(const json& jsonConf)
 {
     policies policies;
     std::vector<fanPolicy> fans;
-    const json* fanJSON;
-
-    // The original JSON had the fan array at the root, but the new JSON
-    // has it under a 'fans' element.  Support both.
-    // This can be removed after the new JSON is in the image.
-    if (jsonConf.is_array())
-    {
-        fanJSON = &jsonConf;
-    }
-    else
-    {
-        fanJSON = &jsonConf["fans"];
-    }
-
     // Set the expected number of fan entries
     // to be size of the list of fan json config entries
     // (Must be done to eliminate vector reallocation of fan references)
-    fans.reserve(fanJSON->size());
-    for (auto& member : *fanJSON)
+    fans.reserve(jsonConf.size());
+    for (auto& member : jsonConf)
     {
         if (!member.contains("name") || !member.contains("path") ||
             !member.contains("methods") || !member.contains("rpolicy"))
@@ -155,7 +141,17 @@ void JsonConfig::process(const json& jsonConf)
                 throw std::runtime_error("Invalid fan presence method type");
             }
         }
-        auto fan = std::make_tuple(member["name"], member["path"]);
+
+        // Get the amount of time a fan must be not present before
+        // creating an error.
+        std::optional<size_t> timeUntilError;
+        if (member.contains("fan_missing_error_time"))
+        {
+            timeUntilError = member["fan_missing_error_time"].get<size_t>();
+        }
+
+        auto fan =
+            std::make_tuple(member["name"], member["path"], timeUntilError);
         // Create a fan object
         fans.emplace_back(std::make_tuple(fan, std::move(sensors)));
 
@@ -175,10 +171,12 @@ void JsonConfig::process(const json& jsonConf)
     _policies.swap(policies);
 
     // Create the error reporter class if necessary
-    if (jsonConf.contains("reporting"))
+    if (std::any_of(_fans.begin(), _fans.end(), [](const auto& fan) {
+            return std::get<std::optional<size_t>>(std::get<Fan>(fan)) !=
+                   std::nullopt;
+        }))
     {
-        _reporter = std::make_unique<ErrorReporter>(
-            _bus, jsonConf.at("reporting"), _fans);
+        _reporter = std::make_unique<ErrorReporter>(_bus, _fans);
     }
 }
 
