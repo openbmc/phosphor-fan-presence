@@ -23,8 +23,9 @@ To enable the use of JSON configuration file(s) at runtime, provide the
 *Note: The following fan applications support the use of a JSON configuration
 file.*
 * Fan presence detection(presence)
-    * The error logging feature is only available via the JSON configuration.
+  * The error logging feature is only available via the JSON configuration.
 * Fan monitoring(monitor)
+  * [JSON Documentation](monitor/json)
 * Fan control(control) - limited functionality
     * Currently only supports setting fans to the configured `full_speed`  
       (If you require more than just setting fans to the configured
