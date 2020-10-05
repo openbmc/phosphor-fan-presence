@@ -62,6 +62,18 @@ fan FRU inventory object it also set to nonfunctional.
 
 Required.
 
+### nonfunc_fan_error_delay
+
+This defines how many seconds a fan FRU must be nonfunctional before an error
+will be created.
+
+```
+"nonfunc_fan_error_delay": 1
+```
+
+Optional.  If not present but there is a [fault handling
+configuration](#fault-handling-configuration) section, then it defaults to 0.
+
 ### sensors
 
 This is an array with an entry for each tach sensor contained in the fan FRU.
@@ -70,4 +82,198 @@ TODO
 
 ## Fault Handling Configuration
 
-TODO
+The fault handling configuration section is optional and defines how fan faults
+are handled.  If not present, then event logs will not be created when fans
+become nonfunctional after the
+'[nonfunc_fan_error_delay](#nonfunc_fan_error_delay)' time, otherwise they will
+be.
+
+```
+"fault_handling":
+{
+
+
+}
+```
+
+It contains the following properties.
+
+### num_nonfunc_fans_before_error
+
+This specifies how many nonfunctional fan FRUs there must be at the same time
+before an event log with an error severity is created for the fan.  When there
+are fewer than this many functional fans, then event logs with an informational
+severity will be created.
+
+For example, if this number is 2, when the first fan FRU becomes nonfunctional
+an informational event log will be created.  Then when the second fan FRU
+becomes nonfunctional while the original one is still nonfunctional an event
+log with an error severity will be created.
+
+```
+"num_nonfunc_fans_before_error": 2
+```
+
+### power_off_config
+
+This is an array of entries where each entry has a cause and type of power off
+along with related settings.  Entries become active when they are triggered by
+their cause, which starts one or more delays, followed by the shutdown type
+specified.  More than one entry can be active at the same time, where the first
+entry that finishes the delay will be the one to shut the system down.
+
+This entry is optional.  If not specified, then no power offs will be done.
+
+```
+"power_off_config":
+[
+    {
+        // power off configuration
+        "type": "hard", "soft", or "epow"
+        ...
+    }
+    ...
+]
+```
+
+There are 2 formats of power off entries - [hard/soft](#hard-or-soft-power-off)
+and [epow](#epow-power-off), which stands for early power off warning.  The
+format is selected by the 'type' property, which is either 'hard', 'soft', or
+'epow'.
+
+#### Hard Or Soft Power Off
+
+The hard/soft entry has the required properties 'cause', 'count', 'delay', and
+'type'.  It has one optional property - 'state'.
+
+##### cause
+
+When the cause and the count conditions are satisfied, the timer to invoke the
+shutdown is started.  This property can have the following values:
+
+* nonfunc_fan_frus - There must be 'count' or more nonfunctional fan FRUs.
+* missing_fan_frus - There must be 'count' or more missing fan FRUs.
+* nonfunc_and_missing_fan_frus - There must be a combined total of 'count' or
+    more missing or nonfunctional fan FRUs.
+* nonfunc_fan_rotors - There must be 'count' or more nonfunctional fan rotors.
+    Though there is no present/missing property for a rotor, if the rotor is
+    indeed missing it is considered nonfunctional.
+
+For single rotor fan FRUs, nonfunc_and_missing_fan_frus == nonfunc_fan_rotors.
+
+##### count
+
+This specifies the number of FRUs/rotors with the status specified by the cause
+field for the power off timer to start.  For example, a if cause is
+'nonfunc_fan_frus' and this field is 3, then the shutdown timer starts when
+there are 3 or more nonfunctional fan FRUs.
+
+##### delay
+
+This is the delay in seconds between the cause condition triggering and the
+shutdown occurring.  If the cause becomes false while the delay is in progress,
+such as if a fan is replaced, then the power off is canceled.
+
+##### type
+
+This is the type of power off to do, either 'hard' or 'soft'.  A hard power off
+is an immediate power off.  A soft power off is where the BMC asks the hosts to
+handle the power off process, with some built in timeout where if the host
+hasn't shut down by then then the BMC will do it.
+
+##### state
+
+This says when the entry is valid, and is either 'at_pgood', or 'runtime'.  The
+'at_pgood' value means the entry is only valid at the point  when the power
+state changes from off to on.  The 'runtime' value means the entry is valid at
+any other time that the power state is on. In other words,  it will be valid
+during any present or functional fan status change, and just not on the power
+state change.
+
+The fan code always starts with all fans functional at power on, so it is
+really only useful to have the cause be 'missing_fan_frus' when 'at_pgood' is
+used.
+
+This is optional and if not present it defaults to 'runtime'.
+
+```
+[
+    {
+        "type": "hard"
+        "cause": "missing_fan_frus",
+        "count": 2,
+        "delay": 0,
+        "state": "at_pgood"
+    },
+    {
+        "type": "soft"
+        "cause": "nonfunc_fan_rotors",
+        "count": 3,
+        "delay": 60,
+    },
+    {
+        "type": "hard"
+        "cause": "nonfunc_fan_rotors",
+        "count": 4,
+        "delay": 120,
+    }
+]
+```
+
+The first entry states that when the power state changes to on, immediately do
+a hard power off if there are 2 missing fan FRUs.
+
+The second entry above states that as soon as there are three nonfunctional fan
+rotors, it will start a 60 second timer. When that expires, do a soft power
+off.  If one of those nonfunctional fan rotors becomes functional before the 60
+seconds has passed, cancel the timer and don't request the power off.
+
+The third entry also looks for 3 nonfunctional fan rotors, and will do a hard
+power off after 120 seconds.  This acts like a failsafe, shutting the system
+off if the host didn't respond to the soft power off request in time.
+
+#### EPOW Power Off
+
+The EPOW format of the power off event has the same 'cause' and 'count' fields
+as the hard/soft format, but introduces two different delay fields -
+'service_mode_delay' and 'meltdown_delay':
+
+##### service_mode_delay
+
+A timer is started with this delay upon the 'cause' and 'count' conditions
+being satisfied. This is the window for service to be done to the machine
+without any actions being taken, so if the condition is resolved within
+this time the power off will be canceled.
+
+##### meltdown_delay
+
+A timer with this delay is started as soon as the service mode timer expires.
+When this timer expires, an immediate power off will be done.
+
+In addition to starting this timer, a D-Bus property will be set (TBD)
+indicating there is an impending shutdown due to fans.  On systems that support
+it, such as IBM systems that run the PowerVM hypervisor, this would trigger a
+notification via the hypervisor to the OS that there is a thermal fault and
+that an orderly power off should be done.  This does not include sending the
+regular [soft power off](#type) request.
+
+Resolving fan errors during this time will not stop the immediate power off.
+The only way it won't occur is if the previous request to the host to power off
+the system happens first.
+
+```
+[
+    {
+        "type": "epow"
+        "cause": "nonfunc_fan_rotors",
+        "count": 3,
+        "service_mode_delay": 300,
+        "meltdown_delay": 500
+    }
+]
+```
+
+The entry above states that as soon as there are 3 nonfunctional fan rotors, a
+300 second service mode timer will be started to allow time for the fans to be
+replaced.  At the end of this time, a 500 second timer will be started, at the
+end of which the system will be immediately powered off.
