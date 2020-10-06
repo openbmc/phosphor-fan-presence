@@ -19,6 +19,8 @@
 #include "types.hpp"
 #include "utility.hpp"
 
+#include <fmt/format.h>
+
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
@@ -172,8 +174,10 @@ void Fan::timerExpired(TachSensor& sensor)
     // the fan can go back to functional
     if (!_functional && !tooManySensorsNonfunctional())
     {
-        log<level::INFO>("Setting a fan back to functional",
-                         entry("FAN=%s", _name.c_str()));
+        log<level::INFO>(fmt::format("Setting a fan back to functional "
+                                     "FAN={}",
+                                     _name.c_str())
+                             .c_str());
 
         updateInventory(true);
     }
@@ -183,11 +187,14 @@ void Fan::timerExpired(TachSensor& sensor)
     // the whole fan nonfunctional.
     if (_functional && tooManySensorsNonfunctional())
     {
-        log<level::ERR>("Setting a fan to nonfunctional",
-                        entry("FAN=%s", _name.c_str()),
-                        entry("TACH_SENSOR=%s", sensor.name().c_str()),
-                        entry("ACTUAL_SPEED=%lld", sensor.getInput()),
-                        entry("TARGET_SPEED=%lld", sensor.getTarget()));
+        log<level::ERR>(fmt::format("Setting a fan to nonfunctional "
+                                    "FAN: {} "
+                                    "TACH_SENSOR: {} "
+                                    "ACTUAL SPEED: {} "
+                                    "TARGET SPEED:  {}",
+                                    _name, sensor.name(), sensor.getInput(),
+                                    sensor.getTarget())
+                            .c_str());
 
         updateInventory(false);
     }
