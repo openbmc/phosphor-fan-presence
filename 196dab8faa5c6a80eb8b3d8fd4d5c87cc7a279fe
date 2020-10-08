@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c596d329_a0b917ec",
+        "filename": "monitor/json.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-10-08T16:05:07Z",
+      "side": 1,
+      "message": "we need to be able to create multiple errors against the same fan if multiple rotors in it fails, so we can\u0027t create errors on a FRU basis.",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 71,
+        "endChar": 28
+      },
+      "revId": "196dab8faa5c6a80eb8b3d8fd4d5c87cc7a279fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eb939f1_2f27d0b5",
+        "filename": "monitor/json.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-10-08T16:05:07Z",
+      "side": 1,
+      "message": "probably will need to change this to num_nonfunc_rotors_before_error",
+      "revId": "196dab8faa5c6a80eb8b3d8fd4d5c87cc7a279fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
