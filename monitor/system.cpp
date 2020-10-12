@@ -118,7 +118,7 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
             }
         }
         _fans.emplace_back(
-            std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef));
+            std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
     }
 }
 

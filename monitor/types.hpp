@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.h"
+
 #include "trust_group.hpp"
 
 #include <nlohmann/json.hpp>
@@ -106,11 +108,20 @@ constexpr auto funcDelay = 1;
 constexpr auto timeoutField = 2;
 constexpr auto fanDeviationField = 3;
 constexpr auto numSensorFailsForNonfuncField = 4;
+#ifdef MONITOR_USE_JSON
+constexpr auto monitorStartDelayField = 5;
+constexpr auto sensorListField = 6;
+constexpr auto conditionField = 7;
+#else
 constexpr auto sensorListField = 5;
 constexpr auto conditionField = 6;
+#endif
 
 using FanDefinition =
     std::tuple<std::string, size_t, size_t, size_t, size_t,
+#ifdef MONITOR_USE_JSON
+               size_t,
+#endif
                std::vector<SensorDefinition>, std::optional<Condition>>;
 
 } // namespace monitor

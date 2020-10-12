@@ -62,6 +62,16 @@ class System
     void sighupHandler(sdeventplus::source::Signal&,
                        const struct signalfd_siginfo*);
 
+    /**
+     * @brief Returns the event loop object
+     *
+     * @return const Event& - The event object
+     */
+    const sdeventplus::Event& getEvent() const
+    {
+        return _event;
+    }
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
