@@ -54,6 +54,7 @@ const std::vector<FanDefinition> fanDefinitions
                   ${fan_data['allowed_out_of_range_time']},
                   ${fan_data['deviation']},
                   ${fan_data['num_sensors_nonfunc_for_fan_nonfunc']},
+                  0, // Monitor start delay - not used in YAML configs
                   std::vector<SensorDefinition>{
                   %for sensor in fan_data['sensors']:
                   <%

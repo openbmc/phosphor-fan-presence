@@ -177,7 +177,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
                 "Missing required fan monitor definition parameters",
                 entry("REQUIRED_PARAMETERS=%s",
                       "{inventory, allowed_out_of_range_time, deviation, "
-                      "num_sensors_nonfunc_for_fan_nonfunc, sensors}"));
+                      "num_sensors_nonfunc_for_fan_nonfunc, sensors"));
             throw std::runtime_error(
                 "Missing required fan monitor definition parameters");
         }
@@ -189,6 +189,13 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         if (fan.contains("functional_delay"))
         {
             funcDelay = fan["functional_delay"].get<size_t>();
+        }
+
+        // Monitor start delay is optional and defaults to 30s
+        size_t monitorDelay = 30;
+        if (fan.contains("monitor_start_delay"))
+        {
+            monitorDelay = fan["monitor_start_delay"].get<size_t>();
         }
 
         // Handle optional conditions
@@ -221,13 +228,12 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
                     entry("JSON_DUMP=%s", fan["condition"].dump().c_str()));
             }
         }
-
         fanDefs.emplace_back(
             std::tuple(fan["inventory"].get<std::string>(), funcDelay,
                        fan["allowed_out_of_range_time"].get<size_t>(),
                        fan["deviation"].get<size_t>(),
                        fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>(),
-                       sensorDefs, cond));
+                       monitorDelay, sensorDefs, cond));
     }
 
     return fanDefs;

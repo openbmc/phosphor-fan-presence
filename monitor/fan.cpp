@@ -16,6 +16,7 @@
 #include "fan.hpp"
 
 #include "sdbusplus.hpp"
+#include "system.hpp"
 #include "types.hpp"
 #include "utility.hpp"
 
@@ -33,14 +34,22 @@ namespace monitor
 {
 
 using namespace phosphor::logging;
+using namespace sdbusplus::bus::match;
 
 Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
-         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def) :
+         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
+         System& system) :
     _bus(bus),
     _name(std::get<fanNameField>(def)),
     _deviation(std::get<fanDeviationField>(def)),
     _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def)),
-    _trustManager(trust)
+    _trustManager(trust),
+#ifdef MONITOR_USE_JSON
+    _monitorDelay(std::get<monitorStartDelayField>(def)),
+    _monitorTimer(system.getEvent(),
+                  std::bind(std::mem_fn(&Fan::startMonitor), this)),
+#endif
+    _system(system)
 {
     // Start from a known state of functional
     updateInventory(true);
@@ -66,20 +75,38 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         }
     }
 
+#ifndef MONITOR_USE_JSON
     // Check current tach state when entering monitor mode
+    _monitorReady = true;
     if (mode != Mode::init)
     {
         // The TachSensors will now have already read the input
         // and target values, so check them.
         tachChanged();
     }
+#else
+    // If it used the JSON config, then it also will do all the work
+    // out of fan-monitor-init, after _monitorDelay.
+    _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
+
+#endif
+}
+
+void Fan::startMonitor()
+{
+    _monitorReady = true;
+
+    tachChanged();
 }
 
 void Fan::tachChanged()
 {
-    for (auto& s : _sensors)
+    if (_monitorReady)
     {
-        tachChanged(*s);
+        for (auto& s : _sensors)
+        {
+            tachChanged(*s);
+        }
     }
 }
 

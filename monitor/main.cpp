@@ -54,6 +54,16 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    // If using JSON, then everything is handled in a single
+    // step - the init step.  Hopefully these can eventually be
+    // reduced into a single invocation.
+#ifdef MONITOR_USE_JSON
+    if (mode == Mode::monitor)
+    {
+        return 0;
+    }
+#endif
+
     // Attach the event object to the bus object so we can
     // handle both sd_events (for the timers) and dbus signals.
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
@@ -69,11 +79,13 @@ int main(int argc, char* argv[])
                                                  std::placeholders::_2));
 #endif
 
+#ifndef MONITOR_USE_JSON
     if (mode == Mode::init)
     {
         // Fans were initialized to be functional, exit
         return 0;
     }
+#endif
 
     return event.loop();
 }
