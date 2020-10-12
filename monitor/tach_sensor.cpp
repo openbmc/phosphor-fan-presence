@@ -83,8 +83,10 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
     setFunctional(true);
 
     // Load in current Target and Input values when entering monitor mode
+#ifndef MONITOR_USE_JSON
     if (mode != Mode::init)
     {
+#endif
         try
         {
             // Use getProperty directly to allow a missing sensor object
@@ -122,7 +124,9 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                 _bus, match.c_str(),
                 [this](auto& msg) { this->handleTargetChange(msg); });
         }
+#ifndef MONITOR_USE_JSON
     }
+#endif
 }
 
 std::string TachSensor::getMatchString(const std::string& interface)
