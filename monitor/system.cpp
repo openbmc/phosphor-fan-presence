@@ -13,8 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "config.h"
-
 #include "system.hpp"
 
 #include "fan.hpp"
@@ -118,7 +116,7 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
             }
         }
         _fans.emplace_back(
-            std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef));
+            std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
     }
 }
 
