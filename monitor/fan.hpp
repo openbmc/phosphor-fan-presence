@@ -1,5 +1,7 @@
 #pragma once
 
+#include "config.h"
+
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
 #include "types.hpp"
@@ -16,6 +18,8 @@ namespace fan
 {
 namespace monitor
 {
+
+class System;
 
 /**
  * @class InvalidSensorError
@@ -83,9 +87,11 @@ class Fan
      * @param event - event loop reference
      * @param trust - the tach trust manager
      * @param def - the fan definition structure
+     * @param system - Reference to the system object
      */
     Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
-        std::unique_ptr<trust::Manager>& trust, const FanDefinition& def);
+        std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
+        System& system);
 
     /**
      * @brief Callback function for when an input sensor changes
@@ -157,6 +163,12 @@ class Fan
     void updateInventory(bool functional);
 
     /**
+     * @brief Called by _monitorTimer to start fan monitoring some
+     *        amount of time after startup.
+     */
+    void startMonitor();
+
+    /**
      * @brief the dbus object
      */
     sdbusplus::bus::bus& _bus;
@@ -199,6 +211,29 @@ class Fan
      * The tach trust manager object
      */
     std::unique_ptr<trust::Manager>& _trustManager;
+
+#ifdef MONITOR_USE_JSON
+    /**
+     * @brief The number of seconds to wait after startup until
+     *        fan sensors should checked against their targets.
+     */
+    size_t _monitorDelay;
+
+    /**
+     * @brief Expires after _monitorDelay to start fan monitoring.
+     */
+    sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic> _monitorTimer;
+#endif
+
+    /**
+     * @brief Set to true when monitoring can start.
+     */
+    bool _monitorReady = false;
+
+    /**
+     * @brief Reference to the System object
+     */
+    System& _system;
 };
 
 } // namespace monitor
