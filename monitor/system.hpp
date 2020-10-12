@@ -15,6 +15,8 @@
  */
 #pragma once
 
+#include "config.h"
+
 #include "fan.hpp"
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
