@@ -116,6 +116,11 @@ using FanDefinition =
     std::tuple<std::string, size_t, size_t, size_t, size_t, size_t,
                std::vector<SensorDefinition>, std::optional<Condition>>;
 
+constexpr auto presentHealthPos = 0;
+constexpr auto sensorFuncHealthPos = 1;
+
+using FanHealthEntry = std::tuple<bool, std::vector<bool>>;
+using FanHealth = std::map<std::string, FanHealthEntry>;
 } // namespace monitor
 } // namespace fan
 } // namespace phosphor
