@@ -172,16 +172,14 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
     {
         if (!fan.contains("inventory") ||
             !fan.contains("allowed_out_of_range_time") ||
-            !fan.contains("deviation") ||
-            !fan.contains("num_sensors_nonfunc_for_fan_nonfunc") ||
-            !fan.contains("sensors"))
+            !fan.contains("deviation") || !fan.contains("sensors"))
         {
             // Log error on missing required parameters
             log<level::ERR>(
                 "Missing required fan monitor definition parameters",
                 entry("REQUIRED_PARAMETERS=%s",
                       "{inventory, allowed_out_of_range_time, deviation, "
-                      "num_sensors_nonfunc_for_fan_nonfunc, sensors"));
+                      "sensors"));
             throw std::runtime_error(
                 "Missing required fan monitor definition parameters");
         }
@@ -200,6 +198,16 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         if (fan.contains("monitor_start_delay"))
         {
             monitorDelay = fan["monitor_start_delay"].get<size_t>();
+        }
+
+        // num_sensors_nonfunc_for_fan_nonfunc is optional and defaults
+        // to zero if not present, meaning the code will not set the
+        // parent fan to nonfunctional based on sensors.
+        size_t nonfuncSensorsCount = 0;
+        if (fan.contains("num_sensors_nonfunc_for_fan_nonfunc"))
+        {
+            nonfuncSensorsCount =
+                fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>();
         }
 
         // Handle optional conditions
@@ -235,8 +243,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         fanDefs.emplace_back(
             std::tuple(fan["inventory"].get<std::string>(), funcDelay,
                        fan["allowed_out_of_range_time"].get<size_t>(),
-                       fan["deviation"].get<size_t>(),
-                       fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>(),
+                       fan["deviation"].get<size_t>(), nonfuncSensorsCount,
                        monitorDelay, sensorDefs, cond));
     }
 
