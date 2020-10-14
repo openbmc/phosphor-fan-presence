@@ -39,3 +39,5 @@ nodist_phosphor_fan_monitor_SOURCES = \
 fan_monitor_defs.cpp: ${srcdir}/gen-fan-monitor-defs.py
 	$(AM_V_GEN)$(GEN_FAN_MONITOR_DEFS) > ${builddir}/$@
 endif
+
+SUBDIRS = test
