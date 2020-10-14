@@ -69,6 +69,7 @@ void System::sighupHandler(sdeventplus::source::Signal&,
         setTrustMgr(trustGrps);
         // Clear/set configured fan definitions
         _fans.clear();
+        _fanHealth.clear();
         setFans(fanDefs);
         log<level::INFO>("Configuration reloaded successfully");
     }
@@ -119,7 +120,26 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
         }
         _fans.emplace_back(
             std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
+
+        updateFanHealth(*(_fans.back()));
     }
+}
+
+void System::updateFanHealth(const Fan& fan)
+{
+    std::vector<bool> sensorStatus;
+    for (const auto& sensor : fan.sensors())
+    {
+        sensorStatus.push_back(sensor->functional());
+    }
+
+    _fanHealth[fan.getName()] =
+        std::make_tuple(fan.present(), std::move(sensorStatus));
+}
+
+void System::fanStatusChange(const Fan& fan)
+{
+    updateFanHealth(fan);
 }
 
 } // namespace phosphor::fan::monitor
