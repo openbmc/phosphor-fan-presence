@@ -64,6 +64,15 @@ class System
     void sighupHandler(sdeventplus::source::Signal&,
                        const struct signalfd_siginfo*);
 
+    /**
+     * @brief Called from the fan when it changes either
+     *        present or functional status to update the
+     *        fan health map.
+     *
+     * @param[in] fan - The fan that changed
+     */
+    void fanStatusChange(const Fan& fan);
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
@@ -79,6 +88,11 @@ class System
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
+
+    /**
+     * @brief The latest health of all the fans
+     */
+    FanHealth _fanHealth;
 
     /**
      * @brief Retrieve the configured trust groups
@@ -111,6 +125,13 @@ class System
      * @param[in] fanDefs - list of fan definitions to create fans monitored
      */
     void setFans(const std::vector<FanDefinition>& fanDefs);
+
+    /**
+     * @brief Updates the fan health map entry for the fan passed in
+     *
+     * @param[in] fan - The fan to update the health map with
+     */
+    void updateFanHealth(const Fan& fan);
 };
 
 } // namespace phosphor::fan::monitor
