@@ -15,6 +15,7 @@
  */
 #include "fan.hpp"
 
+#include "logging.hpp"
 #include "sdbusplus.hpp"
 #include "system.hpp"
 #include "types.hpp"
@@ -55,7 +56,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                    std::bind(std::mem_fn(&Fan::presenceChanged), this,
                              std::placeholders::_1))
 {
-    // Start from a known state of functional
+    // Start from a known state of functional (even if
+    // _numSensorFailsForNonFunc is 0)
     updateInventory(true);
 
     // Setup tach sensors for monitoring
@@ -208,30 +210,39 @@ void Fan::timerExpired(TachSensor& sensor)
 {
     sensor.setFunctional(!sensor.functional());
 
-    // If the fan was nonfunctional and enough sensors are now OK,
-    // the fan can go back to functional
-    if (!_functional && !tooManySensorsNonfunctional())
+    getLogger().log(
+        fmt::format("Setting tach sensor {} functional state to {}. "
+                    "Actual speed: {} Target speed: {}",
+                    sensor.name(), sensor.functional(), sensor.getInput(),
+                    sensor.getTarget()));
+
+    // A zero value for _numSensorFailsForNonFunc means we aren't dealing
+    // with fan FRU functional status, only sensor functional status.
+    if (_numSensorFailsForNonFunc)
     {
-        log<level::INFO>(
-            fmt::format("Setting fan {} back to functional", _name).c_str());
+        // If the fan was nonfunctional and enough sensors are now OK,
+        // the fan can go back to functional
+        if (!_functional && !tooManySensorsNonfunctional())
+        {
+            getLogger().log(
+                fmt::format("Setting fan {} back to functional", _name));
 
-        updateInventory(true);
-    }
+            updateInventory(true);
+        }
 
-    // If the fan is currently functional, but too many
-    // contained sensors are now nonfunctional, update
-    // the whole fan nonfunctional.
-    if (_functional && tooManySensorsNonfunctional())
-    {
-        log<level::ERR>(fmt::format("Setting fan {} to nonfunctional "
-                                    "Sensor: {} "
-                                    "Actual speed: {} "
-                                    "Target speed: {}",
-                                    _name, sensor.name(), sensor.getInput(),
-                                    sensor.getTarget())
-                            .c_str());
-
-        updateInventory(false);
+        // If the fan is currently functional, but too many
+        // contained sensors are now nonfunctional, update
+        // the whole fan nonfunctional.
+        if (_functional && tooManySensorsNonfunctional())
+        {
+            getLogger().log(fmt::format("Setting fan {} to nonfunctional "
+                                        "Sensor: {} "
+                                        "Actual speed: {} "
+                                        "Target speed: {}",
+                                        _name, sensor.name(), sensor.getInput(),
+                                        sensor.getTarget()));
+            updateInventory(false);
+        }
     }
 
     _system.fanStatusChange(*this);
