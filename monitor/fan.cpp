@@ -48,7 +48,12 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     _monitorDelay(std::get<monitorStartDelayField>(def)),
     _monitorTimer(event, std::bind(std::mem_fn(&Fan::startMonitor), this)),
 #endif
-    _system(system)
+    _system(system),
+    _presenceMatch(bus,
+                   rules::propertiesChanged(util::INVENTORY_PATH + _name,
+                                            util::INV_ITEM_IFACE),
+                   std::bind(std::mem_fn(&Fan::presenceChanged), this,
+                             std::placeholders::_1))
 {
     // Start from a known state of functional
     updateInventory(true);
@@ -92,8 +97,11 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     // If it used the JSON config, then it also will do all the work
     // out of fan-monitor-init, after _monitorDelay.
     _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
-
 #endif
+
+    // Get the initial presence state
+    _present = util::SDBusPlus::getProperty<bool>(
+        util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
 }
 
 void Fan::startMonitor()
@@ -229,6 +237,8 @@ void Fan::timerExpired(TachSensor& sensor)
 
         updateInventory(false);
     }
+
+    _system.fanStatusChange(*this);
 }
 
 void Fan::updateInventory(bool functional)
@@ -248,6 +258,21 @@ void Fan::updateInventory(bool functional)
     _functional = functional;
 }
 
+void Fan::presenceChanged(sdbusplus::message::message& msg)
+{
+    std::string interface;
+    std::map<std::string, std::variant<bool>> properties;
+
+    msg.read(interface, properties);
+
+    auto presentProp = properties.find("Present");
+    if (presentProp != properties.end())
+    {
+        _present = std::get<bool>(presentProp->second);
+
+        _system.fanStatusChange(*this);
+    }
+}
 } // namespace monitor
 } // namespace fan
 } // namespace phosphor
