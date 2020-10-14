@@ -207,6 +207,12 @@ AS_IF([test "x$enable_monitor" != "xno"], [
                  ["$PYTHON \${top_srcdir}/monitor/gen-fan-monitor-defs.py \
                   -m $FAN_MONITOR_YAML_FILE"])
     ])
+
+    AC_ARG_VAR(NUM_MONITOR_LOG_ENTRIES, [Maximum number of entries in the message log])
+    AS_IF([test "x$NUM_MONITOR_LOG_ENTRIES" == "x"], [NUM_MONITOR_LOG_ENTRIES=75])
+    AC_DEFINE_UNQUOTED([NUM_MONITOR_LOG_ENTRIES], [$NUM_MONITOR_LOG_ENTRIES],
+                       [Maximum number of entries in the message log])
+
     AC_CONFIG_FILES([monitor/Makefile])
 ])
 
