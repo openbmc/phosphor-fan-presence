@@ -138,6 +138,26 @@ class Fan
      */
     uint64_t findTargetSpeed();
 
+    /**
+     * @brief Returns the contained TachSensor objects
+     *
+     * @return std::vector<std::shared_ptr<TachSensor>> - The sensors
+     */
+    const std::vector<std::shared_ptr<TachSensor>>& sensors() const
+    {
+        return _sensors;
+    }
+
+    /**
+     * @brief Returns the presence status of the fan
+     *
+     * @return bool - If the fan is present or not
+     */
+    bool present() const
+    {
+        return _present;
+    }
+
   private:
     /**
      * @brief Returns true if the sensor input is not within
@@ -167,6 +187,13 @@ class Fan
      *        amount of time after startup.
      */
     void startMonitor();
+
+    /**
+     * @brief Called when the fan presence property changes on D-Bus
+     *
+     * @param[in] msg - The message from the propertiesChanged signal
+     */
+    void presenceChanged(sdbusplus::message::message& msg);
 
     /**
      * @brief the dbus object
@@ -229,6 +256,18 @@ class Fan
      * @brief Reference to the System object
      */
     System& _system;
+
+    /**
+     * @brief The match object for propertiesChanged signals
+     *        for the inventory item interface to track the
+     *        Present property.
+     */
+    sdbusplus::bus::match::match _presenceMatch;
+
+    /**
+     * @brief The current presence state
+     */
+    bool _present = false;
 };
 
 } // namespace monitor
