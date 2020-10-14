@@ -18,7 +18,11 @@
 #include "conditions.hpp"
 #include "json_config.hpp"
 #include "nonzero_speed_trust.hpp"
+#include "power_interface.hpp"
+#include "power_off_rule.hpp"
 #include "types.hpp"
+
+#include <fmt/format.h>
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
@@ -237,6 +241,154 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
     }
 
     return fanDefs;
+}
+
+PowerRuleState getPowerOffPowerRuleState(const json& powerOffConfig)
+{
+    // The state is optional and defaults to runtime
+    PowerRuleState ruleState{PowerRuleState::runtime};
+
+    if (powerOffConfig.contains("state"))
+    {
+        auto state = powerOffConfig.at("state").get<std::string>();
+        if (state == "at_pgood")
+        {
+            ruleState = PowerRuleState::atPgood;
+        }
+        else if (state != "runtime")
+        {
+            auto msg = fmt::format("Invalid power off state entry {}", state);
+            log<level::ERR>(msg.c_str());
+            throw std::runtime_error(msg.c_str());
+        }
+    }
+
+    return ruleState;
+}
+
+std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
+{
+    std::unique_ptr<PowerOffCause> cause;
+
+    if (!powerOffConfig.contains("count") || !powerOffConfig.contains("cause"))
+    {
+        const auto msg =
+            "Missing 'count' or 'cause' entries in power off config";
+        log<level::ERR>(msg);
+        throw std::runtime_error(msg);
+    }
+
+    auto count = powerOffConfig.at("count").get<size_t>();
+    auto powerOffCause = powerOffConfig.at("cause").get<std::string>();
+
+    const std::map<std::string, std::function<std::unique_ptr<PowerOffCause>()>>
+        causes{
+            {"missing_fan_frus",
+             [count]() { return std::make_unique<MissingFanFRUCause>(count); }},
+            {"nonfunc_fan_rotors", [count]() {
+                 return std::make_unique<NonfuncFanRotorCause>(count);
+             }}};
+
+    auto it = causes.find(powerOffCause);
+    if (it != causes.end())
+    {
+        cause = it->second();
+    }
+    else
+    {
+        auto msg =
+            fmt::format("Invalid power off cause {} in power off config JSON",
+                        powerOffCause);
+        log<level::ERR>(msg.c_str());
+        throw std::runtime_error(msg.c_str());
+    }
+
+    return cause;
+}
+
+std::unique_ptr<PowerOffAction>
+    getPowerOffAction(const json& powerOffConfig,
+                      std::shared_ptr<PowerInterfaceBase>& powerInterface)
+{
+    std::unique_ptr<PowerOffAction> action;
+    if (!powerOffConfig.contains("type"))
+    {
+        const auto msg = "Missing 'type' entry in power off config";
+        log<level::ERR>(msg);
+        throw std::runtime_error(msg);
+    }
+
+    auto type = powerOffConfig.at("type").get<std::string>();
+
+    if (((type == "hard") || (type == "soft")) &&
+        !powerOffConfig.contains("delay"))
+    {
+        const auto msg = "Missing 'delay' entry in power off config";
+        log<level::ERR>(msg);
+        throw std::runtime_error(msg);
+    }
+    else if ((type == "epow") &&
+             (!powerOffConfig.contains("service_mode_delay") ||
+              !powerOffConfig.contains("meltdown_delay")))
+    {
+        const auto msg = "Missing 'service_mode_delay' or 'meltdown_delay' "
+                         "entry in power off config";
+        log<level::ERR>(msg);
+        throw std::runtime_error(msg);
+    }
+
+    if (type == "hard")
+    {
+        action = std::make_unique<HardPowerOff>(
+            powerOffConfig.at("delay").get<uint32_t>(), powerInterface);
+    }
+    else if (type == "soft")
+    {
+        action = std::make_unique<SoftPowerOff>(
+            powerOffConfig.at("delay").get<uint32_t>(), powerInterface);
+    }
+    else if (type == "epow")
+    {
+        action = std::make_unique<EpowPowerOff>(
+            powerOffConfig.at("service_mode_delay").get<uint32_t>(),
+            powerOffConfig.at("meltdown_delay").get<uint32_t>(),
+            powerInterface);
+    }
+    else
+    {
+        auto msg =
+            fmt::format("Invalid 'type' entry {} in power off config", type);
+        log<level::ERR>(msg.c_str());
+        throw std::runtime_error(msg.c_str());
+    }
+
+    return action;
+}
+
+std::vector<std::unique_ptr<PowerOffRule>>
+    getPowerOffRules(const json& obj,
+                     std::shared_ptr<PowerInterfaceBase>& powerInterface)
+{
+    std::vector<std::unique_ptr<PowerOffRule>> rules;
+
+    if (!(obj.contains("fault_handling") &&
+          obj.at("fault_handling").contains("power_off_config")))
+    {
+        return rules;
+    }
+
+    for (const auto& config : obj.at("fault_handling").at("power_off_config"))
+    {
+        auto state = getPowerOffPowerRuleState(config);
+        auto cause = getPowerOffCause(config);
+        auto action = getPowerOffAction(config, powerInterface);
+
+        auto rule = std::make_unique<PowerOffRule>(
+            std::move(state), std::move(cause), std::move(action));
+        rules.push_back(std::move(rule));
+    }
+
+    return rules;
 }
 
 } // namespace phosphor::fan::monitor
