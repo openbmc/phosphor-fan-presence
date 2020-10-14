@@ -31,6 +31,8 @@ constexpr auto OPERATIONAL_STATUS_INTF =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
 constexpr auto FUNCTIONAL_PROPERTY = "Functional";
 
+constexpr auto INV_ITEM_IFACE = "xyz.openbmc_project.Inventory.Item";
+
 class FileDescriptor
 {
   public:
