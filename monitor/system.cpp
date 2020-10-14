@@ -43,6 +43,10 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     _mode(mode),
     _bus(bus), _event(event)
 {
+    _powerState = std::make_unique<PGoodState>(
+        bus, std::bind(std::mem_fn(&System::powerStateChanged), this,
+                       std::placeholders::_1));
+
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
     jsonObj = getJsonObj(bus);
@@ -51,7 +55,26 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     setTrustMgr(getTrustGroups(jsonObj));
     // Retrieve fan definitions and create fan objects to be monitored
     setFans(getFanDefinitions(jsonObj));
+    setFaultConfig(jsonObj);
     log<level::INFO>("Configuration loaded");
+
+    // Since this doesn't run at standby yet, powerStateChanged
+    // will never be called so for now treat start up as the
+    // pgood.  When this does run at standby, the 'atPgood'
+    // rules won't need to be checked heree.
+    if (_powerState->isPowerOn())
+    {
+        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                      [this](auto& rule) {
+                          rule->check(PowerRuleState::atPgood, _fanHealth);
+                      });
+        // Runtime rules still need to be checked since fans may already
+        // be missing that could trigger a runtime rule.
+        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                      [this](auto& rule) {
+                          rule->check(PowerRuleState::runtime, _fanHealth);
+                      });
+    }
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
@@ -71,7 +94,16 @@ void System::sighupHandler(sdeventplus::source::Signal&,
         _fans.clear();
         _fanHealth.clear();
         setFans(fanDefs);
+        setFaultConfig(jsonObj);
         log<level::INFO>("Configuration reloaded successfully");
+
+        if (_powerState->isPowerOn())
+        {
+            std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                          [this](auto& rule) {
+                              rule->check(PowerRuleState::runtime, _fanHealth);
+                          });
+        }
     }
     catch (std::runtime_error& re)
     {
@@ -140,6 +172,45 @@ void System::updateFanHealth(const Fan& fan)
 void System::fanStatusChange(const Fan& fan)
 {
     updateFanHealth(fan);
+
+    if (_powerState->isPowerOn())
+    {
+        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                      [this](auto& rule) {
+                          rule->check(PowerRuleState::runtime, _fanHealth);
+                      });
+    }
+}
+
+void System::setFaultConfig(const json& jsonObj)
+{
+#ifdef MONITOR_USE_JSON
+    std::shared_ptr<PowerInterfaceBase> powerInterface =
+        std::make_shared<PowerInterface>();
+
+    _powerOffRules = getPowerOffRules(jsonObj, powerInterface);
+#endif
+}
+
+void System::powerStateChanged(bool newPowerState)
+{
+    if (newPowerState)
+    {
+        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                      [this](auto& rule) {
+                          rule->check(PowerRuleState::atPgood, _fanHealth);
+                      });
+        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                      [this](auto& rule) {
+                          rule->check(PowerRuleState::runtime, _fanHealth);
+                      });
+    }
+    else
+    {
+        // Cancel any in-progress power off actions
+        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
+                      [this](auto& rule) { rule->cancel(); });
+    }
 }
 
 } // namespace phosphor::fan::monitor
