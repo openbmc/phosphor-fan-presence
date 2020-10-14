@@ -16,6 +16,8 @@
 #pragma once
 
 #include "fan.hpp"
+#include "power_off_rule.hpp"
+#include "power_state.hpp"
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
 #include "types.hpp"
@@ -93,6 +95,17 @@ class System
     FanHealth _fanHealth;
 
     /**
+     * @brief The object to watch the power state
+     */
+    std::unique_ptr<PowerState> _powerState;
+
+    /**
+     * @brief The power off rules, for shutting down the system
+     *        due to fan failures.
+     */
+    std::vector<std::unique_ptr<PowerOffRule>> _powerOffRules;
+
+    /**
      * @brief Retrieve the configured trust groups
      *
      * @param[in] jsonObj - JSON object to parse from
@@ -130,6 +143,21 @@ class System
      * @param[in] fan - The fan to update the health map with
      */
     void updateFanHealth(const Fan& fan);
+
+    /**
+     * @brief The function that runs when the power state changes
+     *
+     * @param[in] newPowerState - The new power state
+     */
+    void powerStateChanged(bool newPowerState);
+
+    /**
+     * @brief Reads the fault configuration from the JSON config
+     *        file, such as the power off rule configuration.
+     *
+     * @param[in] jsonObj - JSON object to parse from
+     */
+    void setFaultConfig(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::monitor
