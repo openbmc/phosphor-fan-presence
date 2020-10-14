@@ -26,6 +26,8 @@ namespace phosphor::fan::monitor
 {
 
 using json = nlohmann::json;
+class PowerOffRule;
+class PowerInterfaceBase;
 
 constexpr auto confAppName = "monitor";
 constexpr auto confFileName = "config.json";
@@ -76,5 +78,16 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors);
  * @return List of fan definition data on the fans to be monitored
  */
 const std::vector<FanDefinition> getFanDefs(const json& obj);
+
+/**
+ * @brief Get the configured power off rules
+ *
+ * @param[in] obj - JSON object to parse from
+ *
+ * @param[in] powerInterface - The power interface object to use
+ */
+std::vector<std::unique_ptr<PowerOffRule>>
+    getPowerOffRules(const json& obj,
+                     std::shared_ptr<PowerInterfaceBase>& powerInterface);
 
 } // namespace phosphor::fan::monitor
