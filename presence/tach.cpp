@@ -17,6 +17,8 @@
 
 #include "rpolicy.hpp"
 
+#include <fmt/format.h>
+
 #include <phosphor-logging/log.hpp>
 
 #include <string>
@@ -71,8 +73,9 @@ bool Tach::start()
             // Assume not spinning.
 
             std::get<double>(s) = 0;
-            log<level::INFO>("Unable to read fan tach sensor.",
-                             entry("SENSOR=%s", tachPath.c_str()));
+            log<level::INFO>(
+                fmt::format("Unable to read fan tach sensor {}", tachPath)
+                    .c_str());
         }
     }
 
