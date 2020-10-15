@@ -2,6 +2,8 @@
 #include "cooling_type.hpp"
 #include "sdbusplus.hpp"
 
+#include <fmt/format.h>
+
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
@@ -68,11 +70,14 @@ int main(int argc, char* argv[])
         }
         catch (DBusMethodError& dme)
         {
-            log<level::ERR>("Uncaught DBus method failure exception",
-                            entry("BUSNAME=%s", dme.busName.c_str()),
-                            entry("PATH=%s", dme.path.c_str()),
-                            entry("INTERFACE=%s", dme.interface.c_str()),
-                            entry("METHOD=%s", dme.method.c_str()));
+            log<level::ERR>(
+                fmt::format("Uncaught DBus method failure exception "
+                            "Busname: {} "
+                            "Path: {} "
+                            "Interface: {} "
+                            "Method: {}",
+                            dme.busName, dme.path, dme.interface, dme.method)
+                    .c_str());
         }
         catch (std::exception& err)
         {

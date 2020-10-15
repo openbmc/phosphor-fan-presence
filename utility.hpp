@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fcntl.h>
+#include <fmt/format.h>
 #include <unistd.h>
 
 #include <phosphor-logging/elog-errors.hpp>
@@ -63,8 +64,9 @@ class FileDescriptor
         fd = ::open(pathname.c_str(), flags);
         if (-1 == fd)
         {
-            log<level::ERR>("Failed to open file device: ",
-                            entry("PATHNAME=%s", pathname.c_str()));
+            log<level::ERR>(
+                fmt::format("Failed to open file device path {}", pathname)
+                    .c_str());
             elog<InternalFailure>();
         }
     }
