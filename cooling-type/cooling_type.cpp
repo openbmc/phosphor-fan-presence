@@ -4,6 +4,7 @@
 #include "utility.hpp"
 
 #include <fcntl.h>
+#include <fmt/format.h>
 #include <libevdev/libevdev.h>
 #include <unistd.h>
 
@@ -35,8 +36,10 @@ std::unique_ptr<libevdev, FreeEvDev> evdevOpen(int fd)
         return decltype(evdevOpen(0))(gpioDev);
     }
 
-    log<level::ERR>("Failed to get libevdev from file descriptor",
-                    entry("RC=%d", rc));
+    log<level::ERR>(fmt::format("Failed to get libevdev from file descriptor "
+                                "Error: {}",
+                                rc)
+                        .c_str());
     elog<InternalFailure>();
     return decltype(evdevOpen(0))(nullptr);
 }
@@ -64,8 +67,10 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
         libevdev_fetch_event_value(gpioDev.get(), EV_KEY, keycode, &value);
     if (0 == fetch_rc)
     {
-        log<level::ERR>("Device does not support event type",
-                        entry("KEYCODE=%d", keycode));
+        log<level::ERR>(fmt::format("Device does not support event type "
+                                    "Keycode: {}",
+                                    keycode)
+                            .c_str());
         elog<InternalFailure>();
     }
 

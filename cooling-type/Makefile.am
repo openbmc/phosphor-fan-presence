@@ -20,6 +20,7 @@ phosphor_cooling_type_LDADD = \
 	$(SDBUSPLUS_LIBS) \
 	$(PHOSPHOR_LOGGING_LIBS) \
 	$(LIBEVDEV_LIBS) \
-	${PHOSPHOR_DBUS_INTERFACES_LIBS}
+	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
+	$(FMT_LIBS)
 
 # vim: tabstop=8 noexpandtab

@@ -18,6 +18,8 @@
 #include "fan.hpp"
 #include "psensor.hpp"
 
+#include <fmt/format.h>
+
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
@@ -52,8 +54,9 @@ void Fallback::stateChanged(bool present, PresenceSensor& sensor)
                 ++activeSensor;
             }
             phosphor::logging::log<phosphor::logging::level::INFO>(
-                "Using backup presence sensor.",
-                phosphor::logging::entry("FAN=%s", std::get<1>(fan).c_str()));
+                fmt::format("Using backup presence sensor ", "Fan: {}",
+                            std::get<1>(fan).c_str())
+                    .c_str());
             activeSensor = it;
         }
     }
@@ -77,8 +80,10 @@ void Fallback::monitor()
     if (activeSensor != sensors.begin())
     {
         phosphor::logging::log<phosphor::logging::level::INFO>(
-            "Using backup presence sensor.",
-            phosphor::logging::entry("FAN=%s", std::get<1>(fan).c_str()));
+            fmt::format("Using backup presence sensor "
+                        "Fan: {}",
+                        std::get<1>(fan).c_str())
+                .c_str());
     }
 
     // Callout the broken sensors.
