@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b8e69027_a5dcd7ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Looks like these didnt wrap correctly",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 19
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3e94bb9_c4f9cca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Why? Need help with testing this?",
+      "range": {
+        "startLine": 19,
+        "startChar": 18,
+        "endLine": 19,
+        "endChar": 29
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5fdfaaec_d5e44833",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Why? Need help with testing these?",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 30
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b794cbea_92256e79",
+        "filename": "cooling-type/cooling_type.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Lets change this to be:\n\nfmt::format(\"Failed to get libevdev gpio from file descriptor {}, return code {}\", fd, rc).c_str()",
+      "range": {
+        "startLine": 39,
+        "startChar": 32,
+        "endLine": 40,
+        "endChar": 43
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2f7bc90_61087a19",
+        "filename": "cooling-type/cooling_type.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Lets change this to be:\n\nfmt::format(\"Device does not support event type keycode {}, keycode).c_str()",
+      "range": {
+        "startLine": 70,
+        "startChar": 36,
+        "endLine": 71,
+        "endChar": 49
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a1837ae_4e97477f",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Can be combined to \"Using backup presence sensor for fan {}\"",
+      "range": {
+        "startLine": 57,
+        "startChar": 28,
+        "endLine": 57,
+        "endChar": 70
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b242855_1a0aeb65",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 58,
+        "startChar": 44,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14401fc2_540b279f",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Same comment as above to combine these.",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 84,
+        "endChar": 33
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "18c20a4d_4187b27a",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 85,
+        "startChar": 40,
+        "endLine": 85,
+        "endChar": 48
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e738fa76_623c0d59",
+        "filename": "presence/tach.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "No need for this, just \"Unable to read fan tach sensor {}\"",
+      "range": {
+        "startLine": 76,
+        "startChar": 72,
+        "endLine": 76,
+        "endChar": 73
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0744d217_e6834593",
+        "filename": "presence/tach.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 77,
+        "startChar": 49,
+        "endLine": 77,
+        "endChar": 57
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d02f31b_221cc652",
+        "filename": "utility.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-16T01:49:21Z",
+      "side": 1,
+      "message": "These can be combined to \"Failed to open device file path {}\"",
+      "range": {
+        "startLine": 65,
+        "startChar": 40,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
