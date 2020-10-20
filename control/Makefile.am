@@ -1,5 +1,5 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
-AM_CPPFLAGS = -iquote ${top_srcdir}
+AM_CPPFLAGS = -iquote ${top_srcdir} -I${srcdir}/json -I${srcdir}/json/actions
 
 bin_PROGRAMS = \
 	phosphor-fan-control
@@ -31,9 +31,14 @@ phosphor_fan_control_CXXFLAGS = \
 	-flto
 
 if WANT_JSON_CONTROL
-SUBDIRS = json .
-phosphor_fan_control_LDADD += ${builddir}/json/libfan-control-json.la
-phosphor_fan_control_SOURCES += json_parser.cpp
+phosphor_fan_control_SOURCES += \
+	json_parser.cpp \
+	json/manager.cpp \
+	json/profile.cpp \
+	json/fan.cpp \
+	json/zone.cpp \
+	json/group.cpp \
+	json/event.cpp
 else
 BUILT_SOURCES = fan_zone_defs.cpp
 nodist_phosphor_fan_control_SOURCES = \
