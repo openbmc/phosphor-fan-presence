@@ -199,7 +199,7 @@ AS_IF([test "x$enable_control" != "xno"], [
                       -e $ZONE_EVENTS_YAML_FILE \
                       -c $ZONE_CONDITIONS_YAML_FILE"])
     ])
-    AC_CONFIG_FILES([control/json/Makefile control/Makefile])
+    AC_CONFIG_FILES([control/Makefile])
 ])
 
 AS_IF([test "x$enable_cooling_type" != "xno"], [
