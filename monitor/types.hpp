@@ -1,5 +1,6 @@
 #pragma once
 
+#include "tach_sensor.hpp"
 #include "trust_group.hpp"
 
 #include <nlohmann/json.hpp>
@@ -97,20 +98,22 @@ constexpr auto hasTargetField = 1;
 constexpr auto targetInterfaceField = 2;
 constexpr auto factorField = 3;
 constexpr auto offsetField = 4;
+constexpr auto thresholdField = 5;
 
 using SensorDefinition =
-    std::tuple<std::string, bool, std::string, double, int64_t>;
+    std::tuple<std::string, bool, std::string, double, int64_t, size_t>;
 
 constexpr auto fanNameField = 0;
-constexpr auto funcDelay = 1;
-constexpr auto timeoutField = 2;
-constexpr auto fanDeviationField = 3;
-constexpr auto numSensorFailsForNonfuncField = 4;
-constexpr auto sensorListField = 5;
-constexpr auto conditionField = 6;
+constexpr auto methodField = 1;
+constexpr auto funcDelay = 2;
+constexpr auto timeoutField = 3;
+constexpr auto fanDeviationField = 4;
+constexpr auto numSensorFailsForNonfuncField = 5;
+constexpr auto sensorListField = 6;
+constexpr auto conditionField = 7;
 
 using FanDefinition =
-    std::tuple<std::string, size_t, size_t, size_t, size_t,
+    std::tuple<std::string, size_t, size_t, size_t, size_t, size_t,
                std::vector<SensorDefinition>, std::optional<Condition>>;
 
 } // namespace monitor
