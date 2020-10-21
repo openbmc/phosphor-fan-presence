@@ -55,7 +55,9 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                 mode, bus, *this, std::get<sensorNameField>(s),
                 std::get<hasTargetField>(s), std::get<funcDelay>(def),
                 std::get<targetInterfaceField>(s), std::get<factorField>(s),
-                std::get<offsetField>(s), std::get<timeoutField>(def), event));
+                std::get<offsetField>(s), std::get<methodField>(def),
+                std::get<thresholdField>(s), std::get<timeoutField>(def),
+                event));
 
             _trustManager->registerSensor(_sensors.back());
         }
@@ -105,22 +107,49 @@ void Fan::tachChanged(TachSensor& sensor)
 
     if (outOfRange(sensor))
     {
-        if (sensor.functional())
+        switch (sensor.getMethod())
         {
-            // Start nonfunctional timer if not already running
-            sensor.startTimer(TimerMode::nonfunc);
+            case MethodMode::deviation:
+                if (sensor.functional())
+                {
+                    // Start nonfunctional timer if not already running
+                    sensor.startTimer(TimerMode::nonfunc);
+                }
+            case MethodMode::count:
+                if (sensor.functional())
+                {
+                    sensor.startTimer(TimerMode::nonfunc);
+                    if (sensor.setCounter(true) >= sensor.getThreshold())
+                    {
+                        sensor.startTimer(TimerMode::threshold);
+                    }
+                }
         }
     }
     else
     {
-        if (sensor.functional())
+        switch (sensor.getMethod())
         {
-            sensor.stopTimer();
-        }
-        else
-        {
-            // Start functional timer if not already running
-            sensor.startTimer(TimerMode::func);
+            case MethodMode::deviation:
+                if (sensor.functional())
+                {
+                    sensor.stopTimer();
+                }
+                else
+                {
+                    // Start functional timer if not already running
+                    sensor.startTimer(TimerMode::func);
+                }
+            case MethodMode::count:
+                sensor.setCounter(false);
+                if (sensor.functional())
+                {
+                    sensor.stopTimer();
+                }
+                else
+                {
+                    sensor.startTimer(TimerMode::func);
+                }
         }
     }
 }

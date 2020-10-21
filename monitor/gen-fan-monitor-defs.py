@@ -53,6 +53,7 @@ const std::vector<FanDefinition> fanDefinitions
                   ${fan_data.get('functional_delay', 0)},
                   ${fan_data['allowed_out_of_range_time']},
                   ${fan_data['deviation']},
+                  ${fan_data.get('method', {})},
                   ${fan_data['num_sensors_nonfunc_for_fan_nonfunc']},
                   std::vector<SensorDefinition>{
                   %for sensor in fan_data['sensors']:
@@ -64,12 +65,14 @@ const std::vector<FanDefinition> fanDefinitions
                           'xyz.openbmc_project.Control.FanSpeed')
                       factor = sensor.get('factor', 1)
                       offset = sensor.get('offset', 0)
+                      threshold = sensor.get('threshold', 2)
                   %> \
                       SensorDefinition{"${sensor['name']}",
                                        ${has_target},
                                        "${target_interface}",
                                        ${factor},
-                                       ${offset}},
+                                       ${offset},
+                                       ${threshold}},
                   %endfor
                   },
                   %if ('condition' in fan_data) and \
