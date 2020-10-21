@@ -15,6 +15,8 @@
 #     target speed]
 #  deviation:
 #    [Percentage that actual speed must be within target speed]
+#  method:
+#    [optional method function for out of range]
 #  num_sensors_nonfunc_for_fan_nonfunc:
 #    [How many sensors on the fan must be faulted before fan
 #     will be considered faulted]
@@ -68,6 +70,7 @@
 #    functional_delay: 5
 #    allowed_out_of_range_time: 15
 #    deviation: 15
+#    method: Deviation
 #    num_sensors_nonfunc_for_fan_nonfunc: 1
 #    sensors:
 #      - name: fan0
