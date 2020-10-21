@@ -18,6 +18,7 @@
 #include "conditions.hpp"
 #include "json_config.hpp"
 #include "nonzero_speed_trust.hpp"
+#include "tach_sensor.hpp"
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
@@ -53,6 +54,8 @@ const std::map<std::string, trustHandler> trusts = {
     {"nonzerospeed", tClass::getNonZeroSpeed}};
 const std::map<std::string, condHandler> conditions = {
     {"propertiesmatch", condition::getPropertiesMatch}};
+const std::map<std::string, size_t> methods = {
+    {"timebased", MethodMode::timebased}, {"count", MethodMode::count}};
 
 const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
 {
@@ -151,10 +154,16 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
         {
             offset = sensor["offset"].get<int64_t>();
         }
+        // Threshold is optional and defaults to 1
+        auto threshold = 1;
+        if (sensor.contains("threshold"))
+        {
+            threshold = sensor["threshold"].get<size_t>();
+        }
 
-        sensorDefs.emplace_back(std::tuple(sensor["name"].get<std::string>(),
-                                           sensor["has_target"].get<bool>(),
-                                           targetIntf, factor, offset));
+        sensorDefs.emplace_back(std::tuple(
+            sensor["name"].get<std::string>(), sensor["has_target"].get<bool>(),
+            targetIntf, factor, offset, threshold));
     }
 
     return sensorDefs;
@@ -166,9 +175,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
 
     for (const auto& fan : obj["fans"])
     {
-        if (!fan.contains("inventory") ||
-            !fan.contains("allowed_out_of_range_time") ||
-            !fan.contains("deviation") ||
+        if (!fan.contains("inventory") || !fan.contains("deviation") ||
             !fan.contains("num_sensors_nonfunc_for_fan_nonfunc") ||
             !fan.contains("sensors"))
         {
@@ -176,7 +183,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             log<level::ERR>(
                 "Missing required fan monitor definition parameters",
                 entry("REQUIRED_PARAMETERS=%s",
-                      "{inventory, allowed_out_of_range_time, deviation, "
+                      "{inventory, deviation, "
                       "num_sensors_nonfunc_for_fan_nonfunc, sensors}"));
             throw std::runtime_error(
                 "Missing required fan monitor definition parameters");
@@ -189,6 +196,45 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         if (fan.contains("functional_delay"))
         {
             funcDelay = fan["functional_delay"].get<size_t>();
+        }
+
+        // Method is optional and defaults to time based functional
+        // determination
+        size_t method = MethodMode::timebased;
+        if (fan.contains("method"))
+        {
+            auto methodConf = fan["method"].get<std::string>();
+            auto methodFunc = methods.find(methodConf);
+            if (methodFunc != methods.end())
+            {
+                method = methodFunc->second;
+            }
+            else
+            {
+                // Log error on unsupported method parameter
+                log<level::ERR>("Invalid fan method");
+                throw std::runtime_error("Invalid fan method");
+            }
+        }
+
+        // Timeout defaults to 0
+        size_t timeout = 0;
+        if (method == MethodMode::timebased)
+        {
+            if (!fan.contains("allowed_out_of_range_time"))
+            {
+                // Log error on missing required parameter
+                log<level::ERR>(
+                    "Missing required fan monitor definition parameters",
+                    entry("REQUIRED_PARAMETER=%s",
+                          "{allowed_out_of_range_time}"));
+                throw std::runtime_error(
+                    "Missing required fan monitor definition parameters");
+            }
+            else
+            {
+                timeout = fan["allowed_out_of_range_time"].get<size_t>();
+            }
         }
 
         // Handle optional conditions
@@ -223,9 +269,8 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         }
 
         fanDefs.emplace_back(
-            std::tuple(fan["inventory"].get<std::string>(), funcDelay,
-                       fan["allowed_out_of_range_time"].get<size_t>(),
-                       fan["deviation"].get<size_t>(),
+            std::tuple(fan["inventory"].get<std::string>(), method, funcDelay,
+                       timeout, fan["deviation"].get<size_t>(),
                        fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>(),
                        sensorDefs, cond));
     }
