@@ -38,7 +38,8 @@ enum class Mode
 enum class TimerMode
 {
     func,
-    nonfunc
+    nonfunc,
+    threshold
 };
 
 /**
@@ -78,13 +79,16 @@ class TachSensor
      * @param[in] interface - the interface of the target
      * @param[in] factor - the factor of the sensor target
      * @param[in] offset - the offset of the sensor target
+     * @param[in] method - the method of out of range
+     * @param[in] threshold - the threshold of counter method
      * @param[in] timeout - Normal timeout value to use
      * @param[in] event - Event loop reference
      */
     TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                const std::string& id, bool hasTarget, size_t funcDelay,
                const std::string& interface, double factor, int64_t offset,
-               size_t timeout, const sdeventplus::Event& event);
+               size_t method, size_t threshold, size_t timeout,
+               const sdeventplus::Event& event);
 
     /**
      * @brief Returns the target speed value
@@ -130,6 +134,27 @@ class TachSensor
     {
         return _offset;
     }
+
+    /**
+     * @brief Returns the method of out of range
+     */
+    inline size_t getMethod() const
+    {
+        return _method;
+    }
+
+    /**
+     * @brief Returns the threshold of counter method
+     */
+    inline size_t getThreshold() const
+    {
+        return _threshold;
+    }
+
+    /**
+     * @brief Returns the fail counter of sensor
+     */
+    size_t setCounter(bool count);
 
     /**
      * Returns true if the hardware behind this
@@ -270,6 +295,21 @@ class TachSensor
      * @brief The offset of target to get fan rpm
      */
     const int64_t _offset;
+
+    /**
+     * @brief The method of out of range
+     */
+    const size_t _method;
+
+    /**
+     * @brief The threshold for counter method
+     */
+    const size_t _threshold;
+
+    /**
+     * @brief The counter for counter method
+     */
+    size_t _counter = 0;
 
     /**
      * @brief The input speed, from the Value dbus property

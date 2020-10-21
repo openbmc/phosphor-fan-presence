@@ -55,7 +55,9 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                 mode, bus, *this, std::get<sensorNameField>(s),
                 std::get<hasTargetField>(s), std::get<funcDelay>(def),
                 std::get<targetInterfaceField>(s), std::get<factorField>(s),
-                std::get<offsetField>(s), std::get<timeoutField>(def), event));
+                std::get<offsetField>(s), std::get<methodField>(def),
+                std::get<thresholdField>(s), std::get<timeoutField>(def),
+                event));
 
             _trustManager->registerSensor(_sensors.back());
         }
@@ -101,6 +103,14 @@ void Fan::tachChanged(TachSensor& sensor)
 
     if (outOfRange(sensor))
     {
+        if (sensor.getMethod())
+        {
+            if (sensor.setCounter(true) >= sensor.getThreshold())
+            {
+                sensor.startTimer(TimerMode::threshold);
+            }
+        }
+
         if (sensor.functional())
         {
             // Start nonfunctional timer if not already running
@@ -109,6 +119,11 @@ void Fan::tachChanged(TachSensor& sensor)
     }
     else
     {
+        if (sensor.getMethod())
+        {
+            sensor.setCounter(false);
+        }
+
         if (sensor.functional())
         {
             sensor.stopTimer();

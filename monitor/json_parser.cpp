@@ -191,6 +191,13 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             funcDelay = fan["functional_delay"].get<size_t>();
         }
 
+        // Method is optional and defaults to 0
+        size_t method = 0;
+        if (fan.contains("method"))
+        {
+            method = fan["method"].get<size_t>();
+        }
+
         // Handle optional conditions
         auto cond = std::optional<Condition>();
         if (fan.contains("condition"))
@@ -225,7 +232,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         fanDefs.emplace_back(
             std::tuple(fan["inventory"].get<std::string>(), funcDelay,
                        fan["allowed_out_of_range_time"].get<size_t>(),
-                       fan["deviation"].get<size_t>(),
+                       fan["deviation"].get<size_t>(), method,
                        fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>(),
                        sensorDefs, cond));
     }

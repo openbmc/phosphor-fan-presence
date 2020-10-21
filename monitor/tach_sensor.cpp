@@ -70,13 +70,13 @@ static void
 TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                        const std::string& id, bool hasTarget, size_t funcDelay,
                        const std::string& interface, double factor,
-                       int64_t offset, size_t timeout,
-                       const sdeventplus::Event& event) :
+                       int64_t offset, size_t method, size_t threshold,
+                       size_t timeout, const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan), _name(FAN_SENSOR_PATH + id), _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget), _funcDelay(funcDelay), _interface(interface),
-    _factor(factor), _offset(offset), _timeout(timeout),
-    _timerMode(TimerMode::func),
+    _factor(factor), _offset(offset), _method(method), _threshold(threshold),
+    _timeout(timeout), _timerMode(TimerMode::func),
     _timer(event, std::bind(&Fan::timerExpired, &fan, std::ref(*this)))
 {
     // Start from a known state of functional
@@ -211,6 +211,8 @@ std::chrono::microseconds TachSensor::getDelay(TimerMode mode)
             return duration_cast<microseconds>(seconds(_timeout));
         case TimerMode::func:
             return duration_cast<microseconds>(seconds(_funcDelay));
+        case TimerMode::threshold:
+            return duration_cast<microseconds>(seconds(0));
         default:
             // Log an internal error for undefined timer mode
             log<level::ERR>("Undefined timer mode",
@@ -218,6 +220,16 @@ std::chrono::microseconds TachSensor::getDelay(TimerMode mode)
             elog<InternalFailure>();
             return duration_cast<microseconds>(seconds(0));
     }
+}
+
+size_t TachSensor::setCounter(bool count)
+{
+    if (!count)
+    {
+        _counter = 0;
+        return _counter;
+    }
+    return ++_counter;
 }
 
 void TachSensor::updateInventory(bool functional)
