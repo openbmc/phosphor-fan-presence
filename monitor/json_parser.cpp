@@ -18,6 +18,7 @@
 #include "conditions.hpp"
 #include "json_config.hpp"
 #include "nonzero_speed_trust.hpp"
+#include "tach_sensor.hpp"
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
@@ -53,6 +54,8 @@ const std::map<std::string, trustHandler> trusts = {
     {"nonzerospeed", tClass::getNonZeroSpeed}};
 const std::map<std::string, condHandler> conditions = {
     {"propertiesmatch", condition::getPropertiesMatch}};
+const std::map<std::string, size_t> methods = {{"time", MethodMode::time},
+                                               {"count", MethodMode::count}};
 
 const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
 {
@@ -191,6 +194,26 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             funcDelay = fan["functional_delay"].get<size_t>();
         }
 
+        // Method is optional and defaults to time based functional
+        // determination
+        size_t method = methods->second("time");
+        if (fan.contains("method"))
+        {
+            auto handler = fan["method"].get<std::string>();
+            auto methodFunc = methods.find(handler);
+            if (methodFunc != methods.end())
+            {
+                method = methodFunc->second(handler);
+            }
+            else
+            {
+                // Log error on unsupported method parameter
+                log<level::ERR>("Invalid fan method",
+                                entry("REQUIRED_PARAMETER=%s", "{method}"));
+                throw std::runtime_error("Invalid fan method");
+            }
+        }
+
         // Handle optional conditions
         auto cond = std::optional<Condition>();
         if (fan.contains("condition"))
@@ -225,7 +248,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         fanDefs.emplace_back(
             std::tuple(fan["inventory"].get<std::string>(), funcDelay,
                        fan["allowed_out_of_range_time"].get<size_t>(),
-                       fan["deviation"].get<size_t>(),
+                       fan["deviation"].get<size_t>(), method,
                        fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>(),
                        sensorDefs, cond));
     }
