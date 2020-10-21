@@ -42,6 +42,17 @@ enum class TimerMode
 };
 
 /**
+ * The mode that the method is running in:
+ *   - time - Use a percentage based deviation
+ *   - count - Run up/down count fault detection
+ */
+enum MethodMode
+{
+    timebased = 0,
+    count
+};
+
+/**
  * @class TachSensor
  *
  * This class represents the sensor that reads a tach value.
@@ -78,13 +89,16 @@ class TachSensor
      * @param[in] interface - the interface of the target
      * @param[in] factor - the factor of the sensor target
      * @param[in] offset - the offset of the sensor target
+     * @param[in] method - the method of out of range
+     * @param[in] threshold - the threshold of counter method
      * @param[in] timeout - Normal timeout value to use
      * @param[in] event - Event loop reference
      */
     TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                const std::string& id, bool hasTarget, size_t funcDelay,
                const std::string& interface, double factor, int64_t offset,
-               size_t timeout, const sdeventplus::Event& event);
+               size_t method, size_t threshold, size_t timeout,
+               const sdeventplus::Event& event);
 
     /**
      * @brief Returns the target speed value
@@ -129,6 +143,35 @@ class TachSensor
     inline int64_t getOffset() const
     {
         return _offset;
+    }
+
+    /**
+     * @brief Returns the method of out of range
+     */
+    inline size_t getMethod() const
+    {
+        return _method;
+    }
+
+    /**
+     * @brief Returns the threshold of count method
+     */
+    inline size_t getThreshold() const
+    {
+        return _threshold;
+    }
+
+    /**
+     * Set the sensor faulted counter
+     */
+    void setCounter(bool count);
+
+    /**
+     * @brief Returns the sensor faulted count
+     */
+    inline size_t getCounter()
+    {
+        return _counter;
     }
 
     /**
@@ -270,6 +313,21 @@ class TachSensor
      * @brief The offset of target to get fan rpm
      */
     const int64_t _offset;
+
+    /**
+     * @brief The method of out of range
+     */
+    const size_t _method;
+
+    /**
+     * @brief The threshold for count method
+     */
+    const size_t _threshold;
+
+    /**
+     * @brief The counter for count method
+     */
+    size_t _counter = 0;
 
     /**
      * @brief The input speed, from the Value dbus property
