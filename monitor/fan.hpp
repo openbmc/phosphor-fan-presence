@@ -101,16 +101,16 @@ class Fan
     void tachChanged();
 
     /**
-     * @brief The callback function for the timer
+     * @brief The callback function for the method
      *
      * Sets the sensor to not functional.
      * If enough sensors are now not functional,
      * updates the functional status of the whole
      * fan in the inventory.
      *
-     * @param[in] sensor - the sensor whose timer expired
+     * @param[in] sensor - the sensor for state update
      */
-    void timerExpired(TachSensor& sensor);
+    void updateState(TachSensor& sensor);
 
     /**
      * @brief Get the name of the fan
