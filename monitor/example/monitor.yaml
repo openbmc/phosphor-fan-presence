@@ -7,10 +7,14 @@
 #fans:
 # - inventory:
 #    [The system inventory location for the fan]
+#  method: [timebased|count](optional)
+#    [Available methods:
+#     * timebased - use a percentage based deviation
+#     * count - run up/down count fault detection]
 #  functional_delay:
 #    [Delay (in secs) before a fan is marked functional after returning
 #     within the allowed deviation]
-#  allowed_out_of_range_time:
+#  allowed_out_of_range_time: (required for method timebased)
 #    [Time (in secs) actual speed can be outside of deviation of
 #     target speed]
 #  deviation:
@@ -88,3 +92,24 @@
 #      - name: fan0_0
 #        in_trust: false
 #      - name: fan0_1
+
+#Example entries for count method fan system:
+#fans:
+#  - inventory: /system/chassis/motherboard/fan2
+#    method: count
+#    functional_delay: 5
+#    deviation: 15
+#    num_sensors_nonfunc_for_fan_nonfunc: 1
+#    sensors:
+#      - name: fan2
+#        has_target: true
+#    # Only create fan functional properties and monitor on air cooled
+#    condition:
+#      name: propertiesMatch
+#      properties:
+#        - object: /xyz/openbmc_project/inventory/system/chassis
+#          interface: xyz.openbmc_project.Inventory.Decorator.CoolingType
+#          property:
+#            name: WaterCooled
+#            type: bool
+#            value: false

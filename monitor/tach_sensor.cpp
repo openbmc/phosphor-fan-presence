@@ -70,15 +70,15 @@ static void
 TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                        const std::string& id, bool hasTarget, size_t funcDelay,
                        const std::string& interface, double factor,
-                       int64_t offset, size_t timeout,
-                       const std::optional<size_t>& errorDelay,
+                       int64_t offset, size_t method, size_t threshold,
+                       size_t timeout, const std::optional<size_t>& errorDelay,
                        const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan), _name(FAN_SENSOR_PATH + id), _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget), _funcDelay(funcDelay), _interface(interface),
-    _factor(factor), _offset(offset), _timeout(timeout),
-    _timerMode(TimerMode::func),
-    _timer(event, std::bind(&Fan::timerExpired, &fan, std::ref(*this))),
+    _factor(factor), _offset(offset), _method(method), _threshold(threshold),
+    _timeout(timeout), _timerMode(TimerMode::func),
+    _timer(event, std::bind(&Fan::updateState, &fan, std::ref(*this))),
     _errorDelay(errorDelay)
 {
     // Start from a known state of functional
@@ -248,6 +248,24 @@ std::chrono::microseconds TachSensor::getDelay(TimerMode mode)
                             entry("TIMER_MODE=%u", mode));
             elog<InternalFailure>();
             return duration_cast<microseconds>(seconds(0));
+    }
+}
+
+void TachSensor::setCounter(bool count)
+{
+    if (count)
+    {
+        if (_counter < _threshold)
+        {
+            ++_counter;
+        }
+    }
+    else
+    {
+        if (_counter > 0)
+        {
+            --_counter;
+        }
     }
 }
 
