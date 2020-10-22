@@ -45,12 +45,6 @@ TEST(LoggerTest, Test)
 
     auto path = logger.saveToTempFile();
     ASSERT_TRUE(std::filesystem::exists(path));
-
-    std::ifstream file{path};
-
-    // check that valid JSON was written
-    auto newJSON = nlohmann::json::parse(file);
-    EXPECT_EQ(newJSON["Logs"].size(), logSize);
     std::filesystem::remove(path);
 
     logger.clear();
