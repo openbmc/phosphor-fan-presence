@@ -38,7 +38,8 @@ phosphor_fan_control_SOURCES += \
 	json/fan.cpp \
 	json/zone.cpp \
 	json/group.cpp \
-	json/event.cpp
+	json/event.cpp \
+	json/actions/default_floor.cpp
 else
 BUILT_SOURCES = fan_zone_defs.cpp
 nodist_phosphor_fan_control_SOURCES = \
