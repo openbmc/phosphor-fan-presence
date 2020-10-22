@@ -160,7 +160,7 @@ void ErrorReporter::fanMissingTimerExpired(const std::string& fanPath)
             sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level::
                 Error);
 
-    // Save our logs in JSON to a temp file and get the file descriptor
+    // Save our logs to a temp file and get the file descriptor
     // so it can be passed in as FFDC data.
     auto logFile = getLogger().saveToTempFile();
     util::FileDescriptor fd{-1};
@@ -172,7 +172,7 @@ void ErrorReporter::fanMissingTimerExpired(const std::string& fanPath)
         ffdc;
 
     ffdc.emplace_back(sdbusplus::xyz::openbmc_project::Logging::server::Create::
-                          FFDCFormat::JSON,
+                          FFDCFormat::Text,
                       0x01, 0x01, fd());
 
     try

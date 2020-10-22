@@ -1,5 +1,7 @@
 #pragma once
 
+#include "utility.hpp"
+
 #include <fmt/format.h>
 #include <unistd.h>
 
@@ -110,7 +112,7 @@ class Logger
     }
 
     /**
-     * @brief Writes the JSON to a temporary file and returns the path
+     * @brief Writes the data to a temporary file and returns the path
      *        to it.
      *
      * Uses a temp file because the only use case for this is for sending
@@ -124,27 +126,26 @@ class Logger
         using namespace std::literals::string_literals;
 
         char tmpFile[] = "/tmp/loggertemp.XXXXXX";
-        int fd = mkstemp(tmpFile);
-        if (fd == -1)
+        util::FileDescriptor fd{mkstemp(tmpFile)};
+        if (fd() == -1)
         {
             throw std::runtime_error{"mkstemp failed!"};
         }
 
         std::filesystem::path path{tmpFile};
 
-        nlohmann::json data;
-        data["Logs"] = _entries;
-        auto jsonString = data.dump();
-
-        auto rc = write(fd, jsonString.c_str(), jsonString.size());
-        auto e = errno;
-        close(fd);
-        if (rc == 0)
+        for (const auto& [time, message] : _entries)
         {
-            log(fmt::format("Could not write to temp file {} errno {}", tmpFile,
-                            e),
-                Logger::error);
-            throw std::runtime_error{"Could not write to "s + path.string()};
+            auto line = fmt::format("{}: {}\n", time, message);
+            auto rc = write(fd(), line.data(), line.size());
+            if (rc == -1)
+            {
+                auto e = errno;
+                auto msg = fmt::format(
+                    "Could not write to temp file {} errno {}", tmpFile, e);
+                log(msg, Logger::error);
+                throw std::runtime_error{msg};
+            }
         }
 
         return std::filesystem::path{tmpFile};
