@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05802837_11af7b32",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "Will an error be thrown/created if `nonfunc_fan_error_delay` exists but this section is not and vice-versa?",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 58
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ce7090d1_3fd90ea6",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "Was initially confused here, maybe change this to:\n\nThere must be \"greater than or equal to the configured [count](#count) number of\" missing fan FRUs.",
+      "range": {
+        "startLine": 167,
+        "startChar": 35,
+        "endLine": 167,
+        "endChar": 50
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e615b638_a208827f",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "Maybe something similar to what I noted above here too?",
+      "range": {
+        "startLine": 168,
+        "startChar": 37,
+        "endLine": 168,
+        "endChar": 52
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f1e6b98_8bba3a4f",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "*remove",
+      "range": {
+        "startLine": 175,
+        "startChar": 54,
+        "endLine": 175,
+        "endChar": 56
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "efd84da3_26535099",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "This should probably say \"requested\" since we\u0027re not able to stop a shutdown after its started that I know of.",
+      "range": {
+        "startLine": 182,
+        "startChar": 9,
+        "endLine": 182,
+        "endChar": 18
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12c3e2f2_452673ce",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "\"or more\"",
+      "range": {
+        "startLine": 229,
+        "startChar": 31,
+        "endLine": 229,
+        "endChar": 32
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f508cb2_e4023033",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T15:25:06Z",
+      "side": 1,
+      "message": "The config above has a `count` of 4 but the description here sounds like that should be a 3 above to act as a \"fail safe\" as described.",
+      "range": {
+        "startLine": 236,
+        "startChar": 16,
+        "endLine": 236,
+        "endChar": 32
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
