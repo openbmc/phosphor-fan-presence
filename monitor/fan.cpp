@@ -61,8 +61,12 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         }
         catch (InvalidSensorError& e)
         {
-            // mark associated fan as nonfunctional
-            updateInventory(false);
+            // Count the number of failed tach sensors
+            if (++_numFailedSensor >= _numSensorFailsForNonFunc)
+            {
+                // Mark associated fan as nonfunctional
+                updateInventory(false);
+            }
         }
     }
 
