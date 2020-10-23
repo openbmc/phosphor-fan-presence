@@ -181,6 +181,11 @@ class Fan
     const size_t _numSensorFailsForNonFunc;
 
     /**
+     * The number of failed sensors
+     */
+    size_t _numFailedSensor = 0;
+
+    /**
      * @brief The current functional state of the fan
      */
     bool _functional = true;
