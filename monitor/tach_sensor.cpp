@@ -97,7 +97,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
             log<level::ERR>(
                 fmt::format("Failed to retrieve tach sensor {}", _name)
                     .c_str());
-            // mark tach sensor as nonfunctional
+            // Mark tach sensor as nonfunctional
             setFunctional(false);
             throw InvalidSensorError();
         }
