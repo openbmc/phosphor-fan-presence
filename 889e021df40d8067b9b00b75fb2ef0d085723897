@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f7831af3_9e6582a8",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Again, I\u0027m not sure how this is being found since its not included in system.hpp",
+      "range": {
+        "startLine": 47,
+        "startChar": 7,
+        "endLine": 47,
+        "endChar": 23
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f25f05e2_5f591a43",
         "filename": "monitor/fan.cpp",
         "patchSetId": 3
@@ -22,6 +45,138 @@
       "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b138f77c_52cc4d8f",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Should this be in the `if (mode !\u003d Mode::init)` below to reflect it\u0027s in monitoring mode and fans can be monitored for the backwards compatibility?",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 25
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "56ef7088_8ed844e5",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Need to include \"config.h\" for this right? It must be indirectly getting included from forward declaring the System?",
+      "range": {
+        "startLine": 208,
+        "startChar": 7,
+        "endLine": 208,
+        "endChar": 23
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8915650c_fc2c82fd",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Seems like 0 could be a valid value for the delay. Able to make this a -1 here to reflect its not supported/used for YAML configs?",
+      "range": {
+        "startLine": 57,
+        "startChar": 18,
+        "endLine": 57,
+        "endChar": 19
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6552bc07_aa043d4f",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Removed end brace?",
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b09c0625_a0a5ad87",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Will this be defaulted to 0 later on? 0 seems like a more expected default for a delay.",
+      "range": {
+        "startLine": 194,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 62
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "256d7111_5c60db92",
+        "filename": "monitor/types.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-23T16:04:48Z",
+      "side": 1,
+      "message": "Ah, ok...this is where its getting included from now though its not needed in this file.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 19
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
