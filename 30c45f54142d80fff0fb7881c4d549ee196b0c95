@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a53b546f_69444fd8",
+        "filename": "monitor/json.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-10-23T14:38:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fef96bad_6c484d5c",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 24
+      },
+      "revId": "30c45f54142d80fff0fb7881c4d549ee196b0c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec969681_0c1414c1",
         "filename": "monitor/json.md",
         "patchSetId": 3
@@ -83,6 +107,30 @@
       "side": 1,
       "message": "...I could see this being optional from the point that the first nonfunc sensor would cause the fan to be nonfunc (i.e. defaults to be 1 when not given). Otherwise what is the point of fan monitoring if not to mark fans as nonfunc?",
       "parentUuid": "20718aa1_059e9dba",
+      "range": {
+        "startLine": 63,
+        "startChar": 0,
+        "endLine": 64,
+        "endChar": 18
+      },
+      "revId": "30c45f54142d80fff0fb7881c4d549ee196b0c95",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "775a7996_2b9efa2b",
+        "filename": "monitor/json.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-10-23T14:38:13Z",
+      "side": 1,
+      "message": "This is what we discussed where fan monitor can be configured to only touch fan rotor/sensor functional status, because the LED code will end up touching the fan FRU functional status  Then, fan control will just look at fan rotor/sensor status.",
+      "parentUuid": "bdb45418_0568063e",
       "range": {
         "startLine": 63,
         "startChar": 0,
