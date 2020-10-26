@@ -90,4 +90,13 @@ std::vector<std::unique_ptr<PowerOffRule>>
     getPowerOffRules(const json& obj,
                      std::shared_ptr<PowerInterfaceBase>& powerInterface);
 
+/**
+ * @brief Returns the 'num_nonfunc_rotors_before_error field
+ *
+ * @param[in] obj - JSON object to parse from
+ *
+ * @return optional<size_t> - The value, or std::nullopt if not present
+ */
+std::optional<size_t> getNumNonfuncRotorsBeforeError(const json& obj);
+
 } // namespace phosphor::fan::monitor

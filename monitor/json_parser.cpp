@@ -210,6 +210,19 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
                 fan["num_sensors_nonfunc_for_fan_nonfunc"].get<size_t>();
         }
 
+        // nonfunc_rotor_error_delay is optional, though it will
+        // default to zero if 'fault_handling' is present.
+        std::optional<size_t> nonfuncRotorErrorDelay;
+        if (fan.contains("nonfunc_rotor_error_delay"))
+        {
+            nonfuncRotorErrorDelay =
+                fan["nonfunc_rotor_error_delay"].get<size_t>();
+        }
+        else if (obj.contains("fault_handling"))
+        {
+            nonfuncRotorErrorDelay = 0;
+        }
+
         // Handle optional conditions
         auto cond = std::optional<Condition>();
         if (fan.contains("condition"))
@@ -244,7 +257,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             std::tuple(fan["inventory"].get<std::string>(), funcDelay,
                        fan["allowed_out_of_range_time"].get<size_t>(),
                        fan["deviation"].get<size_t>(), nonfuncSensorsCount,
-                       monitorDelay, sensorDefs, cond));
+                       monitorDelay, nonfuncRotorErrorDelay, sensorDefs, cond));
     }
 
     return fanDefs;
@@ -396,6 +409,20 @@ std::vector<std::unique_ptr<PowerOffRule>>
     }
 
     return rules;
+}
+
+std::optional<size_t> getNumNonfuncRotorsBeforeError(const json& obj)
+{
+    std::optional<size_t> num;
+
+    if (obj.contains("fault_handling"))
+    {
+        // Defaults to 1 if not present inside of 'fault_handling'.
+        num = obj.at("fault_handling")
+                  .value("num_nonfunc_rotors_before_error", 1);
+    }
+
+    return num;
 }
 
 } // namespace phosphor::fan::monitor

@@ -75,6 +75,16 @@ class System
      */
     void fanStatusChange(const Fan& fan);
 
+    /**
+     * @brief Called when a fan sensor's error timer expires, which
+     *        happens when the sensor has been nonfunctional for a
+     *        certain amount of time.  An event log will be created.
+     *
+     * @param[in] fan - The parent fan of the sensor
+     * @param[in] sensor - The faulted sensor
+     */
+    void sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor);
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
@@ -106,6 +116,22 @@ class System
      *        due to fan failures.
      */
     std::vector<std::unique_ptr<PowerOffRule>> _powerOffRules;
+
+    /**
+     * @brief The number of concurrently nonfunctional fan sensors
+     *        there must be for an event log created due to a
+     *        nonfunctional fan sensor to have an Error severity as
+     *        opposed to an Informational one.
+     */
+    std::optional<size_t> _numNonfuncSensorsBeforeError;
+
+    /**
+     * @brief Captures tach sensor data as JSON for use in
+     *        fan fault and fan missing event logs.
+     *
+     * @return json - The JSON data
+     */
+    json captureSensorData();
 
     /**
      * @brief Retrieve the configured trust groups
