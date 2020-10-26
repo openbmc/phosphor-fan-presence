@@ -71,13 +71,15 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                        const std::string& id, bool hasTarget, size_t funcDelay,
                        const std::string& interface, double factor,
                        int64_t offset, size_t timeout,
+                       const std::optional<size_t>& errorDelay,
                        const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan), _name(FAN_SENSOR_PATH + id), _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget), _funcDelay(funcDelay), _interface(interface),
     _factor(factor), _offset(offset), _timeout(timeout),
     _timerMode(TimerMode::func),
-    _timer(event, std::bind(&Fan::timerExpired, &fan, std::ref(*this)))
+    _timer(event, std::bind(&Fan::timerExpired, &fan, std::ref(*this))),
+    _errorDelay(errorDelay)
 {
     // Start from a known state of functional
     setFunctional(true);
@@ -124,6 +126,14 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                 _bus, match.c_str(),
                 [this](auto& msg) { this->handleTargetChange(msg); });
         }
+
+        if (_errorDelay)
+        {
+            _errorTimer = std::make_unique<
+                sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
+                event, std::bind(&Fan::sensorErrorTimerExpired, &fan,
+                                 std::ref(*this)));
+        }
 #ifndef MONITOR_USE_JSON
     }
 #endif
@@ -147,6 +157,23 @@ void TachSensor::setFunctional(bool functional)
 {
     _functional = functional;
     updateInventory(_functional);
+
+    if (!_errorTimer)
+    {
+        return;
+    }
+
+    if (!_functional)
+    {
+        if (_fan.present())
+        {
+            _errorTimer->restartOnce(std::chrono::seconds(*_errorDelay));
+        }
+    }
+    else if (_errorTimer->isEnabled())
+    {
+        _errorTimer->setEnabled(false);
+    }
 }
 
 /**

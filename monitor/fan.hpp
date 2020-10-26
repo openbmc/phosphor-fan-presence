@@ -158,6 +158,14 @@ class Fan
         return _present;
     }
 
+    /**
+     * @brief Called from TachSensor when its error timer expires
+     *        so an event log calling out the fan can be created.
+     *
+     * @param[in] sensor - The nonfunctional sensor
+     */
+    void sensorErrorTimerExpired(const TachSensor& sensor);
+
   private:
     /**
      * @brief Returns true if the sensor input is not within

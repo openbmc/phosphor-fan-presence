@@ -70,7 +70,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                 mode, bus, *this, std::get<sensorNameField>(s),
                 std::get<hasTargetField>(s), std::get<funcDelay>(def),
                 std::get<targetInterfaceField>(s), std::get<factorField>(s),
-                std::get<offsetField>(s), std::get<timeoutField>(def), event));
+                std::get<offsetField>(s), std::get<timeoutField>(def),
+                std::get<nonfuncRotorErrDelayField>(def), event));
 
             _trustManager->registerSensor(_sensors.back());
         }
@@ -287,6 +288,15 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
         _system.fanStatusChange(*this);
     }
 }
+
+void Fan::sensorErrorTimerExpired(const TachSensor& sensor)
+{
+    if (_present)
+    {
+        _system.sensorErrorTimerExpired(*this, sensor);
+    }
+}
+
 } // namespace monitor
 } // namespace fan
 } // namespace phosphor
