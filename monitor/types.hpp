@@ -107,12 +107,14 @@ constexpr auto timeoutField = 2;
 constexpr auto fanDeviationField = 3;
 constexpr auto numSensorFailsForNonfuncField = 4;
 constexpr auto monitorStartDelayField = 5;
-constexpr auto sensorListField = 6;
-constexpr auto conditionField = 7;
+constexpr auto nonfuncRotorErrDelayField = 6;
+constexpr auto sensorListField = 7;
+constexpr auto conditionField = 8;
 
 using FanDefinition =
     std::tuple<std::string, size_t, size_t, size_t, size_t, size_t,
-               std::vector<SensorDefinition>, std::optional<Condition>>;
+               std::optional<size_t>, std::vector<SensorDefinition>,
+               std::optional<Condition>>;
 
 constexpr auto presentHealthPos = 0;
 constexpr auto sensorFuncHealthPos = 1;
