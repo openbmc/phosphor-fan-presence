@@ -79,12 +79,16 @@ class TachSensor
      * @param[in] factor - the factor of the sensor target
      * @param[in] offset - the offset of the sensor target
      * @param[in] timeout - Normal timeout value to use
+     * @param[in] errorDelay - Delay in seconds before creating an error
+     *                         or std::nullopt if no errors.
+     *
      * @param[in] event - Event loop reference
      */
     TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                const std::string& id, bool hasTarget, size_t funcDelay,
                const std::string& interface, double factor, int64_t offset,
-               size_t timeout, const sdeventplus::Event& event);
+               size_t timeout, const std::optional<size_t>& errorDelay,
+               const sdeventplus::Event& event);
 
     /**
      * @brief Returns the target speed value
@@ -185,6 +189,20 @@ class TachSensor
     {
         return _name;
     };
+
+    /**
+     * @brief Says if the error timer is running
+     *
+     * @return bool - If the timer is running
+     */
+    bool errorTimerRunning() const
+    {
+        if (_errorTimer && _errorTimer->isEnabled())
+        {
+            return true;
+        }
+        return false;
+    }
 
   private:
     /**
@@ -306,6 +324,24 @@ class TachSensor
      * @brief The match object for the Target properties changed signal
      */
     std::unique_ptr<sdbusplus::server::match::match> targetSignal;
+
+    /**
+     * @brief The number of seconds to wait between a sensor being set
+     *        to nonfunctional and creating an error for it.
+     *
+     * If std::nullopt, no errors will be created.
+     */
+    const std::optional<size_t> _errorDelay;
+
+    /**
+     * @brief The timer that uses _errorDelay.  When it expires an error
+     *        will be created for a faulted fan sensor (rotor).
+     *
+     * If _errorDelay is std::nullopt, then this won't be created.
+     */
+    std::unique_ptr<
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
+        _errorTimer;
 };
 
 } // namespace monitor

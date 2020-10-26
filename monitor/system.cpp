@@ -24,6 +24,8 @@
 #include "json_parser.hpp"
 #endif
 
+#include "fan_error.hpp"
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -34,6 +36,8 @@ namespace phosphor::fan::monitor
 {
 
 using json = nlohmann::json;
+using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
+
 using namespace phosphor::logging;
 
 System::System(Mode mode, sdbusplus::bus::bus& bus,
@@ -187,6 +191,8 @@ void System::setFaultConfig(const json& jsonObj)
         std::make_shared<PowerInterface>();
 
     _powerOffRules = getPowerOffRules(jsonObj, powerInterface);
+
+    _numNonfuncSensorsBeforeError = getNumNonfuncRotorsBeforeError(jsonObj);
 #endif
 }
 
@@ -209,6 +215,73 @@ void System::powerStateChanged(bool powerStateOn)
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) { rule->cancel(); });
     }
+}
+
+void System::sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor)
+{
+    std::string fanPath{util::INVENTORY_PATH + fan.getName()};
+
+    getLogger().log(
+        fmt::format("Creating event log for faulted fan {} sensor {}", fanPath,
+                    sensor.name()),
+        Logger::error);
+
+    // In order to know if the event log should have a severity of error or
+    // informational, count the number of existing nonfunctional sensors and
+    // compare it to _numNonfuncSensorsBeforeError.
+    size_t nonfuncSensors = 0;
+    for (const auto& fan : _fans)
+    {
+        for (const auto& s : fan->sensors())
+        {
+            // Don't count nonfunctional sensors that still have their
+            // error timer running as nonfunctional since they haven't
+            // had event logs created for those errors yet.
+            if (!s->functional() && !s->errorTimerRunning())
+            {
+                nonfuncSensors++;
+            }
+        }
+    }
+
+    Severity severity = Severity::Error;
+    if (nonfuncSensors < _numNonfuncSensorsBeforeError)
+    {
+        severity = Severity::Informational;
+    }
+
+    auto error =
+        std::make_unique<FanError>("xyz.openbmc_project.Fan.Error.Fault",
+                                   fanPath, sensor.name(), severity);
+
+    auto sensorData = captureSensorData();
+    error->commit(sensorData);
+
+    // TODO: save error so it can be committed again on a power off
+}
+
+json System::captureSensorData()
+{
+    json data;
+
+    for (const auto& fan : _fans)
+    {
+        for (const auto& sensor : fan->sensors())
+        {
+            json values;
+            values["present"] = fan->present();
+            values["functional"] = sensor->functional();
+            values["tach"] = sensor->getInput();
+            if (sensor->hasTarget())
+            {
+                values["target"] = sensor->getTarget();
+            }
+
+            data["sensors"][sensor->name()] = values;
+        }
+    }
+
+    return data;
 }
 
 } // namespace phosphor::fan::monitor

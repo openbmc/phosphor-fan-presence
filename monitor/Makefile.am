@@ -7,6 +7,7 @@ bin_PROGRAMS = \
 phosphor_fan_monitor_SOURCES = \
 	argument.cpp \
 	fan.cpp \
+	fan_error.cpp \
 	power_interface.cpp \
 	logging.cpp \
 	main.cpp \
