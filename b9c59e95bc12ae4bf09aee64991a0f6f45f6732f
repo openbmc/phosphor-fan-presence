@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "9a224235_13c6720a",
+        "filename": "monitor/power_off_cause.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-26T17:46:07Z",
+      "side": 1,
+      "message": "thought it was preferred to not copy strings if at all possible though?",
+      "parentUuid": "70018334_4d6e5574",
+      "range": {
+        "startLine": 24,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 56
+      },
+      "revId": "b9c59e95bc12ae4bf09aee64991a0f6f45f6732f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3965dc03_a803ee6f",
         "filename": "monitor/test/power_off_cause_test.cpp",
         "patchSetId": 4
