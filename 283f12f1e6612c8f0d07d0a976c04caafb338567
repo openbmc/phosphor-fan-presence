@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ceffdb99_843c9b02",
+        "filename": "monitor/test/Makefile.am",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-10-27T19:43:14Z",
+      "side": 1,
+      "message": "tab",
+      "revId": "283f12f1e6612c8f0d07d0a976c04caafb338567",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
