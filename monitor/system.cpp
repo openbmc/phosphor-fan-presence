@@ -260,6 +260,23 @@ void System::sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor)
     // TODO: save error so it can be committed again on a power off
 }
 
+void System::fanMissingErrorTimerExpired(const Fan& fan)
+{
+    std::string fanPath{util::INVENTORY_PATH + fan.getName()};
+
+    getLogger().log(
+        fmt::format("Creating event log for missing fan {}", fanPath),
+        Logger::error);
+
+    auto error = std::make_unique<FanError>(
+        "xyz.openbmc_project.Fan.Error.Missing", fanPath, "", Severity::Error);
+
+    auto sensorData = captureSensorData();
+    error->commit(sensorData);
+
+    // TODO: save error so it can be committed again on a power off
+}
+
 json System::captureSensorData()
 {
     json data;
