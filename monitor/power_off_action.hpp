@@ -33,6 +33,8 @@ namespace phosphor::fan::monitor
 class PowerOffAction
 {
   public:
+    using PrePowerOffFunc = std::function<void()>;
+
     virtual ~PowerOffAction() = default;
     PowerOffAction(const PowerOffAction&) = default;
     PowerOffAction& operator=(const PowerOffAction&) = default;
@@ -43,12 +45,17 @@ class PowerOffAction
      * @brief Constructor
      *
      * @param[in] name - The action name.  Used for tracing.
-     * powerInterface - The object used to invoke the power off.
+     * @param[in] powerInterface - The object used to invoke the power off.
+     * @param[in] powerOffFunc - A function to call right before the power
+     *                           off occurs (after any delays).  May be
+     *                           empty if no function is necessary.
      */
     PowerOffAction(const std::string& name,
-                   std::shared_ptr<PowerInterfaceBase> powerInterface) :
+                   std::shared_ptr<PowerInterfaceBase> powerInterface,
+                   PrePowerOffFunc& powerOffFunc) :
         _name(name),
-        _powerIface(powerInterface), _event(sdeventplus::Event::get_default())
+        _powerIface(powerInterface), _event(sdeventplus::Event::get_default()),
+        _prePowerOffFunc(powerOffFunc)
     {}
 
     /**
@@ -118,6 +125,12 @@ class PowerOffAction
      * @brief The event loop object. Needed by timers.
      */
     sdeventplus::Event _event;
+
+    /**
+     * @brief A function that will be called right before
+     *        the power off.
+     */
+    PrePowerOffFunc _prePowerOffFunc;
 };
 
 /**
@@ -142,11 +155,14 @@ class HardPowerOff : public PowerOffAction
      * @param[in] delay - The amount of time in seconds to wait before
      *                    doing the power off
      * @param[in] powerInterface - The object to use to do the power off
+     * @param[in] func - Optional user defined function to call right before
+     *                   the power off.
      */
     HardPowerOff(uint32_t delay,
-                 std::shared_ptr<PowerInterfaceBase> powerInterface) :
+                 std::shared_ptr<PowerInterfaceBase> powerInterface,
+                 PrePowerOffFunc func) :
         PowerOffAction("Hard Power Off: " + std::to_string(delay) + "s",
-                       powerInterface),
+                       powerInterface, func),
         _delay(delay),
         _timer(_event, std::bind(std::mem_fn(&HardPowerOff::powerOff), this))
     {}
@@ -183,6 +199,12 @@ class HardPowerOff : public PowerOffAction
      */
     void powerOff()
     {
+
+        if (_prePowerOffFunc)
+        {
+            _prePowerOffFunc();
+        }
+
         getLogger().log(
             fmt::format("Action '{}' executing hard power off", name()));
         _powerIface->hardPowerOff();
@@ -223,11 +245,14 @@ class SoftPowerOff : public PowerOffAction
      * @param[in] delay - The amount of time in seconds to wait before
      *                    doing the power off
      * @param[in] powerInterface - The object to use to do the power off
+     * @param[in] func - Optional user defined function to call right before
+     *                   the power off.
      */
     SoftPowerOff(uint32_t delay,
-                 std::shared_ptr<PowerInterfaceBase> powerInterface) :
+                 std::shared_ptr<PowerInterfaceBase> powerInterface,
+                 PrePowerOffFunc func) :
         PowerOffAction("Soft Power Off: " + std::to_string(delay) + "s",
-                       powerInterface),
+                       powerInterface, func),
         _delay(delay),
         _timer(_event, std::bind(std::mem_fn(&SoftPowerOff::powerOff), this))
     {}
@@ -264,6 +289,11 @@ class SoftPowerOff : public PowerOffAction
      */
     void powerOff()
     {
+        if (_prePowerOffFunc)
+        {
+            _prePowerOffFunc();
+        }
+
         getLogger().log(
             fmt::format("Action '{}' executing soft power off", name()));
         _powerIface->softPowerOff();
@@ -300,10 +330,11 @@ class EpowPowerOff : public PowerOffAction
     EpowPowerOff& operator=(EpowPowerOff&&) = delete;
 
     EpowPowerOff(uint32_t serviceModeDelay, uint32_t meltdownDelay,
-                 std::shared_ptr<PowerInterfaceBase> powerInterface) :
+                 std::shared_ptr<PowerInterfaceBase> powerInterface,
+                 PrePowerOffFunc func) :
         PowerOffAction("EPOW Power Off: " + std::to_string(serviceModeDelay) +
                            "s/" + std::to_string(meltdownDelay) + "s",
-                       powerInterface),
+                       powerInterface, func),
         _serviceModeDelay(serviceModeDelay), _meltdownDelay(meltdownDelay)
     {}
 
