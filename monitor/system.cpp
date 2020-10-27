@@ -24,8 +24,6 @@
 #include "json_parser.hpp"
 #endif
 
-#include "fan_error.hpp"
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -190,7 +188,10 @@ void System::setFaultConfig(const json& jsonObj)
     std::shared_ptr<PowerInterfaceBase> powerInterface =
         std::make_shared<PowerInterface>();
 
-    _powerOffRules = getPowerOffRules(jsonObj, powerInterface);
+    PowerOffAction::PrePowerOffFunc func =
+        std::bind(std::mem_fn(&System::logShutdownError), this);
+
+    _powerOffRules = getPowerOffRules(jsonObj, powerInterface, func);
 
     _numNonfuncSensorsBeforeError = getNumNonfuncRotorsBeforeError(jsonObj);
 #endif
@@ -257,7 +258,8 @@ void System::sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor)
     auto sensorData = captureSensorData();
     error->commit(sensorData);
 
-    // TODO: save error so it can be committed again on a power off
+    // Save the error so it can be committed again on a power off.
+    _lastError = std::move(error);
 }
 
 void System::fanMissingErrorTimerExpired(const Fan& fan)
@@ -274,7 +276,20 @@ void System::fanMissingErrorTimerExpired(const Fan& fan)
     auto sensorData = captureSensorData();
     error->commit(sensorData);
 
-    // TODO: save error so it can be committed again on a power off
+    // Save the error so it can be committed again on a power off.
+    _lastError = std::move(error);
+}
+
+void System::logShutdownError()
+{
+    if (_lastError)
+    {
+        getLogger().log("Re-committing previous fan error before power off");
+
+        // Still use the latest sensor data
+        auto sensorData = captureSensorData();
+        _lastError->commit(sensorData);
+    }
 }
 
 json System::captureSensorData()
