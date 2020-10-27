@@ -83,6 +83,14 @@ class System
      */
     void sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor);
 
+    /**
+     * @brief Called when the timer that starts when a fan is missing
+     *        has expired so an event log needs to be created.
+     *
+     * @param[in] fan - The missing fan.
+     */
+    void fanMissingErrorTimerExpired(const Fan& fan);
+
   private:
     /* The mode of fan monitor */
     Mode _mode;

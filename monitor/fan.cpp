@@ -54,7 +54,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                    rules::propertiesChanged(util::INVENTORY_PATH + _name,
                                             util::INV_ITEM_IFACE),
                    std::bind(std::mem_fn(&Fan::presenceChanged), this,
-                             std::placeholders::_1))
+                             std::placeholders::_1)),
+    _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def))
 {
     // Start from a known state of functional (even if
     // _numSensorFailsForNonFunc is 0)
@@ -108,6 +109,24 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     // Get the initial presence state
     _present = util::SDBusPlus::getProperty<bool>(
         util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
+
+    if (_fanMissingErrorDelay)
+    {
+        _fanMissingErrorTimer = std::make_unique<
+            sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
+            event, std::bind(&System::fanMissingErrorTimerExpired, &system,
+                             std::ref(*this)));
+
+        if (!_present)
+        {
+            // The fan presence application handles the journal for missing
+            // fans, so only internally log missing fan info here.
+            getLogger().log(fmt::format("On startup, fan {} is missing", _name),
+                            Logger::quiet);
+            _fanMissingErrorTimer->restartOnce(
+                std::chrono::seconds{*_fanMissingErrorDelay});
+        }
+    }
 }
 
 void Fan::startMonitor()
@@ -285,7 +304,24 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
     {
         _present = std::get<bool>(presentProp->second);
 
+        getLogger().log(
+            fmt::format("Fan {} presence state change to {}", _name, _present),
+            Logger::quiet);
+
         _system.fanStatusChange(*this);
+
+        if (_fanMissingErrorDelay)
+        {
+            if (!_present)
+            {
+                _fanMissingErrorTimer->restartOnce(
+                    std::chrono::seconds{*_fanMissingErrorDelay});
+            }
+            else if (_fanMissingErrorTimer->isEnabled())
+            {
+                _fanMissingErrorTimer->setEnabled(false);
+            }
+        }
     }
 }
 

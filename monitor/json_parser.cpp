@@ -223,6 +223,14 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             nonfuncRotorErrorDelay = 0;
         }
 
+        // fan_missing_error_delay is optional.
+        std::optional<size_t> fanMissingErrorDelay;
+        if (fan.contains("fan_missing_error_delay"))
+        {
+            fanMissingErrorDelay =
+                fan.at("fan_missing_error_delay").get<size_t>();
+        }
+
         // Handle optional conditions
         auto cond = std::optional<Condition>();
         if (fan.contains("condition"))
@@ -253,11 +261,11 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
                     entry("JSON_DUMP=%s", fan["condition"].dump().c_str()));
             }
         }
-        fanDefs.emplace_back(
-            std::tuple(fan["inventory"].get<std::string>(), funcDelay,
-                       fan["allowed_out_of_range_time"].get<size_t>(),
-                       fan["deviation"].get<size_t>(), nonfuncSensorsCount,
-                       monitorDelay, nonfuncRotorErrorDelay, sensorDefs, cond));
+        fanDefs.emplace_back(std::tuple(
+            fan["inventory"].get<std::string>(), funcDelay,
+            fan["allowed_out_of_range_time"].get<size_t>(),
+            fan["deviation"].get<size_t>(), nonfuncSensorsCount, monitorDelay,
+            nonfuncRotorErrorDelay, fanMissingErrorDelay, sensorDefs, cond));
     }
 
     return fanDefs;

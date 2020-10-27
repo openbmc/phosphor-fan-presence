@@ -88,6 +88,17 @@ will be created.
 Optional.  If not present but there is a [fault handling
 configuration](#fault-handling-configuration) section, then it defaults to 0.
 
+### fan_missing_error_delay
+
+This defines how many seconds a fan must be missing before an error will be
+created.
+
+```
+"fan_missing_error_delay": 5
+```
+
+Optional.  If not present, no errors will be created for missing fans.
+
 ### sensors
 
 This is an array with an entry for each tach sensor contained in the fan FRU.
