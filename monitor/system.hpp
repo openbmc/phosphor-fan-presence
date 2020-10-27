@@ -16,6 +16,7 @@
 #pragma once
 
 #include "fan.hpp"
+#include "fan_error.hpp"
 #include "power_off_rule.hpp"
 #include "power_state.hpp"
 #include "tach_sensor.hpp"
@@ -40,11 +41,11 @@ class System
 {
   public:
     System() = delete;
+    ~System() = default;
     System(const System&) = delete;
     System(System&&) = delete;
     System& operator=(const System&) = delete;
     System& operator=(System&&) = delete;
-    ~System() = default;
 
     /**
      * Constructor
@@ -91,6 +92,14 @@ class System
      */
     void fanMissingErrorTimerExpired(const Fan& fan);
 
+    /**
+     * @brief Called by the power off actions to log an error when there is
+     *        a power off due to fan problems.
+     *
+     * The error it logs is just the last fan error that occurred.
+     */
+    void logShutdownError();
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
@@ -130,6 +139,11 @@ class System
      *        opposed to an Informational one.
      */
     std::optional<size_t> _numNonfuncSensorsBeforeError;
+
+    /**
+     * @brief The most recently committed fan error.
+     */
+    std::unique_ptr<FanError> _lastError;
 
     /**
      * @brief Captures tach sensor data as JSON for use in
