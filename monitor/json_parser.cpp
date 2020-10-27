@@ -336,7 +336,8 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
 
 std::unique_ptr<PowerOffAction>
     getPowerOffAction(const json& powerOffConfig,
-                      std::shared_ptr<PowerInterfaceBase>& powerInterface)
+                      std::shared_ptr<PowerInterfaceBase>& powerInterface,
+                      PowerOffAction::PrePowerOffFunc& func)
 {
     std::unique_ptr<PowerOffAction> action;
     if (!powerOffConfig.contains("type"))
@@ -368,19 +369,19 @@ std::unique_ptr<PowerOffAction>
     if (type == "hard")
     {
         action = std::make_unique<HardPowerOff>(
-            powerOffConfig.at("delay").get<uint32_t>(), powerInterface);
+            powerOffConfig.at("delay").get<uint32_t>(), powerInterface, func);
     }
     else if (type == "soft")
     {
         action = std::make_unique<SoftPowerOff>(
-            powerOffConfig.at("delay").get<uint32_t>(), powerInterface);
+            powerOffConfig.at("delay").get<uint32_t>(), powerInterface, func);
     }
     else if (type == "epow")
     {
         action = std::make_unique<EpowPowerOff>(
             powerOffConfig.at("service_mode_delay").get<uint32_t>(),
-            powerOffConfig.at("meltdown_delay").get<uint32_t>(),
-            powerInterface);
+            powerOffConfig.at("meltdown_delay").get<uint32_t>(), powerInterface,
+            func);
     }
     else
     {
@@ -395,7 +396,8 @@ std::unique_ptr<PowerOffAction>
 
 std::vector<std::unique_ptr<PowerOffRule>>
     getPowerOffRules(const json& obj,
-                     std::shared_ptr<PowerInterfaceBase>& powerInterface)
+                     std::shared_ptr<PowerInterfaceBase>& powerInterface,
+                     PowerOffAction::PrePowerOffFunc& func)
 {
     std::vector<std::unique_ptr<PowerOffRule>> rules;
 
@@ -409,7 +411,7 @@ std::vector<std::unique_ptr<PowerOffRule>>
     {
         auto state = getPowerOffPowerRuleState(config);
         auto cause = getPowerOffCause(config);
-        auto action = getPowerOffAction(config, powerInterface);
+        auto action = getPowerOffAction(config, powerInterface, func);
 
         auto rule = std::make_unique<PowerOffRule>(
             std::move(state), std::move(cause), std::move(action));
