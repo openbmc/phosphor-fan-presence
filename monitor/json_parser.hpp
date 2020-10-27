@@ -16,6 +16,7 @@
 #pragma once
 
 #include "json_config.hpp"
+#include "power_off_action.hpp"
 #include "trust_group.hpp"
 #include "types.hpp"
 
@@ -28,6 +29,7 @@ namespace phosphor::fan::monitor
 using json = nlohmann::json;
 class PowerOffRule;
 class PowerInterfaceBase;
+class System;
 
 constexpr auto confAppName = "monitor";
 constexpr auto confFileName = "config.json";
@@ -85,10 +87,14 @@ const std::vector<FanDefinition> getFanDefs(const json& obj);
  * @param[in] obj - JSON object to parse from
  *
  * @param[in] powerInterface - The power interface object to use
+ *
+ * @param[in] func - Optional user defined function that gets called
+ *                   right before a power off occurs.
  */
 std::vector<std::unique_ptr<PowerOffRule>>
     getPowerOffRules(const json& obj,
-                     std::shared_ptr<PowerInterfaceBase>& powerInterface);
+                     std::shared_ptr<PowerInterfaceBase>& powerInterface,
+                     PowerOffAction::PrePowerOffFunc& func);
 
 /**
  * @brief Returns the 'num_nonfunc_rotors_before_error field
