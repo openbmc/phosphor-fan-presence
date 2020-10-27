@@ -22,14 +22,21 @@ power_off_cause_test_LDADD = \
 power_off_rule_test_SOURCES = \
 	power_off_rule_test.cpp \
     ../conditions.cpp \
+	../fan.cpp \
+	../fan_error.cpp \
     ../json_parser.cpp \
-	../logging.cpp
+	../logging.cpp \
+	../power_interface.cpp \
+	../system.cpp \
+	../tach_sensor.cpp
 power_off_rule_test_CXXFLAGS = \
 	$(gtest_cflags)
 power_off_rule_test_LDFLAGS = \
 	$(OESDK_TESTCASE_FLAGS)
 power_off_rule_test_LDADD = \
+	-lstdc++fs \
 	$(gtest_ldadd) \
 	$(FMT_LIBS) \
+	$(PHOSPHOR_LOGGING_LIBS) \
 	$(SDBUSPLUS_LIBS) \
 	$(SDEVENTPLUS_LIBS)
