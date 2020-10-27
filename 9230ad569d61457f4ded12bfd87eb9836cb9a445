@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0fa5269_4c4cb625",
+        "filename": "control/Makefile.am",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-10-27T21:09:41Z",
+      "side": 1,
+      "message": "Combine into 1 phosphor_fan_control_SOURCES?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 33
+      },
+      "revId": "9230ad569d61457f4ded12bfd87eb9836cb9a445",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
