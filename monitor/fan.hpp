@@ -281,6 +281,21 @@ class Fan
      * @brief The current presence state
      */
     bool _present = false;
+
+    /**
+     * @brief The number of seconds to wait after a fan is removed before
+     *        creating an event log for it.  If std::nullopt, then no
+     *        event log will be created.
+     */
+    std::optional<size_t> _fanMissingErrorDelay;
+
+    /**
+     * @brief The timer that uses the _fanMissingErrorDelay timeout,
+     *        at the end of which an event log will be created.
+     */
+    std::unique_ptr<
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
+        _fanMissingErrorTimer;
 };
 
 } // namespace monitor
