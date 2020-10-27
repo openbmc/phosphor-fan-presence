@@ -467,6 +467,30 @@
       "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c80754c3_93d6ab75",
+        "filename": "utility.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-27T21:43:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d02f31b_221cc652",
+      "range": {
+        "startLine": 65,
+        "startChar": 40,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
