@@ -43,7 +43,8 @@ class Logger
     enum Priority
     {
         error,
-        info
+        info,
+        quiet
     };
 
     Logger() = delete;
@@ -78,7 +79,7 @@ class Logger
             phosphor::logging::log<phosphor::logging::level::ERR>(
                 message.c_str());
         }
-        else
+        else if (priority != Logger::quiet)
         {
             phosphor::logging::log<phosphor::logging::level::INFO>(
                 message.c_str());
