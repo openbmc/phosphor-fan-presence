@@ -9,6 +9,7 @@ using json = nlohmann::json;
 
 TEST(PowerOffRuleTest, TestRules)
 {
+    PowerOffAction::PrePowerOffFunc func;
     sd_event* event;
     sd_event_default(&event);
     sdeventplus::Event sdEvent{event};
@@ -59,7 +60,7 @@ TEST(PowerOffRuleTest, TestRules)
     EXPECT_CALL(mockIface, hardPowerOff).Times(1);
     EXPECT_CALL(mockIface, softPowerOff).Times(1);
 
-    auto rules = getPowerOffRules(faultConfig, powerIface);
+    auto rules = getPowerOffRules(faultConfig, powerIface, func);
     ASSERT_EQ(rules.size(), 4);
 
     FanHealth health{{"fan0", {false, {true, true}}},
