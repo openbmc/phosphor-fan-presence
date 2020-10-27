@@ -283,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "7fc7d1f4_8704fbda",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000830
+      },
+      "writtenOn": "2020-10-27T19:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b242855_1a0aeb65",
+      "range": {
+        "startLine": 58,
+        "startChar": 44,
+        "endLine": 58,
+        "endChar": 52
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14401fc2_540b279f",
         "filename": "presence/fallback.cpp",
         "patchSetId": 1
@@ -306,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "c69fc1fa_1f14e57e",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000830
+      },
+      "writtenOn": "2020-10-27T19:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14401fc2_540b279f",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 84,
+        "endChar": 33
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18c20a4d_4187b27a",
         "filename": "presence/fallback.cpp",
         "patchSetId": 1
@@ -317,6 +365,30 @@
       "writtenOn": "2020-10-16T01:49:21Z",
       "side": 1,
       "message": "Is this still needed?",
+      "range": {
+        "startLine": 85,
+        "startChar": 40,
+        "endLine": 85,
+        "endChar": 48
+      },
+      "revId": "43e147c8ec97965b06b76342f8c52ebe80db5728",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "832efe04_09bdc616",
+        "filename": "presence/fallback.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000830
+      },
+      "writtenOn": "2020-10-27T19:24:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18c20a4d_4187b27a",
       "range": {
         "startLine": 85,
         "startChar": 40,
