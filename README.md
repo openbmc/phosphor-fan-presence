@@ -24,7 +24,7 @@ To enable the use of JSON configuration file(s) at runtime, provide the
 file.*
 * Fan presence detection(presence)
   * The error logging feature is only available via the JSON configuration.
-* Fan monitoring(monitor)
+* [Fan monitoring(monitor)](monitor/README.md)
   * [JSON Documentation](monitor/json)
 
 To clean the repository run `./bootstrap.sh clean`.
