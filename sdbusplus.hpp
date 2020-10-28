@@ -210,6 +210,44 @@ class SDBusPlus
         return mapperResp;
     }
 
+    /** @brief Get subtree paths from the mapper without checking response. */
+    static auto getSubTreePathsRaw(sdbusplus::bus::bus& bus,
+                                   const std::string& path,
+                                   const std::string& interface, int32_t depth)
+    {
+        using namespace std::literals::string_literals;
+
+        using Path = std::string;
+        using Intf = std::string;
+        using Intfs = std::vector<Intf>;
+        using ObjectPaths = std::vector<Path>;
+        Intfs intfs = {interface};
+
+        return callMethodAndRead<ObjectPaths>(
+            bus, "xyz.openbmc_project.ObjectMapper"s,
+            "/xyz/openbmc_project/object_mapper"s,
+            "xyz.openbmc_project.ObjectMapper"s, "GetSubTreePaths"s, path,
+            depth, intfs);
+    }
+
+    /** @brief Get subtree paths from the mapper. */
+    static auto getSubTreePaths(sdbusplus::bus::bus& bus,
+                                const std::string& path,
+                                const std::string& interface, int32_t depth)
+    {
+        auto mapperResp = getSubTreePathsRaw(bus, path, interface, depth);
+        if (mapperResp.empty())
+        {
+            phosphor::logging::log<phosphor::logging::level::ERR>(
+                "Empty response from mapper GetSubTreePaths",
+                phosphor::logging::entry("SUBTREE=%s", path.c_str()),
+                phosphor::logging::entry("INTERFACE=%s", interface.c_str()),
+                phosphor::logging::entry("DEPTH=%u", depth));
+            phosphor::logging::elog<detail::errors::InternalFailure>();
+        }
+        return mapperResp;
+    }
+
     /** @brief Get service from the mapper. */
     static auto getService(sdbusplus::bus::bus& bus, const std::string& path,
                            const std::string& interface)

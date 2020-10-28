@@ -36,10 +36,9 @@ using namespace phosphor::logging;
 
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence";
-constexpr auto confDbusPath = "/xyz/openbmc_project/inventory/system/chassis";
-constexpr auto confDbusIntf =
-    "xyz.openbmc_project.Inventory.Decorator.Compatible";
-constexpr auto confDbusProp = "Names";
+constexpr auto confCompatIntf =
+    "xyz.openbmc_project.Configuration.IBMCompatibleSystem";
+constexpr auto confCompatProp = "Names";
 
 class JsonConfig
 {
@@ -49,11 +48,11 @@ class JsonConfig
      * the json config file for the given fan application is used from the
      * following locations in order.
      * 1.) From the confOverridePath location
-     * 2.) From config file found using a property value as a relative
-     * path extension on the base path from the dbus object where:
-     *     path = Path set in confDbusPath
-     *     interface = Interface set in confDbusIntf
-     *     property = Property set in confDbusProp
+     * 2.) From config file found using an entry from a list obtained from an
+     * interface's property as a relative path extension on the base path where:
+     *     interface = Interface set in confCompatIntf with the property
+     *     property = Property set in confCompatProp containing a list of
+     *                subdirectories in priority order to find a config
      * 3.) *DEFAULT* - From the confBasePath location
      *
      * @brief Get the configuration file to be used
@@ -78,31 +77,41 @@ class JsonConfig
             return confFile;
         }
 
-        try
+        // Default base path used if no config file found at any locations
+        // provided on dbus objects with the compatible interface
+        confFile = fs::path{confBasePath} / appName / fileName;
+
+        // Get all objects implementing the compatible interface
+        auto objects =
+            util::SDBusPlus::getSubTreePathsRaw(bus, "/", confCompatIntf, 0);
+        for (auto& path : objects)
         {
-            // Retrieve json config relative path location from dbus
-            auto confDbusValue =
-                util::SDBusPlus::getProperty<std::vector<std::string>>(
-                    bus, confDbusPath, confDbusIntf, confDbusProp);
-            // Look for a config file at each entry relative to the base
-            // path and use the first one found
-            auto it = std::find_if(
-                confDbusValue.begin(), confDbusValue.end(),
-                [&confFile, &appName, &fileName](auto const& entry) {
-                    confFile =
-                        fs::path{confBasePath} / appName / entry / fileName;
-                    return fs::exists(confFile);
-                });
-            if (it == confDbusValue.end())
+            try
             {
-                // Property exists, but no config file found. Use default base
-                // path
-                confFile = fs::path{confBasePath} / appName / fileName;
+                // Retrieve json config compatible relative path locations
+                auto confCompatValue =
+                    util::SDBusPlus::getProperty<std::vector<std::string>>(
+                        bus, path, confCompatIntf, confCompatProp);
+                // Look for a config file at each entry relative to the base
+                // path and use the first one found
+                auto it = std::find_if(
+                    confCompatValue.begin(), confCompatValue.end(),
+                    [&confFile, &appName, &fileName](auto const& entry) {
+                        confFile =
+                            fs::path{confBasePath} / appName / entry / fileName;
+                        return fs::exists(confFile);
+                    });
+                if (it != confCompatValue.end())
+                {
+                    // Use the first config file found at a listed location
+                    break;
+                }
             }
-        }
-        catch (const util::DBusError&)
-        {
-            // Property unavailable, attempt default base path
+            catch (const util::DBusError&)
+            {
+                // Property unavailable on object.
+                // Set to default base path and continue to check next object
+            }
             confFile = fs::path{confBasePath} / appName / fileName;
         }
 
