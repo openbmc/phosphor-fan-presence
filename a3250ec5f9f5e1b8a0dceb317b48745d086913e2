@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "4957a450_52a726a6",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2020-10-30T20:53:29Z",
+      "side": 1,
+      "message": "Nit: Creates.  Not a possessive or contraction.",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abe6fac3_fbdc2e45",
         "filename": "control/json/actions/action.hpp",
         "patchSetId": 4
@@ -18,6 +41,75 @@
         "startChar": 7,
         "endLine": 72,
         "endChar": 14
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85121f3e_920b8bd7",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2020-10-30T20:53:29Z",
+      "side": 1,
+      "message": "It seems confusing that an action object (child of ActionBase) returns an Action object (alias to a std::function).\n\nIs ActionBase only needed for parsing JSON (since it is in the json directory/namespace)?  If so, would it be clearer if it were named ActionParser instead?\n\nOtherwise, if the ActionBase objects are needed after JSON parsing is done and represent the \"real\" action objects, should the \u0027Action\u0027 alias be renamed to \u0027ActionFunction\u0027 since that is how you describe it above?",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f590d499_0cf6234e",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2020-10-30T20:53:29Z",
+      "side": 1,
+      "message": "The return type is bool, so I\u0027m not sure if this comment matches.\n\nIf the method either works and returns true, or fails and throws an exception without returning anything, should it just be a void instead?",
+      "range": {
+        "startLine": 121,
+        "startChar": 15,
+        "endLine": 121,
+        "endChar": 75
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a33fbe76_49c8ae41",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2020-10-30T20:53:29Z",
+      "side": 1,
+      "message": "What happens if this fails?\n\nLooking at the code above, it throws an exception rather than returning false.\n\nSince this is a static variable that (as you state above) is initialized before main, wouldn\u0027t the exception be uncaught leading to a core dump or something?  Maybe that is what you want?",
+      "range": {
+        "startLine": 206,
+        "startChar": 36,
+        "endLine": 206,
+        "endChar": 73
       },
       "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
