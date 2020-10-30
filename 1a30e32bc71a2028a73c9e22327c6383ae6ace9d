@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "3d17eff0_d571e567",
+        "filename": "monitor/json.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-10-30T00:33:39Z",
+      "side": 1,
+      "message": "Seems like there\u0027s atleast a dependency between declaring `nonfunc_rotor_error_delay` and requiring that the `fault_handling` section be defined otherwise no errors are created where the user may have intended there to be.\n\nI see how a `fault_handling` section can exists without a `nonfunc_fan_error_delay` now since the `nonfunc_fan_error_delay` would default to 0 in that case.\n\nSo we should atleast throw an exception where `nonfunc_rotor_error_delay` is given but there\u0027s no `fault_handling` provided.",
+      "parentUuid": "faeb5662_c4e2a5aa",
+      "range": {
+        "startLine": 99,
+        "startChar": 14,
+        "endLine": 101,
+        "endChar": 58
+      },
+      "revId": "1a30e32bc71a2028a73c9e22327c6383ae6ace9d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce7090d1_3fd90ea6",
         "filename": "monitor/json.md",
         "patchSetId": 6
