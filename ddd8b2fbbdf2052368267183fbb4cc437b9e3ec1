@@ -1,0 +1,573 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e8bfb4e_9f878b97",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "\"Create an up/down count fault determination algorithm that could be used in place of the current timer based outOfRange() function.\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33744cb6_677e7f49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 26
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d5fbdb2_ae9e2cd7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "remove\n\nThere\u0027s really not set period of time when using the up/down count method as the count is either being incremented to a threshold(each time the rotor is out of spec) or decremented back to 0(each time the rotor is in spec).",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d45dcea1_d987c8c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "Did you happen to also check that a fan is not marked nonfunctional after removing and then replacing it before the threshold is hit?\n\nAlso, does a nonfunctional fan return to functional after its replaced?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0a08a20_266a97de",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "We should probably add the available methods here, something like:\n`method: [time|count]`",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 10
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "59e7641b_f160d9b7",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "Then maybe include a description of each one under here similar to how the sensor_trust_groups list the available classes below.\n\ni.e.)\n\nAvailable methods:\n * time - ...\n * count - ...",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3bdad2a8_57556ba7",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "Lets update this to add another fan that\u0027s monitored by the `count` method",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a5ae431_7fa8c1be",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "I think you mean \"time\"\n\nBoth the current time duration based and the new count methods use a deviation calculation to determine when a fan\u0027s rotor is out of spec. As you see above this, there\u0027s a \"deviation:\" config attribute which both the current time and count methods will need.",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7482746_6e4eb3d2",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "This check should be outside the switch statement since there\u0027s no reason to run the switch statement if the sensor is out of range and already nonfunctional.",
+      "range": {
+        "startLine": 113,
+        "startChar": 16,
+        "endLine": 113,
+        "endChar": 40
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a95727c5_70a1386a",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "For the `count` mode, this timer should not be started since a fan is determined to be nonfunctional based on if the counter \u003e\u003d the threshold...in fact, the nonfunc timer value will not be configured when using the `count` method",
+      "range": {
+        "startLine": 121,
+        "startChar": 20,
+        "endLine": 121,
+        "endChar": 58
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50fb6e1d_0bd98252",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "`count` method has no need for a timer, should be able to just call timerExpired(sensor) here. I know calling that function directly seems odd, so it could be updated to be called \"updateState(sensor)\"",
+      "range": {
+        "startLine": 124,
+        "startChar": 24,
+        "endLine": 124,
+        "endChar": 64
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f20ecea6_17dff725",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "I think after you decrement the count, this is all you need to do here. Please correct me if you find this is not the case when re-testing.\n\nif (!sensor.functional() \u0026\u0026 sensor.getCounter() \u003d\u003d 0)\n{\n    updateState(sensor);\n}",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 17
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c20ce55d_5c0c411e",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "This is not required when the method for \"count\" is given.",
+      "range": {
+        "startLine": 54,
+        "startChar": 17,
+        "endLine": 54,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23648960_3cdaf416",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "Why is the threshold being defaulted to 2 when not given? Seems like this could be defaulted to a 1 (i.e. 1 count against a fan deems it nonfunctional)?",
+      "range": {
+        "startLine": 68,
+        "startChar": 58,
+        "endLine": 68,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "389e7692_0d1badb1",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "count",
+      "range": {
+        "startLine": 58,
+        "startChar": 44,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a175ec9d_9a7821d0",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "time",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b591f5e_cd6b5d6f",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "time based functional determination",
+      "range": {
+        "startLine": 197,
+        "startChar": 46,
+        "endLine": 197,
+        "endChar": 55
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b923cf6b_8f7fa254",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "time",
+      "range": {
+        "startLine": 198,
+        "startChar": 41,
+        "endLine": 198,
+        "endChar": 50
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7a0c49bf_550b2a22",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "An error should be logged and exception thrown if the configured method that a user provides isnt supported.",
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4432442_910835a9",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "This is not required when the method is \"count\"",
+      "range": {
+        "startLine": 242,
+        "startChar": 23,
+        "endLine": 242,
+        "endChar": 69
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f2ef57b_221a651a",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "This timer delay is unnecessary",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f1169df8_0a26d375",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "When the count is `false`, the counter should be decremented back to 0. The counter on a sensor increments up to a threshold amount or decrements back down to 0.",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 22
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2dd12657_a1ddbce8",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "There\u0027s no need for a timer on the `count` method. The timer used in hwmon that sends the propertiesChanged signals for the tach will be the iteration the counter is on.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 13
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74c0cd0c_5c54b429",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "time",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 13
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8752d6db_cb8dfb99",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-11T19:21:38Z",
+      "side": 1,
+      "message": "Lets split this into a `setCounter(bool count)` method and a `getCounter()` method",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 34
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
