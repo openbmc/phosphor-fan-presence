@@ -25,5 +25,11 @@ file.*
 * Fan presence detection(presence)
     * The error logging feature is only available via the JSON configuration.
 * Fan monitoring(monitor)
+* Fan control(control) - limited functionality
+    * Currently only supports setting fans to the configured `full_speed`  
+      (If you require more than just setting fans to the configured
+       `full_speed`, it is recommended to continue using YAML based
+       configurations until the final work can be completed to enable
+       full fan control JSON support.)
 
 To clean the repository run `./bootstrap.sh clean`.
