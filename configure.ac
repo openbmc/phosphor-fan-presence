@@ -65,12 +65,15 @@ AC_ARG_ENABLE([presence],
     AS_HELP_STRING([--disable-presence], [Disable fan presence package.]))
 AC_ARG_ENABLE([control],
     AS_HELP_STRING([--disable-control], [Disable fan control package.]))
+AC_ARG_ENABLE([json-control],
+    AS_HELP_STRING([--disable-json-control], [Disable the use of JSON to configure fan control in favor of YAML.]))
 AC_ARG_ENABLE([cooling-type],
     AS_HELP_STRING([--disable-cooling-type], [Disable cooling-type package.]))
 AC_ARG_ENABLE([monitor],
     AS_HELP_STRING([--disable-monitor], [Disable monitor]))
 
 AM_CONDITIONAL([WANT_JSON], [test "x$enable_json" == "xyes"])
+AM_CONDITIONAL([WANT_JSON_CONTROL], [test "x$enable_json" == "xyes" -a "x$enable_json_control" != "xno"])
 AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
 AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling_type" != "xno"])
@@ -130,7 +133,7 @@ AS_IF([test "x$enable_control" != "xno"], [
                        [Root path for persisting zone property states])
 
     # Use runtime(json) config, otherwise default to compile time(yaml) config
-    AM_COND_IF([WANT_JSON],
+    AM_COND_IF([WANT_JSON_CONTROL],
     [
         AC_CHECK_HEADER(nlohmann/json.hpp, ,
                 [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
