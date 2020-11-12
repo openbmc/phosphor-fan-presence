@@ -326,6 +326,30 @@
     },
     {
       "key": {
+        "uuid": "9ecf141a_e8d7fb6f",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-12T20:17:59Z",
+      "side": 1,
+      "message": "This could be defaulted to 0 and there\u0027s only one upstreamed machine(witherspoon) using JSON that could have it set to 30.\n\nhttps://github.com/openbmc/openbmc/blob/master/meta-ibm/recipes-phosphor/fans/phosphor-fan-monitor-config/witherspoon/config.json\n\nIf you\u0027d rather not update the witherspoon JSON config now, please open an issue to track this change needing to be updated.",
+      "parentUuid": "d35c6090_0977efea",
+      "range": {
+        "startLine": 194,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 62
+      },
+      "revId": "889e021df40d8067b9b00b75fb2ef0d085723897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "256d7111_5c60db92",
         "filename": "monitor/types.hpp",
         "patchSetId": 3
