@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f97f090e_a3efe036",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-12T20:17:59Z",
+      "side": 1,
+      "message": "Doesnt look to be used in here.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 19
+      },
+      "revId": "d5bfcaeeb335ab73fda4d1ea950bf731836fc99a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
