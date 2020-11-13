@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d660742f_9ef2d1b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "Looks like this includes some logging functionality that seems unnecessary to be included in this commit and there\u0027s no mention of it in the commit msg.",
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fb12376e_46151b5b",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "Are all the constructors for these necessary to be `default` / allowed?",
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5501da78_016b5b2a",
+        "filename": "monitor/power_off_action.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "do",
+      "range": {
+        "startLine": 21,
+        "startChar": 37,
+        "endLine": 21,
+        "endChar": 40
+      },
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0090cd2a_83737461",
+        "filename": "monitor/power_off_action.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "Seems like these can all be deleted, including the default constructor",
+      "range": {
+        "startLine": 37,
+        "startChar": 4,
+        "endLine": 40,
+        "endChar": 58
+      },
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b999a6bd_4430f9e3",
+        "filename": "monitor/power_off_action.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "I\u0027m think since you\u0027re passing the shared_ptr by value, this should be `std::move(powerInterface)` to save another copy into _powerIface? maybe its the case this is already optimized to do that?",
+      "range": {
+        "startLine": 51,
+        "startChar": 20,
+        "endLine": 51,
+        "endChar": 34
+      },
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24553d55_9a3b7c50",
+        "filename": "monitor/power_off_action.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "Could remove this variable since its not used.\n`bool cancel(bool) override {..`",
+      "range": {
+        "startLine": 170,
+        "startChar": 21,
+        "endLine": 170,
+        "endChar": 26
+      },
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0e72ae2_2ca39ba3",
+        "filename": "monitor/power_off_action.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-13T15:55:34Z",
+      "side": 1,
+      "message": "Could remove this variable since its not used.\n`bool cancel(bool) override {..`",
+      "range": {
+        "startLine": 251,
+        "startChar": 21,
+        "endLine": 251,
+        "endChar": 27
+      },
+      "revId": "79fcaa2ca71e4d43726606c82a5f15ec375478f8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
