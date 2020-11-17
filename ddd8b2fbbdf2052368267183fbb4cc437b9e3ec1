@@ -301,6 +301,30 @@
     },
     {
       "key": {
+        "uuid": "8675fc20_6e28f273",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-11-17T02:52:24Z",
+      "side": 1,
+      "message": "Does that mean it should be put in SensorDefinition like `threshold`?",
+      "parentUuid": "c20ce55d_5c0c411e",
+      "range": {
+        "startLine": 54,
+        "startChar": 17,
+        "endLine": 54,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23648960_3cdaf416",
         "filename": "monitor/gen-fan-monitor-defs.py",
         "patchSetId": 5
@@ -312,6 +336,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "Why is the threshold being defaulted to 2 when not given? Seems like this could be defaulted to a 1 (i.e. 1 count against a fan deems it nonfunctional)?",
+      "range": {
+        "startLine": 68,
+        "startChar": 58,
+        "endLine": 68,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1be34a9_113152b8",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-11-17T02:52:24Z",
+      "side": 1,
+      "message": "it is a retry mechanism, maybe there is an error in the first reading.\nI can change to 1 if you think this is no need?",
+      "parentUuid": "23648960_3cdaf416",
       "range": {
         "startLine": 68,
         "startChar": 58,
