@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94cbd096_7b8906fb",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T03:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4957a450_52a726a6",
+      "range": {
+        "startLine": 42,
+        "startChar": 3,
+        "endLine": 42,
+        "endChar": 11
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "abe6fac3_fbdc2e45",
         "filename": "control/json/actions/action.hpp",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2020-10-29T19:47:03Z",
       "side": 1,
       "message": "a user\nhttps://www.dictionary.com/e/a-vs-an/",
+      "range": {
+        "startLine": 72,
+        "startChar": 7,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9153846a_0f960859",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T03:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abe6fac3_fbdc2e45",
       "range": {
         "startLine": 72,
         "startChar": 7,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "13212120_4d4659be",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T03:06:03Z",
+      "side": 1,
+      "message": "Everything JSON related is the eventual framework that will be used for fan control as support for YAML based configs will be deprecated and removed eventually.\n\nFor the time being to support both YAML and JSON based configs, this will return the same Action function object that a YAML based config had so the current underlying framework can remain unchanged. This was done to minimize the initial impact of adding JSON based config support but at the same time move towards a better class hierarchy for actions.\n\nAfter full fan control support for JSON based configs is in place, then changing to have the Action classes contain their implemented action within a sort of `run()` function is the intention.\n\n...there are alot of steps to take to reach my intended end result of only JSON based config support where I\u0027d prefer to not compound the number of changes and testing needed to make this specific change right now.",
+      "parentUuid": "85121f3e_920b8bd7",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f590d499_0cf6234e",
         "filename": "control/json/actions/action.hpp",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "668cf707_37ea8570",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T03:06:03Z",
+      "side": 1,
+      "message": "Due to the nature of self registering actions, this can not return void since the actions would get optimized out and not statically registered prior to `main` starting. Note the comment on setting the `registered` member withing the ActionRegister class below.",
+      "parentUuid": "f590d499_0cf6234e",
+      "range": {
+        "startLine": 121,
+        "startChar": 15,
+        "endLine": 121,
+        "endChar": 75
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a33fbe76_49c8ae41",
         "filename": "control/json/actions/action.hpp",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2020-10-30T20:53:29Z",
       "side": 1,
       "message": "What happens if this fails?\n\nLooking at the code above, it throws an exception rather than returning false.\n\nSince this is a static variable that (as you state above) is initialized before main, wouldn\u0027t the exception be uncaught leading to a core dump or something?  Maybe that is what you want?",
+      "range": {
+        "startLine": 206,
+        "startChar": 36,
+        "endLine": 206,
+        "endChar": 73
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "565a41b4_4201515a",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T03:06:03Z",
+      "side": 1,
+      "message": "Correct, thats what I want as there should only be a single action available by any given name that\u0027s registered.",
+      "parentUuid": "a33fbe76_49c8ae41",
       "range": {
         "startLine": 206,
         "startChar": 36,
