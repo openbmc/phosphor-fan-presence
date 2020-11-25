@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c56a00dd_8cd58f5f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T19:45:46Z",
+      "side": 1,
+      "message": "Confused over this and the last entry in the list, are they the same or referring to BMC power is on versus when the system is powered on?",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "b34b2a96747f717278535caa4af9d07a47757ad9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0951713c_9011a5c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T19:45:46Z",
+      "side": 1,
+      "message": "will",
+      "range": {
+        "startLine": 16,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "b34b2a96747f717278535caa4af9d07a47757ad9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0546ebab_4467d21d",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T19:45:46Z",
+      "side": 1,
+      "message": "*spelling\n\nAlso, probably should create an issue to remove the `atPgood` after fan monitor starts at standby.",
+      "range": {
+        "startLine": 62,
+        "startChar": 38,
+        "endLine": 62,
+        "endChar": 43
+      },
+      "revId": "b34b2a96747f717278535caa4af9d07a47757ad9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "795113fa_842f0b48",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T19:45:46Z",
+      "side": 1,
+      "message": "Is this a \"new\" power state or just \"on\" versus \"off\" as what\u0027s being done indicates?",
+      "range": {
+        "startLine": 195,
+        "startChar": 8,
+        "endLine": 195,
+        "endChar": 21
+      },
+      "revId": "b34b2a96747f717278535caa4af9d07a47757ad9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
