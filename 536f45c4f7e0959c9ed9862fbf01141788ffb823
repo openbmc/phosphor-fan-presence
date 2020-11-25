@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "156bd634_037f6b72",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "count",
+      "range": {
+        "startLine": 276,
+        "startChar": 22,
+        "endLine": 276,
+        "endChar": 26
+      },
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "84281f62_2bcbc897",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "Should split these so a message can be logged for an incomplete fault_handling config.",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 65
+      },
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c0b7ccf_a081af5b",
+        "filename": "monitor/json_parser.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "@return needed",
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c21219f_64b6553b",
+        "filename": "monitor/power_off_rule.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 26,
+        "startChar": 46,
+        "endLine": 27,
+        "endChar": 38
+      },
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e838e8_fbb95368",
+        "filename": "monitor/power_off_rule.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "Missing param[in]\u0027s",
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aefa9bbe_71ae350f",
+        "filename": "monitor/power_off_rule.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "Lets move these descriptions to the enum instead of here.",
+      "range": {
+        "startLine": 122,
+        "startChar": 9,
+        "endLine": 123,
+        "endChar": 44
+      },
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2358d2a2_2185346d",
+        "filename": "monitor/test/mock_power_interface.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T22:12:07Z",
+      "side": 1,
+      "message": "Mock epow?",
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
