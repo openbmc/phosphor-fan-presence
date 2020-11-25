@@ -421,6 +421,30 @@
     },
     {
       "key": {
+        "uuid": "79e31b3d_775ad896",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-11-25T01:26:39Z",
+      "side": 1,
+      "message": "Moving it to be within the SensorDefinition would not change the fact that its not required to be given in the config when the method is \"count\" though. The change I\u0027m requesting is right here dealing with the parsing of the YAML configuration (and should also be handled in the parsing of a JSON configuration). Basically more logic needs to be put in here to say:\n\nif \u0027method\u0027 \u003d\u003d \"time\" require/read \u0027allowed_out_of_range_time\u0027 from the YAML, else you can default it to some value (like 0) and it\u0027ll just be ignored anyway while fan monitor is running since they chose \u0027method\u0027 \u003d\u003d \"count\".\n\nThe key is that \u0027allowed_out_of_range_time\u0027 is required when the \u0027method\u0027 \u003d\u003d \"time\" and needs to stay that way.\n\nSomething similar would need to be done for parsing a JSON config.",
+      "parentUuid": "d3fc49b2_96449af3",
+      "range": {
+        "startLine": 54,
+        "startChar": 17,
+        "endLine": 54,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23648960_3cdaf416",
         "filename": "monitor/gen-fan-monitor-defs.py",
         "patchSetId": 5
