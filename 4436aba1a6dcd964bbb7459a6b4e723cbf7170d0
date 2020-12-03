@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4fa02e9f_1ee20869",
+        "filename": "monitor/README.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T22:53:04Z",
+      "side": 1,
+      "message": "Add a note that full functionality isnt supported in build time YAML based configurations since it\u0027s deprecated in favor of JSON based configurations.\n\nHopefully this would spur those users with YAML configs not upstream to migrate their configs to JSON to get full functionality \u0026 future support.",
+      "revId": "4436aba1a6dcd964bbb7459a6b4e723cbf7170d0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
