@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "30e94135_fd3ac15b",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T00:05:37Z",
+      "side": 1,
+      "message": "Opened an issue that addresses moving each current action\u0027s functionality into its associated action class object for JSON configured fan control. https://github.com/ibm-openbmc/dev/issues/2787",
+      "parentUuid": "13212120_4d4659be",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f590d499_0cf6234e",
         "filename": "control/json/actions/action.hpp",
         "patchSetId": 4
