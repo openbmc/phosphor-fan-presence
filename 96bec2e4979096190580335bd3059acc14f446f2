@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8d4fbc0_983dda55",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T22:46:48Z",
+      "side": 1,
+      "message": "This really doesnt make it optional as described\n\"Optional user defined function that gets called right before a power off occurs.\"\n\nOnly for within the unit test is it not given. Seems as though, from the description, that this function should be optionally defined/given from the JSON configuration.",
+      "range": {
+        "startLine": 191,
+        "startChar": 4,
+        "endLine": 194,
+        "endChar": 67
+      },
+      "revId": "96bec2e4979096190580335bd3059acc14f446f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c77fd1b_161f806d",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T22:46:48Z",
+      "side": 1,
+      "message": "The",
+      "range": {
+        "startLine": 99,
+        "startChar": 7,
+        "endLine": 99,
+        "endChar": 12
+      },
+      "revId": "96bec2e4979096190580335bd3059acc14f446f2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
