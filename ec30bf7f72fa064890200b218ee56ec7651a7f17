@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac29e406_f812b981",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T03:27:30Z",
+      "side": 1,
+      "message": "Requiring/supporting this in YAML configs?",
+      "range": {
+        "startLine": 74,
+        "startChar": 16,
+        "endLine": 74,
+        "endChar": 56
+      },
+      "revId": "ec30bf7f72fa064890200b218ee56ec7651a7f17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4e22644_2c66216d",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T03:27:30Z",
+      "side": 1,
+      "message": "Seems like there should be more done here, is the FFDCFile object still created and just incomplete/dangling?",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 5
+      },
+      "revId": "ec30bf7f72fa064890200b218ee56ec7651a7f17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c176b69_1777d22e",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T03:27:30Z",
+      "side": 1,
+      "message": "Should a message be logged here for failing to save to the temp file similar to what\u0027s done for the JSON FFDC that\u0027s written out below?",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 6
+      },
+      "revId": "ec30bf7f72fa064890200b218ee56ec7651a7f17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f3cf57ac_5fd6b54b",
+        "filename": "monitor/fan_error.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T03:27:30Z",
+      "side": 1,
+      "message": "const?",
+      "revId": "ec30bf7f72fa064890200b218ee56ec7651a7f17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0533a5ed_406789fa",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T03:27:30Z",
+      "side": 1,
+      "message": "Is this FanError only for sensors and not the FRU no matter the configuration? If if could be for the FRU, this should be an empty string according to the FanError class\u0027s description.",
+      "range": {
+        "startLine": 255,
+        "startChar": 44,
+        "endLine": 255,
+        "endChar": 57
+      },
+      "revId": "ec30bf7f72fa064890200b218ee56ec7651a7f17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2da2b8a2_f44173e1",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T03:27:30Z",
+      "side": 1,
+      "message": "const?",
+      "revId": "ec30bf7f72fa064890200b218ee56ec7651a7f17",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
