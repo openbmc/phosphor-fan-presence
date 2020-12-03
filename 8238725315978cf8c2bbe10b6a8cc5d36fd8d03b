@@ -70,6 +70,30 @@
       "revId": "8238725315978cf8c2bbe10b6a8cc5d36fd8d03b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6344209_03506ef7",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2020-12-03T20:37:55Z",
+      "side": 1,
+      "message": "tachSensor doesn\u0027t know the power state.  Only System knows it, though that may eventually change when I investigate fully supporting running at standby.",
+      "parentUuid": "bd59372c_36640296",
+      "range": {
+        "startLine": 220,
+        "startChar": 4,
+        "endLine": 224,
+        "endChar": 41
+      },
+      "revId": "8238725315978cf8c2bbe10b6a8cc5d36fd8d03b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
