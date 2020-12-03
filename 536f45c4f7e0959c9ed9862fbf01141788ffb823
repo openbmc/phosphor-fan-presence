@@ -122,6 +122,30 @@
     },
     {
       "key": {
+        "uuid": "5c24257a_beb8c1cd",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-03T02:39:13Z",
+      "side": 1,
+      "message": "..looks like the `num_nonfunc_rotors_before_error` you refer to isnt supported until a few commits after this one, so I didnt realize what else was going under the \u0027fault_handling\u0027 entry",
+      "parentUuid": "95aad745_36defa21",
+      "range": {
+        "startLine": 374,
+        "startChar": 4,
+        "endLine": 375,
+        "endChar": 65
+      },
+      "revId": "536f45c4f7e0959c9ed9862fbf01141788ffb823",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9c0b7ccf_a081af5b",
         "filename": "monitor/json_parser.hpp",
         "patchSetId": 8
