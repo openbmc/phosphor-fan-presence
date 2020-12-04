@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "f4cc331d_d199f605",
+        "filename": "control/json/actions/action.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2020-12-04T18:29:16Z",
+      "side": 1,
+      "message": "OK makes sense.  I have a similar framework in the phosphor-regulators application.  There is a base Action class with a virtual execute() method.",
+      "parentUuid": "30e94135_fd3ac15b",
+      "range": {
+        "startLine": 76,
+        "startChar": 18,
+        "endLine": 76,
+        "endChar": 34
+      },
+      "revId": "a3250ec5f9f5e1b8a0dceb317b48745d086913e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f590d499_0cf6234e",
         "filename": "control/json/actions/action.hpp",
         "patchSetId": 4
