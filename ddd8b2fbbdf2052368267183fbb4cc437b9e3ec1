@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "dc989b7a_8aa63c02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e8bfb4e_9f878b97",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33744cb6_677e7f49",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 12,
+        "startChar": 17,
+        "endLine": 12,
+        "endChar": 26
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed04e156_22178f94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33744cb6_677e7f49",
       "range": {
         "startLine": 12,
         "startChar": 17,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2f61d8b9_29d229c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d5fbdb2_ae9e2cd7",
+      "range": {
+        "startLine": 14,
+        "startChar": 20,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d45dcea1_d987c8c9",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "Did you happen to also check that a fan is not marked nonfunctional after removing and then replacing it before the threshold is hit?\n\nAlso, does a nonfunctional fan return to functional after its replaced?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 6
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42986301_060d98ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "update the test, done",
+      "parentUuid": "d45dcea1_d987c8c9",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "3c426397_1416f62a",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "done, named time will cause build error, it will be recognized a type, so I define it as timebased.",
+      "parentUuid": "d0a08a20_266a97de",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 10
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "59e7641b_f160d9b7",
         "filename": "monitor/example/monitor.yaml",
         "patchSetId": 5
@@ -128,6 +248,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "Then maybe include a description of each one under here similar to how the sensor_trust_groups list the available classes below.\n\ni.e.)\n\nAvailable methods:\n * time - ...\n * count - ...",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f568537_f621cb4d",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "done, named time will cause build error, it will be recognized a type, so I define it as timebased.",
+      "parentUuid": "59e7641b_f160d9b7",
       "range": {
         "startLine": 19,
         "startChar": 5,
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "72db380c_ee0c206a",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done, add an example for `count` method",
+      "parentUuid": "3bdad2a8_57556ba7",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 33
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a5ae431_7fa8c1be",
         "filename": "monitor/example/monitor.yaml",
         "patchSetId": 5
@@ -174,6 +342,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "I think you mean \"time\"\n\nBoth the current time duration based and the new count methods use a deviation calculation to determine when a fan\u0027s rotor is out of spec. As you see above this, there\u0027s a \"deviation:\" config attribute which both the current time and count methods will need.",
+      "range": {
+        "startLine": 73,
+        "startChar": 13,
+        "endLine": 73,
+        "endChar": 22
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb4ff81a_50eb6d9e",
+        "filename": "monitor/example/monitor.yaml",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a5ae431_7fa8c1be",
       "range": {
         "startLine": 73,
         "startChar": 13,
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "3b57aeee_1e1b730a",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7482746_6e4eb3d2",
+      "range": {
+        "startLine": 113,
+        "startChar": 16,
+        "endLine": 113,
+        "endChar": 40
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a95727c5_70a1386a",
         "filename": "monitor/fan.cpp",
         "patchSetId": 5
@@ -220,6 +436,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "For the `count` mode, this timer should not be started since a fan is determined to be nonfunctional based on if the counter \u003e\u003d the threshold...in fact, the nonfunc timer value will not be configured when using the `count` method",
+      "range": {
+        "startLine": 121,
+        "startChar": 20,
+        "endLine": 121,
+        "endChar": 58
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5df72e71_69852d98",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a95727c5_70a1386a",
       "range": {
         "startLine": 121,
         "startChar": 20,
@@ -303,6 +543,30 @@
     },
     {
       "key": {
+        "uuid": "819b4bbc_c65fd92a",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3327823d_90c167d0",
+      "range": {
+        "startLine": 124,
+        "startChar": 24,
+        "endLine": 124,
+        "endChar": 64
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f20ecea6_17dff725",
         "filename": "monitor/fan.cpp",
         "patchSetId": 5
@@ -314,6 +578,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "I think after you decrement the count, this is all you need to do here. Please correct me if you find this is not the case when re-testing.\n\nif (!sensor.functional() \u0026\u0026 sensor.getCounter() \u003d\u003d 0)\n{\n    updateState(sensor);\n}",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 152,
+        "endChar": 17
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3360f7d_d717070a",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f20ecea6_17dff725",
       "range": {
         "startLine": 145,
         "startChar": 16,
@@ -445,6 +733,30 @@
     },
     {
       "key": {
+        "uuid": "7ab6855f_fd821ecb",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79e31b3d_775ad896",
+      "range": {
+        "startLine": 54,
+        "startChar": 17,
+        "endLine": 54,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23648960_3cdaf416",
         "filename": "monitor/gen-fan-monitor-defs.py",
         "patchSetId": 5
@@ -516,6 +828,30 @@
     },
     {
       "key": {
+        "uuid": "490ecdd9_7f7b29c7",
+        "filename": "monitor/gen-fan-monitor-defs.py",
+        "patchSetId": 5
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e878b2_d0010734",
+      "range": {
+        "startLine": 68,
+        "startChar": 58,
+        "endLine": 68,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "389e7692_0d1badb1",
         "filename": "monitor/json_parser.cpp",
         "patchSetId": 5
@@ -562,6 +898,54 @@
     },
     {
       "key": {
+        "uuid": "466f8022_79fb0e78",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "389e7692_0d1badb1",
+      "range": {
+        "startLine": 58,
+        "startChar": 44,
+        "endLine": 58,
+        "endChar": 49
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95bfa8ad_3daa2b78",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "named time will cause build error, it will be recognized a type, so I define it as timebased.",
+      "parentUuid": "a175ec9d_9a7821d0",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 15
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b591f5e_cd6b5d6f",
         "filename": "monitor/json_parser.cpp",
         "patchSetId": 5
@@ -573,6 +957,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "time based functional determination",
+      "range": {
+        "startLine": 197,
+        "startChar": 46,
+        "endLine": 197,
+        "endChar": 55
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4a4bcde_e7819d90",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b591f5e_cd6b5d6f",
       "range": {
         "startLine": 197,
         "startChar": 46,
@@ -608,6 +1016,30 @@
     },
     {
       "key": {
+        "uuid": "b5168c7a_620e7d17",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "named time will cause build error, it will be recognized a type, so I define it as timebased.",
+      "parentUuid": "b923cf6b_8f7fa254",
+      "range": {
+        "startLine": 198,
+        "startChar": 41,
+        "endLine": 198,
+        "endChar": 50
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a0c49bf_550b2a22",
         "filename": "monitor/json_parser.cpp",
         "patchSetId": 5
@@ -625,6 +1057,24 @@
     },
     {
       "key": {
+        "uuid": "7032c039_0f33f4b7",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a0c49bf_550b2a22",
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4432442_910835a9",
         "filename": "monitor/json_parser.cpp",
         "patchSetId": 5
@@ -636,6 +1086,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "This is not required when the method is \"count\"",
+      "range": {
+        "startLine": 242,
+        "startChar": 23,
+        "endLine": 242,
+        "endChar": 69
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf8b4a04_b97e1d54",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4432442_910835a9",
       "range": {
         "startLine": 242,
         "startChar": 23,
@@ -671,6 +1145,30 @@
     },
     {
       "key": {
+        "uuid": "a5d65362_e94d75b5",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f2ef57b_221a651a",
+      "range": {
+        "startLine": 214,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 59
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1169df8_0a26d375",
         "filename": "monitor/tach_sensor.cpp",
         "patchSetId": 5
@@ -682,6 +1180,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "When the count is `false`, the counter should be decremented back to 0. The counter on a sensor increments up to a threshold amount or decrements back down to 0.",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 22
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b269ef2_f5cc60a3",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1169df8_0a26d375",
       "range": {
         "startLine": 227,
         "startChar": 4,
@@ -717,6 +1239,30 @@
     },
     {
       "key": {
+        "uuid": "acf33431_2676cd88",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2dd12657_a1ddbce8",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 13
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74c0cd0c_5c54b429",
         "filename": "monitor/tach_sensor.hpp",
         "patchSetId": 5
@@ -740,6 +1286,30 @@
     },
     {
       "key": {
+        "uuid": "f9bec233_9e53ce49",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74c0cd0c_5c54b429",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 53,
+        "endChar": 13
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8752d6db_cb8dfb99",
         "filename": "monitor/tach_sensor.hpp",
         "patchSetId": 5
@@ -751,6 +1321,30 @@
       "writtenOn": "2020-11-11T19:21:38Z",
       "side": 1,
       "message": "Lets split this into a `setCounter(bool count)` method and a `getCounter()` method",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 34
+      },
+      "revId": "ddd8b2fbbdf2052368267183fbb4cc437b9e3ec1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "139b5e1a_5bcc0d02",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1000465
+      },
+      "writtenOn": "2020-12-10T05:20:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8752d6db_cb8dfb99",
       "range": {
         "startLine": 166,
         "startChar": 4,
