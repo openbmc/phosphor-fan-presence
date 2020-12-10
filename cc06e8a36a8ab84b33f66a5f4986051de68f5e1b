@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75e10d77_b173044f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-10T01:48:47Z",
+      "side": 1,
+      "message": "Did you happen to also check that a fan is not marked nonfunctional after removing and then replacing it before the threshold is hit?",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 7
+      },
+      "revId": "cc06e8a36a8ab84b33f66a5f4986051de68f5e1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
