@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1e582cf_b41ffdd3",
+        "filename": "cooling-type/cooling_type.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-14T21:07:55Z",
+      "side": 1,
+      "message": "Why was this added? It causes the next two lines of code to never be run.",
+      "range": {
+        "startLine": 44,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 43
+      },
+      "revId": "7fc2b400cfc14e127c411eda200c66e4d8ca40a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
