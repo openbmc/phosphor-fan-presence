@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2634a9ee_a6d3adf8",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-15T02:54:48Z",
+      "side": 1,
+      "message": "These can just be directly set to the timebased method for the default.\n\nsize_t method \u003d MethodMode::timebased;",
+      "range": {
+        "startLine": 203,
+        "startChar": 8,
+        "endLine": 204,
+        "endChar": 46
+      },
+      "revId": "06b07f35a66135343ec70eacd08458b96ca2bfe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c51958a_7565ee72",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-15T02:54:48Z",
+      "side": 1,
+      "message": "The method is not required, the error is simply an unsupported method was given in the json config.",
+      "range": {
+        "startLine": 217,
+        "startChar": 32,
+        "endLine": 217,
+        "endChar": 76
+      },
+      "revId": "06b07f35a66135343ec70eacd08458b96ca2bfe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6afaa3e_21ab57e1",
+        "filename": "monitor/json_parser.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-15T02:54:48Z",
+      "side": 1,
+      "message": "If the method is not `timebased` but the \"allowed_out_of_range_time\" config is given, it can simply be ignored...no error necessary really. Also, this seems it could be simplified to:\n\nif (method \u003d\u003d MethodMode::timebased)\n{\n    if (!fan.contains(\"allowed_out_of_range_time\"))\n    {\n        // Log error on missing required parameter\n        log\u003clevel::ERR\u003e(\n            \"Missing required fan monitor definition parameters\",\n            entry(\"REQUIRED_PARAMETER\u003d%s\",\n                  \"{allowed_out_of_range_time}\"));\n            throw std::runtime_error(\n                \"Missing required fan monitor definition parameters\");\n    }\n    else\n    {\n        timeout \u003d fan[\"allowed_out_of_range_time\"].get\u003csize_t\u003e();\n    }\n}",
+      "range": {
+        "startLine": 224,
+        "startChar": 8,
+        "endLine": 253,
+        "endChar": 9
+      },
+      "revId": "06b07f35a66135343ec70eacd08458b96ca2bfe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94b42d5f_df45ead8",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-15T02:54:48Z",
+      "side": 1,
+      "message": "This should decrement back to 0, not immediately go back to 0 upon the first iteration the fan is seen functional again. See my prior comment on this:\n\nhttps://gerrit.openbmc-project.xyz/#/c/openbmc/phosphor-fan-presence/+/37559/5..13/monitor/tach_sensor.cpp",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 21
+      },
+      "revId": "06b07f35a66135343ec70eacd08458b96ca2bfe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1efe780_a84f7ffb",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-15T02:54:48Z",
+      "side": 1,
+      "message": "inline size_t getCounter () const",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 30
+      },
+      "revId": "06b07f35a66135343ec70eacd08458b96ca2bfe6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    }
+  ]
+}
