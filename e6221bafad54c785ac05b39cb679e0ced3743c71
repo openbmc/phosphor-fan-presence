@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab1fdeda_6eaeda48",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-28T21:33:59Z",
+      "side": 1,
+      "message": "This does not properly convey what was done...showing commands for a specific machine type is not appropriate.\n\nSimply outlining the setup/steps is what should be done:\n\"Ran fan presence application using a \u0027fallback\u0027 rpolicy for a fan and set that fan\u0027s gpio presence line to false within simulation\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 61,
+        "endChar": 62
+      },
+      "revId": "e6221bafad54c785ac05b39cb679e0ced3743c71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f09dbb97_5e92e8a6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-28T21:33:59Z",
+      "side": 1,
+      "message": "Same here...its better that you understand how and what you\u0027re doing to test (and explain that here) than to just show a bunch of commands. Especially since some of those commands look to be specific to your simulation environment.\n\nAgain:\n\"Set a fan\u0027s gpio presence line to false within simulation and then run the fan presence application using a \u0027fallback\u0027 rpolicy for that fan\"",
+      "range": {
+        "startLine": 68,
+        "startChar": 3,
+        "endLine": 81,
+        "endChar": 35
+      },
+      "revId": "e6221bafad54c785ac05b39cb679e0ced3743c71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b80d3401_1be95d37",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2020-12-28T21:33:59Z",
+      "side": 1,
+      "message": "\"Remove a fan sensor from the fan controller hwmon config that is configured within the fan presence application. Then unbind and rebind the fan controller device driver and started the fan presence application.\"",
+      "range": {
+        "startLine": 88,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 31
+      },
+      "revId": "e6221bafad54c785ac05b39cb679e0ced3743c71",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
