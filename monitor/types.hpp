@@ -4,6 +4,7 @@
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
+#include <xyz/openbmc_project/Object/Enable/server.hpp>
 
 #include <functional>
 #include <optional>
@@ -17,6 +18,14 @@ namespace fan
 {
 namespace monitor
 {
+
+template <typename... T>
+using ServerObject = typename sdbusplus::server::object::object<T...>;
+
+using ObjectEnableInterface =
+    sdbusplus::xyz::openbmc_project::Object::server::Enable;
+
+using ThermalAlertObject = ServerObject<ObjectEnableInterface>;
 
 constexpr auto propObj = 0;
 constexpr auto propIface = 1;

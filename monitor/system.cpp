@@ -38,14 +38,18 @@ using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
 
 using namespace phosphor::logging;
 
+constexpr auto thermalAlertPath =
+    "/xyz/openbmc_project/alerts/thermal_fault_alert";
+
 System::System(Mode mode, sdbusplus::bus::bus& bus,
                const sdeventplus::Event& event) :
     _mode(mode),
-    _bus(bus), _event(event)
-{
-    _powerState = std::make_unique<PGoodState>(
+    _bus(bus), _event(event),
+    _powerState(std::make_unique<PGoodState>(
         bus, std::bind(std::mem_fn(&System::powerStateChanged), this,
-                       std::placeholders::_1));
+                       std::placeholders::_1))),
+    _thermalAlert(bus, thermalAlertPath)
+{
 
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
@@ -212,6 +216,8 @@ void System::powerStateChanged(bool powerStateOn)
     }
     else
     {
+        _thermalAlert.enabled(false);
+
         // Cancel any in-progress power off actions
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) { rule->cancel(); });

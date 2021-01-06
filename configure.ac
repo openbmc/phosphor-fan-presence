@@ -213,6 +213,12 @@ AS_IF([test "x$enable_monitor" != "xno"], [
     AC_DEFINE_UNQUOTED([NUM_MONITOR_LOG_ENTRIES], [$NUM_MONITOR_LOG_ENTRIES],
                        [Maximum number of entries in the message log])
 
+    AC_ARG_VAR(THERMAL_ALERT_BUSNAME, [The thermal alert busname to own])
+    AS_IF([test "x$THERMAL_ALERT_BUSNAME" == "x"],
+          [THERMAL_ALERT_BUSNAME="xyz.openbmc_project.Thermal.Alert"])
+    AC_DEFINE_UNQUOTED([THERMAL_ALERT_BUSNAME], ["$THERMAL_ALERT_BUSNAME"],
+                       [The thermal alert busname to own])
+
     AC_CONFIG_FILES([monitor/Makefile])
 ])
 

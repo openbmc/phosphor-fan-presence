@@ -87,5 +87,7 @@ int main(int argc, char* argv[])
     }
 #endif
 
+    bus.request_name(THERMAL_ALERT_BUSNAME);
+
     return event.loop();
 }

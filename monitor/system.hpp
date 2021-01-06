@@ -146,6 +146,11 @@ class System
     std::unique_ptr<FanError> _lastError;
 
     /**
+     * @brief The thermal alert D-Bus interface
+     */
+    ThermalAlertObject _thermalAlert;
+
+    /**
      * @brief Captures tach sensor data as JSON for use in
      *        fan fault and fan missing event logs.
      *
