@@ -302,9 +302,14 @@ class SoftPowerOff : public PowerOffAction
 /**
  * @class EpowPowerOff
  *
- * Still TODO, but has a cancelable service mode delay followed
- * by an uncancelable meltdown delay followed by a hard power off, with
- * some sort of EPOW alert in there as well.
+ * This class is derived from the PowerOffAction class and does the following:
+ * 1) On start, the service mode timer is started.  This timer can be
+ *    canceled if the cause is no longer satisfied (fans work again).
+ * 2) When this timer expires:
+ *   a) The thermal alert D-Bus property is set, this can be used as
+ *      an EPOW alert to the host that a power off is imminent.
+ *   b) The meltdown timer is started.  This timer cannot be canceled,
+ *      and on expiration a hard power off occurs.
  */
 class EpowPowerOff : public PowerOffAction
 {
@@ -316,28 +321,133 @@ class EpowPowerOff : public PowerOffAction
     EpowPowerOff(EpowPowerOff&&) = delete;
     EpowPowerOff& operator=(EpowPowerOff&&) = delete;
 
+    /**
+     * @brief Constructor
+     *
+     * @param[in] serviceModeDelay - The service mode timeout.
+     * @param[in] meltdownDelay - The meltdown delay timeout.
+     * @param[in] powerInterface - The object to use to do the power off
+     * @param[in] func - A function to call right before the power
+     *                   off occurs (after the delay).  May be
+     *                   empty if no function is necessary.
+     */
     EpowPowerOff(uint32_t serviceModeDelay, uint32_t meltdownDelay,
                  std::shared_ptr<PowerInterfaceBase> powerInterface,
                  PrePowerOffFunc func) :
         PowerOffAction("EPOW Power Off: " + std::to_string(serviceModeDelay) +
                            "s/" + std::to_string(meltdownDelay) + "s",
                        powerInterface, func),
-        _serviceModeDelay(serviceModeDelay), _meltdownDelay(meltdownDelay)
+        _serviceModeDelay(serviceModeDelay), _meltdownDelay(meltdownDelay),
+        _serviceModeTimer(
+            _event,
+            std::bind(std::mem_fn(&EpowPowerOff::serviceModeTimerExpired),
+                      this)),
+        _meltdownTimer(
+            _event,
+            std::bind(std::mem_fn(&EpowPowerOff::meltdownTimerExpired), this))
     {}
 
+    /**
+     * @brief Starts the service mode timer.
+     */
     void start() override
     {
-        // TODO
+        getLogger().log(
+            fmt::format("Action {}: Starting service mode timer", name()));
+
+        _serviceModeTimer.restartOnce(_serviceModeDelay);
     }
 
-    bool cancel(bool) override
+    /**
+     * @brief Called when the service mode timer expires.
+     *
+     * Sets the thermal alert D-Bus property and starts the
+     * meltdown timer.
+     */
+    void serviceModeTimerExpired()
     {
-        // TODO
+        getLogger().log(fmt::format(
+            "Action {}: Service mode timer expired, starting meltdown timer",
+            name()));
+
+        _powerIface->thermalAlert(true);
+        _meltdownTimer.restartOnce(_meltdownDelay);
+    }
+
+    /**
+     * @brief Called when the meltdown timer expires.
+     *
+     * Executes a hard power off.
+     */
+    void meltdownTimerExpired()
+    {
+        getLogger().log(fmt::format(
+            "Action {}: Meltdown timer expired, executing hard power off",
+            name()));
+
+        if (_prePowerOffFunc)
+        {
+            _prePowerOffFunc();
+        }
+
+        _powerIface->hardPowerOff();
+    }
+
+    /**
+     * @brief Attempts to cancel the action
+     *
+     * The service mode timer can be canceled.  The meltdown
+     * timer cannot.
+     *
+     * @param[in] force - To force the cancel (like if the
+     *                    system powers off).
+     *
+     * @return bool - If the cancel was successful
+     */
+    bool cancel(bool force) override
+    {
+        if (_serviceModeTimer.isEnabled())
+        {
+            _serviceModeTimer.setEnabled(false);
+        }
+
+        if (_meltdownTimer.isEnabled())
+        {
+            if (force)
+            {
+                _meltdownTimer.setEnabled(false);
+            }
+            else
+            {
+                getLogger().log("Cannot cancel running meltdown timer");
+                return false;
+            }
+        }
         return true;
     }
 
   private:
+    /**
+     * @brief The number of seconds to wait until starting the uncancelable
+     *        meltdown timer.
+     */
     std::chrono::seconds _serviceModeDelay;
+
+    /**
+     * @brief The number of seconds to wait after the service mode
+     *        timer expires before a hard power off will occur.
+     */
     std::chrono::seconds _meltdownDelay;
+
+    /**
+     * @brief The service mode timer.
+     */
+    sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>
+        _serviceModeTimer;
+
+    /**
+     * @brief The meltdown timer.
+     */
+    sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic> _meltdownTimer;
 };
 } // namespace phosphor::fan::monitor
