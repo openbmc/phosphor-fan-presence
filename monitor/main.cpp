@@ -77,6 +77,8 @@ int main(int argc, char* argv[])
                                        std::bind(&System::sighupHandler,
                                                  &system, std::placeholders::_1,
                                                  std::placeholders::_2));
+
+    bus.request_name(THERMAL_ALERT_BUSNAME);
 #endif
 
 #ifndef MONITOR_USE_JSON
