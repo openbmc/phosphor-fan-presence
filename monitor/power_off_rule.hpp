@@ -83,11 +83,12 @@ class PowerOffRule
             if (!_active && satisfied)
             {
                 // Start the action
-                _active = true;
-                _action->start();
                 getLogger().log(fmt::format(
                     "Starting shutdown action '{}' due to cause '{}'",
                     _action->name(), _cause->name()));
+
+                _active = true;
+                _action->start();
             }
             else if (_active && !satisfied)
             {
