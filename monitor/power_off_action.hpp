@@ -85,18 +85,6 @@ class PowerOffAction
     virtual bool cancel(bool force) = 0;
 
     /**
-     * @brief If the power off action is currently in progress, which
-     *        usually means it's still in the delay time before the
-     *        power off D-Bus command is executed.
-     *
-     * @return bool - If the action is active
-     */
-    bool active() const
-    {
-        return _active;
-    }
-
-    /**
      * @brief Returns the name of the action
      *
      * @return const std::string& - The name
@@ -112,11 +100,6 @@ class PowerOffAction
      *        derived class.
      */
     const std::string _name;
-
-    /**
-     * @brief If the action is currently active or not.
-     */
-    bool _active = false;
 
     /**
      * @brief The object used to invoke the power off with.
