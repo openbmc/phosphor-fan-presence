@@ -190,7 +190,7 @@ void System::setFaultConfig(const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
     std::shared_ptr<PowerInterfaceBase> powerInterface =
-        std::make_shared<PowerInterface>();
+        std::make_shared<PowerInterface>(_thermalAlert);
 
     PowerOffAction::PrePowerOffFunc func =
         std::bind(std::mem_fn(&System::logShutdownError), this);
