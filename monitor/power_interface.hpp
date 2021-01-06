@@ -1,5 +1,7 @@
 #pragma once
 
+#include "types.hpp"
+
 namespace phosphor::fan::monitor
 {
 
@@ -28,6 +30,13 @@ class PowerInterfaceBase
      * @brief Perform a hard power off
      */
     virtual void hardPowerOff() = 0;
+
+    /**
+     * @brief Sets the thermal alert D-Bus property
+     *
+     * @param[in] alert - The alert value
+     */
+    virtual void thermalAlert(bool alert) = 0;
 };
 
 /**
@@ -38,12 +47,20 @@ class PowerInterfaceBase
 class PowerInterface : public PowerInterfaceBase
 {
   public:
-    PowerInterface() = default;
+    PowerInterface() = delete;
     ~PowerInterface() = default;
     PowerInterface(const PowerInterface&) = delete;
     PowerInterface& operator=(const PowerInterface&) = delete;
     PowerInterface(PowerInterface&&) = delete;
     PowerInterface& operator=(PowerInterface&&) = delete;
+
+    /**
+     * @brief Constructor
+     *
+     * @param[in] ThermalAlertObject* - The thermal alert D-Bus object
+     */
+    PowerInterface(ThermalAlertObject* alertObject) : _alert(alertObject)
+    {}
 
     /**
      * @brief Perform a soft power off
@@ -54,6 +71,22 @@ class PowerInterface : public PowerInterfaceBase
      * @brief Perform a hard power off
      */
     void hardPowerOff() override;
+
+    /**
+     * @brief Sets the thermal alert D-Bus property
+     *
+     * @param[in] alert - The alert value
+     */
+    void thermalAlert(bool alert) override
+    {
+        _alert->enabled(alert);
+    }
+
+  private:
+    /**
+     * @brief Pointer to the thermal alert D-Bus object
+     */
+    ThermalAlertObject* _alert;
 };
 
 } // namespace phosphor::fan::monitor
