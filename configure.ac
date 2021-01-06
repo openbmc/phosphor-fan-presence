@@ -213,6 +213,18 @@ AS_IF([test "x$enable_monitor" != "xno"], [
     AC_DEFINE_UNQUOTED([NUM_MONITOR_LOG_ENTRIES], [$NUM_MONITOR_LOG_ENTRIES],
                        [Maximum number of entries in the message log])
 
+    AC_ARG_VAR(THERMAL_ALERT_BUSNAME, [The thermal alert busname to own])
+    AS_IF([test "x$THERMAL_ALERT_BUSNAME" == "x"],
+          [THERMAL_ALERT_BUSNAME="xyz.openbmc_project.Thermal.Alert"])
+    AC_DEFINE_UNQUOTED([THERMAL_ALERT_BUSNAME], ["$THERMAL_ALERT_BUSNAME"],
+                       [The thermal alert busname to own])
+
+    AC_ARG_VAR(THERMAL_ALERT_OBJPATH, [The thermal alert D-Bus object path])
+    AS_IF([test "x$THERMAL_ALERT_OBJPATH" == "x"],
+          [THERMAL_ALERT_OBJPATH="/xyz/openbmc_project/alerts/thermal_fault_alert"])
+    AC_DEFINE_UNQUOTED([THERMAL_ALERT_OBJPATH], ["$THERMAL_ALERT_OBJPATH"],
+                       [The thermal alert D-Bus object path])
+
     AC_CONFIG_FILES([monitor/Makefile])
 ])
 
