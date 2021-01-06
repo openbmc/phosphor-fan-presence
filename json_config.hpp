@@ -43,6 +43,98 @@ constexpr auto confCompatProp = "Names";
 class JsonConfig
 {
   public:
+    using ConfFileReadyFunc = std::function<void(const std::string&)>;
+
+    /**
+     * @brief Constructor
+     *
+     * Looks for the JSON config file.  If it can't find one, then it
+     * will watch entity-manager for the IBMCompatibleSystem interface
+     * to show up and then use that data to try again.  If the config
+     * file is initially present, the callback function is executed
+     * with the path to the file.
+     *
+     * @param[in] bus - The dbus bus object
+     * @param[in] appName - The appName portion of the config file path
+     * @param[in] fileName - Application's configuration file's name
+     * @param[in] func - The function to call when the config file
+     *                   is found.
+     */
+    JsonConfig(sdbusplus::bus::bus& bus, const std::string& appName,
+               const std::string& fileName, ConfFileReadyFunc func) :
+        _appName(appName),
+        _fileName(fileName), _readyFunc(func)
+    {
+        _match = std::make_unique<sdbusplus::server::match::match>(
+            bus,
+            sdbusplus::bus::match::rules::interfacesAdded() +
+                sdbusplus::bus::match::rules::sender(
+                    "xyz.openbmc_project.EntityManager"),
+            std::bind(&JsonConfig::ifacesAddedCallback, this,
+                      std::placeholders::_1));
+        try
+        {
+            _confFile = getConfFile(bus, _appName, _fileName);
+        }
+        catch (const std::runtime_error& e)
+        {
+            // No conf file found, so let the interfacesAdded
+            // match callback handle finding it.
+        }
+
+        if (!_confFile.empty())
+        {
+            _match.reset();
+            _readyFunc(_confFile);
+        }
+    }
+
+    /**
+     * @brief The interfacesAdded callback function that looks for
+     *        the IBMCompatibleSystem interface.  If it finds it,
+     *        it uses the Names property in the interface to find
+     *        the JSON config file to use.  If it finds one, it calls
+     *        the _readyFunc function with the config file path.
+     *
+     * @param[in] msg - The D-Bus message contents
+     */
+    void ifacesAddedCallback(sdbusplus::message::message& msg)
+    {
+        sdbusplus::message::object_path path;
+        std::map<std::string,
+                 std::map<std::string, std::variant<std::vector<std::string>>>>
+            interfaces;
+
+        msg.read(path, interfaces);
+
+        if (interfaces.find(confCompatIntf) == interfaces.end())
+        {
+            return;
+        }
+
+        const auto& properties = interfaces.at(confCompatIntf);
+        auto names =
+            std::get<std::vector<std::string>>(properties.at(confCompatProp));
+
+        auto it =
+            std::find_if(names.begin(), names.end(), [this](auto const& name) {
+                auto confFile =
+                    fs::path{confBasePath} / _appName / name / _fileName;
+                if (fs::exists(confFile))
+                {
+                    _confFile = confFile;
+                    return true;
+                }
+                return false;
+            });
+
+        if (it != names.end())
+        {
+            _readyFunc(_confFile);
+            _match.reset();
+        }
+    }
+
     /**
      * Get the json configuration file. The first location found to contain
      * the json config file for the given fan application is used from the
@@ -77,9 +169,13 @@ class JsonConfig
             return confFile;
         }
 
-        // Default base path used if no config file found at any locations
-        // provided on dbus objects with the compatible interface
+        // If the default file is there, use it
         confFile = fs::path{confBasePath} / appName / fileName;
+        if (fs::exists(confFile))
+        {
+            return confFile;
+        }
+        confFile.clear();
 
         // Get all objects implementing the compatible interface
         auto objects =
@@ -106,32 +202,17 @@ class JsonConfig
                     // Use the first config file found at a listed location
                     break;
                 }
+                confFile.clear();
             }
             catch (const util::DBusError&)
             {
                 // Property unavailable on object.
-                // Set to default base path and continue to check next object
             }
-            confFile = fs::path{confBasePath} / appName / fileName;
         }
 
-        if (!fs::exists(confFile))
+        if (confFile.empty() && !isOptional)
         {
-            if (!isOptional)
-            {
-                log<level::ERR>(
-                    fmt::format("No JSON config file found. Default file: {}",
-                                confFile.string())
-                        .c_str());
-                throw std::runtime_error(
-                    fmt::format("No JSON config file found. Default file: {}",
-                                confFile.string())
-                        .c_str());
-            }
-            else
-            {
-                confFile.clear();
-            }
+            throw std::runtime_error("No JSON config file found");
         }
 
         return confFile;
@@ -187,6 +268,33 @@ class JsonConfig
 
         return jsonConf;
     }
+
+  private:
+    /**
+     * @brief The 'appName' portion of the config file path.
+     */
+    const std::string _appName;
+
+    /**
+     * @brief The config file name.
+     */
+    const std::string _fileName;
+
+    /**
+     * @brief The function to call when the config file is available.
+     */
+    ConfFileReadyFunc _readyFunc;
+
+    /**
+     * @brief The JSON config file
+     */
+    fs::path _confFile;
+
+    /**
+     * @brief The interfacesAdded match that is used to wait
+     *        for the IBMCompatibleSystem interface to show up.
+     */
+    std::unique_ptr<sdbusplus::server::match::match> _match;
 };
 
 } // namespace phosphor::fan
