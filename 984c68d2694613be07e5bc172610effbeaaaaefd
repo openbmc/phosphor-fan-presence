@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "102f800e_038e66e8",
+        "filename": "configure.ac",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-11T20:26:42Z",
+      "side": 1,
+      "message": "What about the object path being configurable as well with the default of \"/xyz/openbmc_project/alerts/thermal_fault_alert\"?",
+      "revId": "984c68d2694613be07e5bc172610effbeaaaaefd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6d61e66_bc8e20c4",
+        "filename": "monitor/main.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-11T20:26:42Z",
+      "side": 1,
+      "message": "Wont this cause YAML driven `monitor` mode to get this busname which we dont want to support?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 44
+      },
+      "revId": "984c68d2694613be07e5bc172610effbeaaaaefd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "715cbfaa_d2ebafd3",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-11T20:26:42Z",
+      "side": 1,
+      "message": "This seems like its the thermal alert object.",
+      "range": {
+        "startLine": 149,
+        "startChar": 38,
+        "endLine": 149,
+        "endChar": 47
+      },
+      "revId": "984c68d2694613be07e5bc172610effbeaaaaefd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
