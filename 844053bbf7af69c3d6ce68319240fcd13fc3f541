@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e91a4cd_462a58b7",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-13T15:43:26Z",
+      "side": 1,
+      "message": "\u0027*\u0027 ? This is new syntax to me for defining a pointer since first glance it looked like it was a reference with the \u0027\u0026\u0027 on the left instead of the right.",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "844053bbf7af69c3d6ce68319240fcd13fc3f541",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "248573f8_4b192c53",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-13T15:43:26Z",
+      "side": 1,
+      "message": "Again, this is new to me. Does `ThermalAlertObject *_alert` not represent it as a pointer?",
+      "range": {
+        "startLine": 86,
+        "startChar": 5,
+        "endLine": 89,
+        "endChar": 31
+      },
+      "revId": "844053bbf7af69c3d6ce68319240fcd13fc3f541",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
