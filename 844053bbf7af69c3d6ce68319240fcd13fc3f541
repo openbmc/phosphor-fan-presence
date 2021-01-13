@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d3138e78_fe40c28f",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-01-13T20:49:56Z",
+      "side": 1,
+      "message": "comment fixed.  Also, I guess I should make this explicit.\n\nThis looks the same as:  myfunction(std::string\u0026 data)\nso I\u0027m not sure what you mean...",
+      "parentUuid": "3700a4bd_231200ea",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "844053bbf7af69c3d6ce68319240fcd13fc3f541",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "248573f8_4b192c53",
         "filename": "monitor/power_interface.hpp",
         "patchSetId": 4
