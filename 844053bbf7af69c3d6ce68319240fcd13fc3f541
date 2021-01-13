@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "190303b2_e7f6a6d2",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-01-13T15:48:14Z",
+      "side": 1,
+      "message": "It\u0027s not a pointer, just a reference to a regular object.",
+      "parentUuid": "5e91a4cd_462a58b7",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "844053bbf7af69c3d6ce68319240fcd13fc3f541",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "248573f8_4b192c53",
         "filename": "monitor/power_interface.hpp",
         "patchSetId": 4
@@ -36,6 +60,30 @@
       "writtenOn": "2021-01-13T15:43:26Z",
       "side": 1,
       "message": "Again, this is new to me. Does `ThermalAlertObject *_alert` not represent it as a pointer?",
+      "range": {
+        "startLine": 86,
+        "startChar": 5,
+        "endLine": 89,
+        "endChar": 31
+      },
+      "revId": "844053bbf7af69c3d6ce68319240fcd13fc3f541",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f43a51dc_e46ccc33",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-01-13T15:48:14Z",
+      "side": 1,
+      "message": "It\u0027s not a pointer, just a reference, I will fix the comment. (I previously did have it as a pointer)",
+      "parentUuid": "248573f8_4b192c53",
       "range": {
         "startLine": 86,
         "startChar": 5,
