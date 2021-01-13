@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3700a4bd_231200ea",
+        "filename": "monitor/power_interface.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-13T15:54:48Z",
+      "side": 1,
+      "message": "Ah, ok... I believe the \u0027\u0026\u0027 should be to the left of the variable name according to openbmc\u0027s best practices?\n\nAlso, please update the comment here as well",
+      "parentUuid": "190303b2_e7f6a6d2",
+      "range": {
+        "startLine": 62,
+        "startChar": 37,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "844053bbf7af69c3d6ce68319240fcd13fc3f541",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "248573f8_4b192c53",
         "filename": "monitor/power_interface.hpp",
         "patchSetId": 4
