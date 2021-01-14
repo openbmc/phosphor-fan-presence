@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f8ece22d_a4a274a3",
+        "filename": "json_config.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-01-14T14:21:46Z",
+      "side": 1,
+      "message": "I guess I don\u0027t understand the use case behind an optional config file?  I would think it would be better to just crash than run with some backup file, so either you\u0027d just install the single config.json or use entity-manager names for the system specific name.",
+      "parentUuid": "83e8a303_d98fb0f3",
+      "range": {
+        "startLine": 77,
+        "startChar": 24,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "403ec708b63477c39ecb4557aec5622c9aa805fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae74c042_06dc0d2b",
         "filename": "json_config.hpp",
         "patchSetId": 3
