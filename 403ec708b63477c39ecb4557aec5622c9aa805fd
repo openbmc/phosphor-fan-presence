@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "980d224e_ac32751b",
+        "filename": "json_config.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-01-14T14:42:31Z",
+      "side": 1,
+      "message": "Fan control has a few config files that are optional for a user to provide where if they are not provided then that functionality is not enabled within fan control\u0027s algorithm. One example of this would be the profiles that was used on witherspoon for air vs water config entries. A profile is not required if there\u0027s only one means of fan control, so that configuration file does not have to be given. So with that being an optional config file, how would we know at what point its not expected?",
+      "parentUuid": "f8ece22d_a4a274a3",
+      "range": {
+        "startLine": 77,
+        "startChar": 24,
+        "endLine": 77,
+        "endChar": 61
+      },
+      "revId": "403ec708b63477c39ecb4557aec5622c9aa805fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae74c042_06dc0d2b",
         "filename": "json_config.hpp",
         "patchSetId": 3
