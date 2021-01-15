@@ -18,7 +18,6 @@
 #include "config_base.hpp"
 
 #include <nlohmann/json.hpp>
-#include <sdbusplus/bus.hpp>
 
 namespace phosphor::fan::control::json
 {
@@ -57,7 +56,7 @@ class Profile : public ConfigBase
      * @param[in] bus - sdbusplus bus object
      * @param[in] jsonObj - JSON object
      */
-    Profile(sdbusplus::bus::bus& bus, const json& jsonObj);
+    Profile(const json& jsonObj);
 
     /**
      * @brief Get the active state
@@ -70,9 +69,6 @@ class Profile : public ConfigBase
     }
 
   private:
-    /* The sdbusplus bus object */
-    sdbusplus::bus::bus& _bus;
-
     /* Active state of the profile */
     bool _active;
 

@@ -15,6 +15,9 @@
  */
 #include "event.hpp"
 
+#include "group.hpp"
+#include "json_parser.hpp"
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -25,8 +28,11 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
+const std::map<configKey, std::unique_ptr<Group>> Event::_availGrps =
+    getConfig<Group>(true);
+
 Event::Event(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj)
+    ConfigBase(jsonObj), _bus(bus)
 {
     if (jsonObj.contains("profiles"))
     {
