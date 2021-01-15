@@ -17,7 +17,6 @@
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
-#include <sdbusplus/bus.hpp>
 
 namespace phosphor::fan::control::json
 {
@@ -25,8 +24,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-Group::Group(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _service("")
+Group::Group(const json& jsonObj) : ConfigBase(jsonObj), _service("")
 {
     if (jsonObj.contains("profiles"))
     {

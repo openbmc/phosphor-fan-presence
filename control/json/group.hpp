@@ -18,7 +18,6 @@
 #include "config_base.hpp"
 
 #include <nlohmann/json.hpp>
-#include <sdbusplus/bus.hpp>
 
 namespace phosphor::fan::control::json
 {
@@ -56,10 +55,9 @@ class Group : public ConfigBase
      * Constructor
      * Parses and populates a configuration group from JSON object data
      *
-     * @param[in] bus - sdbusplus bus object
      * @param[in] jsonObj - JSON object
      */
-    Group(sdbusplus::bus::bus& bus, const json& jsonObj);
+    Group(const json& jsonObj);
 
     /**
      * @brief Get the members
