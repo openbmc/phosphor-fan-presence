@@ -42,7 +42,8 @@ constexpr auto confAppName = "control";
 using configKey = std::pair<std::string, std::vector<std::string>>;
 
 /**
- * @brief Load the configuration of a given JSON class object type
+ * @brief Load the configuration of a given JSON class object type that requires
+ * a dbus object
  *
  * @param[in] bus - The dbus bus object
  * @param[in] isOptional - JSON configuration file is optional or not
@@ -64,6 +65,37 @@ std::map<configKey, std::unique_ptr<T>> getConfig(sdbusplus::bus::bus& bus,
         for (const auto& entry : fan::JsonConfig::load(confFile))
         {
             auto obj = std::make_unique<T>(bus, entry);
+            config.emplace(std::make_pair(obj->getName(), obj->getProfiles()),
+                           std::move(obj));
+        }
+    }
+    return config;
+}
+
+/**
+ * @brief Load the configuration of a given JSON class object type that does not
+ * require a dbus object
+ *
+ * @param[in] isOptional - JSON configuration file is optional or not
+ *                         Defaults to false
+ *
+ * @return Map of configuration entries
+ *     Map of configuration keys to their corresponding configuration object
+ */
+template <typename T>
+std::map<configKey, std::unique_ptr<T>> getConfig(bool isOptional = false)
+{
+    // Dbus object is needed to retrieve the JSON configuration file
+    auto bus = sdbusplus::bus::new_default();
+    std::map<configKey, std::unique_ptr<T>> config;
+
+    auto confFile = fan::JsonConfig::getConfFile(bus, confAppName,
+                                                 T::confFileName, isOptional);
+    if (!confFile.empty())
+    {
+        for (const auto& entry : fan::JsonConfig::load(confFile))
+        {
+            auto obj = std::make_unique<T>(entry);
             config.emplace(std::make_pair(obj->getName(), obj->getProfiles()),
                            std::move(obj));
         }

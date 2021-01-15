@@ -16,6 +16,8 @@
 #pragma once
 
 #include "config_base.hpp"
+#include "group.hpp"
+#include "json_parser.hpp"
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
@@ -111,6 +113,12 @@ class Event : public ConfigBase
     }
 
   private:
+    /* Mapping of available group names & profiles to their group object */
+    static const std::map<configKey, std::unique_ptr<Group>> _availGrps;
+
+    /* The sdbusplus bus object */
+    sdbusplus::bus::bus& _bus;
+
     /* A precondition the event has in order to be enabled */
     Precondition _precond;
 
