@@ -22,6 +22,9 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <optional>
+#include <tuple>
+
 namespace phosphor::fan::control::json
 {
 
@@ -83,11 +86,60 @@ void Event::setGroups(const json& jsonObj)
     for (const auto& group : jsonObj["groups"])
     {
         if (!group.contains("name") || !group.contains("interface") ||
-            !group.contains("property"))
+            !group.contains("property") || !group["property"].contains("name"))
         {
             log<level::ERR>("Missing required event group attributes",
                             entry("JSON=%s", group.dump().c_str()));
             throw std::runtime_error("Missing required event group attributes");
+        }
+
+        // Get the group memebers' data type
+        std::optional<std::string> type = std::nullopt;
+        if (group["property"].contains("type"))
+        {
+            type = group["property"]["type"].get<std::string>();
+        }
+
+        // Get the group memebers' expected value
+        std::optional<PropertyVariantType> value = std::nullopt;
+        if (group["property"].contains("value"))
+        {
+            value = getJsonValue(group["property"]["value"]);
+        }
+
+        // Groups with the same profiles as the event can be used
+        configKey key =
+            std::make_pair(group["name"].get<std::string>(), _profiles);
+        auto grpEntry = _availGrps.find(key);
+        if (grpEntry != _availGrps.end())
+        {
+            eGroup grp;
+            for (const auto& member : grpEntry->second->getMembers())
+            {
+                grp.emplace_back(std::make_tuple(
+                    member, group["interface"].get<std::string>(),
+                    group["property"]["name"].get<std::string>(), type, value));
+            }
+            _groups.emplace_back(grp);
+        }
+        else
+        {
+            // Groups with no profiles specified can be used in any event
+            key = std::make_pair(group["name"].get<std::string>(),
+                                 std::vector<std::string>{});
+            grpEntry = _availGrps.find(key);
+            if (grpEntry != _availGrps.end())
+            {
+                eGroup grp;
+                for (const auto& member : grpEntry->second->getMembers())
+                {
+                    grp.emplace_back(std::make_tuple(
+                        member, group["interface"].get<std::string>(),
+                        group["property"]["name"].get<std::string>(), type,
+                        value));
+                }
+                _groups.emplace_back(grp);
+            }
         }
     }
 }
