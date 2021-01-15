@@ -2,6 +2,7 @@
 
 #include "sdbusplus.hpp"
 #include "types.hpp"
+#include "zone.hpp"
 
 #include <phosphor-logging/log.hpp>
 
