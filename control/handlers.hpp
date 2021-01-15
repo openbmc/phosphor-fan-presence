@@ -66,7 +66,7 @@ auto setProperty()
  * @return Lambda function
  *     A lambda function to set/update the service name owner state
  */
-auto setService(Group&& group)
+inline auto setService(Group&& group)
 {
     return [group = std::move(group)](auto& zone, auto& name, bool hasOwner) {
         // Update service name owner state list of a group
@@ -85,7 +85,7 @@ auto setService(Group&& group)
  * @return Lambda function
  *     A lambda function to remove the interface
  */
-auto removeInterface(const char* path, const char* interface)
+inline auto removeInterface(const char* path, const char* interface)
 {
     return [=](auto& zone) { zone.removeObjectInterface(path, interface); };
 }
