@@ -19,7 +19,6 @@
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
-#include <sdbusplus/bus.hpp>
 
 #include <algorithm>
 #include <iterator>
@@ -35,8 +34,7 @@ using namespace phosphor::logging;
 const std::map<std::string, methodHandler> Profile::_methods = {
     {"all_of", Profile::allOf}};
 
-Profile::Profile(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _bus(bus), _active(false)
+Profile::Profile(const json& jsonObj) : ConfigBase(jsonObj), _active(false)
 {
     setActive(jsonObj);
 }
