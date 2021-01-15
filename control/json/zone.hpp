@@ -19,7 +19,6 @@
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
-#include <sdbusplus/bus.hpp>
 
 #include <any>
 #include <functional>
@@ -68,10 +67,9 @@ class Zone : public ConfigBase
      * Constructor
      * Parses and populates a zone from JSON object data
      *
-     * @param[in] bus - sdbusplus bus object
      * @param[in] jsonObj - JSON object
      */
-    Zone(sdbusplus::bus::bus& bus, const json& jsonObj);
+    Zone(const json& jsonObj);
 
     /**
      * @brief Get the full speed
