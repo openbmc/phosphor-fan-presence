@@ -27,6 +27,7 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -106,9 +107,18 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
                 if (checkEntry(activeProfiles, fan.second->getProfiles()) &&
                     fan.second->getZone() == zoneName)
                 {
-                    fanDefs.emplace_back(std::make_tuple(
-                        fan.second->getName(), fan.second->getSensors(),
-                        fan.second->getInterface()));
+                    // Adjust fan object sensor list to be included in the
+                    // YAML fan definitions structure
+                    std::vector<std::string> fanSensorList;
+                    for (const auto& sensorMap : fan.second->getSensors())
+                    {
+                        auto sensor = sensorMap.first;
+                        sensor.erase(0, 38);
+                        fanSensorList.emplace_back(sensor);
+                    }
+                    fanDefs.emplace_back(
+                        std::make_tuple(fan.second->getName(), fanSensorList,
+                                        fan.second->getInterface()));
                 }
             }
 
