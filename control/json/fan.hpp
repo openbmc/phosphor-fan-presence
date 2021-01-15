@@ -20,6 +20,8 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <map>
+
 namespace phosphor::fan::control::json
 {
 
@@ -90,15 +92,26 @@ class Fan : public ConfigBase
         return _interface;
     }
 
-  private:
-    /* The zone this fan belongs to */
-    std::string _zone;
+    /**
+     * @brief Get the current fan target
+     *
+     * @return - The current target of the fan
+     */
+    inline auto getTarget() const
+    {
+        return _target;
+    }
 
     /**
-     * Sensors containing the `Target` property on
-     * dbus that make up the fan
+     * Sets the target value on all contained sensors
+     *
+     * @param[in] target - The value to set
      */
-    std::vector<std::string> _sensors;
+    void setTarget(uint64_t target);
+
+  private:
+    /* The sdbusplus bus object */
+    sdbusplus::bus::bus& _bus;
 
     /**
      * Interface containing the `Target` property
@@ -106,14 +119,26 @@ class Fan : public ConfigBase
      */
     std::string _interface;
 
+    /* Target for this fan */
+    uint64_t _target;
+
     /**
-     * @brief Parse and set the fan's zone
+     * Map of sensors containing the `Target` property on
+     * dbus to the service providing them that make up the fan
+     */
+    std::map<std::string, std::string> _sensors;
+
+    /* The zone this fan belongs to */
+    std::string _zone;
+
+    /**
+     * @brief Parse and set the fan's sensor interface
      *
      * @param[in] jsonObj - JSON object for the fan
      *
-     * Sets the zone this fan is included in.
+     * Sets the sensor interface to use when setting the `Target` property
      */
-    void setZone(const json& jsonObj);
+    void setInterface(const json& jsonObj);
 
     /**
      * @brief Parse and set the fan's sensor list
@@ -126,13 +151,13 @@ class Fan : public ConfigBase
     void setSensors(const json& jsonObj);
 
     /**
-     * @brief Parse and set the fan's sensor interface
+     * @brief Parse and set the fan's zone
      *
      * @param[in] jsonObj - JSON object for the fan
      *
-     * Sets the sensor interface to use when setting the `Target` property
+     * Sets the zone this fan is included in.
      */
-    void setInterface(const json& jsonObj);
+    void setZone(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::control::json

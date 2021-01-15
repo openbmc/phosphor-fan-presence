@@ -20,6 +20,8 @@
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
+#include <vector>
+
 namespace phosphor::fan::control::json
 {
 
@@ -112,6 +114,9 @@ class ConfigBase
             "Unsupported data type for JSON object's value");
     }
 
+    /* Name of the configuration object */
+    std::string _name;
+
     /**
      * Profiles this configuration object belongs to (OPTIONAL).
      * Otherwise always include this object in the configuration
@@ -120,9 +125,6 @@ class ConfigBase
     std::vector<std::string> _profiles;
 
   private:
-    /* Name of the configuration object */
-    std::string _name;
-
     /**
      * @brief Sets the configuration object's name from the given JSON
      *
