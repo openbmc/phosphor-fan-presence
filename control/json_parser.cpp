@@ -64,18 +64,13 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
     std::vector<ZoneGroup> zoneGrps;
 
     // Profiles are optional
-    auto profiles = getConfig<json::Profile>(bus, true);
+    auto profiles = getConfig<json::Profile>(true);
     // Fans to be controlled
     auto fans = getConfig<json::Fan>(bus);
     // Zones within the system
-    auto zones = getConfig<json::Zone>(bus);
+    auto zones = getConfig<json::Zone>();
     // Fan control events are optional
     auto events = getConfig<json::Event>(bus, true);
-    if (!events.empty())
-    {
-        // Groups to include in events
-        auto groups = getConfig<json::Group>(bus);
-    }
 
     // Ensure all configurations use the same set of active profiles
     // (In case a profile's active state changes during configuration)
