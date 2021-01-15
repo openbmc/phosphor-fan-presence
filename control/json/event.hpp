@@ -23,6 +23,8 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <optional>
+
 namespace phosphor::fan::control::json
 {
 
@@ -46,6 +48,15 @@ using json = nlohmann::json;
  */
 class Event : public ConfigBase
 {
+    static constexpr auto pathPos = 0;
+    static constexpr auto intfPos = 1;
+    static constexpr auto propPos = 2;
+    static constexpr auto typePos = 3;
+    static constexpr auto valuePos = 4;
+    using eGroup = std::vector<std::tuple<std::string, std::string, std::string,
+                                          std::optional<std::string>,
+                                          std::optional<PropertyVariantType>>>;
+
     static constexpr auto precondName = 0;
     static constexpr auto precondGroups = 1;
     static constexpr auto precondEvents = 2;
@@ -123,7 +134,7 @@ class Event : public ConfigBase
     Precondition _precond;
 
     /* List of groups associated with the event */
-    std::vector<Group> _groups;
+    std::vector<eGroup> _groups;
 
     /* List of triggers for this event */
     std::vector<Trigger> _triggers;
