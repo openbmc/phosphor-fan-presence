@@ -108,8 +108,19 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
 #endif
 
     // Get the initial presence state
-    _present = util::SDBusPlus::getProperty<bool>(
-        util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
+    bool available = true;
+
+    try
+    {
+        _present = util::SDBusPlus::getProperty<bool>(
+            util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
+    }
+    catch (const util::DBusServiceError& e)
+    {
+        // This could be the initial boot and phosphor-fan-presence hasn't
+        // written to the inventory yet.
+        available = false;
+    }
 
     if (_fanMissingErrorDelay)
     {
@@ -118,7 +129,7 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             event, std::bind(&System::fanMissingErrorTimerExpired, &system,
                              std::ref(*this)));
 
-        if (!_present)
+        if (!_present && available)
         {
             // The fan presence application handles the journal for missing
             // fans, so only internally log missing fan info here.
