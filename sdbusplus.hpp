@@ -1,5 +1,7 @@
 #pragma once
 
+#include <fmt/format.h>
+
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/log.hpp>
@@ -32,7 +34,7 @@ namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 class DBusError : public std::runtime_error
 {
   public:
-    explicit DBusError(const char* msg) : std::runtime_error(msg)
+    explicit DBusError(const std::string& msg) : std::runtime_error(msg)
     {}
 };
 
@@ -46,7 +48,8 @@ class DBusMethodError : public DBusError
   public:
     DBusMethodError(const std::string& busName, const std::string& path,
                     const std::string& interface, const std::string& method) :
-        DBusError("DBus method call failed"),
+        DBusError(fmt::format("DBus method failed: {} {} {} {}", busName, path,
+                              interface, method)),
         busName(busName), path(path), interface(interface), method(method)
     {}
 
@@ -66,8 +69,9 @@ class DBusServiceError : public DBusError
 {
   public:
     DBusServiceError(const std::string& path, const std::string& interface) :
-        DBusError("DBus service lookup failed"), path(path),
-        interface(interface)
+        DBusError(
+            fmt::format("DBus service lookup failed: {} {}", path, interface)),
+        path(path), interface(interface)
     {}
 
     const std::string path;
@@ -82,10 +86,11 @@ class DBusServiceError : public DBusError
 class DBusPropertyError : public DBusError
 {
   public:
-    DBusPropertyError(const char* msg, const std::string& busName,
+    DBusPropertyError(const std::string& msg, const std::string& busName,
                       const std::string& path, const std::string& interface,
                       const std::string& property) :
-        DBusError(msg),
+        DBusError(msg + fmt::format(": {} {} {} {}", busName, path, interface,
+                                    property)),
         busName(busName), path(path), interface(interface), property(property)
     {}
 
