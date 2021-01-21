@@ -71,6 +71,8 @@ AC_ARG_ENABLE([cooling-type],
     AS_HELP_STRING([--disable-cooling-type], [Disable cooling-type package.]))
 AC_ARG_ENABLE([monitor],
     AS_HELP_STRING([--disable-monitor], [Disable monitor]))
+AC_ARG_ENABLE([sensor-monitor],
+    AS_HELP_STRING([--enable-sensor-monitor], [Enable sensor monitor]))
 
 AM_CONDITIONAL([WANT_JSON], [test "x$enable_json" == "xyes"])
 AM_CONDITIONAL([WANT_JSON_CONTROL], [test "x$enable_json" == "xyes" -a "x$enable_json_control" != "xno"])
@@ -78,6 +80,7 @@ AM_CONDITIONAL([WANT_PRESENCE], [test "x$enable_presence" != "xno"])
 AM_CONDITIONAL([WANT_CONTROL], [test "x$enable_control" != "xno"])
 AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling_type" != "xno"])
 AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
+AM_CONDITIONAL([WANT_SENSOR_MONITOR], [test "x$enable_sensor_monitor" == "xyes"])
 
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
@@ -226,6 +229,11 @@ AS_IF([test "x$enable_monitor" != "xno"], [
                        [The thermal alert D-Bus object path])
 
     AC_CONFIG_FILES([monitor/Makefile])
+])
+
+AS_IF([test "x$enable_sensor_monitor" == "xyes"], [
+
+    AC_CONFIG_FILES([sensor-monitor/Makefile])
 ])
 
 # Create configured output

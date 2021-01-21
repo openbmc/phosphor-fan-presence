@@ -14,3 +14,6 @@ endif
 if WANT_MONITOR
 SUBDIRS += monitor
 endif
+if WANT_SENSOR_MONITOR
+SUBDIRS += sensor-monitor
+endif
