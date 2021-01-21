@@ -233,6 +233,14 @@ AS_IF([test "x$enable_monitor" != "xno"], [
 
 AS_IF([test "x$enable_sensor_monitor" == "xyes"], [
 
+    AC_ARG_VAR(SENSOR_MONITOR_PERSIST_ROOT_PATH,
+               [Root path for persisting sensor monitor data])
+    AS_IF([test "x$SENSOR_MONITOR_PERSIST_ROOT_PATH" == "x"],
+          [SENSOR_MONITOR_PERSIST_ROOT_PATH="/var/lib/phosphor-fan-presence/sensor-monitor"])
+    AC_DEFINE_UNQUOTED([SENSOR_MONITOR_PERSIST_ROOT_PATH],
+                       ["$SENSOR_MONITOR_PERSIST_ROOT_PATH"],
+                       [Root path for persisting sensor monitor data])
+
     #Default hard shutdown delay is 23 seconds
     AC_ARG_VAR(SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS,
             [Milliseconds to delay the alarm hard shutdown])

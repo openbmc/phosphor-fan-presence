@@ -81,6 +81,14 @@ ShutdownAlarmMonitor::ShutdownAlarmMonitor(sdbusplus::bus::bus& bus,
     if (_powerState->isPowerOn())
     {
         checkAlarms();
+
+        // Get rid of any previous saved timestamps that don't
+        // apply anymore.
+        timestamps.prune(alarms);
+    }
+    else
+    {
+        timestamps.clear();
     }
 }
 
@@ -234,6 +242,39 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
         // threshold immediately.
     }
 
+    uint64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
+                       std::chrono::system_clock::now().time_since_epoch())
+                       .count();
+
+    // If there is a saved timestamp for this timer, then we were restarted
+    // while the timer was running.  Calculate the remaining time to use
+    // for the timer.
+    auto previousStartTime = timestamps.get().find(alarmKey);
+    if (previousStartTime != timestamps.get().end())
+    {
+        const uint64_t& original = previousStartTime->second;
+
+        log<level::INFO>(fmt::format("Found previously running {} timer "
+                                     "for {} with start time {}",
+                                     propertyName, sensorPath, original)
+                             .c_str());
+
+        // Sanity check it isn't total garbage.
+        if (now > original)
+        {
+            uint64_t remainingTime = 0;
+            auto elapsedTime = now - original;
+
+            if (elapsedTime < static_cast<uint64_t>(shutdownDelay.count()))
+            {
+                remainingTime =
+                    static_cast<uint64_t>(shutdownDelay.count()) - elapsedTime;
+            }
+
+            shutdownDelay = std::chrono::milliseconds{remainingTime};
+        }
+    }
+
     log<level::INFO>(
         fmt::format("Starting {}ms {} shutdown timer due to sensor {} value {}",
                     shutdownDelay.count(), propertyName, sensorPath, *value)
@@ -246,6 +287,10 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
         event, std::bind(&ShutdownAlarmMonitor::timerExpired, this, alarmKey));
 
     timer->restartOnce(shutdownDelay);
+
+    // Note that if this key is already in the timestamps map because
+    // the timer was already running the timestamp wil not be updated.
+    timestamps.add(alarmKey, now);
 }
 
 void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
@@ -270,6 +315,8 @@ void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
     auto& timer = alarm->second;
     timer->setEnabled(false);
     timer.reset();
+
+    timestamps.erase(alarmKey);
 }
 
 void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
@@ -286,6 +333,8 @@ void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
     SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                           "StartUnit", "obmc-chassis-hard-poweroff@0.target",
                           "replace");
+
+    timestamps.erase(alarmKey);
 }
 
 void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
@@ -296,6 +345,8 @@ void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
     }
     else
     {
+        timestamps.clear();
+
         // Cancel and delete all timers
         std::for_each(alarms.begin(), alarms.end(), [](auto& alarm) {
             auto& timer = alarm.second;
