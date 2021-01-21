@@ -23,6 +23,9 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
+#include <chrono>
+#include <optional>
+
 namespace sensor::monitor
 {
 
@@ -105,6 +108,27 @@ class ShutdownAlarmMonitor
      *        D-Bus and adds them to the alarms map.
      */
     void findAlarms();
+
+    /**
+     * @brief Starts a shutdown timer.
+     *
+     * @param[in] alarmKey - The alarm key
+     */
+    void startTimer(const AlarmKey& alarmKey);
+
+    /**
+     * @brief Stops a shutdown timer.
+     *
+     * @param[in] alarmKey - The alarm key
+     */
+    void stopTimer(const AlarmKey& alarmKey);
+
+    /**
+     * @brief The function called when the timer expires.
+     *
+     * @param[in] alarmKey - The alarm key
+     */
+    void timerExpired(const AlarmKey& alarmKey);
 
     /**
      * @brief The power state changed handler.
