@@ -20,6 +20,7 @@
 #include <fmt/format.h>
 
 #include <phosphor-logging/log.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
 namespace sensor::monitor
 {
@@ -46,11 +47,39 @@ const std::map<ShutdownType, std::chrono::milliseconds> shutdownDelays{
     {ShutdownType::soft,
      std::chrono::milliseconds{SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS}}};
 
+const std::map<ShutdownType, std::map<AlarmType, std::string>> alarmEventLogs{
+    {ShutdownType::hard,
+     {{AlarmType::high,
+       "xyz.openbmc_project.Sensor.Threshold.Error.HardShutdownAlarmHigh"},
+      {AlarmType::low, "xyz.openbmc_project.Sensor.Threshold.Error."
+                       "HardShutdownAlarmLow"}}},
+    {ShutdownType::soft,
+     {{AlarmType::high,
+       "xyz.openbmc_project.Sensor.Threshold.Error.SoftShutdownAlarmHigh"},
+      {AlarmType::low, "xyz.openbmc_project.Sensor.Threshold.Error."
+                       "SoftShutdownAlarmLow"}}}};
+
+const std::map<ShutdownType, std::map<AlarmType, std::string>>
+    alarmClearEventLogs{
+        {ShutdownType::hard,
+         {{AlarmType::high, "xyz.openbmc_project.Sensor.Threshold.Error."
+                            "HardShutdownAlarmHighClear"},
+          {AlarmType::low, "xyz.openbmc_project.Sensor.Threshold.Error."
+                           "HardShutdownAlarmLowClear"}}},
+        {ShutdownType::soft,
+         {{AlarmType::high, "xyz.openbmc_project.Sensor.Threshold.Error."
+                            "SoftShutdownAlarmHighClear"},
+          {AlarmType::low, "xyz.openbmc_project.Sensor.Threshold.Error."
+                           "SoftShutdownAlarmLowClear"}}}};
+
 constexpr auto systemdService = "org.freedesktop.systemd1";
 constexpr auto systemdPath = "/org/freedesktop/systemd1";
 constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
 constexpr auto valueInterface = "xyz.openbmc_project.Sensor.Value";
 constexpr auto valueProperty = "Value";
+const auto loggingService = "xyz.openbmc_project.Logging";
+const auto loggingPath = "/xyz/openbmc_project/logging";
+const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 using namespace sdbusplus::bus::match;
 
@@ -242,6 +271,8 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
         // threshold immediately.
     }
 
+    createEventLog(alarmKey, true, value);
+
     uint64_t now = std::chrono::duration_cast<std::chrono::milliseconds>(
                        std::chrono::system_clock::now().time_since_epoch())
                        .count();
@@ -307,6 +338,8 @@ void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
         throw std::runtime_error("Couldn't find alarm inside stopTimer");
     }
 
+    createEventLog(alarmKey, false, value);
+
     log<level::INFO>(
         fmt::format("Stopping {} shutdown timer due to sensor {} value {}",
                     propertyName, sensorPath, value)
@@ -324,11 +357,18 @@ void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
     const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
     const auto& propertyName = alarmProperties.at(shutdownType).at(alarmType);
 
+    auto value = SDBusPlus::getProperty<double>(bus, sensorPath, valueInterface,
+                                                valueProperty);
+
     log<level::ERR>(
         fmt::format(
             "The {} shutdown timer expired for sensor {}, shutting down",
             propertyName, sensorPath)
             .c_str());
+
+    // Re-send the event log.  If someone didn't want this it could be
+    // wrapped by a compile option.
+    createEventLog(alarmKey, true, value);
 
     SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                           "StartUnit", "obmc-chassis-hard-poweroff@0.target",
@@ -357,6 +397,30 @@ void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
             }
         });
     }
+}
+
+void ShutdownAlarmMonitor::createEventLog(
+    const AlarmKey& alarmKey, bool alarmValue,
+    const std::optional<double>& sensorValue)
+{
+    using namespace sdbusplus::xyz::openbmc_project::Logging::server;
+    const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
+    std::map<std::string, std::string> ad{{"SENSOR_NAME", sensorPath}};
+
+    std::string errorName =
+        (alarmValue) ? alarmEventLogs.at(shutdownType).at(alarmType)
+                     : alarmClearEventLogs.at(shutdownType).at(alarmType);
+
+    Entry::Level severity =
+        (alarmValue) ? Entry::Level::Error : Entry::Level::Informational;
+
+    if (sensorValue)
+    {
+        ad.emplace("SENSOR_VALUE", std::to_string(*sensorValue));
+    }
+
+    SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
+                          "Create", errorName, convertForMessage(severity), ad);
 }
 
 std::optional<ShutdownType>

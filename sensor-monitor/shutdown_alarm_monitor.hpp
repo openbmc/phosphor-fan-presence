@@ -151,6 +151,16 @@ class ShutdownAlarmMonitor
         getShutdownType(const std::string& interface) const;
 
     /**
+     * @brief Creates a phosphor-logging event log
+     *
+     * @param[in] alarmKey - The alarm key
+     * @param[in] alarmValue - The alarm property value
+     * @param[in] sensorValue - The sensor value behind the alarm.
+     */
+    void createEventLog(const AlarmKey& alarmKey, bool alarmValue,
+                        const std::optional<double>& sensorValue);
+
+    /**
      * @brief The sdbusplus bus object
      */
     sdbusplus::bus::bus& bus;
