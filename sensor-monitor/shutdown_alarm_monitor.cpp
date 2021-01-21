@@ -119,7 +119,47 @@ void ShutdownAlarmMonitor::checkAlarms()
 void ShutdownAlarmMonitor::propertiesChanged(
     sdbusplus::message::message& message)
 {
-    // check the values
+    std::map<std::string, std::variant<bool>> properties;
+    std::string interface;
+
+    if (!_powerState->isPowerOn())
+    {
+        return;
+    }
+
+    message.read(interface, properties);
+
+    auto type = getShutdownType(interface);
+    if (!type)
+    {
+        return;
+    }
+
+    std::string sensorPath = message.get_path();
+
+    const auto& lowAlarmName = alarmProperties.at(*type).at(AlarmType::low);
+    if (properties.count(lowAlarmName) > 0)
+    {
+        AlarmKey alarmKey{sensorPath, *type, AlarmType::low};
+        auto alarm = alarms.find(alarmKey);
+        if (alarm == alarms.end())
+        {
+            alarms.emplace(alarmKey, nullptr);
+        }
+        checkAlarm(std::get<bool>(properties.at(lowAlarmName)), alarmKey);
+    }
+
+    const auto& highAlarmName = alarmProperties.at(*type).at(AlarmType::high);
+    if (properties.count(highAlarmName) > 0)
+    {
+        AlarmKey alarmKey{sensorPath, *type, AlarmType::high};
+        auto alarm = alarms.find(alarmKey);
+        if (alarm == alarms.end())
+        {
+            alarms.emplace(alarmKey, nullptr);
+        }
+        checkAlarm(std::get<bool>(properties.at(highAlarmName)), alarmKey);
+    }
 }
 
 void ShutdownAlarmMonitor::checkAlarm(bool value, const AlarmKey& alarmKey)
@@ -137,6 +177,21 @@ void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
     {
         // Cancel and delete all timers
     }
+}
+
+std::optional<ShutdownType>
+    ShutdownAlarmMonitor::getShutdownType(const std::string& interface) const
+{
+    auto it = std::find_if(
+        shutdownInterfaces.begin(), shutdownInterfaces.end(),
+        [interface](const auto& a) { return a.second == interface; });
+
+    if (it == shutdownInterfaces.end())
+    {
+        return std::nullopt;
+    }
+
+    return it->first;
 }
 
 } // namespace sensor::monitor
