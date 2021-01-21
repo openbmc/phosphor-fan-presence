@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #pragma once
+#include "alarm_timestamps.hpp"
 #include "power_state.hpp"
 #include "types.hpp"
 
@@ -183,6 +184,11 @@ class ShutdownAlarmMonitor
     std::map<AlarmKey, std::unique_ptr<sdeventplus::utility::Timer<
                            sdeventplus::ClockId::Monotonic>>>
         alarms;
+
+    /**
+     * @brief The running alarm timer timestamps.
+     */
+    AlarmTimestamps timestamps;
 };
 
 } // namespace sensor::monitor
