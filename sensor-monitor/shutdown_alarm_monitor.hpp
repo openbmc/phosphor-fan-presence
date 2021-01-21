@@ -116,6 +116,16 @@ class ShutdownAlarmMonitor
     void powerStateChanged(bool powerStateOn);
 
     /**
+     * @brief Returns the ShutdownType for the passed in interface
+     *
+     * @param[in] interface - The D-Bus interface name
+     * @return The interface, or std::nullopt if the interface isn't one
+     *         of the shutdown interfaces.
+     */
+    std::optional<ShutdownType>
+        getShutdownType(const std::string& interface) const;
+
+    /**
      * @brief The sdbusplus bus object
      */
     sdbusplus::bus::bus& bus;
