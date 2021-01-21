@@ -1,5 +1,31 @@
 # phosphor-fan-presence
-Phosphor fan provides a set of fan monitoring and control applications.
+Phosphor fan provides a set of fan monitoring and control applications:
+
+## Fan Control 
+
+Sets fan speeds based on configuration data.
+
+## Fan Presence Detection
+
+Monitors for fan presence using either GPIOs or nonzero tach readings or both.
+
+## Fan Monitor
+
+Compares actual fan speeds against expected ones and takes actions.
+Additional documentation is [here](monitor/README.md).
+
+## Cooling Type
+
+Sets the cooling type property in the inventory based on a GPIO.
+
+This is not built by default, use --enable-cooling type to enable.
+  
+## Sensor Monitor
+
+Takes actions based on sensor thresholds and the like.
+Additional documentation is [here](sensor-monitor/README.md).
+
+This is not built by default, use --enable-sensor-monitor to enable.
 
 ## To Build
 By default, YAML configuration file(s) are used at build time for each fan
