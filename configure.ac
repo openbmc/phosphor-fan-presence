@@ -233,6 +233,24 @@ AS_IF([test "x$enable_monitor" != "xno"], [
 
 AS_IF([test "x$enable_sensor_monitor" == "xyes"], [
 
+    #Default hard shutdown delay is 23 seconds
+    AC_ARG_VAR(SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS,
+            [Milliseconds to delay the alarm hard shutdown])
+    AS_IF([test "x$SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS" == "x"],
+        [SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS=23000])
+    AC_DEFINE_UNQUOTED([SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS],
+                       [$SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS],
+                       [Milliseconds to delay the alarm hard shutdown])
+
+    #Default soft shutdown delay is 15 minutes
+    AC_ARG_VAR(SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS,
+               [Milliseconds to delay the alarm soft shutdown])
+    AS_IF([test "x$SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS" == "x"],
+        [SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS=900000])
+    AC_DEFINE_UNQUOTED([SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS],
+                       [$SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS],
+                       [Milliseconds to delay the alarm soft shutdown])
+
     AC_CONFIG_FILES([sensor-monitor/Makefile])
 ])
 

@@ -40,6 +40,18 @@ const std::map<ShutdownType, std::map<AlarmType, std::string>> alarmProperties{
      {{AlarmType::low, "SoftShutdownAlarmLow"},
       {AlarmType::high, "SoftShutdownAlarmHigh"}}}};
 
+const std::map<ShutdownType, std::chrono::milliseconds> shutdownDelays{
+    {ShutdownType::hard,
+     std::chrono::milliseconds{SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS}},
+    {ShutdownType::soft,
+     std::chrono::milliseconds{SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS}}};
+
+constexpr auto systemdService = "org.freedesktop.systemd1";
+constexpr auto systemdPath = "/org/freedesktop/systemd1";
+constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
+constexpr auto valueInterface = "xyz.openbmc_project.Sensor.Value";
+constexpr auto valueProperty = "Value";
+
 using namespace sdbusplus::bus::match;
 
 ShutdownAlarmMonitor::ShutdownAlarmMonitor(sdbusplus::bus::bus& bus,
@@ -172,7 +184,108 @@ void ShutdownAlarmMonitor::propertiesChanged(
 
 void ShutdownAlarmMonitor::checkAlarm(bool value, const AlarmKey& alarmKey)
 {
-    // start or stop a timer possibly
+    auto alarm = alarms.find(alarmKey);
+    if (alarm == alarms.end())
+    {
+        return;
+    }
+
+    // Start or stop the timer if necessary.
+    auto& timer = alarm->second;
+    if (value)
+    {
+        if (!timer)
+        {
+            startTimer(alarmKey);
+        }
+    }
+    else
+    {
+        if (timer)
+        {
+            stopTimer(alarmKey);
+        }
+    }
+}
+
+void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
+{
+    const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
+    const auto& propertyName = alarmProperties.at(shutdownType).at(alarmType);
+    std::chrono::milliseconds shutdownDelay{shutdownDelays.at(shutdownType)};
+    std::optional<double> value;
+
+    auto alarm = alarms.find(alarmKey);
+    if (alarm == alarms.end())
+    {
+        throw std::runtime_error("Couldn't find alarm inside startTimer");
+    }
+
+    try
+    {
+        value = SDBusPlus::getProperty<double>(bus, sensorPath, valueInterface,
+                                               valueProperty);
+    }
+    catch (const DBusServiceError& e)
+    {
+        // If the sensor was just added, the Value interface for it may
+        // not be in the mapper yet.  This could only happen if the sensor
+        // application was started with power up and the value exceeded the
+        // threshold immediately.
+    }
+
+    log<level::INFO>(
+        fmt::format("Starting {}ms {} shutdown timer due to sensor {} value {}",
+                    shutdownDelay.count(), propertyName, sensorPath, *value)
+            .c_str());
+
+    auto& timer = alarm->second;
+
+    timer = std::make_unique<
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
+        event, std::bind(&ShutdownAlarmMonitor::timerExpired, this, alarmKey));
+
+    timer->restartOnce(shutdownDelay);
+}
+
+void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
+{
+    const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
+    const auto& propertyName = alarmProperties.at(shutdownType).at(alarmType);
+
+    auto value = SDBusPlus::getProperty<double>(bus, sensorPath, valueInterface,
+                                                valueProperty);
+
+    auto alarm = alarms.find(alarmKey);
+    if (alarm == alarms.end())
+    {
+        throw std::runtime_error("Couldn't find alarm inside stopTimer");
+    }
+
+    log<level::INFO>(
+        fmt::format("Stopping {} shutdown timer due to sensor {} value {}",
+                    propertyName, sensorPath, value)
+            .c_str());
+
+    auto& timer = alarm->second;
+    timer->setEnabled(false);
+    timer.reset();
+}
+
+void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
+{
+    const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
+    const auto& propertyName = alarmProperties.at(shutdownType).at(alarmType);
+
+    log<level::ERR>(
+        fmt::format(
+            "The {} shutdown timer expired for sensor {}, shutting down",
+            propertyName, sensorPath)
+            .c_str());
+
+    SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                          "StartUnit", "obmc-chassis-hard-poweroff@0.target",
+                          "replace");
 }
 
 void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
@@ -184,6 +297,14 @@ void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
     else
     {
         // Cancel and delete all timers
+        std::for_each(alarms.begin(), alarms.end(), [](auto& alarm) {
+            auto& timer = alarm.second;
+            if (timer)
+            {
+                timer->setEnabled(false);
+                timer.reset();
+            }
+        });
     }
 }
 
