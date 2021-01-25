@@ -48,11 +48,16 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
     {"anyof", rpolicy::getAnyof}, {"fallback", rpolicy::getFallback}};
 
 JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
-{
-    using config = fan::JsonConfig;
+{}
 
-    // Load and process the json configuration
-    process(config::load(config::getConfFile(bus, confAppName, confFileName)));
+void JsonConfig::start(const std::string& confFile)
+{
+    process(phosphor::fan::JsonConfig::load(confFile));
+
+    for (auto& p : _policies)
+    {
+        p->monitor();
+    }
 }
 
 const policies& JsonConfig::get()

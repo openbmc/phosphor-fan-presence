@@ -15,6 +15,7 @@
  */
 #include "config.h"
 #ifdef PRESENCE_USE_JSON
+#include "json_config.hpp"
 #include "json_parser.hpp"
 #else
 #include "generated.hpp"
@@ -34,12 +35,15 @@ int main(void)
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
 #ifdef PRESENCE_USE_JSON
-    // Use json file for presence config
+
     presence::JsonConfig config(bus);
-    for (auto& p : presence::JsonConfig::get())
-    {
-        p->monitor();
-    }
+
+    // jsonConfig will call config::start when
+    // the conf file is available.
+    phosphor::fan::JsonConfig jsonConfig{
+        bus, presence::confAppName, presence::confFileName,
+        std::bind(&presence::JsonConfig::start, &config,
+                  std::placeholders::_1)};
 
     stdplus::signal::block(SIGHUP);
     sdeventplus::source::Signal signal(

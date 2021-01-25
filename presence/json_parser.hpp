@@ -52,7 +52,6 @@ class JsonConfig
 
     /**
      * Constructor
-     * Parses and populates the fan presence policies from a json file
      *
      * @param[in] bus - sdbusplus bus object
      */
@@ -74,6 +73,15 @@ class JsonConfig
      */
     void sighupHandler(sdeventplus::source::Signal& sigSrc,
                        const struct signalfd_siginfo* sigInfo);
+
+    /**
+     * @brief Parses and populates the fan presence policies from
+     *        the json file and then starts the actual presence
+     *        detecting.
+     *
+     * @param[in] confFile - The conf file name to use
+     */
+    void start(const std::string& confFile);
 
   private:
     /* Fan presence policies */
