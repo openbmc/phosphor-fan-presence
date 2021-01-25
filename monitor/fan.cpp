@@ -131,10 +131,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
 
         if (!_present && available)
         {
-            // The fan presence application handles the journal for missing
-            // fans, so only internally log missing fan info here.
-            getLogger().log(fmt::format("On startup, fan {} is missing", _name),
-                            Logger::quiet);
+            getLogger().log(
+                fmt::format("On startup, fan {} is missing", _name));
             _fanMissingErrorTimer->restartOnce(
                 std::chrono::seconds{*_fanMissingErrorDelay});
         }
@@ -341,8 +339,7 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
         _present = std::get<bool>(presentProp->second);
 
         getLogger().log(
-            fmt::format("Fan {} presence state change to {}", _name, _present),
-            Logger::quiet);
+            fmt::format("Fan {} presence state change to {}", _name, _present));
 
         _system.fanStatusChange(*this);
 
