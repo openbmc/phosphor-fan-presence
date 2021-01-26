@@ -105,6 +105,37 @@ class TachSensor
                const sdeventplus::Event& event);
 
     /**
+     * @brief Reads a property from the input message and stores it in value.
+     *        T is the value type.
+     *
+     *        Note: This can only be called once per message.
+     *
+     * @param[in] msg - the dbus message that contains the data
+     * @param[in] interface - the interface the property is on
+     * @param[in] propertName - the name of the property
+     * @param[out] value - the value to store the property value in
+     */
+    template <typename T>
+    static void readPropertyFromMessage(sdbusplus::message::message& msg,
+                                        const std::string& interface,
+                                        const std::string& propertyName,
+                                        T& value)
+    {
+        std::string sensor;
+        std::map<std::string, std::variant<T>> data;
+        msg.read(sensor, data);
+
+        if (sensor.compare(interface) == 0)
+        {
+            auto propertyMap = data.find(propertyName);
+            if (propertyMap != data.end())
+            {
+                value = std::get<T>(propertyMap->second);
+            }
+        }
+    }
+
+    /**
      * @brief Returns the target speed value
      */
     uint64_t getTarget() const;
