@@ -26,6 +26,7 @@
 
 #include <experimental/filesystem>
 #include <functional>
+#include <utility>
 
 namespace phosphor
 {
@@ -151,6 +152,19 @@ uint64_t TachSensor::getTarget() const
         return _fan.findTargetSpeed();
     }
     return _tachTarget;
+}
+
+std::pair<uint64_t, uint64_t> TachSensor::getRange(const size_t deviation) const
+{
+    // Determine min/max range applying the deviation
+    uint64_t min = getTarget() * (100 - deviation) / 100;
+    uint64_t max = getTarget() * (100 + deviation) / 100;
+
+    // Adjust the min/max range by applying the factor & offset
+    min = min * _factor + _offset;
+    max = max * _factor + _offset;
+
+    return std::make_pair(min, max);
 }
 
 void TachSensor::setFunctional(bool functional)

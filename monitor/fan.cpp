@@ -237,31 +237,18 @@ uint64_t Fan::findTargetSpeed()
     return target;
 }
 
-bool Fan::tooManySensorsNonfunctional()
+size_t Fan::countNonFunctionalSensors()
 {
-    size_t numFailed =
-        std::count_if(_sensors.begin(), _sensors.end(),
-                      [](const auto& s) { return !s->functional(); });
-
-    return (numFailed >= _numSensorFailsForNonFunc);
+    return std::count_if(_sensors.begin(), _sensors.end(),
+                         [](const auto& s) { return !s->functional(); });
 }
 
 bool Fan::outOfRange(const TachSensor& sensor)
 {
     auto actual = static_cast<uint64_t>(sensor.getInput());
-    auto target = sensor.getTarget();
-    auto factor = sensor.getFactor();
-    auto offset = sensor.getOffset();
+    auto range = sensor.getRange(_deviation);
 
-    uint64_t min = target * (100 - _deviation) / 100;
-    uint64_t max = target * (100 + _deviation) / 100;
-
-    // TODO: openbmc/openbmc#2937 enhance this function
-    // either by making it virtual, or by predefining different
-    // outOfRange ops and selecting by yaml config
-    min = min * factor + offset;
-    max = max * factor + offset;
-    if ((actual < min) || (actual > max))
+    if ((actual < range.first) || (actual > range.second))
     {
         return true;
     }
@@ -271,39 +258,37 @@ bool Fan::outOfRange(const TachSensor& sensor)
 
 void Fan::updateState(TachSensor& sensor)
 {
+    auto range = sensor.getRange(_deviation);
     sensor.setFunctional(!sensor.functional());
-
     getLogger().log(
         fmt::format("Setting tach sensor {} functional state to {}. "
-                    "Actual speed: {} Target speed: {}",
-                    sensor.name(), sensor.functional(), sensor.getInput(),
-                    sensor.getTarget()));
+                    "[target = {}, input = {}, allowed range = ({} - {})]",
+                    sensor.name(), sensor.functional(), sensor.getTarget(),
+                    sensor.getInput(), range.first, range.second));
 
     // A zero value for _numSensorFailsForNonFunc means we aren't dealing
     // with fan FRU functional status, only sensor functional status.
     if (_numSensorFailsForNonFunc)
     {
+        auto numNonFuncSensors = countNonFunctionalSensors();
         // If the fan was nonfunctional and enough sensors are now OK,
-        // the fan can go back to functional
-        if (!_functional && !tooManySensorsNonfunctional())
+        // the fan can be set to functional
+        if (!_functional && !(numNonFuncSensors >= _numSensorFailsForNonFunc))
         {
-            getLogger().log(
-                fmt::format("Setting fan {} back to functional", _name));
-
+            getLogger().log(fmt::format("Setting fan {} to functional, number "
+                                        "of nonfunctional sensors = {}",
+                                        _name, numNonFuncSensors));
             updateInventory(true);
         }
 
         // If the fan is currently functional, but too many
         // contained sensors are now nonfunctional, update
-        // the whole fan nonfunctional.
-        if (_functional && tooManySensorsNonfunctional())
+        // the fan to nonfunctional.
+        if (_functional && (numNonFuncSensors >= _numSensorFailsForNonFunc))
         {
-            getLogger().log(fmt::format("Setting fan {} to nonfunctional "
-                                        "Sensor: {} "
-                                        "Actual speed: {} "
-                                        "Target speed: {}",
-                                        _name, sensor.name(), sensor.getInput(),
-                                        sensor.getTarget()));
+            getLogger().log(fmt::format("Setting fan {} to nonfunctional, "
+                                        "number of nonfunctional sensors = {}",
+                                        _name, numNonFuncSensors));
             updateInventory(false);
         }
     }

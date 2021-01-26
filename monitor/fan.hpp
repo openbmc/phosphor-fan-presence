@@ -176,10 +176,9 @@ class Fan
     bool outOfRange(const TachSensor& sensor);
 
     /**
-     * @brief Returns true if too many sensors are nonfunctional
-     *        as defined by _numSensorFailsForNonFunc
+     * @brief Returns the number sensors that are nonfunctional
      */
-    bool tooManySensorsNonfunctional();
+    size_t countNonFunctionalSensors();
 
     /**
      * @brief Updates the Functional property in the inventory
