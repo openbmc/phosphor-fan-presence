@@ -7,6 +7,7 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <utility>
 
 namespace phosphor
 {
@@ -277,6 +278,15 @@ class TachSensor
         }
         return false;
     }
+
+    /**
+     * @brief Get the current allowed range of speeds
+     *
+     * @param[in] deviation - The configured deviation(in percent) allowed
+     *
+     * @return pair - Min/Max range of speeds allowed
+     */
+    std::pair<uint64_t, uint64_t> getRange(const size_t deviation) const;
 
   private:
     /**
