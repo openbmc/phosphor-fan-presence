@@ -209,8 +209,15 @@ void TachSensor::handleTachChange(sdbusplus::message::message& msg)
 
 void TachSensor::startTimer(TimerMode mode)
 {
+    using namespace std::chrono;
+
     if (!timerRunning() || mode != _timerMode)
     {
+        log<level::INFO>(
+            fmt::format("Start timer({}) on tach sensor {}. [delay = {}s]",
+                        mode, _name,
+                        duration_cast<seconds>(getDelay(mode)).count())
+                .c_str());
         _timer.restartOnce(getDelay(mode));
         _timerMode = mode;
     }

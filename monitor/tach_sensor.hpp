@@ -1,5 +1,8 @@
 #pragma once
 
+#include <fmt/format.h>
+
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server.hpp>
 #include <sdeventplus/clock.hpp>
@@ -247,6 +250,9 @@ class TachSensor
      */
     inline void stopTimer()
     {
+        phosphor::logging::log<phosphor::logging::level::INFO>(
+            fmt::format("Stop running timer on tach sensor {}.", _name)
+                .c_str());
         _timer.setEnabled(false);
     }
 
