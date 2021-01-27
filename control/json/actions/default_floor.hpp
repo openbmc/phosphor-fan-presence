@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2021 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 #include "action.hpp"
 #include "types.hpp"
+#include "zone.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -46,9 +47,24 @@ class DefaultFloor : public ActionBase, public ActionRegister<DefaultFloor>
     DefaultFloor& operator=(DefaultFloor&&) = delete;
     ~DefaultFloor() = default;
 
+    /**
+     * @brief Default the fan floor speed
+     *
+     * No JSON configuration parameters required
+     */
     explicit DefaultFloor(const json&);
 
-    const Action getAction() override;
+    /**
+     * @brief Run the action
+     *
+     * Updates the services of the group, then determines if any of the
+     * services hosting the members of the group are not owned on dbus
+     * resulting in the zone's floor being set/held at the default floor.
+     *
+     * @param[in] zone - Zone to run the action on
+     * @param[in] group - Group of dbus objects the action runs against
+     */
+    void run(Zone& zone, const Group& group) override;
 };
 
 } // namespace phosphor::fan::control::json

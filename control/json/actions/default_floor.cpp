@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2021 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,11 +15,13 @@
  */
 #include "default_floor.hpp"
 
-#include "actions.hpp"
-#include "functor.hpp"
 #include "types.hpp"
+#include "zone.hpp"
 
 #include <nlohmann/json.hpp>
+
+#include <algorithm>
+#include <tuple>
 
 namespace phosphor::fan::control::json
 {
@@ -28,12 +30,23 @@ using json = nlohmann::json;
 
 DefaultFloor::DefaultFloor(const json&) : ActionBase(DefaultFloor::name)
 {
-    // There are no additional JSON configuration parameters for this action
+    // There are no JSON configuration parameters for this action
 }
 
-const Action DefaultFloor::getAction()
+void DefaultFloor::run(Zone& zone, const Group& group)
 {
-    return make_action(action::default_floor_on_missing_owner);
+    // Set/update the services of the group
+    zone.setServices(&group);
+    auto services = zone.getGroupServices(&group);
+    auto defFloor =
+        std::any_of(services.begin(), services.end(),
+                    [](const auto& s) { return !std::get<hasOwnerPos>(s); });
+    if (defFloor)
+    {
+        zone.setFloor(zone.getDefFloor());
+    }
+    // Update fan control floor change allowed
+    zone.setFloorChangeAllow(&group, !defFloor);
 }
 
 } // namespace phosphor::fan::control::json

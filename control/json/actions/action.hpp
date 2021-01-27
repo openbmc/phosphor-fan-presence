@@ -16,6 +16,7 @@
 #pragma once
 
 #include "types.hpp"
+#include "zone.hpp"
 
 #include <fmt/format.h>
 
@@ -61,19 +62,29 @@ class ActionBase
     ActionBase& operator=(const ActionBase&) = delete;
     ActionBase& operator=(ActionBase&&) = delete;
     virtual ~ActionBase() = default;
+
+    /**
+     * @brief Base action object
+     *
+     * All actions derived from this base action object must be given a name
+     * that uniquely identifies the action.
+     *
+     * @param[in] name - Unique name of the action
+     */
     explicit ActionBase(const std::string& name) : _name(name)
     {}
 
     /**
-     * @brief Get the action function to perform
+     * @brief Run the action
      *
-     * An action function is a function associated to the derived action object
-     * that performs a specific task against fan control that's configured by
-     * a user.
+     * Run the action function associated to the derived action object
+     * that performs a specific task against a group of dbus objects on a zone
+     * configured by a user.
      *
-     * @return Action function
+     * @param[in] zone - Zone to run the action on
+     * @param[in] group - Group of dbus objects the action runs against
      */
-    virtual const Action getAction() = 0;
+    virtual void run(Zone& zone, const Group& group) = 0;
 
     /**
      * @brief Get the action's name
