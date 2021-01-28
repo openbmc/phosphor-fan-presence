@@ -202,7 +202,10 @@ void Fan::tachChanged(TachSensor& sensor)
             case MethodMode::timebased:
                 if (sensor.functional())
                 {
-                    sensor.stopTimer();
+                    if (sensor.timerRunning())
+                    {
+                        sensor.stopTimer();
+                    }
                 }
                 else
                 {
