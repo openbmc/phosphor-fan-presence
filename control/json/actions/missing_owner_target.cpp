@@ -13,13 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "default_floor.hpp"
+#include "missing_owner_target.hpp"
 
 #include "../manager.hpp"
 #include "../zone.hpp"
 #include "group.hpp"
 
+#include <fmt/format.h>
+
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
 
 #include <algorithm>
 
@@ -27,13 +30,15 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
+using namespace phosphor::logging;
 
-DefaultFloor::DefaultFloor(const json&) : ActionBase(DefaultFloor::name)
+MissingOwnerTarget::MissingOwnerTarget(const json& jsonObj) :
+    ActionBase(MissingOwnerTarget::name)
 {
-    // There are no JSON configuration parameters for this action
+    setTarget(jsonObj);
 }
 
-void DefaultFloor::run(Zone& zone, const Group& group)
+void MissingOwnerTarget::run(Zone& zone, const Group& group)
 {
     const auto& members = group.getMembers();
     auto isMissingOwner =
@@ -43,10 +48,25 @@ void DefaultFloor::run(Zone& zone, const Group& group)
                     });
     if (isMissingOwner)
     {
-        zone.setFloor(zone.getDefaultFloor());
+        zone.setTarget(_target);
     }
-    // Update fan control floor change allowed
-    zone.setFloorChangeAllow(group.getName(), !isMissingOwner);
+    // Update group's fan control active allowed based on action results
+    zone.setActiveAllow(group.getName(), !isMissingOwner);
+}
+
+void MissingOwnerTarget::setTarget(const json& jsonObj)
+{
+    if (!jsonObj.contains("speed"))
+    {
+        log<level::ERR>(
+            fmt::format("Action {}: Missing required speed value", getName())
+                .c_str(),
+            entry("JSON=%s", jsonObj.dump().c_str()));
+        throw std::runtime_error(
+            fmt::format("Action {}: Missing required speed value", getName())
+                .c_str());
+    }
+    _target = jsonObj["speed"].get<uint64_t>();
 }
 
 } // namespace phosphor::fan::control::json
