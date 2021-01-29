@@ -146,6 +146,22 @@ class Manager
     static bool hasOwner(const std::string& path, const std::string& intf);
 
     /**
+     * @brief Get the object's property value as a variant
+     *
+     * @param[in] path - Path of the object containing the property
+     * @param[in] intf - Interface name containing the property
+     * @param[in] prop - Name of property
+     *
+     * @return - The object's property value as a variant
+     */
+    static inline auto getObjValueVariant(const std::string& path,
+                                          const std::string& intf,
+                                          const std::string& prop)
+    {
+        return _objects.at(path).at(intf).at(prop);
+    };
+
+    /**
      * @brief Get the configured power on delay(OPTIONAL)
      *
      * @return Power on delay in seconds
@@ -180,6 +196,12 @@ class Manager
     static std::map<std::string, std::map<std::pair<std::string, bool>,
                                           std::vector<std::string>>>
         _servTree;
+
+    /* */
+    static std::map<
+        std::string,
+        std::map<std::string, std::map<std::string, PropertyVariantType>>>
+        _objects;
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
