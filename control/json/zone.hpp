@@ -189,6 +189,17 @@ class Zone : public ConfigBase, public ThermalObject
     void requestIncrease(uint64_t targetDelta);
 
     /**
+     * @brief Set the requested target base to be used as the target to base a
+     * new requested target from
+     *
+     * @param[in] targetBase - Base target value to use
+     */
+    inline void setRequestTargetBase(uint64_t targetBase)
+    {
+        _requestTargetBase = targetBase;
+    };
+
+    /**
      * @brief Set a property to be persisted
      *
      * @param[in] intf - Interface containing property
