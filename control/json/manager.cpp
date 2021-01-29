@@ -39,6 +39,9 @@ std::vector<std::string> Manager::_activeProfiles;
 std::map<std::string,
          std::map<std::pair<std::string, bool>, std::vector<std::string>>>
     Manager::_servTree;
+std::map<std::string,
+         std::map<std::string, std::map<std::string, PropertyVariantType>>>
+    Manager::_objects;
 
 Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     _bus(bus), _event(event)
