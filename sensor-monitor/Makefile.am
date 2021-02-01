@@ -6,6 +6,7 @@ bin_PROGRAMS = \
 
 sensor_monitor_SOURCES = \
     shutdown_alarm_monitor.cpp \
+    threshold_alarm_logger.cpp \
 	main.cpp
 
 sensor_monitor_LDADD = \
