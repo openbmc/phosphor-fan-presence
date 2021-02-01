@@ -115,7 +115,42 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(sdbusplus::bus::bus& bus,
 
 void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message::message& msg)
 {
-    // TODO
+    std::map<std::string, std::variant<bool>> properties;
+    std::string sensorPath = msg.get_path();
+    std::string interface;
+
+    msg.read(interface, properties);
+
+    auto alarmProperties = thresholdData.find(interface);
+    if (alarmProperties == thresholdData.end())
+    {
+        return;
+    }
+
+    for (const auto& [propertyName, propertyValue] : properties)
+    {
+        if (alarmProperties->second.find(propertyName) !=
+            alarmProperties->second.end())
+        {
+            // If this is the first time we've seen this alarm, then
+            // assume it was off before so it doesn't create an event
+            // log for a value of false.
+
+            InterfaceKey key{sensorPath, interface};
+            if (alarms.find(key) == alarms.end())
+            {
+                alarms[key][propertyName] = false;
+            }
+
+            // Check if the value changed from what was there before.
+            auto alarmValue = std::get<bool>(propertyValue);
+            if (alarmValue != alarms[key][propertyName])
+            {
+                alarms[key][propertyName] = alarmValue;
+                createEventLog(sensorPath, interface, propertyName, alarmValue);
+            }
+        }
+    }
 }
 
 void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
