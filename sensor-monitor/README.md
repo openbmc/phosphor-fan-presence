@@ -16,4 +16,14 @@ time.  Event logs will also be created.
 The configuration options `SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS` and
 `SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS` can be used to change the delays.
 
-Currently, this monitor is enabled by default.
+### ThresholdAlarmLogger
+
+This monitor will watch the alarm properties on the following threshold
+D-Bus interfaces:
+
+- `xyz.openbmc_project.Sensor.Threshold.Warning`
+- `xyz.openbmc_project.Sensor.Threshold.Critical`
+- `xyz.openbmc_project.Sensor.Threshold.PerformanceLoss`
+
+When the alarm properties are asserted, event logs are created.  When they are
+deasserted, informational event logs are created.

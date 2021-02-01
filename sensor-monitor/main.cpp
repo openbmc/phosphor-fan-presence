@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 #include "shutdown_alarm_monitor.hpp"
+#include "threshold_alarm_logger.hpp"
 
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
@@ -27,6 +28,8 @@ int main(int argc, char* argv[])
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
     ShutdownAlarmMonitor shutdownMonitor{bus, event};
+
+    ThresholdAlarmLogger logger{bus, event};
 
     return event.loop();
 }
