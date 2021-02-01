@@ -15,8 +15,19 @@
  */
 #include "threshold_alarm_logger.hpp"
 
+#include "sdbusplus.hpp"
+
+#include <fmt/format.h>
+
+#include <phosphor-logging/log.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
+
 namespace sensor::monitor
 {
+
+using namespace sdbusplus::xyz::openbmc_project::Logging::server;
+using namespace phosphor::logging;
+using namespace phosphor::fan::util;
 
 const std::string warningInterface =
     "xyz.openbmc_project.Sensor.Threshold.Warning";
@@ -24,6 +35,44 @@ const std::string criticalInterface =
     "xyz.openbmc_project.Sensor.Threshold.Critical";
 const std::string perfLossInterface =
     "xyz.openbmc_project.Sensor.Threshold.PerformanceLoss";
+
+using ErrorData = std::tuple<ErrorName, Entry::Level>;
+
+/**
+ * Map of threshold interfaces and alarm properties and values to error data.
+ */
+const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
+    thresholdData{
+
+        {warningInterface,
+         {{"WarningAlarmHigh",
+           {{true, ErrorData{"WarningHigh", Entry::Level::Warning}},
+            {false,
+             ErrorData{"WarningHighClear", Entry::Level::Informational}}}},
+          {"WarningAlarmLow",
+           {{true, ErrorData{"WarningLow", Entry::Level::Warning}},
+            {false,
+             ErrorData{"WarningLowClear", Entry::Level::Informational}}}}}},
+
+        {criticalInterface,
+         {{"CriticalAlarmHigh",
+           {{true, ErrorData{"CriticalHigh", Entry::Level::Critical}},
+            {false,
+             ErrorData{"CriticalHighClear", Entry::Level::Informational}}}},
+          {"CriticalAlarmLow",
+           {{true, ErrorData{"CriticalLow", Entry::Level::Critical}},
+            {false,
+             ErrorData{"CriticalLowClear", Entry::Level::Informational}}}}}},
+
+        {perfLossInterface,
+         {{"PerfLossAlarmHigh",
+           {{true, ErrorData{"PerfLossHigh", Entry::Level::Warning}},
+            {false,
+             ErrorData{"PerfLossHighClear", Entry::Level::Informational}}}},
+          {"PerfLossAlarmLow",
+           {{true, ErrorData{"PerfLossLow", Entry::Level::Warning}},
+            {false,
+             ErrorData{"PerfLossLowClear", Entry::Level::Informational}}}}}}};
 
 ThresholdAlarmLogger::ThresholdAlarmLogger(sdbusplus::bus::bus& bus,
                                            sdeventplus::Event& event) :
@@ -50,9 +99,69 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(sdbusplus::bus::bus& bus,
                       perfLossInterface + "'",
                   std::bind(&ThresholdAlarmLogger::propertiesChanged, this,
                             std::placeholders::_1))
-{}
+{
+    // check for any currently asserted threshold alarms
+    std::for_each(
+        thresholdData.begin(), thresholdData.end(),
+        [this](const auto& thresholdInterface) {
+            const auto& interface = thresholdInterface.first;
+            auto objects =
+                SDBusPlus::getSubTreeRaw(this->bus, "/", interface, 0);
+            std::for_each(objects.begin(), objects.end(),
+                          [interface, this](const auto& object) {
+                              const auto& path = object.first;
+                              const auto& service =
+                                  object.second.begin()->first;
+                              checkThresholds(interface, path, service);
+                          });
+        });
+}
 
 void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message::message& msg)
+{
+    // TODO
+}
+
+void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
+                                           const std::string& sensorPath,
+                                           const std::string& service)
+{
+    auto properties = thresholdData.find(interface);
+    if (properties == thresholdData.end())
+    {
+        return;
+    }
+
+    for (const auto& [property, unused] : properties->second)
+    {
+        try
+        {
+            auto alarmValue = SDBusPlus::getProperty<bool>(
+                bus, service, sensorPath, interface, property);
+            alarms[InterfaceKey(sensorPath, interface)][property] = alarmValue;
+
+            // This is just for checking alarms on startup,
+            // so only look for active alarms.
+            if (alarmValue)
+            {
+                createEventLog(sensorPath, interface, property, alarmValue);
+            }
+        }
+        catch (const DBusError& e)
+        {
+            log<level::ERR>(
+                fmt::format("Failed reading sensor threshold properties: {}",
+                            e.what())
+                    .c_str());
+            continue;
+        }
+    }
+}
+
+void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
+                                          const std::string& interface,
+                                          const std::string& alarmProperty,
+                                          bool alarmValue)
 {
     // TODO
 }

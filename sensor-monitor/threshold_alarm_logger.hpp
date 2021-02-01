@@ -22,6 +22,12 @@
 namespace sensor::monitor
 {
 
+using InterfaceName = std::string;
+using PropertyName = std::string;
+using ErrorName = std::string;
+using ObjectPath = std::string;
+using InterfaceKey = std::tuple<ObjectPath, InterfaceName>;
+
 /**
  * @class ThresholdAlarmLogger
  *
@@ -69,6 +75,30 @@ class ThresholdAlarmLogger
     void propertiesChanged(sdbusplus::message::message& msg);
 
     /**
+     * @brief Checks for active alarms on the path and threshold interface
+     *        passed in and creates event logs if necessary.
+     *
+     * @param[in] interface - The threshold interface
+     * @param[in] sensorPath - The sensor D-Bus path
+     * @param[in] service - The D-Bus service that owns the interface
+     */
+    void checkThresholds(const std::string& interface,
+                         const std::string& sensorPath,
+                         const std::string& service);
+
+    /**
+     * @brief Creates an event log for the alarm set/clear
+     *
+     * @param[in] sensorPath - The sensor object path
+     * @param[in] interface - The threshold interface
+     * @param[in] alarmProperty - The alarm property name
+     * @param[in] alarmValue - The alarm value
+     */
+    void createEventLog(const std::string& sensorPath,
+                        const std::string& interface,
+                        const std::string& alarmProperty, bool alarmValue);
+
+    /**
      * @brief The sdbusplus bus object
      */
     sdbusplus::bus::bus& bus;
@@ -92,6 +122,11 @@ class ThresholdAlarmLogger
      * @brief The PerformanceLoss interface match object
      */
     sdbusplus::bus::match::match perfLossMatch;
+
+    /**
+     * @brief The current alarm values
+     */
+    std::map<InterfaceKey, std::map<PropertyName, bool>> alarms;
 };
 
 } // namespace sensor::monitor
