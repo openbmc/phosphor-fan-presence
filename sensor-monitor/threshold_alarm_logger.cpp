@@ -35,6 +35,12 @@ const std::string criticalInterface =
     "xyz.openbmc_project.Sensor.Threshold.Critical";
 const std::string perfLossInterface =
     "xyz.openbmc_project.Sensor.Threshold.PerformanceLoss";
+constexpr auto loggingService = "xyz.openbmc_project.Logging";
+constexpr auto loggingPath = "/xyz/openbmc_project/logging";
+constexpr auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
+constexpr auto errorNameBase = "xyz.openbmc_project.Sensor.Threshold.Error.";
+constexpr auto valueInterface = "xyz.openbmc_project.Sensor.Value";
+constexpr auto assocInterface = "xyz.openbmc_project.Association";
 
 using ErrorData = std::tuple<ErrorName, Entry::Level>;
 
@@ -194,7 +200,118 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
                                           const std::string& alarmProperty,
                                           bool alarmValue)
 {
-    // TODO
+    std::map<std::string, std::string> ad;
+
+    auto type = getSensorType(sensorPath);
+    if (skipSensorType(type))
+    {
+        return;
+    }
+
+    auto it = thresholdData.find(interface);
+    if (it == thresholdData.end())
+    {
+        return;
+    }
+
+    auto properties = it->second.find(alarmProperty);
+    if (properties == it->second.end())
+    {
+        log<level::INFO>(
+            fmt::format("Could not find {} in threshold alarms map",
+                        alarmProperty)
+                .c_str());
+        return;
+    }
+
+    ad.emplace("SENSOR_NAME", sensorPath);
+
+    try
+    {
+        auto sensorValue = SDBusPlus::getProperty<double>(
+            bus, sensorPath, valueInterface, "Value");
+
+        ad.emplace("SENSOR_VALUE", std::to_string(sensorValue));
+
+        log<level::INFO>(
+            fmt::format("Threshold Event {} {} = {} (sensor value {})",
+                        sensorPath, alarmProperty, alarmValue, sensorValue)
+                .c_str());
+    }
+    catch (const DBusServiceError& e)
+    {
+        // If the sensor was just added, the Value interface for it may
+        // not be in the mapper yet.  This could only happen if the sensor
+        // application was started up after this one and the value exceeded the
+        // threshold immediately.
+        log<level::INFO>(fmt::format("Threshold Event {} {} = {}", sensorPath,
+                                     alarmProperty, alarmValue)
+                             .c_str());
+    }
+
+    auto callout = getCallout(sensorPath);
+    if (!callout.empty())
+    {
+        ad.emplace("CALLOUT_INVENTORY_PATH", callout);
+    }
+
+    auto errorData = properties->second.find(alarmValue);
+
+    // Add the base error name and the sensor type (like Temperature) to the
+    // error name that's in the thresholdData name to get something like
+    // xyz.openbmc_project.Sensor.Threshold.Error.TemperatureWarningHigh
+    const auto& [name, severity] = errorData->second;
+    type.front() = toupper(type.front());
+    std::string errorName = errorNameBase + type + name;
+
+    SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
+                          "Create", errorName, convertForMessage(severity), ad);
+}
+
+std::string ThresholdAlarmLogger::getSensorType(std::string sensorPath)
+{
+    sensorPath = sensorPath.substr(0, sensorPath.find_last_of('/'));
+    return sensorPath.substr(sensorPath.find_last_of('/') + 1);
+}
+
+bool ThresholdAlarmLogger::skipSensorType(const std::string& type)
+{
+    return (type == "utilization");
+}
+
+std::string ThresholdAlarmLogger::getCallout(const std::string& sensorPath)
+{
+    const std::array<std::string, 2> assocTypes{"inventory", "chassis"};
+
+    // Different implementations handle the association to the FRU
+    // differently:
+    //  * phosphor-inventory-manager uses the 'inventory' association
+    //    to point to the FRU.
+    //  * dbus-sensors/entity-manager uses the 'chassis' association'.
+    //  * For virtual sensors, no association.
+
+    for (const auto& assocType : assocTypes)
+    {
+        auto assocPath = sensorPath + "/" + assocType;
+
+        try
+        {
+            auto endpoints = SDBusPlus::getProperty<std::vector<std::string>>(
+                bus, assocPath, assocInterface, "endpoints");
+
+            if (!endpoints.empty())
+            {
+                return endpoints[0];
+            }
+        }
+        catch (const DBusServiceError& e)
+        {
+            // The association doesn't exist
+            continue;
+        }
+    }
+
+    return std::string{};
 }
 
 } // namespace sensor::monitor
