@@ -97,6 +97,42 @@ class ThresholdAlarmLogger
                         const std::string& alarmProperty, bool alarmValue);
 
     /**
+     * @brief Returns the type of the sensor using the path segment
+     *        that precedes the sensor name.
+     *
+     * /xyz/openbmc_project/sensors/voltage/vout -> type == voltage
+     *
+     * @param[in] sensorPath - The sensor object path name
+     *
+     * @return std::string The type segment
+     */
+    std::string getSensorType(std::string sensorPath);
+
+    /**
+     * @brief Allows for skipping event logs based on the sensor type.
+     *
+     * Specifically for the 'utilization' type because its provider
+     * doesn't support configurable thresholds yet.
+     *
+     * @param[in] type - The sensor type, like 'temperature'.
+     * @return bool - If it can be skipped or not.
+     */
+    bool skipSensorType(const std::string& type);
+
+    /**
+     * @brief Returns the inventory path to use for a FRU callout
+     *        for the alarm exceeded errors.
+     *
+     * It finds the path by looking for 'inventory' or 'chassis'
+     * association objects on the sensor that point to a FRU.
+     *
+     * @param[in] std::string - The sensor object path
+     * @return std::string - The inventory path for the FRU callout.
+     *                       May be empty if none found.
+     */
+    std::string getCallout(const std::string& sensorPath);
+
+    /**
      * @brief The sdbusplus bus object
      */
     sdbusplus::bus::bus& bus;
