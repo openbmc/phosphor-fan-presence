@@ -49,9 +49,9 @@ class DefaultFloor : public ActionBase, public ActionRegister<DefaultFloor>
     /**
      * @brief Default the fan floor
      *
-     * No JSON configuration parameters required
+     * @param[in] jsonObj - JSON configuration of this action
      */
-    explicit DefaultFloor(const json&);
+    explicit DefaultFloor(const json& jsonObj);
 
     /**
      * @brief Run the action
