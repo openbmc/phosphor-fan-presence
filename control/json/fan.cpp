@@ -35,13 +35,6 @@ constexpr auto FAN_TARGET_PROPERTY = "Target";
 Fan::Fan(sdbusplus::bus::bus& bus, const json& jsonObj) :
     ConfigBase(jsonObj), _bus(bus)
 {
-    if (jsonObj.contains("profiles"))
-    {
-        for (const auto& profile : jsonObj["profiles"])
-        {
-            _profiles.emplace_back(profile.get<std::string>());
-        }
-    }
     setInterface(jsonObj);
     setSensors(jsonObj);
     setZone(jsonObj);

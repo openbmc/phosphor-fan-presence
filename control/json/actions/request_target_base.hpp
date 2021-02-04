@@ -54,9 +54,9 @@ class RequestTargetBase :
     /**
      * @brief Update the requested target base
      *
-     * No JSON configuration parameters required
+     * @param[in] jsonObj - JSON configuration of this action
      */
-    explicit RequestTargetBase(const json&);
+    explicit RequestTargetBase(const json& jsonObj);
 
     /**
      * @brief Run the action
