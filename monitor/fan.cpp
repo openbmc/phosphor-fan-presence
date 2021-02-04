@@ -55,6 +55,12 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
                                             util::INV_ITEM_IFACE),
                    std::bind(std::mem_fn(&Fan::presenceChanged), this,
                              std::placeholders::_1)),
+    _presenceIfaceAddedMatch(
+        bus,
+        rules::interfacesAdded() +
+            rules::argNpath(0, util::INVENTORY_PATH + _name),
+        std::bind(std::mem_fn(&Fan::presenceIfaceAdded), this,
+                  std::placeholders::_1)),
     _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def))
 {
     // Start from a known state of functional (even if
@@ -102,25 +108,11 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         tachChanged();
     }
 #else
-    // If it used the JSON config, then it also will do all the work
-    // out of fan-monitor-init, after _monitorDelay.
-    _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
+    if (_system.isPowerOn())
+    {
+        _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
+    }
 #endif
-
-    // Get the initial presence state
-    bool available = true;
-
-    try
-    {
-        _present = util::SDBusPlus::getProperty<bool>(
-            util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
-    }
-    catch (const util::DBusServiceError& e)
-    {
-        // This could be the initial boot and phosphor-fan-presence hasn't
-        // written to the inventory yet.
-        available = false;
-    }
 
     if (_fanMissingErrorDelay)
     {
@@ -128,15 +120,65 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
             event, std::bind(&System::fanMissingErrorTimerExpired, &system,
                              std::ref(*this)));
+    }
 
-        if (!_present && available)
+    try
+    {
+        _present = util::SDBusPlus::getProperty<bool>(
+            util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
+
+        if (!_present)
         {
             getLogger().log(
                 fmt::format("On startup, fan {} is missing", _name));
+            if (_system.isPowerOn() && _fanMissingErrorTimer)
+            {
+                _fanMissingErrorTimer->restartOnce(
+                    std::chrono::seconds{*_fanMissingErrorDelay});
+            }
+        }
+    }
+    catch (const util::DBusServiceError& e)
+    {
+        // This could happen on the first BMC boot if the presence
+        // detect app hasn't started yet and there isn't an inventory
+        // cache yet.
+    }
+}
+
+void Fan::presenceIfaceAdded(sdbusplus::message::message& msg)
+{
+    sdbusplus::message::object_path path;
+    std::map<std::string, std::map<std::string, std::variant<bool>>> interfaces;
+
+    msg.read(path, interfaces);
+
+    auto properties = interfaces.find(util::INV_ITEM_IFACE);
+    if (properties == interfaces.end())
+    {
+        return;
+    }
+
+    auto property = properties->second.find("Present");
+    if (property == properties->second.end())
+    {
+        return;
+    }
+
+    _present = std::get<bool>(property->second);
+
+    if (!_present)
+    {
+        getLogger().log(fmt::format(
+            "New fan {} interface added and fan is not present", _name));
+        if (_system.isPowerOn() && _fanMissingErrorTimer)
+        {
             _fanMissingErrorTimer->restartOnce(
                 std::chrono::seconds{*_fanMissingErrorDelay});
         }
     }
+
+    _system.fanStatusChange(*this);
 }
 
 void Fan::startMonitor()
@@ -159,6 +201,11 @@ void Fan::tachChanged()
 
 void Fan::tachChanged(TachSensor& sensor)
 {
+    if (!_system.isPowerOn() || !_monitorReady)
+    {
+        return;
+    }
+
     if (_trustManager->active())
     {
         if (!_trustManager->checkTrust(sensor))
@@ -260,6 +307,12 @@ bool Fan::outOfRange(const TachSensor& sensor)
 void Fan::updateState(TachSensor& sensor)
 {
     auto range = sensor.getRange(_deviation);
+
+    if (!_system.isPowerOn())
+    {
+        return;
+    }
+
     sensor.setFunctional(!sensor.functional());
     getLogger().log(
         fmt::format("Setting tach sensor {} functional state to {}. "
@@ -333,12 +386,12 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
 
         if (_fanMissingErrorDelay)
         {
-            if (!_present)
+            if (!_present && _system.isPowerOn())
             {
                 _fanMissingErrorTimer->restartOnce(
                     std::chrono::seconds{*_fanMissingErrorDelay});
             }
-            else if (_fanMissingErrorTimer->isEnabled())
+            else if (_present && _fanMissingErrorTimer->isEnabled())
             {
                 _fanMissingErrorTimer->setEnabled(false);
             }
@@ -348,10 +401,57 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
 
 void Fan::sensorErrorTimerExpired(const TachSensor& sensor)
 {
-    if (_present)
+    if (_present && _system.isPowerOn())
     {
         _system.sensorErrorTimerExpired(*this, sensor);
     }
+}
+
+void Fan::powerStateChanged(bool powerStateOn)
+{
+#ifdef MONITOR_USE_JSON
+    if (powerStateOn)
+    {
+        // set all fans back to functional to start with
+        std::for_each(_sensors.begin(), _sensors.end(),
+                      [](auto& sensor) { sensor->setFunctional(true); });
+
+        _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
+
+        if (!_present)
+        {
+            getLogger().log(
+                fmt::format("At power on, fan {} is missing", _name));
+
+            if (_fanMissingErrorTimer)
+            {
+                _fanMissingErrorTimer->restartOnce(
+                    std::chrono::seconds{*_fanMissingErrorDelay});
+            }
+        }
+    }
+    else
+    {
+        _monitorReady = false;
+
+        if (_monitorTimer.isEnabled())
+        {
+            _monitorTimer.setEnabled(false);
+        }
+
+        if (_fanMissingErrorTimer && _fanMissingErrorTimer->isEnabled())
+        {
+            _fanMissingErrorTimer->setEnabled(false);
+        }
+
+        std::for_each(_sensors.begin(), _sensors.end(), [](auto& sensor) {
+            if (sensor->timerRunning())
+            {
+                sensor->stopTimer();
+            }
+        });
+    }
+#endif
 }
 
 } // namespace monitor
