@@ -32,6 +32,8 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
+#include <iomanip>
+
 namespace phosphor::fan::monitor
 {
 
@@ -48,11 +50,18 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
         bus, std::bind(std::mem_fn(&System::powerStateChanged), this,
                        std::placeholders::_1))),
     _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
-{
+{}
 
+void System::start(
+#ifdef MONITOR_USE_JSON
+    const std::string& confFile
+#endif
+)
+{
+    _started = true;
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
-    jsonObj = getJsonObj(bus);
+    jsonObj = fan::JsonConfig::load(confFile);
 #endif
     // Retrieve and set trust groups within the trust manager
     setTrustMgr(getTrustGroups(jsonObj));
@@ -61,18 +70,8 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     setFaultConfig(jsonObj);
     log<level::INFO>("Configuration loaded");
 
-    // Since this doesn't run at standby yet, powerStateChanged
-    // will never be called so for now treat start up as the
-    // pgood.  When this does run at standby, the 'atPgood'
-    // rules won't need to be checked here.
     if (_powerState->isPowerOn())
     {
-        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
-                      [this](auto& rule) {
-                          rule->check(PowerRuleState::atPgood, _fanHealth);
-                      });
-        // Runtime rules still need to be checked since fans may already
-        // be missing that could trigger a runtime rule.
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
                           rule->check(PowerRuleState::runtime, _fanHealth);
@@ -202,8 +201,18 @@ void System::setFaultConfig(const json& jsonObj)
 
 void System::powerStateChanged(bool powerStateOn)
 {
+    std::for_each(_fans.begin(), _fans.end(), [powerStateOn](auto& fan) {
+        fan->powerStateChanged(powerStateOn);
+    });
+
     if (powerStateOn)
     {
+        if (!_started)
+        {
+            log<level::ERR>("No conf file found at power on");
+            throw std::runtime_error("No conf file fount at power on");
+        }
+
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
                           rule->check(PowerRuleState::atPgood, _fanHealth);

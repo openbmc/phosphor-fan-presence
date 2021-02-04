@@ -76,35 +76,33 @@ class PowerOffRule
      */
     void check(PowerRuleState state, const FanHealth& fanHealth)
     {
-        if (state == _validState)
+        auto satisfied = _cause->satisfied(fanHealth);
+
+        // Only start an action if it matches on the current state,
+        // but be able to stop it no matter what the state is.
+        if (!_active && satisfied && (state == _validState))
         {
-            auto satisfied = _cause->satisfied(fanHealth);
+            // Start the action
+            getLogger().log(
+                fmt::format("Starting shutdown action '{}' due to cause '{}'",
+                            _action->name(), _cause->name()));
 
-            if (!_active && satisfied)
+            _active = true;
+            _action->start();
+        }
+        else if (_active && !satisfied)
+        {
+            // Attempt to cancel the action, but don't force it
+            if (_action->cancel(false))
             {
-                // Start the action
-                getLogger().log(fmt::format(
-                    "Starting shutdown action '{}' due to cause '{}'",
-                    _action->name(), _cause->name()));
-
-                _active = true;
-                _action->start();
+                getLogger().log(fmt::format("Stopped shutdown action '{}'",
+                                            _action->name()));
+                _active = false;
             }
-            else if (_active && !satisfied)
+            else
             {
-                // Attempt to cancel the action, but don't force it
-                if (_action->cancel(false))
-                {
-                    getLogger().log(fmt::format("Stopped shutdown action '{}'",
-                                                _action->name()));
-                    _active = false;
-                }
-                else
-                {
-                    getLogger().log(
-                        fmt::format("Could not stop shutdown action '{}'",
-                                    _action->name()));
-                }
+                getLogger().log(fmt::format(
+                    "Could not stop shutdown action '{}'", _action->name()));
             }
         }
     }
