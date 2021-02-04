@@ -48,6 +48,13 @@ class ConfigBase
     {
         // Set the name of this configuration object
         setName(jsonObj);
+        if (jsonObj.contains("profiles"))
+        {
+            for (const auto& profile : jsonObj["profiles"])
+            {
+                _profiles.emplace_back(profile.get<std::string>());
+            }
+        }
     }
 
     /**

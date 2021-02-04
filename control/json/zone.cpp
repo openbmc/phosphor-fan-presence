@@ -54,13 +54,6 @@ Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     _incDelay(0), _floor(0), _target(0), _incDelta(0), _requestTargetBase(0),
     _isActive(true)
 {
-    if (jsonObj.contains("profiles"))
-    {
-        for (const auto& profile : jsonObj["profiles"])
-        {
-            _profiles.emplace_back(profile.get<std::string>());
-        }
-    }
     // Increase delay is optional, defaults to 0
     if (jsonObj.contains("increase_delay"))
     {

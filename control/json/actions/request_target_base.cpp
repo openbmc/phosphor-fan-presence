@@ -32,8 +32,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-RequestTargetBase::RequestTargetBase(const json&) :
-    ActionBase(RequestTargetBase::name)
+RequestTargetBase::RequestTargetBase(const json& jsonObj) : ActionBase(jsonObj)
 {
     // There are no JSON configuration parameters for this action
 }
