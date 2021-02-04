@@ -15,8 +15,14 @@
  */
 #include "config.h"
 
+#ifndef MONITOR_USE_JSON
 #include "argument.hpp"
+#endif
 #include "fan.hpp"
+#ifdef MONITOR_USE_JSON
+#include "json_config.hpp"
+#include "json_parser.hpp"
+#endif
 #include "system.hpp"
 #include "trust_manager.hpp"
 
@@ -31,6 +37,9 @@ int main(int argc, char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();
+    Mode mode = Mode::init;
+
+#ifndef MONITOR_USE_JSON
     phosphor::fan::util::ArgumentParser args(argc, argv);
 
     if (argc != 2)
@@ -39,7 +48,6 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    Mode mode;
     if (args["init"] == "true")
     {
         mode = Mode::init;
@@ -53,15 +61,6 @@ int main(int argc, char* argv[])
         args.usage(argv);
         return 1;
     }
-
-    // If using JSON, then everything is handled in a single
-    // step - the init step.  Hopefully these can eventually be
-    // reduced into a single invocation.
-#ifdef MONITOR_USE_JSON
-    if (mode == Mode::monitor)
-    {
-        return 0;
-    }
 #endif
 
     // Attach the event object to the bus object so we can
@@ -71,17 +70,21 @@ int main(int argc, char* argv[])
     System system(mode, bus, event);
 
 #ifdef MONITOR_USE_JSON
+
+    phosphor::fan::JsonConfig config(
+        bus, confAppName, confFileName,
+        std::bind(&System::start, &system, std::placeholders::_1));
+
     // Enable SIGHUP handling to reload JSON config
     stdplus::signal::block(SIGHUP);
     sdeventplus::source::Signal signal(event, SIGHUP,
                                        std::bind(&System::sighupHandler,
                                                  &system, std::placeholders::_1,
                                                  std::placeholders::_2));
-
     bus.request_name(THERMAL_ALERT_BUSNAME);
-#endif
+#else
+    system.start();
 
-#ifndef MONITOR_USE_JSON
     if (mode == Mode::init)
     {
         // Fans were initialized to be functional, exit

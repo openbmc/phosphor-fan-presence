@@ -49,7 +49,6 @@ class System
 
     /**
      * Constructor
-     * Parses and populates the fan monitor trust groups and list of fans
      *
      * @param[in] mode - mode of fan monitor
      * @param[in] bus - sdbusplus bus object
@@ -100,6 +99,26 @@ class System
      */
     void logShutdownError();
 
+    /**
+     * @brief Returns true if power is on
+     */
+    bool isPowerOn() const
+    {
+        return _powerState->isPowerOn();
+    }
+
+    /**
+     * @brief Parses and populates the fan monitor
+     *        trust groups and list of fans
+     *
+     * @param[in] confFile - The config file path
+     */
+    void start(
+#ifdef MONITOR_USE_JSON
+        const std::string& confFile
+#endif
+    );
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
@@ -149,6 +168,11 @@ class System
      * @brief The thermal alert D-Bus object
      */
     ThermalAlertObject _thermalAlert;
+
+    /**
+     * @brief If start() has been called
+     */
+    bool _started = false;
 
     /**
      * @brief Captures tach sensor data as JSON for use in
