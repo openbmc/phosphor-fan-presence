@@ -4,6 +4,17 @@ AM_CPPFLAGS = -iquote ${top_srcdir}
 bin_PROGRAMS = \
 	phosphor-fan-monitor
 
+systemdsystemunit_DATA=
+
+if WANT_JSON
+systemdsystemunit_DATA += \
+	service_files/json/phosphor-fan-monitor@.service
+else
+systemdsystemunit_DATA += \
+	service_files/json/phosphor-fan-monitor@.service \
+	service_files/json/phosphor-fan-monitor-init@.service
+endif
+
 phosphor_fan_monitor_SOURCES = \
 	argument.cpp \
 	fan.cpp \
