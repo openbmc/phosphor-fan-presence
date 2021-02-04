@@ -166,6 +166,13 @@ class Fan
      */
     void sensorErrorTimerExpired(const TachSensor& sensor);
 
+    /**
+     * @brief The function that runs when the power state changes
+     *
+     * @param[in] powerStateOn - If power is now on or not
+     */
+    void powerStateChanged(bool powerStateOn);
+
   private:
     /**
      * @brief Returns true if the sensor input is not within
@@ -201,6 +208,15 @@ class Fan
      * @param[in] msg - The message from the propertiesChanged signal
      */
     void presenceChanged(sdbusplus::message::message& msg);
+
+    /**
+     * @brief Called when there is an interfacesAdded signal on the
+     *        fan D-Bus path so the code can look for the 'Present'
+     *        property value.
+     *
+     * @param[in] msg - The message from the interfacesAdded signal
+     */
+    void presenceIfaceAdded(sdbusplus::message::message& msg);
 
     /**
      * @brief the dbus object
@@ -275,6 +291,12 @@ class Fan
      *        Present property.
      */
     sdbusplus::bus::match::match _presenceMatch;
+
+    /**
+     * @brief The match object for the interfacesAdded signal
+     *        for the interface that has the Present property.
+     */
+    sdbusplus::bus::match::match _presenceIfaceAddedMatch;
 
     /**
      * @brief The current presence state
