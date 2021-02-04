@@ -242,7 +242,10 @@ AS_IF([test "x$enable_monitor" != "xno"], [
     AC_DEFINE_UNQUOTED([THERMAL_ALERT_OBJPATH], ["$THERMAL_ALERT_OBJPATH"],
                        [The thermal alert D-Bus object path])
 
-    AC_CONFIG_FILES([monitor/Makefile])
+    AC_CONFIG_FILES([monitor/Makefile
+                     monitor/service_files/json/phosphor-fan-monitor@.service
+                     monitor/service_files/yaml/phosphor-fan-monitor-init@.service
+                     monitor/service_files/yaml/phosphor-fan-monitor@.service])
 ])
 
 eval "eval BINDIR=$bindir"
