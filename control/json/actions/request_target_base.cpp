@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "request_target_base.hpp"
+
 #include "../manager.hpp"
 #include "../zone.hpp"
 #include "group.hpp"
-#include "request_target_base.hpp"
 
 #include <fmt/format.h>
 
@@ -31,8 +32,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-RequestTargetBase::RequestTargetBase(const json&) :
-    ActionBase(RequestTargetBase::name)
+RequestTargetBase::RequestTargetBase(const json& jsonObj) : ActionBase(jsonObj)
 {
     // There are no JSON configuration parameters for this action
 }

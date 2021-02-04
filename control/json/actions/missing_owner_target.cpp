@@ -33,7 +33,7 @@ using json = nlohmann::json;
 using namespace phosphor::logging;
 
 MissingOwnerTarget::MissingOwnerTarget(const json& jsonObj) :
-    ActionBase(MissingOwnerTarget::name)
+    ActionBase(jsonObj)
 {
     setTarget(jsonObj);
 }
@@ -58,13 +58,8 @@ void MissingOwnerTarget::setTarget(const json& jsonObj)
 {
     if (!jsonObj.contains("speed"))
     {
-        log<level::ERR>(
-            fmt::format("Action {}: Missing required speed value", getName())
-                .c_str(),
-            entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error(
-            fmt::format("Action {}: Missing required speed value", getName())
-                .c_str());
+        throw ActionParseError{ActionBase::getName(),
+                               "Missing required speed value"};
     }
     _target = jsonObj["speed"].get<uint64_t>();
 }
