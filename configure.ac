@@ -212,6 +212,7 @@ AS_IF([test "x$enable_monitor" != "xno"], [
         # Set config flag for runtime json usage
         AC_DEFINE([MONITOR_USE_JSON], [1], [Fan monitor use runtime json configuration])
         AC_MSG_NOTICE([Fan monitor json configuration usage enabled])
+        AC_CONFIG_FILES([monitor/service_files/json/phosphor-fan-monitor@.service])
     ],
     [
         AC_ARG_VAR(FAN_MONITOR_YAML_FILE,
@@ -224,6 +225,9 @@ AS_IF([test "x$enable_monitor" != "xno"], [
         AC_SUBST([GEN_FAN_MONITOR_DEFS],
                  ["$PYTHON \${top_srcdir}/monitor/gen-fan-monitor-defs.py \
                   -m $FAN_MONITOR_YAML_FILE"])
+
+        AC_CONFIG_FILES([monitor/service_files/yaml/phosphor-fan-monitor-init@.service
+                         monitor/service_files/yaml/phosphor-fan-monitor@.service])
     ])
 
     AC_ARG_VAR(NUM_MONITOR_LOG_ENTRIES, [Maximum number of entries in the message log])
