@@ -4,6 +4,16 @@ AM_CPPFLAGS = -iquote ${top_srcdir}
 bin_PROGRAMS = \
 	phosphor-fan-presence-tach
 
+systemdsystemunit_DATA=
+
+if WANT_JSON
+systemdsystemunit_DATA += \
+	service_files/json/phosphor-fan-presence-tach@.service
+else
+systemdsystemunit_DATA += \
+	service_files/yaml/phosphor-fan-presence-tach@.service
+endif
+
 phosphor_fan_presence_tach_SOURCES = \
 	anyof.cpp \
 	error_reporter.cpp \
