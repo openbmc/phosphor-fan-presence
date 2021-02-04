@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6b405d55_62d2f23a",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-04T17:13:43Z",
+      "side": 1,
+      "message": "I can just take it out.  I was doing it just to get an extra trace in there but I wouldn\u0027t expect this to ever fail.",
+      "parentUuid": "5ca8207a_5f43383b",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 9
+      },
+      "revId": "076090069d397aee1454483f96c698cb24fe05d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3a01e113_e826a1e5",
         "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "076090069d397aee1454483f96c698cb24fe05d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "679713e3_c8e049e2",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-04T17:13:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a01e113_e826a1e5",
+      "range": {
+        "startLine": 38,
+        "startChar": 35,
+        "endLine": 38,
+        "endChar": 38
+      },
+      "revId": "076090069d397aee1454483f96c698cb24fe05d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "5a688c5c_f7e07ac3",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-04T17:13:43Z",
+      "side": 1,
+      "message": "it\u0027s in a future commit, i just wanted to document the whole functionality at once.",
+      "parentUuid": "4303c0e7_3cf8ab3d",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 39,
+        "endChar": 23
+      },
+      "revId": "076090069d397aee1454483f96c698cb24fe05d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd56fd99_3a533b1a",
         "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2021-02-04T16:10:58Z",
       "side": 1,
       "message": "nit: *to",
+      "range": {
+        "startLine": 46,
+        "startChar": 15,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "076090069d397aee1454483f96c698cb24fe05d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d257072e_20637ac3",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-04T17:13:43Z",
+      "side": 1,
+      "message": "reworded a bit differently.",
+      "parentUuid": "bd56fd99_3a533b1a",
       "range": {
         "startLine": 46,
         "startChar": 15,
