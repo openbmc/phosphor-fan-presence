@@ -15,6 +15,7 @@
  */
 #pragma once
 
+#include "config_base.hpp"
 #include "group.hpp"
 #include "zone.hpp"
 
@@ -36,6 +37,40 @@ using json = nlohmann::json;
 using namespace phosphor::logging;
 
 /**
+ * @class ActionParseError - A parsing error exception
+ *
+ * A parsing error exception that can be used to terminate the application
+ * due to not being able to successfully parse a configured action.
+ */
+class ActionParseError : public std::runtime_error
+{
+  public:
+    ActionParseError() = delete;
+    ActionParseError(const ActionParseError&) = delete;
+    ActionParseError(ActionParseError&&) = delete;
+    ActionParseError& operator=(const ActionParseError&) = delete;
+    ActionParseError& operator=(ActionParseError&&) = delete;
+    ~ActionParseError() = default;
+
+    /**
+     * @brief Action parsing error object
+     *
+     * When parsing an action from the JSON configuration, any critical
+     * attributes that fail to be parsed for an action can throw an
+     * ActionParseError exception to log the parsing failure details and
+     * terminate the application.
+     *
+     * @param[in] name - Name of the action
+     * @param[in] details - Additional details of the parsing error
+     */
+    ActionParseError(const std::string& name, const std::string& details) :
+        std::runtime_error(
+            fmt::format("Failed to parse action {} [{}]", name, details)
+                .c_str())
+    {}
+};
+
+/**
  * @brief Function used in creating action objects
  *
  * @param[in] jsonObj - JSON object for the action
@@ -53,7 +88,7 @@ std::unique_ptr<T> createAction(const json& jsonObj)
  *
  * Base class for fan control's event actions
  */
-class ActionBase
+class ActionBase : public ConfigBase
 {
   public:
     ActionBase() = delete;
@@ -67,11 +102,13 @@ class ActionBase
      * @brief Base action object
      *
      * All actions derived from this base action object must be given a name
-     * that uniquely identifies the action.
+     * that uniquely identifies the action. Optionally, a configured action can
+     * have a list of explicit profiles it should be included in, otherwise
+     * always include the action where no profiles are given.
      *
-     * @param[in] name - Unique name of the action
+     * @param[in] jsonObj - JSON object containing name and any profiles
      */
-    explicit ActionBase(const std::string& name) : _name(name)
+    explicit ActionBase(const json& jsonObj) : ConfigBase(jsonObj)
     {}
 
     /**
@@ -85,20 +122,6 @@ class ActionBase
      * @param[in] group - Group of dbus objects the action runs against
      */
     virtual void run(Zone& zone, const Group& group) = 0;
-
-    /**
-     * @brief Get the action's name
-     *
-     * @return Name of the action
-     */
-    inline const auto& getName() const
-    {
-        return _name;
-    }
-
-  private:
-    /* The action's name that is used within the JSON configuration */
-    const std::string _name;
 };
 
 /**

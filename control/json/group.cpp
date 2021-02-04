@@ -26,13 +26,6 @@ using namespace phosphor::logging;
 
 Group::Group(const json& jsonObj) : ConfigBase(jsonObj), _service("")
 {
-    if (jsonObj.contains("profiles"))
-    {
-        for (const auto& profile : jsonObj["profiles"])
-        {
-            _profiles.emplace_back(profile.get<std::string>());
-        }
-    }
     setMembers(jsonObj);
     // Setting the group's service name is optional
     if (jsonObj.contains("service"))
