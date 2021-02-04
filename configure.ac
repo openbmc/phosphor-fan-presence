@@ -59,6 +59,21 @@ AS_IF([test "x$enable_oe_sdk" == "xyes"],
     AC_SUBST([OESDK_TESTCASE_FLAGS], [$testcase_flags])
 )
 
+PKG_PROG_PKG_CONFIG
+AC_ARG_WITH([systemdsystemunitdir],
+     [AS_HELP_STRING([--with-systemdsystemunitdir=DIR], [Directory for systemd service files])],,
+     [with_systemdsystemunitdir=auto])
+AS_IF([test "x$with_systemdsystemunitdir" = "xyes" -o "x$with_systemdsystemunitdir" = "xauto"], [
+     def_systemdsystemunitdir=$($PKG_CONFIG --variable=systemdsystemunitdir systemd)
+
+     AS_IF([test "x$def_systemdsystemunitdir" = "x"],
+   [AS_IF([test "x$with_systemdsystemunitdir" = "xyes"],
+    [AC_MSG_ERROR([systemd support requested but pkg-config unable to query systemd package])])
+    with_systemdsystemunitdir=no],
+   [with_systemdsystemunitdir="$def_systemdsystemunitdir"])])
+AS_IF([test "x$with_systemdsystemunitdir" != "xno"],
+      [AC_SUBST([systemdsystemunitdir], [$with_systemdsystemunitdir])])
+
 AC_ARG_ENABLE([json],
     AS_HELP_STRING([--enable-json], [Use json at runtime to configure fan packages.]))
 AC_ARG_ENABLE([presence],
@@ -92,6 +107,7 @@ AS_IF([test "x$enable_presence" != "xno"], [
         # Set config flag for runtime json usage
         AC_DEFINE([PRESENCE_USE_JSON], [1], [Fan presence use runtime json configuration])
         AC_MSG_NOTICE([Fan presence json configuration usage enabled])
+        AC_CONFIG_FILES([presence/service_files/json/phosphor-fan-presence-tach@.service])
     ],
     [
         # Add optional yaml file argument
@@ -105,6 +121,8 @@ AS_IF([test "x$enable_presence" != "xno"], [
 
        AC_SUBST([PFPGEN],
                 ["$PYTHON \${top_srcdir}/presence/pfpgen.py generate-cpp -i $PRESENCE_CONFIG"])
+
+        AC_CONFIG_FILES([presence/service_files/yaml/phosphor-fan-presence-tach@.service])
     ])
 
     AC_ARG_VAR(NUM_PRESENCE_LOG_ENTRIES, [Maximum number of entries in the message log])
@@ -261,6 +279,10 @@ AS_IF([test "x$enable_sensor_monitor" == "xyes"], [
 
     AC_CONFIG_FILES([sensor-monitor/Makefile])
 ])
+
+eval "eval BINDIR=$bindir"
+AC_SUBST([BINDIR])
+
 
 # Create configured output
 AC_CONFIG_FILES([Makefile test/Makefile presence/test/Makefile monitor/test/Makefile])
