@@ -16,6 +16,24 @@
       "revId": "a92a70a013ac7e3f54a9686b88f49a8d7ff54dce",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e2763d_b64835a1",
+        "filename": "configure.ac",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-04T17:02:06Z",
+      "side": 1,
+      "message": "just some IBM thing that\u0027s evolved over the years.  While I could use a different default value and override it to 23 for us, that probably isn\u0027t worth the trouble at this point since chances are nobody else will use this code.",
+      "parentUuid": "db493d26_8fbe9479",
+      "revId": "a92a70a013ac7e3f54a9686b88f49a8d7ff54dce",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
