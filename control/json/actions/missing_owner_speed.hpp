@@ -51,7 +51,7 @@ class MissingOwnerSpeed :
     /**
      * @brief Set speed on an owner missing
      *
-     * @param[in] jsonObj - JSON containing the configured speed to use
+     * @param[in] jsonObj - JSON configuration of this action
      */
     explicit MissingOwnerSpeed(const json& jsonObj);
 

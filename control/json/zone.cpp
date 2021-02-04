@@ -42,13 +42,6 @@ const std::map<std::string, std::map<std::string, propHandler>>
 
 Zone::Zone(const json& jsonObj) : ConfigBase(jsonObj), _incDelay(0)
 {
-    if (jsonObj.contains("profiles"))
-    {
-        for (const auto& profile : jsonObj["profiles"])
-        {
-            _profiles.emplace_back(profile.get<std::string>());
-        }
-    }
     // Speed increase delay is optional, defaults to 0
     if (jsonObj.contains("increase_delay"))
     {

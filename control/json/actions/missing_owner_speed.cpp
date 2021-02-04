@@ -32,8 +32,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-MissingOwnerSpeed::MissingOwnerSpeed(const json& jsonObj) :
-    ActionBase(MissingOwnerSpeed::name)
+MissingOwnerSpeed::MissingOwnerSpeed(const json& jsonObj) : ActionBase(jsonObj)
 {
     setSpeed(jsonObj);
 }
@@ -58,13 +57,8 @@ void MissingOwnerSpeed::setSpeed(const json& jsonObj)
 {
     if (!jsonObj.contains("speed"))
     {
-        log<level::ERR>(
-            fmt::format("Action {}: Missing required speed value", getName())
-                .c_str(),
-            entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error(
-            fmt::format("Action {}: Missing required speed value", getName())
-                .c_str());
+        throw ActionParseError{ActionBase::getName(),
+                               "Missing required speed value"};
     }
     _speed = jsonObj["speed"].get<uint64_t>();
 }

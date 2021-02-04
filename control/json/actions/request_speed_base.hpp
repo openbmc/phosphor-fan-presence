@@ -54,9 +54,9 @@ class RequestSpeedBase :
     /**
      * @brief Update the requested speed base
      *
-     * No JSON configuration parameters required
+     * @param[in] jsonObj - JSON configuration of this action
      */
-    explicit RequestSpeedBase(const json&);
+    explicit RequestSpeedBase(const json& jsonObj);
 
     /**
      * @brief Run the action
