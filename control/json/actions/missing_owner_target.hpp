@@ -51,7 +51,7 @@ class MissingOwnerTarget :
     /**
      * @brief Set target on an owner missing
      *
-     * @param[in] jsonObj - JSON containing the configured target to use
+     * @param[in] jsonObj - JSON configuration of this action
      */
     explicit MissingOwnerTarget(const json& jsonObj);
 
