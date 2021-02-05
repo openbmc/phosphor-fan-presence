@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9adf35a_a11e0dd8",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-05T17:16:33Z",
+      "side": 1,
+      "message": "I think if we get a messed up clock time, we should log something saying we\u0027re restarting a previously started timer with its original shutdownDelay.",
+      "range": {
+        "startLine": 255,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "d2a8e6480162b7fee6724d4b9473d0490fe06571",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49347d79_98964042",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-05T17:16:33Z",
+      "side": 1,
+      "message": "Does a remainingTime \u003d 0 actually start a timer and we get the timerExpired callback immediately?",
+      "range": {
+        "startLine": 266,
+        "startChar": 12,
+        "endLine": 266,
+        "endChar": 69
+      },
+      "revId": "d2a8e6480162b7fee6724d4b9473d0490fe06571",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
