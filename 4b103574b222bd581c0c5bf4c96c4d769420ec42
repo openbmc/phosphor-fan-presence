@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fd72463_ccaf4cf9",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-05T16:38:16Z",
+      "side": 1,
+      "message": "nit: I understand what you\u0027re saying but the sentence doesnt make sense when read.\n\n\"is being targeted for the host itself to handle the soft shutdown\"",
+      "range": {
+        "startLine": 45,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "4b103574b222bd581c0c5bf4c96c4d769420ec42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "539d32e6_d9ba17a6",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-05T16:38:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b405d55_62d2f23a",
+      "range": {
+        "startLine": 114,
+        "startChar": 8,
+        "endLine": 121,
+        "endChar": 9
+      },
+      "revId": "076090069d397aee1454483f96c698cb24fe05d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a01e113_e826a1e5",
         "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
         "patchSetId": 1
@@ -140,6 +164,30 @@
       "revId": "076090069d397aee1454483f96c698cb24fe05d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56684c8d_792da6ad",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-05T16:38:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5a688c5c_f7e07ac3",
+      "range": {
+        "startLine": 38,
+        "startChar": 46,
+        "endLine": 39,
+        "endChar": 23
+      },
+      "revId": "076090069d397aee1454483f96c698cb24fe05d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
