@@ -22,6 +22,30 @@
       "revId": "4b103574b222bd581c0c5bf4c96c4d769420ec42",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe73865b_d7361f13",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-08T16:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd72463_ccaf4cf9",
+      "range": {
+        "startLine": 45,
+        "startChar": 45,
+        "endLine": 46,
+        "endChar": 40
+      },
+      "revId": "4b103574b222bd581c0c5bf4c96c4d769420ec42",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
