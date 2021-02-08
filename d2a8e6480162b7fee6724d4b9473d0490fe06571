@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76f57eac_a02581b1",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-08T16:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9adf35a_a11e0dd8",
+      "range": {
+        "startLine": 255,
+        "startChar": 8,
+        "endLine": 255,
+        "endChar": 27
+      },
+      "revId": "d2a8e6480162b7fee6724d4b9473d0490fe06571",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49347d79_98964042",
         "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2021-02-05T17:16:33Z",
       "side": 1,
       "message": "Does a remainingTime \u003d 0 actually start a timer and we get the timerExpired callback immediately?",
+      "range": {
+        "startLine": 266,
+        "startChar": 12,
+        "endLine": 266,
+        "endChar": 69
+      },
+      "revId": "d2a8e6480162b7fee6724d4b9473d0490fe06571",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcd51525_3b31f744",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-08T16:01:25Z",
+      "side": 1,
+      "message": "yea, I tested it.",
+      "parentUuid": "49347d79_98964042",
       "range": {
         "startLine": 266,
         "startChar": 12,
