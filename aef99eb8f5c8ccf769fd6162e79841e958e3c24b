@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c256ffa0_4b559482",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-08T16:01:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3994cc95_2037d501",
+      "range": {
+        "startLine": 14,
+        "startChar": 68,
+        "endLine": 14,
+        "endChar": 71
+      },
+      "revId": "aef99eb8f5c8ccf769fd6162e79841e958e3c24b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fce3ed4_7a5aa415",
         "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2021-02-05T16:57:35Z",
       "side": 1,
       "message": "Is this only stopping the timer if its running or always going to call `stopTimer(alarmKey)`? Similar to what we hit recently with fan monitoring always calling to stop the timer regardless whether it was running or not.",
+      "range": {
+        "startLine": 196,
+        "startChar": 8,
+        "endLine": 196,
+        "endChar": 18
+      },
+      "revId": "aef99eb8f5c8ccf769fd6162e79841e958e3c24b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59088174_387e086d",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-08T16:01:25Z",
+      "side": 1,
+      "message": "The Timer object only lives when its running.  As soon as its stopped or expires, it\u0027s deleted.",
+      "parentUuid": "0fce3ed4_7a5aa415",
       "range": {
         "startLine": 196,
         "startChar": 8,
