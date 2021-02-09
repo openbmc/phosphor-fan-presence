@@ -93,6 +93,30 @@
       "revId": "d2a8e6480162b7fee6724d4b9473d0490fe06571",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "230add0c_4945dc6e",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-09T01:03:52Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "bcd51525_3b31f744",
+      "range": {
+        "startLine": 266,
+        "startChar": 12,
+        "endLine": 266,
+        "endChar": 69
+      },
+      "revId": "d2a8e6480162b7fee6724d4b9473d0490fe06571",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
