@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d780faf0_497c7fb5",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-10T22:45:32Z",
+      "side": 1,
+      "message": "Do we need to be subscribing to interfacesRemoved signals to remove (or set back to false) any of these alarms when the service that provides them goes away?",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 50
+      },
+      "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
