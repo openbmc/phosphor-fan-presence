@@ -214,6 +214,14 @@ class TachSensor
     }
 
     /**
+     * @brief Reset the counter used with the `count` monitoring method
+     */
+    inline void resetCounter()
+    {
+        _counter = 0;
+    }
+
+    /**
      * Returns true if the hardware behind this
      * sensor is considered working OK/functional.
      */
