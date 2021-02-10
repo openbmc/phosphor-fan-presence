@@ -214,6 +214,14 @@ class TachSensor
     }
 
     /**
+     * @brief Reset the counter used with the `count` monitoring method
+     */
+    inline void resetCounter()
+    {
+        _counter = 0;
+    }
+
+    /**
      * Returns true if the hardware behind this
      * sensor is considered working OK/functional.
      */
@@ -293,6 +301,11 @@ class TachSensor
      * @return pair - Min/Max range of speeds allowed
      */
     std::pair<uint64_t, uint64_t> getRange(const size_t deviation) const;
+
+    /**
+     * @brief Processes the current state of the sensor
+     */
+    void processState();
 
   private:
     /**

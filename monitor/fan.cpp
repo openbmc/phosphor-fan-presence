@@ -167,6 +167,11 @@ void Fan::tachChanged(TachSensor& sensor)
         }
     }
 
+    process(sensor);
+}
+
+void Fan::process(TachSensor& sensor)
+{
     // If this sensor is out of range at this moment, start
     // its timer, at the end of which the inventory
     // for the fan may get updated to not functional.

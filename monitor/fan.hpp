@@ -166,6 +166,18 @@ class Fan
      */
     void sensorErrorTimerExpired(const TachSensor& sensor);
 
+    /**
+     * @brief Process the state of the given tach sensor without checking
+     * any trust groups the sensor may be included in
+     *
+     * @param[in] sensor - Tach sensor to process
+     *
+     * This function is intended to check the current state of a tach sensor
+     * regardless of whether or not the tach sensor is configured to be in any
+     * trust groups.
+     */
+    void process(TachSensor& sensor);
+
   private:
     /**
      * @brief Returns true if the sensor input is not within
