@@ -294,6 +294,16 @@ class TachSensor
      */
     std::pair<uint64_t, uint64_t> getRange(const size_t deviation) const;
 
+    /**
+     * @brief Processes the current state of the sensor
+     */
+    void processState();
+
+    /**
+     * @brief Resets the monitoring method of the sensor
+     */
+    void resetMethod();
+
   private:
     /**
      * @brief Returns the match string to use for matching

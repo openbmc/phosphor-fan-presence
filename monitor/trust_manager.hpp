@@ -69,10 +69,9 @@ class Manager
      *
      * While checking group trust, the code will also check
      * if the trust status has just changed.  If the status
-     * just changed to false, it will stop the tach error
-     * timers for that group so these untrusted sensors won't
-     * cause errors.  If changed to true, it will start those timers
-     * back up again.
+     * just changed to false, it will cancel the tach error
+     * method for that group so these untrusted sensors won't
+     * cause errors.
      *
      * Note this means groups should be designed such that
      * in the same call to this function a sensor shouldn't
@@ -99,14 +98,14 @@ class Manager
 
                     if (changed)
                     {
-                        group->stopTimers();
+                        group->cancelMonitoring();
                     }
                 }
                 else
                 {
                     if (changed)
                     {
-                        group->startTimers();
+                        group->startMonitoring();
                     }
                 }
             }

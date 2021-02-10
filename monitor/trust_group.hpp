@@ -96,37 +96,28 @@ class Group
     }
 
     /**
-     * Stops the timers on all sensors in the group.
+     * Cancels monitoring on all sensors in the group.
      *
      * Called when the group just changed to not trusted,
-     * so that its sensors' timers can't fire a callback
-     * that may cause them to be considered faulted.
+     * so that its sensors' monitoring method does not
+     * cause them to be considered faulted.
      */
-    void stopTimers()
+    void cancelMonitoring()
     {
         std::for_each(_sensors.begin(), _sensors.end(),
-                      [](const auto& s) { s.sensor->stopTimer(); });
+                      [](const auto& s) { s.sensor->resetMethod(); });
     }
 
     /**
-     * Starts the timers on all functional sensors in the group if
-     * their target and input values do not match.
+     * Starts monitoring on all sensors in the group by processing their current
+     * state
      *
      * Called when the group just changed to trusted.
      */
-    void startTimers()
+    void startMonitoring()
     {
-        std::for_each(_sensors.begin(), _sensors.end(), [](const auto& s) {
-            // If a sensor isn't functional, then its timer
-            // already expired so don't bother starting it again
-            if (s.sensor->functional() &&
-                static_cast<uint64_t>(s.sensor->getInput()) !=
-                    s.sensor->getTarget())
-            {
-                s.sensor->startTimer(
-                    phosphor::fan::monitor::TimerMode::nonfunc);
-            }
-        });
+        std::for_each(_sensors.begin(), _sensors.end(),
+                      [](const auto& s) { s.sensor->processState(); });
     }
 
     /**
@@ -226,7 +217,7 @@ class Group
      * determining trust for this group
      */
     const std::vector<GroupDefinition> _names;
-};
+}; // namespace trust
 
 } // namespace trust
 } // namespace fan

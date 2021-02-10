@@ -167,6 +167,34 @@ std::pair<uint64_t, uint64_t> TachSensor::getRange(const size_t deviation) const
     return std::make_pair(min, max);
 }
 
+void TachSensor::processState()
+{
+    _fan.process(*this);
+}
+
+void TachSensor::resetMethod()
+{
+    switch (_method)
+    {
+        case MethodMode::timebased:
+            if (timerRunning())
+            {
+                stopTimer();
+            }
+            break;
+        case MethodMode::count:
+            if (_functional)
+            {
+                _counter = 0;
+            }
+            else
+            {
+                _counter = _threshold;
+            }
+            break;
+    }
+}
+
 void TachSensor::setFunctional(bool functional)
 {
     _functional = functional;
