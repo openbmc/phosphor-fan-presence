@@ -22,6 +22,30 @@
       "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed3011f3_7b424eb9",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-11T21:25:22Z",
+      "side": 1,
+      "message": "trying to decide...\n\nas it is now:\n* if alarm is high and sensor is removed and readded:\n    * when sensor show up again, alarm would (most likely) be off, code will create the info event log saying temp is now under limit\n\nwith interfaces removed:\n* if alarm is high and sensor is removed and readded:\n    * when sensor shows up again, no info event log\n\nmaybe the latter is slightly better.  I\u0027m not really sure how to test this though, as killing an app doesn\u0027t send interfacesRemoved, unless it does so when it\u0027s restarted.",
+      "parentUuid": "d780faf0_497c7fb5",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 50
+      },
+      "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
