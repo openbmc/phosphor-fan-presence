@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2556a5a1_4270e75b",
+        "filename": "monitor/trust_manager.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-11T15:22:25Z",
+      "side": 0,
+      "message": "I believe this was to handle the case where a fan that was being untrusted doesnt provide an updated tach changed signal after becoming trusted.",
+      "range": {
+        "startLine": 105,
+        "startChar": 16,
+        "endLine": 111,
+        "endChar": 17
+      },
+      "revId": "871bfeaeb3eb651c3c2d0bd3ed9bb67c753ca824",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
