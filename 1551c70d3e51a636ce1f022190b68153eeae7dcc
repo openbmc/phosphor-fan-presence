@@ -22,6 +22,30 @@
       "revId": "1551c70d3e51a636ce1f022190b68153eeae7dcc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14ce61b9_9e93856c",
+        "filename": "sensor-monitor/service_files/sensor-monitor.service.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-12T15:52:27Z",
+      "side": 1,
+      "message": "the paradigm that everyone uses in recipes is:\n\nFILES_${PN}-control \u003d \"${bindir}/phosphor-fan-control\"\n\nso this would match that.\n\nAlso, in the bitbake Makefile, I see:\n$ grep -i bindir Makefile \nBINDIR \u003d /usr/bin\nbindir \u003d /usr/bin\nsbindir \u003d /usr/sbin\n\nand in config.status:\n\u0027--bindir\u003d/usr/bin\u0027\n\n\nThat being said, if you\u0027d rather I hardcode it I\u0027d be OK with it.",
+      "parentUuid": "e3826f1d_77237d28",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "1551c70d3e51a636ce1f022190b68153eeae7dcc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
