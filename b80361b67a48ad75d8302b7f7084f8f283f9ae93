@@ -46,6 +46,30 @@
       "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b420f12d_a9b439b8",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-12T17:17:19Z",
+      "side": 1,
+      "message": "I recall terminating an application did cause the interfacesRemoved signals to be sent on dbus. This is how I tested handling those signals in the fan control application.\n\nWhat will happen if an alarm is high and the sensor is removed and doesnt come back though? Would we want to handle the alarm as if its critical since the sensor is now in an unknown state? or do we want to just log that the sensor disappeared nullifying the alarm?",
+      "parentUuid": "ed3011f3_7b424eb9",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 50
+      },
+      "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
