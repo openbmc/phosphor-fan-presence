@@ -277,7 +277,7 @@ AS_IF([test "x$enable_sensor_monitor" == "xyes"], [
                        [$SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS],
                        [Milliseconds to delay the alarm soft shutdown])
 
-    AC_CONFIG_FILES([sensor-monitor/Makefile])
+    AC_CONFIG_FILES([sensor-monitor/Makefile sensor-monitor/service_files/sensor-monitor.service])
 ])
 
 eval "eval BINDIR=$bindir"
