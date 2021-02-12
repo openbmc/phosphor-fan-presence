@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3826f1d_77237d28",
+        "filename": "sensor-monitor/service_files/sensor-monitor.service.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-12T15:33:34Z",
+      "side": 1,
+      "message": "Doesnt this expand to `/usr/local/bin` where we should have the sensor-monitor app in `/usr/bin`?\n\nLooks like I missed sensor-monitor being installed in bindir, I dont recall if we\u0027re overriding the default prefix to be `/usr/bin` ?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "1551c70d3e51a636ce1f022190b68153eeae7dcc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
