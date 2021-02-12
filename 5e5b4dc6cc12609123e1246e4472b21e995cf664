@@ -22,6 +22,30 @@
       "revId": "5e5b4dc6cc12609123e1246e4472b21e995cf664",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "960277e1_6a2e81fa",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-12T19:16:58Z",
+      "side": 1,
+      "message": "As in multiple services providing the same threshold interface on the same sensor object path?  That would also imply there would be multiple Value interfaces on that object path, so I\u0027m not sure it\u0027s something I\u0027d need to worry about.",
+      "parentUuid": "da63ef6d_736a67de",
+      "range": {
+        "startLine": 113,
+        "startChar": 30,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "5e5b4dc6cc12609123e1246e4472b21e995cf664",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
