@@ -4,6 +4,9 @@ AM_CPPFLAGS = -iquote ${top_srcdir}
 bin_PROGRAMS = \
 	sensor-monitor
 
+systemdsystemunit_DATA = \
+	service_files/sensor-monitor.service
+
 sensor_monitor_SOURCES = \
     shutdown_alarm_monitor.cpp \
 	main.cpp
