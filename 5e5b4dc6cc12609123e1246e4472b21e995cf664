@@ -46,6 +46,30 @@
       "revId": "5e5b4dc6cc12609123e1246e4472b21e995cf664",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2007187a_c9a6a940",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-12T19:36:26Z",
+      "side": 1,
+      "message": "Good point. I guess when providing a single interface to getSubTree, there should really be only a single service instance under each path.",
+      "parentUuid": "960277e1_6a2e81fa",
+      "range": {
+        "startLine": 113,
+        "startChar": 30,
+        "endLine": 114,
+        "endChar": 63
+      },
+      "revId": "5e5b4dc6cc12609123e1246e4472b21e995cf664",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
