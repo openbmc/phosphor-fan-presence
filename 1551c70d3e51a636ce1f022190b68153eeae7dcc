@@ -46,6 +46,30 @@
       "revId": "1551c70d3e51a636ce1f022190b68153eeae7dcc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb72b85d_503d232f",
+        "filename": "sensor-monitor/service_files/sensor-monitor.service.in",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-12T16:32:51Z",
+      "side": 1,
+      "message": "Ah, its set up in bitbake. No need to hardcode it, this will work.",
+      "parentUuid": "14ce61b9_9e93856c",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 18
+      },
+      "revId": "1551c70d3e51a636ce1f022190b68153eeae7dcc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
