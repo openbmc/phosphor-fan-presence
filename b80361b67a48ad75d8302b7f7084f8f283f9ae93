@@ -70,6 +70,30 @@
       "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924f4735_d177fb00",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-15T19:39:38Z",
+      "side": 1,
+      "message": "I still haven\u0027t been able to generate an interfacesRemoved by stopping either hwmontempsensor or phosphor-hwmon-readd, so at the moment I don\u0027t plan on putting in handling for interfacesRemoved.\n\nI was looking at the dbus-sensors/hwmontempsensor code, and I don\u0027t see code in there to remove a sensor from D-Bus when the underlying entity-manager config interface goes away.  That means in the case of a removable card being unplugged, the sensor wouldn\u0027t go away anyway.",
+      "parentUuid": "b420f12d_a9b439b8",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 50
+      },
+      "revId": "b80361b67a48ad75d8302b7f7084f8f283f9ae93",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
