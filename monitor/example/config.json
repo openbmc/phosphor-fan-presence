@@ -1,0 +1,185 @@
+"description": "Example fan monitoring config. Each `description` entry
+ describes an example of a fan configuration to be monitored and is not used
+ (or necessary) in an actual fan monitoring config.",
+
+{
+  "description": "List of fans with the attributes used to monitor them.",
+
+  "fans": [
+    {
+      "description": "The first fan in the system that has two sensor(dual
+       rotor) feedbacks that are allowed to deviate from any given target
+       by 15% for up-to 30 seconds before being marked nonfunctional in
+       inventory. The first sensor object contains the target property and
+       the second sensor object's feedback speed is adjusted by a factor of
+       1.45 and offset by -909 to accomodate how its hardware reacts to any
+       given target. It takes 1 sensor to mark this fan nonfunctional and
+       once marked nonfunctional, the nonfunctional sensor(s) must be
+       within 15% of the target for 5 seconds before being updated to
+       functional again.
+       Each sensor has an error logged after 0 seconds being marked
+       nonfunctional and the fan has an error logged if its been not
+       present for 20 seconds.
+       In addition, this fan is not monitored for the first 30 seconds
+       after a poweron to allow the fan to spin-up.",
+
+      "inventory": "/system/chassis/motherboard/fan0",
+      "functional_delay": 5,
+      "allowed_out_of_range_time": 30,
+      "deviation": 15,
+      "num_sensors_nonfunc_for_fan_nonfunc": 1,
+      "monitor_start_delay": 30,
+      "fan_missing_error_delay": 20,
+      "nonfunc_rotor_error_delay": 0,
+      "sensors": [
+        {
+          "name": "fan0_0",
+          "has_target": true
+        },
+        {
+          "name": "fan0_1",
+          "has_target": false,
+          "factor": 1.45,
+          "offset": -909
+        }
+      ]
+    },
+    {
+      "description": "The second fan in the system has one sensor(single
+       rotor) feedback that is only monitored with the `WaterCooled`
+       property is false. The sensor is monitored using a 'count' method
+       where a counter is incremented each tick the fan deviates 15% from
+       a target and decrements back to zero each tick the fan is within
+       spec. When the sensor reaches the threshold of 25 ticks, the fan is
+       marked nonfunctional and only returns to being functional when the
+       counter is decremented back to 0. This differs from the default
+       'timebased' method where the fan must deviate contiguously for a
+       set amount of time to be marked nonfunctional. It takes 1 sensor to
+       mark this fan nonfunctional.
+       Each sensor has an error logged after 0 seconds being marked
+       nonfunctional and the fan has an error logged if its been not
+       present for 20 seconds.
+       In addition, this fan is not monitored for the first 30 seconds
+       after a poweron to allow the fan to spin-up.",
+
+      "inventory": "/system/chassis/motherboard/fan1",
+      "method": "count",
+      "deviation": 15,
+      "num_sensors_nonfunc_for_fan_nonfunc": 1,
+      "monitor_start_delay": 30,
+      "fan_missing_error_delay": 20,
+      "nonfunc_rotor_error_delay": 0,
+      "sensors": [
+        {
+          "name": "fan1_0",
+          "has_target": true,
+          "threshold": 25
+        }
+      ],
+      "condition": {
+        "name": "propertiesMatch",
+        "properties": [
+          {
+            "object": "/xyz/openbmc_project/inventory/system/chassis",
+            "interface": "xyz.openbmc_project.Inventory.Decorator.CoolingType",
+            "property": {
+              "name": "WaterCooled",
+              "type": "bool",
+              "value": false
+            }
+          }
+        ]
+      }
+    },
+    {
+      "description": "The third fan in the system that has one sensor(single
+       rotor) feedback using the default 'timebased' method that allows it to
+       deviate from any given target by 15% for up-to 30 seconds before being
+       marked nonfunctional in inventory. Instead of using the default
+       'xyz.openbmc_project.Control.FanSpeed' target interface, the sensor
+       uses the 'xyz.openbmc_project.Control.FanPwm' target interface and
+       applies a factor of 21 and offset of 1600 to accomodate the difference
+       in target PWM versus the RPM feedback of the sensor to determine if
+       the fan sensor is nonfunctional or not. It takes 1 sensor to mark this
+       fan nonfunctional and when marked nonfunctional, it is immediately
+       marked functional again once within 15% of the target.
+       Each sensor has an error logged after 0 seconds being marked
+       nonfunctional and the fan has an error logged if its been not present
+       for 20 seconds.
+       In addition, this fan is not monitored for the first 30 seconds after
+       a poweron to allow the fan to spin-up. ",
+
+      "inventory": "/system/chassis/motherboard/fan2",
+      "method": "timebased",
+      "allowed_out_of_range_time": 30,
+      "deviation": 15,
+      "num_sensors_nonfunc_for_fan_nonfunc": 1,
+      "monitor_start_delay": 30,
+      "fan_missing_error_delay": 20,
+      "nonfunc_rotor_error_delay": 0,
+      "sensors": [
+        {
+          "name": "fan2_0",
+          "target_interface": "xyz.openbmc_project.Control.FanPwm",
+          "has_target": true,
+          "factor": 21,
+          "offset": 1600
+        }
+      ]
+    }
+  ],
+  "description": "OPTIONAL - A section to create `trust groups` consisting of
+   fan tach sensors that can be used to trust the tach feedback reading or
+   disregard it when determining if the fan is functional or not. Here, the fan
+   sensor feedbacks within the group are only trusted when any one of them
+   shows a non-zero feedback speed. At any time all fan sensor feedbacks report
+   a speed of 0, the monitoring of each sensor in the group is cancelled, only
+   to resume being monitored when any one of them reports a non-zero feedback
+   speed.",
+
+  "sensor_trust_groups": [
+    {
+      "description": "",
+      "class": "NonzeroSpeed",
+      "group": [
+        {
+          "name": "fan0_0"
+        },
+        {
+          "name": "fan1_0"
+        },
+        {
+          "name": "fan2_0"
+        }
+      ]
+    }
+  ],
+  "description": "OPTIONAL - A section to handle faults caused by missing or
+   nonfunctional fans. An error is logged when 1 rotor is nonfunctional across
+   all the fans being monitored.
+   The system is immediately hard powered off after a poweron is started when 1
+   fan has been missing for 25 seconds.
+   An EPOW shutdown is issued when 2 or more nonfunctional fan sensors exist,
+   which (specific to EPOW) has a service mode delay of 300 seconds and then a
+   meltdown delay of 300 seconds.",
+
+  "fault_handling": {
+    "num_nonfunc_rotors_before_error": 1,
+    "power_off_config": [
+      {
+        "type": "hard",
+        "cause": "missing_fan_frus",
+        "count": 1,
+        "delay": 25,
+        "state": "at_pgood"
+      },
+      {
+        "type": "epow",
+        "cause": "nonfunc_fan_rotors",
+        "count": 2,
+        "service_mode_delay": 300,
+        "meltdown_delay": 300
+      }
+    ]
+  }
+}
