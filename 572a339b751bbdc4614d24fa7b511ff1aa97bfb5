@@ -70,6 +70,30 @@
       "revId": "572a339b751bbdc4614d24fa7b511ff1aa97bfb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c611a07_c23d8267",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-16T13:53:57Z",
+      "side": 1,
+      "message": "I\u0027m not sure what configuration you\u0027re talking about?  These aren\u0027t defined in the sdbusplus/PDI d-bus error yaml.  If they were, then I could call report\u003c\u003e() on them, but then I\u0027d also have to have a giant if/else statement to create them all since they are handled as template args.  (also they\u0027d have to get officially approved in the PDI reviews).",
+      "parentUuid": "822d130d_1fedf440",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 56
+      },
+      "revId": "572a339b751bbdc4614d24fa7b511ff1aa97bfb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
