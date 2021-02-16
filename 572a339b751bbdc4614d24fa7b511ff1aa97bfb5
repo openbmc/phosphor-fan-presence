@@ -94,6 +94,30 @@
       "revId": "572a339b751bbdc4614d24fa7b511ff1aa97bfb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84f10300_d461a517",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-16T14:17:52Z",
+      "side": 1,
+      "message": "Isnt this `errorName` the same as what\u0027s in the \"Name\" entry of the logging configuration -\u003e https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-logging/+/40138/3/extensions/openpower-pels/registry/message_registry.json\n\n```\n            \"Name\": \"xyz.openbmc_project.Sensor.Threshold.Error.TemperatureWarningHigh\",\n            \"Subsystem\": \"power\",\n            \"ComponentID\": \"0x2800\",\n            \"Severity\": \"predictive\",\n            \"ActionFlags\": [\"service_action\", \"report\"],\n            \"SRC\": {\n                \"ReasonCode\": \"0x2803\",\n                \"Words6To9\": {}\n            },\n            \"CalloutsUsingAD\": {\n                \"ADName\": \"SENSOR_NAME\",\n                \"CalloutsWithTheirADValues\": [\n                    {\n                        \"ADValue\": \"/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp\",\n                        \"Callouts\": [\n                            {\n                                \"CalloutList\": [\n                                    { \"Priority\": \"high\", \"SymbolicFRU\": \"ambient_temp\" }\n                                ]\n                            }\n                        ]\n                    }\n                ]\n            },\n```\n\nWhich would leave room for error on how someone decides to configure the logging JSON and having this embedded uppercasing of the first character in the type?",
+      "parentUuid": "5c611a07_c23d8267",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 56
+      },
+      "revId": "572a339b751bbdc4614d24fa7b511ff1aa97bfb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
