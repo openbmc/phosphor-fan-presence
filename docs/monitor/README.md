@@ -109,16 +109,103 @@ the directory locations in the following order:
 
 ### Structure
 
-TBD
+The config file consists of an array of fan objects that define how to monitor
+their functional state and what fault handling should occur. Fault handling
+includes creating error logs and/or powering off the system for a configured
+number of fans that are missing or nonfunctional.
+```
+{
+  "fans": [
+    {
+      ...
+    },
+    .
+    .
+    .
+  ],
+  "sensor_trust_groups": [
+    {
+      ...
+    },
+    .
+    .
+    .
+  ],
+  "fault_handling": {
+    ...
+  }
+}
+```
 
 ### Syntax
 
-TBD
+Fan object attributes: **(Required unless otherwise noted)**
+* [inventory](inventory.md)
+* [method](method.md) - *Optional, default = "timebased"
+ * "timebased":
+   * [allowed_out_of_range_time](allowed_out_of_range_time.md)
+   * [functional_delay](functional_delay.md) - Optional, default = 0
+* [deviation](deviation.md)
+* [num_sensors_nonfunc_for_fan_nonfunc](num_sensors_nonfunc_for_fan_nonfunc.md) - Optional, default = 0
+* [monitor_start_delay](monitor_start_delay.md) - Optional, default = 0
+* [fan_missing_error_delay](fan_missing_error_delay.md) - Optional
+* [nonfunc_rotor_error_delay](nonfunc_rotor_error_delay.md) - Optional
+* [sensors](sensors.md)
+
+Trust group attributes: **(Optional)**
+* [class](class.md)
+* [group](group.md)
+
+Fault handling attributes: **(Optional)**
+* [num_nonfunc_rotors_before_error](num_nonfunc_rotors_before_error.md) -
+Optional, default = 1
+* [power_off_config](power_off_config.md) - Optional
+
+*-See attribute page for more details
 
 ### Comments
 
-TBD
+The JSON data format does not support comments. However, an optional `comments`
+attribute name can be used to annotate any specific entry of the JSON
+configuration. It is suggested that the value of this `comments` attribute be
+an array of strings for comments containing line breaks. All `comments` objects
+are ignored when the JSON configuration is processed.
 
+***Note: Only 1 `comments` object can exist at any given 'layer' of the
+configuration hierarchy***
+
+Example:
+```
+{
+  "comments": [
+   "Fan monitoring configuration of X-number of fans",
+   "Where some fan sensors are not trusted at times",
+   "Faults create error logs and power off the system"
+  ]
+  "fans": [
+    {
+      "comments": "Monitor this fan",
+      ...
+    },
+    .
+    .
+    .
+  ],
+  "sensor_trust_groups": [
+    {
+      "comments": "Only trust these fan sensors when all are not zero",
+      ...
+    },
+    .
+    .
+    .
+  ],
+  "fault_handling": {
+    "comments": "Log errors and power off the system",
+    ...
+  }
+}
+```
 
 ## Validation
 
