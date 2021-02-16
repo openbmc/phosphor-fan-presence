@@ -107,16 +107,86 @@ the directory locations in the following order:
 
 ### Structure
 
-TBD
+The config file consists of an array of fan objects that define how their
+presence is detected and the policy used to update its present state within
+inventory.
+```
+[
+  {
+    "name": "fan0",
+    "path": "/system/chassis/motherboard/fan0",
+    "methods": [
+      {
+        "type": ...
+      },
+      .
+      .
+      .
+    ],
+    "rpolicy": {
+        "type": ...
+    }
+  },
+  .
+  .
+  .
+]
+```
 
 ### Syntax
 
-TBD
+Fan object attributes: **(Required unless otherwise noted)**
+* [name](name.md)
+* [path](path.md)
+* [methods](methods.md)
+* [rpolicy](rpolicy.md)
 
 ### Comments
 
-TBD
+The JSON data format does not support comments. However, an optional `comments`
+attribute name can be used to annotate any specific entry of the JSON
+configuration. It is suggested that the value of this `comments` attribute be
+an array of strings for comments containing line breaks. All `comments` objects
+are ignored when the JSON configuration is processed.
 
+***Note: Only 1 `comments` object can exist at any given 'layer' of the
+configuration hierarchy***
+
+Example:
+```
+[
+  {
+    "comments": [
+      "First fan in the system",
+      "Uses two methods of presence detection"
+    ]
+    "name": "fan0",
+    "path": "/system/chassis/motherboard/fan0",
+    "methods": [
+      {
+        "comments": "Use GPIO for presence detection",
+        "type": "gpio",
+        .
+        .
+        .
+      },
+      {
+        "comments": "Also use the tach for presence detection",
+        "type": "tach",
+        .
+        .
+        .
+      }
+    ],
+    "rpolicy": {
+        "type": ...
+    }
+  },
+  .
+  .
+  .
+]
+```
 
 ## Validation
 
