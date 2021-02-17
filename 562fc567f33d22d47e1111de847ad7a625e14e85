@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afcdf1af_59b0ad57",
+        "filename": "monitor/main.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-17T21:29:32Z",
+      "side": 1,
+      "message": "Should wrap these with a `#ifdef MONITOR_USE_JSON`",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "562fc567f33d22d47e1111de847ad7a625e14e85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e809dd3_a52bfcad",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-17T21:29:32Z",
+      "side": 1,
+      "message": "What was this added for? I dont see the use.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 18
+      },
+      "revId": "562fc567f33d22d47e1111de847ad7a625e14e85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0da12e17_8f2aff39",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-17T21:29:32Z",
+      "side": 1,
+      "message": "nit: The config file path",
+      "range": {
+        "startLine": 114,
+        "startChar": 29,
+        "endLine": 114,
+        "endChar": 47
+      },
+      "revId": "562fc567f33d22d47e1111de847ad7a625e14e85",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
