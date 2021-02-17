@@ -190,6 +190,19 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             throw std::runtime_error(
                 "Missing required fan monitor definition parameters");
         }
+        // Valid deviation range is 0 - 100%
+        auto deviation = fan["deviation"].get<size_t>();
+        if (deviation < 0 || 100 < deviation)
+        {
+            auto msg =
+                fmt::format(
+                    "Invalid deviation of {} found, must be between 0 and 100",
+                    deviation)
+                    .c_str();
+            log<level::ERR>(msg);
+            throw std::runtime_error(msg);
+        }
+
         // Construct the sensor definitions for this fan
         auto sensorDefs = getSensorDefs(fan["sensors"]);
 
@@ -310,7 +323,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
 
         fanDefs.emplace_back(std::tuple(
             fan["inventory"].get<std::string>(), method, funcDelay, timeout,
-            fan["deviation"].get<size_t>(), nonfuncSensorsCount, monitorDelay,
+            deviation, nonfuncSensorsCount, monitorDelay,
             nonfuncRotorErrorDelay, fanMissingErrorDelay, sensorDefs, cond));
     }
 
