@@ -142,6 +142,30 @@
       "revId": "572a339b751bbdc4614d24fa7b511ff1aa97bfb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68e0ab12_d73547d6",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-17T15:33:37Z",
+      "side": 1,
+      "message": "Just suggesting that phosphor-logging could take the errorName however it comes in, and uppercase (or lowercase) the entire thing and compare that to error name\u0027s (either all upppercased or lowercased as well) to find its logging entry.",
+      "parentUuid": "ce00228a_a6be65bc",
+      "range": {
+        "startLine": 268,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 56
+      },
+      "revId": "572a339b751bbdc4614d24fa7b511ff1aa97bfb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
