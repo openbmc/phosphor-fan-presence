@@ -142,9 +142,6 @@ number of fans that are missing or nonfunctional.
 Fan object attributes: **(Required unless otherwise noted)**
 * [inventory](inventory.md)
 * [method](method.md) - *Optional, default = "timebased"
- * "timebased":
-   * [allowed_out_of_range_time](allowed_out_of_range_time.md)
-   * [functional_delay](functional_delay.md) - Optional, default = 0
 * [deviation](deviation.md)
 * [num_sensors_nonfunc_for_fan_nonfunc](num_sensors_nonfunc_for_fan_nonfunc.md) - Optional, default = 0
 * [monitor_start_delay](monitor_start_delay.md) - Optional, default = 0
