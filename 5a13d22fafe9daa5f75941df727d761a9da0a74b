@@ -34,6 +34,24 @@
       "revId": "5a13d22fafe9daa5f75941df727d761a9da0a74b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ffb5273_d3152f23",
+        "filename": "presence/example/config.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-18T16:20:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1a2343_8adcc91c",
+      "revId": "5a13d22fafe9daa5f75941df727d761a9da0a74b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
