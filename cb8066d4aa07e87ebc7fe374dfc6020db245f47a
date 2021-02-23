@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddfe8464_a6645f6e",
+        "filename": "docs/monitor/num_nonfunc_rotors_before_error.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-02-23T22:47:16Z",
+      "side": 1,
+      "message": "An informational event is created for faults under this number. It is probably worth mentioning that. I suspect this is for fail-in-place.",
+      "range": {
+        "startLine": 4,
+        "startChar": 106,
+        "endLine": 4,
+        "endChar": 112
+      },
+      "revId": "cb8066d4aa07e87ebc7fe374dfc6020db245f47a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
