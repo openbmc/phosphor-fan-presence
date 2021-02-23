@@ -22,6 +22,30 @@
       "revId": "768959fc5da53057334963bbd8cca04fa6f4e3e4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d47f5ac_89fc6b95",
+        "filename": "docs/monitor/method.md",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-02-23T02:12:27Z",
+      "side": 1,
+      "message": "Correct, until https://github.com/ibm-openbmc/dev/issues/2922 is fixed, this is how it works currently. I was writing up the descriptions while tracing thru the code to attempt to match how the code works as of the time of creating the doc. Will add a note to that issue to remember to update the doc after its fixed.",
+      "parentUuid": "9d64b825_38c31685",
+      "range": {
+        "startLine": 43,
+        "startChar": 72,
+        "endLine": 44,
+        "endChar": 56
+      },
+      "revId": "768959fc5da53057334963bbd8cca04fa6f4e3e4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
