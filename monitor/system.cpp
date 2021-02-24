@@ -208,7 +208,7 @@ void System::powerStateChanged(bool powerStateOn)
         if (!_started)
         {
             log<level::ERR>("No conf file found at power on");
-            throw std::runtime_error("No conf file fount at power on");
+            throw std::runtime_error("No conf file found at power on");
         }
 
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
