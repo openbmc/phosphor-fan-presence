@@ -42,7 +42,8 @@ phosphor_fan_control_SOURCES += \
 	json/actions/default_floor.cpp \
 	json/actions/request_speed_base.cpp \
 	json/actions/missing_owner_speed.cpp \
-	json/actions/count_state_speed.cpp
+	json/actions/count_state_speed.cpp \
+	json/actions/net_speed_increase.cpp
 else
 BUILT_SOURCES = fan_zone_defs.cpp
 nodist_phosphor_fan_control_SOURCES = \
