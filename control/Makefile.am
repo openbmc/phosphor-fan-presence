@@ -34,7 +34,8 @@ phosphor_fan_control_SOURCES += \
 	json/actions/default_floor.cpp \
 	json/actions/request_target_base.cpp \
 	json/actions/missing_owner_target.cpp \
-	json/actions/count_state_target.cpp
+	json/actions/count_state_target.cpp \
+	json/actions/net_target_increase.cpp
 else
 phosphor_fan_control_SOURCES += \
 	argument.cpp \
