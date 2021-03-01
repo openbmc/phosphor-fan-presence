@@ -70,8 +70,9 @@ class System
      *        fan health map.
      *
      * @param[in] fan - The fan that changed
+     * @param[in] skipRulesCheck - If the rules checks should be done now.
      */
-    void fanStatusChange(const Fan& fan);
+    void fanStatusChange(const Fan& fan, bool skipRulesCheck = false);
 
     /**
      * @brief Called when a fan sensor's error timer expires, which

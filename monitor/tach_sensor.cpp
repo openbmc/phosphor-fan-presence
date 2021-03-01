@@ -92,25 +92,12 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 #endif
         try
         {
-            // Use getProperty directly to allow a missing sensor object
-            // to abort construction.
-            _tachInput = util::SDBusPlus::getProperty<decltype(_tachInput)>(
-                _bus, _name, FAN_SENSOR_VALUE_INTF, FAN_VALUE_PROPERTY);
+            updateTachAndTarget();
         }
-        catch (std::exception& e)
+        catch (const std::exception& e)
         {
-            log<level::ERR>(
-                fmt::format("Failed to retrieve tach sensor {}", _name)
-                    .c_str());
-            // Mark tach sensor as nonfunctional
-            setFunctional(false);
-            throw InvalidSensorError();
-        }
-
-        if (_hasTarget)
-        {
-            readProperty(_interface, FAN_TARGET_PROPERTY, _name, _bus,
-                         _tachTarget);
+            // Until the parent Fan's monitor-ready timer expires, the
+            // object can be functional with a missing D-bus sensor.
         }
 
         auto match = getMatchString(FAN_SENSOR_VALUE_INTF);
@@ -138,6 +125,17 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 #ifndef MONITOR_USE_JSON
     }
 #endif
+}
+
+void TachSensor::updateTachAndTarget()
+{
+    _tachInput = util::SDBusPlus::getProperty<decltype(_tachInput)>(
+        _bus, _name, FAN_SENSOR_VALUE_INTF, FAN_VALUE_PROPERTY);
+
+    if (_hasTarget)
+    {
+        readProperty(_interface, FAN_TARGET_PROPERTY, _name, _bus, _tachTarget);
+    }
 }
 
 std::string TachSensor::getMatchString(const std::string& interface)
