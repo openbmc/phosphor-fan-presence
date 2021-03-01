@@ -71,30 +71,15 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     auto& sensors = std::get<sensorListField>(def);
     for (auto& s : sensors)
     {
-        try
-        {
-            _sensors.emplace_back(std::make_shared<TachSensor>(
-                mode, bus, *this, std::get<sensorNameField>(s),
-                std::get<hasTargetField>(s), std::get<funcDelay>(def),
-                std::get<targetInterfaceField>(s), std::get<factorField>(s),
-                std::get<offsetField>(s), std::get<methodField>(def),
-                std::get<thresholdField>(s), std::get<timeoutField>(def),
-                std::get<nonfuncRotorErrDelayField>(def), event));
+        _sensors.emplace_back(std::make_shared<TachSensor>(
+            mode, bus, *this, std::get<sensorNameField>(s),
+            std::get<hasTargetField>(s), std::get<funcDelay>(def),
+            std::get<targetInterfaceField>(s), std::get<factorField>(s),
+            std::get<offsetField>(s), std::get<methodField>(def),
+            std::get<thresholdField>(s), std::get<timeoutField>(def),
+            std::get<nonfuncRotorErrDelayField>(def), event));
 
-            _trustManager->registerSensor(_sensors.back());
-        }
-        catch (InvalidSensorError& e)
-        {
-            // Count the number of failed tach sensors, though if
-            // _numSensorFailsForNonFunc is zero that means the fan should not
-            // be set to nonfunctional.
-            if (_numSensorFailsForNonFunc &&
-                (++_numFailedSensor >= _numSensorFailsForNonFunc))
-            {
-                // Mark associated fan as nonfunctional
-                updateInventory(false);
-            }
-        }
+        _trustManager->registerSensor(_sensors.back());
     }
 
 #ifndef MONITOR_USE_JSON
@@ -185,7 +170,42 @@ void Fan::startMonitor()
 {
     _monitorReady = true;
 
-    tachChanged();
+    std::for_each(_sensors.begin(), _sensors.end(), [this](auto& sensor) {
+        if (_present)
+        {
+            try
+            {
+                // Force a getProperty call to check if the tach sensor is
+                // on D-Bus.  If it isn't, now set it to nonfunctional.
+                // This isn't done earlier so that code watching for
+                // nonfunctional tach sensors doesn't take actions before
+                // those sensors show up on D-Bus.
+                sensor->updateTachAndTarget();
+                tachChanged(*sensor);
+            }
+            catch (const util::DBusServiceError& e)
+            {
+                // The tach property still isn't on D-Bus, ensure
+                // sensor is nonfunctional.
+                getLogger().log(fmt::format(
+                    "Monitoring starting but {} sensor value not on D-Bus",
+                    sensor->name()));
+
+                sensor->setFunctional(false);
+
+                if (_numSensorFailsForNonFunc)
+                {
+                    if (_functional && (countNonFunctionalSensors() >=
+                                        _numSensorFailsForNonFunc))
+                    {
+                        updateInventory(false);
+                    }
+                }
+
+                _system.fanStatusChange(*this);
+            }
+        }
+    });
 }
 
 void Fan::tachChanged()
@@ -417,13 +437,47 @@ void Fan::powerStateChanged(bool powerStateOn)
 #ifdef MONITOR_USE_JSON
     if (powerStateOn)
     {
-        // set all fans back to functional to start with
-        std::for_each(_sensors.begin(), _sensors.end(),
-                      [](auto& sensor) { sensor->setFunctional(true); });
-
         _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
 
-        if (!_present)
+        if (_present)
+        {
+            std::for_each(
+                _sensors.begin(), _sensors.end(), [this](auto& sensor) {
+                    try
+                    {
+                        // Force a getProperty call.  If sensor is on D-Bus,
+                        // then make sure it's functional.
+                        sensor->updateTachAndTarget();
+
+                        // If not functional, set it back to functional.
+                        if (!sensor->functional())
+                        {
+                            sensor->setFunctional(true);
+                            _system.fanStatusChange(*this, true);
+                        }
+                    }
+                    catch (const util::DBusServiceError& e)
+                    {
+                        // Properties still aren't on D-Bus.  Let startMonitor()
+                        // deal with it.
+                        getLogger().log(fmt::format(
+                            "At power on, tach sensor {} value not on D-Bus",
+                            sensor->name()));
+                    }
+                });
+
+            // If configured to change functional state on the fan itself,
+            // Set it back to true now if necessary.
+            if (_numSensorFailsForNonFunc)
+            {
+                if (!_functional &&
+                    (countNonFunctionalSensors() < _numSensorFailsForNonFunc))
+                {
+                    updateInventory(true);
+                }
+            }
+        }
+        else
         {
             getLogger().log(
                 fmt::format("At power on, fan {} is missing", _name));
