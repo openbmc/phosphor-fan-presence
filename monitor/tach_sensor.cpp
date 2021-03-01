@@ -239,7 +239,7 @@ void TachSensor::startTimer(TimerMode mode)
 
     if (!timerRunning() || mode != _timerMode)
     {
-        log<level::INFO>(
+        log<level::DEBUG>(
             fmt::format("Start timer({}) on tach sensor {}. [delay = {}s]",
                         mode, _name,
                         duration_cast<seconds>(getDelay(mode)).count())
