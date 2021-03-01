@@ -169,11 +169,11 @@ void System::updateFanHealth(const Fan& fan)
         std::make_tuple(fan.present(), std::move(sensorStatus));
 }
 
-void System::fanStatusChange(const Fan& fan)
+void System::fanStatusChange(const Fan& fan, bool skipRulesCheck)
 {
     updateFanHealth(fan);
 
-    if (_powerState->isPowerOn())
+    if (_powerState->isPowerOn() && !skipRulesCheck)
     {
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {

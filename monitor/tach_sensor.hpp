@@ -304,6 +304,12 @@ class TachSensor
      */
     void resetMethod();
 
+    /**
+     * @brief Refreshes the tach input and target values by
+     *        reading them from D-Bus.
+     */
+    void updateTachAndTarget();
+
   private:
     /**
      * @brief Returns the match string to use for matching
