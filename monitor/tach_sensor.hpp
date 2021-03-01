@@ -250,7 +250,7 @@ class TachSensor
      */
     inline void stopTimer()
     {
-        phosphor::logging::log<phosphor::logging::level::INFO>(
+        phosphor::logging::log<phosphor::logging::level::DEBUG>(
             fmt::format("Stop running timer on tach sensor {}.", _name)
                 .c_str());
         _timer.setEnabled(false);
