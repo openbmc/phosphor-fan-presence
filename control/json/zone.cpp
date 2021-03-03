@@ -51,8 +51,8 @@ const std::map<std::string,
 Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     ConfigBase(jsonObj),
     ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
-    _incDelay(0), _floor(0), _target(0), _incDelta(0), _requestTargetBase(0),
-    _isActive(true)
+    _incDelay(0), _floor(0), _target(0), _incDelta(0), _decDelta(0),
+    _requestTargetBase(0), _isActive(true)
 {
     // Increase delay is optional, defaults to 0
     if (jsonObj.contains("increase_delay"))
@@ -133,6 +133,15 @@ void Zone::requestIncrease(uint64_t targetDelta)
         setTarget(requestTarget);
         // TODO // Restart timer countdown for fan speed increase
         // _incTimer.restartOnce(_incDelay);
+    }
+}
+
+void Zone::requestDecrease(uint64_t targetDelta)
+{
+    // Only decrease the lowest target delta requested
+    if (_decDelta == 0 || targetDelta < _decDelta)
+    {
+        _decDelta = targetDelta;
     }
 }
 
