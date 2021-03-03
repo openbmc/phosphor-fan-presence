@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62336b4a_c25f155e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:40:57Z",
+      "side": 1,
+      "message": "Not the tach sensor objects, but the inventory objects for the fan and rotors containing the Functional property were not getting created.",
+      "range": {
+        "startLine": 11,
+        "startChar": 45,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "490e54c5_b371f556",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:40:57Z",
+      "side": 1,
+      "message": "Same here, its the fan inventory objects",
+      "range": {
+        "startLine": 15,
+        "startChar": 30,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5eb8a0cf_5d4136cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:40:57Z",
+      "side": 1,
+      "message": "Fan inventory objects",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db231c0c_8f6d3c14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:40:57Z",
+      "side": 1,
+      "message": "Fan inventory objects",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 11
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82ce1937_28ca688e",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:40:57Z",
+      "side": 1,
+      "message": "Seems like we\u0027re explicitly handling this now, so this wouldnt be necessary? What is the use-case to keep this cuz isnt startMonitor() handling it now?",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 30
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
