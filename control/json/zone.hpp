@@ -146,6 +146,16 @@ class Zone : public ConfigBase, public ThermalObject
     };
 
     /**
+     * @brief Get the target decrease delta
+     *
+     * @return - The current target decrease delta
+     */
+    inline auto& getDecDelta() const
+    {
+        return _decDelta;
+    };
+
+    /**
      * @brief Add a fan object to the zone
      *
      * @param[in] fan - Unique pointer to a fan object that will be moved into
@@ -191,12 +201,31 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
     /**
+     * @brief Sets the decrease allowed state of a group
+     *
+     * @param[in] ident - An identifier that affects speed decreases
+     * @param[in] isAllow - Allow state according to the identifier
+     */
+    inline void setDecreaseAllow(const std::string& ident, bool isAllow)
+    {
+        _decAllowed[ident] = isAllow;
+    }
+
+    /**
      * @brief Calculate the requested target from the given delta and increases
      * the fans, not going above the ceiling.
      *
      * @param[in] targetDelta - The delta to increase the target by
      */
     void requestIncrease(uint64_t targetDelta);
+
+    /**
+     * @brief Calculate the lowest requested decrease target from the given
+     * delta within a decrease interval.
+     *
+     * @param[in] targetDelta - The delta to decrease the target by
+     */
+    void requestDecrease(uint64_t targetDelta);
 
     /**
      * @brief Set the requested target base to be used as the target to base a
@@ -300,6 +329,9 @@ class Zone : public ConfigBase, public ThermalObject
     /* Zone increase delta */
     uint64_t _incDelta;
 
+    /* Zone decrease delta */
+    uint64_t _decDelta;
+
     /* The ceiling target to not go above */
     uint64_t _ceiling;
 
@@ -308,6 +340,9 @@ class Zone : public ConfigBase, public ThermalObject
 
     /* Map of whether floor changes are allowed by a string identifier */
     std::map<std::string, bool> _floorChange;
+
+    /* Map of controlling decreases allowed by a string identifer */
+    std::map<std::string, bool> _decAllowed;
 
     /* Map of interfaces to persisted properties the zone hosts*/
     std::map<std::string, std::vector<std::string>> _propsPersisted;
