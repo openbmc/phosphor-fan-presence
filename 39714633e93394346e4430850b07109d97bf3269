@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c786ca77_943eee16",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:58:13Z",
+      "side": 1,
+      "message": "Fan monitor does not create the tach sensor objects...the service that owns the tach sensors does, i.e. hwmon.",
+      "parentUuid": "51799412_7befa0d5",
+      "range": {
+        "startLine": 15,
+        "startChar": 30,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5eb8a0cf_5d4136cb",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "see above, the tach sensors have a _functional property.",
       "parentUuid": "5eb8a0cf_5d4136cb",
+      "range": {
+        "startLine": 24,
+        "startChar": 14,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "39714633e93394346e4430850b07109d97bf3269",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8030dbbd_6b478a04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-03T15:58:13Z",
+      "side": 1,
+      "message": "but fan monitor sets the fan inventory object to nonfunctional (or functional) and doesnt touch the tach sensors\u0027 functional property. That\u0027s handled by the service that owns the tach sensor, i.e. hwmon.",
+      "parentUuid": "56b22d36_019c56bc",
       "range": {
         "startLine": 24,
         "startChar": 14,
