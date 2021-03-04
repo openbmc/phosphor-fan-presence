@@ -147,9 +147,10 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
     return zoneGrps;
 }
 
-const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus)
+const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus,
+                                   const sdeventplus::Event& event)
 {
-    json::Manager mgr{bus};
+    json::Manager mgr{bus, event};
     return mgr.getPowerOnDelay();
 }
 

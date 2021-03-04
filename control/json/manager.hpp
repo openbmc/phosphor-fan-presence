@@ -15,8 +15,12 @@
  */
 #pragma once
 
+#include "json_parser.hpp"
+#include "profile.hpp"
+
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 
 namespace phosphor::fan::control::json
 {
@@ -50,8 +54,9 @@ class Manager
      * Parses and populates the fan control manager attributes from a json file
      *
      * @param[in] bus - sdbusplus bus object
+     * @param[in] event - sdeventplus event loop
      */
-    explicit Manager(sdbusplus::bus::bus& bus);
+    Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event);
 
     /**
      * @brief Get the configured power on delay(OPTIONAL)
@@ -67,6 +72,12 @@ class Manager
 
     /* The parsed JSON object */
     json _jsonObj;
+
+    /* List of profiles configured */
+    const std::map<configKey, std::unique_ptr<Profile>> _profiles;
+
+    /* List of active profiles */
+    std::vector<std::string> _activeProfiles;
 };
 
 } // namespace phosphor::fan::control::json
