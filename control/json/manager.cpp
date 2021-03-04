@@ -15,6 +15,7 @@
  */
 #include "manager.hpp"
 
+#include "fan.hpp"
 #include "json_config.hpp"
 #include "profile.hpp"
 #include "zone.hpp"
@@ -23,6 +24,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 
+#include <algorithm>
 #include <filesystem>
 #include <vector>
 
@@ -49,6 +51,21 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
 
     // Load the zone configurations
     _zones = getConfig<Zone>(bus);
+
+    // Load the fan configurations and move each fan into its zone
+    auto fans = getConfig<Fan>(bus);
+    for (auto& fan : fans)
+    {
+        auto itZone =
+            std::find_if(_zones.begin(), _zones.end(),
+                         [&fanZone = fan.second->getZone()](const auto& zone) {
+                             return fanZone == zone.second->getName();
+                         });
+        if (itZone != _zones.end())
+        {
+            itZone->second->addFan(std::move(fan.second));
+        }
+    }
 }
 
 const std::vector<std::string>& Manager::getActiveProfiles()

@@ -16,6 +16,7 @@
 #pragma once
 
 #include "config_base.hpp"
+#include "fan.hpp"
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
@@ -148,6 +149,17 @@ class Zone : public ConfigBase
         return _zoneHandlers;
     }
 
+    /**
+     * @brief Add a fan object to the zone
+     *
+     * @param[in] fan - Unique pointer to a fan object that will be moved into
+     * the zone
+     *
+     * Adds a fan object to the list of fans that make up the zone by moving the
+     * fan object into the list.
+     */
+    void addFan(std::unique_ptr<Fan> fan);
+
   private:
     /* The zone's full speed value for fans */
     uint64_t _fullSpeed;
@@ -170,6 +182,9 @@ class Zone : public ConfigBase
     /* Interface to property mapping of their associated handler function */
     static const std::map<std::string, std::map<std::string, propHandler>>
         _intfPropHandlers;
+
+    /* List of fans included in this zone */
+    std::vector<std::unique_ptr<Fan>> _fans;
 
     /**
      * @brief Parse and set the zone's full speed value
