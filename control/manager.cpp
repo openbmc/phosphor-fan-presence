@@ -138,14 +138,14 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     }
 }
 
-void Manager::doInit()
+void Manager::doInit(const sdeventplus::Event& event)
 {
     for (auto& z : _zones)
     {
         z.second->setFullSpeed();
     }
 #ifdef CONTROL_USE_JSON
-    auto delay = getPowerOnDelay(_bus);
+    auto delay = getPowerOnDelay(_bus, event);
 #else
     auto delay = _powerOnDelay;
 #endif
