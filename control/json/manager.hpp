@@ -15,8 +15,9 @@
  */
 #pragma once
 
-#include "json_parser.hpp"
+#include "json_config.hpp"
 #include "profile.hpp"
+#include "zone.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
@@ -26,6 +27,18 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
+
+/* Application name to be appended to the path for loading a JSON config file */
+constexpr auto confAppName = "control";
+
+/**
+ * Configuration object key to uniquely map to the configuration object
+ * Pair constructed of:
+ *      std::string = Configuration object's name
+ *      std::vector<std::string> = List of profiles the configuration object
+ *                                 is included in
+ */
+using configKey = std::pair<std::string, std::vector<std::string>>;
 
 /**
  * @class Manager - Represents the fan control manager's configuration
@@ -59,6 +72,69 @@ class Manager
     Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event);
 
     /**
+     * @brief Get the active profiles of the system where an empty list
+     * represents that only configuration entries without a profile defined will
+     * be loaded.
+     *
+     * @return - The list of active profiles
+     */
+    static const std::vector<std::string>& getActiveProfiles();
+
+    /**
+     * @brief Load the configuration of a given JSON class object based on the
+     * active profiles
+     *
+     * @param[in] bus - The sdbusplus bus object
+     * @param[in] isOptional - JSON configuration file is optional or not
+     *                         Defaults to false
+     *
+     * @return Map of configuration entries
+     *     Map of configuration keys to their corresponding configuration object
+     */
+    template <typename T>
+    static std::map<configKey, std::unique_ptr<T>>
+        getConfig(sdbusplus::bus::bus& bus, bool isOptional = false)
+    {
+        std::map<configKey, std::unique_ptr<T>> config;
+
+        auto confFile = fan::JsonConfig::getConfFile(
+            bus, confAppName, T::confFileName, isOptional);
+        if (!confFile.empty())
+        {
+            for (const auto& entry : fan::JsonConfig::load(confFile))
+            {
+                if (entry.contains("profiles"))
+                {
+                    std::vector<std::string> profiles;
+                    for (const auto& profile : entry["profiles"])
+                    {
+                        profiles.emplace_back(
+                            profile.template get<std::string>());
+                    }
+                    // Do not create the object if its profiles are not in the
+                    // list of active profiles
+                    if (!std::any_of(profiles.begin(), profiles.end(),
+                                     [](const auto& name) {
+                                         return std::find(
+                                                    getActiveProfiles().begin(),
+                                                    getActiveProfiles().end(),
+                                                    name) !=
+                                                getActiveProfiles().end();
+                                     }))
+                    {
+                        continue;
+                    }
+                }
+                auto obj = std::make_unique<T>(bus, entry);
+                config.emplace(
+                    std::make_pair(obj->getName(), obj->getProfiles()),
+                    std::move(obj));
+            }
+        }
+        return config;
+    }
+
+    /**
      * @brief Get the configured power on delay(OPTIONAL)
      *
      * @return Power on delay in seconds
@@ -73,11 +149,34 @@ class Manager
     /* The parsed JSON object */
     json _jsonObj;
 
+    /**
+     * The sdbusplus bus object to use
+     */
+    sdbusplus::bus::bus& _bus;
+
+    /**
+     * The sdeventplus even loop to use
+     */
+    sdeventplus::Event _event;
+
     /* List of profiles configured */
-    const std::map<configKey, std::unique_ptr<Profile>> _profiles;
+    std::map<configKey, std::unique_ptr<Profile>> _profiles;
 
     /* List of active profiles */
-    std::vector<std::string> _activeProfiles;
+    static std::vector<std::string> _activeProfiles;
+
+    /* List of zones configured */
+    std::map<configKey, std::unique_ptr<Zone>> _zones;
+
+    /**
+     * @brief Parse and set the configured profiles from the profiles JSON file
+     *
+     * Retrieves the optional profiles JSON configuration file, parses it, and
+     * creates a list of configured profiles available to the other
+     * configuration files. These profiles can be used to remove or include
+     * entries within the other configuration files.
+     */
+    void setProfiles();
 };
 
 } // namespace phosphor::fan::control::json

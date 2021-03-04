@@ -16,10 +16,12 @@
 #include "manager.hpp"
 
 #include "json_config.hpp"
-#include "json_parser.hpp"
 #include "profile.hpp"
+#include "zone.hpp"
 
+#include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 
 #include <filesystem>
 #include <vector>
@@ -27,8 +29,12 @@
 namespace phosphor::fan::control::json
 {
 
+using json = nlohmann::json;
+
+std::vector<std::string> Manager::_activeProfiles;
+
 Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
-    _profiles(getConfig<Profile>(true))
+    _bus(bus), _event(event)
 {
     // Manager JSON config file is optional
     auto confFile =
@@ -38,15 +44,16 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
         _jsonObj = fan::JsonConfig::load(confFile);
     }
 
-    // Ensure all configurations use the same set of active profiles
-    // (In case a profile's active state changes during configuration)
-    for (const auto& profile : _profiles)
-    {
-        if (profile.second->isActive())
-        {
-            _activeProfiles.emplace_back(profile.first.first);
-        }
-    }
+    // Parse and set the available profiles and which are active
+    setProfiles();
+
+    // Load the zone configurations
+    _zones = getConfig<Zone>(bus);
+}
+
+const std::vector<std::string>& Manager::getActiveProfiles()
+{
+    return _activeProfiles;
 }
 
 unsigned int Manager::getPowerOnDelay()
@@ -60,6 +67,32 @@ unsigned int Manager::getPowerOnDelay()
     }
 
     return powerOnDelay;
+}
+
+void Manager::setProfiles()
+{
+    // Profiles JSON config file is optional
+    auto confFile = fan::JsonConfig::getConfFile(_bus, confAppName,
+                                                 Profile::confFileName, true);
+    if (!confFile.empty())
+    {
+        for (const auto& entry : fan::JsonConfig::load(confFile))
+        {
+            auto obj = std::make_unique<Profile>(entry);
+            _profiles.emplace(
+                std::make_pair(obj->getName(), obj->getProfiles()),
+                std::move(obj));
+        }
+    }
+    // Ensure all configurations use the same set of active profiles
+    // (In case a profile's active state changes during configuration)
+    for (const auto& profile : _profiles)
+    {
+        if (profile.second->isActive())
+        {
+            _activeProfiles.emplace_back(profile.first.first);
+        }
+    }
 }
 
 } // namespace phosphor::fan::control::json

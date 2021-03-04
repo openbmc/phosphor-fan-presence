@@ -68,7 +68,7 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
     // Fans to be controlled
     auto fans = getConfig<json::Fan>(bus);
     // Zones within the system
-    auto zones = getConfig<json::Zone>();
+    auto zones = getConfig<json::Zone>(bus);
     // Fan control events are optional
     auto events = getConfig<json::Event>(bus, true);
 
