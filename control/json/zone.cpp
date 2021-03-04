@@ -16,6 +16,7 @@
 #include "zone.hpp"
 
 #include "../zone.hpp"
+#include "fan.hpp"
 #include "functor.hpp"
 #include "handlers.hpp"
 #include "types.hpp"
@@ -64,6 +65,11 @@ Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     {
         setInterfaces(jsonObj);
     }
+}
+
+void Zone::addFan(std::unique_ptr<Fan> fan)
+{
+    _fans.emplace_back(std::move(fan));
 }
 
 void Zone::setFullSpeed(const json& jsonObj)
