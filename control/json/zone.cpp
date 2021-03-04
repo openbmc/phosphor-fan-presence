@@ -22,6 +22,7 @@
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
+#include <sdbusplus/bus.hpp>
 
 #include <iterator>
 #include <map>
@@ -40,7 +41,8 @@ const std::map<std::string, std::map<std::string, propHandler>>
                                 {{supportedProp, zone::property::supported},
                                  {currentProp, zone::property::current}}}};
 
-Zone::Zone(const json& jsonObj) : ConfigBase(jsonObj), _incDelay(0)
+Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
+    ConfigBase(jsonObj), _incDelay(0)
 {
     if (jsonObj.contains("profiles"))
     {
