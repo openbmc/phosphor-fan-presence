@@ -50,7 +50,7 @@ class Manager
      * setting fans to full, delaying so they
      * can get there, and starting a target.
      */
-    void doInit();
+    void doInit(const sdeventplus::Event& event);
 
   private:
     /**
