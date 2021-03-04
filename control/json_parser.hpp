@@ -144,6 +144,7 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus);
  * @return Time to delay in seconds
  *     Amount of time to delay in seconds after a power on
  */
-const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus);
+const unsigned int getPowerOnDelay(sdbusplus::bus::bus& bus,
+                                   const sdeventplus::Event& event);
 
 } // namespace phosphor::fan::control

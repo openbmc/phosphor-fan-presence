@@ -17,15 +17,18 @@
 
 #include "json_config.hpp"
 #include "json_parser.hpp"
+#include "profile.hpp"
 
 #include <sdbusplus/bus.hpp>
 
 #include <filesystem>
+#include <vector>
 
 namespace phosphor::fan::control::json
 {
 
-Manager::Manager(sdbusplus::bus::bus& bus)
+Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
+    _profiles(getConfig<Profile>(true))
 {
     // Manager JSON config file is optional
     auto confFile =
@@ -33,6 +36,16 @@ Manager::Manager(sdbusplus::bus::bus& bus)
     if (!confFile.empty())
     {
         _jsonObj = fan::JsonConfig::load(confFile);
+    }
+
+    // Ensure all configurations use the same set of active profiles
+    // (In case a profile's active state changes during configuration)
+    for (const auto& profile : _profiles)
+    {
+        if (profile.second->isActive())
+        {
+            _activeProfiles.emplace_back(profile.first.first);
+        }
     }
 }
 

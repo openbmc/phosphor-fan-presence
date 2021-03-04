@@ -16,6 +16,9 @@
 #include "argument.hpp"
 #include "manager.hpp"
 #include "sdbusplus.hpp"
+#ifdef CONTROL_USE_JSON
+#include "json/manager.hpp"
+#endif
 
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -28,8 +31,9 @@ int main(int argc, char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();
-    phosphor::fan::util::ArgumentParser args(argc, argv);
 
+#ifndef CONTROL_USE_JSON
+    phosphor::fan::util::ArgumentParser args(argc, argv);
     if (argc != 2)
     {
         args.usage(argv);
@@ -51,6 +55,7 @@ int main(int argc, char* argv[])
         args.usage(argv);
         return 1;
     }
+#endif
 
     // Attach the event object to the bus object so we can
     // handle both sd_events (for the timers) and dbus signals.
@@ -58,15 +63,18 @@ int main(int argc, char* argv[])
 
     try
     {
+#ifdef CONTROL_USE_JSON
+        json::Manager manager(bus, event);
+#else
         Manager manager(bus, event, mode);
 
         // Init mode will just set fans to max and delay
         if (mode == Mode::init)
         {
-            manager.doInit();
+            manager.doInit(event);
             return 0;
         }
-
+#endif
         return event.loop();
     }
     // Log the useful metadata on these exceptions and let the app
