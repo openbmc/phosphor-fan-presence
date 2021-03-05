@@ -5,15 +5,7 @@ bin_PROGRAMS = \
 	phosphor-fan-control
 
 phosphor_fan_control_SOURCES = \
-	argument.cpp \
-	fan.cpp \
-	main.cpp \
-	manager.cpp \
-	utility.cpp \
-	preconditions.cpp \
-	actions.cpp \
-	triggers.cpp \
-	zone.cpp
+	main.cpp
 
 phosphor_fan_control_LDADD = \
 	-lstdc++fs \
@@ -32,6 +24,8 @@ phosphor_fan_control_CXXFLAGS = \
 
 if WANT_JSON_CONTROL
 phosphor_fan_control_SOURCES += \
+	fan.cpp \
+	zone.cpp \
 	json_parser.cpp \
 	json/manager.cpp \
 	json/profile.cpp \
@@ -41,6 +35,15 @@ phosphor_fan_control_SOURCES += \
 	json/event.cpp \
 	json/actions/default_floor.cpp
 else
+phosphor_fan_control_SOURCES += \
+	argument.cpp \
+	fan.cpp \
+	manager.cpp \
+	utility.cpp \
+	preconditions.cpp \
+	actions.cpp \
+	triggers.cpp \
+	zone.cpp
 BUILT_SOURCES = fan_zone_defs.cpp
 nodist_phosphor_fan_control_SOURCES = \
 	fan_zone_defs.cpp
