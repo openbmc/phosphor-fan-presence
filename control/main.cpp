@@ -13,12 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "config.h"
+
+#ifndef CONTROL_USE_JSON
 #include "argument.hpp"
 #include "manager.hpp"
-#include "sdbusplus.hpp"
-#ifdef CONTROL_USE_JSON
+#else
 #include "json/manager.hpp"
 #endif
+#include "sdbusplus.hpp"
 
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
