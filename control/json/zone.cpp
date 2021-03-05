@@ -51,7 +51,8 @@ const std::map<std::string,
 Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     ConfigBase(jsonObj),
     ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
-    _incDelay(0), _floor(0), _target(0), _incDelta(0), _requestTargetBase(0)
+    _incDelay(0), _floor(0), _target(0), _incDelta(0), _requestTargetBase(0),
+    _isActive(true)
 {
     if (jsonObj.contains("profiles"))
     {
@@ -80,10 +81,37 @@ void Zone::addFan(std::unique_ptr<Fan> fan)
     _fans.emplace_back(std::move(fan));
 }
 
+void Zone::setTarget(uint64_t target)
+{
+    if (_isActive)
+    {
+        _target = target;
+        for (auto& fan : _fans)
+        {
+            fan->setTarget(_target);
+        }
+    }
+}
+
+void Zone::setActiveAllow(const std::string& ident, bool isActiveAllow)
+{
+    _active[ident] = isActiveAllow;
+    if (!isActiveAllow)
+    {
+        _isActive = false;
+    }
+    else
+    {
+        // Check all entries are set to allow active fan control
+        auto actPred = [](const auto& entry) { return entry.second; };
+        _isActive = std::all_of(_active.begin(), _active.end(), actPred);
+    }
+}
+
 void Zone::setFloor(uint64_t target)
 {
     // Check all entries are set to allow floor to be set
-    auto pred = [](auto const& entry) { return entry.second; };
+    auto pred = [](const auto& entry) { return entry.second; };
     if (std::all_of(_floorChange.begin(), _floorChange.end(), pred))
     {
         _floor = target;
@@ -109,9 +137,8 @@ void Zone::requestIncrease(uint64_t targetDelta)
         {
             requestTarget = _ceiling;
         }
-        // TODO Set target and handle increase timer
-        // setTarget(requestTarget);
-        // // Restart timer countdown for fan speed increase
+        setTarget(requestTarget);
+        // TODO // Restart timer countdown for fan speed increase
         // _incTimer.restartOnce(_incDelay);
     }
 }

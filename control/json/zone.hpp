@@ -147,6 +147,21 @@ class Zone : public ConfigBase, public ThermalObject
     void addFan(std::unique_ptr<Fan> fan);
 
     /**
+     * Sets all fans in the zone to the target given when the zone is active
+     *
+     * @param[in] target - Target for fans
+     */
+    void setTarget(uint64_t target);
+
+    /**
+     * @brief Sets the automatic fan control allowed active state
+     *
+     * @param[in] ident - An identifier that affects the active state
+     * @param[in] isActiveAllow - Active state according to group
+     */
+    void setActiveAllow(const std::string& ident, bool isActiveAllow);
+
+    /**
      * @brief Set the floor to the given target and increase target to the floor
      * when the target is below the floor value when floor changes are allowed.
      *
@@ -275,6 +290,12 @@ class Zone : public ConfigBase, public ThermalObject
 
     /* Map of interfaces to persisted properties the zone hosts*/
     std::map<std::string, std::vector<std::string>> _propsPersisted;
+
+    /* Automatic fan control active state */
+    bool _isActive;
+
+    /* Map of active fan control allowed by a string identifier */
+    std::map<std::string, bool> _active;
 
     /* Interface to property mapping of their associated set property handler
      * function */
