@@ -19,9 +19,6 @@
 
 #include "sdbusplus.hpp"
 #include "utility.hpp"
-#ifdef CONTROL_USE_JSON
-#include "json_parser.hpp"
-#endif
 
 #include <unistd.h>
 
@@ -91,20 +88,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
 {
     // Create the appropriate Zone objects based on the
     // actual system configuration.
-#ifdef CONTROL_USE_JSON
-    for (auto& group : getZoneGroups(bus))
-    {
-        // Create a Zone object for each zone in the group
-        for (auto& z : std::get<zoneListPos>(group))
-        {
-            fs::path path{CONTROL_OBJPATH};
-            path /= std::to_string(std::get<zoneNumPos>(z));
-            _zones.emplace(
-                std::get<zoneNumPos>(z),
-                std::make_unique<Zone>(mode, _bus, path.string(), event, z));
-        }
-    }
-#else
+
     // Find the 1 ZoneGroup that meets all of its conditions
     for (auto& group : _zoneLayouts)
     {
@@ -130,7 +114,6 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             break;
         }
     }
-#endif
 
     if (mode == Mode::control)
     {
@@ -144,11 +127,7 @@ void Manager::doInit(const sdeventplus::Event& event)
     {
         z.second->setFullSpeed();
     }
-#ifdef CONTROL_USE_JSON
-    auto delay = getPowerOnDelay(_bus, event);
-#else
     auto delay = _powerOnDelay;
-#endif
     while (delay > 0)
     {
         delay = sleep(delay);
