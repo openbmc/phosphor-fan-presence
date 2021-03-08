@@ -135,6 +135,17 @@ class Manager
     }
 
     /**
+     * @brief Check if the given path and inteface is owned by a dbus service
+     *
+     * @param[in] path - Dbus object path
+     * @param[in] intf - Dbus object interface
+     *
+     * @return - Whether the service has an owner for the given object path and
+     * interface
+     */
+    static bool hasOwner(const std::string& path, const std::string& intf);
+
+    /**
      * @brief Get the configured power on delay(OPTIONAL)
      *
      * @return Power on delay in seconds
@@ -164,6 +175,11 @@ class Manager
 
     /* List of active profiles */
     static std::vector<std::string> _activeProfiles;
+
+    /* Subtree map of paths to services (with ownership state) of interfaces */
+    static std::map<std::string, std::map<std::pair<std::string, bool>,
+                                          std::vector<std::string>>>
+        _servTree;
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;

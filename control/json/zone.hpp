@@ -160,6 +160,33 @@ class Zone : public ConfigBase
      */
     void addFan(std::unique_ptr<Fan> fan);
 
+    /**
+     * @brief Set the floor to the given target and increase target to the floor
+     * when the target is below the floor value when floor changes are allowed.
+     *
+     * @param[in] target - Target to set the floor to
+     */
+    void setFloor(uint64_t target);
+
+    /**
+     * @brief Sets the floor change allowed state
+     *
+     * @param[in] ident - An identifier that affects floor changes
+     * @param[in] isAllow - Allow state according to the identifier
+     */
+    inline void setFloorChangeAllow(const std::string& ident, bool isAllow)
+    {
+        _floorChange[ident] = isAllow;
+    }
+
+    /**
+     * @brief Calculate the requested target from the given delta and increases
+     * the fans, not going above the ceiling.
+     *
+     * @param[in] targetDelta - The delta to increase the target by
+     */
+    void requestIncrease(uint64_t targetDelta);
+
   private:
     /* The zone's full speed value for fans */
     uint64_t _fullSpeed;
@@ -172,6 +199,15 @@ class Zone : public ConfigBase
 
     /* Zone's speed decrease interval(in seconds) */
     uint64_t _decInterval;
+
+    /* The floor target to not go below */
+    uint64_t _floor;
+
+    /* Target for this zone */
+    uint64_t _target;
+
+    /* Map of whether floor changes are allowed by a string identifier */
+    std::map<std::string, bool> _floorChange;
 
     /**
      * Zone interface handler functions for its
