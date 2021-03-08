@@ -79,12 +79,50 @@ class Group : public ConfigBase
         return _service;
     }
 
+    /**
+     * @brief Set the dbus interface name for the group
+     */
+    inline void setInterface(std::string& intf)
+    {
+        _interface = intf;
+    }
+
+    /**
+     * @brief Get the group's dbus interface name
+     */
+    inline const auto& getInterface() const
+    {
+        return _interface;
+    }
+
+    /**
+     * @brief Set the dbus property name for the group
+     */
+    inline void setProperty(std::string& prop)
+    {
+        _property = prop;
+    }
+
+    /**
+     * @brief Get the group's dbus property name
+     */
+    inline const auto& getProperty() const
+    {
+        return _property;
+    }
+
   private:
     /* Members of the group */
     std::vector<std::string> _members;
 
     /* Service name serving all the members */
     std::string _service;
+
+    /* Dbus interface name for all the members */
+    std::string _interface;
+
+    /* Dbus property name for all the members */
+    std::string _property;
 
     /**
      * @brief Parse and set the members list
