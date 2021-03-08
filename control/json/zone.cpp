@@ -43,7 +43,7 @@ const std::map<std::string, std::map<std::string, propHandler>>
                                  {currentProp, zone::property::current}}}};
 
 Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _incDelay(0)
+    ConfigBase(jsonObj), _incDelay(0), _floor(0), _target(0)
 {
     if (jsonObj.contains("profiles"))
     {
@@ -72,6 +72,26 @@ void Zone::addFan(std::unique_ptr<Fan> fan)
     _fans.emplace_back(std::move(fan));
 }
 
+void Zone::setFloor(uint64_t target)
+{
+    // Check all entries are set to allow floor to be set
+    auto pred = [](auto const& entry) { return entry.second; };
+    if (std::all_of(_floorChange.begin(), _floorChange.end(), pred))
+    {
+        _floor = target;
+        // Floor above target, update target to floor
+        if (_target < _floor)
+        {
+            requestIncrease(_floor - _target);
+        }
+    }
+}
+
+void Zone::requestIncrease(uint64_t targetDelta)
+{
+    // TODO Add from `requestSpeedIncrease` method in YAML zone object
+}
+
 void Zone::setFullSpeed(const json& jsonObj)
 {
     if (!jsonObj.contains("full_speed"))
@@ -81,6 +101,8 @@ void Zone::setFullSpeed(const json& jsonObj)
         throw std::runtime_error("Missing required zone's full speed");
     }
     _fullSpeed = jsonObj["full_speed"].get<uint64_t>();
+    // Start with the current target set as the default
+    _target = _fullSpeed;
 }
 
 void Zone::setDefaultFloor(const json& jsonObj)
@@ -92,6 +114,8 @@ void Zone::setDefaultFloor(const json& jsonObj)
         throw std::runtime_error("Missing required zone's default floor speed");
     }
     _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
+    // Start with the current floor set as the default
+    _floor = _defaultFloor;
 }
 
 void Zone::setDecInterval(const json& jsonObj)
