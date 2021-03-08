@@ -15,8 +15,9 @@
  */
 #include "default_floor.hpp"
 
-#include "types.hpp"
-#include "zone.hpp"
+#include "../manager.hpp"
+#include "../zone.hpp"
+#include "group.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -35,18 +36,18 @@ DefaultFloor::DefaultFloor(const json&) : ActionBase(DefaultFloor::name)
 
 void DefaultFloor::run(Zone& zone, const Group& group)
 {
-    // Set/update the services of the group
-    zone.setServices(&group);
-    auto services = zone.getGroupServices(&group);
-    auto defFloor =
-        std::any_of(services.begin(), services.end(),
-                    [](const auto& s) { return !std::get<hasOwnerPos>(s); });
-    if (defFloor)
+    const auto& members = group.getMembers();
+    auto isMissingOwner =
+        std::any_of(members.begin(), members.end(),
+                    [&intf = group.getInterface()](const auto& member) {
+                        return !Manager::hasOwner(member, intf);
+                    });
+    if (isMissingOwner)
     {
-        zone.setFloor(zone.getDefFloor());
+        zone.setFloor(zone.getDefaultFloor());
     }
     // Update fan control floor change allowed
-    zone.setFloorChangeAllow(&group, !defFloor);
+    zone.setFloorChangeAllow(group.getName(), !isMissingOwner);
 }
 
 } // namespace phosphor::fan::control::json

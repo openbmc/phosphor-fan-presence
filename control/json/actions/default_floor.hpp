@@ -15,9 +15,9 @@
  */
 #pragma once
 
+#include "../zone.hpp"
 #include "action.hpp"
-#include "types.hpp"
-#include "zone.hpp"
+#include "group.hpp"
 
 #include <nlohmann/json.hpp>
 
