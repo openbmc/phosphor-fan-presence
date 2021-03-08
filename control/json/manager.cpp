@@ -34,6 +34,9 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 
 std::vector<std::string> Manager::_activeProfiles;
+std::map<std::string,
+         std::map<std::pair<std::string, bool>, std::vector<std::string>>>
+    Manager::_servTree;
 
 Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     _bus(bus), _event(event)
@@ -68,6 +71,29 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
 const std::vector<std::string>& Manager::getActiveProfiles()
 {
     return _activeProfiles;
+}
+
+bool Manager::hasOwner(const std::string& path, const std::string& intf)
+{
+    auto itServ = _servTree.find(path);
+    if (itServ == _servTree.end())
+    {
+        // Path not found in cache, therefore owner missing
+        return false;
+    }
+    for (const auto& serv : itServ->second)
+    {
+        auto itIntf = std::find_if(
+            serv.second.begin(), serv.second.end(),
+            [&intf](const auto& interface) { return intf == interface; });
+        if (itIntf != std::end(serv.second))
+        {
+            // Service found, return owner state
+            return serv.first.second;
+        }
+    }
+    // Interface not found in cache, therefore owner missing
+    return false;
 }
 
 unsigned int Manager::getPowerOnDelay()

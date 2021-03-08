@@ -15,7 +15,7 @@
  */
 #pragma once
 
-#include "types.hpp"
+#include "group.hpp"
 #include "zone.hpp"
 
 #include <fmt/format.h>

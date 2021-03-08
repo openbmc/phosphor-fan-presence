@@ -24,8 +24,6 @@ phosphor_fan_control_CXXFLAGS = \
 
 if WANT_JSON_CONTROL
 phosphor_fan_control_SOURCES += \
-	fan.cpp \
-	zone.cpp \
 	json_parser.cpp \
 	json/manager.cpp \
 	json/profile.cpp \
