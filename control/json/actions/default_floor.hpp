@@ -27,12 +27,11 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 
 /**
- * @class DefaultFloor - Action to default the fan floor speed
+ * @class DefaultFloor - Action to default the fan floor
  *
- * Sets the fan floor to the defined default fan floor speed when a
- * service associated to a given group has terminated. Once all services
- * are functional and providing the sensors, the fan floor is allowed
- * to be set normally again.
+ * Sets the fan floor to the defined default fan floor when a service associated
+ * to a given group has terminated. Once all services are functional and
+ * providing the sensors, the fan floor is allowed to be set normally again.
  */
 class DefaultFloor : public ActionBase, public ActionRegister<DefaultFloor>
 {
@@ -48,7 +47,7 @@ class DefaultFloor : public ActionBase, public ActionRegister<DefaultFloor>
     ~DefaultFloor() = default;
 
     /**
-     * @brief Default the fan floor speed
+     * @brief Default the fan floor
      *
      * No JSON configuration parameters required
      */

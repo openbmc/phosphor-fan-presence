@@ -43,11 +43,10 @@ using propHandler = std::function<ZoneHandler(const json&, bool)>;
  * @class Zone - Represents a configured fan control zone
  *
  * A zone object contains the configured attributes for a zone that groups
- * a number of fans together to be under the same speed control. These
- * configuration attributes include, but are not limited to, the full speed
- * of the fans within the zone, a default floor speed, the delay between speed
- * increases, a decrease interval, and any profiles(OPTIONAL) the zone should
- * be included in.
+ * a number of fans together to be under the same target control. These
+ * configuration attributes include, but are not limited to, the default ceiling
+ * of the fans within the zone, a default floor, the delay between increases, a
+ * decrease interval, and any profiles(OPTIONAL) the zone should be included in.
  *
  * (When no profile for a zone is given, the zone defaults to always exist)
  *
@@ -79,26 +78,27 @@ class Zone : public ConfigBase, public ThermalObject
     Zone(sdbusplus::bus::bus& bus, const json& jsonObj);
 
     /**
-     * @brief Get the full speed
+     * @brief Get the default ceiling
      *
-     * Full speed is the speed set to the fans within this zone unless there
-     * are events configured that alter the fan speeds.
+     * Default ceiling is the highest target the fans within this zone is
+     * allowed to increase to. The zone's ceiling defaults to this unless
+     * changed by some configured event.
      *
-     * @return Full speed of this zone
+     * @return Default ceiling of this zone
      */
-    inline const auto& getFullSpeed() const
+    inline const auto& getDefaultCeiling() const
     {
-        return _fullSpeed;
+        return _defaultCeiling;
     }
 
     /**
-     * @brief Get the default floor speed
+     * @brief Get the default floor
      *
-     * The default floor speed is the lowest speed the fans within this zone
-     * are allowed to decrease to. The zone's floor speed defaults to this
+     * The default floor is the lowest target the fans within this zone
+     * are allowed to decrease to. The zone's floor defaults to this
      * unless changed by some configured event.
      *
-     * @return Default floor speed
+     * @return Default floor
      */
     inline const auto& getDefaultFloor() const
     {
@@ -106,17 +106,17 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
     /**
-     * @brief Get the speed increase delay(OPTIONAL)
+     * @brief Get the increase delay(OPTIONAL)
      *
-     * The speed increase delay is the amount of time(in seconds) increases
-     * to a target speed are delayed before being made. The default is 0, which
-     * results in immediate speed increase requests when any events result in
-     * a change to the target speed.
+     * The increase delay is the amount of time(in seconds) increases
+     * to a target are delayed before being made. The default is 0, which
+     * results in immediate increase requests when any events result in
+     * a change to the target.
      *
      * It is recommend a value other than 0 is configured, but that inherently
-     * depends on the fan controller and configured speed increases.
+     * depends on the fan controller and configured increases.
      *
-     * @return Speed increase delay(in seconds)
+     * @return Increase delay(in seconds)
      */
     inline const auto& getIncDelay() const
     {
@@ -124,14 +124,14 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
     /**
-     * @brief Get the speed decrease interval
+     * @brief Get the decrease interval
      *
-     * Speed decreases happen on a set interval when no requests for an increase
-     * in fan speeds exists. This is the interval(in seconds) at which the fans
+     * Decreases happen on a set interval when no requests for an increase
+     * in fan targets exists. This is the interval(in seconds) at which the fans
      * within the zone are decreased if events exist that result in a target
-     * speed decrease.
+     * decrease.
      *
-     * @return Speed decrease interval(in seconds)
+     * @return Decrease interval(in seconds)
      */
     inline const auto& getDecInterval() const
     {
@@ -209,16 +209,16 @@ class Zone : public ConfigBase, public ThermalObject
     std::string current(std::string value) override;
 
   private:
-    /* The zone's full speed value for fans */
-    uint64_t _fullSpeed;
+    /* The zone's default ceiling value for fans */
+    uint64_t _defaultCeiling;
 
-    /* The zone's default floor speed value for fans */
+    /* The zone's default floor value for fans */
     uint64_t _defaultFloor;
 
-    /* Zone's speed increase delay(in seconds) (OPTIONAL) */
+    /* Zone's increase delay(in seconds) (OPTIONAL) */
     uint64_t _incDelay;
 
-    /* Zone's speed decrease interval(in seconds) */
+    /* Zone's decrease interval(in seconds) */
     uint64_t _decInterval;
 
     /* The floor target to not go below */
@@ -247,21 +247,22 @@ class Zone : public ConfigBase, public ThermalObject
     std::vector<std::unique_ptr<Fan>> _fans;
 
     /**
-     * @brief Parse and set the zone's full speed value
+     * @brief Parse and set the zone's default ceiling value
      *
      * @param[in] jsonObj - JSON object for the zone
      *
-     * Sets the full speed value for the zone from the JSON configuration object
+     * Sets the default ceiling value for the zone from the JSON configuration
+     * object
      */
-    void setFullSpeed(const json& jsonObj);
+    void setDefaultCeiling(const json& jsonObj);
 
     /**
-     * @brief Parse and set the zone's default floor speed value
+     * @brief Parse and set the zone's default floor value
      *
      * @param[in] jsonObj - JSON object for the zone
      *
-     * Sets the default floor speed value for the zone from the JSON
-     * configuration object
+     * Sets the default floor value for the zone from the JSON configuration
+     * object
      */
     void setDefaultFloor(const json& jsonObj);
 
@@ -270,7 +271,7 @@ class Zone : public ConfigBase, public ThermalObject
      *
      * @param[in] jsonObj - JSON object for the zone
      *
-     * Sets the speed decrease interval(in seconds) for the zone from the JSON
+     * Sets the decrease interval(in seconds) for the zone from the JSON
      * configuration object
      */
     void setDecInterval(const json& jsonObj);

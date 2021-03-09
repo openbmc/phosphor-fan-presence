@@ -34,7 +34,7 @@ using json = nlohmann::json;
  * that will be controlled by the fan control application. These configuration
  * attributes include, but are not limited to, the cooling zone in which the
  * fan is included, what sensors make up the fan, the target interface to be
- * used in setting a speed, and any profiles(OPTIONAL) the fan should be
+ * used in setting a target, and any profiles(OPTIONAL) the fan should be
  * included in.
  *
  * (When no profile for a fan is given, the fan defaults to always be included)
@@ -115,7 +115,7 @@ class Fan : public ConfigBase
 
     /**
      * Interface containing the `Target` property
-     * to use in controlling the fan's speed
+     * to use in controlling the fan's target
      */
     std::string _interface;
 

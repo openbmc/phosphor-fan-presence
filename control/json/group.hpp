@@ -30,7 +30,7 @@ using json = nlohmann::json;
  * A group contains a list of dbus objects that are logically grouped together
  * to be used within one-or-more configured fan control events. An event object
  * is configured to apply a set of actions against a list of groups that could
- * result in a fan control speed change. A group may also be configured against
+ * result in a fan control target change. A group may also be configured against
  * a list of profiles(OPTIONAL) and or denote a specific service(OPTIONAL) that
  * serves the list of dbus objects in the group.
  *

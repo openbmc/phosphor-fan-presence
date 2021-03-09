@@ -60,12 +60,12 @@ Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
             _profiles.emplace_back(profile.get<std::string>());
         }
     }
-    // Speed increase delay is optional, defaults to 0
+    // Increase delay is optional, defaults to 0
     if (jsonObj.contains("increase_delay"))
     {
         _incDelay = jsonObj["increase_delay"].get<uint64_t>();
     }
-    setFullSpeed(jsonObj);
+    setDefaultCeiling(jsonObj);
     setDefaultFloor(jsonObj);
     setDecInterval(jsonObj);
     // Setting properties on interfaces to be served are optional
@@ -143,7 +143,7 @@ std::string Zone::current(std::string value)
     return current;
 }
 
-void Zone::setFullSpeed(const json& jsonObj)
+void Zone::setDefaultCeiling(const json& jsonObj)
 {
     if (!jsonObj.contains("full_speed"))
     {
@@ -151,18 +151,18 @@ void Zone::setFullSpeed(const json& jsonObj)
                         entry("JSON=%s", jsonObj.dump().c_str()));
         throw std::runtime_error("Missing required zone's full speed");
     }
-    _fullSpeed = jsonObj["full_speed"].get<uint64_t>();
+    _defaultCeiling = jsonObj["full_speed"].get<uint64_t>();
     // Start with the current target set as the default
-    _target = _fullSpeed;
+    _target = _defaultCeiling;
 }
 
 void Zone::setDefaultFloor(const json& jsonObj)
 {
     if (!jsonObj.contains("default_floor"))
     {
-        log<level::ERR>("Missing required zone's default floor speed",
+        log<level::ERR>("Missing required zone's default floor",
                         entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required zone's default floor speed");
+        throw std::runtime_error("Missing required zone's default floor");
     }
     _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
     // Start with the current floor set as the default
