@@ -51,7 +51,7 @@ const std::map<std::string, std::map<std::string, propHandler>>
 Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     ConfigBase(jsonObj),
     ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
-    _incDelay(0), _floor(0), _target(0)
+    _incDelay(0), _floor(0), _target(0), _incDelta(0), _requestTargetBase(0)
 {
     if (jsonObj.contains("profiles"))
     {
@@ -97,7 +97,23 @@ void Zone::setFloor(uint64_t target)
 
 void Zone::requestIncrease(uint64_t targetDelta)
 {
-    // TODO Add from `requestSpeedIncrease` method in YAML zone object
+    // Only increase when delta is higher than the current increase delta for
+    // the zone and currently under ceiling
+    if (targetDelta > _incDelta && _target < _ceiling)
+    {
+        auto requestTarget = getRequestTargetBase();
+        requestTarget = (targetDelta - _incDelta) + requestTarget;
+        _incDelta = targetDelta;
+        // Target can not go above a current ceiling
+        if (requestTarget > _ceiling)
+        {
+            requestTarget = _ceiling;
+        }
+        // TODO Set target and handle increase timer
+        // setTarget(requestTarget);
+        // // Restart timer countdown for fan speed increase
+        // _incTimer.restartOnce(_incDelay);
+    }
 }
 
 void Zone::setPersisted(const std::string& intf, const std::string& prop)
@@ -154,6 +170,8 @@ void Zone::setDefaultCeiling(const json& jsonObj)
     _defaultCeiling = jsonObj["full_speed"].get<uint64_t>();
     // Start with the current target set as the default
     _target = _defaultCeiling;
+    // Start with the current ceiling set as the default
+    _ceiling = _defaultCeiling;
 }
 
 void Zone::setDefaultFloor(const json& jsonObj)

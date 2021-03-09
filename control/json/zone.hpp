@@ -227,6 +227,15 @@ class Zone : public ConfigBase, public ThermalObject
     /* Target for this zone */
     uint64_t _target;
 
+    /* Zone increase delta */
+    uint64_t _incDelta;
+
+    /* The ceiling target to not go above */
+    uint64_t _ceiling;
+
+    /* Requested target base */
+    uint64_t _requestTargetBase;
+
     /* Map of whether floor changes are allowed by a string identifier */
     std::map<std::string, bool> _floorChange;
 
@@ -303,6 +312,17 @@ class Zone : public ConfigBase, public ThermalObject
      * storage
      */
     void saveCurrentMode();
+
+    /**
+     * @brief Get the request target base if defined, otherwise the the current
+     * target is returned
+     *
+     * @return - The request target base or current target
+     */
+    inline auto getRequestTargetBase() const
+    {
+        return (_requestTargetBase != 0) ? _requestTargetBase : _target;
+    };
 };
 
 /**
