@@ -133,7 +133,7 @@ const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus)
             }
 
             zoneDefs.emplace_back(std::make_tuple(
-                zoneNum, zone.second->getFullSpeed(),
+                zoneNum, zone.second->getDefaultCeiling(),
                 zone.second->getDefaultFloor(), zone.second->getIncDelay(),
                 zone.second->getDecInterval(), zone.second->getZoneHandlers(),
                 std::move(fanDefs), std::move(speedEvents)));

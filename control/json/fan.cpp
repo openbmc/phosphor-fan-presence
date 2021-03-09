@@ -74,7 +74,7 @@ void Fan::setSensors(const json& jsonObj)
         auto service = util::SDBusPlus::getService(_bus, path, _interface);
         _sensors[path] = service;
     }
-    // All sensors associated with this fan are set to the same target speed,
+    // All sensors associated with this fan are set to the same target,
     // so only need to read target property from one of them
     if (!path.empty())
     {
