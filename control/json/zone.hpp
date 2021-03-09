@@ -17,7 +17,7 @@
 
 #include "config_base.hpp"
 #include "fan.hpp"
-#include "types.hpp"
+#include "xyz/openbmc_project/Control/ThermalMode/server.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
@@ -31,6 +31,10 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
+
+/* Extend the Control::ThermalMode interface */
+using ThermalObject = sdbusplus::server::object::object<
+    sdbusplus::xyz::openbmc_project::Control::server::ThermalMode>;
 
 /* Interface property handler function */
 using propHandler = std::function<ZoneHandler(const json&, bool)>;
@@ -48,7 +52,7 @@ using propHandler = std::function<ZoneHandler(const json&, bool)>;
  * (When no profile for a zone is given, the zone defaults to always exist)
  *
  */
-class Zone : public ConfigBase
+class Zone : public ConfigBase, public ThermalObject
 {
   public:
     /* JSON file name for zones */
@@ -187,6 +191,23 @@ class Zone : public ConfigBase
      */
     void requestIncrease(uint64_t targetDelta);
 
+    /**
+     * @brief Set a property to be persisted
+     *
+     * @param[in] intf - Interface containing property
+     * @param[in] prop - Property to be persisted
+     */
+    void setPersisted(const std::string& intf, const std::string& prop);
+
+    /**
+     * @brief Overridden thermal object's set 'Current' property function
+     *
+     * @param[in] value - Value to set 'Current' to
+     *
+     * @return - The updated value of the 'Current' property
+     */
+    std::string current(std::string value) override;
+
   private:
     /* The zone's full speed value for fans */
     uint64_t _fullSpeed;
@@ -208,6 +229,9 @@ class Zone : public ConfigBase
 
     /* Map of whether floor changes are allowed by a string identifier */
     std::map<std::string, bool> _floorChange;
+
+    /* Map of interfaces to persisted properties the zone hosts*/
+    std::map<std::string, std::vector<std::string>> _propsPersisted;
 
     /**
      * Zone interface handler functions for its
@@ -262,6 +286,22 @@ class Zone : public ConfigBase
      * to not be persisted when not given.
      */
     void setInterfaces(const json& jsonObj);
+
+    /**
+     * @brief Is the property persisted
+     *
+     * @param[in] intf - Interface containing property
+     * @param[in] prop - Property to check if persisted
+     *
+     * @return - True if property is to be persisted, false otherwise
+     */
+    bool isPersisted(const std::string& intf, const std::string& prop);
+
+    /**
+     * @brief Save the thermal control current mode property to persisted
+     * storage
+     */
+    void saveCurrentMode();
 };
 
 /**

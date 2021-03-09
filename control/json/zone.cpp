@@ -13,18 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "config.h"
+
 #include "zone.hpp"
 
-#include "../zone.hpp"
 #include "fan.hpp"
 #include "functor.hpp"
 #include "handlers.hpp"
-#include "types.hpp"
 
+#include <cereal/archives/json.hpp>
+#include <cereal/cereal.hpp>
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <algorithm>
+#include <filesystem>
+#include <fstream>
 #include <iterator>
 #include <map>
 #include <numeric>
@@ -36,6 +41,7 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 using namespace phosphor::logging;
+namespace fs = std::filesystem;
 
 const std::map<std::string, std::map<std::string, propHandler>>
     Zone::_intfPropHandlers = {{thermModeIntf,
@@ -43,7 +49,9 @@ const std::map<std::string, std::map<std::string, propHandler>>
                                  {currentProp, zone::property::current}}}};
 
 Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _incDelay(0), _floor(0), _target(0)
+    ConfigBase(jsonObj),
+    ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
+    _incDelay(0), _floor(0), _target(0)
 {
     if (jsonObj.contains("profiles"))
     {
@@ -90,6 +98,49 @@ void Zone::setFloor(uint64_t target)
 void Zone::requestIncrease(uint64_t targetDelta)
 {
     // TODO Add from `requestSpeedIncrease` method in YAML zone object
+}
+
+void Zone::setPersisted(const std::string& intf, const std::string& prop)
+{
+    if (std::find_if(_propsPersisted[intf].begin(), _propsPersisted[intf].end(),
+                     [&prop](const auto& p) { return prop == p; }) !=
+        _propsPersisted[intf].end())
+    {
+        _propsPersisted[intf].emplace_back(prop);
+    }
+}
+
+std::string Zone::current(std::string value)
+{
+    auto current = ThermalObject::current();
+    std::transform(value.begin(), value.end(), value.begin(), toupper);
+
+    auto supported = ThermalObject::supported();
+    auto isSupported =
+        std::any_of(supported.begin(), supported.end(), [&value](auto& s) {
+            std::transform(s.begin(), s.end(), s.begin(), toupper);
+            return value == s;
+        });
+
+    if (value != current && isSupported)
+    {
+        current = ThermalObject::current(value);
+        if (isPersisted("xyz.openbmc_project.Control.ThermalMode", "Current"))
+        {
+            saveCurrentMode();
+        }
+        // TODO Trigger event(s) for current mode property change
+        // auto eData =
+        // _objects[_path]["xyz.openbmc_project.Control.ThermalMode"]
+        //                      ["Current"];
+        // if (eData != nullptr)
+        // {
+        //     sdbusplus::message::message nullMsg{nullptr};
+        //     handleEvent(nullMsg, eData);
+        // }
+    }
+
+    return current;
 }
 
 void Zone::setFullSpeed(const json& jsonObj)
@@ -201,6 +252,29 @@ void Zone::setInterfaces(const json& jsonObj)
     }
 }
 
+bool Zone::isPersisted(const std::string& intf, const std::string& prop)
+{
+    auto it = _propsPersisted.find(intf);
+    if (it == _propsPersisted.end())
+    {
+        return false;
+    }
+
+    return std::any_of(it->second.begin(), it->second.end(),
+                       [&prop](const auto& p) { return prop == p; });
+}
+
+void Zone::saveCurrentMode()
+{
+    fs::path path{CONTROL_PERSIST_ROOT_PATH};
+    // Append zone name and property description
+    path /= getName();
+    path /= "CurrentMode";
+    std::ofstream ofs(path.c_str(), std::ios::binary);
+    cereal::JSONOutputArchive oArch(ofs);
+    oArch(ThermalObject::current());
+}
+
 /**
  * Properties of interfaces supported by the zone configuration that return
  * a ZoneHandler function that sets the zone's property value(s).
@@ -235,6 +309,7 @@ ZoneHandler supported(const json& jsonObj, bool persist)
         }
     }
 
+    // TODO Use this zone object's extended `supported` method in the handler
     return make_zoneHandler(handler::setZoneProperty<std::vector<std::string>>(
         Zone::thermModeIntf, Zone::supportedProp, &control::Zone::supported,
         std::move(values), persist));
@@ -253,6 +328,7 @@ ZoneHandler current(const json& jsonObj, bool persist)
         return {};
     }
 
+    // TODO Use this zone object's `current` method in the handler
     return make_zoneHandler(handler::setZoneProperty<std::string>(
         Zone::thermModeIntf, Zone::currentProp, &control::Zone::current,
         jsonObj["value"].get<std::string>(), persist));
