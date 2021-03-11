@@ -36,9 +36,6 @@ using json = nlohmann::json;
 using ThermalObject = sdbusplus::server::object::object<
     sdbusplus::xyz::openbmc_project::Control::server::ThermalMode>;
 
-/* Interface property handler function */
-using propHandler = std::function<ZoneHandler(const json&, bool)>;
-
 /**
  * @class Zone - Represents a configured fan control zone
  *
@@ -193,6 +190,58 @@ class Zone : public ConfigBase, public ThermalObject
      */
     std::string current(std::string value) override;
 
+    /**
+     * @brief A handler function to set/update a property on a zone
+     * @details Sets or updates a zone's dbus property to the given value using
+     * the provided base dbus object's set property function
+     *
+     * @param[in] intf - Interface on zone object
+     * @param[in] prop - Property on interface
+     * @param[in] func - Zone object's set property function pointer
+     * @param[in] value - Value to set property to
+     * @param[in] persist - Persist property value or not
+     *
+     * @return Lambda function
+     *     A lambda function to set/update the zone's dbus property
+     */
+    template <typename T>
+    static auto setProperty(const char* intf, const char* prop,
+                            T (Zone::*func)(T), T&& value, bool persist)
+    {
+        return [=, value = std::forward<T>(value)](Zone* zone) {
+            (zone->*func)(value);
+            if (persist)
+            {
+                zone->setPersisted(intf, prop);
+            }
+        };
+    }
+
+    /**
+     * @brief A handler function to set/update a zone's dbus property's persist
+     * state
+     * @details Sets or updates a zone's dbus property's persist state where the
+     * value of the property is to be left unchanged
+     *
+     * @param[in] intf - Interface on zone object
+     * @param[in] prop - Property on interface
+     * @param[in] persist - Persist property value or not
+     *
+     * @return Lambda function
+     *     A lambda function to set/update the zone's dbus property's persist
+     * state
+     */
+    static auto setPropertyPersist(const char* intf, const char* prop,
+                                   bool persist)
+    {
+        return [=](Zone* zone) {
+            if (persist)
+            {
+                zone->setPersisted(intf, prop);
+            }
+        };
+    }
+
   private:
     /* The zone's default ceiling value for fans */
     uint64_t _defaultCeiling;
@@ -227,8 +276,12 @@ class Zone : public ConfigBase, public ThermalObject
     /* Map of interfaces to persisted properties the zone hosts*/
     std::map<std::string, std::vector<std::string>> _propsPersisted;
 
-    /* Interface to property mapping of their associated handler function */
-    static const std::map<std::string, std::map<std::string, propHandler>>
+    /* Interface to property mapping of their associated set property handler
+     * function */
+    static const std::map<
+        std::string,
+        std::map<std::string,
+                 std::function<std::function<void(Zone*)>(const json&, bool)>>>
         _intfPropHandlers;
 
     /* List of fans included in this zone */
@@ -312,25 +365,29 @@ namespace zone::property
 
 /**
  * @brief "Supported" property on the "xyz.openbmc_project.Control.ThermalMode"
- * interface
+ * interface parser. Also creates the handler function for the Zone object to
+ * initialize the property according to what's parsed from the configuration.
  *
  * @param[in] jsonObj - JSON object for the "Supported" property
  * @param[in] persist - Whether to persist the value or not
  *
- * @return Zone interface handler function for the property
+ * @return Zone interface set property handler function for the "Supported"
+ * property
  */
-ZoneHandler supported(const json& jsonObj, bool persist);
+std::function<void(Zone*)> supported(const json& jsonObj, bool persist);
 
 /**
  * @brief "Current" property on the "xyz.openbmc_project.Control.ThermalMode"
- * interface
+ * interface parser. Also creates the handler function for the Zone object to
+ * initialize the property according to what's parsed from the configuration.
  *
  * @param[in] jsonObj - JSON object for the "Current" property
  * @param[in] persist - Whether to persist the value or not
  *
- * @return Zone interface handler function for the property
+ * @return Zone interface set property handler function for the "Current"
+ * property
  */
-ZoneHandler current(const json& jsonObj, bool persist);
+std::function<void(Zone*)> current(const json& jsonObj, bool persist);
 
 } // namespace zone::property
 
