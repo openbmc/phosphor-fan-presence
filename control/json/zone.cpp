@@ -18,8 +18,6 @@
 #include "zone.hpp"
 
 #include "fan.hpp"
-#include "functor.hpp"
-#include "handlers.hpp"
 
 #include <cereal/archives/json.hpp>
 #include <cereal/cereal.hpp>
@@ -43,7 +41,9 @@ using json = nlohmann::json;
 using namespace phosphor::logging;
 namespace fs = std::filesystem;
 
-const std::map<std::string, std::map<std::string, propHandler>>
+const std::map<std::string,
+               std::map<std::string, std::function<std::function<void(Zone*)>(
+                                         const json&, bool)>>>
     Zone::_intfPropHandlers = {{thermModeIntf,
                                 {{supportedProp, zone::property::supported},
                                  {currentProp, zone::property::current}}}};
@@ -260,7 +260,12 @@ void Zone::setInterfaces(const json& jsonObj)
                 throw std::runtime_error(
                     "Configured property function not available");
             }
-            auto zHandler = propFunc->second(property, persist);
+            auto propHandler = propFunc->second(property, persist);
+            // Only call non-null set property handler functions
+            if (propHandler)
+            {
+                propHandler(this);
+            }
         }
     }
 }
@@ -290,13 +295,13 @@ void Zone::saveCurrentMode()
 
 /**
  * Properties of interfaces supported by the zone configuration that return
- * a ZoneHandler function that sets the zone's property value(s).
+ * a handler function that sets the zone's property value(s) and persist state.
  */
 namespace zone::property
 {
-// Get a zone handler function for the configured values of the "Supported"
-// property
-ZoneHandler supported(const json& jsonObj, bool persist)
+// Get a set property handler function for the configured values of the
+// "Supported" property
+std::function<void(Zone*)> supported(const json& jsonObj, bool persist)
 {
     std::vector<std::string> values;
     if (!jsonObj.contains("values"))
@@ -322,30 +327,31 @@ ZoneHandler supported(const json& jsonObj, bool persist)
         }
     }
 
-    // TODO Use this zone object's extended `supported` method in the handler
-    return make_zoneHandler(handler::setZoneProperty<std::vector<std::string>>(
-        Zone::thermModeIntf, Zone::supportedProp, &control::Zone::supported,
-        std::move(values), persist));
+    return Zone::setProperty<std::vector<std::string>>(
+        Zone::thermModeIntf, Zone::supportedProp, &Zone::supported,
+        std::move(values), persist);
 }
 
-// Get a zone handler function for a configured value of the "Current"
+// Get a set property handler function for a configured value of the "Current"
 // property
-ZoneHandler current(const json& jsonObj, bool persist)
+std::function<void(Zone*)> current(const json& jsonObj, bool persist)
 {
     // Use default value for "Current" property if no "value" entry given
     if (!jsonObj.contains("value"))
     {
-        log<level::ERR>("No 'value' found for \"Current\" property, "
-                        "using default",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
-        return {};
+        log<level::INFO>("No 'value' found for \"Current\" property, "
+                         "using default",
+                         entry("JSON=%s", jsonObj.dump().c_str()));
+        // Set persist state of property
+        return Zone::setPropertyPersist(Zone::thermModeIntf, Zone::currentProp,
+                                        persist);
     }
 
-    // TODO Use this zone object's `current` method in the handler
-    return make_zoneHandler(handler::setZoneProperty<std::string>(
-        Zone::thermModeIntf, Zone::currentProp, &control::Zone::current,
-        jsonObj["value"].get<std::string>(), persist));
+    return Zone::setProperty<std::string>(
+        Zone::thermModeIntf, Zone::currentProp, &Zone::current,
+        jsonObj["value"].get<std::string>(), persist);
 }
+
 } // namespace zone::property
 
 } // namespace phosphor::fan::control::json
