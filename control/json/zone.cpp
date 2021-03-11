@@ -264,7 +264,6 @@ void Zone::setInterfaces(const json& jsonObj)
             // Only add non-null zone handler functions
             if (zHandler)
             {
-                _zoneHandlers.emplace_back(zHandler);
             }
         }
     }

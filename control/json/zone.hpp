@@ -139,21 +139,6 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
     /**
-     * @brief Get the configuration of zone interface handlers
-     *
-     * Interfaces hosted by a zone can optionally be configured to set their
-     * property values and/or persistency. These interfaces must be supported
-     * by the zone object they are configured for.
-     *
-     * @return List of zone interface handler functions that set an interface's
-     * property values and persistency states
-     */
-    inline const auto& getZoneHandlers() const
-    {
-        return _zoneHandlers;
-    }
-
-    /**
      * @brief Add a fan object to the zone
      *
      * @param[in] fan - Unique pointer to a fan object that will be moved into
@@ -241,12 +226,6 @@ class Zone : public ConfigBase, public ThermalObject
 
     /* Map of interfaces to persisted properties the zone hosts*/
     std::map<std::string, std::vector<std::string>> _propsPersisted;
-
-    /**
-     * Zone interface handler functions for its
-     * configured interfaces (OPTIONAL)
-     */
-    std::vector<ZoneHandler> _zoneHandlers;
 
     /* Interface to property mapping of their associated handler function */
     static const std::map<std::string, std::map<std::string, propHandler>>
