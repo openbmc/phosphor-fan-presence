@@ -15,8 +15,6 @@
  */
 #pragma once
 
-#include "types.hpp"
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
@@ -27,6 +25,9 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 using namespace phosphor::logging;
+
+using PropertyVariantType =
+    std::variant<bool, int32_t, int64_t, double, std::string>;
 
 /**
  * @class ConfigBase - Base configuration object
