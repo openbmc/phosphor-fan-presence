@@ -13,6 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "config.h"
+
 #include "manager.hpp"
 
 #include "fan.hpp"
@@ -69,6 +71,8 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
             itZone->second->addFan(std::move(fan.second));
         }
     }
+
+    bus.request_name(CONTROL_BUSNAME);
 }
 
 const std::vector<std::string>& Manager::getActiveProfiles()
