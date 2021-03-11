@@ -261,11 +261,6 @@ void Zone::setInterfaces(const json& jsonObj)
                     "Configured property function not available");
             }
             auto zHandler = propFunc->second(property, persist);
-            // Only add non-null zone handler functions
-            if (zHandler)
-            {
-                _zoneHandlers.emplace_back(zHandler);
-            }
         }
     }
 }
