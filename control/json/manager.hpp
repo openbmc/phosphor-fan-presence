@@ -122,16 +122,16 @@ class Manager
      * @brief Load the configuration of a given JSON class object based on the
      * active profiles
      *
-     * @param[in] bus - The sdbusplus bus object
      * @param[in] isOptional - JSON configuration file is optional or not
-     *                         Defaults to false
+     * @param[in] bus - The sdbusplus bus object
+     * @param[in] args - Arguments to be forwarded to each instance of `T`
      *
      * @return Map of configuration entries
      *     Map of configuration keys to their corresponding configuration object
      */
-    template <typename T>
+    template <typename T, typename... Args>
     static std::map<configKey, std::unique_ptr<T>>
-        getConfig(sdbusplus::bus::bus& bus, bool isOptional = false)
+        getConfig(bool isOptional, sdbusplus::bus::bus& bus, Args&&... args)
     {
         std::map<configKey, std::unique_ptr<T>> config;
 
@@ -163,7 +163,8 @@ class Manager
                         continue;
                     }
                 }
-                auto obj = std::make_unique<T>(bus, entry);
+                auto obj =
+                    std::make_unique<T>(entry, std::forward<Args>(args)...);
                 config.emplace(
                     std::make_pair(obj->getName(), obj->getProfiles()),
                     std::move(obj));

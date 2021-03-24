@@ -126,16 +126,6 @@ bool checkEntry(const std::vector<std::string>& activeProfiles,
                 const std::vector<std::string>& entryProfiles);
 
 /**
- * @brief Get the configuration definitions for zone groups
- *
- * @param[in] bus - The dbus bus object
- *
- * @return List of zone group objects
- *     Generated list of zone groups including their control configurations
- */
-const std::vector<ZoneGroup> getZoneGroups(sdbusplus::bus::bus& bus);
-
-/**
  * @brief Get the delay(in seconds) to allow the fans to ramp up to the defined
  * power on speed
  *
