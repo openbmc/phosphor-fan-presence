@@ -17,7 +17,9 @@
 
 #include "manager.hpp"
 
+#include "action.hpp"
 #include "fan.hpp"
+#include "group.hpp"
 #include "json_config.hpp"
 #include "profile.hpp"
 #include "zone.hpp"
@@ -25,9 +27,16 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/utility/timer.hpp>
 
 #include <algorithm>
+#include <chrono>
 #include <filesystem>
+#include <functional>
+#include <map>
+#include <memory>
+#include <tuple>
+#include <utility>
 #include <vector>
 
 namespace phosphor::fan::control::json
@@ -104,6 +113,55 @@ bool Manager::hasOwner(const std::string& path, const std::string& intf)
     }
     // Interface not found in cache, therefore owner missing
     return false;
+}
+
+void Manager::addTimer(const TimerType type,
+                       const std::chrono::microseconds interval,
+                       std::unique_ptr<TimerPkg> pkg)
+{
+    auto dataPtr =
+        std::make_unique<TimerData>(std::make_pair(type, std::move(*pkg)));
+    Timer timer(_event,
+                std::bind(&Manager::timerExpired, this, std::ref(*dataPtr)));
+    if (type == TimerType::repeating)
+    {
+        timer.restart(interval);
+    }
+    else if (type == TimerType::oneshot)
+    {
+        timer.restartOnce(interval);
+    }
+    else
+    {
+        throw std::invalid_argument("Invalid Timer Type");
+    }
+    _timers.emplace_back(std::move(dataPtr), std::move(timer));
+}
+
+void Manager::timerExpired(TimerData& data)
+{
+    auto& actions =
+        std::get<std::vector<std::unique_ptr<ActionBase>>&>(data.second);
+    // Perform the actions in the timer data
+    std::for_each(actions.begin(), actions.end(),
+                  [zone = std::ref(std::get<Zone&>(data.second)),
+                   group = std::cref(std::get<const Group&>(data.second))](
+                      auto& action) { action->run(zone, group); });
+
+    // Remove oneshot timers after they expired
+    if (data.first == TimerType::oneshot)
+    {
+        auto itTimer = std::find_if(
+            _timers.begin(), _timers.end(), [&data](const auto& timer) {
+                return (data.first == timer.first->first &&
+                        (std::get<std::string>(data.second) ==
+                         std::get<std::string>(timer.first->second)));
+            });
+        if (itTimer != std::end(_timers))
+        {
+            _timers.erase(itTimer);
+        }
+    }
 }
 
 unsigned int Manager::getPowerOnDelay()

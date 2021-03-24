@@ -15,6 +15,8 @@
  */
 #pragma once
 
+#include "action.hpp"
+#include "group.hpp"
 #include "json_config.hpp"
 #include "profile.hpp"
 #include "zone.hpp"
@@ -22,6 +24,15 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/utility/timer.hpp>
+
+#include <chrono>
+#include <map>
+#include <memory>
+#include <optional>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 namespace phosphor::fan::control::json
 {
@@ -39,6 +50,33 @@ constexpr auto confAppName = "control";
  *                                 is included in
  */
 using configKey = std::pair<std::string, std::vector<std::string>>;
+
+/* Type of timers supported */
+enum class TimerType
+{
+    oneshot,
+    repeating,
+};
+/**
+ * Package of data required when a timer expires
+ * Tuple constructed of:
+ *      std::string = Timer package unique identifier
+ *      Zone = Zone object to run the actions against
+ *      Group = Group of dbus objects for the actions
+ *      std::vector<std::unique_ptr<ActionBase>> = List of pointers to actions
+ * that run when the timer expires
+ */
+using TimerPkg = std::tuple<std::string, Zone&, const Group&,
+                            std::vector<std::unique_ptr<ActionBase>>&>;
+/**
+ * Data associated with a running timer that's used when it expires
+ * Pair constructed of:
+ *      TimerType = Type of timer to manage expired timer instances
+ *      TimerPkg = Package of data required when the timer expires
+ */
+using TimerData = std::pair<TimerType, TimerPkg>;
+/* Dbus event timer */
+using Timer = sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>;
 
 /**
  * @class Manager - Represents the fan control manager's configuration
@@ -162,6 +200,24 @@ class Manager
     };
 
     /**
+     * @brief Add a dbus timer
+     *
+     * @param[in] type - Type of timer
+     * @param[in] interval - Timer interval in microseconds
+     * @param[in] pkg - Packaged data for when timer expires
+     */
+    void addTimer(const TimerType type,
+                  const std::chrono::microseconds interval,
+                  std::unique_ptr<TimerPkg> pkg);
+
+    /**
+     * @brief Callback when a timer expires
+     *
+     * @param[in] data - Data to be used when the timer expired
+     */
+    void timerExpired(TimerData& data);
+
+    /**
      * @brief Get the configured power on delay(OPTIONAL)
      *
      * @return Power on delay in seconds
@@ -202,6 +258,9 @@ class Manager
         std::string,
         std::map<std::string, std::map<std::string, PropertyVariantType>>>
         _objects;
+
+    /* List of timers and their data to be processed when expired */
+    std::vector<std::pair<std::unique_ptr<TimerData>, Timer>> _timers;
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
