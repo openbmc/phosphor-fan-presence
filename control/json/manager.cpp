@@ -67,10 +67,10 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     setProfiles();
 
     // Load the zone configurations
-    _zones = getConfig<Zone>(bus);
+    _zones = getConfig<Zone>(false, bus, bus, event, this);
 
     // Load the fan configurations and move each fan into its zone
-    auto fans = getConfig<Fan>(bus);
+    auto fans = getConfig<Fan>(false, bus, bus);
     for (auto& fan : fans)
     {
         auto itZone =
