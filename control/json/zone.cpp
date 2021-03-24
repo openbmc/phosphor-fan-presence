@@ -24,6 +24,7 @@
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 
 #include <algorithm>
 #include <filesystem>
@@ -48,11 +49,12 @@ const std::map<std::string,
                                 {{supportedProp, zone::property::supported},
                                  {currentProp, zone::property::current}}}};
 
-Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
+Zone::Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
+           const sdeventplus::Event& event, Manager* mgr) :
     ConfigBase(jsonObj),
     ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
-    _incDelay(0), _floor(0), _target(0), _incDelta(0), _decDelta(0),
-    _requestTargetBase(0), _isActive(true)
+    _manager(mgr), _incDelay(0), _floor(0), _target(0), _incDelta(0),
+    _decDelta(0), _requestTargetBase(0), _isActive(true)
 {
     // Increase delay is optional, defaults to 0
     if (jsonObj.contains("increase_delay"))
