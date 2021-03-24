@@ -21,6 +21,7 @@
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdeventplus/event.hpp>
 
 #include <any>
 #include <functional>
@@ -29,6 +30,8 @@
 
 namespace phosphor::fan::control::json
 {
+
+class Manager;
 
 using json = nlohmann::json;
 
@@ -69,10 +72,13 @@ class Zone : public ConfigBase, public ThermalObject
      * Constructor
      * Parses and populates a zone from JSON object data
      *
-     * @param[in] bus - sdbusplus bus object
      * @param[in] jsonObj - JSON object
+     * @param[in] bus - sdbusplus bus object
+     * @param[in] event - sdeventplus event loop
+     * @param[in] mgr - Manager of this zone
      */
-    Zone(sdbusplus::bus::bus& bus, const json& jsonObj);
+    Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
+         const sdeventplus::Event& event, Manager* mgr);
 
     /**
      * @brief Get the default ceiling
@@ -154,6 +160,16 @@ class Zone : public ConfigBase, public ThermalObject
     {
         return _decDelta;
     };
+
+    /**
+     * @brief Get the manager of the zone
+     *
+     * @return - The manager of the zone
+     */
+    inline auto* getManager() const
+    {
+        return _manager;
+    }
 
     /**
      * @brief Add a fan object to the zone
@@ -308,6 +324,9 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
   private:
+    /* The zone's manager */
+    Manager* _manager;
+
     /* The zone's default ceiling value for fans */
     uint64_t _defaultCeiling;
 
