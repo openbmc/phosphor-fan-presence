@@ -69,6 +69,10 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     // Load the zone configurations
     _zones = getConfig<Zone>(bus);
 
+    // Assign the manager to each zone
+    std::for_each(_zones.begin(), _zones.end(),
+                  [this](auto& zone) { zone.second->setManager(this); });
+
     // Load the fan configurations and move each fan into its zone
     auto fans = getConfig<Fan>(bus);
     for (auto& fan : fans)

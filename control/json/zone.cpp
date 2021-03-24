@@ -69,6 +69,11 @@ Zone::Zone(sdbusplus::bus::bus& bus, const json& jsonObj) :
     }
 }
 
+void Zone::setManager(Manager* mgr)
+{
+    _manager = mgr;
+}
+
 void Zone::addFan(std::unique_ptr<Fan> fan)
 {
     _fans.emplace_back(std::move(fan));

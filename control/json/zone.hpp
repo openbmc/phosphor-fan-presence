@@ -30,6 +30,8 @@
 namespace phosphor::fan::control::json
 {
 
+class Manager;
+
 using json = nlohmann::json;
 
 /* Extend the Control::ThermalMode interface */
@@ -154,6 +156,26 @@ class Zone : public ConfigBase, public ThermalObject
     {
         return _decDelta;
     };
+
+    /**
+     * @brief Get the manager of the zone
+     *
+     * @return - The manager of the zone
+     */
+    inline auto* getManager() const
+    {
+        return _manager;
+    }
+
+    /**
+     * @brief Assign the manager of the zone
+     *
+     * @param[in] mgr - Pointer to the instance of the manager of this zone
+     *
+     * Sets which manager instance controls the zone and can be used to retrieve
+     * the state of cached dbus objects, services, and dbus timers.
+     */
+    void setManager(Manager* mgr);
 
     /**
      * @brief Add a fan object to the zone
@@ -308,6 +330,9 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
   private:
+    /* The zone's manager */
+    Manager* _manager;
+
     /* The zone's default ceiling value for fans */
     uint64_t _defaultCeiling;
 
