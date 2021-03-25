@@ -27,6 +27,7 @@
 #include <sdeventplus/event.hpp>
 
 #include <algorithm>
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iterator>
@@ -54,12 +55,15 @@ Zone::Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
     ConfigBase(jsonObj),
     ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
     _manager(mgr), _incDelay(0), _floor(0), _target(0), _incDelta(0),
-    _decDelta(0), _requestTargetBase(0), _isActive(true)
+    _decDelta(0), _requestTargetBase(0), _isActive(true),
+    _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
+    _decTimer(event, std::bind(&Zone::decTimerExpired, this))
 {
     // Increase delay is optional, defaults to 0
     if (jsonObj.contains("increase_delay"))
     {
-        _incDelay = jsonObj["increase_delay"].get<uint64_t>();
+        _incDelay =
+            std::chrono::seconds(jsonObj["increase_delay"].get<uint64_t>());
     }
     setDefaultCeiling(jsonObj);
     setDefaultFloor(jsonObj);
@@ -69,6 +73,9 @@ Zone::Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
     {
         setInterfaces(jsonObj);
     }
+
+    // Start timer for fan target decreases
+    _decTimer.restart(_decInterval);
 }
 
 void Zone::addFan(std::unique_ptr<Fan> fan)
@@ -133,9 +140,16 @@ void Zone::requestIncrease(uint64_t targetDelta)
             requestTarget = _ceiling;
         }
         setTarget(requestTarget);
-        // TODO // Restart timer countdown for fan speed increase
-        // _incTimer.restartOnce(_incDelay);
+        // Restart timer countdown for fan target increase
+        _incTimer.restartOnce(_incDelay);
     }
+}
+
+void Zone::incTimerExpired()
+{
+    // Clear increase delta when timer expires allowing additional target
+    // increase requests or target decreases to occur
+    _incDelta = 0;
 }
 
 void Zone::requestDecrease(uint64_t targetDelta)
@@ -145,6 +159,40 @@ void Zone::requestDecrease(uint64_t targetDelta)
     {
         _decDelta = targetDelta;
     }
+}
+
+void Zone::decTimerExpired()
+{
+    // Check all entries are set to allow a decrease
+    auto pred = [](auto const& entry) { return entry.second; };
+    auto decAllowed = std::all_of(_decAllowed.begin(), _decAllowed.end(), pred);
+
+    // Only decrease targets when allowed, a requested decrease target delta
+    // exists, where no requested increases exist and the increase timer is not
+    // running (i.e. not in the middle of increasing)
+    if (decAllowed && _decDelta != 0 && _incDelta == 0 &&
+        !_incTimer.isEnabled())
+    {
+        auto requestTarget = getRequestTargetBase();
+        // Request target should not start above ceiling
+        if (requestTarget > _ceiling)
+        {
+            requestTarget = _ceiling;
+        }
+        // Target can not go below the defined floor
+        if ((requestTarget < _decDelta) || (requestTarget - _decDelta < _floor))
+        {
+            requestTarget = _floor;
+        }
+        else
+        {
+            requestTarget = requestTarget - _decDelta;
+        }
+        setTarget(requestTarget);
+    }
+    // Clear decrease delta when timer expires
+    _decDelta = 0;
+    // Decrease timer is restarted since its repeating
 }
 
 void Zone::setPersisted(const std::string& intf, const std::string& prop)
@@ -226,7 +274,8 @@ void Zone::setDecInterval(const json& jsonObj)
                         entry("JSON=%s", jsonObj.dump().c_str()));
         throw std::runtime_error("Missing required zone's decrease interval");
     }
-    _decInterval = jsonObj["decrease_interval"].get<uint64_t>();
+    _decInterval =
+        std::chrono::seconds(jsonObj["decrease_interval"].get<uint64_t>());
 }
 
 void Zone::setInterfaces(const json& jsonObj)
