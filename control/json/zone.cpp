@@ -91,7 +91,7 @@ void Zone::addFan(std::unique_ptr<Fan> fan)
 
 void Zone::setTarget(uint64_t target)
 {
-    if (_isActive)
+    if (_isActive && _target != target)
     {
         _target = target;
         for (auto& fan : _fans)
