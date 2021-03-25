@@ -22,8 +22,10 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/utility/timer.hpp>
 
 #include <any>
+#include <chrono>
 #include <functional>
 #include <map>
 #include <tuple>
@@ -38,6 +40,9 @@ using json = nlohmann::json;
 /* Extend the Control::ThermalMode interface */
 using ThermalObject = sdbusplus::server::object::object<
     sdbusplus::xyz::openbmc_project::Control::server::ThermalMode>;
+
+/* Dbus event timer */
+using Timer = sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>;
 
 /**
  * @class Zone - Represents a configured fan control zone
@@ -236,12 +241,24 @@ class Zone : public ConfigBase, public ThermalObject
     void requestIncrease(uint64_t targetDelta);
 
     /**
+     * @brief Callback function for the increase timer that delays
+     * processing of requested target increases while fans are increasing
+     */
+    void incTimerExpired();
+
+    /**
      * @brief Calculate the lowest requested decrease target from the given
      * delta within a decrease interval.
      *
      * @param[in] targetDelta - The delta to decrease the target by
      */
     void requestDecrease(uint64_t targetDelta);
+
+    /**
+     * @brief Callback function for the decrease timer that processes any
+     * requested target decreases if allowed
+     */
+    void decTimerExpired();
 
     /**
      * @brief Set the requested target base to be used as the target to base a
@@ -334,10 +351,10 @@ class Zone : public ConfigBase, public ThermalObject
     uint64_t _defaultFloor;
 
     /* Zone's increase delay(in seconds) (OPTIONAL) */
-    uint64_t _incDelay;
+    std::chrono::seconds _incDelay;
 
     /* Zone's decrease interval(in seconds) */
-    uint64_t _decInterval;
+    std::chrono::seconds _decInterval;
 
     /* The floor target to not go below */
     uint64_t _floor;
@@ -368,6 +385,12 @@ class Zone : public ConfigBase, public ThermalObject
 
     /* Automatic fan control active state */
     bool _isActive;
+
+    /* The target increase timer object */
+    Timer _incTimer;
+
+    /* The target decrease timer object */
+    Timer _decTimer;
 
     /* Map of active fan control allowed by a string identifier */
     std::map<std::string, bool> _active;
