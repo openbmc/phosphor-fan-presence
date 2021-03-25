@@ -80,6 +80,12 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
                          });
         if (itZone != _zones.end())
         {
+            if (itZone->second->getTarget() != fan.second->getTarget() &&
+                fan.second->getTarget() != 0)
+            {
+                // Update zone target to current target of the fan in the zone
+                itZone->second->setTarget(fan.second->getTarget());
+            }
             itZone->second->addFan(std::move(fan.second));
         }
     }

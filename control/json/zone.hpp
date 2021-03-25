@@ -147,6 +147,16 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
     /**
+     * @brief Get the current target of the zone
+     *
+     * @return - The current target of the zone
+     */
+    inline const auto& getTarget() const
+    {
+        return _target;
+    }
+
+    /**
      * @brief Get the target increase delta
      *
      * @return - The current target increase delta
