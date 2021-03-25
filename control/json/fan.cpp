@@ -89,6 +89,11 @@ void Fan::setZone(const json& jsonObj)
 
 void Fan::setTarget(uint64_t target)
 {
+    if (_target == target)
+    {
+        return;
+    }
+
     for (const auto& sensor : _sensors)
     {
         auto value = target;
