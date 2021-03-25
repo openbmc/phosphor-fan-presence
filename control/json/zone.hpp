@@ -465,6 +465,12 @@ class Zone : public ConfigBase, public ThermalObject
     void saveCurrentMode();
 
     /**
+     * @brief Restore persisted thermal control current mode property
+     * value, setting the mode to "Default" otherwise
+     */
+    void restoreCurrentMode();
+
+    /**
      * @brief Get the request target base if defined, otherwise the the current
      * target is returned
      *
