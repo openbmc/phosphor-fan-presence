@@ -74,6 +74,9 @@ Zone::Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
         setInterfaces(jsonObj);
     }
 
+    // Restore thermal control current mode state
+    restoreCurrentMode();
+
     // Start timer for fan target decreases
     _decTimer.restart(_decInterval);
 }
@@ -371,6 +374,33 @@ void Zone::saveCurrentMode()
     std::ofstream ofs(path.c_str(), std::ios::binary);
     cereal::JSONOutputArchive oArch(ofs);
     oArch(ThermalObject::current());
+}
+
+void Zone::restoreCurrentMode()
+{
+    auto current = ThermalObject::current();
+    fs::path path{CONTROL_PERSIST_ROOT_PATH};
+    path /= getName();
+    path /= "CurrentMode";
+    fs::create_directories(path.parent_path());
+
+    try
+    {
+        if (fs::exists(path))
+        {
+            std::ifstream ifs(path.c_str(), std::ios::in | std::ios::binary);
+            cereal::JSONInputArchive iArch(ifs);
+            iArch(current);
+        }
+    }
+    catch (std::exception& e)
+    {
+        log<level::ERR>(e.what());
+        fs::remove(path);
+        current = ThermalObject::current();
+    }
+
+    this->current(current);
 }
 
 /**
