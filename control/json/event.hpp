@@ -15,14 +15,15 @@
  */
 #pragma once
 
+#include "action.hpp"
 #include "config_base.hpp"
 #include "group.hpp"
-#include "json_parser.hpp"
-#include "types.hpp"
+#include "triggers/trigger.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <memory>
 #include <optional>
 
 namespace phosphor::fan::control::json
@@ -44,7 +45,7 @@ using json = nlohmann::json;
  * control application source.
  *
  * When no events exist, the configured fans are set to their corresponding
- * zone's full_speed value.
+ * zone's `full_speed` value.
  */
 class Event : public ConfigBase
 {
@@ -61,7 +62,10 @@ class Event : public ConfigBase
     static constexpr auto precondGroups = 1;
     static constexpr auto precondEvents = 2;
     using Precondition =
-        std::tuple<std::string, std::vector<PrecondGroup>, std::vector<Event>>;
+        std::tuple<std::string,
+                   std::vector<std::tuple<std::string, std::string, std::string,
+                                          PropertyVariantType>>,
+                   std::vector<Event>>;
 
   public:
     /* JSON file name for events */
@@ -78,10 +82,12 @@ class Event : public ConfigBase
      * Constructor
      * Parses and populates a configuration event from JSON object data
      *
-     * @param[in] bus - sdbusplus bus object
      * @param[in] jsonObj - JSON object
+     * @param[in] bus - sdbusplus bus object
+     * @param[in] groups - Available groups that can be used
      */
-    Event(sdbusplus::bus::bus& bus, const json& jsonObj);
+    Event(const json& jsonObj, sdbusplus::bus::bus& bus,
+          std::map<configKey, std::unique_ptr<Group>>& groups);
 
     /**
      * @brief Get the precondition
@@ -124,9 +130,6 @@ class Event : public ConfigBase
     }
 
   private:
-    /* Mapping of available group names & profiles to their group object */
-    static const std::map<configKey, std::unique_ptr<Group>> _availGrps;
-
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
 
@@ -137,28 +140,32 @@ class Event : public ConfigBase
     std::vector<eGroup> _groups;
 
     /* List of triggers for this event */
-    std::vector<Trigger> _triggers;
+    std::vector<std::unique_ptr<trigger::TriggerBase>> _triggers;
 
     /* List of actions for this event */
-    std::vector<Action> _actions;
+    std::vector<std::unique_ptr<ActionBase>> _actions;
 
     /**
      * @brief Parse and set the event's precondition(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the event
+     * @param[in] groups - Available groups that can be used
      *
      * Sets the precondition of the event in order to be enabled
      */
-    void setPrecond(const json& jsonObj);
+    void setPrecond(const json& jsonObj,
+                    std::map<configKey, std::unique_ptr<Group>>& groups);
 
     /**
      * @brief Parse and set the event's groups(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the event
+     * @param[in] groups - Available groups that can be used
      *
      * Sets the list of groups associated with the event
      */
-    void setGroups(const json& jsonObj);
+    void setGroups(const json& jsonObj,
+                   std::map<configKey, std::unique_ptr<Group>>& groups);
 
     /**
      * @brief Parse and set the event's triggers
