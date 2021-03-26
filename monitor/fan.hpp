@@ -22,15 +22,6 @@ namespace monitor
 class System;
 
 /**
- * @class InvalidSensorError
- *
- * An exception type for sensors that don't exist or
- * are otherwise inaccessible.
- */
-class InvalidSensorError : public std::exception
-{};
-
-/**
  * @class Fan
  *
  * Represents a fan, which can contain 1 or more sensors which
