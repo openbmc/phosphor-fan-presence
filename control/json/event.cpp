@@ -16,7 +16,6 @@
 #include "event.hpp"
 
 #include "group.hpp"
-#include "json_parser.hpp"
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
@@ -31,27 +30,18 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-const std::map<configKey, std::unique_ptr<Group>> Event::_availGrps =
-    getConfig<Group>(true);
-
-Event::Event(sdbusplus::bus::bus& bus, const json& jsonObj) :
-    ConfigBase(jsonObj), _bus(bus)
+Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus,
+             std::map<configKey, std::unique_ptr<Group>>& groups) :
+    ConfigBase(jsonObj),
+    _bus(bus)
 {
-    if (jsonObj.contains("profiles"))
-    {
-        for (const auto& profile : jsonObj["profiles"])
-        {
-            _profiles.emplace_back(profile.get<std::string>());
-        }
-    }
-
     // Event could have a precondition
     if (!jsonObj.contains("precondition"))
     {
         // Event groups are optional
         if (jsonObj.contains("groups"))
         {
-            setGroups(jsonObj);
+            setGroups(jsonObj, groups);
         }
         setTriggers(jsonObj);
         // Event actions are optional
@@ -62,11 +52,12 @@ Event::Event(sdbusplus::bus::bus& bus, const json& jsonObj) :
     }
     else
     {
-        setPrecond(jsonObj);
+        setPrecond(jsonObj, groups);
     }
 }
 
-void Event::setPrecond(const json& jsonObj)
+void Event::setPrecond(const json& jsonObj,
+                       std::map<configKey, std::unique_ptr<Group>>& groups)
 {
     const auto& precond = jsonObj["precondition"];
     if (!precond.contains("name") || !precond.contains("groups") ||
@@ -77,11 +68,12 @@ void Event::setPrecond(const json& jsonObj)
         throw std::runtime_error(
             "Missing required event precondition attributes");
     }
-    setGroups(precond);
+    setGroups(precond, groups);
     setTriggers(precond);
 }
 
-void Event::setGroups(const json& jsonObj)
+void Event::setGroups(const json& jsonObj,
+                      std::map<configKey, std::unique_ptr<Group>>& groups)
 {
     for (const auto& group : jsonObj["groups"])
     {
@@ -110,8 +102,8 @@ void Event::setGroups(const json& jsonObj)
         // Groups with the same profiles as the event can be used
         configKey key =
             std::make_pair(group["name"].get<std::string>(), _profiles);
-        auto grpEntry = _availGrps.find(key);
-        if (grpEntry != _availGrps.end())
+        auto grpEntry = groups.find(key);
+        if (grpEntry != groups.end())
         {
             eGroup grp;
             for (const auto& member : grpEntry->second->getMembers())
@@ -127,8 +119,8 @@ void Event::setGroups(const json& jsonObj)
             // Groups with no profiles specified can be used in any event
             key = std::make_pair(group["name"].get<std::string>(),
                                  std::vector<std::string>{});
-            grpEntry = _availGrps.find(key);
-            if (grpEntry != _availGrps.end())
+            grpEntry = groups.find(key);
+            if (grpEntry != groups.end())
             {
                 eGroup grp;
                 for (const auto& member : grpEntry->second->getMembers())
