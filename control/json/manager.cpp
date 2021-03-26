@@ -18,6 +18,7 @@
 #include "manager.hpp"
 
 #include "action.hpp"
+#include "event.hpp"
 #include "fan.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
@@ -89,6 +90,12 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
             itZone->second->addFan(std::move(fan.second));
         }
     }
+
+    // Load the configured groups that are copied into events where they're used
+    auto groups = getConfig<Group>(true, bus);
+
+    // Load any events configured
+    _events = getConfig<Event>(true, bus, bus, groups);
 
     bus.request_name(CONTROL_BUSNAME);
 }

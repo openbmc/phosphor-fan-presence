@@ -30,6 +30,15 @@ using PropertyVariantType =
     std::variant<bool, int32_t, int64_t, double, std::string>;
 
 /**
+ * Configuration object key to uniquely map to the configuration object
+ * Pair constructed of:
+ *      std::string = Configuration object's name
+ *      std::vector<std::string> = List of profiles the configuration object
+ *                                 is included in
+ */
+using configKey = std::pair<std::string, std::vector<std::string>>;
+
+/**
  * @class ConfigBase - Base configuration object
  *
  * Base class for fan control's JSON configuration objects.

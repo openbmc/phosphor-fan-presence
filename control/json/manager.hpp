@@ -16,6 +16,8 @@
 #pragma once
 
 #include "action.hpp"
+#include "config_base.hpp"
+#include "event.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
 #include "profile.hpp"
@@ -41,15 +43,6 @@ using json = nlohmann::json;
 
 /* Application name to be appended to the path for loading a JSON config file */
 constexpr auto confAppName = "control";
-
-/**
- * Configuration object key to uniquely map to the configuration object
- * Pair constructed of:
- *      std::string = Configuration object's name
- *      std::vector<std::string> = List of profiles the configuration object
- *                                 is included in
- */
-using configKey = std::pair<std::string, std::vector<std::string>>;
 
 /* Type of timers supported */
 enum class TimerType
@@ -265,6 +258,9 @@ class Manager
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
+
+    /* List of events configured */
+    std::map<configKey, std::unique_ptr<Event>> _events;
 
     /**
      * @brief Parse and set the configured profiles from the profiles JSON file
