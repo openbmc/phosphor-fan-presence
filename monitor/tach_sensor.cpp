@@ -167,7 +167,14 @@ std::pair<uint64_t, uint64_t> TachSensor::getRange(const size_t deviation) const
 
 void TachSensor::processState()
 {
-    _fan.process(*this);
+    // This function runs from inside trust::Manager::checkTrust(), which,
+    // for sensors using the count method, runs right before process()
+    // is called anyway inside Fan::countTimerExpired() so don't call
+    // it now if using that method.
+    if (_method == MethodMode::timebased)
+    {
+        _fan.process(*this);
+    }
 }
 
 void TachSensor::resetMethod()
@@ -275,6 +282,11 @@ void TachSensor::setCounter(bool count)
         if (_counter < _threshold)
         {
             ++_counter;
+            log<level::DEBUG>(
+                fmt::format(
+                    "Incremented error counter on {} to {} (threshold {})",
+                    _name, _counter, _threshold)
+                    .c_str());
         }
     }
     else
@@ -282,6 +294,11 @@ void TachSensor::setCounter(bool count)
         if (_counter > 0)
         {
             --_counter;
+            log<level::DEBUG>(
+                fmt::format(
+                    "Decremented error counter on {} to {} (threshold {})",
+                    _name, _counter, _threshold)
+                    .c_str());
         }
     }
 }

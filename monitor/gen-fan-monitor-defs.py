@@ -56,6 +56,7 @@ const std::vector<FanDefinition> fanDefinitions
                   ${fan_data['deviation']},
                   ${fan_data['num_sensors_nonfunc_for_fan_nonfunc']},
                   0, // Monitor start delay - not used in YAML configs
+                  0, // Count interval - not used in YAML configs
                   std::nullopt, // nonfuncRotorErrorDelay - also not used here
                   std::nullopt, // fanMissingErrorDelay - also not used here
                   std::vector<SensorDefinition>{
