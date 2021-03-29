@@ -85,7 +85,8 @@ const std::vector<FanDefinition> fanDefinitions
                       ${indent(getCondParams(cond=fan_data['condition']), 5)}\
                   ))
                   %else:
-                  {}
+                  {},
+                  false // set_func_on_present. Hardcoded to false.
                   %endif
     },
 %endfor

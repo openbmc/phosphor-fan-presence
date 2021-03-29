@@ -62,7 +62,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         std::bind(std::mem_fn(&Fan::presenceIfaceAdded), this,
                   std::placeholders::_1)),
     _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def)),
-    _countInterval(std::get<countIntervalField>(def))
+    _countInterval(std::get<countIntervalField>(def)),
+    _setFuncOnPresent(std::get<funcOnPresentField>(def))
 {
     bool enableCountTimer = false;
 
@@ -455,6 +456,15 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
             fmt::format("Fan {} presence state change to {}", _name, _present));
 
         _system.fanStatusChange(*this);
+
+        if (_present && _setFuncOnPresent)
+        {
+            updateInventory(true);
+            std::for_each(_sensors.begin(), _sensors.end(), [](auto& sensor) {
+                sensor->setFunctional(true);
+                sensor->resetMethod();
+            });
+        }
 
         if (_fanMissingErrorDelay)
         {
