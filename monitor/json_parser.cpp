@@ -216,6 +216,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         // Method is optional and defaults to time based functional
         // determination
         size_t method = MethodMode::timebased;
+        size_t countInterval = 1;
         if (fan.contains("method"))
         {
             auto methodConf = fan["method"].get<std::string>();
@@ -229,6 +230,15 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
                 // Log error on unsupported method parameter
                 log<level::ERR>("Invalid fan method");
                 throw std::runtime_error("Invalid fan method");
+            }
+
+            // Read the count interval value used with the count method.
+            if (method == MethodMode::count)
+            {
+                if (fan.contains("count_interval"))
+                {
+                    countInterval = fan["count_interval"].get<size_t>();
+                }
             }
         }
 
@@ -323,7 +333,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
 
         fanDefs.emplace_back(std::tuple(
             fan["inventory"].get<std::string>(), method, funcDelay, timeout,
-            deviation, nonfuncSensorsCount, monitorDelay,
+            deviation, nonfuncSensorsCount, monitorDelay, countInterval,
             nonfuncRotorErrorDelay, fanMissingErrorDelay, sensorDefs, cond));
     }
 
