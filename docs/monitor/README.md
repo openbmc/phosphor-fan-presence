@@ -147,6 +147,8 @@ Fan object attributes: **(Required unless otherwise noted)**
 * [monitor_start_delay](monitor_start_delay.md) - Optional, default = 0
 * [fan_missing_error_delay](fan_missing_error_delay.md) - Optional
 * [nonfunc_rotor_error_delay](nonfunc_rotor_error_delay.md) - Optional
+* [count_interval](count_interval.md) - Optional, defaults to 1s if method =
+  count
 * [sensors](sensors.md)
 
 Trust group attributes: **(Optional)**

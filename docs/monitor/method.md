@@ -50,12 +50,17 @@ to be marked nonfunctional and instead is deemed nonfunctional once it
 accumulates the `threshold` number of times deemed out of range. The same is
 true for a nonfunctional fan sensor to become functional, where the counter
 must accumulate enough times deemed within range to decrement the counter to 0.
+This checking occurs at an interval dictated by the `count_interval` field.
 
 * `threshold` - Number of total times a fan sensor must be calculated out of
 range before being marked nonfunctional.
 
+* `count_interval` - The interval, in seconds, to check the feedback speed and
+  increment/decrement the counter.  Defaults to 1s if not present.
+
 ```
 "method": "count",
+"count_interval": 5,
 "sensors": [
   {
     "threshold": 30
@@ -91,7 +96,8 @@ range before being marked nonfunctional.
     },
     {
       "inventory": "/system/chassis/motherboard/fan1",
-      <b><i>"method": "count"</i></b>,
+      <b><i>"method": "count",
+      "count_interval": 1</i></b>,
       "deviation": 15,
       "num_sensors_nonfunc_for_fan_nonfunc": 1,
       "monitor_start_delay": 30,

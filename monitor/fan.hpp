@@ -176,6 +176,12 @@ class Fan
      */
     void powerStateChanged(bool powerStateOn);
 
+    /**
+     * @brief Timer callback function that deals with sensors using
+     *        the 'count' method for determining functional status.
+     */
+    void countTimerExpired();
+
   private:
     /**
      * @brief Returns true if the sensor input is not within
@@ -320,6 +326,21 @@ class Fan
     std::unique_ptr<
         sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
         _fanMissingErrorTimer;
+
+    /**
+     * @brief The interval, in seconds, to use for the timer that runs
+     *        the checks for sensors using the 'count' method.
+     */
+    size_t _countInterval;
+
+    /**
+     * @brief The timer whose callback function handles the sensors
+     *        using the 'count' method for determining functional status.
+     *
+     */
+    std::unique_ptr<
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
+        _countTimer;
 };
 
 } // namespace monitor
