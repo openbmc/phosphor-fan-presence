@@ -149,6 +149,7 @@ Fan object attributes: **(Required unless otherwise noted)**
 * [nonfunc_rotor_error_delay](nonfunc_rotor_error_delay.md) - Optional
 * [count_interval](method.md) - Optional, defaults to 1s if method =
   count
+* [set_func_on_present](set_func_on_present.md) - Optional, default = false
 * [sensors](sensors.md)
 
 Trust group attributes: **(Optional)**

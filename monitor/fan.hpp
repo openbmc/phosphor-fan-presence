@@ -341,6 +341,12 @@ class Fan
     std::unique_ptr<
         sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
         _countTimer;
+
+    /**
+     * @brief If the fan and sensors should be set to functional when
+     *        a fan plug is detected.
+     */
+    bool _setFuncOnPresent;
 };
 
 } // namespace monitor
