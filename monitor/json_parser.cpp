@@ -331,10 +331,18 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             }
         }
 
+        // if the fan should be set to functional when plugged in
+        bool setFuncOnPresent = false;
+        if (fan.contains("set_func_on_present"))
+        {
+            setFuncOnPresent = fan["set_func_on_present"].get<bool>();
+        }
+
         fanDefs.emplace_back(std::tuple(
             fan["inventory"].get<std::string>(), method, funcDelay, timeout,
             deviation, nonfuncSensorsCount, monitorDelay, countInterval,
-            nonfuncRotorErrorDelay, fanMissingErrorDelay, sensorDefs, cond));
+            nonfuncRotorErrorDelay, fanMissingErrorDelay, sensorDefs, cond,
+            setFuncOnPresent));
     }
 
     return fanDefs;
