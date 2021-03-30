@@ -109,43 +109,11 @@ void Event::setGroups(const json& jsonObj,
             value = getJsonValue(group["property"]["value"]);
         }
 
-        configKey key =
+        configKey eventProfile =
             std::make_pair(group["name"].get<std::string>(), _profiles);
-        auto grpEntry =
-            std::find_if(groups.begin(), groups.end(), [&key](const auto& grp) {
-                if (grp.first.first != key.first)
-                {
-                    return false;
-                }
-                // Groups with no profiles specified can be used in any event
-                if (grp.first.second.empty())
-                {
-                    return true;
-                }
-                else
-                {
-                    // Groups with profiles must have one match in the event's
-                    // profiles(and they must be an active profile) to be used
-                    // in the event
-                    return std::any_of(
-                        grp.first.second.begin(), grp.first.second.end(),
-                        [&key](const auto& grpProfile) {
-                            return std::any_of(
-                                key.second.begin(), key.second.end(),
-                                [&grpProfile](const auto& eventProfile) {
-                                    if (grpProfile != eventProfile)
-                                    {
-                                        return false;
-                                    }
-                                    auto activeProfs =
-                                        Manager::getActiveProfiles();
-                                    return std::find(activeProfs.begin(),
-                                                     activeProfs.end(),
-                                                     grpProfile) !=
-                                           activeProfs.end();
-                                });
-                        });
-                }
+        auto grpEntry = std::find_if(
+            groups.begin(), groups.end(), [&eventProfile](const auto& grp) {
+                return Manager::inConfig(grp.first, eventProfile);
             });
         if (grpEntry != groups.end())
         {
