@@ -15,14 +15,18 @@
  */
 #include "event.hpp"
 
+#include "config_base.hpp"
 #include "group.hpp"
+#include "manager.hpp"
+
+#include <fmt/format.h>
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <algorithm>
 #include <optional>
-#include <tuple>
 
 namespace phosphor::fan::control::json
 {
@@ -85,54 +89,87 @@ void Event::setGroups(const json& jsonObj,
             throw std::runtime_error("Missing required event group attributes");
         }
 
-        // Get the group memebers' data type
+        // Get the group members' interface
+        auto intf = group["interface"].get<std::string>();
+
+        // Get the group members' property name
+        auto prop = group["property"]["name"].get<std::string>();
+
+        // Get the group members' data type
         std::optional<std::string> type = std::nullopt;
         if (group["property"].contains("type"))
         {
             type = group["property"]["type"].get<std::string>();
         }
 
-        // Get the group memebers' expected value
+        // Get the group members' expected value
         std::optional<PropertyVariantType> value = std::nullopt;
         if (group["property"].contains("value"))
         {
             value = getJsonValue(group["property"]["value"]);
         }
 
-        // Groups with the same profiles as the event can be used
         configKey key =
             std::make_pair(group["name"].get<std::string>(), _profiles);
-        auto grpEntry = groups.find(key);
+        auto grpEntry =
+            std::find_if(groups.begin(), groups.end(), [&key](const auto& grp) {
+                if (grp.first.first != key.first)
+                {
+                    return false;
+                }
+                // Groups with no profiles specified can be used in any event
+                if (grp.first.second.empty())
+                {
+                    return true;
+                }
+                else
+                {
+                    // Groups with profiles must have one match in the event's
+                    // profiles(and they must be an active profile) to be used
+                    // in the event
+                    return std::any_of(
+                        grp.first.second.begin(), grp.first.second.end(),
+                        [&key](const auto& grpProfile) {
+                            return std::any_of(
+                                key.second.begin(), key.second.end(),
+                                [&grpProfile](const auto& eventProfile) {
+                                    if (grpProfile != eventProfile)
+                                    {
+                                        return false;
+                                    }
+                                    auto activeProfs =
+                                        Manager::getActiveProfiles();
+                                    return std::find(activeProfs.begin(),
+                                                     activeProfs.end(),
+                                                     grpProfile) !=
+                                           activeProfs.end();
+                                });
+                        });
+                }
+            });
         if (grpEntry != groups.end())
         {
-            eGroup grp;
-            for (const auto& member : grpEntry->second->getMembers())
-            {
-                grp.emplace_back(std::make_tuple(
-                    member, group["interface"].get<std::string>(),
-                    group["property"]["name"].get<std::string>(), type, value));
-            }
+            auto grp = Group(*grpEntry->second);
+            grp.setInterface(intf);
+            grp.setProperty(prop);
+            grp.setType(type);
+            grp.setValue(value);
             _groups.emplace_back(grp);
         }
-        else
-        {
-            // Groups with no profiles specified can be used in any event
-            key = std::make_pair(group["name"].get<std::string>(),
-                                 std::vector<std::string>{});
-            grpEntry = groups.find(key);
-            if (grpEntry != groups.end())
-            {
-                eGroup grp;
-                for (const auto& member : grpEntry->second->getMembers())
-                {
-                    grp.emplace_back(std::make_tuple(
-                        member, group["interface"].get<std::string>(),
-                        group["property"]["name"].get<std::string>(), type,
-                        value));
-                }
-                _groups.emplace_back(grp);
-            }
-        }
+    }
+
+    if (_groups.empty())
+    {
+        log<level::ERR>(
+            fmt::format(
+                "No groups configured for event {} in its active profile(s)",
+                getName())
+                .c_str());
+        throw std::runtime_error(
+            fmt::format(
+                "No groups configured for event {} in its active profile(s)",
+                getName())
+                .c_str());
     }
 }
 

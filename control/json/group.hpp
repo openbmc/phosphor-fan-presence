@@ -45,7 +45,6 @@ class Group : public ConfigBase
     static constexpr auto confFileName = "groups.json";
 
     Group() = delete;
-    Group(const Group&) = delete;
     Group(Group&&) = delete;
     Group& operator=(const Group&) = delete;
     Group& operator=(Group&&) = delete;
@@ -58,6 +57,14 @@ class Group : public ConfigBase
      * @param[in] jsonObj - JSON object
      */
     Group(const json& jsonObj);
+
+    /**
+     * Copy Constructor
+     * Creates a group from another group's originally parsed JSON object data
+     *
+     * @param[in] origObj - Original Group object to be created from
+     */
+    Group(const Group& origObj);
 
     /**
      * @brief Get the members
@@ -111,6 +118,38 @@ class Group : public ConfigBase
         return _property;
     }
 
+    /**
+     * @brief Set the dbus property's data type for the group
+     */
+    inline void setType(std::optional<std::string>& type)
+    {
+        _type = type;
+    }
+
+    /**
+     * @brief Get the group's dbus property's data type
+     */
+    inline const auto& getType() const
+    {
+        return _type;
+    }
+
+    /**
+     * @brief Set the dbus property's expected value for the group
+     */
+    inline void setValue(std::optional<PropertyVariantType>& value)
+    {
+        _value = value;
+    }
+
+    /**
+     * @brief Get the group's dbus property's expected value
+     */
+    inline const auto& getValue() const
+    {
+        return _value;
+    }
+
   private:
     /* Members of the group */
     std::vector<std::string> _members;
@@ -123,6 +162,12 @@ class Group : public ConfigBase
 
     /* Dbus property name for all the members */
     std::string _property;
+
+    /* Optional property's data type for all members */
+    std::optional<std::string> _type;
+
+    /* Optional property value for all the members */
+    std::optional<PropertyVariantType> _value;
 
     /**
      * @brief Parse and set the members list
