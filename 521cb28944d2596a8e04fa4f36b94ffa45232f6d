@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "43ad72cf_af591b89",
+        "filename": "docs/monitor/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d166a40a_5da9d950",
+      "range": {
+        "startLine": 150,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 7
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "475a9419_97e3b7dc",
+        "filename": "docs/monitor/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2bd00f54_d8db61d7",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 7
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ebfbeef_13713f36",
         "filename": "monitor/fan.cpp",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2021-03-30T14:39:47Z",
       "side": 1,
       "message": "We\u0027re not supporting this on YAML configs right? So shouldn\u0027t this be done below within the `if (_system.isPowerOn()) {...` check?",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 9
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fab7b59_07352038",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "have a hard tim keeping track of the yaml vs JSON thing, but will remove yaml support for this.\n\nIt doesn\u0027t need to be started until the monitorStart timer expires, which is done on line 198 below.\n\nDone.",
+      "parentUuid": "9ebfbeef_13713f36",
       "range": {
         "startLine": 115,
         "startChar": 8,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "dacea08a_637b308b",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eef4e10_3bf4b43f",
+      "range": {
+        "startLine": 268,
+        "startChar": 20,
+        "endLine": 268,
+        "endChar": 25
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7498eaa_1ff7ac3b",
         "filename": "monitor/fan.cpp",
         "patchSetId": 2
@@ -105,6 +201,30 @@
       "writtenOn": "2021-03-30T14:39:47Z",
       "side": 1,
       "message": "Is this necessary? If we\u0027re in the count timer expired callback, dont we know the method is \"count\" or are we creating count timers on all fans regardless of the method (which would be a bad thing)?",
+      "range": {
+        "startLine": 284,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 53
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "453f1c46_aa67cba1",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "heh, when I wrote this  I was thinking the mode could be mixed within a fan, but that clearly isn\u0027t the case.\n\nDone.",
+      "parentUuid": "e7498eaa_1ff7ac3b",
       "range": {
         "startLine": 284,
         "startChar": 8,
@@ -137,6 +257,30 @@
       "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb710730_1ff80d16",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "285c2b2a_e57ec528",
+      "range": {
+        "startLine": 339,
+        "startChar": 3,
+        "endLine": 339,
+        "endChar": 6
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -199,6 +343,30 @@
       "side": 1,
       "message": "right...if only we had this code do something like that in CI :-/",
       "parentUuid": "eb4f8563_e04d0b0a",
+      "range": {
+        "startLine": 130,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 21
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "400913ba_2e258a61",
+        "filename": "monitor/types.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-30T16:00:18Z",
+      "side": 1,
+      "message": "i was thinking it built in an example yaml, but indeed it\u0027s just empty.",
+      "parentUuid": "ccbbadfa_272536e8",
       "range": {
         "startLine": 130,
         "startChar": 15,
