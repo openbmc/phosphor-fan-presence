@@ -144,7 +144,8 @@ class Manager
                     }
                     // Do not create the object if its profiles are not in the
                     // list of active profiles
-                    if (!std::any_of(profiles.begin(), profiles.end(),
+                    if (!profiles.empty() &&
+                        !std::any_of(profiles.begin(), profiles.end(),
                                      [](const auto& name) {
                                          return std::find(
                                                     getActiveProfiles().begin(),
