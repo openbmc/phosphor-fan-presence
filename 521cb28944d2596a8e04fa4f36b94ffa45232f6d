@@ -184,6 +184,30 @@
       "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccbbadfa_272536e8",
+        "filename": "monitor/types.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:50:59Z",
+      "side": 1,
+      "message": "right...if only we had this code do something like that in CI :-/",
+      "parentUuid": "eb4f8563_e04d0b0a",
+      "range": {
+        "startLine": 130,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 21
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
