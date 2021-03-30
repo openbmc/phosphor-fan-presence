@@ -34,6 +34,13 @@ Group::Group(const json& jsonObj) : ConfigBase(jsonObj), _service("")
     }
 }
 
+Group::Group(const Group& origObj) : ConfigBase(origObj)
+{
+    // Only what was parsed by the original Group object is copied
+    _members = origObj._members;
+    _service = origObj._service;
+}
+
 void Group::setMembers(const json& jsonObj)
 {
     if (!jsonObj.contains("members"))
