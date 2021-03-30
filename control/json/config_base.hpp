@@ -47,7 +47,6 @@ class ConfigBase
 {
   public:
     ConfigBase() = delete;
-    ConfigBase(const ConfigBase&) = delete;
     ConfigBase(ConfigBase&&) = delete;
     ConfigBase& operator=(const ConfigBase&) = delete;
     ConfigBase& operator=(ConfigBase&&) = delete;
@@ -64,6 +63,19 @@ class ConfigBase
                 _profiles.emplace_back(profile.get<std::string>());
             }
         }
+    }
+
+    /**
+     * Copy Constructor
+     * Creates a config base from another config base's originally parsed JSON
+     * object data
+     *
+     * @param[in] origObj - Original ConfigBase object to be created from
+     */
+    ConfigBase(const ConfigBase& origObj)
+    {
+        _name = origObj._name;
+        _profiles = origObj._profiles;
     }
 
     /**
