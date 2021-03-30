@@ -74,11 +74,12 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     auto fans = getConfig<Fan>(false, bus, bus);
     for (auto& fan : fans)
     {
-        auto itZone =
-            std::find_if(_zones.begin(), _zones.end(),
-                         [&fanZone = fan.second->getZone()](const auto& zone) {
-                             return fanZone == zone.second->getName();
-                         });
+        configKey fanProfile =
+            std::make_pair(fan.second->getZone(), fan.first.second);
+        auto itZone = std::find_if(
+            _zones.begin(), _zones.end(), [&fanProfile](const auto& zone) {
+                return Manager::inConfig(fanProfile, zone.first);
+            });
         if (itZone != _zones.end())
         {
             if (itZone->second->getTarget() != fan.second->getTarget() &&
@@ -103,6 +104,40 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
 const std::vector<std::string>& Manager::getActiveProfiles()
 {
     return _activeProfiles;
+}
+
+bool Manager::inConfig(const configKey& input, const configKey& comp)
+{
+    // Config names dont match, do not include in config
+    if (input.first != comp.first)
+    {
+        return false;
+    }
+    // No profiles specified by input config, can be used in any config
+    if (input.second.empty())
+    {
+        return true;
+    }
+    else
+    {
+        // Profiles must have one match in the other's profiles(and they must be
+        // an active profile) to be used in the config
+        return std::any_of(
+            input.second.begin(), input.second.end(),
+            [&comp](const auto& lProfile) {
+                return std::any_of(
+                    comp.second.begin(), comp.second.end(),
+                    [&lProfile](const auto& rProfile) {
+                        if (lProfile != rProfile)
+                        {
+                            return false;
+                        }
+                        auto activeProfs = getActiveProfiles();
+                        return std::find(activeProfs.begin(), activeProfs.end(),
+                                         lProfile) != activeProfs.end();
+                    });
+            });
+    }
 }
 
 bool Manager::hasOwner(const std::string& path, const std::string& intf)

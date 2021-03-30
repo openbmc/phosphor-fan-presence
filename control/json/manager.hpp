@@ -168,6 +168,17 @@ class Manager
     }
 
     /**
+     * @brief Check if the given input configuration key matches with another
+     * configuration key that it's to be included in
+     *
+     * @param[in] input - Config key to be included in another config object
+     * @param[in] comp - Config key of the config object to compare with
+     *
+     * @return Whether the configuration object should be included
+     */
+    static bool inConfig(const configKey& input, const configKey& comp);
+
+    /**
      * @brief Check if the given path and inteface is owned by a dbus service
      *
      * @param[in] path - Dbus object path
