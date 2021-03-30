@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d166a40a_5da9d950",
+        "filename": "docs/monitor/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "This should actually just be included in the method.md doc, similar to how `allowed_out_of_range_time` is denoted when method \u003d \"timebased\".",
+      "range": {
+        "startLine": 150,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 7
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd00f54_d8db61d7",
+        "filename": "docs/monitor/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "Lets surround this in double quotes for consistency with \"timebased\" above to show that\u0027s the literal string to use as the method value.",
+      "range": {
+        "startLine": 151,
+        "startChar": 2,
+        "endLine": 151,
+        "endChar": 7
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ebfbeef_13713f36",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "We\u0027re not supporting this on YAML configs right? So shouldn\u0027t this be done below within the `if (_system.isPowerOn()) {...` check?",
+      "range": {
+        "startLine": 115,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 9
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1eef4e10_3bf4b43f",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "timebased method",
+      "range": {
+        "startLine": 268,
+        "startChar": 20,
+        "endLine": 268,
+        "endChar": 25
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7498eaa_1ff7ac3b",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "Is this necessary? If we\u0027re in the count timer expired callback, dont we know the method is \"count\" or are we creating count timers on all fans regardless of the method (which would be a bad thing)?",
+      "range": {
+        "startLine": 284,
+        "startChar": 8,
+        "endLine": 284,
+        "endChar": 53
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "285c2b2a_e57ec528",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "Can remove this extra line-return",
+      "range": {
+        "startLine": 339,
+        "startChar": 3,
+        "endLine": 339,
+        "endChar": 6
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e7d8138_0b829782",
+        "filename": "monitor/types.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-30T14:39:47Z",
+      "side": 1,
+      "message": "So this same FanDefinition is used for YAML based configs, looks like that would fail now since this countIntervalField is not being defaulted/unsupported in the YAML parser.",
+      "range": {
+        "startLine": 130,
+        "startChar": 15,
+        "endLine": 130,
+        "endChar": 21
+      },
+      "revId": "521cb28944d2596a8e04fa4f36b94ffa45232f6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
