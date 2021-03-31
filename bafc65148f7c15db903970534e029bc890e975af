@@ -22,6 +22,30 @@
       "revId": "bafc65148f7c15db903970534e029bc890e975af",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f2ae055_8ef88af2",
+        "filename": "control/json/actions/default_floor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-03-31T20:01:56Z",
+      "side": 1,
+      "message": "This actually changes in a later commit to get the members from the Group object and how the services are retrieved from the Manager object instead. I do see that this is still not correct there either...\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/41287/2/control/json/actions/default_floor.cpp\n\nWill need to correct there, still want to correct here?",
+      "parentUuid": "97d40021_c8b6073c",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "bafc65148f7c15db903970534e029bc890e975af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
