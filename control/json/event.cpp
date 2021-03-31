@@ -15,6 +15,7 @@
  */
 #include "event.hpp"
 
+#include "action.hpp"
 #include "config_base.hpp"
 #include "group.hpp"
 #include "manager.hpp"
@@ -155,6 +156,12 @@ void Event::setActions(const json& jsonObj)
             log<level::ERR>("Missing required event action name",
                             entry("JSON=%s", action.dump().c_str()));
             throw std::runtime_error("Missing required event action name");
+        }
+        auto actObj =
+            ActionFactory::getAction(action["name"].get<std::string>(), action);
+        if (actObj)
+        {
+            _actions.emplace_back(std::move(actObj));
         }
     }
 }
