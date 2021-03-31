@@ -76,9 +76,11 @@ class Event : public ConfigBase
      * @param[in] jsonObj - JSON object
      * @param[in] bus - sdbusplus bus object
      * @param[in] groups - Available groups that can be used
+     * @param[in] zones - Reference to the configured zones
      */
     Event(const json& jsonObj, sdbusplus::bus::bus& bus,
-          std::map<configKey, std::unique_ptr<Group>>& groups);
+          std::map<configKey, std::unique_ptr<Group>>& groups,
+          std::map<configKey, std::unique_ptr<Zone>>& zones);
 
     /**
      * @brief Get the precondition
@@ -120,6 +122,9 @@ class Event : public ConfigBase
     /* List of groups associated with the event */
     std::vector<Group> _groups;
 
+    /* Reference to the configured zones */
+    std::map<configKey, std::unique_ptr<Zone>>& _zones;
+
     /* List of actions for this event */
     std::vector<std::unique_ptr<ActionBase>> _actions;
 
@@ -146,6 +151,17 @@ class Event : public ConfigBase
                    std::map<configKey, std::unique_ptr<Group>>& groups);
 
     /**
+     * @brief Parse and set the event's actions(OPTIONAL)
+     *
+     * @param[in] jsonObj - JSON object for the event
+     * @param[in] groups - Available groups that can be used
+     *
+     * Sets the list of actions to perform for the event
+     */
+    void setActions(const json& jsonObj,
+                    std::map<configKey, std::unique_ptr<Group>>& groups);
+
+    /**
      * @brief Parse and set the event's triggers
      *
      * @param[in] jsonObj - JSON object for the event
@@ -153,15 +169,6 @@ class Event : public ConfigBase
      * Sets the list of triggers for the event
      */
     void setTriggers(const json& jsonObj);
-
-    /**
-     * @brief Parse and set the event's actions(OPTIONAL)
-     *
-     * @param[in] jsonObj - JSON object for the event
-     *
-     * Sets the list of actions to perform for the event
-     */
-    void setActions(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::control::json

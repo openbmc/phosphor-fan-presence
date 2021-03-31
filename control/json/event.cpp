@@ -36,9 +36,10 @@ using json = nlohmann::json;
 using namespace phosphor::logging;
 
 Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus,
-             std::map<configKey, std::unique_ptr<Group>>& groups) :
+             std::map<configKey, std::unique_ptr<Group>>& groups,
+             std::map<configKey, std::unique_ptr<Zone>>& zones) :
     ConfigBase(jsonObj),
-    _bus(bus)
+    _bus(bus), _zones(zones)
 {
     // Event could have a precondition
     if (!jsonObj.contains("precondition"))
@@ -48,12 +49,12 @@ Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus,
         {
             setGroups(jsonObj, groups);
         }
-        setTriggers(jsonObj);
         // Event actions are optional
         if (jsonObj.contains("actions"))
         {
-            setActions(jsonObj);
+            setActions(jsonObj, groups);
         }
+        setTriggers(jsonObj);
     }
     else
     {
@@ -137,17 +138,8 @@ void Event::setGroups(const json& jsonObj,
     }
 }
 
-void Event::setTriggers(const json& jsonObj)
-{
-    if (!jsonObj.contains("triggers"))
-    {
-        log<level::ERR>("Missing required event triggers list",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required event triggers list");
-    }
-}
-
-void Event::setActions(const json& jsonObj)
+void Event::setActions(const json& jsonObj,
+                       std::map<configKey, std::unique_ptr<Group>>& groups)
 {
     for (const auto& action : jsonObj["actions"])
     {
@@ -157,12 +149,26 @@ void Event::setActions(const json& jsonObj)
                             entry("JSON=%s", action.dump().c_str()));
             throw std::runtime_error("Missing required event action name");
         }
+        // TODO Append action specific groups to event groups list separate from
+        // each action in the event and pass reference of group to action
+        // TODO Consider supporting zones per action and pass a reference to the
+        // zone(s) the action should be run against
         auto actObj =
             ActionFactory::getAction(action["name"].get<std::string>(), action);
         if (actObj)
         {
             _actions.emplace_back(std::move(actObj));
         }
+    }
+}
+
+void Event::setTriggers(const json& jsonObj)
+{
+    if (!jsonObj.contains("triggers"))
+    {
+        log<level::ERR>("Missing required event triggers list",
+                        entry("JSON=%s", jsonObj.dump().c_str()));
+        throw std::runtime_error("Missing required event triggers list");
     }
 }
 
