@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97d40021_c8b6073c",
+        "filename": "control/json/actions/default_floor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-03-31T19:57:22Z",
+      "side": 1,
+      "message": "Though getGroupServices is an auto, I think it returns a reference.\nSo you may want a auto\u0026 here, or const auto\u0026  because I don\u0027t think \u0027auto\u0027 by itself will be a reference.",
+      "range": {
+        "startLine": 40,
+        "startChar": 3,
+        "endLine": 40,
+        "endChar": 20
+      },
+      "revId": "bafc65148f7c15db903970534e029bc890e975af",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
