@@ -183,8 +183,10 @@ class ActionFactory
      *
      * @return Pointer to the action object.
      */
-    static std::unique_ptr<ActionBase> getAction(const std::string& name,
-                                                 const json& jsonObj)
+    static std::unique_ptr<ActionBase>
+        getAction(const std::string& name, const json& jsonObj,
+                  const std::vector<Group>& groups,
+                  std::vector<std::reference_wrapper<Zone>>&& zones)
     {
         auto it = actions.find(name);
         if (it != actions.end())

@@ -129,6 +129,16 @@ class Event : public ConfigBase
     std::vector<std::unique_ptr<ActionBase>> _actions;
 
     /**
+     * @brief Parse group parameters and configure a group object
+     *
+     * @param[in] group - Group object to get configured
+     * @param[in] jsonObj - JSON object for the group
+     *
+     * Configures a given group from a set of JSON configuration attributes
+     */
+    void configGroup(Group& group, const json& jsonObj);
+
+    /**
      * @brief Parse and set the event's precondition(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the event
