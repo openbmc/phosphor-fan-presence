@@ -89,7 +89,7 @@ class Group : public ConfigBase
     /**
      * @brief Set the dbus interface name for the group
      */
-    inline void setInterface(std::string& intf)
+    inline void setInterface(const std::string& intf)
     {
         _interface = intf;
     }
@@ -105,7 +105,7 @@ class Group : public ConfigBase
     /**
      * @brief Set the dbus property name for the group
      */
-    inline void setProperty(std::string& prop)
+    inline void setProperty(const std::string& prop)
     {
         _property = prop;
     }
@@ -121,7 +121,7 @@ class Group : public ConfigBase
     /**
      * @brief Set the dbus property's data type for the group
      */
-    inline void setType(std::optional<std::string>& type)
+    inline void setType(const std::optional<std::string>& type)
     {
         _type = type;
     }
@@ -137,7 +137,7 @@ class Group : public ConfigBase
     /**
      * @brief Set the dbus property's expected value for the group
      */
-    inline void setValue(std::optional<PropertyVariantType>& value)
+    inline void setValue(const std::optional<PropertyVariantType>& value)
     {
         _value = value;
     }
