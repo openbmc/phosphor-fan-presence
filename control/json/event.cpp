@@ -62,6 +62,41 @@ Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus,
     }
 }
 
+void Event::configGroup(Group& group, const json& jsonObj)
+{
+    if (!jsonObj.contains("interface") || !jsonObj.contains("property") ||
+        !jsonObj["property"].contains("name"))
+    {
+        log<level::ERR>("Missing required group attribute",
+                        entry("JSON=%s", jsonObj.dump().c_str()));
+        throw std::runtime_error("Missing required group attribute");
+    }
+
+    // Get the group members' interface
+    auto intf = jsonObj["interface"].get<std::string>();
+    group.setInterface(intf);
+
+    // Get the group members' property name
+    auto prop = jsonObj["property"]["name"].get<std::string>();
+    group.setProperty(prop);
+
+    // Get the group members' data type
+    if (jsonObj["property"].contains("type"))
+    {
+        std::optional<std::string> type =
+            jsonObj["property"]["type"].get<std::string>();
+        group.setType(type);
+    }
+
+    // Get the group members' expected value
+    if (jsonObj["property"].contains("value"))
+    {
+        std::optional<PropertyVariantType> value =
+            getJsonValue(jsonObj["property"]["value"]);
+        group.setValue(value);
+    }
+}
+
 void Event::setPrecond(const json& jsonObj,
                        std::map<configKey, std::unique_ptr<Group>>& groups)
 {
@@ -81,85 +116,134 @@ void Event::setPrecond(const json& jsonObj,
 void Event::setGroups(const json& jsonObj,
                       std::map<configKey, std::unique_ptr<Group>>& groups)
 {
-    for (const auto& group : jsonObj["groups"])
+    for (const auto& jsonGrp : jsonObj["groups"])
     {
-        if (!group.contains("name") || !group.contains("interface") ||
-            !group.contains("property") || !group["property"].contains("name"))
+        if (!jsonGrp.contains("name"))
         {
-            log<level::ERR>("Missing required event group attributes",
-                            entry("JSON=%s", group.dump().c_str()));
-            throw std::runtime_error("Missing required event group attributes");
-        }
-
-        // Get the group members' interface
-        auto intf = group["interface"].get<std::string>();
-
-        // Get the group members' property name
-        auto prop = group["property"]["name"].get<std::string>();
-
-        // Get the group members' data type
-        std::optional<std::string> type = std::nullopt;
-        if (group["property"].contains("type"))
-        {
-            type = group["property"]["type"].get<std::string>();
-        }
-
-        // Get the group members' expected value
-        std::optional<PropertyVariantType> value = std::nullopt;
-        if (group["property"].contains("value"))
-        {
-            value = getJsonValue(group["property"]["value"]);
+            log<level::ERR>("Missing required group name attribute",
+                            entry("JSON=%s", jsonGrp.dump().c_str()));
+            throw std::runtime_error("Missing required group name attribute");
         }
 
         configKey eventProfile =
-            std::make_pair(group["name"].get<std::string>(), _profiles);
+            std::make_pair(jsonGrp["name"].get<std::string>(), _profiles);
         auto grpEntry = std::find_if(
             groups.begin(), groups.end(), [&eventProfile](const auto& grp) {
                 return Manager::inConfig(grp.first, eventProfile);
             });
         if (grpEntry != groups.end())
         {
-            auto grp = Group(*grpEntry->second);
-            grp.setInterface(intf);
-            grp.setProperty(prop);
-            grp.setType(type);
-            grp.setValue(value);
-            _groups.emplace_back(grp);
+            auto group = Group(*grpEntry->second);
+            configGroup(group, jsonGrp);
+            _groups.emplace_back(group);
         }
-    }
-
-    if (_groups.empty())
-    {
-        log<level::ERR>(
-            fmt::format(
-                "No groups configured for event {} in its active profile(s)",
-                getName())
-                .c_str());
-        throw std::runtime_error(
-            fmt::format(
-                "No groups configured for event {} in its active profile(s)",
-                getName())
-                .c_str());
     }
 }
 
 void Event::setActions(const json& jsonObj,
                        std::map<configKey, std::unique_ptr<Group>>& groups)
 {
-    for (const auto& action : jsonObj["actions"])
+    for (const auto& jsonAct : jsonObj["actions"])
     {
-        if (!action.contains("name"))
+        if (!jsonAct.contains("name"))
         {
             log<level::ERR>("Missing required event action name",
-                            entry("JSON=%s", action.dump().c_str()));
+                            entry("JSON=%s", jsonAct.dump().c_str()));
             throw std::runtime_error("Missing required event action name");
         }
-        // TODO Append action specific groups to event groups list separate from
-        // each action in the event and pass reference of group to action
-        // TODO Consider supporting zones per action and pass a reference to the
-        // zone(s) the action should be run against
-        auto actObj =
-            ActionFactory::getAction(action["name"].get<std::string>(), action);
+
+        // Append action specific groups to the list of event groups for each
+        // action in the event
+        auto actionGroups = _groups;
+        if (jsonObj.contains("groups"))
+        {
+            for (const auto& jsonGrp : jsonObj["groups"])
+            {
+                if (!jsonGrp.contains("name"))
+                {
+                    log<level::ERR>("Missing required group name attribute",
+                                    entry("JSON=%s", jsonGrp.dump().c_str()));
+                    throw std::runtime_error(
+                        "Missing required group name attribute");
+                }
+
+                configKey eventProfile = std::make_pair(
+                    jsonGrp["name"].get<std::string>(), _profiles);
+                auto grpEntry = std::find_if(groups.begin(), groups.end(),
+                                             [&eventProfile](const auto& grp) {
+                                                 return Manager::inConfig(
+                                                     grp.first, eventProfile);
+                                             });
+                if (grpEntry != groups.end())
+                {
+                    auto group = Group(*grpEntry->second);
+                    configGroup(group, jsonGrp);
+                    actionGroups.emplace_back(group);
+                }
+            }
+        }
+        if (actionGroups.empty())
+        {
+            log<level::DEBUG>(
+                fmt::format("No groups configured for event {}'s action {} "
+                            "based on the active profile(s)",
+                            getName(), jsonAct["name"].get<std::string>())
+                    .c_str());
+        }
+
+        // Determine list of zones action should be run against
+        std::vector<std::reference_wrapper<Zone>> actionZones;
+        if (!jsonObj.contains("zones"))
+        {
+            // No zones configured on the action results in the action running
+            // against all zones matching the event's active profiles
+            for (const auto& zone : _zones)
+            {
+                configKey eventProfile =
+                    std::make_pair(zone.second->getName(), _profiles);
+                auto zoneEntry = std::find_if(_zones.begin(), _zones.end(),
+                                              [&eventProfile](const auto& z) {
+                                                  return Manager::inConfig(
+                                                      z.first, eventProfile);
+                                              });
+                if (zoneEntry != _zones.end())
+                {
+                    actionZones.emplace_back(*zoneEntry->second);
+                }
+            }
+        }
+        else
+        {
+            // Zones configured on the action result in the action only running
+            // against those zones if they match the event's active profiles
+            for (const auto& jsonZone : jsonObj["zones"])
+            {
+                configKey eventProfile =
+                    std::make_pair(jsonZone.get<std::string>(), _profiles);
+                auto zoneEntry = std::find_if(_zones.begin(), _zones.end(),
+                                              [&eventProfile](const auto& z) {
+                                                  return Manager::inConfig(
+                                                      z.first, eventProfile);
+                                              });
+                if (zoneEntry != _zones.end())
+                {
+                    actionZones.emplace_back(*zoneEntry->second);
+                }
+            }
+        }
+        if (actionZones.empty())
+        {
+            log<level::DEBUG>(
+                fmt::format("No zones configured for event {}'s action {} "
+                            "based on the active profile(s)",
+                            getName(), jsonAct["name"].get<std::string>())
+                    .c_str());
+        }
+
+        // Create the action for the event
+        auto actObj = ActionFactory::getAction(
+            jsonAct["name"].get<std::string>(), jsonAct,
+            std::move(actionGroups), std::move(actionZones));
         if (actObj)
         {
             _actions.emplace_back(std::move(actObj));
