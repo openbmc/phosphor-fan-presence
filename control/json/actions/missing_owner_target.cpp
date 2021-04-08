@@ -39,20 +39,23 @@ MissingOwnerTarget::MissingOwnerTarget(const json& jsonObj,
     setTarget(jsonObj);
 }
 
-void MissingOwnerTarget::run(Zone& zone, const Group& group)
+void MissingOwnerTarget::run(Zone& zone)
 {
-    auto members = group.getMembers();
-    auto isMissingOwner =
-        std::any_of(members.begin(), members.end(),
-                    [&intf = group.getInterface()](const auto& member) {
-                        return !Manager::hasOwner(member, intf);
-                    });
-    if (isMissingOwner)
+    for (const auto& group : _groups)
     {
-        zone.setTarget(_target);
+        auto members = group.getMembers();
+        auto isMissingOwner =
+            std::any_of(members.begin(), members.end(),
+                        [&intf = group.getInterface()](const auto& member) {
+                            return !Manager::hasOwner(member, intf);
+                        });
+        if (isMissingOwner)
+        {
+            zone.setTarget(_target);
+        }
+        // Update group's fan control active allowed based on action results
+        zone.setActiveAllow(group.getName(), !isMissingOwner);
     }
-    // Update group's fan control active allowed based on action results
-    zone.setActiveAllow(group.getName(), !isMissingOwner);
 }
 
 void MissingOwnerTarget::setTarget(const json& jsonObj)

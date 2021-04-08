@@ -42,90 +42,93 @@ NetTargetDecrease::NetTargetDecrease(const json& jsonObj,
     setDelta(jsonObj);
 }
 
-void NetTargetDecrease::run(Zone& zone, const Group& group)
+void NetTargetDecrease::run(Zone& zone)
 {
     auto netDelta = zone.getDecDelta();
-    for (const auto& member : group.getMembers())
+    for (const auto& group : _groups)
     {
-        try
+        for (const auto& member : group.getMembers())
         {
-            auto value = Manager::getObjValueVariant(
-                member, group.getInterface(), group.getProperty());
-            if (std::holds_alternative<int64_t>(value) ||
-                std::holds_alternative<double>(value))
+            try
             {
-                if (value >= _state)
+                auto value = Manager::getObjValueVariant(
+                    member, group.getInterface(), group.getProperty());
+                if (std::holds_alternative<int64_t>(value) ||
+                    std::holds_alternative<double>(value))
                 {
-                    // No decrease allowed for this group
-                    netDelta = 0;
-                    break;
+                    if (value >= _state)
+                    {
+                        // No decrease allowed for this group
+                        netDelta = 0;
+                        break;
+                    }
+                    else
+                    {
+                        // Decrease factor is the difference in configured state
+                        // to the current value's state
+                        uint64_t deltaFactor = 0;
+                        if (auto dblPtr = std::get_if<double>(&value))
+                        {
+                            deltaFactor = static_cast<uint64_t>(
+                                std::get<double>(_state) - *dblPtr);
+                        }
+                        else
+                        {
+                            deltaFactor = static_cast<uint64_t>(
+                                std::get<int64_t>(_state) -
+                                std::get<int64_t>(value));
+                        }
+
+                        // Multiply the decrease factor by the configured delta
+                        // to get the net decrease delta for the given group
+                        // member. The lowest net decrease delta of the entire
+                        // group is the decrease requested.
+                        if (netDelta == 0)
+                        {
+                            netDelta = deltaFactor * _delta;
+                        }
+                        else
+                        {
+                            netDelta = std::min(netDelta, deltaFactor * _delta);
+                        }
+                    }
+                }
+                else if (std::holds_alternative<bool>(value) ||
+                         std::holds_alternative<std::string>(value))
+                {
+                    // Where a group of booleans or strings equal the state
+                    // provided, request a decrease of the configured delta
+                    if (_state == value)
+                    {
+                        if (netDelta == 0)
+                        {
+                            netDelta = _delta;
+                        }
+                        else
+                        {
+                            netDelta = std::min(netDelta, _delta);
+                        }
+                    }
                 }
                 else
                 {
-                    // Decrease factor is the difference in configured state to
-                    // the current value's state
-                    uint64_t deltaFactor = 0;
-                    if (auto dblPtr = std::get_if<double>(&value))
-                    {
-                        deltaFactor = static_cast<uint64_t>(
-                            std::get<double>(_state) - *dblPtr);
-                    }
-                    else
-                    {
-                        deltaFactor =
-                            static_cast<uint64_t>(std::get<int64_t>(_state) -
-                                                  std::get<int64_t>(value));
-                    }
-
-                    // Multiply the decrease factor by the configured delta to
-                    // get the net decrease delta for the given group member.
-                    // The lowest net decrease delta of the entire group is the
-                    // decrease requested.
-                    if (netDelta == 0)
-                    {
-                        netDelta = deltaFactor * _delta;
-                    }
-                    else
-                    {
-                        netDelta = std::min(netDelta, deltaFactor * _delta);
-                    }
+                    // Unsupported group member type for this action
+                    log<level::ERR>(
+                        fmt::format("Action {}: Unsupported group member type "
+                                    "given. [object = {} : {} : {}]",
+                                    ActionBase::getName(), member,
+                                    group.getInterface(), group.getProperty())
+                            .c_str());
                 }
             }
-            else if (std::holds_alternative<bool>(value) ||
-                     std::holds_alternative<std::string>(value))
+            catch (const std::out_of_range& oore)
             {
-                // Where a group of booleans or strings equal the state
-                // provided, request a decrease of the configured delta
-                if (_state == value)
-                {
-                    if (netDelta == 0)
-                    {
-                        netDelta = _delta;
-                    }
-                    else
-                    {
-                        netDelta = std::min(netDelta, _delta);
-                    }
-                }
-            }
-            else
-            {
-                // Unsupported group member type for this action
-                log<level::ERR>(
-                    fmt::format("Action {}: Unsupported group member type "
-                                "given. [object = {} : {} : {}]",
-                                ActionBase::getName(), member,
-                                group.getInterface(), group.getProperty())
-                        .c_str());
+                // Property value not found, netDelta unchanged
             }
         }
-        catch (const std::out_of_range& oore)
-        {
-            // Property value not found, netDelta unchanged
-        }
+        // Update group's decrease allowed state
+        zone.setDecreaseAllow(group.getName(), !(netDelta == 0));
     }
-    // Update group's decrease allowed state
-    zone.setDecreaseAllow(group.getName(), !(netDelta == 0));
     // Request target decrease to occur on decrease interval
     zone.requestDecrease(netDelta);
 }

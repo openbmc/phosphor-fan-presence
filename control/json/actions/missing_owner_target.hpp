@@ -64,9 +64,8 @@ class MissingOwnerTarget :
      * resulting in the zone's target being set/held at the configured target.
      *
      * @param[in] zone - Zone to run the action on
-     * @param[in] group - Group of dbus objects the action runs against
      */
-    void run(Zone& zone, const Group& group) override;
+    void run(Zone& zone) override;
 
   private:
     /* Target for this action */
