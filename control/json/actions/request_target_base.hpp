@@ -68,9 +68,8 @@ class RequestTargetBase :
      * valid types for a fan target to be based off of.
      *
      * @param[in] zone - Zone to run the action on
-     * @param[in] group - Group of dbus objects the action runs against
      */
-    void run(Zone& zone, const Group& group) override;
+    void run(Zone& zone) override;
 };
 
 } // namespace phosphor::fan::control::json

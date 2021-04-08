@@ -137,13 +137,11 @@ class ActionBase : public ConfigBase
      * @brief Run the action
      *
      * Run the action function associated to the derived action object
-     * that performs a specific task against a group of dbus objects on a zone
-     * configured by a user.
+     * that performs a specific tasks on a zone configured by a user.
      *
      * @param[in] zone - Zone to run the action on
-     * @param[in] group - Group of dbus objects the action runs against
      */
-    virtual void run(Zone& zone, const Group& group) = 0;
+    virtual void run(Zone& zone) = 0;
 
     /**
      * @brief Trigger the action to run against all of its zones
@@ -153,9 +151,8 @@ class ActionBase : public ConfigBase
      */
     void run()
     {
-        // TODO Remove passing a reference of a group to run the action
         std::for_each(_zones.begin(), _zones.end(),
-                      [this](Zone& zone) { this->run(zone, _groups.front()); });
+                      [this](Zone& zone) { this->run(zone); });
     }
 
   protected:

@@ -67,9 +67,8 @@ class CountStateTarget :
      * state fall below the provided count.
      *
      * @param[in] zone - Zone to run the action on
-     * @param[in] group - Group of dbus objects the action runs against
      */
-    void run(Zone& zone, const Group& group) override;
+    void run(Zone& zone) override;
 
   private:
     /* Number of group members */

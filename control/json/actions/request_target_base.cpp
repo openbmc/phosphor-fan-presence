@@ -39,50 +39,53 @@ RequestTargetBase::RequestTargetBase(const json& jsonObj,
     // There are no JSON configuration parameters for this action
 }
 
-void RequestTargetBase::run(Zone& zone, const Group& group)
+void RequestTargetBase::run(Zone& zone)
 {
     uint64_t base = 0;
-    for (const auto& member : group.getMembers())
+    for (const auto& group : _groups)
     {
-        try
+        for (const auto& member : group.getMembers())
         {
-            auto value = Manager::getObjValueVariant(
-                member, group.getInterface(), group.getProperty());
-            if (auto intPtr = std::get_if<int64_t>(&value))
+            try
             {
-                // Throw out any negative values as those are not valid
-                // to use as a fan target base
-                if (*intPtr < 0)
+                auto value = Manager::getObjValueVariant(
+                    member, group.getInterface(), group.getProperty());
+                if (auto intPtr = std::get_if<int64_t>(&value))
                 {
-                    continue;
+                    // Throw out any negative values as those are not valid
+                    // to use as a fan target base
+                    if (*intPtr < 0)
+                    {
+                        continue;
+                    }
+                    base = std::max(base, static_cast<uint64_t>(*intPtr));
                 }
-                base = std::max(base, static_cast<uint64_t>(*intPtr));
-            }
-            else if (auto dblPtr = std::get_if<double>(&value))
-            {
-                // Throw out any negative values as those are not valid
-                // to use as a fan target base
-                if (*dblPtr < 0)
+                else if (auto dblPtr = std::get_if<double>(&value))
                 {
-                    continue;
+                    // Throw out any negative values as those are not valid
+                    // to use as a fan target base
+                    if (*dblPtr < 0)
+                    {
+                        continue;
+                    }
+                    // Precision of a double not a concern with fan targets
+                    base = std::max(base, static_cast<uint64_t>(*dblPtr));
                 }
-                // Precision of a double not a concern with fan targets
-                base = std::max(base, static_cast<uint64_t>(*dblPtr));
+                else
+                {
+                    // Unsupported group member type for this action
+                    log<level::ERR>(
+                        fmt::format("Action {}: Unsupported group member type "
+                                    "given. [object = {} : {} : {}]",
+                                    getName(), member, group.getInterface(),
+                                    group.getProperty())
+                            .c_str());
+                }
             }
-            else
+            catch (const std::out_of_range& oore)
             {
-                // Unsupported group member type for this action
-                log<level::ERR>(
-                    fmt::format("Action {}: Unsupported group member type "
-                                "given. [object = {} : {} : {}]",
-                                getName(), member, group.getInterface(),
-                                group.getProperty())
-                        .c_str());
+                // Property value not found, base request target unchanged
             }
-        }
-        catch (const std::out_of_range& oore)
-        {
-            // Property value not found, base request target unchanged
         }
     }
 

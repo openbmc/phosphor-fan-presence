@@ -76,9 +76,8 @@ class NetTargetDecrease :
      * requested on the zone.
      *
      * @param[in] zone - Zone to run the action on
-     * @param[in] group - Group of dbus objects the action runs against
      */
-    void run(Zone& zone, const Group& group) override;
+    void run(Zone& zone) override;
 
   private:
     /* State the members must be at to decrease the target */
