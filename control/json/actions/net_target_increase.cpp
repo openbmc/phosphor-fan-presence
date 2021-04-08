@@ -34,7 +34,9 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-NetTargetIncrease::NetTargetIncrease(const json& jsonObj) : ActionBase(jsonObj)
+NetTargetIncrease::NetTargetIncrease(const json& jsonObj,
+                                     const std::vector<Group>& groups) :
+    ActionBase(jsonObj, groups)
 {
     setState(jsonObj);
     setDelta(jsonObj);

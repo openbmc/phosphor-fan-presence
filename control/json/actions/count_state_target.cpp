@@ -29,7 +29,9 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 
-CountStateTarget::CountStateTarget(const json& jsonObj) : ActionBase(jsonObj)
+CountStateTarget::CountStateTarget(const json& jsonObj,
+                                   const std::vector<Group>& groups) :
+    ActionBase(jsonObj, groups)
 {
     setCount(jsonObj);
     setState(jsonObj);

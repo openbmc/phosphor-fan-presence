@@ -74,13 +74,21 @@ class ActionParseError : public std::runtime_error
  * @brief Function used in creating action objects
  *
  * @param[in] jsonObj - JSON object for the action
+ * @param[in] groups - Groups of dbus objects the action uses
+ * @param[in] zones - Zones the action runs against
  *
- * Creates an action object given the JSON configuration
+ * Creates an action object given the JSON configuration, list of groups and
+ * sets the zones the action should run against.
  */
 template <typename T>
-std::unique_ptr<T> createAction(const json& jsonObj)
+std::unique_ptr<T>
+    createAction(const json& jsonObj, const std::vector<Group>& groups,
+                 std::vector<std::reference_wrapper<Zone>>& zones)
 {
-    return std::make_unique<T>(jsonObj);
+    // Create the action and set its list of zones
+    auto action = std::make_unique<T>(jsonObj, groups);
+    action->setZones(zones);
+    return action;
 }
 
 /**
@@ -101,15 +109,29 @@ class ActionBase : public ConfigBase
     /**
      * @brief Base action object
      *
+     * @param[in] jsonObj - JSON object containing name and any profiles
+     * @param[in] groups - Groups of dbus objects the action uses
+     *
      * All actions derived from this base action object must be given a name
      * that uniquely identifies the action. Optionally, a configured action can
      * have a list of explicit profiles it should be included in, otherwise
      * always include the action where no profiles are given.
-     *
-     * @param[in] jsonObj - JSON object containing name and any profiles
      */
-    explicit ActionBase(const json& jsonObj) : ConfigBase(jsonObj)
+    ActionBase(const json& jsonObj, const std::vector<Group>& groups) :
+        ConfigBase(jsonObj), _groups(groups)
     {}
+
+    /**
+     * @brief Set the zones the action is run against
+     *
+     * @param[in] zones - Zones the action runs against
+     *
+     * By default, the zones are set when the action object is created
+     */
+    virtual void setZones(std::vector<std::reference_wrapper<Zone>>& zones)
+    {
+        _zones = zones;
+    }
 
     /**
      * @brief Run the action
@@ -122,6 +144,27 @@ class ActionBase : public ConfigBase
      * @param[in] group - Group of dbus objects the action runs against
      */
     virtual void run(Zone& zone, const Group& group) = 0;
+
+    /**
+     * @brief Trigger the action to run against all of its zones
+     *
+     * This is the function used by triggers to run the actions against all the
+     * zones that were configured for the action to run against.
+     */
+    void run()
+    {
+        // TODO Remove passing a reference of a group to run the action
+        std::for_each(_zones.begin(), _zones.end(),
+                      [this](Zone& zone) { this->run(zone, _groups.front()); });
+    }
+
+  protected:
+    /* Groups configured on the action */
+    const std::vector<Group> _groups;
+
+  private:
+    /* Zones configured on the action */
+    std::vector<std::reference_wrapper<Zone>> _zones;
 };
 
 /**
@@ -180,6 +223,8 @@ class ActionFactory
      *
      * @param[in] name - Name of the action to create/get
      * @param[in] jsonObj - JSON object for the action
+     * @param[in] groups - Groups of dbus objects the action uses
+     * @param[in] zones - Zones the action runs against
      *
      * @return Pointer to the action object.
      */
@@ -191,7 +236,7 @@ class ActionFactory
         auto it = actions.find(name);
         if (it != actions.end())
         {
-            return it->second(jsonObj);
+            return it->second(jsonObj, groups, zones);
         }
         else
         {
@@ -210,8 +255,10 @@ class ActionFactory
 
   private:
     /* Map to store the available actions and their creation functions */
-    static inline std::map<
-        std::string, std::function<std::unique_ptr<ActionBase>(const json&)>>
+    static inline std::map<std::string,
+                           std::function<std::unique_ptr<ActionBase>(
+                               const json&, const std::vector<Group>&,
+                               std::vector<std::reference_wrapper<Zone>>&)>>
         actions;
 };
 
