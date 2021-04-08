@@ -28,7 +28,9 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 
-DefaultFloor::DefaultFloor(const json& jsonObj) : ActionBase(jsonObj)
+DefaultFloor::DefaultFloor(const json& jsonObj,
+                           const std::vector<Group>& groups) :
+    ActionBase(jsonObj, groups)
 {
     // There are no JSON configuration parameters for this action
 }

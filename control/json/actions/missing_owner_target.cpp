@@ -32,8 +32,9 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-MissingOwnerTarget::MissingOwnerTarget(const json& jsonObj) :
-    ActionBase(jsonObj)
+MissingOwnerTarget::MissingOwnerTarget(const json& jsonObj,
+                                       const std::vector<Group>& groups) :
+    ActionBase(jsonObj, groups)
 {
     setTarget(jsonObj);
 }

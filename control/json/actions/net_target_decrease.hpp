@@ -56,8 +56,9 @@ class NetTargetDecrease :
      * @brief Determine/Set the net target decrease
      *
      * @param[in] jsonObj - JSON configuration of this action
+     * @param[in] groups - Groups of dbus objects the action uses
      */
-    explicit NetTargetDecrease(const json& jsonObj);
+    NetTargetDecrease(const json& jsonObj, const std::vector<Group>& groups);
 
     /**
      * @brief Run the action

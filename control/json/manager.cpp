@@ -194,7 +194,7 @@ void Manager::timerExpired(TimerData& data)
     std::for_each(actions.begin(), actions.end(),
                   [zone = std::ref(std::get<Zone&>(data.second)),
                    group = std::cref(std::get<const Group&>(data.second))](
-                      auto& action) { action->run(zone, group); });
+                      auto& action) { action->run(); });
 
     // Remove oneshot timers after they expired
     if (data.first == TimerType::oneshot)
