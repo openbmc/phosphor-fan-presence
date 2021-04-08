@@ -35,20 +35,23 @@ DefaultFloor::DefaultFloor(const json& jsonObj,
     // There are no JSON configuration parameters for this action
 }
 
-void DefaultFloor::run(Zone& zone, const Group& group)
+void DefaultFloor::run(Zone& zone)
 {
-    const auto& members = group.getMembers();
-    auto isMissingOwner =
-        std::any_of(members.begin(), members.end(),
-                    [&intf = group.getInterface()](const auto& member) {
-                        return !Manager::hasOwner(member, intf);
-                    });
-    if (isMissingOwner)
+    for (const auto& group : _groups)
     {
-        zone.setFloor(zone.getDefaultFloor());
+        const auto& members = group.getMembers();
+        auto isMissingOwner =
+            std::any_of(members.begin(), members.end(),
+                        [&intf = group.getInterface()](const auto& member) {
+                            return !Manager::hasOwner(member, intf);
+                        });
+        if (isMissingOwner)
+        {
+            zone.setFloor(zone.getDefaultFloor());
+        }
+        // Update fan control floor change allowed
+        zone.setFloorChangeAllow(group.getName(), !isMissingOwner);
     }
-    // Update fan control floor change allowed
-    zone.setFloorChangeAllow(group.getName(), !isMissingOwner);
 }
 
 } // namespace phosphor::fan::control::json

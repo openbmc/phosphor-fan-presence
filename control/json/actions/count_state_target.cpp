@@ -38,31 +38,34 @@ CountStateTarget::CountStateTarget(const json& jsonObj,
     setTarget(jsonObj);
 }
 
-void CountStateTarget::run(Zone& zone, const Group& group)
+void CountStateTarget::run(Zone& zone)
 {
     size_t numAtState = 0;
-    for (auto& member : group.getMembers())
+    for (const auto& group : _groups)
     {
-        try
+        for (auto& member : group.getMembers())
         {
-            if (Manager::getObjValueVariant(member, group.getInterface(),
-                                            group.getProperty()) == _state)
+            try
             {
-                numAtState++;
+                if (Manager::getObjValueVariant(member, group.getInterface(),
+                                                group.getProperty()) == _state)
+                {
+                    numAtState++;
+                }
+            }
+            catch (const std::out_of_range& oore)
+            {
+                // Default to property not equal when not found
+            }
+            if (numAtState >= _count)
+            {
+                zone.setTarget(_target);
+                break;
             }
         }
-        catch (const std::out_of_range& oore)
-        {
-            // Default to property not equal when not found
-        }
-        if (numAtState >= _count)
-        {
-            zone.setTarget(_target);
-            break;
-        }
+        // Update group's fan control active allowed based on action results
+        zone.setActiveAllow(group.getName(), !(numAtState >= _count));
     }
-    // Update group's fan control active allowed based on action results
-    zone.setActiveAllow(group.getName(), !(numAtState >= _count));
 }
 
 void CountStateTarget::setCount(const json& jsonObj)
