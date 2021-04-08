@@ -50,8 +50,9 @@ class DefaultFloor : public ActionBase, public ActionRegister<DefaultFloor>
      * @brief Default the fan floor
      *
      * @param[in] jsonObj - JSON configuration of this action
+     * @param[in] groups - Groups of dbus objects the action uses
      */
-    explicit DefaultFloor(const json& jsonObj);
+    DefaultFloor(const json& jsonObj, const std::vector<Group>& groups);
 
     /**
      * @brief Run the action

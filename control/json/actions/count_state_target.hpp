@@ -53,8 +53,9 @@ class CountStateTarget :
      * @brief Set target when a number of members are at a given state
      *
      * @param[in] jsonObj - JSON configuration of this action
+     * @param[in] groups - Groups of dbus objects the action uses
      */
-    explicit CountStateTarget(const json& jsonObj);
+    CountStateTarget(const json& jsonObj, const std::vector<Group>& groups);
 
     /**
      * @brief Run the action

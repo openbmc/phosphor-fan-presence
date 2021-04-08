@@ -52,8 +52,9 @@ class MissingOwnerTarget :
      * @brief Set target on an owner missing
      *
      * @param[in] jsonObj - JSON configuration of this action
+     * @param[in] groups - Groups of dbus objects the action uses
      */
-    explicit MissingOwnerTarget(const json& jsonObj);
+    MissingOwnerTarget(const json& jsonObj, const std::vector<Group>& groups);
 
     /**
      * @brief Run the action
