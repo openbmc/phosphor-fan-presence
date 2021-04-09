@@ -192,9 +192,7 @@ void Manager::timerExpired(TimerData& data)
         std::get<std::vector<std::unique_ptr<ActionBase>>&>(data.second);
     // Perform the actions in the timer data
     std::for_each(actions.begin(), actions.end(),
-                  [zone = std::ref(std::get<Zone&>(data.second)),
-                   group = std::cref(std::get<const Group&>(data.second))](
-                      auto& action) { action->run(); });
+                  [](auto& action) { action->run(); });
 
     // Remove oneshot timers after they expired
     if (data.first == TimerType::oneshot)
