@@ -54,13 +54,11 @@ enum class TimerType
  * Package of data required when a timer expires
  * Tuple constructed of:
  *      std::string = Timer package unique identifier
- *      Zone = Zone object to run the actions against
- *      Group = Group of dbus objects for the actions
  *      std::vector<std::unique_ptr<ActionBase>> = List of pointers to actions
  * that run when the timer expires
  */
-using TimerPkg = std::tuple<std::string, Zone&, const Group&,
-                            std::vector<std::unique_ptr<ActionBase>>&>;
+using TimerPkg =
+    std::tuple<std::string, std::vector<std::unique_ptr<ActionBase>>&>;
 /**
  * Data associated with a running timer that's used when it expires
  * Pair constructed of:
