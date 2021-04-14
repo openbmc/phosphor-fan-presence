@@ -122,6 +122,16 @@ class ActionBase : public ConfigBase
     {}
 
     /**
+     * @brief Get the groups configured on the action
+     *
+     * @return List of groups
+     */
+    inline const auto& getGroups() const
+    {
+        return _groups;
+    }
+
+    /**
      * @brief Set the zones the action is run against
      *
      * @param[in] zones - Zones the action runs against
