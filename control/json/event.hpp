@@ -76,10 +76,11 @@ class Event : public ConfigBase
      *
      * @param[in] jsonObj - JSON object
      * @param[in] bus - sdbusplus bus object
+     * @param[in] mgr - Manager of this event
      * @param[in] groups - Available groups that can be used
      * @param[in] zones - Reference to the configured zones
      */
-    Event(const json& jsonObj, sdbusplus::bus::bus& bus,
+    Event(const json& jsonObj, sdbusplus::bus::bus& bus, Manager* mgr,
           std::map<configKey, std::unique_ptr<Group>>& groups,
           std::map<configKey, std::unique_ptr<Zone>>& zones);
 
@@ -126,6 +127,9 @@ class Event : public ConfigBase
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
+
+    /* The event's manager */
+    Manager* _manager;
 
     /* A precondition the event has in order to be enabled */
     Precondition _precond;
