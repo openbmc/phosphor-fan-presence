@@ -19,6 +19,7 @@
 #include "config_base.hpp"
 #include "group.hpp"
 #include "manager.hpp"
+#include "triggers/trigger.hpp"
 
 #include <fmt/format.h>
 
@@ -258,6 +259,36 @@ void Event::setTriggers(const json& jsonObj)
         log<level::ERR>("Missing required event triggers list",
                         entry("JSON=%s", jsonObj.dump().c_str()));
         throw std::runtime_error("Missing required event triggers list");
+    }
+    for (const auto& jsonTrig : jsonObj["triggers"])
+    {
+        if (!jsonTrig.contains("class"))
+        {
+            log<level::ERR>("Missing required event trigger class",
+                            entry("JSON=%s", jsonTrig.dump().c_str()));
+            throw std::runtime_error("Missing required event trigger class");
+        }
+        // The class of trigger used to run the event actions
+        auto tClass = jsonTrig["class"].get<std::string>();
+        std::transform(tClass.begin(), tClass.end(), tClass.begin(), tolower);
+        auto trigFunc = trigger::triggers.find(tClass);
+        if (trigFunc != trigger::triggers.end())
+        {
+            trigFunc->second(jsonTrig, getName(), _manager, _actions);
+        }
+        else
+        {
+            // Construct list of available triggers
+            auto availTrigs = std::accumulate(
+                std::next(trigger::triggers.begin()), trigger::triggers.end(),
+                trigger::triggers.begin()->first, [](auto list, auto trig) {
+                    return std::move(list) + ", " + trig.first;
+                });
+            log<level::ERR>(
+                fmt::format("Trigger '{}' is not recognized", tClass).c_str(),
+                entry("AVAILABLE_TRIGGERS=%s", availTrigs.c_str()));
+            throw std::runtime_error("Unsupported trigger class name given");
+        }
     }
 }
 
