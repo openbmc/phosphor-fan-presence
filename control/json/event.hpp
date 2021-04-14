@@ -18,7 +18,6 @@
 #include "action.hpp"
 #include "config_base.hpp"
 #include "group.hpp"
-#include "triggers/trigger.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
@@ -114,16 +113,6 @@ class Event : public ConfigBase
         return _actions;
     }
 
-    /**
-     * @brief Get the triggers
-     *
-     * @return List of triggers for this event
-     */
-    inline const auto& getTriggers() const
-    {
-        return _triggers;
-    }
-
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
@@ -139,9 +128,6 @@ class Event : public ConfigBase
 
     /* Reference to the configured zones */
     std::map<configKey, std::unique_ptr<Zone>>& _zones;
-
-    /* List of triggers for this event */
-    std::vector<std::unique_ptr<trigger::TriggerBase>> _triggers;
 
     /* List of actions for this event */
     std::vector<std::unique_ptr<ActionBase>> _actions;
