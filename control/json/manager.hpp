@@ -263,6 +263,14 @@ class Manager
     void timerExpired(TimerData& data);
 
     /**
+     * @brief Get the sdbusplus bus object
+     */
+    inline auto& getBus()
+    {
+        return _bus;
+    }
+
+    /**
      * @brief Get the configured power on delay(OPTIONAL)
      *
      * @return Power on delay in seconds
