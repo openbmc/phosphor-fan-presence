@@ -188,6 +188,47 @@ class Manager
     static bool hasOwner(const std::string& path, const std::string& intf);
 
     /**
+     * @brief Sets the dbus service owner state of a given object
+     *
+     * @param[in] path - Dbus object path
+     * @param[in] serv - Dbus service name
+     * @param[in] intf - Dbus object interface
+     * @param[in] isOwned - Dbus service owner state
+     */
+    void setOwner(const std::string& path, const std::string& serv,
+                  const std::string& intf, bool isOwned);
+
+    /**
+     * @brief Add a set of services for a path and interface by retrieving all
+     * the path subtrees to the given depth from root for the interface
+     *
+     * @param[in] path - Path to add services for
+     * @param[in] intf - Interface to add services for
+     * @param[in] depth - Depth of tree traversal from root path
+     *
+     * @throws - DBusMethodError
+     * Throws a DBusMethodError when the `getSubTree` method call fails
+     */
+    static void addServices(const std::string& path, const std::string& intf,
+                            int32_t depth);
+
+    /**
+     * @brief Get the service for a given path and interface from cached
+     * dataset and attempt to add all the services for the given path/interface
+     * when it's not found
+     *
+     * @param[in] path - Path to get service for
+     * @param[in] intf - Interface to get service for
+     *
+     * @return - The now cached service name
+     *
+     * @throws - DBusMethodError
+     * Ripples up a DBusMethodError exception from calling addServices
+     */
+    static const std::string& getService(const std::string& path,
+                                         const std::string& intf);
+
+    /**
      * @brief Get the object's property value as a variant
      *
      * @param[in] path - Path of the object containing the property
@@ -252,9 +293,10 @@ class Manager
     /* List of active profiles */
     static std::vector<std::string> _activeProfiles;
 
-    /* Subtree map of paths to services (with ownership state) of interfaces */
-    static std::map<std::string, std::map<std::pair<std::string, bool>,
-                                          std::vector<std::string>>>
+    /* Subtree map of paths to services of interfaces(with ownership state) */
+    static std::map<
+        std::string,
+        std::map<std::string, std::pair<bool, std::vector<std::string>>>>
         _servTree;
 
     /* */
@@ -271,6 +313,18 @@ class Manager
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
+
+    /**
+     * @brief Find the service name for a given path and interface from the
+     * cached dataset
+     *
+     * @param[in] path - Path to get service for
+     * @param[in] intf - Interface to get service for
+     *
+     * @return - The cached service name
+     */
+    static const std::string& findService(const std::string& path,
+                                          const std::string& intf);
 
     /**
      * @brief Parse and set the configured profiles from the profiles JSON file

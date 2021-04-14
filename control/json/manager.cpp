@@ -47,7 +47,7 @@ using json = nlohmann::json;
 
 std::vector<std::string> Manager::_activeProfiles;
 std::map<std::string,
-         std::map<std::pair<std::string, bool>, std::vector<std::string>>>
+         std::map<std::string, std::pair<bool, std::vector<std::string>>>>
     Manager::_servTree;
 std::map<std::string,
          std::map<std::string, std::map<std::string, PropertyVariantType>>>
@@ -148,19 +148,134 @@ bool Manager::hasOwner(const std::string& path, const std::string& intf)
         // Path not found in cache, therefore owner missing
         return false;
     }
-    for (const auto& serv : itServ->second)
+    for (const auto& service : itServ->second)
     {
         auto itIntf = std::find_if(
-            serv.second.begin(), serv.second.end(),
+            service.second.second.begin(), service.second.second.end(),
             [&intf](const auto& interface) { return intf == interface; });
-        if (itIntf != std::end(serv.second))
+        if (itIntf != std::end(service.second.second))
         {
             // Service found, return owner state
-            return serv.first.second;
+            return service.second.first;
         }
     }
     // Interface not found in cache, therefore owner missing
     return false;
+}
+
+void Manager::setOwner(const std::string& path, const std::string& serv,
+                       const std::string& intf, bool isOwned)
+{
+    auto itServ = _servTree.find(path);
+    if (itServ == _servTree.end())
+    {
+        auto intfs = {intf};
+        _servTree[path] = {{serv, std::make_pair(isOwned, intfs)}};
+        return;
+    }
+    for (auto& service : itServ->second)
+    {
+        auto itIntf = std::find_if(
+            service.second.second.begin(), service.second.second.end(),
+            [&intf](const auto& interface) { return intf == interface; });
+        if (itIntf != std::end(service.second.second))
+        {
+            if (service.first == serv)
+            {
+                service.second.first = isOwned;
+                return;
+            }
+        }
+    }
+    auto intfs = {intf};
+    itServ->second[serv] = std::make_pair(isOwned, intfs);
+}
+
+const std::string& Manager::findService(const std::string& path,
+                                        const std::string& intf)
+{
+    static const std::string empty = "";
+
+    auto itServ = _servTree.find(path);
+    if (itServ != _servTree.end())
+    {
+        for (const auto& service : itServ->second)
+        {
+            auto itIntf = std::find_if(
+                service.second.second.begin(), service.second.second.end(),
+                [&intf](const auto& interface) { return intf == interface; });
+            if (itIntf != std::end(service.second.second))
+            {
+                // Service found, return service name
+                return service.first;
+            }
+        }
+    }
+
+    return empty;
+}
+
+void Manager::addServices(const std::string& path, const std::string& intf,
+                          int32_t depth)
+{
+    // Get all subtree objects for the given interface
+    auto objects = util::SDBusPlus::getSubTree(util::SDBusPlus::getBus(), "/",
+                                               intf, depth);
+    // Add what's returned to the cache of path->services
+    for (auto& itPath : objects)
+    {
+        auto pathIter = _servTree.find(itPath.first);
+        if (pathIter != _servTree.end())
+        {
+            // Path found in cache
+            for (auto& itServ : itPath.second)
+            {
+                auto servIter = pathIter->second.find(itServ.first);
+                if (servIter != pathIter->second.end())
+                {
+                    // Service found in cache
+                    for (auto& itIntf : itServ.second)
+                    {
+                        if (std::find(servIter->second.second.begin(),
+                                      servIter->second.second.end(),
+                                      itIntf) == servIter->second.second.end())
+                        {
+                            // Add interface to cache
+                            servIter->second.second.emplace_back(itIntf);
+                        }
+                    }
+                }
+                else
+                {
+                    // Service not found in cache
+                    auto intfs = {intf};
+                    pathIter->second[itServ.first] =
+                        std::make_pair(true, intfs);
+                }
+            }
+        }
+        else
+        {
+            // Path not found in cache
+            auto intfs = {intf};
+            _servTree[itPath.first] = {
+                {itPath.second.begin()->first, std::make_pair(true, intfs)}};
+        }
+    }
+}
+
+const std::string& Manager::getService(const std::string& path,
+                                       const std::string& intf)
+{
+    // Retrieve service from cache
+    const auto& serviceName = findService(path, intf);
+    if (serviceName.empty())
+    {
+        addServices(path, intf, 0);
+        return findService(path, intf);
+    }
+
+    return serviceName;
 }
 
 void Manager::addTimer(const TimerType type,
