@@ -96,7 +96,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     auto groups = getConfig<Group>(true, bus);
 
     // Load any events configured
-    _events = getConfig<Event>(true, bus, bus, groups, _zones);
+    _events = getConfig<Event>(true, bus, bus, this, groups, _zones);
 
     bus.request_name(CONTROL_BUSNAME);
 }

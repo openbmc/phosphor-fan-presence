@@ -35,11 +35,11 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus,
+Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus, Manager* mgr,
              std::map<configKey, std::unique_ptr<Group>>& groups,
              std::map<configKey, std::unique_ptr<Zone>>& zones) :
     ConfigBase(jsonObj),
-    _bus(bus), _zones(zones)
+    _bus(bus), _manager(mgr), _zones(zones)
 {
     // Event could have a precondition
     if (!jsonObj.contains("precondition"))
