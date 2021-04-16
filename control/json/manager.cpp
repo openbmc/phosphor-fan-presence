@@ -215,8 +215,7 @@ const std::string& Manager::findService(const std::string& path,
     return empty;
 }
 
-void Manager::addServices(const std::string& path, const std::string& intf,
-                          int32_t depth)
+void Manager::addServices(const std::string& intf, int32_t depth)
 {
     // Get all subtree objects for the given interface
     auto objects = util::SDBusPlus::getSubTree(util::SDBusPlus::getBus(), "/",
@@ -271,7 +270,7 @@ const std::string& Manager::getService(const std::string& path,
     const auto& serviceName = findService(path, intf);
     if (serviceName.empty())
     {
-        addServices(path, intf, 0);
+        addServices(intf, 0);
         return findService(path, intf);
     }
 
