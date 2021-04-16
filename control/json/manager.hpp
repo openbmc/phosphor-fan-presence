@@ -202,15 +202,13 @@ class Manager
      * @brief Add a set of services for a path and interface by retrieving all
      * the path subtrees to the given depth from root for the interface
      *
-     * @param[in] path - Path to add services for
      * @param[in] intf - Interface to add services for
      * @param[in] depth - Depth of tree traversal from root path
      *
      * @throws - DBusMethodError
      * Throws a DBusMethodError when the `getSubTree` method call fails
      */
-    static void addServices(const std::string& path, const std::string& intf,
-                            int32_t depth);
+    static void addServices(const std::string& intf, int32_t depth);
 
     /**
      * @brief Get the service for a given path and interface from cached
