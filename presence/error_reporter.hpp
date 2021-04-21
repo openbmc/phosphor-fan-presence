@@ -104,7 +104,7 @@ class ErrorReporter
     /**
      * @brief Base class pointer to the power state implementation.
      */
-    std::unique_ptr<PowerState> _powerState;
+    std::shared_ptr<PowerState> _powerState;
 
     /**
      * @brief The map of fan paths to their presence states.

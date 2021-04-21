@@ -16,7 +16,8 @@ namespace phosphor::fan
  *
  * This class provides an interface to check the current power state,
  * and to register a function that gets called when there is a power
- * state change.
+ * state change.  A callback can be passed in using the constructor,
+ * or can be added later using addCallback().
  *
  * Different architectures may have different ways of considering
  * power to be on, such as a pgood property on the
@@ -29,7 +30,6 @@ class PowerState
   public:
     using StateChangeFunc = std::function<void(bool)>;
 
-    PowerState() = delete;
     virtual ~PowerState() = default;
     PowerState(const PowerState&) = delete;
     PowerState& operator=(const PowerState&) = delete;
@@ -43,9 +43,41 @@ class PowerState
      * @param[in] callback - The function that should be run when
      *                       the power state changes
      */
-    PowerState(sdbusplus::bus::bus& bus, StateChangeFunc callback) :
-        _bus(bus), _callback(std::move(callback))
+    PowerState(sdbusplus::bus::bus& bus, StateChangeFunc callback) : _bus(bus)
+    {
+        _callbacks.emplace("default", std::move(callback));
+    }
+
+    /**
+     * @brief Constructor
+     *
+     * Callbacks can be added with addCallback().
+     */
+    PowerState() : _bus(util::SDBusPlus::getBus())
     {}
+
+    /**
+     * @brief Adds a function to call when the power state changes
+     *
+     * @param[in] - Any unique name, so the callback can be removed later
+     *              if desired.
+     * @param[in] callback - The function that should be run when
+     *                       the power state changes
+     */
+    void addCallback(const std::string& name, StateChangeFunc callback)
+    {
+        _callbacks.emplace(name, std::move(callback));
+    }
+
+    /**
+     * @brief Remove the callback so it is no longer called
+     *
+     * @param[in] name - The name used when it was added.
+     */
+    void deleteCallback(const std::string& name)
+    {
+        _callbacks.erase(name);
+    }
 
     /**
      * @brief Says if power is on
@@ -61,7 +93,7 @@ class PowerState
     /**
      * @brief Called by derived classes to set the power state value
      *
-     * Will call the callback function if the state changed.
+     * Will call the callback functions if the state changed.
      *
      * @param[in] state - The new power state
      */
@@ -70,7 +102,10 @@ class PowerState
         if (state != _powerState)
         {
             _powerState = state;
-            _callback(_powerState);
+            for (const auto& [name, callback] : _callbacks)
+            {
+                callback(_powerState);
+            }
         }
     }
 
@@ -86,9 +121,9 @@ class PowerState
 
   private:
     /**
-     * @brief The callback function to run when the power state changes
+     * @brief The callback functions to run when the power state changes
      */
-    std::function<void(bool)> _callback;
+    std::map<std::string, StateChangeFunc> _callbacks;
 };
 
 /**
@@ -100,12 +135,20 @@ class PowerState
 class PGoodState : public PowerState
 {
   public:
-    PGoodState() = delete;
     virtual ~PGoodState() = default;
     PGoodState(const PGoodState&) = delete;
     PGoodState& operator=(const PGoodState&) = delete;
     PGoodState(PGoodState&&) = delete;
     PGoodState& operator=(PGoodState&&) = delete;
+
+    PGoodState() :
+        PowerState(), _match(_bus,
+                             sdbusplus::bus::match::rules::propertiesChanged(
+                                 _pgoodPath, _pgoodInterface),
+                             [this](auto& msg) { this->pgoodChanged(msg); })
+    {
+        readPGood();
+    }
 
     /**
      * @brief Constructor
@@ -121,22 +164,7 @@ class PGoodState : public PowerState
                                                                _pgoodInterface),
                [this](auto& msg) { this->pgoodChanged(msg); })
     {
-        try
-        {
-            auto pgood = util::SDBusPlus::getProperty<int32_t>(
-                _bus, _pgoodPath, _pgoodInterface, _pgoodProperty);
-
-            _powerState = static_cast<bool>(pgood);
-        }
-        catch (const util::DBusError& e)
-        {
-            using namespace phosphor::logging;
-            log<level::ERR>(
-                fmt::format("Could not find PGOOD interface {} on D-Bus",
-                            _pgoodInterface)
-                    .c_str());
-            throw;
-        }
+        readPGood();
     }
 
     /**
@@ -162,6 +190,29 @@ class PGoodState : public PowerState
     }
 
   private:
+    /**
+     * @brief Reads the PGOOD property from D-Bus and saves it.
+     */
+    void readPGood()
+    {
+        try
+        {
+            auto pgood = util::SDBusPlus::getProperty<int32_t>(
+                _bus, _pgoodPath, _pgoodInterface, _pgoodProperty);
+
+            _powerState = static_cast<bool>(pgood);
+        }
+        catch (const util::DBusError& e)
+        {
+            using namespace phosphor::logging;
+            log<level::ERR>(
+                fmt::format("Could not find PGOOD interface {} on D-Bus",
+                            _pgoodInterface)
+                    .c_str());
+            throw;
+        }
+    }
+
     /** @brief D-Bus path constant */
     const std::string _pgoodPath{"/org/openbmc/control/power0"};
 
