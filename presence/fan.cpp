@@ -31,7 +31,6 @@ namespace presence
 
 using namespace std::literals::string_literals;
 
-static const auto invNamespace = "/xyz/openbmc_project/inventory"s;
 static const auto itemIface = "xyz.openbmc_project.Inventory.Item"s;
 static const auto invMgrIface = "xyz.openbmc_project.Inventory.Manager"s;
 static const auto fanIface = "xyz.openbmc_project.Inventory.Item.Fan"s;
