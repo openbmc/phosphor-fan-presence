@@ -19,6 +19,7 @@ phosphor_fan_presence_tach_SOURCES = \
 	error_reporter.cpp \
 	fallback.cpp \
 	fan.cpp \
+	get_power_state.cpp \
 	gpio.cpp \
 	logging.cpp \
 	psensor.cpp \

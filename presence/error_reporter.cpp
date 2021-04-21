@@ -15,6 +15,7 @@
  */
 #include "error_reporter.hpp"
 
+#include "get_power_state.hpp"
 #include "logging.hpp"
 #include "psensor.hpp"
 #include "utility.hpp"
@@ -46,14 +47,12 @@ ErrorReporter::ErrorReporter(
     const std::vector<
         std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>& fans) :
     _bus(bus),
-    _event(sdeventplus::Event::get_default())
+    _event(sdeventplus::Event::get_default()),
+    _powerState(getPowerStateObject())
 {
-    // If different methods to check the power state are needed across the
-    // various platforms, the method/class to use could be read out of JSON
-    // or set with a compilation flag.
-    _powerState = std::make_unique<PGoodState>(
-        bus, std::bind(std::mem_fn(&ErrorReporter::powerStateChanged), this,
-                       std::placeholders::_1));
+    _powerState->addCallback("errorReporter",
+                             std::bind(&ErrorReporter::powerStateChanged, this,
+                                       std::placeholders::_1));
 
     for (const auto& fan : fans)
     {
