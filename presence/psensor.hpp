@@ -1,5 +1,6 @@
 #pragma once
 #include <cstdint>
+#include <string>
 
 namespace phosphor
 {
@@ -77,6 +78,13 @@ class PresenceSensor
     {}
 
     friend bool operator==(const PresenceSensor& l, const PresenceSensor& r);
+
+    /**
+     * @brief Called when this presence sensor doesn't agree with other ones.
+     *
+     * @param[in] fanInventoryPath - The fan inventory D-Bus object path.
+     */
+    virtual void logConflict(const std::string& fanInventoryPath) const = 0;
 
   private:
     /** @brief Unique sensor ID. */
