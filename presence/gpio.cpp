@@ -15,12 +15,15 @@
  */
 #include "gpio.hpp"
 
+#include "logging.hpp"
 #include "rpolicy.hpp"
+#include "sdbusplus.hpp"
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
 #include <sdeventplus/event.hpp>
 #include <xyz/openbmc_project/Common/Callout/error.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
 #include <functional>
 #include <tuple>
@@ -31,6 +34,10 @@ namespace fan
 {
 namespace presence
 {
+
+const auto loggingService = "xyz.openbmc_project.Logging";
+const auto loggingPath = "/xyz/openbmc_project/logging";
+const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 Gpio::Gpio(const std::string& physDevice, const std::string& device,
            unsigned int physPin) :
@@ -86,6 +93,40 @@ void Gpio::ioCallback()
         currentState = newState;
     }
 }
+
+void Gpio::logConflict(const std::string& fanInventoryPath) const
+{
+    using namespace sdbusplus::xyz::openbmc_project::Logging::server;
+    std::map<std::string, std::string> ad;
+    Entry::Level severity = Entry::Level::Informational;
+
+    static constexpr auto errorName =
+        "xyz.openbmc_project.Fan.Presence.Error.SensorDisagreement";
+
+    ad.emplace("_PID", std::to_string(getpid()));
+    ad.emplace("CALLOUT_INVENTORY_PATH", fanInventoryPath);
+    ad.emplace("GPIO_NUM", std::to_string(pin));
+    ad.emplace("GPIO_DEVICE_PATH", (phys.c_str()));
+
+    getLogger().log(
+        fmt::format("GPIO presence detect for fan {} said not present but "
+                    "other methods indicated present",
+                    fanInventoryPath));
+    try
+    {
+        util::SDBusPlus::callMethod(loggingService, loggingPath,
+                                    loggingCreateIface, "Create", errorName,
+                                    severity, ad);
+    }
+    catch (const util::DBusError& e)
+    {
+        getLogger().log(
+            fmt::format("Call to create a {} error for fan {} failed: {}",
+                        errorName, fanInventoryPath, e.what()),
+            Logger::error);
+    }
+}
+
 } // namespace presence
 } // namespace fan
 } // namespace phosphor

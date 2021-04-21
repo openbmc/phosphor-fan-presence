@@ -15,6 +15,7 @@
  */
 #include "tach.hpp"
 
+#include "logging.hpp"
 #include "rpolicy.hpp"
 
 #include <fmt/format.h>
@@ -139,6 +140,17 @@ void Tach::propertiesChanged(size_t sensor,
             currentState = newState;
         }
     }
+}
+
+void Tach::logConflict(const std::string& fanInventoryPath) const
+{
+    getLogger().log(fmt::format(
+        "Tach sensor presence detect for fan {} said not present but "
+        "other methods indicated present",
+        fanInventoryPath));
+
+    // Let the code that monitors fan faults create the event
+    // logs for stopped rotors.
 }
 
 } // namespace presence

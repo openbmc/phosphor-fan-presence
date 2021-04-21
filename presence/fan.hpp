@@ -11,6 +11,8 @@ namespace fan
 namespace presence
 {
 
+static const std::string invNamespace = "/xyz/openbmc_project/inventory";
+
 /** @brief PrettyName, inventory path and time until error. */
 using Fan = std::tuple<std::string, std::string, std::optional<size_t>>;
 

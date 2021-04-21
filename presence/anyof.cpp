@@ -16,6 +16,7 @@
 #include "anyof.hpp"
 
 #include "fan.hpp"
+#include "get_power_state.hpp"
 #include "psensor.hpp"
 
 #include <phosphor-logging/log.hpp>
@@ -28,14 +29,32 @@ namespace fan
 {
 namespace presence
 {
+
+using namespace std::chrono_literals;
+static const auto powerOnDelayTime = 5s;
+
 AnyOf::AnyOf(const Fan& fan,
              const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
     RedundancyPolicy(fan),
-    state()
+    state(), _powerState(getPowerStateObject()),
+    _powerOnDelayTimer(sdeventplus::Event::get_default(),
+                       std::bind(&AnyOf::delayedAfterPowerOn, this)),
+    _powerOn(false)
 {
     for (auto& sensor : s)
     {
-        state.emplace_back(sensor, false);
+        state.emplace_back(sensor, false, false);
+    }
+
+    _powerState->addCallback(
+        std::get<1>(fan) + "-anyOf",
+        std::bind(&AnyOf::powerStateChanged, this, std::placeholders::_1));
+
+    // If power is already on, give the fans some time to spin up
+    // before considering power to actually be on.
+    if (_powerState->isPowerOn())
+    {
+        _powerOnDelayTimer.restartOnce(powerOnDelayTime);
     }
 }
 
@@ -44,16 +63,34 @@ void AnyOf::stateChanged(bool present, PresenceSensor& sensor)
     // Find the sensor that changed state.
     auto sit =
         std::find_if(state.begin(), state.end(), [&sensor](const auto& s) {
-            return std::get<0>(s).get() == sensor;
+            return std::get<sensorPos>(s).get() == sensor;
         });
     if (sit != state.end())
     {
+        auto origState =
+            std::any_of(state.begin(), state.end(),
+                        [](const auto& s) { return std::get<presentPos>(s); });
+
         // Update our cache of the sensors state and re-evaluate.
-        std::get<bool>(*sit) = present;
+        std::get<presentPos>(*sit) = present;
         auto newState =
             std::any_of(state.begin(), state.end(),
-                        [](const auto& s) { return std::get<bool>(s); });
+                        [](const auto& s) { return std::get<presentPos>(s); });
         setPresence(fan, newState);
+
+        // At least 1 sensor said a fan was present, check if any disagree.
+        if (newState)
+        {
+            if (!origState)
+            {
+                // Fan plug detected, re-enable conflict logging
+                std::for_each(state.begin(), state.end(), [](auto& s) {
+                    std::get<conflictPos>(s) = false;
+                });
+            }
+
+            checkSensorConflicts();
+        }
     }
 }
 
@@ -63,13 +100,77 @@ void AnyOf::monitor()
 
     for (auto& s : state)
     {
-        auto& sensor = std::get<0>(s);
-        std::get<bool>(s) = sensor.get().start();
+        auto& sensor = std::get<sensorPos>(s);
+        std::get<presentPos>(s) = sensor.get().start();
     }
 
-    auto present = std::any_of(state.begin(), state.end(),
-                               [](const auto& s) { return std::get<bool>(s); });
+    auto present = std::any_of(state.begin(), state.end(), [](const auto& s) {
+        return std::get<presentPos>(s);
+    });
     setPresence(fan, present);
+
+    // At least one of the contained methods indicated present,
+    // so check that they all agree.
+    if (present)
+    {
+        checkSensorConflicts();
+    }
+}
+
+void AnyOf::checkSensorConflicts()
+{
+    if (!isPowerOn())
+    {
+        return;
+    }
+
+    // If at least one, but not all, sensors indicate present, then
+    // tell the not present ones to log a conflict if not already done.
+    if (std::any_of(
+            state.begin(), state.end(),
+            [this](const auto& s) { return std::get<presentPos>(s); }) &&
+        !std::all_of(state.begin(), state.end(),
+                     [this](const auto& s) { return std::get<presentPos>(s); }))
+    {
+        for (auto& [sensor, present, conflict] : state)
+        {
+            if (!present && !conflict)
+            {
+                sensor.get().logConflict(invNamespace + std::get<1>(fan));
+                conflict = true;
+            }
+        }
+    }
+}
+
+void AnyOf::powerStateChanged(bool powerOn)
+{
+    if (powerOn)
+    {
+        // Clear the conflict state from last time
+        std::for_each(state.begin(), state.end(), [](auto& state) {
+            std::get<conflictPos>(state) = false;
+        });
+
+        // Wait to give the fans time to start spinning before
+        // considering power actually on.
+        _powerOnDelayTimer.restartOnce(powerOnDelayTime);
+    }
+    else
+    {
+        _powerOn = false;
+
+        if (_powerOnDelayTimer.isEnabled())
+        {
+            _powerOnDelayTimer.setEnabled(false);
+        }
+    }
+}
+
+void AnyOf::delayedAfterPowerOn()
+{
+    _powerOn = true;
+    checkSensorConflicts();
 }
 
 } // namespace presence
