@@ -71,6 +71,13 @@ class Tach : public PresenceSensor
      */
     bool present() override;
 
+    /**
+     * @brief Called when this presence sensor doesn't agree with other ones.
+     *
+     * @param[in] fanInventoryPath - The fan inventory D-Bus object path.
+     */
+    void logConflict(const std::string& fanInventoryPath) const override;
+
   private:
     /**
      * @brief Get the policy associated with this sensor.
