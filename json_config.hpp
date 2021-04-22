@@ -133,6 +133,13 @@ class JsonConfig
             _readyFunc(_confFile);
             _match.reset();
         }
+        else
+        {
+            log<level::ERR>(fmt::format("Could not find fan {} conf file {} "
+                                        "even after {} iface became available",
+                                        _appName, _fileName, confCompatIntf)
+                                .c_str());
+        }
     }
 
     /**
@@ -208,6 +215,13 @@ class JsonConfig
             {
                 // Property unavailable on object.
             }
+        }
+
+        if (!isOptional && confFile.empty() && !objects.empty())
+        {
+            log<level::ERR>(fmt::format("Could not find fan {} conf file {}",
+                                        appName, fileName)
+                                .c_str());
         }
 
         if (confFile.empty() && !isOptional)
