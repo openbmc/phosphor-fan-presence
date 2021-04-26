@@ -30,7 +30,7 @@ attribute.
 ```
 "type": "gpio",
 "key": 1,
-"physpath": "/sys/devices/platform/ahb/ahb:apb/ahb:apb:bus@1e78a000/1e78a000.i2c-bus/i2c-1/1-0001",
+"physpath": "/sys/bus/i2c/devices/1-0001",
 "devpath": "/dev/input/by-path/platform-gpio-keys-polled-event"
 ```
 
