@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "835c8306_79deb328",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-04-27T21:57:33Z",
+      "side": 1,
+      "message": "util::SdBusPlus::getBus() returns a reference to a single bus object.  If you used that, you wouldn\u0027t have to pass it around everywhere.",
+      "range": {
+        "startLine": 70,
+        "startChar": 36,
+        "endLine": 70,
+        "endChar": 46
+      },
+      "revId": "87beaccbaacd10d5d295218d9626938a499a5089",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
