@@ -94,6 +94,30 @@
       "revId": "e62994596274c5681cd2ba864102501f641a94b9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "353417eb_7bc32c72",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-04-29T21:47:41Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a63af384_15c13c62",
+      "range": {
+        "startLine": 208,
+        "startChar": 12,
+        "endLine": 212,
+        "endChar": 18
+      },
+      "revId": "e62994596274c5681cd2ba864102501f641a94b9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
