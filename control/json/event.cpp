@@ -156,9 +156,9 @@ void Event::setActions(const json& jsonObj,
         // Append action specific groups to the list of event groups for each
         // action in the event
         auto actionGroups = _groups;
-        if (jsonObj.contains("groups"))
+        if (jsonAct.contains("groups"))
         {
-            for (const auto& jsonGrp : jsonObj["groups"])
+            for (const auto& jsonGrp : jsonAct["groups"])
             {
                 if (!jsonGrp.contains("name"))
                 {
@@ -194,7 +194,7 @@ void Event::setActions(const json& jsonObj,
 
         // Determine list of zones action should be run against
         std::vector<std::reference_wrapper<Zone>> actionZones;
-        if (!jsonObj.contains("zones"))
+        if (!jsonAct.contains("zones"))
         {
             // No zones configured on the action results in the action running
             // against all zones matching the event's active profiles
@@ -217,7 +217,7 @@ void Event::setActions(const json& jsonObj,
         {
             // Zones configured on the action result in the action only running
             // against those zones if they match the event's active profiles
-            for (const auto& jsonZone : jsonObj["zones"])
+            for (const auto& jsonZone : jsonAct["zones"])
             {
                 configKey eventProfile =
                     std::make_pair(jsonZone.get<std::string>(), _profiles);
