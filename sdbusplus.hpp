@@ -291,6 +291,25 @@ class SDBusPlus
         return getService(getBus(), path, interface);
     }
 
+    /** @brief Get managed objects. */
+    template <typename Variant>
+    static auto getManagedObjects(sdbusplus::bus::bus& bus,
+                                  const std::string& service,
+                                  const std::string& path)
+    {
+        using namespace std::literals::string_literals;
+
+        using Path = sdbusplus::message::object_path;
+        using Intf = std::string;
+        using Prop = std::string;
+        using GetManagedObjects =
+            std::map<Path, std::map<Intf, std::map<Prop, Variant>>>;
+
+        return callMethodAndRead<GetManagedObjects>(
+            bus, service, path, "org.freedesktop.DBus.ObjectManager"s,
+            "GetManagedObjects"s);
+    }
+
     /** @brief Get a property with mapper lookup. */
     template <typename Property>
     static auto getProperty(sdbusplus::bus::bus& bus, const std::string& path,
