@@ -113,8 +113,10 @@ class FanError
      *
      * @param[in] jsonFFDC - Free form JSON data that should be sent in as
      *                       FFDC.
+     * @param[in] isPowerOffError - If this is committed at the time of the
+     *                              power off.
      */
-    void commit(const nlohmann::json& jsonFFDC);
+    void commit(const nlohmann::json& jsonFFDC, bool isPowerOffError = false);
 
   private:
     /**
@@ -137,9 +139,11 @@ class FanError
      * @brief Create and returns the AdditionalData property to use for the
      *        event log.
      *
+     * @param[in] isPowerOffError - If this is committed at the time of the
+     *                              power off.
      * @return map<string, string> - The AdditionalData contents
      */
-    std::map<std::string, std::string> getAdditionalData();
+    std::map<std::string, std::string> getAdditionalData(bool isPowerOffError);
 
     /**
      * @brief The error name (The event log's 'Message' property)

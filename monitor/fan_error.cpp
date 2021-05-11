@@ -50,10 +50,10 @@ FFDCFile::FFDCFile(const fs::path& name) :
     }
 }
 
-void FanError::commit(const json& jsonFFDC)
+void FanError::commit(const json& jsonFFDC, bool isPowerOffError)
 {
     FFDCFiles ffdc;
-    auto ad = getAdditionalData();
+    auto ad = getAdditionalData(isPowerOffError);
 
     // Add the Logger contents as FFDC
     auto logFile = makeLogFFDCFile();
@@ -71,9 +71,16 @@ void FanError::commit(const json& jsonFFDC)
 
     try
     {
+        auto sev = _severity;
+
+        // If this is a power off, change severity to Critical
+        if (isPowerOffError)
+        {
+            using namespace sdbusplus::xyz::openbmc_project::Logging::server;
+            sev = convertForMessage(Entry::Level::Critical);
+        }
         SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
-                              "CreateWithFFDCFiles", _errorName, _severity, ad,
-                              ffdc);
+                              "CreateWithFFDCFiles", _errorName, sev, ad, ffdc);
     }
     catch (const DBusError& e)
     {
@@ -84,7 +91,8 @@ void FanError::commit(const json& jsonFFDC)
     }
 }
 
-std::map<std::string, std::string> FanError::getAdditionalData()
+std::map<std::string, std::string>
+    FanError::getAdditionalData(bool isPowerOffError)
 {
     std::map<std::string, std::string> ad;
 
@@ -94,6 +102,15 @@ std::map<std::string, std::string> FanError::getAdditionalData()
     if (!_sensorName.empty())
     {
         ad.emplace("FAN_SENSOR", _sensorName);
+    }
+
+    // If this is a power off, specify that it's a power
+    // fault and a system termination.  This is used by some
+    // implementations for service reasons.
+    if (isPowerOffError)
+    {
+        ad.emplace("POWER_THERMAL_CRITICAL_FAULT", "TRUE");
+        ad.emplace("SEVERITY_DETAIL", "SYSTEM_TERM");
     }
 
     return ad;

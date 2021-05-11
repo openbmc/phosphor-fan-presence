@@ -300,7 +300,7 @@ void System::logShutdownError()
 
         // Still use the latest sensor data
         auto sensorData = captureSensorData();
-        _lastError->commit(sensorData);
+        _lastError->commit(sensorData, true);
     }
 }
 
