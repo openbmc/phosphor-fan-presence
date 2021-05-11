@@ -157,9 +157,12 @@ class ShutdownAlarmMonitor
      * @param[in] alarmKey - The alarm key
      * @param[in] alarmValue - The alarm property value
      * @param[in] sensorValue - The sensor value behind the alarm.
+     * @param[in] isPowerOffError - If this is committed at the time of the
+     *                              power off.
      */
     void createEventLog(const AlarmKey& alarmKey, bool alarmValue,
-                        const std::optional<double>& sensorValue);
+                        const std::optional<double>& sensorValue,
+                        bool isPowerOffError = false);
 
     /**
      * @brief The sdbusplus bus object

@@ -369,7 +369,7 @@ void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
 
     // Re-send the event log.  If someone didn't want this it could be
     // wrapped by a compile option.
-    createEventLog(alarmKey, true, value);
+    createEventLog(alarmKey, true, value, true);
 
     SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                           "StartUnit", "obmc-chassis-hard-poweroff@0.target",
@@ -402,7 +402,7 @@ void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)
 
 void ShutdownAlarmMonitor::createEventLog(
     const AlarmKey& alarmKey, bool alarmValue,
-    const std::optional<double>& sensorValue)
+    const std::optional<double>& sensorValue, bool isPowerOffError)
 {
     using namespace sdbusplus::xyz::openbmc_project::Logging::server;
     const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
@@ -412,12 +412,31 @@ void ShutdownAlarmMonitor::createEventLog(
         (alarmValue) ? alarmEventLogs.at(shutdownType).at(alarmType)
                      : alarmClearEventLogs.at(shutdownType).at(alarmType);
 
-    Entry::Level severity =
-        (alarmValue) ? Entry::Level::Error : Entry::Level::Informational;
+    // severity = Critical if a power off
+    // severity = Error if alarm was asserted
+    // severity = Informational if alarm was deasserted
+    Entry::Level severity = Entry::Level::Error;
+    if (isPowerOffError)
+    {
+        severity = Entry::Level::Critical;
+    }
+    else if (!alarmValue)
+    {
+        severity = Entry::Level::Informational;
+    }
 
     if (sensorValue)
     {
         ad.emplace("SENSOR_VALUE", std::to_string(*sensorValue));
+    }
+
+    // If this is a power off, specify that it's a power
+    // fault and a system termination.  This is used by some
+    // implementations for service reasons.
+    if (isPowerOffError)
+    {
+        ad.emplace("POWER_THERMAL_CRITICAL_FAULT", "TRUE");
+        ad.emplace("SEVERITY_DETAIL", "SYSTEM_TERM");
     }
 
     SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
