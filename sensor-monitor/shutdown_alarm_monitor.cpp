@@ -18,6 +18,7 @@
 #include "shutdown_alarm_monitor.hpp"
 
 #include <fmt/format.h>
+#include <unistd.h>
 
 #include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
@@ -406,7 +407,8 @@ void ShutdownAlarmMonitor::createEventLog(
 {
     using namespace sdbusplus::xyz::openbmc_project::Logging::server;
     const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
-    std::map<std::string, std::string> ad{{"SENSOR_NAME", sensorPath}};
+    std::map<std::string, std::string> ad{{"SENSOR_NAME", sensorPath},
+                                          {"_PID", std::to_string(getpid())}};
 
     std::string errorName =
         (alarmValue) ? alarmEventLogs.at(shutdownType).at(alarmType)

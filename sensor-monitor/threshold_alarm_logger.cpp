@@ -18,6 +18,7 @@
 #include "sdbusplus.hpp"
 
 #include <fmt/format.h>
+#include <unistd.h>
 
 #include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
@@ -229,6 +230,7 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
     }
 
     ad.emplace("SENSOR_NAME", sensorPath);
+    ad.emplace("_PID", std::to_string(getpid()));
 
     try
     {
