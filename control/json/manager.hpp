@@ -69,6 +69,39 @@ using TimerData = std::pair<TimerType, TimerPkg>;
 /* Dbus event timer */
 using Timer = sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>;
 
+/* Dbus signal object */
+constexpr auto Path = 0;
+constexpr auto Intf = 1;
+constexpr auto Prop = 2;
+using SignalObject = std::tuple<std::string, std::string, std::string>;
+/* Dbus signal actions */
+using SignalActions =
+    std::vector<std::reference_wrapper<std::unique_ptr<ActionBase>>>;
+/**
+ * Signal handler function that handles parsing a signal's message for a
+ * particular signal object and stores the results in the manager
+ */
+using SignalHandler = std::function<bool(sdbusplus::message::message&,
+                                         const SignalObject&, Manager&)>;
+/**
+ * Package of data required when a signal is received
+ * Tuple constructed of:
+ *     SignalHandler = Signal handler function
+ *     SignalObject = Dbus signal object
+ *     SignalActions = List of actions that are run when the signal is received
+ */
+using SignalPkg = std::tuple<SignalHandler, SignalObject, SignalActions>;
+/**
+ * Data associated to a subscribed signal
+ * Tuple constructed of:
+ *     std::unique_ptr<std::vector<SignalPkg>> =
+ *         Pointer to the signal's packages
+ *     std::unique_ptr<sdbusplus::server::match::match> =
+ *         Pointer to match holding the subscription to a signal
+ */
+using SignalData = std::tuple<std::unique_ptr<std::vector<SignalPkg>>,
+                              std::unique_ptr<sdbusplus::server::match::match>>;
+
 /**
  * @class Manager - Represents the fan control manager's configuration
  *
@@ -261,6 +294,27 @@ class Manager
     void timerExpired(TimerData& data);
 
     /**
+     * @brief Get the signal data for a given match string
+     *
+     * @param[in] sigMatch - Signal match string
+     *
+     * @return - Reference to the signal data for the given match string
+     */
+    std::vector<SignalData>& getSignal(const std::string& sigMatch)
+    {
+        return _signals[sigMatch];
+    }
+
+    /**
+     * @brief Handle receiving signals
+     *
+     * @param[in] msg - Signal message containing the signal's data
+     * @param[in] pkgs - Signal packages associated to the signal being handled
+     */
+    void handleSignal(sdbusplus::message::message& msg,
+                      const std::vector<SignalPkg>* pkgs);
+
+    /**
      * @brief Get the sdbusplus bus object
      */
     inline auto& getBus()
@@ -313,6 +367,9 @@ class Manager
 
     /* List of timers and their data to be processed when expired */
     std::vector<std::pair<std::unique_ptr<TimerData>, Timer>> _timers;
+
+    /* Map of signal match strings to a list of signal handler data */
+    std::unordered_map<std::string, std::vector<SignalData>> _signals;
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
