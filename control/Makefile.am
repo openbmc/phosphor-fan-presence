@@ -32,6 +32,7 @@ phosphor_fan_control_SOURCES += \
 	json/event.cpp \
 	json/triggers/timer.cpp \
 	json/triggers/signal.cpp \
+	json/triggers/init.cpp \
 	json/actions/default_floor.cpp \
 	json/actions/request_target_base.cpp \
 	json/actions/missing_owner_target.cpp \
