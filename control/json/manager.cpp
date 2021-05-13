@@ -324,6 +324,24 @@ void Manager::timerExpired(TimerData& data)
     }
 }
 
+void Manager::handleSignal(sdbusplus::message::message& msg,
+                           const std::vector<SignalPkg>* pkgs)
+{
+    for (auto& pkg : *pkgs)
+    {
+        // Handle the signal callback and only run the actions if the handler
+        // updated the cache for the given SignalObject
+        if (std::get<SignalHandler>(pkg)(msg, std::get<SignalObject>(pkg),
+                                         *this))
+        {
+            // Perform the actions in the handler package
+            auto& actions = std::get<SignalActions>(pkg);
+            std::for_each(actions.begin(), actions.end(),
+                          [](auto& action) { action.get()->run(); });
+        }
+    }
+}
+
 unsigned int Manager::getPowerOnDelay()
 {
     auto powerOnDelay = 0;
