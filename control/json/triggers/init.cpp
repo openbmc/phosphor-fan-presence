@@ -1,0 +1,165 @@
+/**
+ * Copyright © 2021 IBM Corporation
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+#include "init.hpp"
+
+#include "../manager.hpp"
+#include "action.hpp"
+#include "group.hpp"
+#include "sdbusplus.hpp"
+
+#include <fmt/format.h>
+
+#include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
+
+#include <algorithm>
+#include <iterator>
+#include <memory>
+#include <numeric>
+#include <utility>
+#include <vector>
+
+namespace phosphor::fan::control::json::trigger::init
+{
+
+using json = nlohmann::json;
+using namespace phosphor::logging;
+
+void getProperties(Manager* mgr, const Group& group)
+{
+    for (const auto& member : group.getMembers())
+    {
+        try
+        {
+            // Check if property already cached
+            auto value = mgr->getProperty(member, group.getInterface(),
+                                          group.getProperty());
+            if (value == std::nullopt)
+            {
+                // Property not in cache, attempt to add it
+                mgr->addObjects(member, group.getInterface(),
+                                group.getProperty());
+            }
+        }
+        catch (const util::DBusMethodError& dme)
+        {
+            // Configured dbus object does not exist on dbus yet?
+            // TODO How to handle this? Create timer to keep checking for
+            // object/service to appear? When to stop checking?
+        }
+    }
+}
+
+void nameHasOwner(Manager* mgr, const Group& group)
+{
+    std::string lastName = "";
+    for (const auto& member : group.getMembers())
+    {
+        std::string servName = "";
+        auto intf = group.getInterface();
+        try
+        {
+            servName = mgr->getService(member, intf);
+            if (!servName.empty() && lastName != servName)
+            {
+                // Member not provided by same service as last group member
+                lastName = servName;
+                auto hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                    mgr->getBus(), "org.freedesktop.DBus",
+                    "/org/freedesktop/DBus", "org.freedesktop.DBus",
+                    "NameHasOwner", servName);
+                // Update service name owner state of group object
+                mgr->setOwner(member, servName, intf, hasOwner);
+            }
+            if (servName.empty())
+            {
+                // Path and/or interface configured does not exist on dbus?
+                // TODO How to handle this? Create timer to keep checking for
+                // object/service to appear? When to stop checking?
+                log<level::ERR>(
+                    fmt::format(
+                        "Unable to get service name for path {}, interface {}",
+                        member, intf)
+                        .c_str());
+            }
+        }
+        catch (const util::DBusMethodError& dme)
+        {
+            if (!servName.empty())
+            {
+                // Failed to get service name owner state
+                mgr->setOwner(member, servName, intf, false);
+            }
+            else
+            {
+                // Path and/or interface configured does not exist on dbus?
+                // TODO How to handle this? Create timer to keep checking for
+                // object/service to appear? When to stop checking?
+                log<level::ERR>(
+                    fmt::format(
+                        "Unable to get service name for path {}, interface {}",
+                        member, intf)
+                        .c_str());
+                throw dme;
+            }
+        }
+    }
+}
+
+void triggerInit(const json& jsonObj, const std::string& eventName,
+                 Manager* mgr,
+                 std::vector<std::unique_ptr<ActionBase>>& actions)
+{
+    // Get the method handler if configured
+    auto handler = methods.end();
+    if (jsonObj.contains("method"))
+    {
+        auto method = jsonObj["method"].get<std::string>();
+        std::transform(method.begin(), method.end(), method.begin(), tolower);
+        handler = methods.find(method);
+    }
+
+    for (auto& action : actions)
+    {
+        // Groups are optional, so a method is only required if there are groups
+        // i.e.) An init triggered event without any groups results in just
+        // running the actions
+        for (const auto& group : action->getGroups())
+        {
+            if (handler == methods.end())
+            {
+                // Construct list of available methods
+                auto availMethods = std::accumulate(
+                    std::next(methods.begin()), methods.end(),
+                    methods.begin()->first, [](auto list, auto method) {
+                        return std::move(list) + ", " + method.first;
+                    });
+                auto msg =
+                    fmt::format("Event '{}' requires a supported method given "
+                                "to be init driven, available methods: {}",
+                                eventName, availMethods);
+                log<level::ERR>(msg.c_str());
+                throw std::runtime_error(msg.c_str());
+            }
+            // Call method handler for each group in the actions
+            handler->second(mgr, group);
+        }
+        // Run the action
+        action->run();
+    }
+}
+
+} // namespace phosphor::fan::control::json::trigger::init
