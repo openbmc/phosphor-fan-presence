@@ -51,13 +51,24 @@ void subscribe(const std::string& match, SignalPkg&& pkg,
 void propertiesChanged(Manager* mgr, const std::string& eventName,
                        std::unique_ptr<ActionBase>& action);
 
+/**
+ * @brief Subscribes to an interfacesAdded signal
+ *
+ * @param[in] mgr - Pointer to manager of the trigger
+ * @param[in] eventName - Name of event associated to the signal
+ * @param[in] action - Action to be run when signal is received
+ */
+void interfacesAdded(Manager* mgr, const std::string& eventName,
+                     std::unique_ptr<ActionBase>& action);
+
 // Match setup function for signals
 using SignalMatch = std::function<void(Manager*, const std::string&,
                                        std::unique_ptr<ActionBase>& action)>;
 
 /* Supported signals to their corresponding match setup functions */
 static const std::unordered_map<std::string, SignalMatch> signals = {
-    {"properties_changed", propertiesChanged}};
+    {"properties_changed", propertiesChanged},
+    {"interfaces_added", interfacesAdded}};
 
 /**
  * @brief Trigger to process an event after a signal is received
