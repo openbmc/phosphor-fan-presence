@@ -17,6 +17,7 @@
 
 #include "action.hpp"
 #include "manager.hpp"
+#include "signal.hpp"
 #include "timer.hpp"
 
 #include <nlohmann/json.hpp>
@@ -38,6 +39,6 @@ using createTrigger =
 
 // Mapping of trigger class name to its creation function
 static const std::map<std::string, createTrigger> triggers = {
-    {"timer", timer::triggerTimer}};
+    {"timer", timer::triggerTimer}, {"signal", signal::triggerSignal}};
 
 } // namespace phosphor::fan::control::json::trigger
