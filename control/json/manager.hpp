@@ -260,6 +260,20 @@ class Manager
                                          const std::string& intf);
 
     /**
+     * @brief Set/update an object's property value
+     *
+     * @param[in] path - Dbus object's path
+     * @param[in] intf - Dbus object's interface
+     * @param[in] prop - Dbus object's property
+     * @param[in] value - Dbus object's property value
+     */
+    void setProperty(const std::string& path, const std::string& intf,
+                     const std::string& prop, PropertyVariantType value)
+    {
+        _objects[path][intf][prop] = std::move(value);
+    }
+
+    /**
      * @brief Get the object's property value as a variant
      *
      * @param[in] path - Path of the object containing the property
