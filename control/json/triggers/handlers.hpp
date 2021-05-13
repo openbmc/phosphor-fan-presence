@@ -124,6 +124,36 @@ struct Handlers
         mgr.removeInterface(std::get<Path>(obj), std::get<Intf>(obj));
         return true;
     }
+
+    /**
+     * @brief Processes a name owner changed signal and updates the service's
+     * owner state
+     *
+     * @param[in] msg - The sdbusplus signal message
+     * @param[in] obj - Object data associated with the signal
+     * @param[in] mgr - Manager that stores the service's owner state
+     */
+    static bool nameOwnerChanged(message& msg, const SignalObject& obj,
+                                 Manager& mgr)
+    {
+        bool hasOwner = false;
+
+        std::string serv;
+        msg.read(serv);
+
+        std::string oldOwner;
+        msg.read(oldOwner);
+
+        std::string newOwner;
+        msg.read(newOwner);
+        if (!newOwner.empty())
+        {
+            hasOwner = true;
+        }
+
+        mgr.setOwner(std::get<Path>(obj), std::get<Intf>(obj), serv, hasOwner);
+        return true;
+    }
 };
 
 } // namespace phosphor::fan::control::json::trigger::signal
