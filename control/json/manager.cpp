@@ -277,6 +277,142 @@ const std::string& Manager::getService(const std::string& path,
     return serviceName;
 }
 
+std::vector<std::string> Manager::findPaths(const std::string& serv,
+                                            const std::string& intf)
+{
+    std::vector<std::string> paths;
+
+    for (const auto& path : _servTree)
+    {
+        auto itServ = path.second.find(serv);
+        if (itServ != path.second.end())
+        {
+            if (std::find(itServ->second.second.begin(),
+                          itServ->second.second.end(),
+                          intf) != itServ->second.second.end())
+            {
+                if (std::find(paths.begin(), paths.end(), path.first) ==
+                    paths.end())
+                {
+                    paths.push_back(path.first);
+                }
+            }
+        }
+    }
+
+    return paths;
+}
+
+std::vector<std::string> Manager::getPaths(const std::string& serv,
+                                           const std::string& intf)
+{
+    auto paths = findPaths(serv, intf);
+    if (paths.empty())
+    {
+        addServices(intf, 0);
+        return findPaths(serv, intf);
+    }
+
+    return paths;
+}
+
+void Manager::addObjects(const std::string& path, const std::string& intf,
+                         const std::string& prop)
+{
+    auto service = getService(path, intf);
+    if (service.empty())
+    {
+        // Log service not found for object
+        log<level::ERR>(
+            fmt::format("Unable to get service name for path {}, interface {}",
+                        path, intf)
+                .c_str());
+        return;
+    }
+
+    auto objMgrPaths = getPaths(service, "org.freedesktop.DBus.ObjectManager");
+    if (objMgrPaths.empty())
+    {
+        // No object manager interface provided by service?
+        // Attempt to retrieve property directly
+        auto variant = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+            _bus, service, path, intf, prop);
+        _objects[path][intf][prop] = variant;
+        return;
+    }
+
+    for (const auto& objMgrPath : objMgrPaths)
+    {
+        // Get all managed objects of service
+        auto objects = util::SDBusPlus::getManagedObjects<PropertyVariantType>(
+            _bus, service, objMgrPath);
+
+        // Add what's returned to the cache of objects
+        for (auto& object : objects)
+        {
+            auto itPath = _objects.find(object.first);
+            if (itPath != _objects.end())
+            {
+                // Path found in cache
+                for (auto& interface : itPath->second)
+                {
+                    auto itIntf = itPath->second.find(interface.first);
+                    if (itIntf != itPath->second.end())
+                    {
+                        // Interface found in cache
+                        for (auto& property : itIntf->second)
+                        {
+                            auto itProp = itIntf->second.find(property.first);
+                            if (itProp != itIntf->second.end())
+                            {
+                                // Property found, update value
+                                itProp->second = property.second;
+                            }
+                            else
+                            {
+                                itIntf->second.insert(property);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Interface not found in cache
+                        itPath->second.insert(interface);
+                    }
+                }
+            }
+            else
+            {
+                // Path not found in cache
+                _objects.insert(object);
+            }
+        }
+    }
+}
+
+const std::optional<PropertyVariantType>
+    Manager::getProperty(const std::string& path, const std::string& intf,
+                         const std::string& prop)
+{
+    // TODO Objects hosted by fan control (i.e. ThermalMode) are required to
+    // update the cache upon being set/updated
+    auto itPath = _objects.find(path);
+    if (itPath != _objects.end())
+    {
+        auto itIntf = itPath->second.find(intf);
+        if (itIntf != itPath->second.end())
+        {
+            auto itProp = itIntf->second.find(prop);
+            if (itProp != itIntf->second.end())
+            {
+                return itProp->second;
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
 void Manager::addTimer(const TimerType type,
                        const std::chrono::microseconds interval,
                        std::unique_ptr<TimerPkg> pkg)
