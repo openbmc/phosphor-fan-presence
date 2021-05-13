@@ -117,6 +117,32 @@ void propertiesChanged(Manager* mgr, const std::string& eventName,
     }
 }
 
+void interfacesAdded(Manager* mgr, const std::string& eventName,
+                     std::unique_ptr<ActionBase>& action)
+{
+    // Groups are optional, but a signal triggered event with no groups
+    // will do nothing since signals require a group
+    for (const auto& group : action->getGroups())
+    {
+        for (const auto& member : group.getMembers())
+        {
+            // Setup interfaces added signal handler on the group member
+            const auto match = rules::interfacesAdded(member);
+            SignalPkg signalPkg = {Handlers::interfacesAdded,
+                                   SignalObject(std::cref(member),
+                                                std::cref(group.getInterface()),
+                                                std::cref(group.getProperty())),
+                                   SignalActions({action})};
+            auto isSameSig = [&intf = group.getInterface()](SignalPkg& pkg) {
+                auto& obj = std::get<SignalObject>(pkg);
+                return intf == std::get<Intf>(obj);
+            };
+
+            subscribe(match, std::move(signalPkg), isSameSig, mgr);
+        }
+    }
+}
+
 void triggerSignal(const json& jsonObj, const std::string& eventName,
                    Manager* mgr,
                    std::vector<std::unique_ptr<ActionBase>>& actions)
