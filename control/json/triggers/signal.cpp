@@ -169,6 +169,50 @@ void interfacesRemoved(Manager* mgr, const std::string& eventName,
     }
 }
 
+void nameOwnerChanged(Manager* mgr, const std::string& eventName,
+                      std::unique_ptr<ActionBase>& action)
+{
+    // Groups are optional, but a signal triggered event with no groups
+    // will do nothing since signals require a group
+    for (const auto& group : action->getGroups())
+    {
+        for (const auto& member : group.getMembers())
+        {
+            auto serv = Manager::getService(member, group.getInterface());
+            if (!serv.empty())
+            {
+                // Setup name owner changed signal handler on the group
+                // member's service
+                const auto match = rules::nameOwnerChanged(serv);
+                SignalPkg signalPkg = {
+                    Handlers::nameOwnerChanged,
+                    SignalObject(std::cref(member),
+                                 std::cref(group.getInterface()),
+                                 std::cref(group.getProperty())),
+                    SignalActions({action})};
+                // If signal match already exists, then the service will be the
+                // same so add action to be run
+                auto isSameSig = [](SignalPkg& pkg) { return true; };
+
+                subscribe(match, std::move(signalPkg), isSameSig, mgr);
+            }
+            else
+            {
+                // Unable to construct nameOwnerChanged match string
+                // Path and/or interface configured does not exist on dbus yet?
+                // TODO How to handle this? Create timer to keep checking for
+                // service to appear? When to stop checking?
+                log<level::ERR>(
+                    fmt::format(
+                        "Event '{}' will not be triggered by name owner "
+                        "changed signals from service of path {}, interface {}",
+                        eventName, member, group.getInterface())
+                        .c_str());
+            }
+        }
+    }
+}
+
 void triggerSignal(const json& jsonObj, const std::string& eventName,
                    Manager* mgr,
                    std::vector<std::unique_ptr<ActionBase>>& actions)
