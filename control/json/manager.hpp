@@ -260,6 +260,48 @@ class Manager
                                          const std::string& intf);
 
     /**
+     * @brief Get all the object paths for a given service and interface from
+     * the cached dataset and try to add all the services for the given
+     * interface when no paths are found and then attempt to get all the object
+     * paths again
+     *
+     * @param[in] serv - Service name to get paths for
+     * @param[in] intf - Interface to get paths for
+     *
+     * @return The cached object paths
+     */
+    std::vector<std::string> getPaths(const std::string& serv,
+                                      const std::string& intf);
+
+    /**
+     * @brief Add objects to the cached dataset by first using
+     * `getManagedObjects` for the same service providing the given path and
+     * interface or just add the single object of the given path, interface, and
+     * property if that fails.
+     *
+     * @param[in] path - Dbus object's path
+     * @param[in] intf - Dbus object's interface
+     * @param[in] prop - Dbus object's property
+     *
+     * @throws - DBusMethodError
+     * Throws a DBusMethodError when the the service is failed to be found or
+     * when the `getManagedObjects` method call fails
+     */
+    void addObjects(const std::string& path, const std::string& intf,
+                    const std::string& prop);
+
+    /**
+     * @brief Get an object's property value
+     *
+     * @param[in] path - Dbus object's path
+     * @param[in] intf - Dbus object's interface
+     * @param[in] prop - Dbus object's property
+     */
+    const std::optional<PropertyVariantType>
+        getProperty(const std::string& path, const std::string& intf,
+                    const std::string& prop);
+
+    /**
      * @brief Set/update an object's property value
      *
      * @param[in] path - Dbus object's path
@@ -418,6 +460,18 @@ class Manager
      */
     static const std::string& findService(const std::string& path,
                                           const std::string& intf);
+
+    /**
+     * @brief Find all the paths for a given service and interface from the
+     * cached dataset
+     *
+     * @param[in] serv - Service name to get paths for
+     * @param[in] intf - Interface to get paths for
+     *
+     * @return - The cached object paths
+     */
+    std::vector<std::string> findPaths(const std::string& serv,
+                                       const std::string& intf);
 
     /**
      * @brief Parse and set the configured profiles from the profiles JSON file
