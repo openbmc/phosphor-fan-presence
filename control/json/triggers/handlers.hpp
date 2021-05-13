@@ -91,6 +91,39 @@ struct Handlers
                         std::get<Prop>(obj), itProp->second);
         return true;
     }
+
+    /**
+     * @brief Processes an interfaces removed signal and removes the interface
+     * (including its properties) from the object cache on the manager
+     *
+     * @param[in] msg - The sdbusplus signal message
+     * @param[in] obj - Object data associated with the signal
+     * @param[in] mgr - Manager that stores the object cache
+     */
+    static bool interfacesRemoved(message& msg, const SignalObject& obj,
+                                  Manager& mgr)
+    {
+        sdbusplus::message::object_path op;
+        msg.read(op);
+        if (static_cast<const std::string&>(op) != std::get<Path>(obj))
+        {
+            // Path name does not match object's path
+            return false;
+        }
+
+        std::vector<std::string> intfs;
+        msg.read(intfs);
+        auto itIntf =
+            std::find(intfs.begin(), intfs.end(), std::get<Intf>(obj));
+        if (itIntf == intfs.cend())
+        {
+            // Object's interface not in list of interfaces removed
+            return false;
+        }
+
+        mgr.removeInterface(std::get<Path>(obj), std::get<Intf>(obj));
+        return true;
+    }
 };
 
 } // namespace phosphor::fan::control::json::trigger::signal

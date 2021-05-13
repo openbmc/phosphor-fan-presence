@@ -274,6 +274,22 @@ class Manager
     }
 
     /**
+     * @brief Remove an object's interface
+     *
+     * @param[in] path - Dbus object's path
+     * @param[in] intf - Dbus object's interface
+     */
+    inline void removeInterface(const std::string& path,
+                                const std::string& intf)
+    {
+        auto itPath = _objects.find(path);
+        if (itPath != std::end(_objects))
+        {
+            _objects[path].erase(intf);
+        }
+    }
+
+    /**
      * @brief Get the object's property value as a variant
      *
      * @param[in] path - Path of the object containing the property
