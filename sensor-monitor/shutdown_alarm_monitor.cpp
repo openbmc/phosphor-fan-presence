@@ -84,8 +84,9 @@ const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 using namespace sdbusplus::bus::match;
 
-ShutdownAlarmMonitor::ShutdownAlarmMonitor(sdbusplus::bus::bus& bus,
-                                           sdeventplus::Event& event) :
+ShutdownAlarmMonitor::ShutdownAlarmMonitor(
+    sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+    std::shared_ptr<PowerState> powerState) :
     bus(bus),
     event(event),
     hardShutdownMatch(bus,
@@ -102,10 +103,11 @@ ShutdownAlarmMonitor::ShutdownAlarmMonitor(sdbusplus::bus::bus& bus,
                           shutdownInterfaces.at(ShutdownType::hard) + "'",
                       std::bind(&ShutdownAlarmMonitor::propertiesChanged, this,
                                 std::placeholders::_1)),
-    _powerState(std::make_unique<PGoodState>(
-        bus, std::bind(&ShutdownAlarmMonitor::powerStateChanged, this,
-                       std::placeholders::_1)))
+    _powerState(std::move(powerState))
 {
+    _powerState->addCallback("shutdownMon",
+                             std::bind(&ShutdownAlarmMonitor::powerStateChanged,
+                                       this, std::placeholders::_1));
     findAlarms();
 
     if (_powerState->isPowerOn())
