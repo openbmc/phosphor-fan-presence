@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84501275_9dda1702",
+        "filename": "control/json/group.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-14T17:58:16Z",
+      "side": 1,
+      "message": "If you just used SdBusPlus::getBus() to get the static bus object when you needed it, you wouldn\u0027t have to worry about passing it around everywhere.",
+      "revId": "1a7d2fedd786479df585ddb7345ed95d1954815c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
