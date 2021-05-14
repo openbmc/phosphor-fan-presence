@@ -22,6 +22,30 @@
       "revId": "668fa92e17279282fe2a20b6be21a6c71e420d68",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d164d02_f13b3d3f",
+        "filename": "control/json/actions/missing_owner_target.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-14T17:34:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5add164e_21c2b1ac",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 9
+      },
+      "revId": "668fa92e17279282fe2a20b6be21a6c71e420d68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
