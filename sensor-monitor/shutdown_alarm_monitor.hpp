@@ -52,11 +52,6 @@ namespace sensor::monitor
  * means that the host didn't do a soft shutdown in the time allowed and
  * now a hard shutdown is required.  This behavior could be modified with
  * compile flags if anyone needs a different behavior in the future.
- *
- * It currently uses the PGoodState class to check for power state.
- * If a different property is ever desired, a new class can be
- * derived from PowerState and a compile option can be used.
- *
  */
 class ShutdownAlarmMonitor
 {
@@ -73,8 +68,10 @@ class ShutdownAlarmMonitor
      *
      * @param[in] bus - The sdbusplus bus object
      * @param[in] event - The sdeventplus event object
+     * @param[in] powerState - The PowerState object
      */
-    ShutdownAlarmMonitor(sdbusplus::bus::bus& bus, sdeventplus::Event& event);
+    ShutdownAlarmMonitor(sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+                         std::shared_ptr<phosphor::fan::PowerState> powerState);
 
   private:
     /**
@@ -175,6 +172,11 @@ class ShutdownAlarmMonitor
     sdeventplus::Event& event;
 
     /**
+     * @brief The PowerState object to track power state changes.
+     */
+    std::shared_ptr<phosphor::fan::PowerState> _powerState;
+
+    /**
      * @brief The match for properties changing on the HardShutdown
      *        interface.
      */
@@ -185,11 +187,6 @@ class ShutdownAlarmMonitor
      *        interface.
      */
     sdbusplus::bus::match::match softShutdownMatch;
-
-    /**
-     * @brief The PowerState object to track power state changes.
-     */
-    std::unique_ptr<phosphor::fan::PowerState> _powerState;
 
     /**
      * @brief The map of alarms.
