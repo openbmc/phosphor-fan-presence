@@ -16,6 +16,24 @@
       "revId": "e494fda25a97f331fe2625a81f7978e98292b5fe",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "170aa1ec_0ced5ee4",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-14T17:34:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5de6c493_f9dfc596",
+      "revId": "e494fda25a97f331fe2625a81f7978e98292b5fe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
