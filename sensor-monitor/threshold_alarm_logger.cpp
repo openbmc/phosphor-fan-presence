@@ -28,6 +28,7 @@ namespace sensor::monitor
 
 using namespace sdbusplus::xyz::openbmc_project::Logging::server;
 using namespace phosphor::logging;
+using namespace phosphor::fan;
 using namespace phosphor::fan::util;
 
 const std::string warningInterface =
@@ -84,7 +85,9 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
 ThresholdAlarmLogger::ThresholdAlarmLogger(sdbusplus::bus::bus& bus,
                                            sdeventplus::Event& event) :
     bus(bus),
-    event(event),
+    event(event), _powerState(std::make_unique<PGoodState>(
+                      bus, std::bind(&ThresholdAlarmLogger::powerStateChanged,
+                                     this, std::placeholders::_1))),
     warningMatch(bus,
                  "type='signal',member='PropertiesChanged',"
                  "path_namespace='/xyz/openbmc_project/sensors',"
@@ -158,7 +161,12 @@ void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message::message& msg)
             if (alarmValue != alarms[key][propertyName])
             {
                 alarms[key][propertyName] = alarmValue;
-                createEventLog(sensorPath, interface, propertyName, alarmValue);
+
+                if (_powerState->isPowerOn())
+                {
+                    createEventLog(sensorPath, interface, propertyName,
+                                   alarmValue);
+                }
             }
         }
     }
@@ -184,7 +192,7 @@ void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
 
             // This is just for checking alarms on startup,
             // so only look for active alarms.
-            if (alarmValue)
+            if (alarmValue && _powerState->isPowerOn())
             {
                 createEventLog(sensorPath, interface, property, alarmValue);
             }
@@ -328,6 +336,31 @@ std::string ThresholdAlarmLogger::getCallout(const std::string& sensorPath)
     }
 
     return std::string{};
+}
+
+void ThresholdAlarmLogger::powerStateChanged(bool powerStateOn)
+{
+    if (powerStateOn)
+    {
+        checkThresholds();
+    }
+}
+
+void ThresholdAlarmLogger::checkThresholds()
+{
+    for (const auto& [interfaceKey, alarmMap] : alarms)
+    {
+        for (const auto& [propertyName, alarmValue] : alarmMap)
+        {
+            if (alarmValue)
+            {
+                const auto& sensorPath = std::get<0>(interfaceKey);
+                const auto& interface = std::get<1>(interfaceKey);
+
+                createEventLog(sensorPath, interface, propertyName, alarmValue);
+            }
+        }
+    }
 }
 
 } // namespace sensor::monitor
