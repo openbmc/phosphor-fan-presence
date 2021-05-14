@@ -143,24 +143,38 @@ class Manager
     static const std::vector<std::string>& getActiveProfiles();
 
     /**
+     * @brief Extract bus from first location in argument pack
+     *
+     * @param[in] args - Argument pack
+     *
+     * @return - The first argument(sdbusplus bus object) from argument pack
+     */
+    template <typename... Args>
+    static decltype(auto) getBus(Args&&... args)
+    {
+        return std::get<0>(std::forward_as_tuple(args...));
+    }
+
+    /**
      * @brief Load the configuration of a given JSON class object based on the
      * active profiles
      *
      * @param[in] isOptional - JSON configuration file is optional or not
-     * @param[in] bus - The sdbusplus bus object
      * @param[in] args - Arguments to be forwarded to each instance of `T`
+     *   (*Note that a sdbusplus bus object is required as the first argument)
      *
      * @return Map of configuration entries
      *     Map of configuration keys to their corresponding configuration object
      */
     template <typename T, typename... Args>
-    static std::map<configKey, std::unique_ptr<T>>
-        getConfig(bool isOptional, sdbusplus::bus::bus& bus, Args&&... args)
+    static std::map<configKey, std::unique_ptr<T>> getConfig(bool isOptional,
+                                                             Args&&... args)
     {
         std::map<configKey, std::unique_ptr<T>> config;
 
         auto confFile = fan::JsonConfig::getConfFile(
-            bus, confAppName, T::confFileName, isOptional);
+            getBus(std::forward<Args>(args)...), confAppName, T::confFileName,
+            isOptional);
         if (!confFile.empty())
         {
             for (const auto& entry : fan::JsonConfig::load(confFile))
