@@ -68,10 +68,10 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     setProfiles();
 
     // Load the zone configurations
-    _zones = getConfig<Zone>(false, bus, bus, event, this);
+    _zones = getConfig<Zone>(false, bus, event, this);
 
     // Load the fan configurations and move each fan into its zone
-    auto fans = getConfig<Fan>(false, bus, bus);
+    auto fans = getConfig<Fan>(false, bus);
     for (auto& fan : fans)
     {
         configKey fanProfile =
@@ -96,7 +96,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     auto groups = getConfig<Group>(true, bus);
 
     // Load any events configured
-    _events = getConfig<Event>(true, bus, bus, this, groups, _zones);
+    _events = getConfig<Event>(true, bus, this, groups, _zones);
 
     bus.request_name(CONTROL_BUSNAME);
 }
