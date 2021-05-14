@@ -82,12 +82,11 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
             {false,
              ErrorData{"PerfLossLowClear", Entry::Level::Informational}}}}}}};
 
-ThresholdAlarmLogger::ThresholdAlarmLogger(sdbusplus::bus::bus& bus,
-                                           sdeventplus::Event& event) :
+ThresholdAlarmLogger::ThresholdAlarmLogger(
+    sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+    std::shared_ptr<PowerState> powerState) :
     bus(bus),
-    event(event), _powerState(std::make_unique<PGoodState>(
-                      bus, std::bind(&ThresholdAlarmLogger::powerStateChanged,
-                                     this, std::placeholders::_1))),
+    event(event), _powerState(std::move(powerState)),
     warningMatch(bus,
                  "type='signal',member='PropertiesChanged',"
                  "path_namespace='/xyz/openbmc_project/sensors',"
@@ -110,6 +109,10 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(sdbusplus::bus::bus& bus,
                   std::bind(&ThresholdAlarmLogger::propertiesChanged, this,
                             std::placeholders::_1))
 {
+    _powerState->addCallback("thresholdMon",
+                             std::bind(&ThresholdAlarmLogger::powerStateChanged,
+                                       this, std::placeholders::_1));
+
     // check for any currently asserted threshold alarms
     std::for_each(
         thresholdData.begin(), thresholdData.end(),

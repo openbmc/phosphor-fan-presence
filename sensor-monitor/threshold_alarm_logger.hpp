@@ -51,7 +51,6 @@ class ThresholdAlarmLogger
 {
   public:
     ThresholdAlarmLogger() = delete;
-    ~ThresholdAlarmLogger() = default;
     ThresholdAlarmLogger(const ThresholdAlarmLogger&) = default;
     ThresholdAlarmLogger& operator=(const ThresholdAlarmLogger&) = default;
     ThresholdAlarmLogger(ThresholdAlarmLogger&&) = default;
@@ -64,8 +63,18 @@ class ThresholdAlarmLogger
      *
      * @param[in] bus - The sdbusplus bus object
      * @param[in] event - The sdeventplus event object
+     * @param[in] powerState - The PowerState object
      */
-    ThresholdAlarmLogger(sdbusplus::bus::bus& bus, sdeventplus::Event& event);
+    ThresholdAlarmLogger(sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+                         std::shared_ptr<phosphor::fan::PowerState> powerState);
+
+    /**
+     * @brief Destructor
+     */
+    ~ThresholdAlarmLogger()
+    {
+        _powerState->deleteCallback("thresholdMon");
+    }
 
   private:
     /**
@@ -167,7 +176,7 @@ class ThresholdAlarmLogger
     /**
      * @brief The PowerState object to track power state changes.
      */
-    std::unique_ptr<phosphor::fan::PowerState> _powerState;
+    std::shared_ptr<phosphor::fan::PowerState> _powerState;
 
     /**
      * @brief The Warning interface match object

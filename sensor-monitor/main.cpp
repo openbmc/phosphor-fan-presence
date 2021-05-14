@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+#include "power_state.hpp"
 #include "shutdown_alarm_monitor.hpp"
 #include "threshold_alarm_logger.hpp"
 
@@ -27,9 +28,12 @@ int main(int argc, char* argv[])
     auto bus = sdbusplus::bus::new_default();
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
-    ShutdownAlarmMonitor shutdownMonitor{bus, event};
+    std::shared_ptr<phosphor::fan::PowerState> powerState =
+        std::make_shared<phosphor::fan::PGoodState>();
 
-    ThresholdAlarmLogger logger{bus, event};
+    ShutdownAlarmMonitor shutdownMonitor{bus, event, powerState};
+
+    ThresholdAlarmLogger logger{bus, event, powerState};
 
     return event.loop();
 }
