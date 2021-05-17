@@ -33,7 +33,7 @@ using namespace phosphor::logging;
 int main(int argc, char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
-    auto bus = sdbusplus::bus::new_default();
+    auto& bus = phosphor::fan::util::SDBusPlus::getBus();
 
 #ifndef CONTROL_USE_JSON
     phosphor::fan::util::ArgumentParser args(argc, argv);
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
     try
     {
 #ifdef CONTROL_USE_JSON
-        json::Manager manager(bus, event);
+        json::Manager manager(event);
 #else
         Manager manager(bus, event, mode);
 

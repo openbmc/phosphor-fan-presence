@@ -58,9 +58,8 @@ class Fan : public ConfigBase
      * Parses and populates a zone fan from JSON object data
      *
      * @param[in] jsonObj - JSON object
-     * @param[in] bus - sdbusplus bus object
      */
-    Fan(const json& jsonObj, sdbusplus::bus::bus& bus);
+    Fan(const json& jsonObj);
 
     /**
      * @brief Get the zone
