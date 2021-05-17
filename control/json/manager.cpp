@@ -167,29 +167,40 @@ bool Manager::hasOwner(const std::string& path, const std::string& intf)
 void Manager::setOwner(const std::string& path, const std::string& serv,
                        const std::string& intf, bool isOwned)
 {
-    auto itServ = _servTree.find(path);
-    if (itServ == _servTree.end())
+    // Set owner state for specific object given
+    auto& ownIntf = _servTree[path][serv];
+    ownIntf.first = isOwned;
+    auto itIntf = std::find_if(
+        ownIntf.second.begin(), ownIntf.second.end(),
+        [&intf](const auto& interface) { return intf == interface; });
+    if (itIntf == std::end(ownIntf.second))
     {
-        auto intfs = {intf};
-        _servTree[path] = {{serv, std::make_pair(isOwned, intfs)}};
-        return;
+        ownIntf.second.emplace_back(intf);
     }
-    for (auto& service : itServ->second)
+
+    // Update owner state on all entries of the same `serv` & `intf`
+    for (auto& itPath : _servTree)
     {
-        auto itIntf = std::find_if(
-            service.second.second.begin(), service.second.second.end(),
-            [&intf](const auto& interface) { return intf == interface; });
-        if (itIntf != std::end(service.second.second))
+        if (itPath.first == path)
         {
-            if (service.first == serv)
+            // Already set/updated owner on this path for `serv` & `intf`
+            continue;
+        }
+        for (auto& itServ : itPath.second)
+        {
+            if (itServ.first != serv)
             {
-                service.second.first = isOwned;
-                return;
+                continue;
+            }
+            auto itIntf = std::find_if(
+                itServ.second.second.begin(), itServ.second.second.end(),
+                [&intf](const auto& interface) { return intf == interface; });
+            if (itIntf != std::end(itServ.second.second))
+            {
+                itServ.second.first = isOwned;
             }
         }
     }
-    auto intfs = {intf};
-    itServ->second[serv] = std::make_pair(isOwned, intfs);
 }
 
 const std::string& Manager::findService(const std::string& path,
