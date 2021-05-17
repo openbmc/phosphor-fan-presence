@@ -151,7 +151,7 @@ struct Handlers
             hasOwner = true;
         }
 
-        mgr.setOwner(std::get<Path>(obj), std::get<Intf>(obj), serv, hasOwner);
+        mgr.setOwner(std::get<Path>(obj), serv, std::get<Intf>(obj), hasOwner);
         return true;
     }
 };
