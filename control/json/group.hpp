@@ -55,9 +55,8 @@ class Group : public ConfigBase
      * Parses and populates a configuration group from JSON object data
      *
      * @param[in] jsonObj - JSON object
-     * @param[in] sdbusplus bus object not used
      */
-    Group(const json& jsonObj, sdbusplus::bus::bus&);
+    Group(const json& jsonObj);
 
     /**
      * Copy Constructor

@@ -78,12 +78,10 @@ class Zone : public ConfigBase, public ThermalObject
      * Parses and populates a zone from JSON object data
      *
      * @param[in] jsonObj - JSON object
-     * @param[in] bus - sdbusplus bus object
      * @param[in] event - sdeventplus event loop
      * @param[in] mgr - Manager of this zone
      */
-    Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
-         const sdeventplus::Event& event, Manager* mgr);
+    Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr);
 
     /**
      * @brief Get the default ceiling

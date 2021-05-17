@@ -19,6 +19,7 @@
 #include "config_base.hpp"
 #include "group.hpp"
 #include "manager.hpp"
+#include "sdbusplus.hpp"
 #include "triggers/trigger.hpp"
 
 #include <fmt/format.h>
@@ -36,11 +37,11 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-Event::Event(const json& jsonObj, sdbusplus::bus::bus& bus, Manager* mgr,
+Event::Event(const json& jsonObj, Manager* mgr,
              std::map<configKey, std::unique_ptr<Group>>& groups,
              std::map<configKey, std::unique_ptr<Zone>>& zones) :
     ConfigBase(jsonObj),
-    _bus(bus), _manager(mgr), _zones(zones)
+    _bus(util::SDBusPlus::getBus()), _manager(mgr), _zones(zones)
 {
     // Event could have a precondition
     if (!jsonObj.contains("precondition"))

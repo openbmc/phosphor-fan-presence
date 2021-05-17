@@ -21,6 +21,7 @@
 #include "group.hpp"
 #include "json_config.hpp"
 #include "profile.hpp"
+#include "sdbusplus.hpp"
 #include "zone.hpp"
 
 #include <nlohmann/json.hpp>
@@ -128,10 +129,9 @@ class Manager
      * Constructor
      * Parses and populates the fan control manager attributes from a json file
      *
-     * @param[in] bus - sdbusplus bus object
      * @param[in] event - sdeventplus event loop
      */
-    Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event);
+    Manager(const sdeventplus::Event& event);
 
     /**
      * @brief Get the active profiles of the system where an empty list
@@ -141,19 +141,6 @@ class Manager
      * @return - The list of active profiles
      */
     static const std::vector<std::string>& getActiveProfiles();
-
-    /**
-     * @brief Extract bus from first location in argument pack
-     *
-     * @param[in] args - Argument pack
-     *
-     * @return - The first argument(sdbusplus bus object) from argument pack
-     */
-    template <typename... Args>
-    static decltype(auto) getBus(Args&&... args)
-    {
-        return std::get<0>(std::forward_as_tuple(args...));
-    }
 
     /**
      * @brief Load the configuration of a given JSON class object based on the
@@ -172,9 +159,9 @@ class Manager
     {
         std::map<configKey, std::unique_ptr<T>> config;
 
-        auto confFile = fan::JsonConfig::getConfFile(
-            getBus(std::forward<Args>(args)...), confAppName, T::confFileName,
-            isOptional);
+        auto confFile =
+            fan::JsonConfig::getConfFile(util::SDBusPlus::getBus(), confAppName,
+                                         T::confFileName, isOptional);
         if (!confFile.empty())
         {
             for (const auto& entry : fan::JsonConfig::load(confFile))
