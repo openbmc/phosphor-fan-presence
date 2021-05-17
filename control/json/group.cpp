@@ -24,8 +24,7 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
-Group::Group(const json& jsonObj, sdbusplus::bus::bus&) :
-    ConfigBase(jsonObj), _service("")
+Group::Group(const json& jsonObj) : ConfigBase(jsonObj), _service("")
 {
     setMembers(jsonObj);
     // Setting the group's service name is optional

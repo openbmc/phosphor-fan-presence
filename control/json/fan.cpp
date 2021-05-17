@@ -32,8 +32,8 @@ using namespace phosphor::logging;
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 
-Fan::Fan(const json& jsonObj, sdbusplus::bus::bus& bus) :
-    ConfigBase(jsonObj), _bus(bus)
+Fan::Fan(const json& jsonObj) :
+    ConfigBase(jsonObj), _bus(util::SDBusPlus::getBus())
 {
     setInterface(jsonObj);
     setSensors(jsonObj);
