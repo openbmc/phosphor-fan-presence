@@ -247,13 +247,21 @@ std::string Zone::current(std::string value)
 
 void Zone::setDefaultCeiling(const json& jsonObj)
 {
-    if (!jsonObj.contains("full_speed"))
+    // TODO Remove "full_speed" after configs replaced with "default_ceiling"
+    if (!jsonObj.contains("full_speed") && !jsonObj.contains("default_ceiling"))
     {
-        log<level::ERR>("Missing required zone's full speed",
+        log<level::ERR>("Missing required zone's default ceiling",
                         entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required zone's full speed");
+        throw std::runtime_error("Missing required zone's default ceiling");
     }
-    _defaultCeiling = jsonObj["full_speed"].get<uint64_t>();
+    if (jsonObj.contains("full_speed"))
+    {
+        _defaultCeiling = jsonObj["full_speed"].get<uint64_t>();
+    }
+    else
+    {
+        _defaultCeiling = jsonObj["default_ceiling"].get<uint64_t>();
+    }
     // Start with the current target set as the default
     _target = _defaultCeiling;
     // Start with the current ceiling set as the default
