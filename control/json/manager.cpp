@@ -23,6 +23,7 @@
 #include "group.hpp"
 #include "json_config.hpp"
 #include "profile.hpp"
+#include "sdbusplus.hpp"
 #include "zone.hpp"
 
 #include <nlohmann/json.hpp>
@@ -53,12 +54,12 @@ std::map<std::string,
          std::map<std::string, std::map<std::string, PropertyVariantType>>>
     Manager::_objects;
 
-Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
-    _bus(bus), _event(event)
+Manager::Manager(const sdeventplus::Event& event) :
+    _bus(util::SDBusPlus::getBus()), _event(event)
 {
     // Manager JSON config file is optional
     auto confFile =
-        fan::JsonConfig::getConfFile(bus, confAppName, confFileName, true);
+        fan::JsonConfig::getConfFile(_bus, confAppName, confFileName, true);
     if (!confFile.empty())
     {
         _jsonObj = fan::JsonConfig::load(confFile);
@@ -68,10 +69,10 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     setProfiles();
 
     // Load the zone configurations
-    _zones = getConfig<Zone>(false, bus, event, this);
+    _zones = getConfig<Zone>(false, event, this);
 
     // Load the fan configurations and move each fan into its zone
-    auto fans = getConfig<Fan>(false, bus);
+    auto fans = getConfig<Fan>(false);
     for (auto& fan : fans)
     {
         configKey fanProfile =
@@ -93,12 +94,12 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event) :
     }
 
     // Load the configured groups that are copied into events where they're used
-    auto groups = getConfig<Group>(true, bus);
+    auto groups = getConfig<Group>(true);
 
     // Load any events configured
-    _events = getConfig<Event>(true, bus, this, groups, _zones);
+    _events = getConfig<Event>(true, this, groups, _zones);
 
-    bus.request_name(CONTROL_BUSNAME);
+    _bus.request_name(CONTROL_BUSNAME);
 }
 
 const std::vector<std::string>& Manager::getActiveProfiles()

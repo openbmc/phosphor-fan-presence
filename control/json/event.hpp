@@ -74,12 +74,11 @@ class Event : public ConfigBase
      * Parses and populates a configuration event from JSON object data
      *
      * @param[in] jsonObj - JSON object
-     * @param[in] bus - sdbusplus bus object
      * @param[in] mgr - Manager of this event
      * @param[in] groups - Available groups that can be used
      * @param[in] zones - Reference to the configured zones
      */
-    Event(const json& jsonObj, sdbusplus::bus::bus& bus, Manager* mgr,
+    Event(const json& jsonObj, Manager* mgr,
           std::map<configKey, std::unique_ptr<Group>>& groups,
           std::map<configKey, std::unique_ptr<Zone>>& zones);
 

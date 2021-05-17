@@ -33,7 +33,6 @@ using namespace phosphor::logging;
 int main(int argc, char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
-    auto bus = sdbusplus::bus::new_default();
 
 #ifndef CONTROL_USE_JSON
     phosphor::fan::util::ArgumentParser args(argc, argv);
@@ -62,14 +61,15 @@ int main(int argc, char* argv[])
 
     // Attach the event object to the bus object so we can
     // handle both sd_events (for the timers) and dbus signals.
-    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
+    phosphor::fan::util::SDBusPlus::getBus().attach_event(
+        event.get(), SD_EVENT_PRIORITY_NORMAL);
 
     try
     {
 #ifdef CONTROL_USE_JSON
-        json::Manager manager(bus, event);
+        json::Manager manager(event);
 #else
-        Manager manager(bus, event, mode);
+        Manager manager(phosphor::fan::util::SDBusPlus::getBus(), event, mode);
 
         // Init mode will just set fans to max and delay
         if (mode == Mode::init)

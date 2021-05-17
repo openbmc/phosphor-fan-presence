@@ -18,6 +18,7 @@
 #include "zone.hpp"
 
 #include "fan.hpp"
+#include "sdbusplus.hpp"
 
 #include <cereal/archives/json.hpp>
 #include <cereal/cereal.hpp>
@@ -50,10 +51,10 @@ const std::map<std::string,
                                 {{supportedProp, zone::property::supported},
                                  {currentProp, zone::property::current}}}};
 
-Zone::Zone(const json& jsonObj, sdbusplus::bus::bus& bus,
-           const sdeventplus::Event& event, Manager* mgr) :
+Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
     ConfigBase(jsonObj),
-    ThermalObject(bus, (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
+    ThermalObject(util::SDBusPlus::getBus(),
+                  (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
     _manager(mgr), _incDelay(0), _floor(0), _target(0), _incDelta(0),
     _decDelta(0), _requestTargetBase(0), _isActive(true),
     _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
