@@ -16,6 +16,24 @@
       "revId": "1a7d2fedd786479df585ddb7345ed95d1954815c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b463e6b_4cb783ad",
+        "filename": "control/json/group.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-17T12:48:12Z",
+      "side": 1,
+      "message": "Right, but it would create another instance since SdBusPlus::getBus() is not used in main. I need to call this in main.cpp then I can reduce down to using SdBusPlus::getBus() everywhere so there\u0027s only the one instance.\n\nWill switch over to this in a follow-on commit",
+      "parentUuid": "84501275_9dda1702",
+      "revId": "1a7d2fedd786479df585ddb7345ed95d1954815c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
