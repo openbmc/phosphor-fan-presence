@@ -227,19 +227,10 @@ std::string Zone::current(std::string value)
     if (value != current && isSupported)
     {
         current = ThermalObject::current(value);
-        if (isPersisted("xyz.openbmc_project.Control.ThermalMode", "Current"))
+        if (isPersisted(thermModeIntf, currentProp))
         {
             saveCurrentMode();
         }
-        // TODO Trigger event(s) for current mode property change
-        // auto eData =
-        // _objects[_path]["xyz.openbmc_project.Control.ThermalMode"]
-        //                      ["Current"];
-        // if (eData != nullptr)
-        // {
-        //     sdbusplus::message::message nullMsg{nullptr};
-        //     handleEvent(nullMsg, eData);
-        // }
     }
 
     return current;
