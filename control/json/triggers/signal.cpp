@@ -44,7 +44,6 @@ using namespace sdbusplus::bus::match;
 void subscribe(const std::string& match, SignalPkg&& signalPkg,
                std::function<bool(SignalPkg&)> isSameSig, Manager* mgr)
 {
-    // TODO - Handle signal subscriptions to objects hosted by fan control
     auto& signalData = mgr->getSignal(match);
     if (signalData.empty())
     {
@@ -53,6 +52,8 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
         std::unique_ptr<std::vector<SignalPkg>> dataPkgs =
             std::make_unique<std::vector<SignalPkg>>(std::move(pkgs));
         std::unique_ptr<sdbusplus::server::match::match> ptrMatch = nullptr;
+        // TODO(ibm-openbmc/#3195) - Filter signal subscriptions to objects
+        // owned by fan control?
         if (!match.empty())
         {
             // Subscribe to signal
