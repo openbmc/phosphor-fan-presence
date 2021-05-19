@@ -38,7 +38,6 @@ using json = nlohmann::json;
 using namespace phosphor::logging;
 
 Event::Event(const json& jsonObj, Manager* mgr,
-             std::map<configKey, std::unique_ptr<Group>>& groups,
              std::map<configKey, std::unique_ptr<Zone>>& zones) :
     ConfigBase(jsonObj),
     _bus(util::SDBusPlus::getBus()), _manager(mgr), _zones(zones)
@@ -49,19 +48,25 @@ Event::Event(const json& jsonObj, Manager* mgr,
         // Event groups are optional
         if (jsonObj.contains("groups"))
         {
-            setGroups(jsonObj, groups);
+            setGroups(jsonObj, _groups);
         }
         // Event actions are optional
         if (jsonObj.contains("actions"))
         {
-            setActions(jsonObj, groups);
+            setActions(jsonObj);
         }
         setTriggers(jsonObj);
     }
     else
     {
-        setPrecond(jsonObj, groups);
+        setPrecond(jsonObj);
     }
+}
+
+auto& Event::getAvailGroups()
+{
+    static auto groups = Manager::getConfig<Group>(true);
+    return groups;
 }
 
 void Event::configGroup(Group& group, const json& jsonObj)
@@ -99,8 +104,7 @@ void Event::configGroup(Group& group, const json& jsonObj)
     }
 }
 
-void Event::setPrecond(const json& jsonObj,
-                       std::map<configKey, std::unique_ptr<Group>>& groups)
+void Event::setPrecond(const json& jsonObj)
 {
     const auto& precond = jsonObj["precondition"];
     if (!precond.contains("name") || !precond.contains("groups") ||
@@ -111,39 +115,41 @@ void Event::setPrecond(const json& jsonObj,
         throw std::runtime_error(
             "Missing required event precondition attributes");
     }
-    setGroups(precond, groups);
+    setGroups(precond, _groups);
     setTriggers(precond);
 }
 
-void Event::setGroups(const json& jsonObj,
-                      std::map<configKey, std::unique_ptr<Group>>& groups)
+void Event::setGroups(const json& jsonObj, std::vector<Group>& groups)
 {
+    auto& availGroups = getAvailGroups();
     for (const auto& jsonGrp : jsonObj["groups"])
     {
         if (!jsonGrp.contains("name"))
         {
-            log<level::ERR>("Missing required group name attribute",
+            auto msg = fmt::format(
+                "Missing required group name attribute in event {}", getName());
+            log<level::ERR>(msg.c_str(),
                             entry("JSON=%s", jsonGrp.dump().c_str()));
-            throw std::runtime_error("Missing required group name attribute");
+            throw std::runtime_error(msg.c_str());
         }
 
         configKey eventProfile =
             std::make_pair(jsonGrp["name"].get<std::string>(), _profiles);
-        auto grpEntry = std::find_if(
-            groups.begin(), groups.end(), [&eventProfile](const auto& grp) {
-                return Manager::inConfig(grp.first, eventProfile);
-            });
-        if (grpEntry != groups.end())
+        auto grpEntry =
+            std::find_if(availGroups.begin(), availGroups.end(),
+                         [&eventProfile](const auto& grp) {
+                             return Manager::inConfig(grp.first, eventProfile);
+                         });
+        if (grpEntry != availGroups.end())
         {
             auto group = Group(*grpEntry->second);
             configGroup(group, jsonGrp);
-            _groups.emplace_back(group);
+            groups.emplace_back(group);
         }
     }
 }
 
-void Event::setActions(const json& jsonObj,
-                       std::map<configKey, std::unique_ptr<Group>>& groups)
+void Event::setActions(const json& jsonObj)
 {
     for (const auto& jsonAct : jsonObj["actions"])
     {
@@ -159,30 +165,7 @@ void Event::setActions(const json& jsonObj,
         auto actionGroups = _groups;
         if (jsonAct.contains("groups"))
         {
-            for (const auto& jsonGrp : jsonAct["groups"])
-            {
-                if (!jsonGrp.contains("name"))
-                {
-                    log<level::ERR>("Missing required group name attribute",
-                                    entry("JSON=%s", jsonGrp.dump().c_str()));
-                    throw std::runtime_error(
-                        "Missing required group name attribute");
-                }
-
-                configKey eventProfile = std::make_pair(
-                    jsonGrp["name"].get<std::string>(), _profiles);
-                auto grpEntry = std::find_if(groups.begin(), groups.end(),
-                                             [&eventProfile](const auto& grp) {
-                                                 return Manager::inConfig(
-                                                     grp.first, eventProfile);
-                                             });
-                if (grpEntry != groups.end())
-                {
-                    auto group = Group(*grpEntry->second);
-                    configGroup(group, jsonGrp);
-                    actionGroups.emplace_back(group);
-                }
-            }
+            setGroups(jsonAct, actionGroups);
         }
         if (actionGroups.empty())
         {
