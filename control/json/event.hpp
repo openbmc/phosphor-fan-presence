@@ -75,11 +75,9 @@ class Event : public ConfigBase
      *
      * @param[in] jsonObj - JSON object
      * @param[in] mgr - Manager of this event
-     * @param[in] groups - Available groups that can be used
      * @param[in] zones - Reference to the configured zones
      */
     Event(const json& jsonObj, Manager* mgr,
-          std::map<configKey, std::unique_ptr<Group>>& groups,
           std::map<configKey, std::unique_ptr<Zone>>& zones);
 
     /**
@@ -90,16 +88,6 @@ class Event : public ConfigBase
     inline const auto& getPrecond() const
     {
         return _precond;
-    }
-
-    /**
-     * @brief Get the groups
-     *
-     * @return List of groups associated with the event
-     */
-    inline const auto& getGroups() const
-    {
-        return _groups;
     }
 
     /**
@@ -132,6 +120,13 @@ class Event : public ConfigBase
     std::vector<std::unique_ptr<ActionBase>> _actions;
 
     /**
+     * @brief Load the groups available to be configured on events
+     *
+     * @return Groups available to be configured on events from `groups.json`
+     */
+    static auto& getAvailGroups() __attribute__((pure));
+
+    /**
      * @brief Parse group parameters and configure a group object
      *
      * @param[in] group - Group object to get configured
@@ -145,34 +140,29 @@ class Event : public ConfigBase
      * @brief Parse and set the event's precondition(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the event
-     * @param[in] groups - Available groups that can be used
      *
      * Sets the precondition of the event in order to be enabled
      */
-    void setPrecond(const json& jsonObj,
-                    std::map<configKey, std::unique_ptr<Group>>& groups);
+    void setPrecond(const json& jsonObj);
 
     /**
      * @brief Parse and set the event's groups(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the event
-     * @param[in] groups - Available groups that can be used
+     * @param[out] groups - List of groups to be configured
      *
      * Sets the list of groups associated with the event
      */
-    void setGroups(const json& jsonObj,
-                   std::map<configKey, std::unique_ptr<Group>>& groups);
+    void setGroups(const json& jsonObj, std::vector<Group>& groups);
 
     /**
      * @brief Parse and set the event's actions(OPTIONAL)
      *
      * @param[in] jsonObj - JSON object for the event
-     * @param[in] groups - Available groups that can be used
      *
      * Sets the list of actions to perform for the event
      */
-    void setActions(const json& jsonObj,
-                    std::map<configKey, std::unique_ptr<Group>>& groups);
+    void setActions(const json& jsonObj);
 
     /**
      * @brief Parse and set the event's triggers

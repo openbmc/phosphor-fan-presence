@@ -93,11 +93,8 @@ Manager::Manager(const sdeventplus::Event& event) :
         }
     }
 
-    // Load the configured groups that are copied into events where they're used
-    auto groups = getConfig<Group>(true);
-
     // Load any events configured
-    _events = getConfig<Event>(true, this, groups, _zones);
+    _events = getConfig<Event>(true, this, _zones);
 
     _bus.request_name(CONTROL_BUSNAME);
 }
