@@ -71,16 +71,6 @@ class Event : public ConfigBase
     Event(const json& jsonObj, Manager* mgr,
           std::map<configKey, std::unique_ptr<Zone>>& zones);
 
-    /**
-     * @brief Get the actions
-     *
-     * @return List of actions to perform for the event
-     */
-    inline const auto& getActions() const
-    {
-        return _actions;
-    }
-
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
