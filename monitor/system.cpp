@@ -247,7 +247,7 @@ void System::tach_signal_offline(sdbusplus::message::message& msg,
 
     if (sensor_itr != sensor_map.end())
     {
-        // for all fans under this service
+        // set all sensors to on/offline
         for (auto& sensor : sensor_itr->second)
         {
             sensor->setOwner(on_offline);

@@ -333,7 +333,7 @@ void Fan::process(TachSensor& sensor)
                 break;
             case MethodMode::count:
                 sensor.setCounter(false);
-                if ((!sensor.functional() && sensor.getCounter() == 0))
+                if (!sensor.functional() && sensor.getCounter() == 0)
                 {
                     updateState(sensor);
                 }
