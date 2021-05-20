@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2021 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,6 +31,8 @@
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
+
+constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 
 namespace phosphor::fan::monitor
 {
@@ -75,6 +77,76 @@ void System::start(
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
     }
+
+    auto sensorMap = buildNameOwnerChangedMap();
+
+    namespace rules = sdbusplus::bus::match::rules;
+
+    // for each service, register a callback handler for nameOwnerChanged
+    for (auto& service_itr : sensorMap)
+    {
+        auto& service = service_itr.first;
+
+        try
+        {
+            _sensorMatch.push_back(
+                std::make_unique<sdbusplus::bus::match::match>(
+                    _bus, rules::nameOwnerChanged(service),
+                    std::bind(&System::tachSignalOffline, this,
+                              std::placeholders::_1, sensorMap)));
+        }
+        catch (const util::DBusError& e)
+        {
+            // Unable to construct NameOwnerChanged match string
+            getLogger().log(
+                fmt::format("Exception creating sdbusplus:: callback: {}",
+                            e.what()),
+                Logger::error);
+        }
+    }
+}
+
+SensorMapType System::buildNameOwnerChangedMap() const
+{
+    SensorMapType sensorMap;
+
+    // Get all subtree objects for the given interface
+    auto objects =
+        util::SDBusPlus::getSubTree(_bus, "/", FAN_SENSOR_VALUE_INTF, 0);
+
+    // For every service that controls fan sensors
+    for (const auto& [sensor_name, services] : objects)
+    {
+        for (const auto& service : services)
+        {
+            // for all fans
+            for (auto& fan2 : _fans)
+            {
+                // For every sensor in that fan
+                for (auto& sensor : fan2->sensors())
+                {
+                    // select the sensor whose path matches
+                    if (sensor->name() == sensor_name)
+                    {
+                        // 1) mark this sensor to recv callbacks when _sensor_
+                        // iface goes offline
+                        sensorMap[service.first].insert(sensor);
+
+                        // 2) if it has target, mark it to recv callbacks when
+                        // _target_ iface goes offline
+                        if (sensor->hasTarget())
+                        {
+                            sensorMap[sensor->getInterface()].insert(sensor);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    return sensorMap;
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
@@ -154,6 +226,35 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
             std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
 
         updateFanHealth(*(_fans.back()));
+    }
+}
+
+// callback indicating a service went [on|off]line.
+// Determine on/offline status, set all sensors for that service
+// to new state
+//
+void System::tachSignalOffline(sdbusplus::message::message& msg,
+                               SensorMapType const& sensorMap)
+{
+    std::string service_name, old_owner, new_owner;
+
+    msg.read(service_name);
+    msg.read(old_owner);
+    msg.read(new_owner);
+
+    // true if sensor server came back online, false -> went offline
+    bool on_offline = !new_owner.empty() && old_owner.empty();
+
+    auto sensor_itr(sensorMap.find(service_name));
+
+    if (sensor_itr != sensorMap.end())
+    {
+        // set all sensors to [non]functional
+        for (auto& sensor : sensor_itr->second)
+        {
+            sensor->setOwner(on_offline);
+            sensor->getFan().process(*sensor);
+        }
     }
 }
 
