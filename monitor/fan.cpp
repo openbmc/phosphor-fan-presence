@@ -399,8 +399,10 @@ void Fan::updateState(TachSensor& sensor)
     {
         auto numNonFuncSensors = countNonFunctionalSensors();
         // If the fan was nonfunctional and enough sensors are now OK,
-        // the fan can be set to functional
-        if (!_functional && !(numNonFuncSensors >= _numSensorFailsForNonFunc))
+        // the fan can be set to functional as long as `set_func_on_present` was
+        // not set
+        if (!_setFuncOnPresent && !_functional &&
+            !(numNonFuncSensors >= _numSensorFailsForNonFunc))
         {
             getLogger().log(fmt::format("Setting fan {} to functional, number "
                                         "of nonfunctional sensors = {}",

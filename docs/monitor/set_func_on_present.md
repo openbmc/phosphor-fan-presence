@@ -1,11 +1,18 @@
 # set_func_on_present
 
 ## Description
-If the fan FRU and contained rotors should be set to functional immediately on
-presence being detected.  Any faults will be re-detected.  This attribute is
-optional and defaults to false, meaning a newly inserted fan will need to spin
-up before being set back to functional, and if it never spins up, there won't
-be additional errors.
+Immediately set the fan FRU's contained rotors to functional when the fan's
+presence has been detected and **only** allow the fan FRU to be set to
+functional when presence is detected. Using this configuration option
+essentially latches a nonfunctional fan FRU to nonfunctional until it has been
+replaced (i.e. removed and replugged). It does still allow the functional state
+of the rotors to continue to be updated to reflect their current functional
+state(s). After a fan's presence has been detected, any faults will be
+re-detected for that fan FRU and its contained rotors.
+
+This attribute is optional and defaults to false, meaning a newly inserted fan
+will need to spin up before being set back to functional, and if it never spins
+up, there won't be additional errors.
 
 ## Attribute Value(s)
 bool (default = false)
