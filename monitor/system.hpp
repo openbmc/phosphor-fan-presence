@@ -37,6 +37,10 @@ namespace phosphor::fan::monitor
 
 using json = nlohmann::json;
 
+// Mapping from service name to sensor
+using SensorMapType =
+    std::map<std::string, std::set<std::shared_ptr<TachSensor>>>;
+
 class System
 {
   public:
@@ -171,6 +175,11 @@ class System
     ThermalAlertObject _thermalAlert;
 
     /**
+     * @brief The tach sensors alert D-Bus object
+     */
+    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> _sensorMatch;
+
+    /**
      * @brief If start() has been called
      */
     bool _started = false;
@@ -182,6 +191,14 @@ class System
      * @return json - The JSON data
      */
     json captureSensorData();
+
+    /**
+     * @brief Builds a mapping to sensors can be identified
+     *        for a given service name.
+     *
+     * @return a map of service_name->[sensor1,sensor2...]
+     */
+    SensorMapType buildNameOwnerChangedMap() const;
 
     /**
      * @brief Retrieve the configured trust groups
@@ -221,6 +238,16 @@ class System
      * @param[in] fan - The fan to update the health map with
      */
     void updateFanHealth(const Fan& fan);
+
+    /**
+     * @brief callback when a tach sensor signal goes offline
+     *
+     * @param[in] msg - dbus message containing details (inc. service name)
+     *
+     * @param[in] sensor_map - map providing sensor access for each service
+     */
+    void tachSignalOffline(sdbusplus::message::message& msg,
+                           SensorMapType const& sensorMap);
 
     /**
      * @brief The function that runs when the power state changes
