@@ -170,11 +170,37 @@ class TachSensor
     }
 
     /**
+     * @brief Returns true if sensor has a D-Bus owner
+     */
+    inline bool hasOwner() const
+    {
+        return _hasOwner;
+    }
+
+    /**
+     * @brief sets D-Bus owner status
+     *
+     * @param[in] val - new owner status
+     */
+    inline void setOwner(bool val)
+    {
+        _hasOwner = val;
+    }
+
+    /**
      * @brief Returns the factor of the sensor target
      */
     inline double getFactor() const
     {
         return _factor;
+    }
+
+    /**
+     * @brief Returns a reference to the sensor's Fan object
+     */
+    inline Fan& getFan() const
+    {
+        return _fan;
     }
 
     /**
@@ -395,6 +421,11 @@ class TachSensor
      * @brief If the sensor has a Target property (can set speed)
      */
     const bool _hasTarget;
+
+    /**
+     * @brief If the sensor has a D-Bus owner
+     */
+    bool _hasOwner = true;
 
     /**
      * @brief Amount of time to delay updating to functional
