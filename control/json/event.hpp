@@ -49,15 +49,6 @@ using json = nlohmann::json;
  */
 class Event : public ConfigBase
 {
-    static constexpr auto precondName = 0;
-    static constexpr auto precondGroups = 1;
-    static constexpr auto precondEvents = 2;
-    using Precondition =
-        std::tuple<std::string,
-                   std::vector<std::tuple<std::string, std::string, std::string,
-                                          PropertyVariantType>>,
-                   std::vector<Event>>;
-
   public:
     /* JSON file name for events */
     static constexpr auto confFileName = "events.json";
@@ -81,16 +72,6 @@ class Event : public ConfigBase
           std::map<configKey, std::unique_ptr<Zone>>& zones);
 
     /**
-     * @brief Get the precondition
-     *
-     * @return The precondition details of the event
-     */
-    inline const auto& getPrecond() const
-    {
-        return _precond;
-    }
-
-    /**
      * @brief Get the actions
      *
      * @return List of actions to perform for the event
@@ -106,9 +87,6 @@ class Event : public ConfigBase
 
     /* The event's manager */
     Manager* _manager;
-
-    /* A precondition the event has in order to be enabled */
-    Precondition _precond;
 
     /* List of groups associated with the event */
     std::vector<Group> _groups;
@@ -135,15 +113,6 @@ class Event : public ConfigBase
      * Configures a given group from a set of JSON configuration attributes
      */
     void configGroup(Group& group, const json& jsonObj);
-
-    /**
-     * @brief Parse and set the event's precondition(OPTIONAL)
-     *
-     * @param[in] jsonObj - JSON object for the event
-     *
-     * Sets the precondition of the event in order to be enabled
-     */
-    void setPrecond(const json& jsonObj);
 
     /**
      * @brief Parse and set the event's groups(OPTIONAL)

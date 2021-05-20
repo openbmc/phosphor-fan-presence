@@ -42,25 +42,17 @@ Event::Event(const json& jsonObj, Manager* mgr,
     ConfigBase(jsonObj),
     _bus(util::SDBusPlus::getBus()), _manager(mgr), _zones(zones)
 {
-    // Event could have a precondition
-    if (!jsonObj.contains("precondition"))
+    // Event groups are optional
+    if (jsonObj.contains("groups"))
     {
-        // Event groups are optional
-        if (jsonObj.contains("groups"))
-        {
-            setGroups(jsonObj, _groups);
-        }
-        // Event actions are optional
-        if (jsonObj.contains("actions"))
-        {
-            setActions(jsonObj);
-        }
-        setTriggers(jsonObj);
+        setGroups(jsonObj, _groups);
     }
-    else
+    // Event actions are optional
+    if (jsonObj.contains("actions"))
     {
-        setPrecond(jsonObj);
+        setActions(jsonObj);
     }
+    setTriggers(jsonObj);
 }
 
 auto& Event::getAvailGroups()
@@ -102,21 +94,6 @@ void Event::configGroup(Group& group, const json& jsonObj)
             getJsonValue(jsonObj["property"]["value"]);
         group.setValue(value);
     }
-}
-
-void Event::setPrecond(const json& jsonObj)
-{
-    const auto& precond = jsonObj["precondition"];
-    if (!precond.contains("name") || !precond.contains("groups") ||
-        !precond.contains("triggers") || !precond.contains("events"))
-    {
-        log<level::ERR>("Missing required event precondition attributes",
-                        entry("JSON=%s", precond.dump().c_str()));
-        throw std::runtime_error(
-            "Missing required event precondition attributes");
-    }
-    setGroups(precond, _groups);
-    setTriggers(precond);
 }
 
 void Event::setGroups(const json& jsonObj, std::vector<Group>& groups)
