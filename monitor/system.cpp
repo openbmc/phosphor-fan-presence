@@ -32,6 +32,8 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
+constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
+
 namespace phosphor::fan::monitor
 {
 
@@ -74,6 +76,74 @@ void System::start(
                       [this](auto& rule) {
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
+    }
+
+    SensorMapType sensor_map;
+
+    // Get all subtree objects for the given interface
+    auto objects =
+        util::SDBusPlus::getSubTree(_bus, "/", FAN_SENSOR_VALUE_INTF, 0);
+
+    // for each object, lookup its services
+    for (auto& pIter : objects)
+    {
+        auto& sensor_name(pIter.first);
+
+        // For every service that controls fan sensors
+        for (auto& sIter : pIter.second)
+        {
+            auto& service = sIter.first;
+
+            // for all fans
+            for (auto& fan2 : _fans)
+            {
+                // For every sensor in that fan
+                for (auto& sensor : fan2->sensors())
+                {
+                    // select the sensor whose path matches
+                    if (sensor->name() == sensor_name)
+                    {
+                        // 1) mark this sensor to recv callbacks when _sensor_
+                        // iface goes offline
+                        sensor_map[service].insert(sensor);
+
+                        // 2) if it has target, mark it to recv callbacks when
+                        // _target_ iface goes offline
+                        if (sensor->hasTarget())
+                        {
+                            sensor_map[sensor->getInterface()].insert(sensor);
+                        }
+
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
+    namespace rules = sdbusplus::bus::match::rules;
+
+    // for each service, register a callback handler for nameOwnerChanged
+    for (auto& service_itr : sensor_map)
+    {
+        auto& service = service_itr.first;
+
+        try
+        {
+            _sensorMatch.push_back(
+                std::make_unique<sdbusplus::bus::match::match>(
+                    _bus, rules::nameOwnerChanged(service),
+                    std::bind(&System::tach_signal_offline, this,
+                              std::placeholders::_1, sensor_map)));
+        }
+        catch (const util::DBusError& e)
+        {
+            // Unable to construct NameOwnerChanged match string
+            getLogger().log(
+                fmt::format("Exception creating sdbusplus:: callback: {}",
+                            e.what()),
+                Logger::error);
+        }
     }
 }
 
@@ -154,6 +224,35 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
             std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
 
         updateFanHealth(*(_fans.back()));
+    }
+}
+
+// callback indicating a service went [on|off]line.
+// Determine on/offline status, set all sensors for that service
+// to new state
+//
+void System::tach_signal_offline(sdbusplus::message::message& msg,
+                                 SensorMapType const& sensor_map)
+{
+    std::string service_name, old_owner, new_owner;
+
+    msg.read(service_name);
+    msg.read(old_owner);
+    msg.read(new_owner);
+
+    // true if sensor server came back online, false -> went offline
+    bool on_offline = !new_owner.empty() && old_owner.empty();
+
+    auto sensor_itr(sensor_map.find(service_name));
+
+    if (sensor_itr != sensor_map.end())
+    {
+        // for all fans under this service
+        for (auto& sensor : sensor_itr->second)
+        {
+            sensor->setOwner(on_offline);
+            sensor->getFan().process(*sensor);
+        }
     }
 }
 
