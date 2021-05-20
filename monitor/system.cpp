@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2021 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -75,6 +75,80 @@ void System::start()
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
     }
+
+    auto sensorMap = buildNameOwnerChangedMap();
+
+    namespace match = sdbusplus::bus::match;
+
+    // for each service, register a callback handler for nameOwnerChanged
+    for (const auto& service_itr : sensorMap)
+    {
+        try
+        {
+            _sensorMatch.push_back(std::make_unique<match::match>(
+                _bus, match::rules::nameOwnerChanged(service_itr.first),
+                std::bind(&System::tachSignalOffline, this,
+                          std::placeholders::_1, sensorMap)));
+        }
+        catch (const util::DBusError& e)
+        {
+            // Unable to construct NameOwnerChanged match string
+            getLogger().log(
+                fmt::format("Exception creating sdbusplus:: callback: {}",
+                            e.what()),
+                Logger::error);
+        }
+    }
+}
+
+SensorMapType System::buildNameOwnerChangedMap() const
+{
+    SensorMapType sensorMap;
+
+    // build a list of all interfaces, always including the value interface
+    std::set<std::string> unique_interfaces{util::FAN_SENSOR_VALUE_INTF};
+
+    for (const auto& fan : _fans)
+    {
+        for (const auto& sensor : fan->sensors())
+        {
+            unique_interfaces.insert(sensor->getInterface());
+        }
+    }
+    // convert them to vector to pass into getSubTreeRaw
+    std::vector<std::string> interfaces(unique_interfaces.begin(),
+                                        unique_interfaces.end());
+
+    // get service information for all service names that are
+    // hosting these interfaces
+    auto serviceObjects =
+        util::SDBusPlus::getSubTreeRaw(_bus, FAN_SENSOR_PATH, interfaces, 0);
+
+    for (const auto& fan : _fans)
+    {
+        // For every sensor in each fan
+        for (const auto& sensor : fan->sensors())
+        {
+            const auto itServ = serviceObjects.find(sensor->name());
+
+            if (serviceObjects.end() == itServ || itServ->second.empty())
+            {
+                getLogger().log(
+                    fmt::format("Fan sensor entry {} not found in D-Bus",
+                                sensor->name()),
+                    Logger::error);
+                continue;
+            }
+
+            for (const auto& [serviceName, unused] : itServ->second)
+            {
+                // map its service name to the sensor
+                sensorMap[serviceName].insert(sensor);
+            }
+        }
+    }
+
+    return sensorMap;
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
@@ -154,6 +228,40 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
             std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
 
         updateFanHealth(*(_fans.back()));
+    }
+}
+
+// callback indicating a service went [on|off]line.
+// Determine on/offline status, set all sensors for that service
+// to new state
+//
+void System::tachSignalOffline(sdbusplus::message::message& msg,
+                               SensorMapType const& sensorMap)
+{
+    std::string serviceName, oldOwner, newOwner;
+
+    msg.read(serviceName);
+    msg.read(oldOwner);
+    msg.read(newOwner);
+
+    // true if sensor server came back online, false -> went offline
+    bool hasOwner = !newOwner.empty() && oldOwner.empty();
+
+    std::string stateStr(hasOwner ? "online" : "offline");
+    getLogger().log(fmt::format("Changing sensors for service {} to {}",
+                                serviceName, stateStr),
+                    Logger::info);
+
+    auto sensorItr(sensorMap.find(serviceName));
+
+    if (sensorItr != sensorMap.end())
+    {
+        // set all sensors to [non]functional
+        for (auto& sensor : sensorItr->second)
+        {
+            sensor->setOwner(hasOwner);
+            sensor->getFan().process(*sensor);
+        }
     }
 }
 

@@ -35,7 +35,6 @@ namespace fan
 namespace monitor
 {
 
-constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 constexpr auto FAN_VALUE_PROPERTY = "Value";
 
@@ -131,7 +130,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
             // object can be functional with a missing D-bus sensor.
         }
 
-        auto match = getMatchString(FAN_SENSOR_VALUE_INTF);
+        auto match = getMatchString(util::FAN_SENSOR_VALUE_INTF);
 
         tachSignal = std::make_unique<sdbusplus::server::match::match>(
             _bus, match.c_str(),
@@ -169,7 +168,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 void TachSensor::updateTachAndTarget()
 {
     _tachInput = util::SDBusPlus::getProperty<decltype(_tachInput)>(
-        _bus, _name, FAN_SENSOR_VALUE_INTF, FAN_VALUE_PROPERTY);
+        _bus, _name, util::FAN_SENSOR_VALUE_INTF, FAN_VALUE_PROPERTY);
 
     if (_hasTarget)
     {
@@ -272,8 +271,8 @@ void TachSensor::handleTargetChange(sdbusplus::message::message& msg)
 
 void TachSensor::handleTachChange(sdbusplus::message::message& msg)
 {
-    readPropertyFromMessage(msg, FAN_SENSOR_VALUE_INTF, FAN_VALUE_PROPERTY,
-                            _tachInput);
+    readPropertyFromMessage(msg, util::FAN_SENSOR_VALUE_INTF,
+                            FAN_VALUE_PROPERTY, _tachInput);
 
     // Check just this sensor against the target
     _fan.tachChanged(*this);
