@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "14bf9195_947361a4",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-20T18:59:26Z",
+      "side": 1,
+      "message": "why choose a pointer over a reference here?",
+      "range": {
+        "startLine": 315,
+        "startChar": 50,
+        "endLine": 315,
+        "endChar": 51
+      },
+      "revId": "05a4883c4423f419482fca7771fad370f7eefab7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
