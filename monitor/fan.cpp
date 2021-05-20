@@ -347,12 +347,15 @@ size_t Fan::countNonFunctionalSensors() const
 
 bool Fan::outOfRange(const TachSensor& sensor)
 {
-    auto actual = static_cast<uint64_t>(sensor.getInput());
-    auto range = sensor.getRange(_deviation);
-
-    if ((actual < range.first) || (actual > range.second))
+    if (sensor.hasOwner())
     {
-        return true;
+        auto actual = static_cast<uint64_t>(sensor.getInput());
+        auto range = sensor.getRange(_deviation);
+
+        if ((actual < range.first) || (actual > range.second))
+        {
+            return true;
+        }
     }
 
     return false;
