@@ -33,6 +33,7 @@ constexpr auto OPERATIONAL_STATUS_INTF =
 constexpr auto FUNCTIONAL_PROPERTY = "Functional";
 
 constexpr auto INV_ITEM_IFACE = "xyz.openbmc_project.Inventory.Item";
+constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 
 class FileDescriptor
 {
