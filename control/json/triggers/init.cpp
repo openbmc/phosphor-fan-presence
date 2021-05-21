@@ -121,7 +121,6 @@ void nameHasOwner(Manager* mgr, const Group& group)
 }
 
 enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
-                          Manager* mgr,
                           std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     // Get the method handler if configured
