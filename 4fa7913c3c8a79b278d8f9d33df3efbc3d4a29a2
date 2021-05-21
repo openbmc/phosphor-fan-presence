@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bec8419_fbe4d842",
+        "filename": "control/json/triggers/init.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-21T17:05:52Z",
+      "side": 1,
+      "message": "need @param[out] ?",
+      "revId": "4fa7913c3c8a79b278d8f9d33df3efbc3d4a29a2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
