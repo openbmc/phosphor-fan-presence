@@ -74,7 +74,10 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
     {
         setInterfaces(jsonObj);
     }
+}
 
+void Zone::enable()
+{
     // Restore thermal control current mode state
     restoreCurrentMode();
 
