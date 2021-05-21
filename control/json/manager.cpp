@@ -93,8 +93,10 @@ Manager::Manager(const sdeventplus::Event& event) :
         }
     }
 
-    // Load any events configured
+    // Load any events configured and enable
     _events = getConfig<Event>(true, this, _zones);
+    std::for_each(_events.begin(), _events.end(),
+                  [](const auto& entry) { entry.second->enable(); });
 
     _bus.request_name(CONTROL_BUSNAME);
 }

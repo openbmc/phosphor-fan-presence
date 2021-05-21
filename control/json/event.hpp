@@ -18,6 +18,7 @@
 #include "action.hpp"
 #include "config_base.hpp"
 #include "group.hpp"
+#include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
@@ -69,6 +70,14 @@ class Event : public ConfigBase
     Event(const json& jsonObj, Manager* mgr,
           std::map<configKey, std::unique_ptr<Zone>>& zones);
 
+    /**
+     * @brief Enable the event
+     *
+     * Performs the necessary tasks to enable the event such as enabling all the
+     * event triggers, etc...
+     */
+    void enable();
+
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
@@ -84,6 +93,9 @@ class Event : public ConfigBase
 
     /* List of actions for this event */
     std::vector<std::unique_ptr<ActionBase>> _actions;
+
+    /* List of trigger enablement functions for this event */
+    std::vector<trigger::enableTrigger> _triggers;
 
     /**
      * @brief Load the groups available to be configured on events

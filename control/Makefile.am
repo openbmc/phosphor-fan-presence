@@ -1,5 +1,8 @@
 AM_DEFAULT_SOURCE_EXT = .cpp
-AM_CPPFLAGS = -iquote ${top_srcdir} -I${srcdir}/json -I${srcdir}/json/actions
+AM_CPPFLAGS = -iquote ${top_srcdir} \
+	-I${srcdir}/json \
+	-I${srcdir}/json/actions \
+	-I${srcdir}/json/triggers
 
 bin_PROGRAMS = \
 	phosphor-fan-control

@@ -17,6 +17,7 @@
 
 #include "../manager.hpp"
 #include "action.hpp"
+#include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -57,8 +58,8 @@ std::chrono::microseconds getInterval(const json& jsonObj);
  * have their timers started. Once the timer expires, per its configuration,
  * the corresponding event's actions are run.
  */
-void triggerTimer(const json& jsonObj, const std::string& eventName,
-                  Manager* mgr,
-                  std::vector<std::unique_ptr<ActionBase>>& actions);
+enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
+                           Manager* mgr,
+                           std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::timer

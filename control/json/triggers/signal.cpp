@@ -19,6 +19,7 @@
 #include "action.hpp"
 #include "group.hpp"
 #include "handlers.hpp"
+#include "trigger_aliases.hpp"
 
 #include <fmt/format.h>
 
@@ -214,9 +215,9 @@ void nameOwnerChanged(Manager* mgr, const std::string& eventName,
     }
 }
 
-void triggerSignal(const json& jsonObj, const std::string& eventName,
-                   Manager* mgr,
-                   std::vector<std::unique_ptr<ActionBase>>& actions)
+enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
+                            Manager* mgr,
+                            std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     auto subscriber = signals.end();
     if (jsonObj.contains("signal"))
@@ -241,11 +242,15 @@ void triggerSignal(const json& jsonObj, const std::string& eventName,
         throw std::runtime_error(msg.c_str());
     }
 
-    for (auto& action : actions)
-    {
-        // Call signal subscriber for each group in the action
-        subscriber->second(mgr, eventName, action);
-    }
+    return [subscriber = std::move(subscriber)](
+               const std::string& eventName, Manager* mgr,
+               std::vector<std::unique_ptr<ActionBase>>& actions) {
+        for (auto& action : actions)
+        {
+            // Call signal subscriber for each group in the action
+            subscriber->second(mgr, eventName, action);
+        }
+    };
 }
 
 } // namespace phosphor::fan::control::json::trigger::signal
