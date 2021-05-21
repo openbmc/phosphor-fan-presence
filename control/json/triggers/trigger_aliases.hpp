@@ -15,20 +15,27 @@
  */
 #pragma once
 
-#include "init.hpp"
-#include "signal.hpp"
-#include "timer.hpp"
-#include "trigger_aliases.hpp"
+#include "action.hpp"
+#include "manager.hpp"
 
-#include <map>
+#include <nlohmann/json.hpp>
+
+#include <functional>
+#include <memory>
+#include <vector>
 
 namespace phosphor::fan::control::json::trigger
 {
 
-// Mapping of trigger class name to its creation function
-static const std::map<std::string, createTrigger> triggers = {
-    {"timer", timer::triggerTimer},
-    {"signal", signal::triggerSignal},
-    {"init", init::triggerInit}};
+using json = nlohmann::json;
+
+// Trigger enablement function
+using enableTrigger = std::function<void(
+    const std::string&, Manager*, std::vector<std::unique_ptr<ActionBase>>&)>;
+
+// Trigger creation function
+using createTrigger =
+    std::function<enableTrigger(const json&, const std::string&, Manager*,
+                                std::vector<std::unique_ptr<ActionBase>>&)>;
 
 } // namespace phosphor::fan::control::json::trigger
