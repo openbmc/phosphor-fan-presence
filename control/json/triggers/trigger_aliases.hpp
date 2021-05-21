@@ -35,7 +35,7 @@ using enableTrigger = std::function<void(
 
 // Trigger creation function
 using createTrigger =
-    std::function<enableTrigger(const json&, const std::string&, Manager*,
+    std::function<enableTrigger(const json&, const std::string&,
                                 std::vector<std::unique_ptr<ActionBase>>&)>;
 
 } // namespace phosphor::fan::control::json::trigger

@@ -244,7 +244,7 @@ void Event::setTriggers(const json& jsonObj)
         if (trigFunc != trigger::triggers.end())
         {
             _triggers.emplace_back(
-                trigFunc->second(jsonTrig, getName(), _manager, _actions));
+                trigFunc->second(jsonTrig, getName(), _actions));
         }
         else
         {
