@@ -39,6 +39,30 @@
       "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f3d189d_139329cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-21T16:44:27Z",
+      "side": 1,
+      "message": "So I said this could be done like this so it links back to the upstream issue. I suppose would could just point from the ibm-openbmc issue up to this review.",
+      "parentUuid": "93a2bf09_69c1b249",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
