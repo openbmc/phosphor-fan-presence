@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "31c0d658_6b22ff8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "how would these get marked nonfunctional?  Is that happening today and maybe I just forgot?",
+      "range": {
+        "startLine": 9,
+        "startChar": 148,
+        "endLine": 9,
+        "endChar": 260
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "93a2bf09_69c1b249",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -129,6 +152,126 @@
       "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14f7f141_2e739bdb",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "Would you consider moving this into a function called from here? addNameOwnerChangedMatches or whatever.",
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32396b4c_ccb9174e",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "you can do this in the line above with a structured binding (maybe you knew this and chose not to, but in case you didn\u0027t):\n\nfor (const auto\u0026 [name, services] : objects)",
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7348edd5_e13b0445",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "since tacah_signal_offline takes a reference, and sensor_map is local to this function, does it end up using a dangling_reference, or does std::bind capture it somehow?",
+      "range": {
+        "startLine": 137,
+        "startChar": 53,
+        "endLine": 137,
+        "endChar": 63
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "678df3a5_8aad5850",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "The coding guidelines say to use camelCase as the C++ naming convention.",
+      "range": {
+        "startLine": 241,
+        "startChar": 9,
+        "endLine": 241,
+        "endChar": 28
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9d50df7_f32cc2a1",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "here too.",
+      "range": {
+        "startLine": 242,
+        "startChar": 51,
+        "endLine": 242,
+        "endChar": 60
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5610c7e4_a42a64f6",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-21T21:05:44Z",
+      "side": 1,
+      "message": "is this used?  maybe I missed it.",
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
