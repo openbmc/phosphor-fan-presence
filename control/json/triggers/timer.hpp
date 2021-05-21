@@ -51,7 +51,6 @@ std::chrono::microseconds getInterval(const json& jsonObj);
  *
  * @param[in] jsonObj - JSON object for the trigger
  * @param[in] eventName - Name of event creating the trigger
- * @param[in] mgr - Manager to setup the trigger on
  * @param[in] actions - Actions associated with the trigger
  *
  * When fan control starts (or restarts), all events with 'timer' triggers
@@ -59,7 +58,6 @@ std::chrono::microseconds getInterval(const json& jsonObj);
  * the corresponding event's actions are run.
  */
 enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
-                           Manager* mgr,
                            std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::timer
