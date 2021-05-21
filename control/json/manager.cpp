@@ -70,7 +70,6 @@ Manager::Manager(const sdeventplus::Event& event) :
 
     // Load the zone configurations
     _zones = getConfig<Zone>(false, event, this);
-
     // Load the fan configurations and move each fan into its zone
     auto fans = getConfig<Fan>(false);
     for (auto& fan : fans)
@@ -92,6 +91,9 @@ Manager::Manager(const sdeventplus::Event& event) :
             itZone->second->addFan(std::move(fan.second));
         }
     }
+    // Enable zones
+    std::for_each(_zones.begin(), _zones.end(),
+                  [](const auto& entry) { entry.second->enable(); });
 
     // Load any events configured and enable
     _events = getConfig<Event>(true, this, _zones);
