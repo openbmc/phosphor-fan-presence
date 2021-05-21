@@ -20,7 +20,7 @@
 #include "group.hpp"
 #include "manager.hpp"
 #include "sdbusplus.hpp"
-#include "triggers/trigger.hpp"
+#include "trigger.hpp"
 
 #include <fmt/format.h>
 
@@ -53,6 +53,14 @@ Event::Event(const json& jsonObj, Manager* mgr,
         setActions(jsonObj);
     }
     setTriggers(jsonObj);
+}
+
+void Event::enable()
+{
+    for (const auto& trigger : _triggers)
+    {
+        trigger(getName(), _manager, _actions);
+    }
 }
 
 auto& Event::getAvailGroups()
@@ -235,7 +243,8 @@ void Event::setTriggers(const json& jsonObj)
         auto trigFunc = trigger::triggers.find(tClass);
         if (trigFunc != trigger::triggers.end())
         {
-            trigFunc->second(jsonTrig, getName(), _manager, _actions);
+            _triggers.emplace_back(
+                trigFunc->second(jsonTrig, getName(), _manager, _actions));
         }
         else
         {

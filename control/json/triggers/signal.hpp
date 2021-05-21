@@ -17,6 +17,7 @@
 
 #include "../manager.hpp"
 #include "action.hpp"
+#include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/message.hpp>
@@ -104,8 +105,8 @@ static const std::unordered_map<std::string, SignalMatch> signals = {
  * subscribed to run its corresponding actions when a signal, per its
  * configuration, is received.
  */
-void triggerSignal(const json& jsonObj, const std::string& eventName,
-                   Manager* mgr,
-                   std::vector<std::unique_ptr<ActionBase>>& actions);
+enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
+                            Manager* mgr,
+                            std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::signal

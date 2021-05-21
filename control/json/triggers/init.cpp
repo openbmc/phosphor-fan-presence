@@ -19,6 +19,7 @@
 #include "action.hpp"
 #include "group.hpp"
 #include "sdbusplus.hpp"
+#include "trigger_aliases.hpp"
 
 #include <fmt/format.h>
 
@@ -119,9 +120,9 @@ void nameHasOwner(Manager* mgr, const Group& group)
     }
 }
 
-void triggerInit(const json& jsonObj, const std::string& eventName,
-                 Manager* mgr,
-                 std::vector<std::unique_ptr<ActionBase>>& actions)
+enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
+                          Manager* mgr,
+                          std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     // Get the method handler if configured
     auto handler = methods.end();
@@ -137,29 +138,37 @@ void triggerInit(const json& jsonObj, const std::string& eventName,
         // Groups are optional, so a method is only required if there are groups
         // i.e.) An init triggered event without any groups results in just
         // running the actions
-        for (const auto& group : action->getGroups())
+        if (!action->getGroups().empty() && handler == methods.end())
         {
-            if (handler == methods.end())
-            {
-                // Construct list of available methods
-                auto availMethods = std::accumulate(
-                    std::next(methods.begin()), methods.end(),
-                    methods.begin()->first, [](auto list, auto method) {
-                        return std::move(list) + ", " + method.first;
-                    });
-                auto msg =
-                    fmt::format("Event '{}' requires a supported method given "
-                                "to be init driven, available methods: {}",
-                                eventName, availMethods);
-                log<level::ERR>(msg.c_str());
-                throw std::runtime_error(msg.c_str());
-            }
-            // Call method handler for each group in the actions
-            handler->second(mgr, group);
+            // Construct list of available methods
+            auto availMethods = std::accumulate(
+                std::next(methods.begin()), methods.end(),
+                methods.begin()->first, [](auto list, auto method) {
+                    return std::move(list) + ", " + method.first;
+                });
+            auto msg =
+                fmt::format("Event '{}' requires a supported method given to "
+                            "be init driven, available methods: {}",
+                            eventName, availMethods);
+            log<level::ERR>(msg.c_str());
+            throw std::runtime_error(msg.c_str());
         }
-        // Run the action
-        action->run();
     }
+
+    return [handler = std::move(handler)](
+               const std::string& eventName, Manager* mgr,
+               std::vector<std::unique_ptr<ActionBase>>& actions) {
+        for (auto& action : actions)
+        {
+            for (const auto& group : action->getGroups())
+            {
+                // Call method handler for each group in the actions
+                handler->second(mgr, group);
+            }
+            // Run the action
+            action->run();
+        }
+    };
 }
 
 } // namespace phosphor::fan::control::json::trigger::init
