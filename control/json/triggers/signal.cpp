@@ -216,7 +216,6 @@ void nameOwnerChanged(Manager* mgr, const std::string& eventName,
 }
 
 enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
-                            Manager* mgr,
                             std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     auto subscriber = signals.end();

@@ -60,7 +60,6 @@ static const std::map<std::string, methodHandler> methods = {
  *
  * @param[in] jsonObj - JSON object for the trigger
  * @param[in] eventName - Name of event creating the trigger
- * @param[in] mgr - Manager to setup the trigger on
  * @param[in] actions - Actions associated with the trigger
  *
  * When fan control starts (or restarts), all events with 'init' triggers are
@@ -72,7 +71,6 @@ static const std::map<std::string, methodHandler> methods = {
  * before any signal may be received.
  */
 enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
-                          Manager* mgr,
                           std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::init

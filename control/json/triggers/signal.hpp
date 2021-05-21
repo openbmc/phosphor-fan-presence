@@ -98,7 +98,6 @@ static const std::unordered_map<std::string, SignalMatch> signals = {
  *
  * @param[in] jsonObj - JSON object for the trigger
  * @param[in] eventName - Name of event associated to the signal
- * @param[in] mgr - Pointer to manager of the trigger
  * @param[in] actions - Actions associated with the trigger
  *
  * When fan control starts (or restarts), all events with 'signal' triggers are
@@ -106,7 +105,6 @@ static const std::unordered_map<std::string, SignalMatch> signals = {
  * configuration, is received.
  */
 enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
-                            Manager* mgr,
                             std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::signal

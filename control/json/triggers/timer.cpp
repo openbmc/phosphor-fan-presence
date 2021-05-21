@@ -71,7 +71,6 @@ std::chrono::microseconds getInterval(const json& jsonObj)
 }
 
 enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
-                           Manager* mgr,
                            std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     // Get the type and interval of this timer from the JSON
