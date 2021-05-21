@@ -16,6 +16,7 @@
 #include "timer.hpp"
 
 #include "../manager.hpp"
+#include "trigger_aliases.hpp"
 
 #include <fmt/format.h>
 
@@ -69,17 +70,20 @@ std::chrono::microseconds getInterval(const json& jsonObj)
         jsonObj["interval"].get<uint64_t>());
 }
 
-void triggerTimer(const json& jsonObj, const std::string& eventName,
-                  Manager* mgr,
-                  std::vector<std::unique_ptr<ActionBase>>& actions)
+enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
+                           Manager* mgr,
+                           std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     // Get the type and interval of this timer from the JSON
     auto type = getType(jsonObj);
     auto interval = getInterval(jsonObj);
 
-    // Create/add event timer
-    auto tpPtr = std::make_unique<TimerPkg>(eventName, std::ref(actions));
-    mgr->addTimer(type, interval, std::move(tpPtr));
+    return [type = std::move(type), interval = std::move(interval)](
+               const std::string& eventName, Manager* mgr,
+               std::vector<std::unique_ptr<ActionBase>>& actions) {
+        auto tpPtr = std::make_unique<TimerPkg>(eventName, std::ref(actions));
+        mgr->addTimer(type, interval, std::move(tpPtr));
+    };
 }
 
 } // namespace phosphor::fan::control::json::trigger::timer

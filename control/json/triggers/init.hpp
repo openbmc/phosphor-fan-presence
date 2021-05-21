@@ -18,6 +18,7 @@
 #include "../manager.hpp"
 #include "action.hpp"
 #include "group.hpp"
+#include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -70,8 +71,8 @@ static const std::map<std::string, methodHandler> methods = {
  * an event so the initial data for an event is collected, processed, and run
  * before any signal may be received.
  */
-void triggerInit(const json& jsonObj, const std::string& eventName,
-                 Manager* mgr,
-                 std::vector<std::unique_ptr<ActionBase>>& actions);
+enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
+                          Manager* mgr,
+                          std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::init
