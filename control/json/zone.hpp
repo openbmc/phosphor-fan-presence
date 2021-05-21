@@ -185,6 +185,14 @@ class Zone : public ConfigBase, public ThermalObject
     }
 
     /**
+     * @brief Enable the zone
+     *
+     * Performs the necessary tasks to enable the zone such as restoring any
+     * dbus property states(if persisted), starting the decrement timer, etc...
+     */
+    void enable();
+
+    /**
      * @brief Add a fan object to the zone
      *
      * @param[in] fan - Unique pointer to a fan object that will be moved into
