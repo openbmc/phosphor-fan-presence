@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "072eb304_699ee8e5",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-24T20:55:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5b51ced0_4567a8be",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 38
+      },
+      "revId": "713fc4d65b6c42587fbe44bab4bed4015b119eb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e5b1e55_1a606d7a",
         "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "352eabef_a8e11e77",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-24T20:55:46Z",
+      "side": 1,
+      "message": "You\u0027re right, it isn\u0027t really necessary since these monitor classes aren\u0027t deleted until the application is stopped. I guess I was just trying to make it look more symmetric since adding the callback was now a separate function.\n\nI\u0027ll remove them.",
+      "parentUuid": "5e5b1e55_1a606d7a",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 5
+      },
+      "revId": "713fc4d65b6c42587fbe44bab4bed4015b119eb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "791735a0_289ca77a",
         "filename": "sensor-monitor/threshold_alarm_logger.hpp",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2021-05-24T20:32:00Z",
       "side": 1,
       "message": "Is the default dtor not sufficient?",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "713fc4d65b6c42587fbe44bab4bed4015b119eb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "067f0a78_6c866d2a",
+        "filename": "sensor-monitor/threshold_alarm_logger.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-24T20:55:46Z",
+      "side": 1,
+      "message": "will remove",
+      "parentUuid": "791735a0_289ca77a",
       "range": {
         "startLine": 74,
         "startChar": 4,
