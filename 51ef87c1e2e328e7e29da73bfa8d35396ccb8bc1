@@ -196,6 +196,24 @@
     },
     {
       "key": {
+        "uuid": "81d45b1a_ccf32c08",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-24T16:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14f7f141_2e739bdb",
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32396b4c_ccb9174e",
         "filename": "monitor/system.cpp",
         "patchSetId": 4
@@ -210,6 +228,24 @@
       "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484b849c_e2e3fa33",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-24T16:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32396b4c_ccb9174e",
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -236,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "27f07df9_e6dc9e30",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-24T16:17:30Z",
+      "side": 1,
+      "message": "I checked it against the std::bind() documentation on cppreference.com and it says args to bind are always copied or moved. I think we\u0027re safe. However, now that I\u0027ve separated the function that creates the map, it\u0027s probably no longer necessary to pass it as an arg (presuming the function wont return different values the 2nd time it\u0027s called).",
+      "parentUuid": "7348edd5_e13b0445",
+      "range": {
+        "startLine": 137,
+        "startChar": 53,
+        "endLine": 137,
+        "endChar": 63
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "678df3a5_8aad5850",
         "filename": "monitor/system.hpp",
         "patchSetId": 4
@@ -256,6 +316,30 @@
       "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d0fee65_e94026b4",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-24T16:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "678df3a5_8aad5850",
+      "range": {
+        "startLine": 241,
+        "startChar": 9,
+        "endLine": 241,
+        "endChar": 28
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -282,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "0b698937_d7ebafa0",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-24T16:17:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c9d50df7_f32cc2a1",
+      "range": {
+        "startLine": 242,
+        "startChar": 51,
+        "endLine": 242,
+        "endChar": 60
+      },
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5610c7e4_a42a64f6",
         "filename": "monitor/tach_sensor.hpp",
         "patchSetId": 4
@@ -296,6 +404,24 @@
       "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b536fbff_b261bcec",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-05-24T16:17:30Z",
+      "side": 1,
+      "message": "its in monitor/system.cpp +254, it\u0027s how we actually make the sensor go on/offline",
+      "parentUuid": "5610c7e4_a42a64f6",
+      "revId": "51ef87c1e2e328e7e29da73bfa8d35396ccb8bc1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
