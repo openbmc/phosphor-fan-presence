@@ -22,6 +22,30 @@
       "revId": "66e75a706dcf9ab7b61842fd3e3a251d4a2620d1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "084914d6_947664c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-24T20:58:57Z",
+      "side": 1,
+      "message": "if it\u0027s asserted before we power on, we (IBM) don\u0027t need event logs for that, and we (again, IBM) still need new event logs when the power is turned on.  I think if someone also wanted event logs when power is off, they could add support for that themselves.",
+      "parentUuid": "c39b8bc6_5762e4df",
+      "range": {
+        "startLine": 17,
+        "startChar": 65,
+        "endLine": 18,
+        "endChar": 40
+      },
+      "revId": "66e75a706dcf9ab7b61842fd3e3a251d4a2620d1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
