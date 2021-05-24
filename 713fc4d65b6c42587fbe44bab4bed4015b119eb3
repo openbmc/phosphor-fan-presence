@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b51ced0_4567a8be",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-24T20:32:00Z",
+      "side": 1,
+      "message": "How about moving this above the matches similar to where its done in ThresholdAlarmLogger? I initially thought this was being done in the ctor body...",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 38
+      },
+      "revId": "713fc4d65b6c42587fbe44bab4bed4015b119eb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e5b1e55_1a606d7a",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-24T20:32:00Z",
+      "side": 1,
+      "message": "The default dtor doesnt handle this once all the instances of the shared pointer are gone? Guess I\u0027m not following why this is necessary now but wasnt when _powerState was a unique_ptr.\n\nAlso, if this really necessary...shouldnt it be deleting \"shutdownMon\"?",
+      "range": {
+        "startLine": 78,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 5
+      },
+      "revId": "713fc4d65b6c42587fbe44bab4bed4015b119eb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "791735a0_289ca77a",
+        "filename": "sensor-monitor/threshold_alarm_logger.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-05-24T20:32:00Z",
+      "side": 1,
+      "message": "Is the default dtor not sufficient?",
+      "range": {
+        "startLine": 74,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 5
+      },
+      "revId": "713fc4d65b6c42587fbe44bab4bed4015b119eb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
