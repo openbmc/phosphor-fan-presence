@@ -215,6 +215,18 @@ void Zone::setPersisted(const std::string& intf, const std::string& prop)
     }
 }
 
+bool Zone::isPersisted(const std::string& intf, const std::string& prop) const
+{
+    auto it = _propsPersisted.find(intf);
+    if (it == _propsPersisted.end())
+    {
+        return false;
+    }
+
+    return std::any_of(it->second.begin(), it->second.end(),
+                       [&prop](const auto& p) { return prop == p; });
+}
+
 std::string Zone::current(std::string value)
 {
     auto current = ThermalObject::current();
@@ -357,18 +369,6 @@ void Zone::setInterfaces(const json& jsonObj)
             }
         }
     }
-}
-
-bool Zone::isPersisted(const std::string& intf, const std::string& prop)
-{
-    auto it = _propsPersisted.find(intf);
-    if (it == _propsPersisted.end())
-    {
-        return false;
-    }
-
-    return std::any_of(it->second.begin(), it->second.end(),
-                       [&prop](const auto& p) { return prop == p; });
 }
 
 void Zone::saveCurrentMode()
