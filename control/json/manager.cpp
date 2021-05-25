@@ -57,7 +57,36 @@ std::map<std::string,
 Manager::Manager(const sdeventplus::Event& event) :
     _bus(util::SDBusPlus::getBus()), _event(event)
 {
-    // Manager JSON config file is optional
+    load();
+}
+
+void Manager::sighupHandler(sdeventplus::source::Signal&,
+                            const struct signalfd_siginfo*)
+{
+    // Save current set of available and active profiles
+    std::map<configKey, std::unique_ptr<Profile>> profiles;
+    profiles.swap(_profiles);
+    std::vector<std::string> activeProfiles;
+    activeProfiles.swap(_activeProfiles);
+
+    try
+    {
+        load();
+    }
+    catch (std::runtime_error& re)
+    {
+        // Restore saved available and active profiles
+        _profiles.swap(profiles);
+        _activeProfiles.swap(activeProfiles);
+        log<level::ERR>("Error reloading configs, no changes made",
+                        entry("LOAD_ERROR=%s", re.what()));
+    }
+}
+
+void Manager::load()
+{
+    // TODO - Remove Manager JSON config support since it's not needed with init
+    // mode removed
     auto confFile =
         fan::JsonConfig::getConfFile(_bus, confAppName, confFileName, true);
     if (!confFile.empty())
@@ -65,11 +94,11 @@ Manager::Manager(const sdeventplus::Event& event) :
         _jsonObj = fan::JsonConfig::load(confFile);
     }
 
-    // Parse and set the available profiles and which are active
+    // Load the available profiles and which are active
     setProfiles();
 
     // Load the zone configurations
-    _zones = getConfig<Zone>(false, event, this);
+    auto zones = getConfig<Zone>(false, _event, this);
     // Load the fan configurations and move each fan into its zone
     auto fans = getConfig<Fan>(false);
     for (auto& fan : fans)
@@ -77,30 +106,39 @@ Manager::Manager(const sdeventplus::Event& event) :
         configKey fanProfile =
             std::make_pair(fan.second->getZone(), fan.first.second);
         auto itZone = std::find_if(
-            _zones.begin(), _zones.end(), [&fanProfile](const auto& zone) {
+            zones.begin(), zones.end(), [&fanProfile](const auto& zone) {
                 return Manager::inConfig(fanProfile, zone.first);
             });
-        if (itZone != _zones.end())
+        if (itZone != zones.end())
         {
             if (itZone->second->getTarget() != fan.second->getTarget() &&
                 fan.second->getTarget() != 0)
             {
-                // Update zone target to current target of the fan in the zone
+                // Update zone target to current target of the fan in the
+                // zone
                 itZone->second->setTarget(fan.second->getTarget());
             }
             itZone->second->addFan(std::move(fan.second));
         }
     }
+
+    // Load any events configured
+    auto events = getConfig<Event>(true, this, zones);
+
     // Enable zones
+    _zones = std::move(zones);
     std::for_each(_zones.begin(), _zones.end(),
                   [](const auto& entry) { entry.second->enable(); });
 
-    // Load any events configured and enable
-    _events = getConfig<Event>(true, this, _zones);
+    // Clear current timers and signal subscriptions before enabling events
+    // To save reloading services and/or objects into cache, do not clear cache
+    _timers.clear();
+    _signals.clear();
+
+    // Enable events
+    _events = std::move(events);
     std::for_each(_events.begin(), _events.end(),
                   [](const auto& entry) { entry.second->enable(); });
-
-    _bus.request_name(CONTROL_BUSNAME);
 }
 
 const std::vector<std::string>& Manager::getActiveProfiles()
@@ -509,6 +547,8 @@ void Manager::setProfiles()
     // Profiles JSON config file is optional
     auto confFile = fan::JsonConfig::getConfFile(_bus, confAppName,
                                                  Profile::confFileName, true);
+
+    _profiles.clear();
     if (!confFile.empty())
     {
         for (const auto& entry : fan::JsonConfig::load(confFile))
@@ -519,8 +559,10 @@ void Manager::setProfiles()
                 std::move(obj));
         }
     }
+
     // Ensure all configurations use the same set of active profiles
     // (In case a profile's active state changes during configuration)
+    _activeProfiles.clear();
     for (const auto& profile : _profiles)
     {
         if (profile.second->isActive())
