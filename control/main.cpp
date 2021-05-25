@@ -26,6 +26,8 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/signal.hpp>
+#include <stdplus/signal.hpp>
 
 using namespace phosphor::fan::control;
 using namespace phosphor::logging;
@@ -68,6 +70,15 @@ int main(int argc, char* argv[])
     {
 #ifdef CONTROL_USE_JSON
         json::Manager manager(event);
+
+        // Enable SIGHUP handling to reload JSON configs
+        stdplus::signal::block(SIGHUP);
+        sdeventplus::source::Signal signal(
+            event, SIGHUP,
+            std::bind(&json::Manager::sighupHandler, &manager,
+                      std::placeholders::_1, std::placeholders::_2));
+
+        phosphor::fan::util::SDBusPlus::getBus().request_name(CONTROL_BUSNAME);
 #else
         Manager manager(phosphor::fan::util::SDBusPlus::getBus(), event, mode);
 

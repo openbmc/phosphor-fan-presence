@@ -134,6 +134,13 @@ class Manager
     Manager(const sdeventplus::Event& event);
 
     /**
+     * @brief Callback function to handle receiving a HUP signal to reload the
+     * JSON configurations.
+     */
+    void sighupHandler(sdeventplus::source::Signal&,
+                       const struct signalfd_siginfo*);
+
+    /**
      * @brief Get the active profiles of the system where an empty list
      * represents that only configuration entries without a profile defined will
      * be loaded.
@@ -449,6 +456,16 @@ class Manager
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
+
+    /**
+     * @brief Load all the fan control JSON configuration files
+     *
+     * This is where all the fan control JSON configuration files are parsed and
+     * loaded into their associated objects. Anything that needs to be done when
+     * the Manager object is constructed or handling a SIGHUP to reload the
+     * configurations needs to be done here.
+     */
+    void load();
 
     /**
      * @brief Find the service name for a given path and interface from the
