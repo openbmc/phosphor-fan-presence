@@ -31,6 +31,7 @@ phosphor_fan_control_SOURCES += \
 	json/profile.cpp \
 	json/fan.cpp \
 	json/zone.cpp \
+	json/dbus_zone.cpp \
 	json/group.cpp \
 	json/event.cpp \
 	json/triggers/timer.cpp \
