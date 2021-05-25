@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "config.h"
-
 #include "zone.hpp"
 
+#include "dbus_zone.hpp"
 #include "fan.hpp"
 #include "sdbusplus.hpp"
 
-#include <cereal/archives/json.hpp>
-#include <cereal/cereal.hpp>
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
-#include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 
 #include <algorithm>
 #include <chrono>
-#include <filesystem>
-#include <fstream>
 #include <iterator>
 #include <map>
+#include <memory>
 #include <numeric>
 #include <utility>
 #include <vector>
@@ -42,22 +37,20 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 using namespace phosphor::logging;
-namespace fs = std::filesystem;
 
-const std::map<std::string,
-               std::map<std::string, std::function<std::function<void(Zone*)>(
-                                         const json&, bool)>>>
-    Zone::_intfPropHandlers = {{thermModeIntf,
-                                {{supportedProp, zone::property::supported},
-                                 {currentProp, zone::property::current}}}};
+const std::map<
+    std::string,
+    std::map<std::string, std::function<std::function<void(DBusZone&, Zone&)>(
+                              const json&, bool)>>>
+    Zone::_intfPropHandlers = {
+        {DBusZone::thermalModeIntf,
+         {{DBusZone::supportedProp, zone::property::supported},
+          {DBusZone::currentProp, zone::property::current}}}};
 
 Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
-    ConfigBase(jsonObj),
-    ThermalObject(util::SDBusPlus::getBus(),
-                  (fs::path{CONTROL_OBJPATH} /= getName()).c_str(), true),
-    _manager(mgr), _incDelay(0), _floor(0), _target(0), _incDelta(0),
-    _decDelta(0), _requestTargetBase(0), _isActive(true),
-    _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
+    ConfigBase(jsonObj), _dbusZone{}, _manager(mgr), _incDelay(0), _floor(0),
+    _target(0), _incDelta(0), _decDelta(0), _requestTargetBase(0),
+    _isActive(true), _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
     _decTimer(event, std::bind(&Zone::decTimerExpired, this))
 {
     // Increase delay is optional, defaults to 0
@@ -78,11 +71,25 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
 
 void Zone::enable()
 {
-    // Restore thermal control current mode state
-    restoreCurrentMode();
+    // Create thermal control dbus object
+    _dbusZone = std::make_unique<DBusZone>(*this);
 
-    // Emit object added for this zone dbus object
-    this->emit_object_added();
+    // Init all configured dbus interfaces' property states
+    for (const auto& func : _propInitFunctions)
+    {
+        // Only call non-null init property functions
+        if (func)
+        {
+            func(*_dbusZone, *this);
+        }
+    }
+
+    // TODO - Restore any persisted properties in init function
+    // Restore thermal control current mode state, if exists
+    _dbusZone->restoreCurrentMode();
+
+    // Emit object added for this zone's associated dbus object
+    _dbusZone->emit_object_added();
 
     // Start timer for fan target decreases
     _decTimer.restart(_decInterval);
@@ -208,7 +215,7 @@ void Zone::decTimerExpired()
 void Zone::setPersisted(const std::string& intf, const std::string& prop)
 {
     if (std::find_if(_propsPersisted[intf].begin(), _propsPersisted[intf].end(),
-                     [&prop](const auto& p) { return prop == p; }) !=
+                     [&prop](const auto& p) { return prop == p; }) ==
         _propsPersisted[intf].end())
     {
         _propsPersisted[intf].emplace_back(prop);
@@ -225,30 +232,6 @@ bool Zone::isPersisted(const std::string& intf, const std::string& prop) const
 
     return std::any_of(it->second.begin(), it->second.end(),
                        [&prop](const auto& p) { return prop == p; });
-}
-
-std::string Zone::current(std::string value)
-{
-    auto current = ThermalObject::current();
-    std::transform(value.begin(), value.end(), value.begin(), toupper);
-
-    auto supported = ThermalObject::supported();
-    auto isSupported =
-        std::any_of(supported.begin(), supported.end(), [&value](auto& s) {
-            std::transform(s.begin(), s.end(), s.begin(), toupper);
-            return value == s;
-        });
-
-    if (value != current && isSupported)
-    {
-        current = ThermalObject::current(value);
-        if (isPersisted(thermModeIntf, currentProp))
-        {
-            saveCurrentMode();
-        }
-    }
-
-    return current;
 }
 
 void Zone::setDefaultCeiling(const json& jsonObj)
@@ -361,52 +344,11 @@ void Zone::setInterfaces(const json& jsonObj)
                 throw std::runtime_error(
                     "Configured property function not available");
             }
-            auto propHandler = propFunc->second(property, persist);
-            // Only call non-null set property handler functions
-            if (propHandler)
-            {
-                propHandler(this);
-            }
+
+            _propInitFunctions.emplace_back(
+                propFunc->second(property, persist));
         }
     }
-}
-
-void Zone::saveCurrentMode()
-{
-    fs::path path{CONTROL_PERSIST_ROOT_PATH};
-    // Append zone name and property description
-    path /= getName();
-    path /= "CurrentMode";
-    std::ofstream ofs(path.c_str(), std::ios::binary);
-    cereal::JSONOutputArchive oArch(ofs);
-    oArch(ThermalObject::current());
-}
-
-void Zone::restoreCurrentMode()
-{
-    auto current = ThermalObject::current();
-    fs::path path{CONTROL_PERSIST_ROOT_PATH};
-    path /= getName();
-    path /= "CurrentMode";
-    fs::create_directories(path.parent_path());
-
-    try
-    {
-        if (fs::exists(path))
-        {
-            std::ifstream ifs(path.c_str(), std::ios::in | std::ios::binary);
-            cereal::JSONInputArchive iArch(ifs);
-            iArch(current);
-        }
-    }
-    catch (std::exception& e)
-    {
-        log<level::ERR>(e.what());
-        fs::remove(path);
-        current = ThermalObject::current();
-    }
-
-    this->current(current);
 }
 
 /**
@@ -417,7 +359,8 @@ namespace zone::property
 {
 // Get a set property handler function for the configured values of the
 // "Supported" property
-std::function<void(Zone*)> supported(const json& jsonObj, bool persist)
+std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
+                                                bool persist)
 {
     std::vector<std::string> values;
     if (!jsonObj.contains("values"))
@@ -444,13 +387,13 @@ std::function<void(Zone*)> supported(const json& jsonObj, bool persist)
     }
 
     return Zone::setProperty<std::vector<std::string>>(
-        Zone::thermModeIntf, Zone::supportedProp, &Zone::supported,
-        std::move(values), persist);
+        DBusZone::thermalModeIntf, DBusZone::supportedProp,
+        &DBusZone::supported, std::move(values), persist);
 }
 
 // Get a set property handler function for a configured value of the "Current"
 // property
-std::function<void(Zone*)> current(const json& jsonObj, bool persist)
+std::function<void(DBusZone&, Zone&)> current(const json& jsonObj, bool persist)
 {
     // Use default value for "Current" property if no "value" entry given
     if (!jsonObj.contains("value"))
@@ -459,12 +402,12 @@ std::function<void(Zone*)> current(const json& jsonObj, bool persist)
                          "using default",
                          entry("JSON=%s", jsonObj.dump().c_str()));
         // Set persist state of property
-        return Zone::setPropertyPersist(Zone::thermModeIntf, Zone::currentProp,
-                                        persist);
+        return Zone::setPropertyPersist(DBusZone::thermalModeIntf,
+                                        DBusZone::currentProp, persist);
     }
 
     return Zone::setProperty<std::string>(
-        Zone::thermModeIntf, Zone::currentProp, &Zone::current,
+        DBusZone::thermalModeIntf, DBusZone::currentProp, &DBusZone::current,
         jsonObj["value"].get<std::string>(), persist);
 }
 
