@@ -296,6 +296,16 @@ class Zone : public ConfigBase, public ThermalObject
     void setPersisted(const std::string& intf, const std::string& prop);
 
     /**
+     * @brief Is the property persisted
+     *
+     * @param[in] intf - Interface containing property
+     * @param[in] prop - Property to check if persisted
+     *
+     * @return - True if property is to be persisted, false otherwise
+     */
+    bool isPersisted(const std::string& intf, const std::string& prop) const;
+
+    /**
      * @brief Overridden thermal object's set 'Current' property function
      *
      * @param[in] value - Value to set 'Current' to
@@ -463,16 +473,6 @@ class Zone : public ConfigBase, public ThermalObject
      * to not be persisted when not given.
      */
     void setInterfaces(const json& jsonObj);
-
-    /**
-     * @brief Is the property persisted
-     *
-     * @param[in] intf - Interface containing property
-     * @param[in] prop - Property to check if persisted
-     *
-     * @return - True if property is to be persisted, false otherwise
-     */
-    bool isPersisted(const std::string& intf, const std::string& prop);
 
     /**
      * @brief Save the thermal control current mode property to persisted
