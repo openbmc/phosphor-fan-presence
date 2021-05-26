@@ -82,8 +82,38 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
     _timer(event, std::bind(&Fan::updateState, &fan, std::ref(*this))),
     _errorDelay(errorDelay), _countInterval(countInterval)
 {
-    // Start from a known state of functional
-    setFunctional(true);
+    // Query functional state from inventory
+    auto service = util::SDBusPlus::getService(
+        _bus, util::INVENTORY_PATH + _invName, util::OPERATIONAL_STATUS_INTF);
+
+    try
+    {
+        if (!service.empty())
+        {
+            _functional = util::SDBusPlus::getProperty<bool>(
+                service, util::INVENTORY_PATH + _invName,
+                util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
+        }
+        else
+        {
+            // default to functional when service not up. Error handling done
+            // later
+            _functional = true;
+            updateInventory(_functional);
+        }
+    }
+    catch (std::exception& e)
+    {
+        log<level::DEBUG>(e.what());
+        _functional = true;
+        updateInventory(_functional);
+    }
+
+    if (!_functional && MethodMode::count == _method)
+    {
+        // force continual nonfunctional state
+        _counter = _threshold;
+    }
 
     // Load in current Target and Input values when entering monitor mode
 #ifndef MONITOR_USE_JSON
