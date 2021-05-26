@@ -196,7 +196,7 @@ class Fan
     /**
      * @brief Returns the number sensors that are nonfunctional
      */
-    size_t countNonFunctionalSensors();
+    size_t countNonFunctionalSensors() const;
 
     /**
      * @brief Updates the Functional property in the inventory
