@@ -64,10 +64,6 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def)),
     _setFuncOnPresent(std::get<funcOnPresentField>(def))
 {
-    // Start from a known state of functional (even if
-    // _numSensorFailsForNonFunc is 0)
-    updateInventory(true);
-
     // Setup tach sensors for monitoring
     auto& sensors = std::get<sensorListField>(def);
     for (auto& s : sensors)
@@ -83,6 +79,12 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
 
         _trustManager->registerSensor(_sensors.back());
     }
+
+    bool functionalState =
+        (_numSensorFailsForNonFunc == 0) ||
+        (countNonFunctionalSensors() < _numSensorFailsForNonFunc);
+
+    updateInventory(functionalState);
 
 #ifndef MONITOR_USE_JSON
     // Check current tach state when entering monitor mode
@@ -337,7 +339,7 @@ uint64_t Fan::findTargetSpeed()
     return target;
 }
 
-size_t Fan::countNonFunctionalSensors()
+size_t Fan::countNonFunctionalSensors() const
 {
     return std::count_if(_sensors.begin(), _sensors.end(),
                          [](const auto& s) { return !s->functional(); });

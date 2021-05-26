@@ -253,20 +253,27 @@ class SDBusPlus
         return mapperResp;
     }
 
-    /** @brief Get service from the mapper. */
-    static auto getService(sdbusplus::bus::bus& bus, const std::string& path,
-                           const std::string& interface)
+    /** @brief Get service from the mapper without checking response. */
+    static auto getServiceRaw(sdbusplus::bus::bus& bus, const std::string& path,
+                              const std::string& interface)
     {
         using namespace std::literals::string_literals;
         using GetObject = std::map<std::string, std::vector<std::string>>;
 
+        return callMethodAndRead<GetObject>(
+            bus, "xyz.openbmc_project.ObjectMapper"s,
+            "/xyz/openbmc_project/object_mapper"s,
+            "xyz.openbmc_project.ObjectMapper"s, "GetObject"s, path,
+            GetObject::mapped_type{interface});
+    }
+
+    /** @brief Get service from the mapper. */
+    static auto getService(sdbusplus::bus::bus& bus, const std::string& path,
+                           const std::string& interface)
+    {
         try
         {
-            auto mapperResp = callMethodAndRead<GetObject>(
-                bus, "xyz.openbmc_project.ObjectMapper"s,
-                "/xyz/openbmc_project/object_mapper"s,
-                "xyz.openbmc_project.ObjectMapper"s, "GetObject"s, path,
-                GetObject::mapped_type{interface});
+            auto mapperResp = getServiceRaw(bus, path, interface);
 
             if (mapperResp.empty())
             {
