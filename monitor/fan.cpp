@@ -67,10 +67,6 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
 {
     bool enableCountTimer = false;
 
-    // Start from a known state of functional (even if
-    // _numSensorFailsForNonFunc is 0)
-    updateInventory(true);
-
     // Setup tach sensors for monitoring
     auto& sensors = std::get<sensorListField>(def);
     for (auto& s : sensors)
@@ -88,6 +84,11 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         {
             enableCountTimer = true;
         }
+    }
+
+    if (countNonFunctionalSensors() >= _numSensorFailsForNonFunc)
+    {
+        updateInventory(false);
     }
 
     // If the error checking method will be 'count', then it needs a timer.
