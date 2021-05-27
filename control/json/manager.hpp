@@ -20,6 +20,7 @@
 #include "event.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
+#include "power_state.hpp"
 #include "profile.hpp"
 #include "sdbusplus.hpp"
 #include "zone.hpp"
@@ -410,6 +411,16 @@ class Manager
      */
     unsigned int getPowerOnDelay();
 
+    /**
+     * @brief Is the power state on
+     *
+     * @return Current power state of the system
+     */
+    inline bool isPowerOn() const
+    {
+        return _powerState->isPowerOn();
+    }
+
   private:
     /* JSON file name for manager configuration attributes */
     static constexpr auto confFileName = "manager.json";
@@ -426,6 +437,9 @@ class Manager
      * The sdeventplus even loop to use
      */
     sdeventplus::Event _event;
+
+    /* The system's power state determination object */
+    std::unique_ptr<PowerState> _powerState;
 
     /* List of profiles configured */
     std::map<configKey, std::unique_ptr<Profile>> _profiles;
@@ -466,6 +480,16 @@ class Manager
      * configurations needs to be done here.
      */
     void load();
+
+    /**
+     * @brief Callback for power state changes
+     *
+     * @param[in] powerStateOn - Whether the power state is on or not
+     *
+     * Callback function bound to the PowerState object instance to handle each
+     * time the power state changes.
+     */
+    void powerStateChanged(bool powerStateOn);
 
     /**
      * @brief Find the service name for a given path and interface from the
