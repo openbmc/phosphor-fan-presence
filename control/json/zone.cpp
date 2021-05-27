@@ -48,9 +48,10 @@ const std::map<
           {DBusZone::currentProp, zone::property::current}}}};
 
 Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
-    ConfigBase(jsonObj), _dbusZone{}, _manager(mgr), _incDelay(0), _floor(0),
-    _target(0), _incDelta(0), _decDelta(0), _requestTargetBase(0),
-    _isActive(true), _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
+    ConfigBase(jsonObj), _dbusZone{}, _manager(mgr), _defaultFloor(0),
+    _incDelay(0), _floor(0), _target(0), _incDelta(0), _decDelta(0),
+    _requestTargetBase(0), _isActive(true),
+    _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
     _decTimer(event, std::bind(&Zone::decTimerExpired, this))
 {
     // Increase delay is optional, defaults to 0
@@ -59,9 +60,29 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
         _incDelay =
             std::chrono::seconds(jsonObj["increase_delay"].get<uint64_t>());
     }
-    setDefaultCeiling(jsonObj);
-    setDefaultFloor(jsonObj);
+
+    // Poweron target is required
+    setPowerOnTarget(jsonObj);
+
+    // Default ceiling is optional, defaults to poweron target
+    _defaultCeiling = _poweronTarget;
+    if (jsonObj.contains("default_ceiling"))
+    {
+        _defaultCeiling = jsonObj["default_ceiling"].get<uint64_t>();
+    }
+    // Start with the current ceiling set as the default ceiling
+    _ceiling = _defaultCeiling;
+
+    // Default floor is optional, defaults to 0
+    if (jsonObj.contains("default_floor"))
+    {
+        _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
+        // Start with the current floor set as the default
+        _floor = _defaultFloor;
+    }
+
     setDecInterval(jsonObj);
+
     // Setting properties on interfaces to be served are optional
     if (jsonObj.contains("interfaces"))
     {
@@ -234,40 +255,25 @@ bool Zone::isPersisted(const std::string& intf, const std::string& prop) const
                        [&prop](const auto& p) { return prop == p; });
 }
 
-void Zone::setDefaultCeiling(const json& jsonObj)
+void Zone::setPowerOnTarget(const json& jsonObj)
 {
-    // TODO Remove "full_speed" after configs replaced with "default_ceiling"
-    if (!jsonObj.contains("full_speed") && !jsonObj.contains("default_ceiling"))
+    // TODO Remove "full_speed" after configs replaced with "poweron_target"
+    if (!jsonObj.contains("full_speed") && !jsonObj.contains("poweron_target"))
     {
-        log<level::ERR>("Missing required zone's default ceiling",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required zone's default ceiling");
+        auto msg = "Missing required zone's poweron target";
+        log<level::ERR>(msg, entry("JSON=%s", jsonObj.dump().c_str()));
+        throw std::runtime_error(msg);
     }
     if (jsonObj.contains("full_speed"))
     {
-        _defaultCeiling = jsonObj["full_speed"].get<uint64_t>();
+        _poweronTarget = jsonObj["full_speed"].get<uint64_t>();
     }
     else
     {
-        _defaultCeiling = jsonObj["default_ceiling"].get<uint64_t>();
+        _poweronTarget = jsonObj["poweron_target"].get<uint64_t>();
     }
-    // Start with the current target set as the default
-    _target = _defaultCeiling;
-    // Start with the current ceiling set as the default
-    _ceiling = _defaultCeiling;
-}
-
-void Zone::setDefaultFloor(const json& jsonObj)
-{
-    if (!jsonObj.contains("default_floor"))
-    {
-        log<level::ERR>("Missing required zone's default floor",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required zone's default floor");
-    }
-    _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
-    // Start with the current floor set as the default
-    _floor = _defaultFloor;
+    // Start with the current target set as the poweron target
+    _target = _poweronTarget;
 }
 
 void Zone::setDecInterval(const json& jsonObj)
@@ -353,7 +359,8 @@ void Zone::setInterfaces(const json& jsonObj)
 
 /**
  * Properties of interfaces supported by the zone configuration that return
- * a handler function that sets the zone's property value(s) and persist state.
+ * a handler function that sets the zone's property value(s) and persist
+ * state.
  */
 namespace zone::property
 {
@@ -365,9 +372,9 @@ std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
     std::vector<std::string> values;
     if (!jsonObj.contains("values"))
     {
-        log<level::ERR>(
-            "No 'values' found for \"Supported\" property, using an empty list",
-            entry("JSON=%s", jsonObj.dump().c_str()));
+        log<level::ERR>("No 'values' found for \"Supported\" property, "
+                        "using an empty list",
+                        entry("JSON=%s", jsonObj.dump().c_str()));
     }
     else
     {
@@ -391,8 +398,8 @@ std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
         &DBusZone::supported, std::move(values), persist);
 }
 
-// Get a set property handler function for a configured value of the "Current"
-// property
+// Get a set property handler function for a configured value of the
+// "Current" property
 std::function<void(DBusZone&, Zone&)> current(const json& jsonObj, bool persist)
 {
     // Use default value for "Current" property if no "value" entry given
