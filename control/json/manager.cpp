@@ -22,6 +22,7 @@
 #include "fan.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
+#include "power_state.hpp"
 #include "profile.hpp"
 #include "sdbusplus.hpp"
 #include "zone.hpp"
@@ -55,7 +56,11 @@ std::map<std::string,
     Manager::_objects;
 
 Manager::Manager(const sdeventplus::Event& event) :
-    _bus(util::SDBusPlus::getBus()), _event(event)
+    _bus(util::SDBusPlus::getBus()), _event(event),
+    _powerState(std::make_unique<PGoodState>(
+        util::SDBusPlus::getBus(),
+        std::bind(std::mem_fn(&Manager::powerStateChanged), this,
+                  std::placeholders::_1)))
 {
     load();
 }
@@ -139,6 +144,16 @@ void Manager::load()
     _events = std::move(events);
     std::for_each(_events.begin(), _events.end(),
                   [](const auto& entry) { entry.second->enable(); });
+}
+
+void Manager::powerStateChanged(bool powerStateOn)
+{
+    if (powerStateOn)
+    {
+        std::for_each(_zones.begin(), _zones.end(), [](const auto& entry) {
+            entry.second->setTarget(entry.second->getPoweronTarget());
+        });
+    }
 }
 
 const std::vector<std::string>& Manager::getActiveProfiles()

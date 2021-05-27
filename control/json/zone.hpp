@@ -76,6 +76,19 @@ class Zone : public ConfigBase
     Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr);
 
     /**
+     * @brief Get the poweron target
+     *
+     * Poweron target is the target the fans within this zone should be set to
+     * when the system is powered on.
+     *
+     * @return Poweron target of this zone
+     */
+    inline const auto& getPoweronTarget() const
+    {
+        return _poweronTarget;
+    }
+
+    /**
      * @brief Get the default ceiling
      *
      * Default ceiling is the highest target the fans within this zone is
