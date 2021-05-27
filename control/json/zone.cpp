@@ -49,8 +49,8 @@ const std::map<
 
 Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
     ConfigBase(jsonObj), _dbusZone{}, _manager(mgr), _defaultFloor(0),
-    _incDelay(0), _floor(0), _target(0), _incDelta(0), _decDelta(0),
-    _requestTargetBase(0), _isActive(true),
+    _incDelay(0), _decInterval(0), _floor(0), _target(0), _incDelta(0),
+    _decDelta(0), _requestTargetBase(0), _isActive(true),
     _incTimer(event, std::bind(&Zone::incTimerExpired, this)),
     _decTimer(event, std::bind(&Zone::decTimerExpired, this))
 {
@@ -81,7 +81,13 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
         _floor = _defaultFloor;
     }
 
-    setDecInterval(jsonObj);
+    // Decrease interval is optional, defaults to 0
+    // A decrease interval of 0sec disables the decrease timer
+    if (jsonObj.contains("decrease_interval"))
+    {
+        _decInterval =
+            std::chrono::seconds(jsonObj["decrease_interval"].get<uint64_t>());
+    }
 
     // Setting properties on interfaces to be served are optional
     if (jsonObj.contains("interfaces"))
@@ -112,8 +118,12 @@ void Zone::enable()
     // Emit object added for this zone's associated dbus object
     _dbusZone->emit_object_added();
 
-    // Start timer for fan target decreases
-    _decTimer.restart(_decInterval);
+    // A decrease interval of 0sec disables the decrease timer
+    if (_decInterval != std::chrono::seconds::zero())
+    {
+        // Start timer for fan target decreases
+        _decTimer.restart(_decInterval);
+    }
 }
 
 void Zone::addFan(std::unique_ptr<Fan> fan)
@@ -274,18 +284,6 @@ void Zone::setPowerOnTarget(const json& jsonObj)
     }
     // Start with the current target set as the poweron target
     _target = _poweronTarget;
-}
-
-void Zone::setDecInterval(const json& jsonObj)
-{
-    if (!jsonObj.contains("decrease_interval"))
-    {
-        log<level::ERR>("Missing required zone's decrease interval",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required zone's decrease interval");
-    }
-    _decInterval =
-        std::chrono::seconds(jsonObj["decrease_interval"].get<uint64_t>());
 }
 
 void Zone::setInterfaces(const json& jsonObj)
