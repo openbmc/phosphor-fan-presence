@@ -369,7 +369,7 @@ class Zone : public ConfigBase
     /* Zone's increase delay(in seconds) (OPTIONAL) */
     std::chrono::seconds _incDelay;
 
-    /* Zone's decrease interval(in seconds) */
+    /* Zone's decrease interval(in seconds) (OPTIONAL) */
     std::chrono::seconds _decInterval;
 
     /* The floor target to not go below */
@@ -434,16 +434,6 @@ class Zone : public ConfigBase
      * object
      */
     void setPowerOnTarget(const json& jsonObj);
-
-    /**
-     * @brief Parse and set the zone's decrease interval(in seconds)
-     *
-     * @param[in] jsonObj - JSON object for the zone
-     *
-     * Sets the decrease interval(in seconds) for the zone from the JSON
-     * configuration object
-     */
-    void setDecInterval(const json& jsonObj);
 
     /**
      * @brief Parse and set the interfaces served by the zone(OPTIONAL)
