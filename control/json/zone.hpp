@@ -357,6 +357,9 @@ class Zone : public ConfigBase
     /* The zone's manager */
     Manager* _manager;
 
+    /* The zone's poweron target value for fans */
+    uint64_t _poweronTarget;
+
     /* The zone's default ceiling value for fans */
     uint64_t _defaultCeiling;
 
@@ -423,24 +426,14 @@ class Zone : public ConfigBase
     std::vector<std::function<void(DBusZone&, Zone&)>> _propInitFunctions;
 
     /**
-     * @brief Parse and set the zone's default ceiling value
+     * @brief Parse and set the zone's poweron target value
      *
      * @param[in] jsonObj - JSON object for the zone
      *
-     * Sets the default ceiling value for the zone from the JSON configuration
+     * Sets the poweron target value for the zone from the JSON configuration
      * object
      */
-    void setDefaultCeiling(const json& jsonObj);
-
-    /**
-     * @brief Parse and set the zone's default floor value
-     *
-     * @param[in] jsonObj - JSON object for the zone
-     *
-     * Sets the default floor value for the zone from the JSON configuration
-     * object
-     */
-    void setDefaultFloor(const json& jsonObj);
+    void setPowerOnTarget(const json& jsonObj);
 
     /**
      * @brief Parse and set the zone's decrease interval(in seconds)
