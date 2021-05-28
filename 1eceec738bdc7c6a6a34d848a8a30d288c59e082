@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f826b07_516cbce1",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-28T16:22:07Z",
+      "side": 1,
+      "message": "camelCase here too.",
+      "range": {
+        "startLine": 239,
+        "startChar": 15,
+        "endLine": 239,
+        "endChar": 51
+      },
+      "revId": "1eceec738bdc7c6a6a34d848a8a30d288c59e082",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "688f4eea_34eacde1",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-05-28T16:22:07Z",
+      "side": 1,
+      "message": "I think it might be a good idea to sneak a trace somewhere in here that says some sensors were detected going on/offline",
+      "revId": "1eceec738bdc7c6a6a34d848a8a30d288c59e082",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
