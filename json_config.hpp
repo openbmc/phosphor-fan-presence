@@ -46,6 +46,19 @@ class JsonConfig
     using ConfFileReadyFunc = std::function<void(const std::string&)>;
 
     /**
+     * @brief Get the objects with the compatible interface
+     *
+     * Retrieve all the objects implementing the compatible interface for
+     * configuration file loading.
+     */
+    static auto& getCompatObjs() __attribute__((pure))
+    {
+        static auto objects = util::SDBusPlus::getSubTreePathsRaw(
+            util::SDBusPlus::getBus(), "/", confCompatIntf, 0);
+        return objects;
+    }
+
+    /**
      * @brief Constructor
      *
      * Looks for the JSON config file.  If it can't find one, then it
@@ -185,8 +198,7 @@ class JsonConfig
         confFile.clear();
 
         // Get all objects implementing the compatible interface
-        auto objects =
-            util::SDBusPlus::getSubTreePathsRaw(bus, "/", confCompatIntf, 0);
+        auto objects = getCompatObjs();
         for (auto& path : objects)
         {
             try
