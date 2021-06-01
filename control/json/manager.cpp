@@ -90,15 +90,6 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
 
 void Manager::load()
 {
-    // TODO - Remove Manager JSON config support since it's not needed with init
-    // mode removed
-    auto confFile =
-        fan::JsonConfig::getConfFile(_bus, confAppName, confFileName, true);
-    if (!confFile.empty())
-    {
-        _jsonObj = fan::JsonConfig::load(confFile);
-    }
-
     // Load the available profiles and which are active
     setProfiles();
 
@@ -542,19 +533,6 @@ void Manager::handleSignal(sdbusplus::message::message& msg,
                           [](auto& action) { action.get()->run(); });
         }
     }
-}
-
-unsigned int Manager::getPowerOnDelay()
-{
-    auto powerOnDelay = 0;
-
-    // Parse optional "power_on_delay" from JSON object
-    if (!_jsonObj.empty() && _jsonObj.contains("power_on_delay"))
-    {
-        powerOnDelay = _jsonObj["power_on_delay"].get<unsigned int>();
-    }
-
-    return powerOnDelay;
 }
 
 void Manager::setProfiles()
