@@ -62,11 +62,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         std::bind(std::mem_fn(&Fan::presenceIfaceAdded), this,
                   std::placeholders::_1)),
     _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def)),
-    _countInterval(std::get<countIntervalField>(def)),
     _setFuncOnPresent(std::get<funcOnPresentField>(def))
 {
-    bool enableCountTimer = false;
-
     // Start from a known state of functional (even if
     // _numSensorFailsForNonFunc is 0)
     updateInventory(true);
@@ -81,26 +78,10 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
             std::get<targetInterfaceField>(s), std::get<factorField>(s),
             std::get<offsetField>(s), std::get<methodField>(def),
             std::get<thresholdField>(s), std::get<timeoutField>(def),
-            std::get<nonfuncRotorErrDelayField>(def), event));
+            std::get<nonfuncRotorErrDelayField>(def),
+            std::get<countIntervalField>(def), event));
 
         _trustManager->registerSensor(_sensors.back());
-        if (_sensors.back()->getMethod() == MethodMode::count)
-        {
-            enableCountTimer = true;
-        }
-    }
-
-    // If the error checking method will be 'count', then it needs a timer.
-    // The timer is repeating but is disabled immediately because it doesn't
-    // need to start yet.
-    if (enableCountTimer)
-    {
-        _countTimer = std::make_unique<
-            sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
-            event, std::bind(&Fan::countTimerExpired, this),
-            std::chrono::seconds(_countInterval));
-
-        _countTimer->setEnabled(false);
     }
 
 #ifndef MONITOR_USE_JSON
@@ -191,12 +172,6 @@ void Fan::startMonitor()
 {
     _monitorReady = true;
 
-    if (_countTimer)
-    {
-        _countTimer->resetRemaining();
-        _countTimer->setEnabled(true);
-    }
-
     std::for_each(_sensors.begin(), _sensors.end(), [this](auto& sensor) {
         if (_present)
         {
@@ -261,28 +236,22 @@ void Fan::tachChanged(TachSensor& sensor)
         }
     }
 
-    // If using the timebased method to determine functional status,
-    // check now, otherwise let _countTimer handle it.  A timer is
-    // used for the count method so that stuck sensors will continue
-    // to be checked.
-    if (sensor.getMethod() == MethodMode::timebased)
+    // If the error checking method is 'count', if a tach change leads
+    // to an out of range sensor the count timer will take over in calling
+    // process() until the sensor is healthy again.
+    if (!sensor.countTimerRunning())
     {
         process(sensor);
     }
 }
 
-void Fan::countTimerExpired()
+void Fan::countTimerExpired(TachSensor& sensor)
 {
-    // For sensors that use the 'count' method, time to check their
-    // status and increment/decrement counts as necessary.
-    for (auto& sensor : _sensors)
+    if (_trustManager->active() && !_trustManager->checkTrust(sensor))
     {
-        if (_trustManager->active() && !_trustManager->checkTrust(*sensor))
-        {
-            continue;
-        }
-        process(*sensor);
+        return;
     }
+    process(sensor);
 }
 
 void Fan::process(TachSensor& sensor)
@@ -304,6 +273,11 @@ void Fan::process(TachSensor& sensor)
                     sensor.startTimer(TimerMode::nonfunc);
                     break;
                 case MethodMode::count:
+
+                    if (!sensor.countTimerRunning())
+                    {
+                        sensor.startCountTimer();
+                    }
                     sensor.setCounter(true);
                     if (sensor.getCounter() >= sensor.getThreshold())
                     {
@@ -333,9 +307,14 @@ void Fan::process(TachSensor& sensor)
                 break;
             case MethodMode::count:
                 sensor.setCounter(false);
-                if (!sensor.functional() && sensor.getCounter() == 0)
+                if (sensor.getCounter() == 0)
                 {
-                    updateState(sensor);
+                    if (!sensor.functional())
+                    {
+                        updateState(sensor);
+                    }
+
+                    sensor.stopCountTimer();
                 }
                 break;
         }
@@ -573,12 +552,9 @@ void Fan::powerStateChanged(bool powerStateOn)
             {
                 sensor->stopTimer();
             }
-        });
 
-        if (_countTimer)
-        {
-            _countTimer->setEnabled(false);
-        }
+            sensor->stopCountTimer();
+        });
     }
 #endif
 }

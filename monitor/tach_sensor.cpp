@@ -73,14 +73,14 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                        const std::string& interface, double factor,
                        int64_t offset, size_t method, size_t threshold,
                        size_t timeout, const std::optional<size_t>& errorDelay,
-                       const sdeventplus::Event& event) :
+                       size_t countInterval, const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan), _name(FAN_SENSOR_PATH + id), _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget), _funcDelay(funcDelay), _interface(interface),
     _factor(factor), _offset(offset), _method(method), _threshold(threshold),
     _timeout(timeout), _timerMode(TimerMode::func),
     _timer(event, std::bind(&Fan::updateState, &fan, std::ref(*this))),
-    _errorDelay(errorDelay)
+    _errorDelay(errorDelay), _countInterval(countInterval)
 {
     // Start from a known state of functional
     setFunctional(true);
@@ -121,6 +121,14 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                 sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
                 event, std::bind(&Fan::sensorErrorTimerExpired, &fan,
                                  std::ref(*this)));
+        }
+
+        if (_method == MethodMode::count)
+        {
+            _countTimer = std::make_unique<
+                sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
+                event,
+                std::bind(&Fan::countTimerExpired, &fan, std::ref(*this)));
         }
 #ifndef MONITOR_USE_JSON
     }
@@ -300,6 +308,27 @@ void TachSensor::setCounter(bool count)
                     _name, _counter, _threshold)
                     .c_str());
         }
+    }
+}
+
+void TachSensor::startCountTimer()
+{
+    if (_countTimer)
+    {
+        log<level::DEBUG>(
+            fmt::format("Starting count timer on sensor {}", _name).c_str());
+        _countTimer->restart(std::chrono::seconds(_countInterval));
+    }
+}
+
+void TachSensor::stopCountTimer()
+{
+    if (_countTimer && _countTimer->isEnabled())
+    {
+        log<level::DEBUG>(
+            fmt::format("Stopping count timer on tach sensor {}.", _name)
+                .c_str());
+        _countTimer->setEnabled(false);
     }
 }
 
