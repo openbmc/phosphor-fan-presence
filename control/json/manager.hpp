@@ -404,14 +404,6 @@ class Manager
     }
 
     /**
-     * @brief Get the configured power on delay(OPTIONAL)
-     *
-     * @return Power on delay in seconds
-     *     Configured power on delay in seconds, otherwise 0
-     */
-    unsigned int getPowerOnDelay();
-
-    /**
      * @brief Is the power state on
      *
      * @return Current power state of the system
@@ -424,9 +416,6 @@ class Manager
   private:
     /* JSON file name for manager configuration attributes */
     static constexpr auto confFileName = "manager.json";
-
-    /* The parsed JSON object */
-    json _jsonObj;
 
     /**
      * The sdbusplus bus object to use
