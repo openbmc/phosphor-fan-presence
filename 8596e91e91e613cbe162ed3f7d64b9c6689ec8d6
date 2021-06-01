@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6615e0a7_3c30aed6",
+        "filename": "control/json/triggers/init.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-01T16:07:52Z",
+      "side": 1,
+      "message": "is converting to c_str() necessary? (asking  because I didn\u0027t do it in my first review but it tested out fine).",
+      "revId": "8596e91e91e613cbe162ed3f7d64b9c6689ec8d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
