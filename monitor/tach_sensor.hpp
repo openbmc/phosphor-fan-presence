@@ -98,6 +98,7 @@ class TachSensor
      * @param[in] timeout - Normal timeout value to use
      * @param[in] errorDelay - Delay in seconds before creating an error
      *                         or std::nullopt if no errors.
+     * @param[in] countInterval - In count mode interval
      *
      * @param[in] event - Event loop reference
      */
@@ -105,7 +106,7 @@ class TachSensor
                const std::string& id, bool hasTarget, size_t funcDelay,
                const std::string& interface, double factor, int64_t offset,
                size_t method, size_t threshold, size_t timeout,
-               const std::optional<size_t>& errorDelay,
+               const std::optional<size_t>& errorDelay, size_t countInterval,
                const sdeventplus::Event& event);
 
     /**
@@ -255,6 +256,26 @@ class TachSensor
                 .c_str());
         _timer.setEnabled(false);
     }
+
+    /**
+     * @brief Says if the count timer is running
+     *
+     * @return bool - If count timer running
+     */
+    inline bool countTimerRunning() const
+    {
+        return _countTimer && _countTimer->isEnabled();
+    }
+
+    /**
+     * @brief Stops the count timer
+     */
+    void stopCountTimer();
+
+    /**
+     * @brief Starts the count timer
+     */
+    void startCountTimer();
 
     /**
      * @brief Return the given timer mode's delay time
@@ -463,6 +484,20 @@ class TachSensor
     std::unique_ptr<
         sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
         _errorTimer;
+
+    /**
+     * @brief The interval, in seconds, to use for the timer that runs
+     *        the checks when using the 'count' method.
+     */
+    size_t _countInterval;
+
+    /**
+     * @brief The timer used by the 'count' method for determining
+     *        functional status.
+     */
+    std::unique_ptr<
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
+        _countTimer;
 };
 
 } // namespace monitor

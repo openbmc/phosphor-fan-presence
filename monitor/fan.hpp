@@ -179,8 +179,10 @@ class Fan
     /**
      * @brief Timer callback function that deals with sensors using
      *        the 'count' method for determining functional status.
+     *
+     * @param[in] sensor - TachSensor object
      */
-    void countTimerExpired();
+    void countTimerExpired(TachSensor& sensor);
 
   private:
     /**
@@ -326,20 +328,6 @@ class Fan
     std::unique_ptr<
         sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
         _fanMissingErrorTimer;
-
-    /**
-     * @brief The interval, in seconds, to use for the timer that runs
-     *        the checks for sensors using the 'count' method.
-     */
-    size_t _countInterval;
-
-    /**
-     * @brief The timer whose callback function handles the sensors
-     *        using the 'count' method for determining functional status.
-     */
-    std::unique_ptr<
-        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
-        _countTimer;
 
     /**
      * @brief If the fan and sensors should be set to functional when
