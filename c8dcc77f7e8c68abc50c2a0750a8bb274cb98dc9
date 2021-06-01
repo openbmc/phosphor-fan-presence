@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68d98474_62c54376",
+        "filename": "control/json/dbus_zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-01T18:45:55Z",
+      "side": 1,
+      "message": "value!\u003d current can be calculated first, isSupported only needs to be calculated if true.",
+      "revId": "c8dcc77f7e8c68abc50c2a0750a8bb274cb98dc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
