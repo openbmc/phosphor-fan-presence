@@ -46,6 +46,19 @@ class JsonConfig
     using ConfFileReadyFunc = std::function<void(const std::string&)>;
 
     /**
+     * @brief Get the object paths with the compatible interface
+     *
+     * Retrieve all the object paths implementing the compatible interface for
+     * configuration file loading.
+     */
+    static auto& getCompatObjPaths() __attribute__((pure))
+    {
+        static auto paths = util::SDBusPlus::getSubTreePathsRaw(
+            util::SDBusPlus::getBus(), "/", confCompatIntf, 0);
+        return paths;
+    }
+
+    /**
      * @brief Constructor
      *
      * Looks for the JSON config file.  If it can't find one, then it
@@ -184,10 +197,9 @@ class JsonConfig
         }
         confFile.clear();
 
-        // Get all objects implementing the compatible interface
-        auto objects =
-            util::SDBusPlus::getSubTreePathsRaw(bus, "/", confCompatIntf, 0);
-        for (auto& path : objects)
+        // Get all object paths implementing the compatible interface
+        auto paths = getCompatObjPaths();
+        for (auto& path : paths)
         {
             try
             {
@@ -217,7 +229,7 @@ class JsonConfig
             }
         }
 
-        if (!isOptional && confFile.empty() && !objects.empty())
+        if (!isOptional && confFile.empty() && !paths.empty())
         {
             log<level::ERR>(fmt::format("Could not find fan {} conf file {}",
                                         appName, fileName)
