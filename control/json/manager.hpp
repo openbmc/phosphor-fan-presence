@@ -25,7 +25,10 @@
 #include "sdbusplus.hpp"
 #include "zone.hpp"
 
+#include <fmt/format.h>
+
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
@@ -42,6 +45,7 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
+using namespace phosphor::logging;
 
 /* Application name to be appended to the path for loading a JSON config file */
 constexpr auto confAppName = "control";
@@ -203,6 +207,10 @@ class Manager
                     std::make_pair(obj->getName(), obj->getProfiles()),
                     std::move(obj));
             }
+            log<level::INFO>(
+                fmt::format("Configuration({}) loaded successfully",
+                            T::confFileName)
+                    .c_str());
         }
         return config;
     }
