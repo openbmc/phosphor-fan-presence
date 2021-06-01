@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe001064_65b12a89",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-01T16:36:46Z",
+      "side": 1,
+      "message": "In place of doing this, should poweron the chassis, verify that the sensor is updated to functional by fan monitor, the fan should stay nonfunctional until doing the next step to simulate a fan being removed \u0026 replugged.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 40
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fe57988_b529601c",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-01T16:36:46Z",
+      "side": 1,
+      "message": "Was there a reason to not call `updateInventory(false);` here?\n\nI believe we\u0027d want to update inventory to mark this fan FRU as nonfunctional upon creation if the number of nonfunctional sensors it contains is greater than or equal to the configured number of failed sensors for this fan to be nonfunc.",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 28
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cb9df84_a0f04113",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-01T16:36:46Z",
+      "side": 1,
+      "message": "To eliminate confusion, lets remove this since \"persistent\" could be take to refer to persisted storage on the BMC, which we\u0027re not doing here. We\u0027re reading the sensor\u0027s functional state from inventory on dbus. Inventory manager would set each sensor\u0027s functional state from persisted storage if it exists, otherwise the sensor would not exist in inventory on dbus.",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa56c66_af538e67",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-01T16:36:46Z",
+      "side": 1,
+      "message": "Looking at the code path of this call, we need to replace this with dealing with the raw responses from dbus in reading these properties since they may not exist in inventory on dbus (i.e. genesis poweron).\n\nMy suggestion would be to add a `getServiceRaw` method to the SDBusPlus class that is first called, then if the the service name returned from that is not empty, call `getProperty(bus, service, path, intf, prop)` directly. Then if the service name is empty or the getProperty call throws an exception (that we\u0027d catch here), default the sensor to functional \u003d false.",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 68
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
