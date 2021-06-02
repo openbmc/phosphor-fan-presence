@@ -16,6 +16,24 @@
       "revId": "673bab1a7322eedcca610a39a2f9a94067173041",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78ec7a8d_7289e3a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-02T15:43:17Z",
+      "side": 1,
+      "message": "Yes, I\u0027m in the process of adding the needed framework for fan control to load its config files after an interfacesAdded signal on the compatible interface if it isnt available when fan control starts.",
+      "parentUuid": "0df2f665_266af193",
+      "revId": "673bab1a7322eedcca610a39a2f9a94067173041",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
