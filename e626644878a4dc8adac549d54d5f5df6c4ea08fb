@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7a9658d0_3942de3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-03T13:57:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe001064_65b12a89",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 40
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fe57988_b529601c",
         "filename": "monitor/fan.cpp",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2fc97fe_89deddfe",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-03T13:57:12Z",
+      "side": 1,
+      "message": "It appeared to me that the only thing updateInventory() does (other than set that bool) is save off the inventory we just read in. I will change the code since there\u0027s probably another sequence I\u0027m not thinking of.",
+      "parentUuid": "9fe57988_b529601c",
+      "range": {
+        "startLine": 91,
+        "startChar": 8,
+        "endLine": 91,
+        "endChar": 28
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f49f53cc_1c751892",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-03T13:57:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6cb9df84_a0f04113",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 27
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efa56c66_af538e67",
         "filename": "monitor/tach_sensor.cpp",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0646649_836df141",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-03T13:57:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efa56c66_af538e67",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 68
+      },
+      "revId": "e626644878a4dc8adac549d54d5f5df6c4ea08fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
