@@ -16,6 +16,24 @@
       "revId": "f6196ff637d0df29bf2f1d66edefe2d86a4442e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8632edb_5d103d3d",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-09T15:42:04Z",
+      "side": 1,
+      "message": "See Matt B\u0027s comment from 8-Jun. He\u0027s saying inventory is a requirement for fan-monitor, so it may actually be desirable to bail with an unhandled exception.",
+      "parentUuid": "7e408e4f_62210f6b",
+      "revId": "f6196ff637d0df29bf2f1d66edefe2d86a4442e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
