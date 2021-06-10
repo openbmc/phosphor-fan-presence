@@ -29,6 +29,7 @@
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/server/manager.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
@@ -57,6 +58,7 @@ std::map<std::string,
 
 Manager::Manager(const sdeventplus::Event& event) :
     _bus(util::SDBusPlus::getBus()), _event(event),
+    _mgr(util::SDBusPlus::getBus(), CONTROL_OBJPATH),
     _powerState(std::make_unique<PGoodState>(
         util::SDBusPlus::getBus(),
         std::bind(std::mem_fn(&Manager::powerStateChanged), this,
