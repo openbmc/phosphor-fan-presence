@@ -16,6 +16,24 @@
       "revId": "c8dcc77f7e8c68abc50c2a0750a8bb274cb98dc9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cc6458e_5dfd9e8c",
+        "filename": "control/json/dbus_zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-10T21:37:21Z",
+      "side": 1,
+      "message": "Done\n\nI assume you\u0027re referring to swapping these checks.",
+      "parentUuid": "68d98474_62c54376",
+      "revId": "c8dcc77f7e8c68abc50c2a0750a8bb274cb98dc9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
