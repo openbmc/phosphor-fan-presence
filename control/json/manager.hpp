@@ -101,12 +101,11 @@ using SignalPkg = std::tuple<SignalHandler, SignalObject, SignalActions>;
 /**
  * Data associated to a subscribed signal
  * Tuple constructed of:
- *     std::unique_ptr<std::vector<SignalPkg>> =
- *         Pointer to the signal's packages
+ *     std::vector<SignalPkg> = List of the signal's packages
  *     std::unique_ptr<sdbusplus::server::match::match> =
  *         Pointer to match holding the subscription to a signal
  */
-using SignalData = std::tuple<std::unique_ptr<std::vector<SignalPkg>>,
+using SignalData = std::tuple<std::vector<SignalPkg>,
                               std::unique_ptr<sdbusplus::server::match::match>>;
 
 /**
@@ -402,7 +401,7 @@ class Manager
      * @param[in] pkgs - Signal packages associated to the signal being handled
      */
     void handleSignal(sdbusplus::message::message& msg,
-                      const std::vector<SignalPkg>* pkgs);
+                      const std::vector<SignalPkg>& pkgs);
 
     /**
      * @brief Get the sdbusplus bus object
