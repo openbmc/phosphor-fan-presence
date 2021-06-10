@@ -422,6 +422,16 @@ class Manager
         return _powerState->isPowerOn();
     }
 
+    /**
+     * @brief Load all the fan control JSON configuration files
+     *
+     * This is where all the fan control JSON configuration files are parsed and
+     * loaded into their associated objects. Anything that needs to be done when
+     * the Manager object is constructed or handling a SIGHUP to reload the
+     * configurations needs to be done here.
+     */
+    void load();
+
   private:
     /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
@@ -431,6 +441,9 @@ class Manager
 
     /* The sdbusplus manager object to set the ObjectManager interface */
     sdbusplus::server::manager::manager _mgr;
+
+    /* Whether loading the config files is allowed or not */
+    bool _loadAllowed;
 
     /* The system's power state determination object */
     std::unique_ptr<PowerState> _powerState;
@@ -464,16 +477,6 @@ class Manager
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
-
-    /**
-     * @brief Load all the fan control JSON configuration files
-     *
-     * This is where all the fan control JSON configuration files are parsed and
-     * loaded into their associated objects. Anything that needs to be done when
-     * the Manager object is constructed or handling a SIGHUP to reload the
-     * configurations needs to be done here.
-     */
-    void load();
 
     /**
      * @brief Callback for power state changes
