@@ -87,6 +87,27 @@ class JsonConfig
                       std::placeholders::_1));
         try
         {
+            auto compatObjPaths = getCompatObjPaths();
+            if (!compatObjPaths.empty())
+            {
+                for (auto& path : compatObjPaths)
+                {
+                    try
+                    {
+                        // Retrieve json config compatible relative path
+                        // locations (last one found will be what's used if more
+                        // than one dbus object implementing the comptaible
+                        // interface exists).
+                        _confCompatValues = util::SDBusPlus::getProperty<
+                            std::vector<std::string>>(bus, path, confCompatIntf,
+                                                      confCompatProp);
+                    }
+                    catch (const util::DBusError&)
+                    {
+                        // Property unavailable on this dbus object path.
+                    }
+                }
+            }
             _confFile = getConfFile(bus, _appName, _fileName);
         }
         catch (const std::runtime_error& e)
@@ -160,12 +181,12 @@ class JsonConfig
      * the json config file for the given fan application is used from the
      * following locations in order.
      * 1.) From the confOverridePath location
-     * 2.) From config file found using an entry from a list obtained from an
+     * 2.) From the default confBasePath location
+     * 3.) From config file found using an entry from a list obtained from an
      * interface's property as a relative path extension on the base path where:
      *     interface = Interface set in confCompatIntf with the property
      *     property = Property set in confCompatProp containing a list of
      *                subdirectories in priority order to find a config
-     * 3.) *DEFAULT* - From the confBasePath location
      *
      * @brief Get the configuration file to be used
      *
@@ -195,41 +216,45 @@ class JsonConfig
         {
             return confFile;
         }
-        confFile.clear();
 
-        // Get all object paths implementing the compatible interface
-        auto paths = getCompatObjPaths();
-        for (auto& path : paths)
+        // TODO - Will be removed in a following commit in place of using a
+        // constructor to populate the compatible values
+        auto compatObjPaths = getCompatObjPaths();
+        if (!compatObjPaths.empty())
         {
-            try
+            for (auto& path : compatObjPaths)
             {
-                // Retrieve json config compatible relative path locations
-                auto confCompatValue =
-                    util::SDBusPlus::getProperty<std::vector<std::string>>(
-                        bus, path, confCompatIntf, confCompatProp);
-                // Look for a config file at each entry relative to the base
-                // path and use the first one found
-                auto it = std::find_if(
-                    confCompatValue.begin(), confCompatValue.end(),
-                    [&confFile, &appName, &fileName](auto const& entry) {
-                        confFile =
-                            fs::path{confBasePath} / appName / entry / fileName;
-                        return fs::exists(confFile);
-                    });
-                if (it != confCompatValue.end())
+                try
                 {
-                    // Use the first config file found at a listed location
-                    break;
+                    // Retrieve json config compatible relative path
+                    // locations (last one found will be what's used if more
+                    // than one dbus object implementing the comptaible
+                    // interface exists).
+                    _confCompatValues =
+                        util::SDBusPlus::getProperty<std::vector<std::string>>(
+                            bus, path, confCompatIntf, confCompatProp);
                 }
-                confFile.clear();
-            }
-            catch (const util::DBusError&)
-            {
-                // Property unavailable on object.
+                catch (const util::DBusError&)
+                {
+                    // Property unavailable on this dbus object path.
+                }
             }
         }
 
-        if (!isOptional && confFile.empty() && !paths.empty())
+        // Look for a config file at each entry relative to the base
+        // path and use the first one found
+        auto it = std::find_if(
+            _confCompatValues.begin(), _confCompatValues.end(),
+            [&confFile, &appName, &fileName](const auto& value) {
+                confFile = fs::path{confBasePath} / appName / value / fileName;
+                return fs::exists(confFile);
+            });
+        if (it == _confCompatValues.end())
+        {
+            confFile.clear();
+        }
+
+        if (!isOptional && confFile.empty() && !_confCompatValues.empty())
         {
             log<level::ERR>(fmt::format("Could not find fan {} conf file {}",
                                         appName, fileName)
@@ -321,6 +346,15 @@ class JsonConfig
      *        for the IBMCompatibleSystem interface to show up.
      */
     std::unique_ptr<sdbusplus::server::match::match> _match;
+
+    /**
+     * @brief List of compatible values from the compatible interface
+     *
+     * Only supports a single instance of the compatible interface on a dbus
+     * object. If more than one dbus object exists with the compatible
+     * interface, the last one found will be the list of compatible values used.
+     */
+    inline static std::vector<std::string> _confCompatValues;
 };
 
 } // namespace phosphor::fan
