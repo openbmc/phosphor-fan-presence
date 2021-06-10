@@ -112,6 +112,64 @@ class Gpio : public PresenceSensor
     std::optional<sdeventplus::source::IO> source;
 };
 
+/**
+ * @class NullGpio
+ * @brief a phony presence sensor implementation that always
+ *        reports not-present. Used to keep fan-presence service
+ *        running when hardware is offline.
+ *
+ */
+class NullGpio : public PresenceSensor
+{
+  public:
+    NullGpio() = default;
+
+    /**
+     * @brief start
+     *
+     * Required to conform to interface
+     *
+     * @return false [dummy implementation]
+     */
+    bool start() override
+    {
+        return false;
+    }
+
+    /**
+     * @brief stop
+     *
+     * Required to conform to interface
+     */
+    void stop() override
+    {}
+
+    /**
+     * @brief Check the sensor.
+     *
+     * @return false [dummy implementation]
+     */
+    bool present() override
+    {
+        return false;
+    }
+
+    /**
+     * @brief Called when this presence sensor doesn't agree with other ones.
+     *
+     * @param[in] fanInventoryPath - The fan inventory D-Bus object path.
+     */
+    void logConflict(const std::string& fanInventoryPath) const override
+    {}
+
+  private:
+    /**
+     * @brief Required toicy associated with this sensor.
+     *  Required to conform to interface
+     */
+    virtual RedundancyPolicy& getPolicy() = 0;
+};
+
 } // namespace presence
 } // namespace fan
 } // namespace phosphor
