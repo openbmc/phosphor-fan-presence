@@ -36,6 +36,7 @@ using namespace phosphor::logging;
 
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence";
+constexpr auto confCompatServ = "xyz.openbmc_project.EntityManager";
 constexpr auto confCompatIntf =
     "xyz.openbmc_project.Configuration.IBMCompatibleSystem";
 constexpr auto confCompatProp = "Names";
@@ -124,6 +125,76 @@ class JsonConfig
     }
 
     /**
+     * @brief Constructor
+     *
+     * Attempts to set the list of compatible values from the compatible
+     * interface and call the fan app's function to load its config file(s). If
+     * the compatible interface is not found, it subscribes to the
+     * interfacesAdded signal for that interface on the compatible service
+     * defined above.
+     *
+     * @param[in] func - Fan app function to call to load its config file(s)
+     */
+    JsonConfig(std::function<void()> func) : _loadFunc(func)
+    {
+        _match = std::make_unique<sdbusplus::server::match::match>(
+            util::SDBusPlus::getBus(),
+            sdbusplus::bus::match::rules::interfacesAdded() +
+                sdbusplus::bus::match::rules::sender(confCompatServ),
+            std::bind(&JsonConfig::compatIntfAdded, this,
+                      std::placeholders::_1));
+        try
+        {
+            auto compatObjPaths = getCompatObjPaths();
+            if (!compatObjPaths.empty())
+            {
+                for (auto& path : compatObjPaths)
+                {
+                    try
+                    {
+                        // Retrieve json config compatible relative path
+                        // locations (last one found will be what's used if more
+                        // than one dbus object implementing the comptaible
+                        // interface exists).
+                        _confCompatValues = util::SDBusPlus::getProperty<
+                            std::vector<std::string>>(util::SDBusPlus::getBus(),
+                                                      path, confCompatIntf,
+                                                      confCompatProp);
+                    }
+                    catch (const util::DBusError&)
+                    {
+                        // Compatible property unavailable on this dbus object
+                        // path's compatible interface, ignore
+                    }
+                }
+                _loadFunc();
+                _match.reset();
+            }
+            else
+            {
+                // Check if required config(s) are found not needing the
+                // compatible interface, otherwise this is intended to catch the
+                // exception thrown by the getConfFile function when the
+                // required config file was not found. This would then result in
+                // waiting for the compatible interfacesAdded signal
+                try
+                {
+                    _loadFunc();
+                    _match.reset();
+                }
+                catch (const std::runtime_error&)
+                {
+                    // Wait for compatible interfacesAdded signal
+                }
+            }
+        }
+        catch (const std::runtime_error&)
+        {
+            // Wait for compatible interfacesAdded signal
+        }
+    }
+
+    /**
      * @brief The interfacesAdded callback function that looks for
      *        the IBMCompatibleSystem interface.  If it finds it,
      *        it uses the Names property in the interface to find
@@ -174,6 +245,37 @@ class JsonConfig
                                         _appName, _fileName, confCompatIntf)
                                 .c_str());
         }
+    }
+
+    /**
+     * @brief InterfacesAdded callback function for the compatible interface.
+     *
+     * @param[in] msg - The D-Bus message contents
+     *
+     * If the compatible interface is found, it uses the compatible property on
+     * the interface to set the list of compatible values to be used when
+     * attempting to get a configuration file. Once the list of compatible
+     * values has been updated, it calls the load function.
+     */
+    void compatIntfAdded(sdbusplus::message::message& msg)
+    {
+        sdbusplus::message::object_path op;
+        std::map<std::string,
+                 std::map<std::string, std::variant<std::vector<std::string>>>>
+            intfProps;
+
+        msg.read(op, intfProps);
+
+        if (intfProps.find(confCompatIntf) == intfProps.end())
+        {
+            return;
+        }
+
+        const auto& props = intfProps.at(confCompatIntf);
+        // Only one dbus object with the compatible interface is used at a time
+        _confCompatValues =
+            std::get<std::vector<std::string>>(props.at(confCompatProp));
+        _loadFunc();
     }
 
     /**
@@ -335,6 +437,9 @@ class JsonConfig
      * @brief The function to call when the config file is available.
      */
     ConfFileReadyFunc _readyFunc;
+
+    /* Load function to call for a fan app to load its config file(s). */
+    std::function<void()> _loadFunc;
 
     /**
      * @brief The JSON config file
