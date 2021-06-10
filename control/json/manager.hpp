@@ -30,6 +30,7 @@
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include <sdbusplus/server/manager.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
@@ -422,15 +423,14 @@ class Manager
     }
 
   private:
-    /**
-     * The sdbusplus bus object to use
-     */
+    /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
 
-    /**
-     * The sdeventplus even loop to use
-     */
+    /* The sdeventplus even loop to use */
     sdeventplus::Event _event;
+
+    /* The sdbusplus manager object to set the ObjectManager interface */
+    sdbusplus::server::manager::manager _mgr;
 
     /* The system's power state determination object */
     std::unique_ptr<PowerState> _powerState;
