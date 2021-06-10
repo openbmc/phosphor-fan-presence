@@ -22,6 +22,30 @@
       "revId": "05a4883c4423f419482fca7771fad370f7eefab7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba2e7976_45adbae5",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-10T20:52:51Z",
+      "side": 1,
+      "message": "No reason other than residual use from what was done in the YAML based way of handling signals.\n\nUpdated -\u003e https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/43982",
+      "parentUuid": "14bf9195_947361a4",
+      "range": {
+        "startLine": 315,
+        "startChar": 50,
+        "endLine": 315,
+        "endChar": 51
+      },
+      "revId": "05a4883c4423f419482fca7771fad370f7eefab7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
