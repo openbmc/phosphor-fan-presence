@@ -526,9 +526,9 @@ void Manager::timerExpired(TimerData& data)
 }
 
 void Manager::handleSignal(sdbusplus::message::message& msg,
-                           const std::vector<SignalPkg>* pkgs)
+                           const std::vector<SignalPkg>& pkgs)
 {
-    for (auto& pkg : *pkgs)
+    for (auto& pkg : pkgs)
     {
         // Handle the signal callback and only run the actions if the handler
         // updated the cache for the given SignalObject
