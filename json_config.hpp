@@ -319,30 +319,6 @@ class JsonConfig
             return confFile;
         }
 
-        // TODO - Will be removed in a following commit in place of using a
-        // constructor to populate the compatible values
-        auto compatObjPaths = getCompatObjPaths();
-        if (!compatObjPaths.empty())
-        {
-            for (auto& path : compatObjPaths)
-            {
-                try
-                {
-                    // Retrieve json config compatible relative path
-                    // locations (last one found will be what's used if more
-                    // than one dbus object implementing the comptaible
-                    // interface exists).
-                    _confCompatValues =
-                        util::SDBusPlus::getProperty<std::vector<std::string>>(
-                            bus, path, confCompatIntf, confCompatProp);
-                }
-                catch (const util::DBusError&)
-                {
-                    // Property unavailable on this dbus object path.
-                }
-            }
-        }
-
         // Look for a config file at each entry relative to the base
         // path and use the first one found
         auto it = std::find_if(
