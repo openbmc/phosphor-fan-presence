@@ -264,8 +264,18 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
     auto devpath = method["devpath"].get<std::string>();
     auto key = method["key"].get<unsigned int>();
 
-    return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(fanIndex, physpath,
-                                                            devpath, key);
+    try
+    {
+        return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(
+            fanIndex, physpath, devpath, key);
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        log<level::ERR>(
+            "Error creating Gpio device bridge, hardware not detected:",
+            entry("msg=%s", e.what()));
+        elog<InternalFailure>();
+    }
 }
 
 } // namespace method
