@@ -25,6 +25,8 @@
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+#include <xyz/openbmc_project/Logging/Create/server.hpp>
+#include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
 #include <filesystem>
 #include <fstream>
@@ -46,6 +48,9 @@ const std::map<std::string, methodHandler> JsonConfig::_methods = {
     {"tach", method::getTach}, {"gpio", method::getGpio}};
 const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
     {"anyof", rpolicy::getAnyof}, {"fallback", rpolicy::getFallback}};
+
+const auto loggingPath = "/xyz/openbmc_project/logging";
+const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
 {}
@@ -264,8 +269,45 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
     auto devpath = method["devpath"].get<std::string>();
     auto key = method["key"].get<unsigned int>();
 
-    return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(fanIndex, physpath,
-                                                            devpath, key);
+    try
+    {
+        return std::make_unique<PolicyAccess<Gpio, JsonConfig>>(
+            fanIndex, physpath, devpath, key);
+    }
+    catch (const sdbusplus::exception_t& e)
+    {
+        namespace sdlogging = sdbusplus::xyz::openbmc_project::Logging::server;
+
+        log<level::ERR>(
+            "Error creating Gpio device bridge, hardware not detected:",
+            entry("MSG=%s", e.what()));
+
+        auto severity =
+            sdlogging::convertForMessage(sdlogging::Entry::Level::Error);
+
+        std::map<std::string, std::string> additionalData{
+            {"PHYSPATH", method["physpath"]},
+            {"DEVPATH", method["devpath"]},
+            {"FANINDEX", std::to_string(fanIndex)}};
+
+        try
+        {
+
+            util::SDBusPlus::lookupAndCallMethod(
+                loggingPath, loggingCreateIface, "Create",
+                "xyz.openbmc_project.Fan.Presence.Error.GPIODeviceUnavailable",
+                severity, additionalData);
+        }
+        catch (const util::DBusError& e)
+        {
+            log<level::ERR>(fmt::format("Call to create an error log for "
+                                        "presence-sensor failure failed: {}",
+                                        e.what())
+                                .c_str());
+        }
+
+        return std::make_unique<PolicyAccess<NullGpio, JsonConfig>>();
+    }
 }
 
 } // namespace method
