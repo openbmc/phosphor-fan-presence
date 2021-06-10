@@ -71,6 +71,10 @@ int main(int argc, char* argv[])
 #ifdef CONTROL_USE_JSON
         json::Manager manager(event);
 
+        // Handle loading fan control's config file(s)
+        phosphor::fan::JsonConfig config(
+            std::bind(&json::Manager::load, &manager));
+
         // Enable SIGHUP handling to reload JSON configs
         stdplus::signal::block(SIGHUP);
         sdeventplus::source::Signal signal(

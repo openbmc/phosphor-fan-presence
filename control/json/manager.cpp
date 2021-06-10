@@ -58,14 +58,12 @@ std::map<std::string,
 
 Manager::Manager(const sdeventplus::Event& event) :
     _bus(util::SDBusPlus::getBus()), _event(event),
-    _mgr(util::SDBusPlus::getBus(), CONTROL_OBJPATH),
+    _mgr(util::SDBusPlus::getBus(), CONTROL_OBJPATH), _loadAllowed(true),
     _powerState(std::make_unique<PGoodState>(
         util::SDBusPlus::getBus(),
         std::bind(std::mem_fn(&Manager::powerStateChanged), this,
                   std::placeholders::_1)))
-{
-    load();
-}
+{}
 
 void Manager::sighupHandler(sdeventplus::source::Signal&,
                             const struct signalfd_siginfo*)
@@ -78,11 +76,13 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
 
     try
     {
+        _loadAllowed = true;
         load();
     }
     catch (std::runtime_error& re)
     {
         // Restore saved available and active profiles
+        _loadAllowed = false;
         _profiles.swap(profiles);
         _activeProfiles.swap(activeProfiles);
         log<level::ERR>("Error reloading configs, no changes made",
@@ -92,51 +92,57 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
 
 void Manager::load()
 {
-    // Load the available profiles and which are active
-    setProfiles();
-
-    // Load the zone configurations
-    auto zones = getConfig<Zone>(false, _event, this);
-    // Load the fan configurations and move each fan into its zone
-    auto fans = getConfig<Fan>(false);
-    for (auto& fan : fans)
+    if (_loadAllowed)
     {
-        configKey fanProfile =
-            std::make_pair(fan.second->getZone(), fan.first.second);
-        auto itZone = std::find_if(
-            zones.begin(), zones.end(), [&fanProfile](const auto& zone) {
-                return Manager::inConfig(fanProfile, zone.first);
-            });
-        if (itZone != zones.end())
+        // Load the available profiles and which are active
+        setProfiles();
+
+        // Load the zone configurations
+        auto zones = getConfig<Zone>(false, _event, this);
+        // Load the fan configurations and move each fan into its zone
+        auto fans = getConfig<Fan>(false);
+        for (auto& fan : fans)
         {
-            if (itZone->second->getTarget() != fan.second->getTarget() &&
-                fan.second->getTarget() != 0)
+            configKey fanProfile =
+                std::make_pair(fan.second->getZone(), fan.first.second);
+            auto itZone = std::find_if(
+                zones.begin(), zones.end(), [&fanProfile](const auto& zone) {
+                    return Manager::inConfig(fanProfile, zone.first);
+                });
+            if (itZone != zones.end())
             {
-                // Update zone target to current target of the fan in the
-                // zone
-                itZone->second->setTarget(fan.second->getTarget());
+                if (itZone->second->getTarget() != fan.second->getTarget() &&
+                    fan.second->getTarget() != 0)
+                {
+                    // Update zone target to current target of the fan in the
+                    // zone
+                    itZone->second->setTarget(fan.second->getTarget());
+                }
+                itZone->second->addFan(std::move(fan.second));
             }
-            itZone->second->addFan(std::move(fan.second));
         }
+
+        // Load any events configured
+        auto events = getConfig<Event>(true, this, zones);
+
+        // Enable zones
+        _zones = std::move(zones);
+        std::for_each(_zones.begin(), _zones.end(),
+                      [](const auto& entry) { entry.second->enable(); });
+
+        // Clear current timers and signal subscriptions before enabling events
+        // To save reloading services and/or objects into cache, do not clear
+        // cache
+        _timers.clear();
+        _signals.clear();
+
+        // Enable events
+        _events = std::move(events);
+        std::for_each(_events.begin(), _events.end(),
+                      [](const auto& entry) { entry.second->enable(); });
+
+        _loadAllowed = false;
     }
-
-    // Load any events configured
-    auto events = getConfig<Event>(true, this, zones);
-
-    // Enable zones
-    _zones = std::move(zones);
-    std::for_each(_zones.begin(), _zones.end(),
-                  [](const auto& entry) { entry.second->enable(); });
-
-    // Clear current timers and signal subscriptions before enabling events
-    // To save reloading services and/or objects into cache, do not clear cache
-    _timers.clear();
-    _signals.clear();
-
-    // Enable events
-    _events = std::move(events);
-    std::for_each(_events.begin(), _events.end(),
-                  [](const auto& entry) { entry.second->enable(); });
 }
 
 void Manager::powerStateChanged(bool powerStateOn)
