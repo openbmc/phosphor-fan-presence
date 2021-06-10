@@ -34,6 +34,24 @@
       "revId": "48b2bc3a1c69247149a917cb704e122fbcc32bc6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab9e858_6f6b8ef3",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-10T17:49:30Z",
+      "side": 1,
+      "message": "Just out of curiosity, since this wraps the entire creation of the GPIO object with a try/catch would we be catching exceptions that we should instead crash from here or can this try/catch be moved into the GPIO object to isolate more on the evdev function that\u0027s throwing it?\n\nAlso, I dont see where it is defaulting this detection method to `not present` due to the exception?... Since we\u0027re catching this and staying up, we\u0027d want to log that unique event log and then set this GPIO detection method to `not present`.",
+      "parentUuid": "a0d66307_fa9d791e",
+      "revId": "48b2bc3a1c69247149a917cb704e122fbcc32bc6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
