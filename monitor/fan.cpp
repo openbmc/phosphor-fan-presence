@@ -477,39 +477,45 @@ void Fan::powerStateChanged(bool powerStateOn)
     {
         _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
 
+        _numSensorsOnDBusAtPowerOn = 0;
+
+        std::for_each(_sensors.begin(), _sensors.end(), [this](auto& sensor) {
+            try
+            {
+                // Force a getProperty call.  If sensor is on D-Bus,
+                // then make sure it's functional.
+                sensor->updateTachAndTarget();
+
+                _numSensorsOnDBusAtPowerOn++;
+
+                if (_present)
+                {
+                    // If not functional, set it back to functional.
+                    if (!sensor->functional())
+                    {
+                        sensor->setFunctional(true);
+                        _system.fanStatusChange(*this, true);
+                    }
+
+                    // Set the counters back to zero
+                    if (sensor->getMethod() == MethodMode::count)
+                    {
+                        sensor->resetMethod();
+                    }
+                }
+            }
+            catch (const util::DBusServiceError& e)
+            {
+                // Properties still aren't on D-Bus.  Let startMonitor()
+                // deal with it.
+                getLogger().log(fmt::format(
+                    "At power on, tach sensor {} value not on D-Bus",
+                    sensor->name()));
+            }
+        });
+
         if (_present)
         {
-            std::for_each(
-                _sensors.begin(), _sensors.end(), [this](auto& sensor) {
-                    try
-                    {
-                        // Force a getProperty call.  If sensor is on D-Bus,
-                        // then make sure it's functional.
-                        sensor->updateTachAndTarget();
-
-                        // If not functional, set it back to functional.
-                        if (!sensor->functional())
-                        {
-                            sensor->setFunctional(true);
-                            _system.fanStatusChange(*this, true);
-                        }
-
-                        // Set the counters back to zero
-                        if (sensor->getMethod() == MethodMode::count)
-                        {
-                            sensor->resetMethod();
-                        }
-                    }
-                    catch (const util::DBusServiceError& e)
-                    {
-                        // Properties still aren't on D-Bus.  Let startMonitor()
-                        // deal with it.
-                        getLogger().log(fmt::format(
-                            "At power on, tach sensor {} value not on D-Bus",
-                            sensor->name()));
-                    }
-                });
-
             // If configured to change functional state on the fan itself,
             // Set it back to true now if necessary.
             if (_numSensorFailsForNonFunc)
