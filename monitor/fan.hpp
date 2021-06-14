@@ -184,6 +184,15 @@ class Fan
      */
     void countTimerExpired(TachSensor& sensor);
 
+    /**
+     * @brief Returns the number of tach sensors (Sensor.Value ifaces)
+     *        on D-Bus at the last power on.
+     */
+    inline size_t numSensorsOnDBusAtPowerOn() const
+    {
+        return _numSensorsOnDBusAtPowerOn;
+    }
+
   private:
     /**
      * @brief Returns true if the sensor input is not within
@@ -334,6 +343,14 @@ class Fan
      *        a fan plug is detected.
      */
     bool _setFuncOnPresent;
+
+    /**
+     * @brief The number of sensors that have their Sensor.Value interfaces
+     *        on D-Bus at the last power on.
+     *
+     * Will be zero until the power turns on the first time.
+     */
+    size_t _numSensorsOnDBusAtPowerOn = 0;
 };
 
 } // namespace monitor

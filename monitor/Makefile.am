@@ -19,6 +19,7 @@ phosphor_fan_monitor_SOURCES = \
 	argument.cpp \
 	fan.cpp \
 	fan_error.cpp \
+	../hwmon_ffdc.cpp \
 	power_interface.cpp \
 	logging.cpp \
 	main.cpp \

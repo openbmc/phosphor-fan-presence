@@ -26,6 +26,8 @@
 
 #include "config.h"
 
+#include "hwmon_ffdc.hpp"
+
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -209,6 +211,16 @@ void System::powerStateChanged(bool powerStateOn)
             throw std::runtime_error("No conf file found at power on");
         }
 
+        // If no fan has its sensors on D-Bus, then there is a problem
+        // with the fan controller.  Log an error and shut down.
+        if (std::all_of(_fans.begin(), _fans.end(), [](const auto& fan) {
+                return fan->numSensorsOnDBusAtPowerOn() == 0;
+            }))
+        {
+            handleOfflineFanController();
+            return;
+        }
+
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
                           rule->check(PowerRuleState::atPgood, _fanHealth);
@@ -324,6 +336,20 @@ json System::captureSensorData()
     }
 
     return data;
+}
+
+void System::handleOfflineFanController()
+{
+    getLogger().log("The fan controller appears to be offline.  Shutting down.",
+                    Logger::error);
+
+    auto ffdc = collectHwmonFFDC();
+
+    FanError error{"xyz.openbmc_project.Fan.Error.FanControllerOffline",
+                   Severity::Critical};
+    error.commit(ffdc, true);
+
+    PowerInterface::executeHardPowerOff();
 }
 
 } // namespace phosphor::fan::monitor

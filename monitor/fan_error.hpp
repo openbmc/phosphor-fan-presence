@@ -105,6 +105,24 @@ class FanError
     {}
 
     /**
+     * @brief Constructor
+     *
+     * This version doesn't take a fan or sensor name.
+     *
+     * @param[in] error - The error name, like
+     *                    xyz.openbmc_project.Fan.Error.Fault
+     * @param[in] severity - The severity of the error
+     */
+    FanError(const std::string& error,
+             sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level
+                 severity) :
+        _errorName(error),
+        _severity(
+            sdbusplus::xyz::openbmc_project::Logging::server::convertForMessage(
+                severity))
+    {}
+
+    /**
      * @brief Commits the error by calling the D-Bus method to create
      *        the event log.
      *

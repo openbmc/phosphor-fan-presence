@@ -229,6 +229,11 @@ class System
      * @param[in] jsonObj - JSON object to parse from
      */
     void setFaultConfig(const json& jsonObj);
+
+    /**
+     * @brief Log an error and shut down due to an offline fan controller
+     */
+    void handleOfflineFanController();
 };
 
 } // namespace phosphor::fan::monitor

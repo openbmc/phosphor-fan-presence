@@ -83,6 +83,14 @@ class PowerInterface : public PowerInterfaceBase
         _alert.enabled(alert);
     }
 
+    /**
+     * @brief Calls the D-Bus method to execute the hard power off.
+     *
+     * A static function so this can be used by code that doesn't
+     * want to create a PowerInterface object.
+     */
+    static void executeHardPowerOff();
+
   private:
     /**
      * @brief Reference to the thermal alert D-Bus object

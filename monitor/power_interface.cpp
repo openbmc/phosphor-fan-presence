@@ -31,11 +31,16 @@ void PowerInterface::softPowerOff()
                                 "replace");
 }
 
-void PowerInterface::hardPowerOff()
+void PowerInterface::executeHardPowerOff()
 {
     util::SDBusPlus::callMethod(
         systemdService, systemdPath, systemdMgrIface, "StartUnit",
         "obmc-chassis-hard-poweroff@0.target", "replace");
+}
+
+void PowerInterface::hardPowerOff()
+{
+    executeHardPowerOff();
 }
 
 } // namespace phosphor::fan::monitor
