@@ -97,7 +97,11 @@ std::map<std::string, std::string>
     std::map<std::string, std::string> ad;
 
     ad.emplace("_PID", std::to_string(getpid()));
-    ad.emplace("CALLOUT_INVENTORY_PATH", _fanName);
+
+    if (!_fanName.empty())
+    {
+        ad.emplace("CALLOUT_INVENTORY_PATH", _fanName);
+    }
 
     if (!_sensorName.empty())
     {
