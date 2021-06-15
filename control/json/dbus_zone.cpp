@@ -85,8 +85,14 @@ void DBusZone::restoreCurrentMode()
     }
     catch (std::exception& e)
     {
-        log<level::ERR>(e.what());
-        fs::remove(path);
+        // Include possible exception when removing file, otherwise ec = 0
+        std::error_code ec;
+        fs::remove(path, ec);
+        log<level::ERR>(
+            fmt::format("Unable to restore persisted `Current` thermal mode "
+                        "property ({}, ec: {})",
+                        e.what(), ec)
+                .c_str());
         current = ThermalModeIntf::current();
     }
 
