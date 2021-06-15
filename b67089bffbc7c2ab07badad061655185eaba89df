@@ -16,6 +16,24 @@
       "revId": "b67089bffbc7c2ab07badad061655185eaba89df",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d1d2a48_6c043257",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-15T21:39:44Z",
+      "side": 1,
+      "message": "The constructor is where the populating of the list of compatible values will occur, but until the next commit where the constructor populates the values it has to temporarily done here since this is how fan control gets its configs until switched over to construct its own JsonConfig object.\n\nThe temporary part of this commit is removed in https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/43977",
+      "parentUuid": "1341c67f_947b5abe",
+      "revId": "b67089bffbc7c2ab07badad061655185eaba89df",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
