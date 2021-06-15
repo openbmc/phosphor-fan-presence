@@ -16,6 +16,24 @@
       "revId": "436919a810832ab01909ea63d21bd938f1552bc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "752a0a51_9032d7c5",
+        "filename": "json_config.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-15T21:31:08Z",
+      "side": 1,
+      "message": "Correct, I\u0027ll be updating the other fan apps to use this constructor in place of passing the config file since they\u0027d be able to call getConfFile without performing any additional lookups now.\n\nEssentially for fan monitor and fan presence, there\u0027s no functional change in the end but this structure was necessary for fan control since it uses more than a single config file.",
+      "parentUuid": "5ddc7493_17bd8b00",
+      "revId": "436919a810832ab01909ea63d21bd938f1552bc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
