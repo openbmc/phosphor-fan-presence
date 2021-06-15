@@ -16,6 +16,24 @@
       "revId": "279183fe466bcb40d9f8b274a549f41a8546b8b1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0eec9763_b0ef0d08",
+        "filename": "control/json/dbus_zone.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-15T18:55:18Z",
+      "side": 1,
+      "message": "Done\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/44100",
+      "parentUuid": "40a90cd0_e0914516",
+      "revId": "279183fe466bcb40d9f8b274a549f41a8546b8b1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
