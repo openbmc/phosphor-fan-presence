@@ -75,6 +75,30 @@
       "revId": "436919a810832ab01909ea63d21bd938f1552bc8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d8a4dd4_6597da95",
+        "filename": "json_config.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-06-16T14:58:18Z",
+      "side": 1,
+      "message": "Done\n\nBasically, yes..its actually calling loadFunc in case loadFunc finds a config file from either the override or default locations where the compat interface is not used. When any required config file is not found at those locations nor the compat interface is available yet by calling loadFunc, loadFunc throws an exception (which would be the exception thrown in getConfFile() below).",
+      "parentUuid": "c81505ff_6390cbb1",
+      "range": {
+        "startLine": 178,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 35
+      },
+      "revId": "436919a810832ab01909ea63d21bd938f1552bc8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
