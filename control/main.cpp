@@ -84,9 +84,6 @@ int main(int argc, char* argv[])
                       std::placeholders::_1, std::placeholders::_2));
 
         phosphor::fan::util::SDBusPlus::getBus().request_name(CONTROL_BUSNAME);
-
-        // TODO - Set power state to on until fan control services updated
-        manager.powerStateChanged(true);
 #else
         Manager manager(phosphor::fan::util::SDBusPlus::getBus(), event, mode);
 
