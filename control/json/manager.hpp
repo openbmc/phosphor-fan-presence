@@ -431,17 +431,6 @@ class Manager
      */
     void load();
 
-    // TODO - Set power state to on until fan control services updated
-    /**
-     * @brief Callback for power state changes
-     *
-     * @param[in] powerStateOn - Whether the power state is on or not
-     *
-     * Callback function bound to the PowerState object instance to handle each
-     * time the power state changes.
-     */
-    void powerStateChanged(bool powerStateOn);
-
   private:
     /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
@@ -487,6 +476,16 @@ class Manager
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
+
+    /**
+     * @brief Callback for power state changes
+     *
+     * @param[in] powerStateOn - Whether the power state is on or not
+     *
+     * Callback function bound to the PowerState object instance to handle each
+     * time the power state changes.
+     */
+    void powerStateChanged(bool powerStateOn);
 
     /**
      * @brief Find the service name for a given path and interface from the
