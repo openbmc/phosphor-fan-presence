@@ -4,6 +4,17 @@ AM_CPPFLAGS = -iquote ${top_srcdir} \
 	-I${srcdir}/json/actions \
 	-I${srcdir}/json/triggers
 
+systemdsystemunit_DATA=
+
+if WANT_JSON_CONTROL
+systemdsystemunit_DATA += \
+	service_files/json/phosphor-fan-control@.service
+else
+systemdsystemunit_DATA += \
+	service_files/yaml/phosphor-fan-control@.service \
+	service_files/yaml/phosphor-fan-control-init@.service
+endif
+
 bin_PROGRAMS = \
 	phosphor-fan-control
 

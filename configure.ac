@@ -161,6 +161,7 @@ AS_IF([test "x$enable_control" != "xno"], [
         # Set config flag for runtime json usage
         AC_DEFINE([CONTROL_USE_JSON], [1], [Fan control use runtime json configuration])
         AC_MSG_NOTICE([Fan control json configuration usage enabled])
+        AC_CONFIG_FILES([control/service_files/json/phosphor-fan-control@.service])
     ],
     [
         # Add optional yaml file arguments
@@ -198,6 +199,9 @@ AS_IF([test "x$enable_control" != "xno"], [
                       -z $FAN_ZONE_YAML_FILE \
                       -e $ZONE_EVENTS_YAML_FILE \
                       -c $ZONE_CONDITIONS_YAML_FILE"])
+
+        AC_CONFIG_FILES([control/service_files/yaml/phosphor-fan-control-init@.service
+                         control/service_files/yaml/phosphor-fan-control@.service])
     ])
     AC_CONFIG_FILES([control/Makefile])
 ])
