@@ -16,6 +16,98 @@
       "revId": "54efd23f9921b35cc998f6aebb5361c5cc294efc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d412a1be_3e5463e7",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T15:43:46Z",
+      "side": 1,
+      "message": "this needs to be uppercase (because it gets turned into journal metadata)",
+      "range": {
+        "startLine": 283,
+        "startChar": 19,
+        "endLine": 283,
+        "endChar": 22
+      },
+      "revId": "54efd23f9921b35cc998f6aebb5361c5cc294efc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bae0d37_6addae5d",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T15:43:46Z",
+      "side": 1,
+      "message": "can you make this all uppercase?  \n\nAll, may as well add the physpath and devpath (or whichever one has the I2C bus/address in it)",
+      "range": {
+        "startLine": 293,
+        "startChar": 14,
+        "endLine": 293,
+        "endChar": 22
+      },
+      "revId": "54efd23f9921b35cc998f6aebb5361c5cc294efc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e14d3eb9_09fdf69e",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T15:43:46Z",
+      "side": 1,
+      "message": "it\u0027s theoretically possible this could throw an exception too, so should probably catch it and just print the e.what() in the journal.",
+      "range": {
+        "startLine": 295,
+        "startChar": 25,
+        "endLine": 295,
+        "endChar": 44
+      },
+      "revId": "54efd23f9921b35cc998f6aebb5361c5cc294efc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a47bc452_6c3bb9c7",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T15:43:46Z",
+      "side": 1,
+      "message": "Since you\u0027re not passing in any FFDC files, there\u0027s actually just a \u0027Create\u0027 method you can use, and then you don\u0027t have to create or pass in the ffdc vector.",
+      "range": {
+        "startLine": 296,
+        "startChar": 46,
+        "endLine": 296,
+        "endChar": 65
+      },
+      "revId": "54efd23f9921b35cc998f6aebb5361c5cc294efc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
