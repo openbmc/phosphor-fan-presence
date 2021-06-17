@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "52f231cd_212d11d0",
+        "filename": "hwmon_ffdc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T21:07:20Z",
+      "side": 1,
+      "message": "I think this would only hit if the hwmonBaseDir didn\u0027t exist, then directory_iterator could throw, at least I think I\u0027ve seen that before.  I\u0027ll add a check for that.",
+      "parentUuid": "24512980_f8506083",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "0afde4708931e8fddf3e36ec49ddc1b0452ffb0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a98d37f3_f7c4b4f1",
         "filename": "hwmon_ffdc.cpp",
         "patchSetId": 1
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "65d82b7c_abf72342",
+        "filename": "hwmon_ffdc.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T21:07:20Z",
+      "side": 1,
+      "message": "Sure.  I figured it wouldn\u0027t hurt anything by being there since we still look for the other keywords, but I can remove it.",
+      "parentUuid": "a98d37f3_f7c4b4f1",
+      "range": {
+        "startLine": 85,
+        "startChar": 37,
+        "endLine": 85,
+        "endChar": 47
+      },
+      "revId": "0afde4708931e8fddf3e36ec49ddc1b0452ffb0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d19b2b6_08fdec39",
         "filename": "monitor/fan.cpp",
         "patchSetId": 1
@@ -82,6 +130,30 @@
       "writtenOn": "2021-06-17T19:14:10Z",
       "side": 1,
       "message": "I think in this case, it\u0027d be better to catch `DBusError` since the service could be up but a configured sensor doesnt exist. Then I think you meant to say \"Let System::powerStateChanged deal with it\" where if all sensors do not exist and hard poweroff occurs?\n\nOr should we be defaulting to not allow a poweron if any_of the configured sensors dont exist at poweron?",
+      "range": {
+        "startLine": 507,
+        "startChar": 31,
+        "endLine": 507,
+        "endChar": 47
+      },
+      "revId": "0afde4708931e8fddf3e36ec49ddc1b0452ffb0c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63b57d4_f3a0f2d6",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-17T21:07:20Z",
+      "side": 1,
+      "message": "The mapper would return the same failure whether or not a fan service was running, because someone is calling GetObject (called from updateTachAndTarget-\u003egetProperty-\u003egetService) with a particular object path that it just doesn\u0027t have in its map either way.  That being said, I can still change this, I don\u0027t think it will hurt anything.\n\nIf some sensors on some other fan were still present, then it would be startMonitor() and not the System::powerStateChanged that would handle it.  I\u0027ll update the comment appropriately.",
+      "parentUuid": "1d19b2b6_08fdec39",
       "range": {
         "startLine": 507,
         "startChar": 31,
