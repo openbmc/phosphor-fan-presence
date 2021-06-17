@@ -202,14 +202,9 @@ class PGoodState : public PowerState
 
             _powerState = static_cast<bool>(pgood);
         }
-        catch (const util::DBusError& e)
+        catch (const util::DBusServiceError& e)
         {
-            using namespace phosphor::logging;
-            log<level::ERR>(
-                fmt::format("Could not find PGOOD interface {} on D-Bus",
-                            _pgoodInterface)
-                    .c_str());
-            throw;
+            // Wait for propertiesChanged signal when service starts
         }
     }
 
