@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1b3634a_c2348499",
+        "filename": "presence/gpio.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-17T15:01:28Z",
+      "side": 1,
+      "message": "typo \u003d)",
+      "revId": "54efd23f9921b35cc998f6aebb5361c5cc294efc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
