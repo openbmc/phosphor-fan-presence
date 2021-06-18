@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5811d468_b5eb8e4d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-18T14:30:32Z",
+      "side": 1,
+      "message": "You don\u0027t need to mention the PEL here, since that\u0027s in some IBM add in code in another repo.  You can just call it an OpenBMC event log.",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "f45752f0cfc1ace70befcde244910a0803faeed1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c0c457_90b5d006",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-18T14:30:32Z",
+      "side": 1,
+      "message": "Maybe put this into the main message like you did on lines 303-305 below so that the exception message shows up in the journal without any additional digging.",
+      "range": {
+        "startLine": 283,
+        "startChar": 28,
+        "endLine": 283,
+        "endChar": 36
+      },
+      "revId": "f45752f0cfc1ace70befcde244910a0803faeed1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
