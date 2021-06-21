@@ -22,6 +22,30 @@
       "revId": "1d5075e88261ea3805dcd69be92ca8a88a559cbc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa6feeaf_e8336def",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-21T18:23:38Z",
+      "side": 1,
+      "message": "yikes! that was close. thanks",
+      "parentUuid": "bd19c3e5_11ae028e",
+      "range": {
+        "startLine": 83,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 66
+      },
+      "revId": "1d5075e88261ea3805dcd69be92ca8a88a559cbc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
