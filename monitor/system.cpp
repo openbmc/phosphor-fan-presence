@@ -50,15 +50,13 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
 {}
 
-void System::start(
-#ifdef MONITOR_USE_JSON
-    const std::string& confFile
-#endif
-)
+void System::start()
 {
     _started = true;
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
+    auto confFile =
+        fan::JsonConfig::getConfFile(_bus, confAppName, confFileName);
     jsonObj = fan::JsonConfig::load(confFile);
 #endif
     // Retrieve and set trust groups within the trust manager

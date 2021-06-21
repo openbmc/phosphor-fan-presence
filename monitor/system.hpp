@@ -109,16 +109,9 @@ class System
     }
 
     /**
-     * @brief Parses and populates the fan monitor
-     *        trust groups and list of fans
-     *
-     * @param[in] confFile - The config file path
+     * @brief Parses and populates the fan monitor trust groups and list of fans
      */
-    void start(
-#ifdef MONITOR_USE_JSON
-        const std::string& confFile
-#endif
-    );
+    void start();
 
   private:
     /* The mode of fan monitor */

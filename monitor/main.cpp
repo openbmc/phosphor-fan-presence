@@ -71,9 +71,7 @@ int main(int argc, char* argv[])
 
 #ifdef MONITOR_USE_JSON
 
-    phosphor::fan::JsonConfig config(
-        bus, confAppName, confFileName,
-        std::bind(&System::start, &system, std::placeholders::_1));
+    phosphor::fan::JsonConfig config(std::bind(&System::start, &system));
 
     // Enable SIGHUP handling to reload JSON config
     stdplus::signal::block(SIGHUP);
