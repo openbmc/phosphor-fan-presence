@@ -78,10 +78,8 @@ class JsonConfig
      * @brief Parses and populates the fan presence policies from
      *        the json file and then starts the actual presence
      *        detecting.
-     *
-     * @param[in] confFile - The conf file name to use
      */
-    void start(const std::string& confFile);
+    void start();
 
   private:
     /* Fan presence policies */

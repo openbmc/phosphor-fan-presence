@@ -41,9 +41,7 @@ int main(void)
     // jsonConfig will call config::start when
     // the conf file is available.
     phosphor::fan::JsonConfig jsonConfig{
-        bus, presence::confAppName, presence::confFileName,
-        std::bind(&presence::JsonConfig::start, &config,
-                  std::placeholders::_1)};
+        std::bind(&presence::JsonConfig::start, &config)};
 
     stdplus::signal::block(SIGHUP);
     sdeventplus::source::Signal signal(

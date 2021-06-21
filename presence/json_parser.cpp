@@ -50,9 +50,11 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
 JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
 {}
 
-void JsonConfig::start(const std::string& confFile)
+void JsonConfig::start()
 {
-    process(phosphor::fan::JsonConfig::load(confFile));
+    using config = fan::JsonConfig;
+
+    process(config::load(config::getConfFile(_bus, confAppName, confFileName)));
 
     for (auto& p : _policies)
     {
