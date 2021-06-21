@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "162d90b7_2c246454",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-21T20:08:43Z",
+      "side": 1,
+      "message": "then wouldn\u0027t it crash-and-burn if it gets a GPIO exception? I suppose any hardware vendor would then be able/obligated to provide their own PEL data, but since it contains hw-specific data I suppose thats ok.",
+      "parentUuid": "d123be89_7752fda8",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 69
+      },
+      "revId": "630c54a13bb5d11486cb0159d9c0c9328395400e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a51e04b7_3f7c2910",
         "filename": "presence/json_parser.cpp",
         "patchSetId": 7
@@ -36,6 +60,24 @@
       "writtenOn": "2021-06-21T18:59:13Z",
       "side": 1,
       "message": "If there are N fans, would there be N event logs created, or just 1?",
+      "revId": "630c54a13bb5d11486cb0159d9c0c9328395400e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9e37c15_2ac6f4fd",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-21T20:08:43Z",
+      "side": 1,
+      "message": "with my stock simics simulator I only got one log event.",
+      "parentUuid": "a51e04b7_3f7c2910",
       "revId": "630c54a13bb5d11486cb0159d9c0c9328395400e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
