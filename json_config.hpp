@@ -44,8 +44,6 @@ constexpr auto confCompatProp = "Names";
 class JsonConfig
 {
   public:
-    using ConfFileReadyFunc = std::function<void(const std::string&)>;
-
     /**
      * @brief Get the object paths with the compatible interface
      *
@@ -57,71 +55,6 @@ class JsonConfig
         static auto paths = util::SDBusPlus::getSubTreePathsRaw(
             util::SDBusPlus::getBus(), "/", confCompatIntf, 0);
         return paths;
-    }
-
-    /**
-     * @brief Constructor
-     *
-     * Looks for the JSON config file.  If it can't find one, then it
-     * will watch entity-manager for the IBMCompatibleSystem interface
-     * to show up and then use that data to try again.  If the config
-     * file is initially present, the callback function is executed
-     * with the path to the file.
-     *
-     * @param[in] bus - The dbus bus object
-     * @param[in] appName - The appName portion of the config file path
-     * @param[in] fileName - Application's configuration file's name
-     * @param[in] func - The function to call when the config file
-     *                   is found.
-     */
-    JsonConfig(sdbusplus::bus::bus& bus, const std::string& appName,
-               const std::string& fileName, ConfFileReadyFunc func) :
-        _appName(appName),
-        _fileName(fileName), _readyFunc(func)
-    {
-        _match = std::make_unique<sdbusplus::server::match::match>(
-            bus,
-            sdbusplus::bus::match::rules::interfacesAdded() +
-                sdbusplus::bus::match::rules::sender(
-                    "xyz.openbmc_project.EntityManager"),
-            std::bind(&JsonConfig::ifacesAddedCallback, this,
-                      std::placeholders::_1));
-        try
-        {
-            auto compatObjPaths = getCompatObjPaths();
-            if (!compatObjPaths.empty())
-            {
-                for (auto& path : compatObjPaths)
-                {
-                    try
-                    {
-                        // Retrieve json config compatible relative path
-                        // locations (last one found will be what's used if more
-                        // than one dbus object implementing the comptaible
-                        // interface exists).
-                        _confCompatValues = util::SDBusPlus::getProperty<
-                            std::vector<std::string>>(bus, path, confCompatIntf,
-                                                      confCompatProp);
-                    }
-                    catch (const util::DBusError&)
-                    {
-                        // Property unavailable on this dbus object path.
-                    }
-                }
-            }
-            _confFile = getConfFile(bus, _appName, _fileName);
-        }
-        catch (const std::runtime_error& e)
-        {
-            // No conf file found, so let the interfacesAdded
-            // match callback handle finding it.
-        }
-
-        if (!_confFile.empty())
-        {
-            _match.reset();
-            _readyFunc(_confFile);
-        }
     }
 
     /**
@@ -191,59 +124,6 @@ class JsonConfig
         catch (const std::runtime_error&)
         {
             // Wait for compatible interfacesAdded signal
-        }
-    }
-
-    /**
-     * @brief The interfacesAdded callback function that looks for
-     *        the IBMCompatibleSystem interface.  If it finds it,
-     *        it uses the Names property in the interface to find
-     *        the JSON config file to use.  If it finds one, it calls
-     *        the _readyFunc function with the config file path.
-     *
-     * @param[in] msg - The D-Bus message contents
-     */
-    void ifacesAddedCallback(sdbusplus::message::message& msg)
-    {
-        sdbusplus::message::object_path path;
-        std::map<std::string,
-                 std::map<std::string, std::variant<std::vector<std::string>>>>
-            interfaces;
-
-        msg.read(path, interfaces);
-
-        if (interfaces.find(confCompatIntf) == interfaces.end())
-        {
-            return;
-        }
-
-        const auto& properties = interfaces.at(confCompatIntf);
-        auto names =
-            std::get<std::vector<std::string>>(properties.at(confCompatProp));
-
-        auto it =
-            std::find_if(names.begin(), names.end(), [this](auto const& name) {
-                auto confFile =
-                    fs::path{confBasePath} / _appName / name / _fileName;
-                if (fs::exists(confFile))
-                {
-                    _confFile = confFile;
-                    return true;
-                }
-                return false;
-            });
-
-        if (it != names.end())
-        {
-            _readyFunc(_confFile);
-            _match.reset();
-        }
-        else
-        {
-            log<level::ERR>(fmt::format("Could not find fan {} conf file {} "
-                                        "even after {} iface became available",
-                                        _appName, _fileName, confCompatIntf)
-                                .c_str());
         }
     }
 
@@ -399,28 +279,8 @@ class JsonConfig
     }
 
   private:
-    /**
-     * @brief The 'appName' portion of the config file path.
-     */
-    const std::string _appName;
-
-    /**
-     * @brief The config file name.
-     */
-    const std::string _fileName;
-
-    /**
-     * @brief The function to call when the config file is available.
-     */
-    ConfFileReadyFunc _readyFunc;
-
     /* Load function to call for a fan app to load its config file(s). */
     std::function<void()> _loadFunc;
-
-    /**
-     * @brief The JSON config file
-     */
-    fs::path _confFile;
 
     /**
      * @brief The interfacesAdded match that is used to wait
