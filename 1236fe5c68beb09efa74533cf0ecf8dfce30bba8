@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8af4ee9f_b6d1137d",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-06-24T22:48:52Z",
+      "side": 1,
+      "message": "D-Bus",
+      "range": {
+        "startLine": 245,
+        "startChar": 24,
+        "endLine": 245,
+        "endChar": 29
+      },
+      "revId": "1236fe5c68beb09efa74533cf0ecf8dfce30bba8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5539aab_bd290d2e",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-06-24T22:48:52Z",
+      "side": 1,
+      "message": "D-Bus",
+      "range": {
+        "startLine": 172,
+        "startChar": 43,
+        "endLine": 172,
+        "endChar": 47
+      },
+      "revId": "1236fe5c68beb09efa74533cf0ecf8dfce30bba8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9958bceb_885a9871",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-06-24T22:48:52Z",
+      "side": 1,
+      "message": "D-Bus",
+      "range": {
+        "startLine": 180,
+        "startChar": 19,
+        "endLine": 180,
+        "endChar": 23
+      },
+      "revId": "1236fe5c68beb09efa74533cf0ecf8dfce30bba8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60b734b9_8dd9ac4e",
+        "filename": "monitor/tach_sensor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-06-24T22:48:52Z",
+      "side": 1,
+      "message": "D-Bus",
+      "range": {
+        "startLine": 405,
+        "startChar": 34,
+        "endLine": 405,
+        "endChar": 38
+      },
+      "revId": "1236fe5c68beb09efa74533cf0ecf8dfce30bba8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
