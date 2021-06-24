@@ -69,6 +69,30 @@
       "revId": "d197c7f689490fdea5bbedae6f1bb82a86bc029f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3402b116_3da3e940",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-24T19:27:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b38ce74_df897170",
+      "range": {
+        "startLine": 99,
+        "startChar": 12,
+        "endLine": 99,
+        "endChar": 57
+      },
+      "revId": "d197c7f689490fdea5bbedae6f1bb82a86bc029f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
