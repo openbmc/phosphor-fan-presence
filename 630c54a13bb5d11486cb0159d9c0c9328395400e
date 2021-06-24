@@ -123,6 +123,24 @@
       "revId": "630c54a13bb5d11486cb0159d9c0c9328395400e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30c7f8cb_4e7461b1",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-24T15:36:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "541842dd_164255bd",
+      "revId": "630c54a13bb5d11486cb0159d9c0c9328395400e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
