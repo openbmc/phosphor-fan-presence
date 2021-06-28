@@ -16,6 +16,24 @@
       "revId": "807ddc8abf236482a1cb5ea8928541183f79235a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "206492e6_c14ae308",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-28T17:04:35Z",
+      "side": 1,
+      "message": "added. I\u0027m withholding \"--action\" flags pending input from Matt B, We may want backward compat with the old fantcl.sh script, thus \"fancontrol status\" and not \"fanctl --status\". Notwithstanding, this lib was still able to simplify cmd line args quite a bit.",
+      "parentUuid": "f4877ad1_fcceff19",
+      "revId": "807ddc8abf236482a1cb5ea8928541183f79235a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
