@@ -16,7 +16,8 @@ systemdsystemunit_DATA += \
 endif
 
 bin_PROGRAMS = \
-	phosphor-fan-control
+	phosphor-fan-control \
+	phosphor-fanctl
 
 phosphor_fan_control_SOURCES = \
 	main.cpp
@@ -35,6 +36,25 @@ phosphor_fan_control_CXXFLAGS = \
 	$(PHOSPHOR_LOGGING_CFLAGS) \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
 	-flto
+
+phosphor_fanctl_SOURCES = \
+	fanctl.cpp
+
+phosphor_fanctl_CXXFLAGS = \
+	$(SDBUSPLUS_CFLAGS) \
+	$(SDEVENTPLUS_CFLAGS) \
+	$(PHOSPHOR_LOGGING_CFLAGS) \
+	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
+	-flto
+
+phosphor_fanctl_LDADD = \
+	-lstdc++fs \
+	$(SDBUSPLUS_LIBS) \
+	$(SDEVENTPLUS_LIBS) \
+	$(PHOSPHOR_LOGGING_LIBS) \
+	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
+	$(FMT_LIBS)
+
 
 if WANT_JSON_CONTROL
 phosphor_fan_control_SOURCES += \
