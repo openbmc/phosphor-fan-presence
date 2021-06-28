@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4877ad1_fcceff19",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-28T16:01:47Z",
+      "side": 1,
+      "message": "CLI11 is a popular argument parsing library that would be good to use here as you add more and more options.  Lots of examples with https://grok.openbmc.org/search?full\u003dCLI.hpp\u0026defs\u003d\u0026refs\u003d\u0026path\u003d\u0026hist\u003d\u0026type\u003d\u0026xrd\u003d\u0026nn\u003d1\u0026si\u003dfull\u0026searchall\u003dtrue\u0026si\u003dfull",
+      "revId": "807ddc8abf236482a1cb5ea8928541183f79235a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
