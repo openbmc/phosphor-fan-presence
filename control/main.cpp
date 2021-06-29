@@ -22,6 +22,7 @@
 #include "json/manager.hpp"
 #endif
 #include "sdbusplus.hpp"
+#include "sdeventplus.hpp"
 
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -34,7 +35,7 @@ using namespace phosphor::logging;
 
 int main(int argc, char* argv[])
 {
-    auto event = sdeventplus::Event::get_default();
+    auto event = phosphor::fan::util::SDEventPlus::getEvent();
 
 #ifndef CONTROL_USE_JSON
     phosphor::fan::util::ArgumentParser args(argc, argv);
