@@ -26,26 +26,6 @@
 
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
-constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
-constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
-constexpr auto systemdPath = "/org/freedesktop/systemd1";
-constexpr auto systemdService = "org.freedesktop.systemd1";
-
-std::map<std::string, std::string> interfaces{
-    {"FanSpeed", "xyz.openbmc_project.Control.FanSpeed"},
-    {"FanPwm", "xyz.openbmc_project.Control.FanPwm"},
-    {"SensorValue", "xyz.openbmc_project.Sensor.Value"},
-    {"Item", "xyz.openbmc_project.Inventory.Item"},
-    {"OpStatus", "xyz.openbmc_project.State.Decorator.OperationalStatus"}};
-
-std::map<std::string, std::string> paths{
-    {"motherboard",
-     "/xyz/openbmc_project/inventory/system/chassis/motherboard"},
-    {"tach", "/xyz/openbmc_project/sensors/fan_tach"}};
-
-// paths by D-bus interface,fan name
-std::map<std::string, std::map<std::string, std::vector<std::string>>> pathMap;
-
 /**
  * @function extracts fan name from dbus path string (last token where
  * delimiter is the / character), with proper bounds checking.
@@ -105,6 +85,78 @@ std::map<std::string, std::vector<std::string>>
 }
 
 /**
+ * @function consolidated function to load dbus paths and fan names
+ */
+auto loadDBusData()
+{
+    auto& bus{SDBusPlus::getBus()};
+
+    std::vector<std::string> fanNames;
+
+    // paths by D-bus interface,fan name
+    std::map<std::string, std::map<std::string, std::vector<std::string>>>
+        pathMap;
+
+    std::string tmethod("RPM"), fmethod("RPMS");
+
+    std::map<const std::string, const std::string> interfaces{
+        {"FanSpeed", "xyz.openbmc_project.Control.FanSpeed"},
+        {"FanPwm", "xyz.openbmc_project.Control.FanPwm"},
+        {"SensorValue", "xyz.openbmc_project.Sensor.Value"},
+        {"Item", "xyz.openbmc_project.Inventory.Item"},
+        {"OpStatus", "xyz.openbmc_project.State.Decorator.OperationalStatus"}};
+
+    std::map<const std::string, const std::string> paths{
+        {"motherboard",
+         "/xyz/openbmc_project/inventory/system/chassis/motherboard"},
+        {"tach", "/xyz/openbmc_project/sensors/fan_tach"}};
+
+    // build a list of all fans
+    for (auto& path : SDBusPlus::getSubTreePathsRaw(bus, paths["tach"],
+                                                    interfaces["FanSpeed"], 0))
+    {
+        // special case where we build the list of fans
+        auto fan = justFanName(path);
+        fan = fan.substr(0, fan.rfind("_"));
+        fanNames.push_back(fan);
+    }
+
+    // retry if none found
+    if (0 == fanNames.size())
+    {
+        tmethod = "PWM";
+        fmethod = "PWM";
+
+        // TODO: test this function
+        for (auto& path : SDBusPlus::getSubTreePathsRaw(
+                 bus, paths["tach"], interfaces["FanPwm"], 0))
+        {
+            // special case where we build the list of fans
+            auto fan = justFanName(path);
+            fan = fan.substr(0, fan.rfind("_"));
+            fanNames.push_back(fan);
+        }
+    }
+
+    // load tach sensor paths for each fan
+    pathMap["tach"] =
+        getPathsFromIface(paths["tach"], interfaces["SensorValue"], fanNames);
+
+    // load speed sensor paths for each fan
+    pathMap["speed"] = pathMap["tach"];
+
+    // load inventory Item data for each fan
+    pathMap["inventory"] = getPathsFromIface(
+        paths["motherboard"], interfaces["Item"], fanNames, true);
+
+    // load operational status data for each fan
+    pathMap["opstatus"] = getPathsFromIface(
+        paths["motherboard"], interfaces["OpStatus"], fanNames, true);
+
+    return std::make_tuple(fanNames, pathMap, interfaces, tmethod, fmethod);
+}
+
+/**
  * @function gets the states of phosphor-fanctl. equivalent to
  * "systemctl status phosphor-fan-control@0"
  * @return a list of several (sub)states of fanctl (loaded,
@@ -118,6 +170,11 @@ std::array<std::string, 6> getStates()
         std::tuple<std::string, std::string, std::string, std::string,
                    std::string, std::string, sdbusplus::message::object_path,
                    uint32_t, std::string, sdbusplus::message::object_path>;
+
+    // constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
+    constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
+    constexpr auto systemdPath = "/org/freedesktop/systemd1";
+    constexpr auto systemdService = "org.freedesktop.systemd1";
 
     std::array<std::string, 6> ret;
 
@@ -141,7 +198,7 @@ std::array<std::string, 6> getStates()
                       << std::endl;
         }
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         std::cout << "caught exception: " << e.what() << std::endl;
     }
@@ -174,52 +231,12 @@ void status()
     using std::endl;
     using std::setw;
 
-    auto& bus{SDBusPlus::getBus()};
+    auto busData = loadDBusData();
 
-    std::string tmethod("RPM"), fmethod("RPMS"), property;
+    auto& tmethod = std::get<3>(busData);
+    auto& fmethod = std::get<4>(busData);
 
-    std::vector<std::string> sensorPaths, fanNames;
-
-    // build a list of all fans
-    for (auto& path : SDBusPlus::getSubTreePathsRaw(bus, paths["tach"],
-                                                    interfaces["FanSpeed"], 0))
-    {
-        // special case where we build the list of fans
-        auto fan = justFanName(path);
-        fan = fan.substr(0, fan.rfind("_"));
-        fanNames.push_back(fan);
-    }
-
-    // retry if none found
-    if (0 == fanNames.size())
-    {
-        tmethod = "PWM";
-        fmethod = "PWM";
-
-        // TODO: test this function
-        for (auto& path : SDBusPlus::getSubTreePathsRaw(
-                 bus, paths["tach"], interfaces["FanPwm"], 0))
-        {
-            auto fan = justFanName(path);
-            fan = fan.substr(0, fan.rfind("_"));
-            fanNames.push_back(fan);
-        }
-    }
-
-    // load tach sensor paths for each fan
-    pathMap["tach"] =
-        getPathsFromIface(paths["tach"], interfaces["SensorValue"], fanNames);
-
-    // load speed sensor paths for each fan
-    pathMap["speed"] = pathMap["tach"];
-
-    // load inventory Item data for each fan
-    pathMap["inventory"] = getPathsFromIface(
-        paths["motherboard"], interfaces["Item"], fanNames, true);
-
-    // load operational status data for each fan
-    pathMap["opstatus"] = getPathsFromIface(
-        paths["motherboard"], interfaces["OpStatus"], fanNames, true);
+    std::string property;
 
     // get the state,substate of fan-control and obmc
     auto states = getStates();
@@ -238,6 +255,10 @@ void status()
     cout << "==============================================================="
          << endl;
 
+    auto& fanNames{std::get<0>(busData)};
+    auto& pathMap{std::get<1>(busData)};
+    auto& interfaces{std::get<2>(busData)};
+
     for (auto& fan : fanNames)
     {
         cout << " " << fan << setw(18);
@@ -250,6 +271,7 @@ void status()
 
         // get the sensor RPM (target/actual)
         property = "Value";
+
         int numRotors = pathMap["tach"][fan].size();
         // print tach readings for each rotor
         for (auto& path : pathMap["tach"][fan])
@@ -263,7 +285,7 @@ void status()
         }
         cout << setw(10);
 
-        // get the present property
+        // print the Present property
         property = "Present";
         std::string val;
         for (auto& path : pathMap["inventory"][fan])
@@ -289,7 +311,7 @@ void status()
 
         cout << setw(13);
 
-        // get the functional property
+        // and the functional property
         property = "Functional";
         for (auto& path : pathMap["opstatus"][fan])
         {
@@ -319,6 +341,63 @@ void status()
 /**
  * @function print usage information to the console
  */
+void get()
+{
+    using std::cout;
+    using std::endl;
+    using std::setw;
+
+    std::string property;
+
+    auto busData = loadDBusData();
+
+    auto& fanNames{std::get<0>(busData)};
+    auto& pathMap{std::get<1>(busData)};
+    auto& interfaces{std::get<2>(busData)};
+    auto& tmethod = std::get<3>(busData);
+    auto& fmethod = std::get<4>(busData);
+
+    // print the header
+    cout << "TARGET SENSOR" << setw(11) << "TARGET(" << tmethod
+         << ")   FEEDBACK SENSOR   ";
+    cout << "FEEDBACK(" << fmethod << ")" << endl;
+    cout << "==============================================================="
+         << endl;
+
+    for (auto& fan : fanNames)
+    {
+        // print just the sensor name
+        auto shortPath = pathMap["tach"][fan][0];
+        shortPath = justFanName(shortPath);
+        cout << shortPath << setw(22);
+
+        // print its target RPM
+        property = "Target";
+        cout << SDBusPlus::getProperty<uint64_t>(
+                    pathMap["speed"][fan][0], interfaces["FanSpeed"], property)
+             << setw(12) << " ";
+
+        // print readings for each rotor
+        property = "Value";
+
+        auto indent = 0U;
+        for (auto& path : pathMap["tach"][fan])
+        {
+            cout << setw(indent);
+            cout << justFanName(path) << setw(17)
+                 << SDBusPlus::getProperty<double>(
+                        path, interfaces["SensorValue"], property)
+                 << endl;
+
+            if (0 == indent)
+                indent = 46;
+        }
+    }
+}
+
+/**
+ * @function print usage information to the console
+ */
 void printHelp()
 {
     std::cout << "NAME\n\
@@ -329,6 +408,8 @@ SYNOPSIS\n\
 OPTIONS\n\
   status\n\
       - Get the full system status in regard to fans\n\
+  get\n\
+      - Get the current fan target and feedback speeds for all rotors\n\
   help\n\
       - Display this help and exit\n";
 }
@@ -343,10 +424,25 @@ int main(int argc, char* argv[])
     app.add_option("status", action, "display fan-control status");
     CLI11_PARSE(app, argc, argv);
 
-    if ("status" == action)
-        status();
-    else
-        printHelp();
+    try
+    {
+        if ("status" == action)
+        {
+            status();
+        }
+        else if ("get" == action)
+        {
+            get();
+        }
+        else
+        {
+            printHelp();
+        }
+    }
+    catch (std::exception& e)
+    {
+        std::cerr << "Fan control failed: " << e.what() << std::endl;
+    }
 
     return 0;
 }
