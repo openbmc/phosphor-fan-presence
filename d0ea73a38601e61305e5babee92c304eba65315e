@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f83cda9_49c51d11",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-29T22:05:04Z",
+      "side": 1,
+      "message": "unless it\u0027s just my gerrit config, a few of these lines are too long",
+      "revId": "d0ea73a38601e61305e5babee92c304eba65315e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b17843ee_99c98587",
+        "filename": "control/Makefile.am",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-29T22:05:04Z",
+      "side": 1,
+      "message": "I don\u0027t think you\u0027ll need to use sdeventplus since that\u0027s for things like timers.",
+      "range": {
+        "startLine": 53,
+        "startChar": 1,
+        "endLine": 53,
+        "endChar": 22
+      },
+      "revId": "d0ea73a38601e61305e5babee92c304eba65315e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f1a31c4_5723a603",
+        "filename": "control/Makefile.am",
+        "patchSetId": 8
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-29T22:05:04Z",
+      "side": 1,
+      "message": "I don\u0027t think you\u0027ll need phosphor-logging either, since you just print directly to standard out",
+      "range": {
+        "startLine": 54,
+        "startChar": 1,
+        "endLine": 54,
+        "endChar": 27
+      },
+      "revId": "d0ea73a38601e61305e5babee92c304eba65315e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e72c51_db0e6229",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-29T22:05:04Z",
+      "side": 1,
+      "message": "you should be able to set these in the constructor, like:\n\nconst map\u003cstring, string\u003e interfaces{\n    {\"fanspeed\", \"xyz....\"},\n    {\"fanpwm\", \"xyz....\"}\n};",
+      "revId": "d0ea73a38601e61305e5babee92c304eba65315e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d3b6d6a_f446955b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-06-29T22:05:04Z",
+      "side": 1,
+      "message": "in the makefile you\u0027re building this as phosphor-fanctl?",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 285,
+        "endChar": 11
+      },
+      "revId": "d0ea73a38601e61305e5babee92c304eba65315e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
