@@ -55,16 +55,16 @@ phosphor_fan_control_CXXFLAGS = \
 fanctl_SOURCES = \
 	fanctl.cpp
 
-fanctl_CXXFLAGS = \
-	$(SDBUSPLUS_CFLAGS) \
-	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
-	-flto
-
 fanctl_LDADD = \
 	-lstdc++fs \
 	$(SDBUSPLUS_LIBS) \
 	${PHOSPHOR_DBUS_INTERFACES_LIBS} \
 	$(FMT_LIBS)
+
+fanctl_CXXFLAGS = \
+	$(SDBUSPLUS_CFLAGS) \
+	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
+	-flto
 
 
 if WANT_JSON_CONTROL
