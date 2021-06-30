@@ -16,6 +16,40 @@
       "revId": "b78bc45bc3d10cd9461f53a0b2233d169c89d042",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39c90156_194a08d5",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-30T17:31:43Z",
+      "side": 1,
+      "message": "I should remove the loop and just reference field[0]. the value returned is an array, but there should only be one.",
+      "revId": "b78bc45bc3d10cd9461f53a0b2233d169c89d042",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b2549d0_8fc67df5",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-30T17:31:43Z",
+      "side": 1,
+      "message": "this is an errant comment.",
+      "revId": "b78bc45bc3d10cd9461f53a0b2233d169c89d042",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
