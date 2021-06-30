@@ -45,7 +45,7 @@ Event::Event(const json& jsonObj, Manager* mgr,
     // Event groups are optional
     if (jsonObj.contains("groups"))
     {
-        setGroups(jsonObj, _groups);
+        setGroups(jsonObj, _profiles, _groups);
     }
     // Event actions are optional
     if (jsonObj.contains("actions"))
@@ -104,32 +104,36 @@ void Event::configGroup(Group& group, const json& jsonObj)
     }
 }
 
-void Event::setGroups(const json& jsonObj, std::vector<Group>& groups)
+void Event::setGroups(const json& jsonObj,
+                      const std::vector<std::string>& profiles,
+                      std::vector<Group>& groups)
 {
-    auto& availGroups = getAvailGroups();
-    for (const auto& jsonGrp : jsonObj["groups"])
+    if (jsonObj.contains("groups"))
     {
-        if (!jsonGrp.contains("name"))
+        auto& availGroups = getAvailGroups();
+        for (const auto& jsonGrp : jsonObj["groups"])
         {
-            auto msg = fmt::format(
-                "Missing required group name attribute in event {}", getName());
-            log<level::ERR>(msg.c_str(),
-                            entry("JSON=%s", jsonGrp.dump().c_str()));
-            throw std::runtime_error(msg.c_str());
-        }
+            if (!jsonGrp.contains("name"))
+            {
+                auto msg = fmt::format("Missing required group name attribute");
+                log<level::ERR>(msg.c_str(),
+                                entry("JSON=%s", jsonGrp.dump().c_str()));
+                throw std::runtime_error(msg.c_str());
+            }
 
-        configKey eventProfile =
-            std::make_pair(jsonGrp["name"].get<std::string>(), _profiles);
-        auto grpEntry =
-            std::find_if(availGroups.begin(), availGroups.end(),
-                         [&eventProfile](const auto& grp) {
-                             return Manager::inConfig(grp.first, eventProfile);
-                         });
-        if (grpEntry != availGroups.end())
-        {
-            auto group = Group(*grpEntry->second);
-            configGroup(group, jsonGrp);
-            groups.emplace_back(group);
+            configKey eventProfile =
+                std::make_pair(jsonGrp["name"].get<std::string>(), profiles);
+            auto grpEntry = std::find_if(availGroups.begin(), availGroups.end(),
+                                         [&eventProfile](const auto& grp) {
+                                             return Manager::inConfig(
+                                                 grp.first, eventProfile);
+                                         });
+            if (grpEntry != availGroups.end())
+            {
+                auto group = Group(*grpEntry->second);
+                configGroup(group, jsonGrp);
+                groups.emplace_back(group);
+            }
         }
     }
 }
@@ -148,10 +152,7 @@ void Event::setActions(const json& jsonObj)
         // Append action specific groups to the list of event groups for each
         // action in the event
         auto actionGroups = _groups;
-        if (jsonAct.contains("groups"))
-        {
-            setGroups(jsonAct, actionGroups);
-        }
+        setGroups(jsonAct, _profiles, actionGroups);
         if (actionGroups.empty())
         {
             log<level::DEBUG>(

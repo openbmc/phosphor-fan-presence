@@ -78,6 +78,29 @@ class Event : public ConfigBase
      */
     void enable();
 
+    /**
+     * @brief Parse group parameters and configure a group object
+     *
+     * @param[in] group - Group object to get configured
+     * @param[in] jsonObj - JSON object for the group
+     *
+     * Configures a given group from a set of JSON configuration attributes
+     */
+    static void configGroup(Group& group, const json& jsonObj);
+
+    /**
+     * @brief Parse and set the event's groups(OPTIONAL)
+     *
+     * @param[in] jsonObj - JSON object for the event
+     * @param[in] profiles - List of profiles to validate groups against
+     * @param[out] groups - List of groups to be configured
+     *
+     * Sets the list of groups associated with the event
+     */
+    static void setGroups(const json& jsonObj,
+                          const std::vector<std::string>& profiles,
+                          std::vector<Group>& groups);
+
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
@@ -103,26 +126,6 @@ class Event : public ConfigBase
      * @return Groups available to be configured on events from `groups.json`
      */
     static auto& getAvailGroups() __attribute__((pure));
-
-    /**
-     * @brief Parse group parameters and configure a group object
-     *
-     * @param[in] group - Group object to get configured
-     * @param[in] jsonObj - JSON object for the group
-     *
-     * Configures a given group from a set of JSON configuration attributes
-     */
-    void configGroup(Group& group, const json& jsonObj);
-
-    /**
-     * @brief Parse and set the event's groups(OPTIONAL)
-     *
-     * @param[in] jsonObj - JSON object for the event
-     * @param[out] groups - List of groups to be configured
-     *
-     * Sets the list of groups associated with the event
-     */
-    void setGroups(const json& jsonObj, std::vector<Group>& groups);
 
     /**
      * @brief Parse and set the event's actions(OPTIONAL)
