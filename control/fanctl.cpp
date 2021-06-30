@@ -34,6 +34,12 @@ constexpr auto systemdService = "org.freedesktop.systemd1";
 void get();
 void loadVars();
 void printHelp();
+<<<<<<< HEAD
+=======
+void reload();
+void resume();
+void set(uint64_t, std::string);
+>>>>>>> c1f2d8b (control: command line tool to retrieve fan status (reload function))
 void status();
 
 std::map<std::string, std::string> interfaces{
@@ -73,6 +79,20 @@ int main(int argc, char* argv[])
     {
         loadVars();
         get();
+    }
+    else if ("set" == action)
+    {
+        loadVars();
+
+        set(rpm, fanList);
+    }
+    else if ("resume" == action)
+    {
+        resume();
+    }
+    else if ("reload" == action)
+    {
+        reload();
     }
     else
         printHelp();
@@ -292,19 +312,53 @@ void status()
 
         // print the Present property
         property = "Present";
+        std::string val;
         for (auto& path : pathMap["inventory"][fan])
-            cout << std::boolalpha
-                 << SDBusPlus::getProperty<bool>(path, interfaces["Item"],
-                                                 property);
+        {
+            try
+            {
+                if (SDBusPlus::getProperty<bool>(path, interfaces["Item"],
+                                                 property))
+                {
+                    val = "true";
+                }
+                else
+                {
+                    val = "false";
+                }
+            }
+            catch (phosphor::fan::util::DBusPropertyError&)
+            {
+                val = "Unknown";
+            }
+            cout << val;
+        }
 
         cout << setw(13);
 
         // and the functional property
         property = "Functional";
         for (auto& path : pathMap["opstatus"][fan])
-            cout << std::boolalpha
-                 << SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
-                                                 property);
+        {
+            try
+            {
+                if (SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
+                                                 property))
+                {
+                    val = "true";
+                }
+                else
+                {
+                    val = "false";
+                }
+            }
+            catch (phosphor::fan::util::DBusPropertyError&)
+            {
+                val = "Unknown";
+            }
+
+            cout << val;
+        }
 
         cout << endl;
     }
@@ -360,6 +414,100 @@ void get()
 }
 
 /**
+ * @function set fan[s] to a target RPM
+ */
+void set(uint64_t target, std::string fans)
+{
+    auto& bus{SDBusPlus::getBus()};
+
+    std::vector<std::string> fanList;
+
+    // stop the fan-control service
+    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+        systemdService, systemdPath, systemdMgrIface, "StopUnit",
+        "phosphor-fan-control@0.service", "replace");
+
+    if (fans.empty())
+    {
+        fanList = fanNames;
+    }
+    else
+    {
+        std::istringstream oss{fans};
+        std::string fan;
+
+        while (oss)
+        {
+            if (oss >> fan)
+            {
+                fanList.push_back(fan);
+            }
+        }
+    }
+
+    for (auto& fan : fanList)
+    {
+        try
+        {
+            auto paths(pathMap["speed"].find(fan));
+
+            if (pathMap["speed"].end() == paths)
+            {
+                std::cout << "Could not find tach path for fan: " << fan
+                          << std::endl;
+                continue;
+            }
+
+            // set the target RPM
+            SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
+                                             interfaces["FanSpeed"], "Target",
+                                             std::move(target));
+        }
+        catch (phosphor::fan::util::DBusPropertyError& e)
+        {
+            std::cout << "Cannot set target rpm for " << fan
+                      << " caught D-Bus exception: " << e.what() << std::endl;
+        }
+    }
+}
+
+/**
+ * @function transfer fan control to systemd
+ */
+void resume()
+{
+    try
+    {
+        auto retval =
+            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+                systemdService, systemdPath, systemdMgrIface, "StartUnit",
+                "phosphor-fan-control@0.service", "replace");
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cout << "Caught exception (resume) " << e.what() << std::endl;
+    }
+}
+
+/**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cout << "Caught exception (reload) " << e.what() << std::endl;
+    }
+}
+
+/**
+>>>>>>> c1f2d8b (control: command line tool to retrieve fan status (reload function))
  * @function print usage information to the console
  */
 void printHelp()
@@ -370,10 +518,20 @@ void printHelp()
 SYNOPSIS
   fanctl [OPTION]
 OPTIONS
-  status
-      - Get the full system status in regard to fans
+  set <TARGET> [\"TARGET SENSOR LIST\"]
+      <TARGET>
+          - RPM/PWM target to set the fans
+      [\"TARGET SENSOR LIST\"]
+          - Double-quoted, space-delimited list of target sensors to set
   get
       - Get the current fan target and feedback speeds for all rotors
+  status
+      - Get the full system status in regard to fans
+  resume
+      - Resume automatic fan control\n\
+        * Note: In the case where a system does not have an active fan control
+          algorithm enabled yet, an intended safe fan target should be set
+          prior to resuming
   help
       - Display this help and exit)";
 
