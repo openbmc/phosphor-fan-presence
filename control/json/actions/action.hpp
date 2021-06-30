@@ -24,6 +24,7 @@
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
+#include <algorithm>
 #include <functional>
 #include <iterator>
 #include <map>
@@ -141,6 +142,25 @@ class ActionBase : public ConfigBase
     virtual void setZones(std::vector<std::reference_wrapper<Zone>>& zones)
     {
         _zones = zones;
+    }
+
+    /**
+     * @brief Add a zone to the list of zones the action is run against if its
+     * not already there
+     *
+     * @param[in] zone - Zone to add
+     */
+    virtual void addZone(Zone& zone)
+    {
+        auto itZone =
+            std::find_if(_zones.begin(), _zones.end(),
+                         [&zone](std::reference_wrapper<Zone>& z) {
+                             return z.get().getName() == zone.getName();
+                         });
+        if (itZone == _zones.end())
+        {
+            _zones.emplace_back(std::reference_wrapper<Zone>(zone));
+        }
     }
 
     /**
