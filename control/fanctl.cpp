@@ -24,6 +24,10 @@
 #include <iomanip>
 #include <iostream>
 
+constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
+constexpr auto systemdPath = "/org/freedesktop/systemd1";
+constexpr auto systemdService = "org.freedesktop.systemd1";
+
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
 /**
@@ -170,11 +174,6 @@ std::array<std::string, 6> getStates()
         std::tuple<std::string, std::string, std::string, std::string,
                    std::string, std::string, sdbusplus::message::object_path,
                    uint32_t, std::string, sdbusplus::message::object_path>;
-
-    // constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
-    constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
-    constexpr auto systemdPath = "/org/freedesktop/systemd1";
-    constexpr auto systemdService = "org.freedesktop.systemd1";
 
     std::array<std::string, 6> ret;
 
@@ -401,7 +400,6 @@ void get()
 void set(uint64_t target, std::string fans)
 {
     auto busData = loadDBusData();
-
     auto& bus{SDBusPlus::getBus()};
     auto& fanNames{std::get<0>(busData)};
     auto& pathMap{std::get<1>(busData)};
@@ -410,7 +408,7 @@ void set(uint64_t target, std::string fans)
     std::vector<std::string> fanList;
 
     // stop the fan-control service
-    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+    SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
         systemdService, systemdPath, systemdMgrIface, "StopUnit",
         "phosphor-fan-control@0.service", "replace");
 
@@ -448,7 +446,7 @@ void set(uint64_t target, std::string fans)
             // set the target RPM
             SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
                                              interfaces["FanSpeed"], "Target",
-                                             target);
+                                             std::move(target));
         }
         catch (phosphor::fan::util::DBusPropertyError& e)
         {
@@ -465,14 +463,31 @@ void resume()
 {
     try
     {
-        auto retval =
-            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
-                systemdService, systemdPath, systemdMgrIface, "StartUnit",
-                "phosphor-fan-control@0.service", "replace");
+        SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+            systemdService, systemdPath, systemdMgrIface, "StartUnit",
+            "phosphor-fan-control@0.service", "replace");
     }
     catch (phosphor::fan::util::DBusMethodError& e)
     {
         std::cerr << "Unable to start fan control: " << e.what() << std::endl;
+    }
+}
+
+/**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cerr << "Unable to reload configuration files: " << e.what()
+                  << std::endl;
     }
 }
 
@@ -496,6 +511,8 @@ OPTIONS
       - Get the current fan target and feedback speeds for all rotors
   status
       - Get the full system status in regard to fans
+  reload
+      - Reload all configuration files
   resume
      - Resume automatic fan control
      * Note: In the case where a system does not have an active fan control
@@ -515,7 +532,8 @@ int main(int argc, char* argv[])
     uint64_t rpm{0U};
     std::string action("help"), fanList;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("action", action,
+                   "action to perform [status|get|set|reload|resume]");
     app.add_option("rpm", rpm, "RPM/PWM target to set the fans");
     app.add_option("fan list", fanList,
                    "[optional] list of fans to set target RPM");
@@ -538,6 +556,10 @@ int main(int argc, char* argv[])
         else if ("resume" == action)
         {
             resume();
+        }
+        else if ("reload" == action)
+        {
+            reload();
         }
         else
         {
