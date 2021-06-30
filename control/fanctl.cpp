@@ -34,6 +34,8 @@ constexpr auto systemdService = "org.freedesktop.systemd1";
 void get();
 void loadDBusData();
 void printHelp();
+void resume();
+void set(uint64_t, std::string);
 void status();
 
 std::map<const std::string, const std::string> interfaces{
@@ -57,9 +59,13 @@ std::map<std::string, std::map<std::string, std::vector<std::string>>> pathMap;
 
 int main(int argc, char* argv[])
 {
-    std::string action("help");
+    uint64_t rpm{0U};
+    std::string action("help"), fanList;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("status", action, "display fan-control status");
+    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("rpm", rpm, "RPM/PWM target to set the fans");
+    app.add_option("fan list", fanList,
+                   "[optional] list of fans to set target RPM");
     CLI11_PARSE(app, argc, argv);
 
     try
@@ -69,17 +75,26 @@ int main(int argc, char* argv[])
             loadDBusData();
             status();
         }
+        else if ("set" == action)
+        {
+            loadVars();
+            set(rpm, fanList);
+        }
         else if ("get" == action)
         {
             loadDBusData();
             get();
+        }
+        else if ("resume" == action)
+        {
+            resume();
         }
         else
         {
             printHelp();
         }
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         std::cerr << "Fan control failed: " << e.what() << std::endl;
     }
@@ -208,13 +223,13 @@ std::array<std::string, 6> getStates()
         }
         else
         {
-            std::cout << "No units found for systemd service: " << services[0]
+            std::cerr << "No units found for systemd service: " << services[0]
                       << std::endl;
         }
     }
     catch (const std::exception& e)
     {
-        std::cout << "caught exception: " << e.what() << std::endl;
+        std::cerr << "caught exception: " << e.what() << std::endl;
     }
 
     std::string path("/xyz/openbmc_project/state/bmc0");
@@ -241,7 +256,7 @@ std::array<std::string, 6> getStates()
  */
 void status()
 {
-    using std::cout;
+    using std::cerr;
     using std::endl;
     using std::setw;
 
@@ -249,28 +264,28 @@ void status()
     auto states = getStates();
 
     // print the header
-    cout << "Fan Control Service State   : " << states[0] << ", " << states[1]
+    cerr << "Fan Control Service State   : " << states[0] << ", " << states[1]
          << "(" << states[2] << ")" << endl;
-    cout << "CurrentBMCState     : " << states[3] << endl;
-    cout << "CurrentPowerState   : " << states[4] << endl;
-    cout << "CurrentHostState    : " << states[5] << endl;
-    cout << endl;
-    cout << " FAN        "
+    cerr << "CurrentBMCState     : " << states[3] << endl;
+    cerr << "CurrentPowerState   : " << states[4] << endl;
+    cerr << "CurrentHostState    : " << states[5] << endl;
+    cerr << endl;
+    cerr << " FAN        "
          << "TARGET(" << tmethod << ")  FEEDBACKS(";
-    cout << fmethod << ")   PRESENT"
+    cerr << fmethod << ")   PRESENT"
          << "     FUNCTIONAL" << endl;
-    cout << "==============================================================="
+    cerr << "==============================================================="
          << endl;
 
     std::string property;
 
     for (auto& fan : fanNames)
     {
-        cout << " " << fan << setw(18);
+        cerr << " " << fan << setw(18);
 
         // get the target RPM
         property = "Target";
-        cout << SDBusPlus::getProperty<uint64_t>(
+        cerr << SDBusPlus::getProperty<uint64_t>(
                     pathMap["speed"][fan][0], interfaces["FanSpeed"], property)
              << setw(11);
 
@@ -281,32 +296,32 @@ void status()
         // print tach readings for each rotor
         for (auto& path : pathMap["tach"][fan])
         {
-            cout << SDBusPlus::getProperty<double>(
+            cerr << SDBusPlus::getProperty<double>(
                 path, interfaces["SensorValue"], property);
 
             // dont print slash on last rotor
             if (--numRotors)
-                cout << "/";
+                cerr << "/";
         }
-        cout << setw(10);
+        cerr << setw(10);
 
         // print the Present property
         property = "Present";
         for (auto& path : pathMap["inventory"][fan])
-            cout << std::boolalpha
+            cerr << std::boolalpha
                  << SDBusPlus::getProperty<bool>(path, interfaces["Item"],
                                                  property);
 
-        cout << setw(13);
+        cerr << setw(13);
 
         // and the functional property
         property = "Functional";
         for (auto& path : pathMap["opstatus"][fan])
-            cout << std::boolalpha
+            cerr << std::boolalpha
                  << SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
                                                  property);
 
-        cout << endl;
+        cerr << endl;
     }
 }
 
@@ -315,15 +330,15 @@ void status()
  */
 void get()
 {
-    using std::cout;
+    using std::cerr;
     using std::endl;
     using std::setw;
 
     // print the header
-    cout << "TARGET SENSOR" << setw(11) << "TARGET(" << tmethod
+    cerr << "TARGET SENSOR" << setw(11) << "TARGET(" << tmethod
          << ")   FEEDBACK SENSOR   ";
-    cout << "FEEDBACK(" << fmethod << ")" << endl;
-    cout << "==============================================================="
+    cerr << "FEEDBACK(" << fmethod << ")" << endl;
+    cerr << "==============================================================="
          << endl;
 
     std::string property;
@@ -333,11 +348,11 @@ void get()
         // print just the sensor name
         auto shortPath = pathMap["tach"][fan][0];
         shortPath = shortPath.substr(1 + shortPath.rfind("/"));
-        cout << shortPath << setw(22);
+        cerr << shortPath << setw(22);
 
         // print its target RPM
         property = "Target";
-        cout << SDBusPlus::getProperty<uint64_t>(
+        cerr << SDBusPlus::getProperty<uint64_t>(
                     pathMap["speed"][fan][0], interfaces["FanSpeed"], property)
              << setw(12) << " ";
 
@@ -347,8 +362,8 @@ void get()
         auto indent = 0U;
         for (auto& path : pathMap["tach"][fan])
         {
-            cout << setw(indent);
-            cout << path.substr(path.rfind("/") + 1) << setw(17)
+            cerr << setw(indent);
+            cerr << path.substr(path.rfind("/") + 1) << setw(17)
                  << SDBusPlus::getProperty<double>(
                         path, interfaces["SensorValue"], property)
                  << endl;
@@ -360,20 +375,108 @@ void get()
 }
 
 /**
+ * @function set fan[s] to a target RPM
+ */
+void set(uint64_t target, std::string fans)
+{
+    auto& bus{SDBusPlus::getBus()};
+
+    std::vector<std::string> fanList;
+
+    // stop the fan-control service
+    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+        systemdService, systemdPath, systemdMgrIface, "StopUnit",
+        "phosphor-fan-control@0.service", "replace");
+
+    if (fans.empty())
+    {
+        fanList = fanNames;
+    }
+    else
+    {
+        std::istringstream oss{fans};
+        std::string fan;
+
+        while (oss)
+        {
+            if (oss >> fan)
+            {
+                fanList.push_back(fan);
+            }
+        }
+    }
+
+    for (auto& fan : fanList)
+    {
+        try
+        {
+            auto paths(pathMap["speed"].find(fan));
+
+            if (pathMap["speed"].end() == paths)
+            {
+                std::cerr << "Could not find tach path for fan: " << fan
+                          << std::endl;
+                continue;
+            }
+
+            // set the target RPM
+            SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
+                                             interfaces["FanSpeed"], "Target",
+                                             target);
+        }
+        catch (phosphor::fan::util::DBusPropertyError& e)
+        {
+            std::cerr << "Cannot set target rpm for " << fan
+                      << " caught D-Bus exception: " << e.what() << std::endl;
+        }
+    }
+}
+
+/**
+ * @function restart fan-control to allow it to manage fan speeds
+ */
+void resume()
+{
+    try
+    {
+        auto retval =
+            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+                systemdService, systemdPath, systemdMgrIface, "StartUnit",
+                "phosphor-fan-control@0.service", "replace");
+    }
+    catch (phosphor::fan::util::DBusMethodError& e)
+    {
+        std::cerr << "Unable to start fan control: " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function print usage information to the console
  */
 void printHelp()
 {
-    std::cout << "NAME\n\
-    fanctl - Manually control, get fan tachs, view status, and resume\n\
-             automatic control of all fans within a chassis.\n\
-SYNOPSIS\n\
-    fanctl [OPTION]\n\
-OPTIONS\n\
-  status\n\
-      - Get the full system status in regard to fans\n\
-  get\n\
-      - Get the current fan target and feedback speeds for all rotors\n\
-  help\n\
-      - Display this help and exit\n";
+    auto out = R"(NAME
+  fanctl - Manually control, get fan tachs, view status, and resume
+             automatic control of all fans within a chassis.
+SYNOPSIS
+  fanctl [OPTION]
+OPTIONS
+  set <TARGET> ["TARGET SENSOR LIST"]
+      <TARGET>
+          - RPM/PWM target to set the fans
+      ["TARGET SENSOR LIST"]
+          - Double-quoted, space-delimited list of target sensors to set
+  get
+      - Get the current fan target and feedback speeds for all rotors
+  status
+      - Get the full system status in regard to fans
+  resume
+     - Resume automatic fan control
+     * Note: In the case where a system does not have an active fan control
+         algorithm enabled yet, an intended safe fan target should be set
+         prior to resuming
+  help
+      - Display this help and exit)";
+
+    std::cerr << out;
 }
