@@ -24,10 +24,10 @@
 
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
-constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
 constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
 constexpr auto systemdPath = "/org/freedesktop/systemd1";
 constexpr auto systemdService = "org.freedesktop.systemd1";
+constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
 
 /**
  * @function extracts fan name from dbus path string (last token where
@@ -334,7 +334,7 @@ void status()
 }
 
 /**
- * @function print usage information to the console
+ * @function print target RPM (or PWM) and tach readings from each fan
  */
 void get()
 {
@@ -398,7 +398,6 @@ void get()
 void set(uint64_t target, std::string fans)
 {
     auto busData = loadDBusData();
-
     auto& bus{SDBusPlus::getBus()};
     auto& fanNames{std::get<0>(busData)};
     auto& pathMap{std::get<1>(busData)};
@@ -410,7 +409,7 @@ void set(uint64_t target, std::string fans)
     std::vector<std::string> fanList;
 
     // stop the fan-control service
-    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+    SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
         systemdService, systemdPath, systemdMgrIface, "StopUnit",
         phosphorServiceName, "replace");
 
@@ -477,6 +476,24 @@ void resume()
 }
 
 /**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cerr << "Unable to reload configuration files: " << e.what()
+                  << std::endl;
+    }
+}
+
+/**
  * @function main entry point for the application
  */
 int main(int argc, char* argv[])
@@ -484,6 +501,7 @@ int main(int argc, char* argv[])
     auto rc = 0;
     uint64_t rpm{0U};
     std::string action("help"), fanList;
+
     try
     {
         CLI::App app{R"(Manually control, get fan tachs, view status, and resume
@@ -518,6 +536,7 @@ int main(int argc, char* argv[])
         // set method
         auto cmdSet = commands->add_subcommand(
             "set", "Set fan(s) target speed for all rotors");
+        cmdSet->require_option(2);
         cmdSet->add_option("rpm", rpm, "RPM/PWM target to set the fans");
         cmdSet->add_option("fan list", fanList,
                            "[optional] list of fans to set target RPM");
@@ -529,25 +548,36 @@ int main(int argc, char* argv[])
   - Double-quoted, space-delimited list of target sensors to set)");
 
         cmdSet->set_help_flag("-h, --help", setHelp);
-        cmdSet->require_option(2);
+
+        auto cmdReload = commands->add_subcommand(
+            "reload", "Reload the phosphor-fan service configuration file");
+        cmdReload->require_option(0);
+
+        auto cmdResume = commands->add_subcommand(
+            "resume", "Resume running the phosphor-fan service");
+        cmdResume->require_option(0);
 
         CLI11_PARSE(app, argc, argv);
 
-        if (app.got_subcommand("status"))
+        if (app.got_subcommand("get"))
         {
-            status();
+            get();
         }
         else if (app.got_subcommand("set"))
         {
             set(rpm, fanList);
         }
-        else if (app.got_subcommand("get"))
+        else if (app.got_subcommand("reload"))
         {
-            get();
+            reload();
         }
         else if (app.got_subcommand("resume"))
         {
             resume();
+        }
+        else if (app.got_subcommand("status"))
+        {
+            status();
         }
     }
     catch (const std::exception& e)
