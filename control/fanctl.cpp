@@ -24,6 +24,19 @@
 
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
+constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
+constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
+constexpr auto systemdPath = "/org/freedesktop/systemd1";
+constexpr auto systemdService = "org.freedesktop.systemd1";
+
+enum
+{
+    FAN_NAMES = 0,
+    PATH_MAP = 1,
+    IFACES = 2,
+    METHOD = 3
+};
+
 /**
  * @function extracts fan name from dbus path string (last token where
  * delimiter is the / character), with proper bounds checking.
@@ -164,13 +177,9 @@ std::array<std::string, 6> getStates()
                    std::string, std::string, sdbusplus::message::object_path,
                    uint32_t, std::string, sdbusplus::message::object_path>;
 
-    constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
-    constexpr auto systemdPath = "/org/freedesktop/systemd1";
-    constexpr auto systemdService = "org.freedesktop.systemd1";
-
     std::array<std::string, 6> ret;
 
-    std::vector<std::string> services{"phosphor-fan-control@0.service"};
+    std::vector<std::string> services{phosphorServiceName};
 
     try
     {
@@ -233,7 +242,7 @@ void status()
     using std::setw;
 
     auto busData = loadDBusData();
-    auto& method = std::get<3>(busData);
+    auto& method = std::get<METHOD>(busData);
 
     std::string property;
 
@@ -254,9 +263,9 @@ void status()
     cout << "==============================================================="
          << endl;
 
-    auto& fanNames{std::get<0>(busData)};
-    auto& pathMap{std::get<1>(busData)};
-    auto& interfaces{std::get<2>(busData)};
+    auto& fanNames{std::get<FAN_NAMES>(busData)};
+    auto& pathMap{std::get<PATH_MAP>(busData)};
+    auto& interfaces{std::get<IFACES>(busData)};
 
     for (auto& fan : fanNames)
     {
@@ -349,10 +358,10 @@ void get()
 
     auto busData = loadDBusData();
 
-    auto& fanNames{std::get<0>(busData)};
-    auto& pathMap{std::get<1>(busData)};
-    auto& interfaces{std::get<2>(busData)};
-    auto& method = std::get<3>(busData);
+    auto& fanNames{std::get<FAN_NAMES>(busData)};
+    auto& pathMap{std::get<PATH_MAP>(busData)};
+    auto& interfaces{std::get<IFACES>(busData)};
+    auto& method = std::get<METHOD>(busData);
 
     std::string property;
 
@@ -398,11 +407,105 @@ void get()
 }
 
 /**
+ * @function set fan[s] to a target RPM
+ */
+void set(uint64_t target, std::vector<std::string> fanList)
+{
+    auto busData = loadDBusData();
+
+    auto& bus{SDBusPlus::getBus()};
+    auto& pathMap{std::get<PATH_MAP>(busData)};
+    auto& interfaces{std::get<IFACES>(busData)};
+    auto& method = std::get<METHOD>(busData);
+
+    std::string ifaceType(method == "RPM" ? "FanSpeed" : "FanPwm");
+
+    // stop the fan-control service
+    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+        systemdService, systemdPath, systemdMgrIface, "StopUnit",
+        phosphorServiceName, "replace");
+
+    if (fanList.size() == 0)
+    {
+        fanList = std::get<FAN_NAMES>(busData);
+    }
+
+    for (auto& fan : fanList)
+    {
+        try
+        {
+            auto paths(pathMap["tach"].find(fan));
+
+            if (pathMap["tach"].end() == paths)
+            {
+                // try again, maybe it was a sensor name instead of a fan name
+                for (const auto& [fanName, sensors] : pathMap["tach"])
+                {
+                    for (const auto& path : sensors)
+                    {
+                        std::string sensor(path.substr(path.rfind("/")));
+
+                        if (sensor.size() > 0)
+                        {
+                            sensor = sensor.substr(1);
+
+                            if (sensor == fan)
+                            {
+                                paths = pathMap["tach"].find(fanName);
+
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (pathMap["tach"].end() == paths)
+            {
+                std::cout << "Could not find tach path for fan: " << fan
+                          << std::endl;
+                continue;
+            }
+
+            // set the target RPM
+            SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
+                                             interfaces[ifaceType], "Target",
+                                             std::move(target));
+        }
+        catch (const phosphor::fan::util::DBusPropertyError& e)
+        {
+            std::cerr << "Cannot set target rpm for " << fan
+                      << " caught D-Bus exception: " << e.what() << std::endl;
+        }
+    }
+}
+
+/**
+ * @function restart fan-control to allow it to manage fan speeds
+ */
+void resume()
+{
+    try
+    {
+        auto retval =
+            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+                systemdService, systemdPath, systemdMgrIface, "StartUnit",
+                phosphorServiceName, "replace");
+    }
+    catch (const phosphor::fan::util::DBusMethodError& e)
+    {
+        std::cerr << "Unable to start fan control: " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function main entry point for the application
  */
 int main(int argc, char* argv[])
 {
     auto rc = 0;
+    uint64_t target{0U};
+    std::vector<std::string> fanList;
 
     try
     {
@@ -417,17 +520,16 @@ int main(int argc, char* argv[])
         // This represents the command given
         auto commands = app.add_option_group("Commands");
 
-        // Configure method
+        // status method
         auto cmdStatus = commands->add_subcommand(
             "status",
             "Get the fan tach targets/values and fan-control service status");
-
         cmdStatus->set_help_flag(
             "-h, --help", "Prints fan target/tach readings, present/functional "
                           "states, and fan-monitor/BMC/Power service status");
         cmdStatus->require_option(0);
 
-        // Get method
+        // get method
         auto cmdGet = commands->add_subcommand(
             "get",
             "Get the current fan target and feedback speeds for all rotors");
@@ -436,15 +538,43 @@ int main(int argc, char* argv[])
             "Get the current fan target and feedback speeds for all rotors");
         cmdGet->require_option(0);
 
+        // set method
+        auto cmdSet = commands->add_subcommand(
+            "set", "Set fan(s) target speed for all rotors");
+        cmdSet->add_option("target", target, "RPM/PWM target to set the fans");
+        cmdSet->add_option("fan list", fanList,
+                           "[optional] list of fans to set target RPM");
+
+        std::string strHelp = "Resume running phosphor-fan-control";
+        auto cmdResume = commands->add_subcommand("resume", strHelp);
+        cmdResume->set_help_flag("-h, --help", strHelp);
+        cmdResume->require_option(0);
+
+        auto setHelp(R"(set <TARGET> [\"TARGET SENSOR LIST\"]
+      <TARGET>
+          - RPM/PWM target to set the fans
+[TARGET SENSOR LIST]
+  - list of target sensors to set)");
+        cmdSet->set_help_flag("-h, --help", setHelp);
+        cmdSet->require_option();
+
         CLI11_PARSE(app, argc, argv);
 
         if (app.got_subcommand("status"))
         {
             status();
         }
+        else if (app.got_subcommand("set"))
+        {
+            set(target, fanList);
+        }
         else if (app.got_subcommand("get"))
         {
             get();
+        }
+        else if (app.got_subcommand("resume"))
+        {
+            resume();
         }
     }
     catch (const std::exception& e)
