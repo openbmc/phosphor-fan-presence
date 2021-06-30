@@ -57,9 +57,11 @@ std::map<std::string, std::map<std::string, std::vector<std::string>>> pathMap;
 
 int main(int argc, char* argv[])
 {
-    std::string action("help");
+    std::string action("help"), fanList;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("status", action, "display fan-control status");
+    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("fan list", fanList,
+                   "[optional] list of fans to set target RPM");
     CLI11_PARSE(app, argc, argv);
 
     if ("status" == action)
@@ -362,16 +364,18 @@ void get()
  */
 void printHelp()
 {
-    std::cout << "NAME\n\
-    fanctl - Manually control, get fan tachs, view status, and resume\n\
-             automatic control of all fans within a chassis.\n\
-SYNOPSIS\n\
-    fanctl [OPTION]\n\
+    auto out = R"(NAME
+  fanctl - Manually control, get fan tachs, view status, and resume
+             automatic control of all fans within a chassis.
+SYNOPSIS
+  fanctl [OPTION]
 OPTIONS
   status
       - Get the full system status in regard to fans
   get
       - Get the current fan target and feedback speeds for all rotors
   help
-      - Display this help and exit\n";
+      - Display this help and exit)";
+
+    std::cout << out;
 }
