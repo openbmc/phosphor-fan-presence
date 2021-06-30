@@ -34,6 +34,7 @@ constexpr auto systemdService = "org.freedesktop.systemd1";
 void get();
 void loadVars();
 void printHelp();
+void reload();
 void resume();
 void set(uint64_t, std::string);
 void status();
@@ -87,6 +88,10 @@ int main(int argc, char* argv[])
     else if ("resume" == action)
     {
         resume();
+    }
+    else if ("reload" == action)
+    {
+        reload();
     }
     else
         printHelp();
@@ -306,19 +311,53 @@ void status()
 
         // print the Present property
         property = "Present";
+        std::string val;
         for (auto& path : pathMap["inventory"][fan])
-            cout << std::boolalpha
-                 << SDBusPlus::getProperty<bool>(path, interfaces["Item"],
-                                                 property);
+        {
+            try
+            {
+                if (SDBusPlus::getProperty<bool>(path, interfaces["Item"],
+                                                 property))
+                {
+                    val = "true";
+                }
+                else
+                {
+                    val = "false";
+                }
+            }
+            catch (phosphor::fan::util::DBusPropertyError&)
+            {
+                val = "Unknown";
+            }
+            cout << val;
+        }
 
         cout << setw(13);
 
         // and the functional property
         property = "Functional";
         for (auto& path : pathMap["opstatus"][fan])
-            cout << std::boolalpha
-                 << SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
-                                                 property);
+        {
+            try
+            {
+                if (SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
+                                                 property))
+                {
+                    val = "true";
+                }
+                else
+                {
+                    val = "false";
+                }
+            }
+            catch (phosphor::fan::util::DBusPropertyError&)
+            {
+                val = "Unknown";
+            }
+
+            cout << val;
+        }
 
         cout << endl;
     }
@@ -446,6 +485,23 @@ void resume()
     catch (phosphor::fan::util::DBusMethodError& e)
     {
         std::cout << "Caught exception (resume) " << e.what() << std::endl;
+    }
+}
+
+/**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cout << "Caught exception (reload) " << e.what() << std::endl;
     }
 }
 
