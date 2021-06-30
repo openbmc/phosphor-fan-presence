@@ -34,6 +34,7 @@ constexpr auto systemdService = "org.freedesktop.systemd1";
 void get();
 void loadDBusData();
 void printHelp();
+void reload();
 void resume();
 void set(uint64_t, std::string);
 void status();
@@ -62,7 +63,8 @@ int main(int argc, char* argv[])
     uint64_t rpm{0U};
     std::string action("help"), fanList;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("action", action,
+                   "action to perform [status|get|set|reload|resume]");
     app.add_option("rpm", rpm, "RPM/PWM target to set the fans");
     app.add_option("fan list", fanList,
                    "[optional] list of fans to set target RPM");
@@ -88,6 +90,10 @@ int main(int argc, char* argv[])
         else if ("resume" == action)
         {
             resume();
+        }
+        else if ("reload" == action)
+        {
+            reload();
         }
         else
         {
@@ -307,6 +313,7 @@ void status()
 
         // print the Present property
         property = "Present";
+        std::string val;
         for (auto& path : pathMap["inventory"][fan])
             cerr << std::boolalpha
                  << SDBusPlus::getProperty<bool>(path, interfaces["Item"],
@@ -451,6 +458,23 @@ void resume()
 }
 
 /**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cout << "Caught exception (reload) " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function print usage information to the console
  */
 void printHelp()
@@ -470,6 +494,8 @@ OPTIONS
       - Get the current fan target and feedback speeds for all rotors
   status
       - Get the full system status in regard to fans
+  reload
+      - Reload all configuration files
   resume
      - Resume automatic fan control
      * Note: In the case where a system does not have an active fan control
