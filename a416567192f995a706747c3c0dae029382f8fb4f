@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2305da5b_9e19e07f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-30T14:22:07Z",
+      "side": 1,
+      "message": "seems that I\u0027m going to be fighting with clang-format here to get the spacing right. might have to put these in individual cout statements unless there\u0027s a clang-format-ignore-this directive.",
+      "revId": "a416567192f995a706747c3c0dae029382f8fb4f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
