@@ -37,6 +37,9 @@ phosphor_fan_control_CXXFLAGS = \
 	${PHOSPHOR_DBUS_INTERFACES_CFLAGS} \
 	-flto
 
+bin_PROGRAMS += \
+	fanctl
+
 fanctl_SOURCES = \
 	fanctl.cpp
 
