@@ -275,7 +275,7 @@ void status()
             {
                 val = "Unknown";
             }
-            cout << val;
+            cerr << val;
         }
 
         cerr << setw(13);
@@ -300,7 +300,7 @@ void status()
             {
                 val = "Unknown";
             }
-            cout << val;
+            cerr << val;
         }
 
         cerr << endl;
@@ -404,7 +404,7 @@ void set(uint64_t target, std::string fans)
             // set the target RPM
             SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
                                              interfaces["FanSpeed"], "Target",
-                                             target);
+                                             std::move(target));
         }
         catch (phosphor::fan::util::DBusPropertyError& e)
         {
@@ -433,6 +433,23 @@ void resume()
 }
 
 /**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cerr << "Caught exception (reload) " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function print usage information to the console
  */
 void printHelp()
@@ -452,6 +469,8 @@ OPTIONS
       - Get the current fan target and feedback speeds for all rotors
   status
       - Get the full system status in regard to fans
+  reload
+      - Reload all configuration files
   resume
      - Resume automatic fan control
      * Note: In the case where a system does not have an active fan control
@@ -471,7 +490,8 @@ int main(int argc, char* argv[])
     uint64_t rpm{0U};
     std::string action("help"), fanList;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("action", action,
+                   "action to perform [status|get|set|reload|resume]");
     app.add_option("rpm", rpm, "RPM/PWM target to set the fans");
     app.add_option("fan list", fanList,
                    "[optional] list of fans to set target RPM");
@@ -497,6 +517,10 @@ int main(int argc, char* argv[])
         else if ("resume" == action)
         {
             resume();
+        }
+        else if ("reload" == action)
+        {
+            reload();
         }
         else
         {
