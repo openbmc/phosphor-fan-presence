@@ -197,7 +197,7 @@ std::array<std::string, 6> getStates()
     }
     catch (const std::exception& e)
     {
-        std::cout << "caught exception: " << e.what() << std::endl;
+        std::cerr << "caught exception: " << e.what() << std::endl;
     }
 
     std::string path("/xyz/openbmc_project/state/bmc0");
@@ -376,7 +376,6 @@ void status()
  */
 void get()
 {
-    using std::cout;
     using std::endl;
     using std::setw;
 
@@ -421,22 +420,110 @@ void get()
 }
 
 /**
+ * @function set fan[s] to a target RPM
+ */
+void set(uint64_t target, std::string fans)
+{
+    auto& bus{SDBusPlus::getBus()};
+
+    std::vector<std::string> fanList;
+
+    // stop the fan-control service
+    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+        systemdService, systemdPath, systemdMgrIface, "StopUnit",
+        "phosphor-fan-control@0.service", "replace");
+
+    if (fans.empty())
+    {
+        fanList = fanNames;
+    }
+    else
+    {
+        std::istringstream oss{fans};
+        std::string fan;
+
+        while (oss)
+        {
+            if (oss >> fan)
+            {
+                fanList.push_back(fan);
+            }
+        }
+    }
+
+    for (auto& fan : fanList)
+    {
+        try
+        {
+            auto paths(pathMap["speed"].find(fan));
+
+            if (pathMap["speed"].end() == paths)
+            {
+                std::cout << "Could not find tach path for fan: " << fan
+                          << std::endl;
+                continue;
+            }
+
+            // set the target RPM
+            SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
+                                             interfaces["FanSpeed"], "Target",
+                                             target);
+        }
+        catch (phosphor::fan::util::DBusPropertyError& e)
+        {
+            std::cerr << "Cannot set target rpm for " << fan
+                      << " caught D-Bus exception: " << e.what() << std::endl;
+        }
+    }
+}
+
+/**
+ * @function restart fan-control to allow it to manage fan speeds
+ */
+void resume()
+{
+    try
+    {
+        auto retval =
+            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+                systemdService, systemdPath, systemdMgrIface, "StartUnit",
+                "phosphor-fan-control@0.service", "replace");
+    }
+    catch (phosphor::fan::util::DBusMethodError& e)
+    {
+        std::cerr << "Unable to start fan control: " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function print usage information to the console
  */
 void printHelp()
 {
-    std::cout << "NAME\n\
-    fanctl - Manually control, get fan tachs, view status, and resume\n\
-             automatic control of all fans within a chassis.\n\
-SYNOPSIS\n\
-    fanctl [OPTION]\n\
-OPTIONS\n\
-  status\n\
-      - Get the full system status in regard to fans\n\
-  get\n\
-      - Get the current fan target and feedback speeds for all rotors\n\
-  help\n\
-      - Display this help and exit\n";
+    auto out = R"(NAME
+  fanctl - Manually control, get fan tachs, view status, and resume
+             automatic control of all fans within a chassis.
+SYNOPSIS
+  fanctl [OPTION]
+OPTIONS
+  set <TARGET> ["TARGET SENSOR LIST"]
+      <TARGET>
+          - RPM/PWM target to set the fans
+      ["TARGET SENSOR LIST"]
+          - Double-quoted, space-delimited list of target sensors to set
+  get
+      - Get the current fan target and feedback speeds for all rotors
+  status
+      - Get the full system status in regard to fans
+  resume
+     - Resume automatic fan control
+     * Note: In the case where a system does not have an active fan control
+         algorithm enabled yet, an intended safe fan target should be set
+         prior to resuming
+  help
+      - Display this help and exit)";
+
+    std::cout << out;
 }
 
 /**
@@ -444,9 +531,13 @@ OPTIONS\n\
  */
 int main(int argc, char* argv[])
 {
-    std::string action("help");
+    uint64_t rpm{0U};
+    std::string action("help"), fanList;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("status", action, "display fan-control status");
+    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("rpm", rpm, "RPM/PWM target to set the fans");
+    app.add_option("fan list", fanList,
+                   "[optional] list of fans to set target RPM");
     CLI11_PARSE(app, argc, argv);
 
     try
@@ -456,17 +547,26 @@ int main(int argc, char* argv[])
             loadDBusData();
             status();
         }
+        else if ("set" == action)
+        {
+            loadDBusData();
+            set(rpm, fanList);
+        }
         else if ("get" == action)
         {
             loadDBusData();
             get();
+        }
+        else if ("resume" == action)
+        {
+            resume();
         }
         else
         {
             printHelp();
         }
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         std::cerr << "Fan control failed: " << e.what() << std::endl;
     }
