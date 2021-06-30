@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35557f47_8a23cc33",
+        "filename": "control/Makefile.am",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-06-30T17:09:38Z",
+      "side": 1,
+      "message": "I may need to remove the EVENT/LOGGING cxx flags here too.",
+      "revId": "b78bc45bc3d10cd9461f53a0b2233d169c89d042",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
