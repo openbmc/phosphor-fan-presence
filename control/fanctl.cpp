@@ -34,6 +34,8 @@ constexpr auto systemdService = "org.freedesktop.systemd1";
 void get();
 void loadVars();
 void printHelp();
+void resume();
+void set(uint64_t, std::string);
 void status();
 
 std::map<std::string, std::string> interfaces{
@@ -57,9 +59,13 @@ std::map<std::string, std::map<std::string, std::vector<std::string>>> pathMap;
 
 int main(int argc, char* argv[])
 {
-    std::string action("help");
+    std::string action("help"), fanList;
+    uint64_t rpm;
     CLI::App app{"OpenBMC Fan Control App"};
-    app.add_option("status", action, "display fan-control status");
+    app.add_option("action", action, "action to perform [status|get|set]");
+    app.add_option("rpm", rpm, "action to perform [status|get|set]");
+    app.add_option("fan list", fanList,
+                   "[optional] list of fans to set target RPM");
     CLI11_PARSE(app, argc, argv);
 
     if ("status" == action)
@@ -71,6 +77,16 @@ int main(int argc, char* argv[])
     {
         loadVars();
         get();
+    }
+    else if ("set" == action)
+    {
+        loadVars();
+
+        set(rpm, fanList);
+    }
+    else if ("resume" == action)
+    {
+        resume();
     }
     else
         printHelp();
@@ -358,6 +374,83 @@ void get()
 }
 
 /**
+ * @function set fan[s] to a target RPM
+ */
+void set(uint64_t target, std::string fans)
+{
+    auto& bus{SDBusPlus::getBus()};
+
+    std::vector<std::string> fanList;
+
+    // stop the fan-control service
+    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+        systemdService, systemdPath, systemdMgrIface, "StopUnit",
+        "phosphor-fan-control@0.service", "replace");
+
+    if (fans.empty())
+    {
+        fanList = fanNames;
+    }
+    else
+    {
+        std::istringstream oss{fans};
+        std::string fan;
+
+        while (oss)
+        {
+            if (oss >> fan)
+            {
+                fanList.push_back(fan);
+            }
+        }
+    }
+
+    for (auto& fan : fanList)
+    {
+        try
+        {
+            auto paths(pathMap["speed"].find(fan));
+
+            if (pathMap["speed"].end() == paths)
+            {
+                std::cout << "Could not find tach path for fan: " << fan
+                          << std::endl;
+                continue;
+            }
+
+            // set the target RPM
+            SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
+                                             interfaces["FanSpeed"], "Target",
+                                             std::move(target));
+        }
+        catch (phosphor::fan::util::DBusPropertyError& e)
+        {
+            std::cout << "Cannot set target rpm for " << fan
+                      << " caught D-Bus exception: " << e.what() << std::endl;
+        }
+    }
+}
+
+/**
+ * @function transfer fan control to systemd
+ */
+void resume()
+{
+    try
+    {
+
+        auto retval =
+            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+                systemdService, systemdPath, systemdMgrIface, "StartUnit",
+                "phosphor-fan-control@0.service", "replace");
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cout << "Caught exception (resume) " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function print usage information to the console
  */
 void printHelp()
@@ -365,13 +458,23 @@ void printHelp()
     std::cout << "NAME\n\
     fanctl - Manually control, get fan tachs, view status, and resume\n\
              automatic control of all fans within a chassis.\n\
-SYNOPSIS\n\
-    fanctl [OPTION]\n\
-OPTIONS\n\
-    get\n\
-        - Get the current fan target and feedback speeds for all rotors\n\
-  status\n\
-      - Get the full system status in regard to fans\n\
-  help \n\
-      - Display this help and exit\n";
+  SYNOPSIS\n\
+      fanctl [OPTION]\n\
+  OPTIONS\n\
+     set <TARGET> [\"TARGET SENSOR LIST\"]\n\
+         <TARGET>\n\
+             - RPM/PWM target to set the fans\n\
+         [\"TARGET SENSOR LIST\"]\n\
+             - Double-quoted, space-delimited list of target sensors to set\n\
+     get\n\
+         - Get the current fan target and feedback speeds for all rotors\n\
+    status\n\
+         - Get the full system status in regard to fans\n\
+    resume\n\
+         - Resume automatic fan control\n\
+         * Note: In the case where a system does not have an active fan control\n\
+             algorithm enabled yet, an intended safe fan target should be set\n\
+             prior to resuming\n\
+    help \n\
+       - Display this help and exit\n";
 }
