@@ -34,6 +34,7 @@ constexpr auto systemdService = "org.freedesktop.systemd1";
 void get();
 void loadVars();
 void printHelp();
+void reload();
 void resume();
 void set(uint64_t, std::string);
 void status();
@@ -87,6 +88,10 @@ int main(int argc, char* argv[])
     else if ("resume" == action)
     {
         resume();
+    }
+    else if ("reload" == action)
+    {
+        reload();
     }
     else
         printHelp();
@@ -306,19 +311,53 @@ void status()
 
         // print the Present property
         property = "Present";
+        std::string val;
         for (auto& path : pathMap["inventory"][fan])
-            cout << std::boolalpha
-                 << SDBusPlus::getProperty<bool>(path, interfaces["Item"],
-                                                 property);
+        {
+            try
+            {
+                if (SDBusPlus::getProperty<bool>(path, interfaces["Item"],
+                                                 property))
+                {
+                    val = "true";
+                }
+                else
+                {
+                    val = "false";
+                }
+            }
+            catch (phosphor::fan::util::DBusPropertyError&)
+            {
+                val = "Unknown";
+            }
+            cout << val;
+        }
 
         cout << setw(13);
 
         // and the functional property
         property = "Functional";
         for (auto& path : pathMap["opstatus"][fan])
-            cout << std::boolalpha
-                 << SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
-                                                 property);
+        {
+            try
+            {
+                if (SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
+                                                 property))
+                {
+                    val = "true";
+                }
+                else
+                {
+                    val = "false";
+                }
+            }
+            catch (phosphor::fan::util::DBusPropertyError&)
+            {
+                val = "Unknown";
+            }
+
+            cout << val;
+        }
 
         cout << endl;
     }
@@ -438,7 +477,6 @@ void resume()
 {
     try
     {
-
         auto retval =
             SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
                 systemdService, systemdPath, systemdMgrIface, "StartUnit",
@@ -451,30 +489,39 @@ void resume()
 }
 
 /**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cout << "Caught exception (reload) " << e.what() << std::endl;
+    }
+}
+
+/**
  * @function print usage information to the console
  */
 void printHelp()
 {
-    std::cout << "NAME\n\
+    auto out = R"(NAME\n\
     fanctl - Manually control, get fan tachs, view status, and resume\n\
              automatic control of all fans within a chassis.\n\
-  SYNOPSIS\n\
-      fanctl [OPTION]\n\
-  OPTIONS\n\
-     set <TARGET> [\"TARGET SENSOR LIST\"]\n\
-         <TARGET>\n\
-             - RPM/PWM target to set the fans\n\
-         [\"TARGET SENSOR LIST\"]\n\
-             - Double-quoted, space-delimited list of target sensors to set\n\
-     get\n\
-         - Get the current fan target and feedback speeds for all rotors\n\
+SYNOPSIS\n\
+    fanctl [OPTION]\n\
+OPTIONS\n\
+    get\n\
+        - Get the current fan target and feedback speeds for all rotors\n\
     status\n\
-         - Get the full system status in regard to fans\n\
-    resume\n\
-         - Resume automatic fan control\n\
-         * Note: In the case where a system does not have an active fan control\n\
-             algorithm enabled yet, an intended safe fan target should be set\n\
-             prior to resuming\n\
+        - Get the full system status in regard to fans\n\
     help \n\
-       - Display this help and exit\n";
+        - Display this help and exit\n)";
+
+    std::cout << out;
 }
