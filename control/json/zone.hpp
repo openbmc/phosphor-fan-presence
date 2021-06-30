@@ -232,6 +232,16 @@ class Zone : public ConfigBase
     void setFloor(uint64_t target);
 
     /**
+     * @brief Set the default floor to the given value
+     *
+     * @param[in] value - Value to set the default floor to
+     */
+    inline void setDefaultFloor(uint64_t value)
+    {
+        _defaultFloor = value;
+    }
+
+    /**
      * @brief Sets the floor change allowed state
      *
      * @param[in] ident - An identifier that affects floor changes
