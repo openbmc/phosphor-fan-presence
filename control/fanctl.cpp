@@ -24,10 +24,11 @@
 
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
-constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
 constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
 constexpr auto systemdPath = "/org/freedesktop/systemd1";
 constexpr auto systemdService = "org.freedesktop.systemd1";
+constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
+
 
 /**
  * @function extracts fan name from dbus path string (last token where
@@ -198,7 +199,8 @@ std::array<std::string, 6> getStates()
     }
     catch (const std::exception& e)
     {
-        std::cerr << "Failure retrieving phosphor-fan-control states: " << e.what() << std::endl;
+        std::cerr << "Failure retrieving phosphor-fan-control states: "
+                  << e.what() << std::endl;
     }
 
     std::string path("/xyz/openbmc_project/state/bmc0");
@@ -399,7 +401,6 @@ void get()
 void set(uint64_t target, std::string fans)
 {
     auto busData = loadDBusData();
-
     auto& bus{SDBusPlus::getBus()};
     auto& fanNames{std::get<0>(busData)};
     auto& pathMap{std::get<1>(busData)};
@@ -408,7 +409,7 @@ void set(uint64_t target, std::string fans)
     std::vector<std::string> fanList;
 
     // stop the fan-control service
-    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+    SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
         systemdService, systemdPath, systemdMgrIface, "StopUnit",
         phosphorServiceName, "replace");
 
@@ -475,6 +476,24 @@ void resume()
 }
 
 /**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cerr << "Unable to reload configuration files: " << e.what()
+                  << std::endl;
+    }
+}
+
+/**
  * @function main entry point for the application
  */
 int main(int argc, char* argv[])
@@ -482,6 +501,14 @@ int main(int argc, char* argv[])
     auto rc = 0;
     uint64_t rpm{0U};
     std::string action("help"), fanList;
+    CLI::App app{"OpenBMC Fan Control App"};
+    app.add_option("action", action,
+                   "action to perform [status|get|set|reload|resume]");
+    app.add_option("rpm", rpm, "RPM/PWM target to set the fans");
+    app.add_option("fan list", fanList,
+                   "[optional] list of fans to set target RPM");
+    CLI11_PARSE(app, argc, argv);
+
     try
     {
         CLI::App app{R"(Manually control, get fan tachs, view status, and resume
@@ -539,6 +566,14 @@ int main(int argc, char* argv[])
         else if (app.got_subcommand("resume"))
         {
             resume();
+        }
+        else if ("reload" == action)
+        {
+            reload();
+        }
+        else
+        {
+            printHelp();
         }
     }
     catch (const std::exception& e)
