@@ -24,10 +24,10 @@
 
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
-constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
 constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
 constexpr auto systemdPath = "/org/freedesktop/systemd1";
 constexpr auto systemdService = "org.freedesktop.systemd1";
+constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
 
 enum
 {
@@ -260,7 +260,7 @@ void status()
     cout << "CurrentHostState    : " << states[5] << endl;
     cout << endl;
     cout << " FAN        "
-         << "TARGET(" << method << ")  FEEDBACKS(RPMS)   PRESENT"
+         << "TARGET(" << method << ")  FEEDBACK(RPM)   PRESENT"
          << "     FUNCTIONAL" << endl;
     cout << "==============================================================="
          << endl;
@@ -271,30 +271,31 @@ void status()
 
     for (auto& fan : fanNames)
     {
-        cout << " " << fan << setw(18);
+        cout << " " << fan << setw(14);
 
         // get the target RPM
         property = "Target";
         cout << SDBusPlus::getProperty<uint64_t>(
                     pathMap["speed"][fan][0],
                     interfaces[ifaceTypeFromMethod(method)], property)
-             << setw(11);
+             << setw(12);
 
         // get the sensor RPM
         property = "Value";
 
+        std::ostringstream output;
         int numRotors = pathMap["tach"][fan].size();
         // print tach readings for each rotor
         for (auto& path : pathMap["tach"][fan])
         {
-            cout << SDBusPlus::getProperty<double>(
+            output << SDBusPlus::getProperty<double>(
                 path, interfaces["SensorValue"], property);
 
             // dont print slash on last rotor
             if (--numRotors)
-                cout << "/";
+                output << "/";
         }
-        cout << setw(10);
+        cout << setw(18) << output.str() << setw(10);
 
         // print the Present property
         property = "Present";
@@ -369,8 +370,7 @@ void get()
 
     // print the header
     cout << "TARGET SENSOR" << setw(11) << "TARGET(" << method
-         << ")   FEEDBACK SENSOR   ";
-    cout << "FEEDBACK(" << method << ")" << endl;
+         << ")   FEEDBACK SENSOR    FEEDBACK(RPM)" << endl;
     cout << "==============================================================="
          << endl;
 
@@ -381,7 +381,7 @@ void get()
         // print just the sensor name
         auto shortPath = pathMap["tach"][fan][0];
         shortPath = justFanName(shortPath);
-        cout << shortPath << setw(22);
+        cout << shortPath << setw(18);
 
         // print its target RPM/PWM
         property = "Target";
@@ -397,13 +397,13 @@ void get()
         for (auto& path : pathMap["tach"][fan])
         {
             cout << setw(indent);
-            cout << justFanName(path) << setw(17)
+            cout << justFanName(path) << setw(16)
                  << SDBusPlus::getProperty<double>(
                         path, interfaces["SensorValue"], property)
                  << endl;
 
             if (0 == indent)
-                indent = 46;
+                indent = 42;
         }
     }
 }
@@ -411,10 +411,9 @@ void get()
 /**
  * @function set fan[s] to a target RPM
  */
-void set(uint64_t target, std::vector<std::string> fanList)
+void set(uint64_t target, std::vector<std::string>& fanList)
 {
     auto busData = loadDBusData();
-
     auto& bus{SDBusPlus::getBus()};
     auto& pathMap{std::get<PATH_MAP>(busData)};
     auto& interfaces{std::get<IFACES>(busData)};
@@ -423,7 +422,7 @@ void set(uint64_t target, std::vector<std::string> fanList)
     std::string ifaceType(method == "RPM" ? "FanSpeed" : "FanPwm");
 
     // stop the fan-control service
-    auto retval = SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+    SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
         systemdService, systemdPath, systemdMgrIface, "StopUnit",
         phosphorServiceName, "replace");
 
@@ -477,6 +476,76 @@ void resume()
 }
 
 /**
+ * @function force reload of control files by sending HUP signal
+ */
+void reload()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", "phosphor-fan-control@0.service",
+                              "main", SIGHUP);
+    }
+    catch (phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cerr << "Unable to reload configuration files: " << e.what()
+                  << std::endl;
+    }
+}
+
+/**
+ * @function setup the CLI object to accept all options
+ */
+void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
+{
+    app.set_help_flag("-h,--help", "Print this help page and exit.");
+
+    // App requires only 1 subcommand to be given
+    app.require_subcommand(1);
+
+    // This represents the command given
+    auto commands = app.add_option_group("Commands");
+
+    // status method
+    std::string strHelp("Prints fan target/tach readings, present/functional "
+                        "states, and fan-monitor/BMC/Power service status");
+    auto cmdStatus = commands->add_subcommand("status", strHelp);
+    cmdStatus->set_help_flag("-h, --help", strHelp);
+    cmdStatus->require_option(0);
+
+    // get method
+    strHelp = "Get the current fan target and feedback speeds for all rotors";
+    auto cmdGet = commands->add_subcommand("get", strHelp);
+    cmdGet->set_help_flag("-h, --help", strHelp);
+    cmdGet->require_option(0);
+
+    // set method
+    strHelp = "Set target speed (all rotors) for one-or-more fans";
+    auto cmdSet = commands->add_subcommand("set", strHelp);
+    strHelp = R"(set <TARGET> [TARGET SENSOR(S)]
+  <TARGET>
+      - RPM/PWM target to set the fans
+[\"TARGET SENSOR LIST\"]
+- list of target sensors to set)";
+    cmdSet->set_help_flag("-h, --help", strHelp);
+    cmdSet->add_option("target", target, "RPM/PWM target to set the fans");
+    cmdSet->add_option(
+        "fan list", fanList,
+        "[optional] list of 1+ fans to set target RPM/PWM (default: all)");
+    cmdSet->require_option();
+
+    strHelp = "Reload the phosphor-fan service configuration file";
+    auto cmdReload = commands->add_subcommand("reload", strHelp);
+    cmdReload->set_help_flag("-h, --help", strHelp);
+    cmdReload->require_option(0);
+
+    strHelp = "Resume running the phosphor-fan service";
+    auto cmdResume = commands->add_subcommand("resume", strHelp);
+    cmdResume->set_help_flag("-h, --help", strHelp);
+    cmdResume->require_option(0);
+}
+
+/**
  * @function main entry point for the application
  */
 int main(int argc, char* argv[])
@@ -490,65 +559,29 @@ int main(int argc, char* argv[])
         CLI::App app{R"(Manually control, get fan tachs, view status, and resume
              automatic control of all fans within a chassis.)"};
 
-        app.set_help_flag("-h,--help", "Print this help page and exit.");
-
-        // App requires only 1 subcommand to be given
-        app.require_subcommand(1);
-
-        // This represents the command given
-        auto commands = app.add_option_group("Commands");
-
-        // status method
-        auto cmdStatus = commands->add_subcommand(
-            "status",
-            "Get the fan tach targets/values and fan-control service status");
-        cmdStatus->set_help_flag(
-            "-h, --help", "Prints fan target/tach readings, present/functional "
-                          "states, and fan-monitor/BMC/Power service status");
-        cmdStatus->require_option(0);
-
-        // get method
-        auto cmdGet = commands->add_subcommand(
-            "get",
-            "Get the current fan target and feedback speeds for all rotors");
-        cmdGet->set_help_flag(
-            "-h, --help",
-            "Get the current fan target and feedback speeds for all rotors");
-        cmdGet->require_option(0);
-
-        // set method
-        auto cmdSet = commands->add_subcommand(
-            "set", "Set fan(s) target speed for all rotors");
-        cmdSet->add_option("target", target, "RPM/PWM target to set the fans");
-        cmdSet->add_option("fan list", fanList,
-                           "[optional] list of fans to set target RPM");
-
-        auto setHelp(R"(set <TARGET> [\"TARGET SENSOR LIST\"]
-      <TARGET>
-          - RPM/PWM target to set the fans
-[\"TARGET SENSOR LIST\"]
-  - list of target sensors to set)");
-
-        cmdSet->set_help_flag("-h, --help", setHelp);
-        cmdSet->require_option(2);
+        initCLI(app, target, fanList);
 
         CLI11_PARSE(app, argc, argv);
 
-        if (app.got_subcommand("status"))
+        if (app.got_subcommand("get"))
         {
-            status();
+            get();
         }
         else if (app.got_subcommand("set"))
         {
             set(target, fanList);
         }
-        else if (app.got_subcommand("get"))
+        else if (app.got_subcommand("reload"))
         {
-            get();
+            reload();
         }
         else if (app.got_subcommand("resume"))
         {
             resume();
+        }
+        else if (app.got_subcommand("status"))
+        {
+            status();
         }
     }
     catch (const std::exception& e)
