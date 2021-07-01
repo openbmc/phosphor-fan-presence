@@ -283,8 +283,8 @@ const std::string& Manager::findService(const std::string& path,
 void Manager::addServices(const std::string& intf, int32_t depth)
 {
     // Get all subtree objects for the given interface
-    auto objects = util::SDBusPlus::getSubTree(util::SDBusPlus::getBus(), "/",
-                                               intf, depth);
+    auto objects = util::SDBusPlus::getSubTreeRaw(util::SDBusPlus::getBus(),
+                                                  "/", intf, depth);
     // Add what's returned to the cache of path->services
     for (auto& itPath : objects)
     {
@@ -388,7 +388,7 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     if (service.empty())
     {
         // Log service not found for object
-        log<level::ERR>(
+        log<level::DEBUG>(
             fmt::format("Unable to get service name for path {}, interface {}",
                         path, intf)
                 .c_str());
