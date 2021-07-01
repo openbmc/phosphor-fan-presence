@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "807bf75f_ff59d415",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-01T21:11:17Z",
+      "side": 1,
+      "message": "A tuple or a structure seems more appropriate here, since the values mean different things.  And/Or also, you could uses constants for the indexes. That being said, it isn\u0027t really that big of a deal and the end result isn\u0027t really all that different anyway.  Maybe Matt has an opinion",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "cd0e6031b594651b55a297d679c03833754b0b90",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a28838f3_b4215299",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-01T21:11:17Z",
+      "side": 1,
+      "message": "would using raw strings make this any easier?\n\nauto out \u003d R\"(\nNAME\n   fanclt ...\nSYNOPSIS\n   ...\n)\";\nstd::cout \u003c\u003c out",
+      "revId": "cd0e6031b594651b55a297d679c03833754b0b90",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
