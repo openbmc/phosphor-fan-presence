@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a16e1e3_a02f23d8",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "When the sensor does not have an owner, dont we want to immediately return true here so Fan::process starts/continues the appropriate method of updating the functional state?\n\nRight now this appears to say a sensor would never be \"out of range\" when its no longer owned by a service, yet we do want it to be deemed not \"in range\"...just not do the range calculation.",
+      "range": {
+        "startLine": 350,
+        "startChar": 4,
+        "endLine": 350,
+        "endChar": 26
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b78e005_cb7c75c7",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "const ?",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 26
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb41a106_39cf9594",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "Instead of the extra temporary reference, could use `service_itr.first` here",
+      "range": {
+        "startLine": 94,
+        "startChar": 50,
+        "endLine": 94,
+        "endChar": 57
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "047b44b4_41b77cb9",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "`FAN_SENSOR_PATH` can be used here to narrow the scope to the fan tach sensors.\n\nThen the entire set of nested loops below could be updated to:\n```\nfor (const auto\u0026 fan : _fans)\n{\n  for (const auto\u0026 sensor : fan-\u003esensors())\n  {\n    const auto\u0026 itServ \u003d objects.find(sensor-\u003ename());\n    if (itServ \u003d\u003d objects.end())\n    {\n      // Fan sensor not found, need to handle this...error?\n    }\n    sensorMap[itServ-\u003esecond].insert(sensor);\n  }\n}\n\nWith the update to include the target interface in the getSubTree call, the looping for the services for the feedback and target sensors will need to be updated.",
+      "range": {
+        "startLine": 115,
+        "startChar": 42,
+        "endLine": 115,
+        "endChar": 45
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ad2632_53c22cfc",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "Probably should include the target interface in the getSubTree call so that all objects \u0026 services for both the sensor and target interfaces are returned in the single call. As you\u0027ll see, the interface passed to getSubTree is put into vector when the method call is made to the mapper.\n\nThis would require a new `getSubTree` method in SDBusPlus or the use of callMethodAndRead directly.",
+      "range": {
+        "startLine": 115,
+        "startChar": 47,
+        "endLine": 115,
+        "endChar": 68
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9faa0352_85abd8cb",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "const ?",
+      "range": {
+        "startLine": 123,
+        "startChar": 17,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba43acce_ce3bc29b",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "What does the \u00272\u0027 represent here? Can it just be \"fan\"?",
+      "range": {
+        "startLine": 123,
+        "startChar": 26,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6406390_a793c20a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "const ?",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 33
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b5edccf_26087777",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "Doesnt `sensorMap` use the service name as the key? This appears to be using the target interface...",
+      "range": {
+        "startLine": 137,
+        "startChar": 24,
+        "endLine": 140,
+        "endChar": 25
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b66514_94bf849e",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "`hasOwner` or `isOwned` seems more appropriate for this variable name.",
+      "range": {
+        "startLine": 246,
+        "startChar": 9,
+        "endLine": 246,
+        "endChar": 18
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c432e8bd_3f9f3093",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "D-Bus match objects",
+      "range": {
+        "startLine": 171,
+        "startChar": 31,
+        "endLine": 171,
+        "endChar": 49
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d5d23d7_8267680a",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-06T19:37:16Z",
+      "side": 1,
+      "message": "Please update to match variable name \u003d `sensorMap`",
+      "range": {
+        "startLine": 240,
+        "startChar": 18,
+        "endLine": 240,
+        "endChar": 28
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
