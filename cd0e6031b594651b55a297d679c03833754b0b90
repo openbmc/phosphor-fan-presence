@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "b2969305_84119c84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-06T15:16:55Z",
+      "side": 1,
+      "message": "root@p10bmc:~# /tmp/fanctl status\nFan Control Service State   : loaded, inactive(dead)\nCurrentBMCState     : xyz.openbmc_project.State.BMC.BMCState.Ready\nCurrentPowerState   : xyz.openbmc_project.State.Chassis.PowerState.Off\nCurrentHostState    : xyz.openbmc_project.State.Host.HostState.Off\n\n FAN        TARGET(RPM)  FEEDBACKS(RPMS)   PRESENT     FUNCTIONAL\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n fan0             10000      10000/13591      true         true\n fan1             10000      10000/13591      true         true\n fan2             10000      10000/13591      true         true\n fan3             10000      10000/13591      true         true\n fan4             10000      10000/13591      true         true\n fan5             10000      10000/13591      true         true",
+      "parentUuid": "7beca45e_fb6854b9",
+      "revId": "cd0e6031b594651b55a297d679c03833754b0b90",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "807bf75f_ff59d415",
         "filename": "control/fanctl.cpp",
         "patchSetId": 13
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "68568ccc_e782c877",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-06T15:16:55Z",
+      "side": 1,
+      "message": "Ack pending Matt B\u0027s input.",
+      "parentUuid": "807bf75f_ff59d415",
+      "range": {
+        "startLine": 109,
+        "startChar": 0,
+        "endLine": 109,
+        "endChar": 26
+      },
+      "revId": "cd0e6031b594651b55a297d679c03833754b0b90",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a28838f3_b4215299",
         "filename": "control/fanctl.cpp",
         "patchSetId": 13
@@ -56,6 +98,24 @@
       "revId": "cd0e6031b594651b55a297d679c03833754b0b90",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84fbfd85_d93e7f3b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-06T15:16:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a28838f3_b4215299",
+      "revId": "cd0e6031b594651b55a297d679c03833754b0b90",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
