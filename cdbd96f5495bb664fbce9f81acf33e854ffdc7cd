@@ -425,6 +425,30 @@
     },
     {
       "key": {
+        "uuid": "5f4b9739_28d5f44e",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-09T15:23:34Z",
+      "side": 1,
+      "message": "Yes, but you lose the service name in this case, which is what you need to be able to subscribe to. For this entry, you\u0027d have to do another lookup for the service name since its not saved in `sensorMap`.\n\nYou may want to consider using the same data type structure that getSubTree returns since it packs the list of interfaces per service name for a dbus object path\n\ngetSubTree returns \u003d map\u003cstring, map\u003cstring, vector\u003e\u003e\nwhich equates to map\u003c\"PATH\", map\u003c\"SERVICE\", \"LIST OF INTERFACES\"\u003e\u003e",
+      "parentUuid": "efd61fae_7679c4ec",
+      "range": {
+        "startLine": 137,
+        "startChar": 24,
+        "endLine": 140,
+        "endChar": 25
+      },
+      "revId": "cdbd96f5495bb664fbce9f81acf33e854ffdc7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "76b66514_94bf849e",
         "filename": "monitor/system.cpp",
         "patchSetId": 11
