@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65b1ca73_488559fa",
+        "filename": "sdbusplus.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-12T22:31:04Z",
+      "side": 1,
+      "message": "conceivably, this could factor into the above function, using a variadic template list, but I fear that the syntax wouldn\u0027t be obvious to future consumers of the function. Maybe with a comment \"you can put 1 or more interface names \u003chere\u003e \". but would also interfere with the depth parameter.",
+      "revId": "b20c402c9baecd0e55d350420ec4e573967c0f4c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
