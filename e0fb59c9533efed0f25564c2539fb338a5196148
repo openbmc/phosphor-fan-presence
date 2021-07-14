@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "599b82ec_7822bb84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-14T20:07:58Z",
+      "side": 1,
+      "message": "not a big deal, but probably better to move what you have on line 9 to the commit message, and move this down below to say why you\u0027re doing it (though probably not necessary to point out a review number, you can just say it will be used in the future)",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "e0fb59c9533efed0f25564c2539fb338a5196148",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
