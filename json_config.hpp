@@ -248,7 +248,8 @@ class JsonConfig
             file.open(confFile);
             try
             {
-                jsonConf = json::parse(file);
+                // Enable ignoring `//` or `/* */` comments
+                jsonConf = json::parse(file, nullptr, true, true);
             }
             catch (std::exception& e)
             {
