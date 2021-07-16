@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec0d4f1c_da8300df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "There really isnt any ordering to the groups, so this should just say \"where one group (the key group)...\"",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf973813_32a3fa87",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "This makes an assumption that this action will always be configured with a `nameOwnerChanged` signal trigger or `nameHasOwner` init trigger otherwise these services may never be found in the cache? You may have meant to do a `manager.getService()` and check the service name isnt \"\".\n\nShould we consider removing all properties from the cache associated with a service when the service goes away? As in always do that in the background within fan control so its not configuration based. That looks to take care of what you\u0027re trying to handle here, right?",
+      "range": {
+        "startLine": 219,
+        "startChar": 30,
+        "endLine": 219,
+        "endChar": 77
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "894dd305_308caa8d",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "Actions shouldn\u0027t store the zone since there could be more than one that it runs against (this is abstracted in the ActionBase class).\n\nInstead, you could call ActionBase::run() here.",
+      "range": {
+        "startLine": 269,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 16
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b7e4278_afc087bc",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "Actions can be called against more than one zone, this would only store the last zone this action was called on. See ActionBase::run()",
+      "range": {
+        "startLine": 274,
+        "startChar": 4,
+        "endLine": 274,
+        "endChar": 18
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20767502_2f5aae76",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "Why not `auto\u0026 mgr \u003d *zone.getManager()`? Then use `mgr` where the reference to the manager is needed.",
+      "range": {
+        "startLine": 278,
+        "startChar": 29,
+        "endLine": 278,
+        "endChar": 47
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d174a595_104c2d98",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "What if the configured group has property values that are not double?",
+      "range": {
+        "startLine": 295,
+        "startChar": 8,
+        "endLine": 296,
+        "endChar": 51
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c815da85_dfaf0aab",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "I\u0027m not following why we wouldnt allow this for property values that are uint\u0027s",
+      "range": {
+        "startLine": 325,
+        "startChar": 16,
+        "endLine": 327,
+        "endChar": 48
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81197e9_4a671534",
+        "filename": "control/json/actions/mapped_floor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-07-16T14:43:52Z",
+      "side": 1,
+      "message": "Why was this a requirement of this action? Is it required to have this action triggered by nameOwnerChanged signals then?",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 74
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
