@@ -84,11 +84,13 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 {
     // Query functional state from inventory
     // TODO - phosphor-fan-presence/issues/25
-    auto service = util::SDBusPlus::getService(
-        _bus, util::INVENTORY_PATH + _invName, util::OPERATIONAL_STATUS_INTF);
 
     try
     {
+        auto service =
+            util::SDBusPlus::getService(_bus, util::INVENTORY_PATH + _invName,
+                                        util::OPERATIONAL_STATUS_INTF);
+
         if (!service.empty())
         {
             _functional = util::SDBusPlus::getProperty<bool>(
@@ -100,14 +102,12 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
             // default to functional when service not up. Error handling done
             // later
             _functional = true;
-            updateInventory(_functional);
         }
     }
     catch (util::DBusError& e)
     {
         log<level::DEBUG>(e.what());
         _functional = true;
-        updateInventory(_functional);
     }
 
     if (!_functional && MethodMode::count == _method)
