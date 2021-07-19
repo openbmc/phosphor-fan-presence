@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "c3f9d681_67f0dd32",
+        "filename": "control/Makefile.am",
+        "patchSetId": 8
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:47:25Z",
+      "side": 1,
+      "message": "Would WANT_CONTROL_UTILITY be clearer?\n\nIt is a little confusing because there are 3 unrelated things that have the word control:\n* WANT_CONTROL -- the new utility program\n* WANT_JSON_CONTROL -- using JSON vs. YAML\n* phosphor-fan-control -- app that does fan control",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "687d3d8a511d6aa023a975eb85492b3db3e4d69b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fde4afc_4597bc4b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:47:25Z",
+      "side": 1,
+      "message": "Missing reload.  Note comment in earlier commit about perhaps using the built-in support for enums so you don\u0027t need to make the same change in three places (option definition, calling associated function, help text).",
+      "revId": "687d3d8a511d6aa023a975eb85492b3db3e4d69b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed28b8a8_2832a8ef",
         "filename": "control/fanctl.cpp",
         "patchSetId": 8
