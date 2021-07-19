@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59554a6b_ba185910",
+        "filename": "control/Makefile.am",
+        "patchSetId": 9
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T15:46:52Z",
+      "side": 1,
+      "message": "did you mean to remove fanctl?",
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
