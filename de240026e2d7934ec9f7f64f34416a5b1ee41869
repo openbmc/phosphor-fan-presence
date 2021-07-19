@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "88f63801_7c52269c",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:56:31Z",
+      "side": 1,
+      "message": "See comment in previous commit.  Do we need global variables?\n\nIf we need to pass several things around between functions, and it is too complex for parameters, maybe we need a simple data structure to hold them?\n\nNote: I don\u0027t know the phosphor-fan-presence repo very well.  If global variables are frequently used there then please ignore this comment.",
+      "revId": "de240026e2d7934ec9f7f64f34416a5b1ee41869",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01829283_b1fbad7a",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:56:31Z",
+      "side": 1,
+      "message": "If any of the D-Bus calls fail, they will likely throw an exception.  Do we need a try/catch in main() to catch the exception and print it out vs. just core dumping?",
+      "revId": "de240026e2d7934ec9f7f64f34416a5b1ee41869",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca2f6b9d_2f8df79f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:56:31Z",
+      "side": 1,
+      "message": "Need to update this to show the two different actions?\n\nNote that CLI supports enums, so you could just define an enum of the valid actions and then have a switch statement vs. if/else if/else.\n\nhttps://github.com/CLIUtils/CLI11/blob/master/examples/enum.cpp\n\nI\u0027m guessing it would produce decent help text too so you didn\u0027t have to remember to update that when new values are added.",
+      "revId": "de240026e2d7934ec9f7f64f34416a5b1ee41869",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aece893_5fbe545b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:56:31Z",
+      "side": 1,
+      "message": "\"loadVars\" is a pretty vague name.  Maybe loadGlobalVars()?",
+      "range": {
+        "startLine": 122,
+        "startChar": 5,
+        "endLine": 122,
+        "endChar": 13
+      },
+      "revId": "de240026e2d7934ec9f7f64f34416a5b1ee41869",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d4bea21_c01129f7",
         "filename": "control/fanctl.cpp",
         "patchSetId": 13
@@ -13,6 +87,23 @@
       "writtenOn": "2021-07-19T15:44:43Z",
       "side": 1,
       "message": "you already filled in interfaces up above (should probably also make it const so this wouldn\u0027t have compiled)",
+      "revId": "de240026e2d7934ec9f7f64f34416a5b1ee41869",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0a2ed19_a5c5495c",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:56:31Z",
+      "side": 1,
+      "message": "See comments in previous commit re: these two lines.",
       "revId": "de240026e2d7934ec9f7f64f34416a5b1ee41869",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
