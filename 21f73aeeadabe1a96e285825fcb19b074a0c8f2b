@@ -16,6 +16,149 @@
       "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101c563b_37e33d37",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "Usually with Linux tools I\u0027ve seen two ways to specify one or more values:\n* Has option flags that you can specify more than once: --fan fan3 --fan fan4 --fan fan5\n* Allows you to specify a list of tokens: --fans fan3 fan4 fan5\n\nIt seems kind of unusual to require the user to specify the list as single command line token via double quotes (\"fan3 fan4 fan5\").  However, I wasn\u0027t part of the design discussion, so if that is how Matt wants it to work or how the shell script worked (and compatibility is a requirement) feel free to ignore this comment.",
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4cc0dc6_d2d4bc1f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "Nit: random blank line?",
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4e90a7a_22718cda",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "Should have noted this in the previous review, but the OpenBMC coding conventions call for braces even when it is a one line statement.\n\nhttps://github.com/openbmc/docs/blob/master/cpp-style-and-conventions.md#bracket-style\n\nI think this is a good convention because it avoids the following class of hard to spot bugs:\n\n  if (foo \u003d\u003d 1)\n    doFoo();\n  else\n    doBar();\n    doBaz();   // Added later by different programmer being careless\n\nor worse\n  if (foo \u003d\u003d 1)\n    if (bar \u003d\u003d 2)\n      doBar();\n      doBaz();   // This is actually in the first if\u0027s scope",
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "428f3a68_698bfcbe",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "cerr.  Same comment for other error messages being printed.",
+      "range": {
+        "startLine": 416,
+        "startChar": 21,
+        "endLine": 416,
+        "endChar": 25
+      },
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56d3fe87_ae4f8760",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "std::move() is used when you want to move a heavy-weight object that contains resources, such as a string or vector that owns a bunch of memory.  std::move() casts the argument to be an r-value, so that the move ctor or move assignment operator is used to move (rather than copy) the object\u0027s resources to the destination object.\n\nint64_t is just an alias for a built-in integer type like \u0027long int\u0027 or \u0027long long int\u0027 depending on CPU architecture.  It has no resources, so no need to move it.",
+      "range": {
+        "startLine": 424,
+        "startChar": 45,
+        "endLine": 424,
+        "endChar": 55
+      },
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5eafbf2_a3e39e17",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 435,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "This seems a little confusing.  If I understand things correctly, systemd isn\u0027t controlling the fans.  It is just being asked to restart the phosphor-fan-control app, right?",
+      "range": {
+        "startLine": 435,
+        "startChar": 13,
+        "endLine": 435,
+        "endChar": 44
+      },
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fef3ff1f_2186f461",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T18:39:08Z",
+      "side": 1,
+      "message": "It might be a bit more user-friendly if you printed something like:\n\n\"Unable to start fan control service: \" \u003c\u003c e.what()",
+      "range": {
+        "startLine": 448,
+        "startChar": 22,
+        "endLine": 448,
+        "endChar": 48
+      },
+      "revId": "21f73aeeadabe1a96e285825fcb19b074a0c8f2b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
