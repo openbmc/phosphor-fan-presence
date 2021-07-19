@@ -2,6 +2,148 @@
   "comments": [
     {
       "key": {
+        "uuid": "be0e8add_ee787644",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Nit: If you move main() to the bottom of the file, you can avoid the requirement to declare functions.  Just make sure all called functions are seen before being called going top to bottom.\n\nNot a big deal, but avoids the need to do dual-maintenance on the function names/args.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 14
+      },
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "921c1111_db2d04b8",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Global constants are OK, but I think we usually try to avoid global variables.  Could main() just pass this as a parameter instead?",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "273ed204_cb61881e",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Missing iface param",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1459712_250749ad",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "This line is assuming the following\n* path is not empty\n* path contains a \"/\"\n* path has at least one character following the last slash\n\nWould probably be safer to check for these conditions.  e.g. check if rfind() returned npos or if rfind() returned the position of the last character.",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c82f96c_285f8609",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Missing @return.\n\nShould it define what the 6 values are, since they are in an anonymous array\u003cstring\u003e vs. a struct with field names?",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab719b85_c5c97968",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Same comment as on line 90.  Maybe there should be a short function that parses the base fan name from a D-Bus fan path, so that logic is common code?",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "596df6d9_eeeaa450",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Check for rfind returning npos?",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4df0508_763d74a2",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Same comment here and 198 as on 182 and 183.",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4fcb2e06_dadc4180",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
@@ -13,6 +155,24 @@
       "writtenOn": "2021-07-19T15:41:07Z",
       "side": 1,
       "message": "Now that I think about it, I\u0027m pretty sure CLI11 has all the help options built in so you wouldn\u0027t need to write your own.  I think that\u0027s what all the other uses of that lib do.",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ea361ff_58763243",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:43:51Z",
+      "side": 1,
+      "message": "Agreed.  It isn\u0027t beautiful output, but it is automatically maintained when you add/remove/rename stuff in the command line interface.  There is info on how to tweak the output here: https://github.com/CLIUtils/CLI11#formatting",
+      "parentUuid": "4fcb2e06_dadc4180",
       "revId": "b05335401899683ce4bfb69a520314df73bd0771",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
