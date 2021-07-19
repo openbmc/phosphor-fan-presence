@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "98c0ef5a_15958154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T21:19:59Z",
+      "side": 1,
+      "message": "nit:  Doesn\u0027t need a PFP prefix since this is the phosphor-fan-presence repository.\n\nOther monitor commits just use:\nmonitor:",
+      "revId": "8629aacc3caad82969eb1d4c07778d6317d336fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8e745c2_820ddb7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T21:19:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this is the case anymore.  Instead it may be an interfacesAdded signal.  You can verify by running dbus-monitor --system when inventory-manager starts. (not that an interfacesAdded fix needs to be in this commit)",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 72
+      },
+      "revId": "8629aacc3caad82969eb1d4c07778d6317d336fa",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
