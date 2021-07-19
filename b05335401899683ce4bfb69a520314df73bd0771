@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "8d0cba4d_1de35ca1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-19T16:50:01Z",
+      "side": 1,
+      "message": "Note: I don\u0027t know the phosphor-fan-presence repo very well.  If global variables are frequently used there then please ignore this comment.",
+      "parentUuid": "921c1111_db2d04b8",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "273ed204_cb61881e",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
