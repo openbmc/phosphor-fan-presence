@@ -100,14 +100,12 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
             // default to functional when service not up. Error handling done
             // later
             _functional = true;
-            updateInventory(_functional);
         }
     }
     catch (util::DBusError& e)
     {
         log<level::DEBUG>(e.what());
         _functional = true;
-        updateInventory(_functional);
     }
 
     if (!_functional && MethodMode::count == _method)
