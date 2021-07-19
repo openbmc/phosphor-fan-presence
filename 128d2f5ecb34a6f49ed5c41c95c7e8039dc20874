@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "037d378d_ef6884b6",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T16:17:54Z",
+      "side": 1,
+      "message": "removing the owner checks",
+      "parentUuid": "894dd305_308caa8d",
+      "range": {
+        "startLine": 269,
+        "startChar": 4,
+        "endLine": 269,
+        "endChar": 16
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b7e4278_afc087bc",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 3
@@ -82,6 +106,30 @@
       "writtenOn": "2021-07-16T14:43:52Z",
       "side": 1,
       "message": "Actions can be called against more than one zone, this would only store the last zone this action was called on. See ActionBase::run()",
+      "range": {
+        "startLine": 274,
+        "startChar": 4,
+        "endLine": 274,
+        "endChar": 18
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ff8404f_58d94610",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T16:17:54Z",
+      "side": 1,
+      "message": "don\u0027t need to save the zone anymore. will remove.",
+      "parentUuid": "2b7e4278_afc087bc",
       "range": {
         "startLine": 274,
         "startChar": 4,
@@ -117,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "8214de29_ddb85784",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T16:17:54Z",
+      "side": 1,
+      "message": "removing.",
+      "parentUuid": "20767502_2f5aae76",
+      "range": {
+        "startLine": 278,
+        "startChar": 29,
+        "endLine": 278,
+        "endChar": 47
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d174a595_104c2d98",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 3
@@ -128,6 +200,30 @@
       "writtenOn": "2021-07-16T14:43:52Z",
       "side": 1,
       "message": "What if the configured group has property values that are not double?",
+      "range": {
+        "startLine": 295,
+        "startChar": 8,
+        "endLine": 296,
+        "endChar": 51
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f008d1_59794507",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T16:17:54Z",
+      "side": 1,
+      "message": "tryConvertDouble will only try a conversion, and it will do it on both the dbus side and the JSON side.",
+      "parentUuid": "d174a595_104c2d98",
       "range": {
         "startLine": 295,
         "startChar": 8,
@@ -163,6 +259,30 @@
     },
     {
       "key": {
+        "uuid": "5bc8b7a6_3190bca2",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T16:17:54Z",
+      "side": 1,
+      "message": "tryConvertToDouble has already been run so it will never be a uint.  The big reason for this is variant does not support comparing an integer value to a double, and I don\u0027t want to force people to write \u002743.0\u0027 as opposed to \u002743\u0027 in the JSON since it is a limitation/behavior of our implementation (std::variant).",
+      "parentUuid": "c815da85_dfaf0aab",
+      "range": {
+        "startLine": 325,
+        "startChar": 16,
+        "endLine": 327,
+        "endChar": 48
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f81197e9_4a671534",
         "filename": "control/json/actions/mapped_floor.hpp",
         "patchSetId": 3
@@ -174,6 +294,30 @@
       "writtenOn": "2021-07-16T14:43:52Z",
       "side": 1,
       "message": "Why was this a requirement of this action? Is it required to have this action triggered by nameOwnerChanged signals then?",
+      "range": {
+        "startLine": 102,
+        "startChar": 6,
+        "endLine": 103,
+        "endChar": 74
+      },
+      "revId": "128d2f5ecb34a6f49ed5c41c95c7e8039dc20874",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c4933bf_c6b71a6f",
+        "filename": "control/json/actions/mapped_floor.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-07-19T16:17:54Z",
+      "side": 1,
+      "message": "Removing it.",
+      "parentUuid": "f81197e9_4a671534",
       "range": {
         "startLine": 102,
         "startChar": 6,
