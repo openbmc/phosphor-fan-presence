@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9098458e_d31ba0a1",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56130786_4356a228",
+      "range": {
+        "startLine": 86,
+        "startChar": 9,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8520bca_0a373d29",
         "filename": "monitor/system.cpp",
         "patchSetId": 13
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "13328aab_55207fc6",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:51:55Z",
+      "side": 1,
+      "message": "I looked into this, see 2nd paragraph under notes: https://en.cppreference.com/w/cpp/utility/functional/bind . Also I wrote a test-program with a non-copyable test-object and it fails to compile when bound to a const\u0026 function. DM me for details.",
+      "parentUuid": "d8520bca_0a373d29",
+      "range": {
+        "startLine": 93,
+        "startChar": 49,
+        "endLine": 93,
+        "endChar": 58
+      },
+      "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "978b7219_9c33eead",
         "filename": "monitor/system.cpp",
         "patchSetId": 13
@@ -59,6 +107,30 @@
       "writtenOn": "2021-07-19T19:44:50Z",
       "side": 1,
       "message": "I think you can skip the std::move() here and just make the getSubTreeRaw() parameter a const SensorMapType\u0026.  That will avoid the copy, and its not like getSubTreeRaw() is taking permanent ownership of the memory; it is just using it for a single function call.",
+      "range": {
+        "startLine": 128,
+        "startChar": 31,
+        "endLine": 128,
+        "endChar": 41
+      },
+      "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2a99280_a3d30ae8",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:51:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "978b7219_9c33eead",
       "range": {
         "startLine": 128,
         "startChar": 31,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "28775257_d78ec309",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e332a89_a4001fc9",
+      "range": {
+        "startLine": 256,
+        "startChar": 43,
+        "endLine": 256,
+        "endChar": 51
+      },
+      "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "81cdf844_220b6792",
         "filename": "monitor/system.hpp",
         "patchSetId": 13
@@ -108,6 +204,24 @@
       "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7579e51e_70216588",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:51:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "81cdf844_220b6792",
+      "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +245,30 @@
       "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afaf2cad_8cfdc0b1",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:51:55Z",
+      "side": 1,
+      "message": "both syntax are logically equivalent, I just developed a habit from a previous codebase. However, I changed it to be consisted with the format used here.",
+      "parentUuid": "dff31f47_f27aa657",
+      "range": {
+        "startLine": 243,
+        "startChar": 27,
+        "endLine": 243,
+        "endChar": 46
+      },
+      "revId": "76fe78fda7a9760a2984587d039a32505cc3b7b3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
