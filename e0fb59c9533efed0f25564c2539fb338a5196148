@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "552cd482_03e4e4ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:10:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "674e0746_8a2ae2a0",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 46
+      },
+      "revId": "e0fb59c9533efed0f25564c2539fb338a5196148",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50f7e807_10f32779",
         "filename": "sdbusplus.hpp",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "writtenOn": "2021-07-19T18:58:40Z",
       "side": 1,
       "message": "Are you expecting callers to want to move this vector?  I guess they might, but that seems a bit unlikely.  I\u0027d think a const std::vector\u003cstd::string\u003e\u0026 would be fine, avoiding the copy.",
+      "range": {
+        "startLine": 204,
+        "startChar": 30,
+        "endLine": 204,
+        "endChar": 62
+      },
+      "revId": "e0fb59c9533efed0f25564c2539fb338a5196148",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ca519c_4728a4db",
+        "filename": "sdbusplus.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T14:10:12Z",
+      "side": 1,
+      "message": "the idea was to support syntax like getSubTreeRaw(...., {{ \"one\", \"two\", \"three\" }}, but maybe its better to keep it generic an support a const-ref?",
+      "parentUuid": "50f7e807_10f32779",
       "range": {
         "startLine": 204,
         "startChar": 30,
