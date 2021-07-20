@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "4a57b4e7_9e2683d1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T15:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fde4afc_4597bc4b",
+      "revId": "687d3d8a511d6aa023a975eb85492b3db3e4d69b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed28b8a8_2832a8ef",
         "filename": "control/fanctl.cpp",
         "patchSetId": 8
@@ -56,6 +74,24 @@
       "revId": "687d3d8a511d6aa023a975eb85492b3db3e4d69b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ba051e7_20467168",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T15:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed28b8a8_2832a8ef",
+      "revId": "687d3d8a511d6aa023a975eb85492b3db3e4d69b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
