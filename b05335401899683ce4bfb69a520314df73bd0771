@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fec084cf_530ff90b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be0e8add_ee787644",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 14
+      },
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "921c1111_db2d04b8",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
@@ -60,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "3725567a_0e4126fa",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Ack-ing this, however changing it will trigger a rebase on 3 more commits and 3-4 more functions. So I want to get some group consensus before I make the change since this is code is for a simple run-and-done utility.",
+      "parentUuid": "8d0cba4d_1de35ca1",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "273ed204_cb61881e",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "74c15569_fcb9bff6",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "273ed204_cb61881e",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1459712_250749ad",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
@@ -88,6 +148,24 @@
       "writtenOn": "2021-07-19T16:43:51Z",
       "side": 1,
       "message": "This line is assuming the following\n* path is not empty\n* path contains a \"/\"\n* path has at least one character following the last slash\n\nWould probably be safer to check for these conditions.  e.g. check if rfind() returned npos or if rfind() returned the position of the last character.",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc1f93b6_4187647d",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "I will fix this (and all the others), but I am postponing because I don\u0027t have a working simics to test the changes.",
+      "parentUuid": "c1459712_250749ad",
       "revId": "b05335401899683ce4bfb69a520314df73bd0771",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
@@ -111,6 +189,24 @@
     },
     {
       "key": {
+        "uuid": "4ddf93e1_9d1030cc",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c82f96c_285f8609",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab719b85_c5c97968",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
@@ -125,6 +221,24 @@
       "revId": "b05335401899683ce4bfb69a520314df73bd0771",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "956c84ae_8240b5e8",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ab719b85_c5c97968",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +259,24 @@
     },
     {
       "key": {
+        "uuid": "9996d6d5_06233967",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "596df6d9_eeeaa450",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4df0508_763d74a2",
         "filename": "control/fanctl.cpp",
         "patchSetId": 18
@@ -159,6 +291,24 @@
       "revId": "b05335401899683ce4bfb69a520314df73bd0771",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5509ea10_f9754543",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b4df0508_763d74a2",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -191,6 +341,24 @@
       "side": 1,
       "message": "Agreed.  It isn\u0027t beautiful output, but it is automatically maintained when you add/remove/rename stuff in the command line interface.  There is info on how to tweak the output here: https://github.com/CLIUtils/CLI11#formatting",
       "parentUuid": "4fcb2e06_dadc4180",
+      "revId": "b05335401899683ce4bfb69a520314df73bd0771",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db9163a_38c4a421",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-20T20:31:07Z",
+      "side": 1,
+      "message": "ACK, will look into it.",
+      "parentUuid": "7ea361ff_58763243",
       "revId": "b05335401899683ce4bfb69a520314df73bd0771",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
