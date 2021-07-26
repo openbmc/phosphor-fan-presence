@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0da1fe58_eab3997f",
+        "filename": "control/Makefile.am",
+        "patchSetId": 14
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-26T17:50:55Z",
+      "side": 1,
+      "message": "I didn\u0027t see a response to\n\nhttps://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/44626/8/control/Makefile.am#39\n\nNot a big deal, but a little confusing.",
+      "range": {
+        "startLine": 39,
+        "startChar": 3,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "be24f07e71151b27d46fea75a9f123e7e70bd44a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27908715_f24c478f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-26T17:50:55Z",
+      "side": 1,
+      "message": "Sorry, in my earlier comments I didn\u0027t mean that all output should be written to cerr.\n\nI\u0027m not sure if this utility has special requirements, but normally Unix programs do the following:\n* Write normal output to stdout / std::cout\n* Write error output to stderr / std::cerr\n\nThis allows you to redirect them to different destinations if necessary, and depending on the console settings may cause the error output to look different.\n\nThis comment applies in many places in this file.",
+      "range": {
+        "startLine": 278,
+        "startChar": 12,
+        "endLine": 278,
+        "endChar": 17
+      },
+      "revId": "be24f07e71151b27d46fea75a9f123e7e70bd44a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
