@@ -45,12 +45,65 @@ NetTargetIncrease::NetTargetIncrease(const json& jsonObj,
 void NetTargetIncrease::run(Zone& zone)
 {
     auto netDelta = zone.getIncDelta();
+    PropertyVariantType stateValue;
+
+    // If the state source group is present, get the state value
+    // from that instead of _state.
+    if (_stateSource)
+    {
+        try
+        {
+            // Only single member groups supported for now
+            const auto& member = _stateSource->getMembers()[0];
+
+            stateValue = Manager::getObjValueVariant(
+                member, _stateSource->getInterface(),
+                _stateSource->getProperty());
+        }
+        catch (std::out_of_range& oore)
+        {
+            log<level::DEBUG>(
+                fmt::format(
+                    "{}: Could not read state source property {} {} {}",
+                    ActionBase::getName(), _stateSource->getMembers()[0],
+                    _stateSource->getInterface(), _stateSource->getProperty())
+                    .c_str());
+            return;
+        }
+
+        if (_modifier)
+        {
+            try
+            {
+                stateValue = _modifier->doOp(stateValue);
+            }
+            catch (const std::exception& e)
+            {
+                log<level::DEBUG>(
+                    fmt::format("{}: Could not perform modifier operation: {}",
+                                ActionBase::getName(), e.what())
+                        .c_str());
+                return;
+            }
+        }
+    }
+    else
+    {
+        stateValue = _state;
+    }
+
     for (const auto& group : _groups)
     {
+        // The stateSource group isn't involved in this calculation.
+        if (_stateSource && (_stateSource->getName() == group.getName()))
+        {
+            continue;
+        }
+
         const auto& members = group.getMembers();
         std::for_each(
             members.begin(), members.end(),
-            [this, &zone, &group, &netDelta](const auto& member) {
+            [this, &zone, &group, &netDelta, stateValue](const auto& member) {
                 try
                 {
                     auto value = Manager::getObjValueVariant(
@@ -63,13 +116,13 @@ void NetTargetIncrease::run(Zone& zone)
                         // increase of the configured delta times the difference
                         // between the group member's value and configured state
                         // value.
-                        if (value >= _state)
+                        if (value >= stateValue)
                         {
                             uint64_t incDelta = 0;
                             if (auto dblPtr = std::get_if<double>(&value))
                             {
                                 incDelta = static_cast<uint64_t>(
-                                    (*dblPtr - std::get<double>(_state)) *
+                                    (*dblPtr - std::get<double>(stateValue)) *
                                     _delta);
                             }
                             else
@@ -78,7 +131,7 @@ void NetTargetIncrease::run(Zone& zone)
                                 // to attempt bringing under provided 'state'
                                 auto deltaFactor =
                                     std::max((std::get<int64_t>(value) -
-                                              std::get<int64_t>(_state)),
+                                              std::get<int64_t>(stateValue)),
                                              1ll);
                                 incDelta =
                                     static_cast<uint64_t>(deltaFactor * _delta);
@@ -91,7 +144,7 @@ void NetTargetIncrease::run(Zone& zone)
                         // Where a group of booleans equal the state(`true` or
                         // `false`) provided, request an increase of the
                         // configured delta
-                        if (_state == value)
+                        if (stateValue == value)
                         {
                             netDelta = std::max(netDelta, _delta);
                         }
@@ -100,7 +153,7 @@ void NetTargetIncrease::run(Zone& zone)
                     {
                         // Where a group of strings equal the state(some string)
                         // provided, request an increase of the configured delta
-                        if (_state == value)
+                        if (stateValue == value)
                         {
                             netDelta = std::max(netDelta, _delta);
                         }
@@ -129,12 +182,65 @@ void NetTargetIncrease::run(Zone& zone)
 
 void NetTargetIncrease::setState(const json& jsonObj)
 {
-    if (!jsonObj.contains("state"))
+    if (jsonObj.contains("state"))
+    {
+        _state = getJsonValue(jsonObj["state"]);
+    }
+    else if (jsonObj.contains("state_source"))
+    {
+        const auto& source = jsonObj.at("state_source");
+        if (!source.contains("group"))
+        {
+            log<level::ERR>("state_source entry in JSON missing 'group'");
+            throw ActionParseError{ActionBase::getName(),
+                                   "invalid state_source JSON"};
+        }
+
+        auto groupName = source["group"].get<std::string>();
+        auto group = std::find_if(
+            _groups.begin(), _groups.end(),
+            [groupName](const auto& g) { return groupName == g.getName(); });
+
+        if (group == _groups.end())
+        {
+            log<level::ERR>(
+                fmt::format("Group name {} in state_source JSON is invalid",
+                            groupName)
+                    .c_str());
+            throw ActionParseError{ActionBase::getName(),
+                                   "invalid state_source JSON"};
+        }
+
+        _stateSource = &(*group);
+
+        // Just support 1 member in the group for now.
+        if (group->getMembers().size() != 1)
+        {
+            log<level::ERR>(
+                fmt::format("Invalid number of members in group {}: {}",
+                            group->getName(), group->getMembers().size())
+                    .c_str());
+            throw ActionParseError{ActionBase::getName(),
+                                   "invalid state_source JSON"};
+        }
+
+        if (source.contains("modifier"))
+        {
+            try
+            {
+                _modifier = std::make_unique<Modifier>(source.at("modifier"));
+            }
+            catch (const std::invalid_argument& e)
+            {
+                throw ActionParseError{ActionBase::getName(), e.what()};
+            }
+        }
+    }
+    else
     {
         throw ActionParseError{ActionBase::getName(),
-                               "Missing required state value"};
+                               "Missing required state or state_source value"};
     }
-    _state = getJsonValue(jsonObj["state"]);
 }
 
 void NetTargetIncrease::setDelta(const json& jsonObj)

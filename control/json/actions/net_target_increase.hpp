@@ -18,6 +18,7 @@
 #include "../zone.hpp"
 #include "action.hpp"
 #include "group.hpp"
+#include "modifier.hpp"
 
 #include <nlohmann/json.hpp>
 
@@ -85,6 +86,12 @@ class NetTargetIncrease :
 
     /* Increase delta for this action */
     uint64_t _delta;
+
+    /* The group that is the source of the state value, if configured */
+    const Group* _stateSource{nullptr};
+
+    /* Class used to modify the state value before using it, if configured */
+    std::unique_ptr<Modifier> _modifier;
 
     /**
      * @brief Parse and set the state
