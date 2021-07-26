@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b04fb5a9_d0c72d08",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-26T18:05:18Z",
+      "side": 1,
+      "message": "As mentioned in another review, I don\u0027t think we want all output going to cerr, only error output.",
+      "range": {
+        "startLine": 216,
+        "startChar": 4,
+        "endLine": 216,
+        "endChar": 9
+      },
+      "revId": "0500cd85f91745bf3e999dbc0f6fdc5623e91f34",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
