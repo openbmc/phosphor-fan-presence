@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "cb0b2c33_51fc1e11",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-29T15:59:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75d90179_a9c9dba0",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d95f19d5_d4c78d41",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -30,6 +48,41 @@
       "writtenOn": "2021-07-29T15:49:40Z",
       "side": 1,
       "message": "Same comment as above.  Global constants are not a problem and would be preferable if you need the data in multiple functions.  But if this is the only place the data is used, putting it here is fine too.",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc699147_eca17871",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-29T15:59:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d95f19d5_d4c78d41",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80a8f8cc_36bcac5b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-07-29T15:59:51Z",
+      "side": 1,
+      "message": "yikes. this comment got out of alignment with the function",
       "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
