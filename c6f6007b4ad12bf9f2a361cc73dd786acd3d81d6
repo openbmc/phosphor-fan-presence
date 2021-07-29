@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75d90179_a9c9dba0",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-29T15:49:40Z",
+      "side": 1,
+      "message": "Thank you for removing the global variable pathMap.\n\nGlobal *constants* are no problem, so you didn\u0027t need to move those into this function.  But if it made the code simpler that is fine.",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d95f19d5_d4c78d41",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-29T15:49:40Z",
+      "side": 1,
+      "message": "Same comment as above.  Global constants are not a problem and would be preferable if you need the data in multiple functions.  But if this is the only place the data is used, putting it here is fine too.",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
