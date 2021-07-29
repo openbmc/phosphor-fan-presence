@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e0a868c2_e232bed9",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-07-29T16:08:28Z",
+      "side": 1,
+      "message": "Might be more user friendly to say something like:\n  std::cerr \u003c\u003c \"Unable to reload configuration files: \" \u003c\u003c e.what() \u003c\u003c std::endl;\n\nThe end user probably doesn\u0027t know/care whether an exception was caught, a bad return code returned, etc.",
+      "range": {
+        "startLine": 489,
+        "startChar": 22,
+        "endLine": 489,
+        "endChar": 48
+      },
+      "revId": "0589b9d3f15230254387f3dec6cd338341ce8111",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
