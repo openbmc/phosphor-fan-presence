@@ -22,6 +22,30 @@
       "revId": "0589b9d3f15230254387f3dec6cd338341ce8111",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee24c14e_f54137a2",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 489,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-04T14:19:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0a868c2_e232bed9",
+      "range": {
+        "startLine": 489,
+        "startChar": 22,
+        "endLine": 489,
+        "endChar": 48
+      },
+      "revId": "0589b9d3f15230254387f3dec6cd338341ce8111",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
