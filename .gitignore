@@ -31,3 +31,4 @@ test-driver
 *_test
 libtool
 *.service
+Makefile.config_files
