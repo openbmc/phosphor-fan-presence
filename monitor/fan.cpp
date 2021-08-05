@@ -80,20 +80,8 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         _trustManager->registerSensor(_sensors.back());
     }
 
-    bool functionalState =
-        (_numSensorFailsForNonFunc == 0) ||
-        (countNonFunctionalSensors() < _numSensorFailsForNonFunc);
-
-    if (updateInventory(functionalState) && !functionalState)
-    {
-        // the inventory update threw an exception, possibly because D-Bus
-        // wasn't ready. Try to update sensors back to functional to avoid a
-        // false-alarm. They will be updated again from subscribing to the
-        // properties-changed event
-
-        for (auto& sensor : _sensors)
-            sensor->setFunctional(true);
-    }
+    updateInventory((_numSensorFailsForNonFunc == 0) ||
+                    (countNonFunctionalSensors() < _numSensorFailsForNonFunc));
 
 #ifndef MONITOR_USE_JSON
     // Check current tach state when entering monitor mode
@@ -415,10 +403,8 @@ void Fan::updateState(TachSensor& sensor)
     _system.fanStatusChange(*this);
 }
 
-bool Fan::updateInventory(bool functional)
+void Fan::updateInventory(bool functional)
 {
-    bool dbusError = false;
-
     try
     {
         auto objectMap =
@@ -432,14 +418,10 @@ bool Fan::updateInventory(bool functional)
         if (response.is_method_error())
         {
             log<level::ERR>("Error in Notify call to update inventory");
-
-            dbusError = true;
         }
     }
     catch (const util::DBusError& e)
     {
-        dbusError = true;
-
         getLogger().log(
             fmt::format("D-Bus Exception reading/updating inventory : {}",
                         e.what()),
@@ -448,8 +430,6 @@ bool Fan::updateInventory(bool functional)
 
     // This will always track the current state of the inventory.
     _functional = functional;
-
-    return dbusError;
 }
 
 void Fan::presenceChanged(sdbusplus::message::message& msg)

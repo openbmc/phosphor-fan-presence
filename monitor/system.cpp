@@ -57,9 +57,14 @@ void System::start()
     _started = true;
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
+    try {
     auto confFile =
         fan::JsonConfig::getConfFile(_bus, confAppName, confFileName);
-    jsonObj = fan::JsonConfig::load(confFile);
+        jsonObj = fan::JsonConfig::load(confFile);
+    } catch(std::exception &e) {
+        if(std::string("No JSON config file found") != e.what())
+            throw;
+    }
 #endif
     // Retrieve and set trust groups within the trust manager
     setTrustMgr(getTrustGroups(jsonObj));
