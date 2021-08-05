@@ -55,6 +55,7 @@ std::map<std::string,
 std::map<std::string,
          std::map<std::string, std::map<std::string, PropertyVariantType>>>
     Manager::_objects;
+std::unordered_map<std::string, PropertyVariantType> Manager::_parameters;
 
 Manager::Manager(const sdeventplus::Event& event) :
     _bus(util::SDBusPlus::getBus()), _event(event),
