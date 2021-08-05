@@ -54,7 +54,8 @@ phosphor_fan_control_SOURCES += \
 	json/actions/count_state_target.cpp \
 	json/actions/net_target_increase.cpp \
 	json/actions/net_target_decrease.cpp \
-	json/actions/timer_based_actions.cpp
+	json/actions/timer_based_actions.cpp \
+	json/utils/modifier.cpp
 else
 phosphor_fan_control_SOURCES += \
 	argument.cpp \
