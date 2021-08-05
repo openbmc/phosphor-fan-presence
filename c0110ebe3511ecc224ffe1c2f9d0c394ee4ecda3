@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92e09ea1_bd772608",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-05T17:23:27Z",
+      "side": 1,
+      "message": "This looks good.\n\nThe bool temporary could be removed and then written like:\n\n```\nif (!sensor.hasOwner())\n{\n    return true;\n}\n\nauto actual \u003d static_cast\u003cuint64_t\u003e(sensor.getInput());\nauto range \u003d sensor.getRange(_deviation);\n\nreturn ((actual \u003c range.first) || (actual \u003e range.second));\n```",
+      "range": {
+        "startLine": 359,
+        "startChar": 3,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "c0110ebe3511ecc224ffe1c2f9d0c394ee4ecda3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
