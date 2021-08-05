@@ -431,6 +431,47 @@ class Manager
      */
     void load();
 
+    /**
+     * @brief Sets a value in the parameter map.
+     *
+     * @param[in] name - The parameter name
+     * @param[in] value - The parameter value
+     */
+    static void setParameter(const std::string& name,
+                             const PropertyVariantType& value)
+    {
+        _parameters[name] = value;
+    }
+
+    /**
+     * @brief Returns a value from the parameter map
+     *
+     * @param[in] name - The parameter name
+     *
+     * @return The parameter value, or std::nullopt if not found
+     */
+    static std::optional<PropertyVariantType>
+        getParameter(const std::string& name)
+    {
+        auto it = _parameters.find(name);
+        if (it != _parameters.end())
+        {
+            return it->second;
+        }
+
+        return std::nullopt;
+    }
+
+    /**
+     * @brief Deletes a parameter from the parameter map
+     *
+     * @param[in] name - The parameter name
+     */
+    static void deleteParameter(const std::string& name)
+    {
+        _parameters.erase(name);
+    }
+
   private:
     /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
@@ -476,6 +517,13 @@ class Manager
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
+
+    /**
+     * @brief A map of parameter names and values that are something
+     *        other than just D-Bus property values that other actions
+     *        can set and use.
+     */
+    static std::unordered_map<std::string, PropertyVariantType> _parameters;
 
     /**
      * @brief Callback for power state changes
