@@ -121,8 +121,12 @@ class JsonConfig
                 }
             }
         }
-        catch (const std::runtime_error&)
+        catch (const std::runtime_error& e)
         {
+            // don't consume JSON loading exceptions
+            if (std::string("No JSON config file found") == e.what())
+                throw;
+
             // Wait for compatible interfacesAdded signal
         }
     }

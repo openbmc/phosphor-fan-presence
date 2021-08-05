@@ -214,9 +214,8 @@ class Fan
      * @param[in] functional - If the Functional property should
      *                         be set to true or false.
      *
-     * @return - True if an exception was encountered during update
      */
-    bool updateInventory(bool functional);
+    void updateInventory(bool functional);
 
     /**
      * @brief Called by _monitorTimer to start fan monitoring some
