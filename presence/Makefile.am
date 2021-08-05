@@ -6,6 +6,10 @@ bin_PROGRAMS = \
 
 systemdsystemunit_DATA=
 
+configsdir = ${pkgdatadir}/presence
+nobase_dist_configs_DATA = ## Filled in by Makefile.config_files
+-include Makefile.config_files
+
 if WANT_JSON
 systemdsystemunit_DATA += \
 	service_files/json/phosphor-fan-presence-tach@.service

@@ -102,12 +102,17 @@ AS_IF([test "x$enable_presence" != "xno"], [
     # Use runtime(json) config, otherwise default to compile time(yaml) config
     AM_COND_IF([WANT_JSON],
     [
+        # TODO Handle sdk building where no MACHINE given
+        AC_ARG_VAR(MACHINE, [Machine name to install associated config files])
         AC_CHECK_HEADER(nlohmann/json.hpp, ,
                 [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
         # Set config flag for runtime json usage
         AC_DEFINE([PRESENCE_USE_JSON], [1], [Fan presence use runtime json configuration])
         AC_MSG_NOTICE([Fan presence json configuration usage enabled])
         AC_CONFIG_FILES([presence/service_files/json/phosphor-fan-presence-tach@.service])
+        AS_IF([test "x$MACHINE" != "x"],
+          [AC_CONFIG_FILES([presence/Makefile.config_files],
+            [${srcdir}/gen_config_files.sh ${srcdir}/presence/config_files/$MACHINE > presence/Makefile.config_files])])
     ],
     [
         # Add optional yaml file argument
