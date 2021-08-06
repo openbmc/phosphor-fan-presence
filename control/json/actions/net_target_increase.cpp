@@ -44,13 +44,31 @@ NetTargetIncrease::NetTargetIncrease(const json& jsonObj,
 
 void NetTargetIncrease::run(Zone& zone)
 {
+    PropertyVariantType state;
+
+    // Use the _state value if it's there, otherwise the action will have
+    // been configured to use Manager's parameter cache.
+    if (_state)
+    {
+        state = *_state;
+    }
+    else
+    {
+        auto s = zone.getManager()->getParameter(_stateParameter);
+        if (!s)
+        {
+            return;
+        }
+        state = *s;
+    }
+
     auto netDelta = zone.getIncDelta();
     for (const auto& group : _groups)
     {
         const auto& members = group.getMembers();
         std::for_each(
             members.begin(), members.end(),
-            [this, &zone, &group, &netDelta](const auto& member) {
+            [this, &zone, &group, &netDelta, state](const auto& member) {
                 try
                 {
                     auto value = Manager::getObjValueVariant(
@@ -63,13 +81,13 @@ void NetTargetIncrease::run(Zone& zone)
                         // increase of the configured delta times the difference
                         // between the group member's value and configured state
                         // value.
-                        if (value >= _state)
+                        if (value >= state)
                         {
                             uint64_t incDelta = 0;
                             if (auto dblPtr = std::get_if<double>(&value))
                             {
                                 incDelta = static_cast<uint64_t>(
-                                    (*dblPtr - std::get<double>(_state)) *
+                                    (*dblPtr - std::get<double>(state)) *
                                     _delta);
                             }
                             else
@@ -78,7 +96,7 @@ void NetTargetIncrease::run(Zone& zone)
                                 // to attempt bringing under provided 'state'
                                 auto deltaFactor =
                                     std::max((std::get<int64_t>(value) -
-                                              std::get<int64_t>(_state)),
+                                              std::get<int64_t>(state)),
                                              1ll);
                                 incDelta =
                                     static_cast<uint64_t>(deltaFactor * _delta);
@@ -91,7 +109,7 @@ void NetTargetIncrease::run(Zone& zone)
                         // Where a group of booleans equal the state(`true` or
                         // `false`) provided, request an increase of the
                         // configured delta
-                        if (_state == value)
+                        if (state == value)
                         {
                             netDelta = std::max(netDelta, _delta);
                         }
@@ -100,7 +118,7 @@ void NetTargetIncrease::run(Zone& zone)
                     {
                         // Where a group of strings equal the state(some string)
                         // provided, request an increase of the configured delta
-                        if (_state == value)
+                        if (state == value)
                         {
                             netDelta = std::max(netDelta, _delta);
                         }
@@ -129,12 +147,20 @@ void NetTargetIncrease::run(Zone& zone)
 
 void NetTargetIncrease::setState(const json& jsonObj)
 {
-    if (!jsonObj.contains("state"))
+    if (jsonObj.contains("state"))
     {
-        throw ActionParseError{ActionBase::getName(),
-                               "Missing required state value"};
+        _state = getJsonValue(jsonObj["state"]);
     }
-    _state = getJsonValue(jsonObj["state"]);
+    else if (jsonObj.contains("state_parameter_name"))
+    {
+        _stateParameter = jsonObj["state_parameter_name"].get<std::string>();
+    }
+    else
+    {
+        throw ActionParseError{
+            ActionBase::getName(),
+            "Missing required state or state_parameter_name value"};
+    }
 }
 
 void NetTargetIncrease::setDelta(const json& jsonObj)
