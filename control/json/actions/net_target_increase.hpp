@@ -75,13 +75,22 @@ class NetTargetIncrease :
      * dbus objects are processed, the maximum net target increase calculated is
      * requested on the zone.
      *
+     * The state value can be specified as number in the JSON, or as a Manager
+     * parameter that another action will have set.
+     *
      * @param[in] zone - Zone to run the action on
      */
     void run(Zone& zone) override;
 
   private:
-    /* State the members must be at to increase the rarget */
+    /* State the members must be at to increase the target */
     PropertyVariantType _state;
+
+    /**
+     * The Manager parameter to use to get the state value if that
+     * was the method specified in the JSON.
+     */
+    std::string _stateParameter;
 
     /* Increase delta for this action */
     uint64_t _delta;
