@@ -71,6 +71,7 @@ phosphor_fan_control_SOURCES += \
 	json/actions/net_target_decrease.cpp \
 	json/actions/timer_based_actions.cpp \
 	json/actions/mapped_floor.cpp \
+	json/actions/set_parameter_from_group_max.cpp \
 	json/utils/modifier.cpp
 else
 phosphor_fan_control_SOURCES += \
