@@ -45,6 +45,30 @@
       "revId": "53718403b602f17cf49b5440f7b281a1258f6c4e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04de1caf_2848d0a6",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T18:11:49Z",
+      "side": 1,
+      "message": "Should consider making this static as well, then getting a reference to the Manager object on each zone wont be necessary. We can discuss this more since some things currently require a reference to the Manager object (which I\u0027d like to see if I can move those to being static as well unless we think we\u0027ll need more than one Manager object in the future then we\u0027d leave this and change those that are currently static instead).",
+      "parentUuid": "6149f1bb_36a7e7ac",
+      "range": {
+        "startLine": 533,
+        "startChar": 4,
+        "endLine": 533,
+        "endChar": 12
+      },
+      "revId": "53718403b602f17cf49b5440f7b281a1258f6c4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
