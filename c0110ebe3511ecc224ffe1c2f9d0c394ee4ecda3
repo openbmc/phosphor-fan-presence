@@ -22,6 +22,30 @@
       "revId": "c0110ebe3511ecc224ffe1c2f9d0c394ee4ecda3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bb1862a_60f996de",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 16
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-09T14:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92e09ea1_bd772608",
+      "range": {
+        "startLine": 359,
+        "startChar": 3,
+        "endLine": 369,
+        "endChar": 15
+      },
+      "revId": "c0110ebe3511ecc224ffe1c2f9d0c394ee4ecda3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
