@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e89873ec_8b9e4267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T20:49:32Z",
+      "side": 1,
+      "message": "Can change \"subtract\" to \"minus\" and align with the C++ operator template classes.",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4eb6dab3_b01d6d56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T20:49:32Z",
+      "side": 1,
+      "message": "Use \"operator\" instead?",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee5db590_2ca4a000",
+        "filename": "control/Makefile.am",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T20:49:32Z",
+      "side": 1,
+      "message": "Think I already commented this, but lets move this to a `utils` directory instead of being under actions since its not really tied to being an action or used only by actions for that matter.",
+      "range": {
+        "startLine": 58,
+        "startChar": 1,
+        "endLine": 58,
+        "endChar": 31
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91870db0_ba217df4",
+        "filename": "control/json/actions/util/modifier.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T20:49:32Z",
+      "side": 1,
+      "message": "I think using the C++ operator classes would eliminate all these checks and the native operator function for each type would be used (unless we override them, such as for strings).",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 144,
+        "endChar": 1
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c180a5b2_7d3dad2e",
+        "filename": "control/json/actions/util/modifier.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T20:49:32Z",
+      "side": 1,
+      "message": "Thinking about this more, it really has no direct tie to the actions, so it seems better fit to create a `utils` directory (at the same level as `actions` and `triggers`) and place this class there.",
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92f15394_395fc0af",
+        "filename": "control/json/actions/util/modifier.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-09T20:49:32Z",
+      "side": 1,
+      "message": "I feel we could really simplify things by using the C++ operator classes. For minus -\u003e http://www.cplusplus.com/reference/functional/minus/\n\nWhere we could possibly have an instance of one of those classes be determined from what\u0027s configured as the \"operator\" in the JSON, then just call it appropriately.\n\n```\nif (json[\"operator\"] \u003d\u003d \"minus\")\n{\n  _operator \u003d std::minus\u003cdouble\u003e();\n}\n```\nThen could be called with\n```\nreturn _operator(value, 3);\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 111,
+        "endChar": 27
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
