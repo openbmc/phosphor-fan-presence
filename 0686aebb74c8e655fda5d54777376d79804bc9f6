@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "918e149b_c93de9b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T13:33:20Z",
+      "side": 1,
+      "message": "BTW, this script was never made public..what you\u0027re doing here is essentially making the script public as a tool included with phosphor-fan-control.\n\nLets remove any reference to the bash script along with the issue number and just reference that you\u0027re creating a fan control command line tool for use in getting the status, manually controlling fans, etc...",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 40
+      },
+      "revId": "0686aebb74c8e655fda5d54777376d79804bc9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "53625ac7_64dbe726",
         "filename": "control/fanctl.cpp",
         "patchSetId": 22
