@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8e71b72_60a049c1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T15:21:33Z",
+      "side": 1,
+      "message": "This adds the help text \"display fan-control status\", so why not just use this ability from CLI instead of a printHelp?",
+      "range": {
+        "startLine": 341,
+        "startChar": 4,
+        "endLine": 341,
+        "endChar": 67
+      },
+      "revId": "c5fe337f2869d2768ce91d8e9e84faf8057cf2f5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
