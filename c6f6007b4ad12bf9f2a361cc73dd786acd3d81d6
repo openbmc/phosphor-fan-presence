@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1c18065_beff36ee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "Same as I mentioned in the prior commit in regard to referencing the script and issue.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75d90179_a9c9dba0",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -34,6 +57,52 @@
       "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98354ce3_a004069c",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "The feedbacks will not be in PWM. Currently those will only be given on the Sensor.Value interface\u0027s Value property in RPM",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "288c3480_54041926",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "A Romulus system, if you\u0027re able to find one, used PWM targets.",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     },
     {
       "key": {
@@ -72,6 +141,75 @@
     },
     {
       "key": {
+        "uuid": "cf63f138_e0617511",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "This should be removed.",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 77
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4866e3d8_140d6d81",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "Looks as though these are only used in this function, so lets remove these and put the strings directly in the method call below. Unless I\u0027m missing something?",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 63
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ccd96f3_914f9f3d",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "Not something necessary to change for this tool, but its recommended to use the data type(if possible) or define a constexpr string for the tuple position.\n\ni.e.)\n\nconstexpr auto targetMethod \u003d 3;\n...\nauto \u0026 tmethod \u003d std::get\u003ctargetMethod\u003e(busData);",
+      "range": {
+        "startLine": 236,
+        "startChar": 29,
+        "endLine": 236,
+        "endChar": 30
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80a8f8cc_36bcac5b",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -83,6 +221,75 @@
       "writtenOn": "2021-07-29T15:59:51Z",
       "side": 1,
       "message": "yikes. this comment got out of alignment with the function",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "281b4f00_45eed6f8",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "What about a PWM target?",
+      "range": {
+        "startLine": 374,
+        "startChar": 7,
+        "endLine": 378,
+        "endChar": 32
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13eb94ea_50d5495e",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "Add option \"get\" ?",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 424,
+        "endChar": 67
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f21ee14e_ca7cd15a",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-10T16:09:30Z",
+      "side": 1,
+      "message": "Not \"Fan control\" failed, this script failed right?\n\nAlso, should probably set the return code to not be 0 if there\u0027s a failure of this script in case users wrap this tool in a script, etc..",
+      "range": {
+        "startLine": 444,
+        "startChar": 22,
+        "endLine": 444,
+        "endChar": 40
+      },
       "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
