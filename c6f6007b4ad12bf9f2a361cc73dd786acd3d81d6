@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3f886d6e_eab3e6f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 19
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1c18065_beff36ee",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 43
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75d90179_a9c9dba0",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -83,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f4a5a8a9_f8d061e5",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "98354ce3_a004069c",
+      "range": {
+        "startLine": 128,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 23
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "288c3480_54041926",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -103,6 +151,30 @@
       "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68994bef_45323166",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Not an option. will have to find another solution. see comment below.",
+      "parentUuid": "288c3480_54041926",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 35
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "3a7ab36f_5013c3ae",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Ack\n\nActually it is used in the final commit.",
+      "parentUuid": "cf63f138_e0617511",
+      "range": {
+        "startLine": 174,
+        "startChar": 4,
+        "endLine": 174,
+        "endChar": 77
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4866e3d8_140d6d81",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -184,6 +280,30 @@
       "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eba2ee5_5d8d4d6f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "ultimately used in set/resume/reload.",
+      "parentUuid": "4866e3d8_140d6d81",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 177,
+        "endChar": 63
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "3c5dbc60_6e151eb0",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2ccd96f3_914f9f3d",
+      "range": {
+        "startLine": 236,
+        "startChar": 29,
+        "endLine": 236,
+        "endChar": 30
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80a8f8cc_36bcac5b",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -227,6 +371,24 @@
     },
     {
       "key": {
+        "uuid": "20e07d1e_1c9657e5",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "fixed in latest commit.",
+      "parentUuid": "80a8f8cc_36bcac5b",
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "281b4f00_45eed6f8",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -238,6 +400,30 @@
       "writtenOn": "2021-08-10T16:09:30Z",
       "side": 1,
       "message": "What about a PWM target?",
+      "range": {
+        "startLine": 374,
+        "startChar": 7,
+        "endLine": 378,
+        "endChar": 32
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98a58bf7_e5f35028",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Ack and this is a TODO. Attempts to get a Romulus system failed, will have to set up simics for PWM testing.",
+      "parentUuid": "281b4f00_45eed6f8",
       "range": {
         "startLine": 374,
         "startChar": 7,
@@ -273,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "8c44d256_f566970a",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13eb94ea_50d5495e",
+      "range": {
+        "startLine": 424,
+        "startChar": 4,
+        "endLine": 424,
+        "endChar": 67
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f21ee14e_ca7cd15a",
         "filename": "control/fanctl.cpp",
         "patchSetId": 19
@@ -293,6 +503,30 @@
       "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "806196a6_370d2752",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-13T18:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f21ee14e_ca7cd15a",
+      "range": {
+        "startLine": 444,
+        "startChar": 22,
+        "endLine": 444,
+        "endChar": 40
+      },
+      "revId": "c6f6007b4ad12bf9f2a361cc73dd786acd3d81d6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
