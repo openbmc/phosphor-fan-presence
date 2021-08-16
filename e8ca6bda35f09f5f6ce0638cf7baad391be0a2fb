@@ -22,6 +22,30 @@
       "revId": "e8ca6bda35f09f5f6ce0638cf7baad391be0a2fb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c916b541_87d149f2",
+        "filename": "control/json/actions/set_parameter_from_group.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-16T21:51:54Z",
+      "side": 1,
+      "message": "i\u0027ll just do the latter",
+      "parentUuid": "20eb4c54_b3125ca5",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "e8ca6bda35f09f5f6ce0638cf7baad391be0a2fb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
