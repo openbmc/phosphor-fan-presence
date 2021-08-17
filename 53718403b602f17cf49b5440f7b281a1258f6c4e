@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "637468f4_42b89078",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-17T16:05:14Z",
+      "side": 1,
+      "message": "Yea, that way is better. Done.",
+      "parentUuid": "1cb3c69b_c20d2702",
+      "range": {
+        "startLine": 442,
+        "startChar": 8,
+        "endLine": 450,
+        "endChar": 9
+      },
+      "revId": "53718403b602f17cf49b5440f7b281a1258f6c4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6149f1bb_36a7e7ac",
         "filename": "control/json/manager.hpp",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "53718403b602f17cf49b5440f7b281a1258f6c4e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e787525_f9626b5c",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-17T16:05:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04de1caf_2848d0a6",
+      "range": {
+        "startLine": 533,
+        "startChar": 4,
+        "endLine": 533,
+        "endChar": 12
+      },
+      "revId": "53718403b602f17cf49b5440f7b281a1258f6c4e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
