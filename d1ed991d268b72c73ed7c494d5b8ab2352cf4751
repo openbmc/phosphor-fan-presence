@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "1065eecb_379329cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-17T15:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4eb6dab3_b01d6d56",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f40df600_9151ff24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-17T15:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e89873ec_8b9e4267",
+      "range": {
+        "startLine": 14,
+        "startChar": 18,
+        "endLine": 14,
+        "endChar": 26
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee5db590_2ca4a000",
         "filename": "control/Makefile.am",
         "patchSetId": 3
@@ -135,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "7d74cec6_cb31f4ca",
+        "filename": "control/json/actions/util/modifier.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-17T15:39:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c180a5b2_7d3dad2e",
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92f15394_395fc0af",
         "filename": "control/json/actions/util/modifier.hpp",
         "patchSetId": 3
@@ -146,6 +212,30 @@
       "writtenOn": "2021-08-09T20:49:32Z",
       "side": 1,
       "message": "I feel we could really simplify things by using the C++ operator classes. For minus -\u003e http://www.cplusplus.com/reference/functional/minus/\n\nWhere we could possibly have an instance of one of those classes be determined from what\u0027s configured as the \"operator\" in the JSON, then just call it appropriately.\n\n```\nif (json[\"operator\"] \u003d\u003d \"minus\")\n{\n  _operator \u003d std::minus\u003cdouble\u003e();\n}\n```\nThen could be called with\n```\nreturn _operator(value, 3);\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 3,
+        "endLine": 111,
+        "endChar": 27
+      },
+      "revId": "d1ed991d268b72c73ed7c494d5b8ab2352cf4751",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d409377_5019109c",
+        "filename": "control/json/actions/util/modifier.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-17T15:39:46Z",
+      "side": 1,
+      "message": "_operator can\u0027t be auto, and I haven\u0027t figured out another way yet to store std::minus in something.\n\nAlso, std::minus can\u0027t take a variant so unfortunately I still don\u0027t see a way to get out of all the type checking I\u0027m currently doing.",
+      "parentUuid": "92f15394_395fc0af",
       "range": {
         "startLine": 73,
         "startChar": 3,
