@@ -7,6 +7,22 @@ AM_CPPFLAGS = -iquote ${top_srcdir} \
 systemdsystemunit_DATA=
 
 if WANT_JSON_CONTROL
+CONFIGSDIR = "${pkgdatadir}/control/"
+CONFIGSLOC = "${srcdir}/config_files/$(MACHINE)/"
+
+EXTRA_DIST = $(CONFIGSLOC)
+
+# No $(MACHINE) given results in installing entire config_files contents
+# Install intended to fail when $(MACHINE) given does not exist
+install-data-hook:
+	for config in `cd $(CONFIGSLOC) && find * -type f`; do \
+		$(MKDIR_P) "$(DESTDIR)$(CONFIGSDIR)`dirname $${config}`"; \
+		$(INSTALL_DATA) "$(CONFIGSLOC)$${config}" "$(DESTDIR)$(CONFIGSDIR)`dirname $${config}`"; \
+	done
+
+uninstall-hook:
+	rm -rf "$(DESTDIR)$(CONFIGSDIR)"
+
 systemdsystemunit_DATA += \
 	service_files/json/phosphor-fan-control@.service
 else
