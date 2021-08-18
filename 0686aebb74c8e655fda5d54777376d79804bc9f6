@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "0287b043_e2a0daaa",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-18T18:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "222871dd_7a9c889b",
+      "range": {
+        "startLine": 199,
+        "startChar": 8,
+        "endLine": 199,
+        "endChar": 35
+      },
+      "revId": "0686aebb74c8e655fda5d54777376d79804bc9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be48eca4_6359b60a",
         "filename": "control/fanctl.cpp",
         "patchSetId": 22
@@ -328,6 +352,30 @@
       "revId": "0686aebb74c8e655fda5d54777376d79804bc9f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3644946_41c904f4",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-18T18:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97fdbb6b_9bc3d689",
+      "range": {
+        "startLine": 245,
+        "startChar": 7,
+        "endLine": 249,
+        "endChar": 25
+      },
+      "revId": "0686aebb74c8e655fda5d54777376d79804bc9f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
