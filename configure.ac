@@ -215,6 +215,7 @@ AS_IF([test "x$enable_monitor" != "xno"], [
     # Use runtime(json) config, otherwise default to compile time(yaml) config
     AM_COND_IF([WANT_JSON],
     [
+        AC_ARG_VAR(MACHINE, [Machine name to install a particular set of associated config file(s)])
         AC_CHECK_HEADER(nlohmann/json.hpp, ,
                 [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
         # Set config flag for runtime json usage
