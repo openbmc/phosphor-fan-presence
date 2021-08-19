@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "793afe1d_394ce93a",
+        "filename": "control/Makefile.am",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-19T13:43:52Z",
+      "side": 1,
+      "message": "This appears to not be the case, checking if its ok to not fail the install.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "af97e58709957ca87216c3c777dfa4956e9e6d0e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
