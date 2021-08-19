@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77ba15f4_6b11d73c",
+        "filename": "presence/Makefile.am",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-19T13:43:26Z",
+      "side": 1,
+      "message": "This appears to not be the case, checking if its ok to not fail the install.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 63
+      },
+      "revId": "aa3f402c1b334b1699d6c5b25dfcd78467f37c43",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
