@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6821e160_7123f058",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:05:21Z",
+      "side": 1,
+      "message": "You said \"Done\" to Matt\u0027s comment about not mentioning the script and issue, but they are still mentioned here?",
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1e5f8c8_0e5f5429",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:05:21Z",
+      "side": 1,
+      "message": "Since this conditional is used twice, perhaps it should be converted to a simple one line function so the code is common?",
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d4a35ef_caba01d3",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:05:21Z",
+      "side": 1,
+      "message": "Does this work for PWM now?  If so, the comment should be updated.  Also, if it supports both should it include a unit value?  e.g. does the value 100 mean 100% PWM (max speed) or 100 RPMs (really slow)?",
+      "range": {
+        "startLine": 371,
+        "startChar": 28,
+        "endLine": 371,
+        "endChar": 31
+      },
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e417dc_b217f1ce",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:05:21Z",
+      "side": 1,
+      "message": "Nit: If the executable is \u0027fanctl\u0027, then this should be lower case to match?",
+      "range": {
+        "startLine": 448,
+        "startChar": 22,
+        "endLine": 448,
+        "endChar": 29
+      },
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
