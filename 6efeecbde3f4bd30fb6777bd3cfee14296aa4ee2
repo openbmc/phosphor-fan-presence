@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11d63def_a934bbb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "Nit: extra space",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0b473f1_7ee6acd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "PWM?",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a874407d_c8885859",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "Is this used in a subsequent commit?  I don\u0027t think it is being used in this commit.  You replaced it on line 234 with a hard-coded \"RPMS\" string.",
+      "range": {
+        "startLine": 178,
+        "startChar": 32,
+        "endLine": 178,
+        "endChar": 39
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3b2d77_a5233906",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "If this has been tested, should the comment be removed?",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 2
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a4a3606_af48d1e0",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "So this is not sometimes PWM like you had it in the previous patch sets?",
+      "range": {
+        "startLine": 234,
+        "startChar": 50,
+        "endLine": 234,
+        "endChar": 54
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "548123ad_ecf997b8",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "Matt had asked about the case where it is PWM.  You replied Done.  Is this done in a subsequent commit?",
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83d2311e_36370cfa",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T14:52:10Z",
+      "side": 1,
+      "message": "As you add more options, the code within the try is going to get pretty long.\n\nI would recommend refactoring that into one or two functions.  For example, you could define one function that creates the CLI::App and configures it, and a second function that handles the parsed results and calls the associated functions like status().",
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
