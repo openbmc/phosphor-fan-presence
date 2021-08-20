@@ -267,21 +267,14 @@ bool Zone::isPersisted(const std::string& intf, const std::string& prop) const
 
 void Zone::setPowerOnTarget(const json& jsonObj)
 {
-    // TODO Remove "full_speed" after configs replaced with "poweron_target"
-    if (!jsonObj.contains("full_speed") && !jsonObj.contains("poweron_target"))
+    if (!jsonObj.contains("poweron_target"))
     {
         auto msg = "Missing required zone's poweron target";
         log<level::ERR>(msg, entry("JSON=%s", jsonObj.dump().c_str()));
         throw std::runtime_error(msg);
     }
-    if (jsonObj.contains("full_speed"))
-    {
-        _poweronTarget = jsonObj["full_speed"].get<uint64_t>();
-    }
-    else
-    {
-        _poweronTarget = jsonObj["poweron_target"].get<uint64_t>();
-    }
+    _poweronTarget = jsonObj["poweron_target"].get<uint64_t>();
+
     // Start with the current target set as the poweron target
     _target = _poweronTarget;
 }
