@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50801abe_b06675f5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 29
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:16:20Z",
+      "side": 1,
+      "message": "Matt had mentioned the need to remove references to the script and issue.",
+      "revId": "d2792f51ea413f1fbc0861926ddfd818042cf0ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d5a6e91_63f95a41",
+        "filename": "control/Makefile.am",
+        "patchSetId": 29
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:16:20Z",
+      "side": 1,
+      "message": "Nit: Would be easier to read if the SOURCES, LDADD, and CXXFLAGS lines were in the same order as phosphor_fan_control.  Then you can check which things are the same/different easier.  For example, if something about the bitbake environment changes and a new lib must be added, can more easily check which libs each currently has.",
+      "revId": "d2792f51ea413f1fbc0861926ddfd818042cf0ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18320c25_bcf45b65",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:16:20Z",
+      "side": 1,
+      "message": "Is this used anywhere?",
+      "revId": "d2792f51ea413f1fbc0861926ddfd818042cf0ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7077c75_70bb87c1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:16:20Z",
+      "side": 1,
+      "message": "If this could be RPM or PWM, should it be renamed to something like target or targetSpeed instead?",
+      "range": {
+        "startLine": 515,
+        "startChar": 28,
+        "endLine": 515,
+        "endChar": 31
+      },
+      "revId": "d2792f51ea413f1fbc0861926ddfd818042cf0ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea74c84_7d12bad1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-20T15:16:20Z",
+      "side": 1,
+      "message": "Do these still have to be enclosed in double quotes?  Or can it be a simple list now?",
+      "revId": "d2792f51ea413f1fbc0861926ddfd818042cf0ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
