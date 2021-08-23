@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce5f62b4_1ce6851e",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-23T19:56:06Z",
+      "side": 1,
+      "message": "Is this catching the exception thrown when not numeric and exiting the action?\n\nSeems it\u0027d be better to log and ignore any non-numeric properties and continue to process any remaining numeric members for a resulting max.",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 42
+      },
+      "revId": "9d51f8e3e2f47a307c224f006801756a81a3f775",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5642ba97_d0d89f43",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-23T19:56:06Z",
+      "side": 1,
+      "message": "If a modifier is configured and the operation fails, this seems it should be logged as `ERR` so the user is aware of a possible configuration problem.\n\nAre there other reasons the modifier could fail against a numeric max?",
+      "range": {
+        "startLine": 104,
+        "startChar": 23,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "9d51f8e3e2f47a307c224f006801756a81a3f775",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52c79e67_65ff870e",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-08-23T19:56:06Z",
+      "side": 1,
+      "message": "What would this log for an attempted use of an unsupported modifier? or should we include \"Unsupported modifier configured\" with e.what()?",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 68
+      },
+      "revId": "9d51f8e3e2f47a307c224f006801756a81a3f775",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
