@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b71d1936_2730fb0b",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-23T20:28:44Z",
+      "side": 1,
+      "message": "it\u0027s from Manager::getObjValueVariant(), but yea, I can change it to keep going.",
+      "parentUuid": "ce5f62b4_1ce6851e",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 42
+      },
+      "revId": "9d51f8e3e2f47a307c224f006801756a81a3f775",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5642ba97_d0d89f43",
         "filename": "control/json/actions/set_parameter_from_group_max.cpp",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "dc0f0753_95678aab",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-23T20:28:44Z",
+      "side": 1,
+      "message": "I think it would just be a configuration problem.  I\u0027ll change it.",
+      "parentUuid": "5642ba97_d0d89f43",
+      "range": {
+        "startLine": 104,
+        "startChar": 23,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "9d51f8e3e2f47a307c224f006801756a81a3f775",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52c79e67_65ff870e",
         "filename": "control/json/actions/set_parameter_from_group_max.cpp",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2021-08-23T19:56:06Z",
       "side": 1,
       "message": "What would this log for an attempted use of an unsupported modifier? or should we include \"Unsupported modifier configured\" with e.what()?",
+      "range": {
+        "startLine": 136,
+        "startChar": 12,
+        "endLine": 136,
+        "endChar": 68
+      },
+      "revId": "9d51f8e3e2f47a307c224f006801756a81a3f775",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de26bbe1_6e796641",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-08-23T20:28:44Z",
+      "side": 1,
+      "message": "Modifier will throw an exception the following what(): invalid operator in modifier JSON",
+      "parentUuid": "52c79e67_65ff870e",
       "range": {
         "startLine": 136,
         "startChar": 12,
