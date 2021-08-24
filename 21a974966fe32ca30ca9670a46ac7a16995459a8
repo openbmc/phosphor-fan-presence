@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2ec80b46_0485eb55",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "daad1849_30862b67",
+      "revId": "21a974966fe32ca30ca9670a46ac7a16995459a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0226799_afdfd62a",
         "filename": "control/fanctl.cpp",
         "patchSetId": 35
@@ -39,6 +57,30 @@
       "revId": "21a974966fe32ca30ca9670a46ac7a16995459a8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828851c2_cba3b81a",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0226799_afdfd62a",
+      "range": {
+        "startLine": 345,
+        "startChar": 30,
+        "endLine": 345,
+        "endChar": 38
+      },
+      "revId": "21a974966fe32ca30ca9670a46ac7a16995459a8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
