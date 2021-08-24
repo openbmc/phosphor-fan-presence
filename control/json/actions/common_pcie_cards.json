@@ -1,0 +1,23 @@
+{
+    "error_floor_index": 8,
+    "default_floor_index": 8,
+    "cards":
+    [
+        {
+            "comment": "Baby Blue Tip",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1007",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_device_id": "0x04E7",
+            "floor_index": 7
+        },
+        {
+            "comment": "Flett",
+            "vendor_id": "0x1000",
+            "device_id": "0x1000",
+            "subsystem_vendor_id": "0xAAAA",
+            "subsystem_device_id": "0xBBBB",
+            "has_temp_sensor": true
+        }
+    ]
+}
