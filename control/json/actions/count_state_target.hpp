@@ -40,7 +40,7 @@ class CountStateTarget :
 {
   public:
     /* Name of this action */
-    static constexpr auto name = "count_state_before_speed";
+    static constexpr auto name = "count_state_before_target";
 
     CountStateTarget() = delete;
     CountStateTarget(const CountStateTarget&) = delete;
