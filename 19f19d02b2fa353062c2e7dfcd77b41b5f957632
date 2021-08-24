@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b2fea76_5401215f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6821e160_7123f058",
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1e5f8c8_0e5f5429",
         "filename": "control/fanctl.cpp",
         "patchSetId": 28
@@ -33,6 +51,24 @@
       "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b54caf78_dae41ad2",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1e5f8c8_0e5f5429",
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,23 @@
     },
     {
       "key": {
+        "uuid": "0cd79881_d3eb4995",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:16Z",
+      "side": 1,
+      "message": "comment fixed. PWM/RPM units are dependent on hw-specific implementation; this utility simply passes through values to/from the driver interface.",
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e417dc_b217f1ce",
         "filename": "control/fanctl.cpp",
         "patchSetId": 28
@@ -79,6 +132,30 @@
       "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41a3a384_1747d669",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43e417dc_b217f1ce",
+      "range": {
+        "startLine": 448,
+        "startChar": 22,
+        "endLine": 448,
+        "endChar": 29
+      },
+      "revId": "19f19d02b2fa353062c2e7dfcd77b41b5f957632",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
