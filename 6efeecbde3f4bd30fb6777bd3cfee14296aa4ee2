@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "470ff617_74f8dbd2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11d63def_a934bbb4",
+      "range": {
+        "startLine": 11,
+        "startChar": 24,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0b473f1_7ee6acd5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 28
@@ -45,6 +69,30 @@
       "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20cef5dd_bda78080",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 28
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0b473f1_7ee6acd5",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 15
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "d7b420bb_380e4504",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a874407d_c8885859",
+      "range": {
+        "startLine": 178,
+        "startChar": 32,
+        "endLine": 178,
+        "endChar": 39
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e3b2d77_a5233906",
         "filename": "control/fanctl.cpp",
         "patchSetId": 28
@@ -91,6 +163,30 @@
       "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f9efa01_c6d04ed9",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e3b2d77_a5233906",
+      "range": {
+        "startLine": 198,
+        "startChar": 0,
+        "endLine": 198,
+        "endChar": 2
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "2b78ca7d_7469dbce",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "Correct, the sensor values are always reported in RPM",
+      "parentUuid": "9a4a3606_af48d1e0",
+      "range": {
+        "startLine": 234,
+        "startChar": 50,
+        "endLine": 234,
+        "endChar": 54
+      },
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "548123ad_ecf997b8",
         "filename": "control/fanctl.cpp",
         "patchSetId": 28
@@ -134,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "29cb5586_dfe98c7b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "correct, I had major difficulties being able to test in PWM mode so some of the earlier commits don\u0027t strictly support both modes. I didn\u0027t have the ability to test PWM until about a week ago. I am aware, however, that we generally want each commit to be atomic and complete.",
+      "parentUuid": "548123ad_ecf997b8",
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83d2311e_36370cfa",
         "filename": "control/fanctl.cpp",
         "patchSetId": 28
@@ -148,6 +286,24 @@
       "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56f7569a_917eb3cc",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-24T18:16:10Z",
+      "side": 1,
+      "message": "I can do this, but only for the last commit. Due to the amount of refactoring done for this file, the complexity of the rebase makes it infeasible and error-prone to do here.",
+      "parentUuid": "83d2311e_36370cfa",
+      "revId": "6efeecbde3f4bd30fb6777bd3cfee14296aa4ee2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
