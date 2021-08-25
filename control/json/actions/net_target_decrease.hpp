@@ -43,7 +43,7 @@ class NetTargetDecrease :
 {
   public:
     /* Name of this action */
-    static constexpr auto name = "set_net_decrease_speed";
+    static constexpr auto name = "set_net_decrease_target";
 
     NetTargetDecrease() = delete;
     NetTargetDecrease(const NetTargetDecrease&) = delete;
