@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8833989b_e9bb5f5d",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-25T20:04:02Z",
+      "side": 1,
+      "message": "this was identified by another reviewer and fixed in a subsequent commit. If you want me to backport it to this commit let me know.",
+      "parentUuid": "d451228d_36001176",
+      "range": {
+        "startLine": 122,
+        "startChar": 39,
+        "endLine": 122,
+        "endChar": 69
+      },
+      "revId": "3ba8cf3902983302af71d474b3c1884003296287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea738bc_40d919a6",
         "filename": "control/fanctl.cpp",
         "patchSetId": 29
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f4c52359_b266dc66",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-25T20:04:02Z",
+      "side": 1,
+      "message": "endl forces a flush of the internal buffer to stdio. this application is a simple command-line-driven utility that runs, outputs, and exits, so I wouldn\u0027t expect endl would cause diminished performance here.",
+      "parentUuid": "2ea738bc_40d919a6",
+      "range": {
+        "startLine": 173,
+        "startChar": 4,
+        "endLine": 173,
+        "endChar": 20
+      },
+      "revId": "3ba8cf3902983302af71d474b3c1884003296287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63db0cd7_826a4a58",
         "filename": "control/fanctl.cpp",
         "patchSetId": 29
@@ -59,6 +107,30 @@
       "writtenOn": "2021-08-25T19:54:37Z",
       "side": 1,
       "message": "TODO?\nDone?\nNot yet?\nSome later time?",
+      "range": {
+        "startLine": 198,
+        "startChar": 8,
+        "endLine": 198,
+        "endChar": 35
+      },
+      "revId": "3ba8cf3902983302af71d474b3c1884003296287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c55bed70_884437fe",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-25T20:04:02Z",
+      "side": 1,
+      "message": "comment was removed in subsequent commit. Will backport if you request.",
+      "parentUuid": "63db0cd7_826a4a58",
       "range": {
         "startLine": 198,
         "startChar": 8,
