@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "894596e7_40bf78f0",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-08-25T20:10:18Z",
+      "side": 1,
+      "message": "Oh, this probably explains comment in earlier commit. Seems like this was only used once, so not really needed?",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 77
+      },
+      "revId": "cac8d3a1a1b4d40647fe586e1f253ab19fe3ded4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "537a8890_14f3017b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-08-25T20:10:18Z",
+      "side": 1,
+      "message": "Perhaps this should be argv[0], in case the binary/application name changes?",
+      "range": {
+        "startLine": 456,
+        "startChar": 22,
+        "endLine": 456,
+        "endChar": 29
+      },
+      "revId": "cac8d3a1a1b4d40647fe586e1f253ab19fe3ded4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
