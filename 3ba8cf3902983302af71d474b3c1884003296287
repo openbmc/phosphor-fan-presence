@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "e073d49e_c2dbdea2",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-08-25T20:05:49Z",
+      "side": 1,
+      "message": "catch (const std::exception\u0026 e)\n\nShouldn\u0027t one do that here, and not as some random change in the subsequent commit?",
+      "range": {
+        "startLine": 142,
+        "startChar": 4,
+        "endLine": 142,
+        "endChar": 29
+      },
+      "revId": "3ba8cf3902983302af71d474b3c1884003296287",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ea738bc_40d919a6",
         "filename": "control/fanctl.cpp",
         "patchSetId": 29
