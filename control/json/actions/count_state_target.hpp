@@ -70,6 +70,10 @@ class CountStateTarget :
      */
     void run(Zone& zone) override;
 
+  protected:
+    /* Instance id for each instance of this action */
+    static size_t instanceId;
+
   private:
     /* Number of group members */
     size_t _count;
@@ -79,6 +83,9 @@ class CountStateTarget :
 
     /* Target for this action */
     uint64_t _target;
+
+    /* Unique id of this action */
+    size_t _id;
 
     /**
      * @brief Parse and set the count
