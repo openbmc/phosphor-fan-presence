@@ -76,54 +76,48 @@ class JsonConfig
                 sdbusplus::bus::match::rules::sender(confCompatServ),
             std::bind(&JsonConfig::compatIntfAdded, this,
                       std::placeholders::_1));
-        try
+
+        auto compatObjPaths = getCompatObjPaths();
+        if (!compatObjPaths.empty())
         {
-            auto compatObjPaths = getCompatObjPaths();
-            if (!compatObjPaths.empty())
+            for (auto& path : compatObjPaths)
             {
-                for (auto& path : compatObjPaths)
+                try
                 {
-                    try
-                    {
-                        // Retrieve json config compatible relative path
-                        // locations (last one found will be what's used if more
-                        // than one dbus object implementing the comptaible
-                        // interface exists).
-                        _confCompatValues = util::SDBusPlus::getProperty<
-                            std::vector<std::string>>(util::SDBusPlus::getBus(),
-                                                      path, confCompatIntf,
-                                                      confCompatProp);
-                    }
-                    catch (const util::DBusError&)
-                    {
-                        // Compatible property unavailable on this dbus object
-                        // path's compatible interface, ignore
-                    }
+                    // Retrieve json config compatible relative path
+                    // locations (last one found will be what's used if more
+                    // than one dbus object implementing the comptaible
+                    // interface exists).
+                    _confCompatValues =
+                        util::SDBusPlus::getProperty<std::vector<std::string>>(
+                            util::SDBusPlus::getBus(), path, confCompatIntf,
+                            confCompatProp);
                 }
+                catch (const util::DBusError&)
+                {
+                    // Compatible property unavailable on this dbus object
+                    // path's compatible interface, ignore
+                }
+            }
+            _loadFunc();
+            _match.reset();
+        }
+        else
+        {
+            // Check if required config(s) are found not needing the
+            // compatible interface, otherwise this is intended to catch the
+            // exception thrown by the getConfFile function when the
+            // required config file was not found. This would then result in
+            // waiting for the compatible interfacesAdded signal
+            try
+            {
                 _loadFunc();
                 _match.reset();
             }
-            else
+            catch (const std::runtime_error&)
             {
-                // Check if required config(s) are found not needing the
-                // compatible interface, otherwise this is intended to catch the
-                // exception thrown by the getConfFile function when the
-                // required config file was not found. This would then result in
-                // waiting for the compatible interfacesAdded signal
-                try
-                {
-                    _loadFunc();
-                    _match.reset();
-                }
-                catch (const std::runtime_error&)
-                {
-                    // Wait for compatible interfacesAdded signal
-                }
+                // Wait for compatible interfacesAdded signal
             }
-        }
-        catch (const std::runtime_error&)
-        {
-            // Wait for compatible interfacesAdded signal
         }
     }
 
