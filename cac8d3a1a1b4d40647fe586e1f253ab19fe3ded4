@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "100bb3be_144615cb",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-27T16:04:01Z",
+      "side": 1,
+      "message": "I was asked to refactor quite a bit of this code. so constants that once were global were moved to local scope. The refactoring made rebasing older commits quite a rodeo, which is why some fixes are only in later commits.",
+      "parentUuid": "894596e7_40bf78f0",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 77
+      },
+      "revId": "cac8d3a1a1b4d40647fe586e1f253ab19fe3ded4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "537a8890_14f3017b",
         "filename": "control/fanctl.cpp",
         "patchSetId": 29
@@ -45,6 +69,30 @@
       "revId": "cac8d3a1a1b4d40647fe586e1f253ab19fe3ded4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a48a1fcc_094ad9bb",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-08-27T16:04:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "537a8890_14f3017b",
+      "range": {
+        "startLine": 456,
+        "startChar": 22,
+        "endLine": 456,
+        "endChar": 29
+      },
+      "revId": "cac8d3a1a1b4d40647fe586e1f253ab19fe3ded4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
