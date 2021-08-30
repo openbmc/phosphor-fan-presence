@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ed38625_b5956470",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 41
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2021-08-30T14:23:21Z",
+      "side": 1,
+      "message": "Nit: Are double quotes still needed?  If not, should they be removed here?\n\nSorry, I realize this was not exactly a change in this commit.  Just saw it here due to the refactoring (thanks!) of all this logic into a separate function.",
+      "range": {
+        "startLine": 528,
+        "startChar": 1,
+        "endLine": 528,
+        "endChar": 3
+      },
+      "revId": "47b201486d4a1e1b746567a0a14cb83adcde4c7d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
