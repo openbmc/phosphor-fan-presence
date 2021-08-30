@@ -274,9 +274,6 @@ void Zone::setPowerOnTarget(const json& jsonObj)
         throw std::runtime_error(msg);
     }
     _poweronTarget = jsonObj["poweron_target"].get<uint64_t>();
-
-    // Start with the current target set as the poweron target
-    _target = _poweronTarget;
 }
 
 void Zone::setInterfaces(const json& jsonObj)
