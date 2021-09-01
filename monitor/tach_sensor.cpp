@@ -85,29 +85,35 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
     // Query functional state from inventory
     // TODO - phosphor-fan-presence/issues/25
 
+    _functional = true;
+
     try
     {
-        auto service =
-            util::SDBusPlus::getService(_bus, util::INVENTORY_PATH + _invName,
-                                        util::OPERATIONAL_STATUS_INTF);
+        // see if any object paths in the inventory have the
+        // OperationalStatus interface.
+        auto subtree = util::SDBusPlus::getSubTreeRaw(
+            _bus, util::INVENTORY_PATH, util::OPERATIONAL_STATUS_INTF, 0);
 
-        if (!service.empty())
+        // only update inventory if we could iterate the inventory tree
+        if (subtree.size() > 0)
         {
-            _functional = util::SDBusPlus::getProperty<bool>(
-                service, util::INVENTORY_PATH + _invName,
-                util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
-        }
-        else
-        {
-            // default to functional when service not up. Error handling done
-            // later
-            _functional = true;
+            // if the tach sensor's entry already exits, we for sure can
+            // read its functional state from the inventory
+            if (subtree.end() != subtree.find(util::INVENTORY_PATH + _invName))
+            {
+                _functional = util::SDBusPlus::getProperty<bool>(
+                    _bus, util::INVENTORY_PATH + _invName,
+                    util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
+            }
+            else
+            {
+                updateInventory(_functional);
+            }
         }
     }
     catch (util::DBusError& e)
     {
         log<level::DEBUG>(e.what());
-        _functional = true;
     }
 
     if (!_functional && MethodMode::count == _method)
