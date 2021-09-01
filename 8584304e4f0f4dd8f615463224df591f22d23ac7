@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac16a211_0534f4ee",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-01T15:58:32Z",
+      "side": 1,
+      "message": "Manager::getObjValueVariant will throw an out_of_range exception when the property is not in the cache which we should then skip and just continue.",
+      "range": {
+        "startLine": 54,
+        "startChar": 25,
+        "endLine": 54,
+        "endChar": 46
+      },
+      "revId": "8584304e4f0f4dd8f615463224df591f22d23ac7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8223a35_f352e711",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-01T15:58:32Z",
+      "side": 1,
+      "message": "Just use `members` instead?",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 34
+      },
+      "revId": "8584304e4f0f4dd8f615463224df591f22d23ac7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
