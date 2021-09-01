@@ -26,7 +26,10 @@
 
 #include <experimental/filesystem>
 #include <functional>
+#include <iostream>
 #include <utility>
+using std::cout;
+using std::endl;
 
 namespace phosphor
 {
@@ -85,31 +88,53 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
     // Query functional state from inventory
     // TODO - phosphor-fan-presence/issues/25
 
+    _functional = true;
+
     try
     {
-        auto service =
-            util::SDBusPlus::getService(_bus, util::INVENTORY_PATH + _invName,
-                                        util::OPERATIONAL_STATUS_INTF);
+        cout << "Tracer: " << __LINE__ << endl;
 
-        if (!service.empty())
+        //cout << "Tracer: " << util::INVENTORY_PATH << endl;
+        //cout << "Tracer: " << util::INVENTORY_PATH + _invName << endl;
+
+        // tests if inventory path is available, else throws DBusError
+        auto x = util::SDBusPlus::getSubTreeRaw(_bus, "/xyz/openbmc_project/inventory/system/chassis/motherboard", //util::INVENTORY_PATH + _invName,
+                                       util::OPERATIONAL_STATUS_INTF, 2);
+
+        /*
+        for(auto &[key, valvector] : x )
         {
-            _functional = util::SDBusPlus::getProperty<bool>(
-                service, util::INVENTORY_PATH + _invName,
-                util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
-        }
-        else
-        {
-            // default to functional when service not up. Error handling done
-            // later
-            _functional = true;
-        }
+            cout << "gst: " << key << endl;
+            for(auto & val : valvector)
+            {
+                cout << "val: " << val.first << endl;
+                for(auto & val2 : val.second )
+                    cout << "val: " << val2 << endl;
+            }
+        }*/
+
+
+        // attempt to acquire functional state from inventory
+        _functional = util::SDBusPlus::getProperty<bool>(
+            _bus, util::INVENTORY_PATH + _invName,
+            util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
+
+        cout << "functional: " << _functional << endl;
+        updateInventory(_functional);
+    }
+    catch (util::DBusServiceError& e)
+    {
+    cout << "cauth exception2 Tracer: " << __LINE__ << endl;
+        // genesis state: store functional state to inventory
+        updateInventory(_functional);
     }
     catch (util::DBusError& e)
     {
+    cout << "cauth exception1 Tracer: " << __LINE__ << endl;
         log<level::DEBUG>(e.what());
-        _functional = true;
     }
 
+    cout << "Tracer: " << __LINE__ << endl;
     if (!_functional && MethodMode::count == _method)
     {
         // force continual nonfunctional state
