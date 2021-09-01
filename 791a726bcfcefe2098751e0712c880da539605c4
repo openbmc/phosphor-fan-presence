@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb932141_831a3735",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-01T14:48:46Z",
+      "side": 1,
+      "message": "I was able to correct the exception handling for all fan apps by updating the JsonConfig class. I believe this commit can be abandoned now in favor of https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/46407 ?\n\nLet me know if you dont feel that\u0027s the case.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "791a726bcfcefe2098751e0712c880da539605c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
