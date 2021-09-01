@@ -93,6 +93,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 
         if (!service.empty())
         {
+            // attempt to acquire functional state from inventory
             _functional = util::SDBusPlus::getProperty<bool>(
                 service, util::INVENTORY_PATH + _invName,
                 util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
@@ -103,6 +104,11 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
             // later
             _functional = true;
         }
+    }
+    catch (util::DBusServiceError& e)
+    {
+        // genesis state: store functional state to inventory
+        updateInventory(_functional);
     }
     catch (util::DBusError& e)
     {
