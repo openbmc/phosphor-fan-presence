@@ -150,6 +150,10 @@ void Manager::powerStateChanged(bool powerStateOn)
 {
     if (powerStateOn)
     {
+        if (_zones.empty())
+        {
+            throw std::runtime_error("No configured zones found at poweron");
+        }
         std::for_each(_zones.begin(), _zones.end(), [](const auto& entry) {
             entry.second->setTarget(entry.second->getPoweronTarget());
         });
