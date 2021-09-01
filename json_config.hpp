@@ -41,6 +41,41 @@ constexpr auto confCompatIntf =
     "xyz.openbmc_project.Configuration.IBMCompatibleSystem";
 constexpr auto confCompatProp = "Names";
 
+/**
+ * @class NoConfigFound - A no JSON configuration found exception
+ *
+ * A no JSON configuration found exception that is used to denote that a JSON
+ * configuration has not been found yet.
+ */
+class NoConfigFound : public std::runtime_error
+{
+  public:
+    NoConfigFound() = delete;
+    NoConfigFound(const NoConfigFound&) = delete;
+    NoConfigFound(NoConfigFound&&) = delete;
+    NoConfigFound& operator=(const NoConfigFound&) = delete;
+    NoConfigFound& operator=(NoConfigFound&&) = delete;
+    ~NoConfigFound() = default;
+
+    /**
+     * @brief No JSON configuration found exception object
+     *
+     * When attempting to find the JSON configuration file(s), a NoConfigFound
+     * exception can be thrown to denote that at that time finding/loading the
+     * JSON configuration file(s) for a fan application failed. Details on what
+     * application and JSON configuration file that failed to be found will be
+     * logged resulting in the application being terminated.
+     *
+     * @param[in] details - Additional details
+     */
+    NoConfigFound(const std::string& appName, const std::string& fileName) :
+        std::runtime_error(fmt::format("JSON configuration not found [Could "
+                                       "not find fan {} conf file {}]",
+                                       appName, fileName)
+                               .c_str())
+    {}
+};
+
 class JsonConfig
 {
   public:
@@ -114,7 +149,7 @@ class JsonConfig
                 _loadFunc();
                 _match.reset();
             }
-            catch (const std::runtime_error&)
+            catch (const NoConfigFound&)
             {
                 // Wait for compatible interfacesAdded signal
             }
@@ -206,16 +241,9 @@ class JsonConfig
             confFile.clear();
         }
 
-        if (!isOptional && confFile.empty() && !_confCompatValues.empty())
-        {
-            log<level::ERR>(fmt::format("Could not find fan {} conf file {}",
-                                        appName, fileName)
-                                .c_str());
-        }
-
         if (confFile.empty() && !isOptional)
         {
-            throw std::runtime_error("No JSON config file found");
+            throw NoConfigFound(appName, fileName);
         }
 
         return confFile;
