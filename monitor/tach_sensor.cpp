@@ -26,7 +26,10 @@
 
 #include <experimental/filesystem>
 #include <functional>
+#include <iostream>
 #include <utility>
+using std::cout;
+using std::endl;
 
 namespace phosphor
 {
@@ -85,31 +88,35 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
     // Query functional state from inventory
     // TODO - phosphor-fan-presence/issues/25
 
+    _functional = true;
+
     try
     {
-        auto service =
-            util::SDBusPlus::getService(_bus, util::INVENTORY_PATH + _invName,
-                                        util::OPERATIONAL_STATUS_INTF);
+        cout << "Tracer: " << __LINE__ << endl;
 
-        if (!service.empty())
-        {
-            _functional = util::SDBusPlus::getProperty<bool>(
-                service, util::INVENTORY_PATH + _invName,
-                util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
-        }
-        else
-        {
-            // default to functional when service not up. Error handling done
-            // later
-            _functional = true;
-        }
+        // tests if inventory path is available, else throws DBusError
+        util::SDBusPlus::getSubTreeRaw(_bus, util::INVENTORY_PATH + _invName,
+                                       util::OPERATIONAL_STATUS_INTF, 1);
+
+        // attempt to acquire functional state from inventory
+        _functional = util::SDBusPlus::getProperty<bool>(
+            _bus, util::INVENTORY_PATH + _invName,
+            util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
+
+        cout << "functional: " << _functional << endl;
+        updateInventory(_functional);
+    }
+    catch (util::DBusServiceError& e)
+    {
+        log<level::DEBUG>(e.what());
     }
     catch (util::DBusError& e)
     {
-        log<level::DEBUG>(e.what());
-        _functional = true;
+        // genesis state: store functional state to inventory
+        updateInventory(_functional);
     }
 
+    cout << "Tracer: " << __LINE__ << endl;
     if (!_functional && MethodMode::count == _method)
     {
         // force continual nonfunctional state
