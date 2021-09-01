@@ -26,7 +26,10 @@
 
 #include <experimental/filesystem>
 #include <functional>
+#include <iostream>
 #include <utility>
+using std::cout;
+using std::endl;
 
 namespace phosphor
 {
@@ -85,29 +88,68 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
     // Query functional state from inventory
     // TODO - phosphor-fan-presence/issues/25
 
+    _functional = true;
+
     try
     {
-        auto service =
-            util::SDBusPlus::getService(_bus, util::INVENTORY_PATH + _invName,
-                                        util::OPERATIONAL_STATUS_INTF);
+        // std::string
+        // exactFanPath("/xyz/openbmc_project/inventory/system/chassis/motherboard/fan1/fan1_0");
 
-        if (!service.empty())
+        cout << "Before test: " << endl;
+        // tests if inventory path is available, else throws DBusError
+        auto subtree = util::SDBusPlus::getSubTreeRaw(
+            _bus, util::INVENTORY_PATH, // + _invName,
+            util::OPERATIONAL_STATUS_INTF, 0);
+
+        // doesn't work: always throws DBusMethodError
+        // auto svcName = util::SDBusPlus::getServiceRaw(_bus, exactFanPath,
+        //    util::OPERATIONAL_STATUS_INTF);
+        cout << "After test: " << endl;
+
+        int elements = 0;
+        bool found = false;
+        for (const auto& [key, valvector] : subtree)
         {
-            _functional = util::SDBusPlus::getProperty<bool>(
-                service, util::INVENTORY_PATH + _invName,
-                util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
+            ++elements;
+            // cout << "gst: " << key << endl;
+            if (key == (util::INVENTORY_PATH + _invName))
+            {
+                found = true;
+                break;
+            }
         }
-        else
+
+        // only update inventory if we could iterate the inventory tree
+        if (elements > 0)
         {
-            // default to functional when service not up. Error handling done
-            // later
-            _functional = true;
+            if (found)
+            {
+                // an exact match was found, we can definitely read old
+                // functional value from inventory
+                _functional = util::SDBusPlus::getProperty<bool>(
+                    _bus, util::INVENTORY_PATH + _invName,
+                    util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
+
+                cout << "read functional: " << _functional << endl;
+            }
+
+            updateInventory(_functional);
         }
+    }
+    catch (util::DBusMethodError& e)
+    {
+        cout << "Caught D-Bus Method Error: " << e.what() << endl;
+    }
+    catch (util::DBusServiceError& e)
+    {
+        cout << "Service error: updating inventory: " << e.what() << endl;
+        // genesis state: store functional state to inventory
+        updateInventory(_functional);
     }
     catch (util::DBusError& e)
     {
+        cout << "DBusError: not updating inventory: " << e.what() << endl;
         log<level::DEBUG>(e.what());
-        _functional = true;
     }
 
     if (!_functional && MethodMode::count == _method)
