@@ -84,6 +84,18 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         (_numSensorFailsForNonFunc == 0) ||
         (countNonFunctionalSensors() < _numSensorFailsForNonFunc);
 
+    // retain non-functional state from Inventory
+    try
+    {
+        functionalState &= util::SDBusPlus::getProperty<bool>(
+            util::INVENTORY_PATH + _name, util::OPERATIONAL_STATUS_INTF,
+            util::FUNCTIONAL_PROPERTY);
+    }
+    catch (util::DBusError&)
+    {
+        // D-Bus not ready, ignore
+    }
+
     if (updateInventory(functionalState) && !functionalState)
     {
         // the inventory update threw an exception, possibly because D-Bus
