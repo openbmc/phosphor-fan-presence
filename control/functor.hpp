@@ -137,7 +137,7 @@ struct Properties
                 auto val = zone.getPropertyByName<T>(_path, _intf, _prop);
                 _handler(zone, _path, _intf, _prop, std::forward<T>(val));
             }
-            catch (const sdbusplus::exception::SdBusError&)
+            catch (const sdbusplus::exception::exception&)
             {
                 // Property will not be used unless a property changed
                 // signal message is received for this property.
@@ -168,7 +168,7 @@ struct Properties
                     auto val = zone.getPropertyByName<T>(path, intf, prop);
                     handler(zone, path, intf, prop, std::forward<T>(val));
                 }
-                catch (const sdbusplus::exception::SdBusError&)
+                catch (const sdbusplus::exception::exception&)
                 {
                     // Property value not sent to handler
                 }
