@@ -66,7 +66,7 @@ void Fan::setSpeed(uint64_t speed)
                 _bus, sensor.second, sensor.first, _interface,
                 FAN_TARGET_PROPERTY, std::move(value));
         }
-        catch (const sdbusplus::exception::SdBusError&)
+        catch (const sdbusplus::exception::exception&)
         {
             throw util::DBusPropertyError{"DBus set property failed",
                                           sensor.second, sensor.first,

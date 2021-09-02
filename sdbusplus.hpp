@@ -137,7 +137,7 @@ class SDBusPlus
             }
             return respMsg;
         }
-        catch (const sdbusplus::exception::SdBusError&)
+        catch (const sdbusplus::exception::exception&)
         {
             throw DBusMethodError{busName, path, interface, method};
         }
