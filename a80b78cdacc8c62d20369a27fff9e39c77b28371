@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6ccb684a_d233c7b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-09T19:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b75ac83_1865c793",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 5
+      },
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f342540b_372760b3",
         "filename": "monitor/tach_sensor.cpp",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7d288759_0451edaa",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-09T19:57:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f342540b_372760b3",
+      "range": {
+        "startLine": 92,
+        "startChar": 8,
+        "endLine": 94,
+        "endChar": 54
+      },
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bb22d95_c999f9e3",
         "filename": "monitor/tach_sensor.cpp",
         "patchSetId": 5
@@ -59,6 +107,30 @@
       "writtenOn": "2021-09-09T18:28:03Z",
       "side": 1,
       "message": "Seems as though this check is unnecessary.\n\nDoing the following (find !\u003d end) should be enough to update _functional to what\u0027s in inventory or just default inventory to true.",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9ad66b4_17f11f0b",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-09T19:57:36Z",
+      "side": 1,
+      "message": "The size check is for the updateInventory() call below the find(). because if we found inventory paths that have OperationalStatus, but no entry exists we want to create the first entry. I suppose I could put an else{ updateInventory(_functional); } after the find, since there\u0027s no point in writing back the value we just read.",
+      "parentUuid": "8bb22d95_c999f9e3",
       "range": {
         "startLine": 98,
         "startChar": 7,
@@ -100,6 +172,24 @@
       "side": 1,
       "message": "If the inventory service is not running, I\u0027d imagine this would throw since the getSubTreeRaw call would fail to find any service with an object path of INVENTORY_PATH, right? OR it would catch if the OperationalStatus interface/Functional property is not found on the tach sensor inventory object.\n\nBut in our current service file setup, inventory is required to be started prior to fan monitoring starting and fan monitor is the one to add OperationalStatus/Functional to inventory upon starting so maybe we should default inventory for this tach sensor to true if we ever get here?",
       "parentUuid": "baf4418c_a80dffc9",
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bf9b877_497df008",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-09T19:57:36Z",
+      "side": 1,
+      "message": "The _functional flag starts out true at line 88. If we get a D-Bus error I dont think we should make any more D-Bus calls because those might also throw.",
+      "parentUuid": "c3c859f7_81668b06",
       "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
