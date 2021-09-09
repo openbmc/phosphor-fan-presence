@@ -25,12 +25,15 @@
 
 #include <algorithm>
 #include <chrono>
+#include <iostream>
 #include <iterator>
 #include <map>
 #include <memory>
 #include <numeric>
 #include <utility>
 #include <vector>
+using std::cout;
+using std::endl;
 
 namespace phosphor::fan::control::json
 {
@@ -140,6 +143,31 @@ void Zone::setTarget(uint64_t target)
         {
             fan->setTarget(_target);
         }
+    }
+}
+
+void Zone::setTarget(const std::string& path, uint64_t target)
+{
+    auto fan = std::find_if(_fans.begin(), _fans.end(), [&path](auto& fan) {
+        bool ret = false;
+
+        for (auto& [sensorPath, unused] : fan->getSensors())
+        {
+            cout << "p1/p2: " << sensorPath << "/" << path << endl;
+            if (path == sensorPath)
+            {
+                ret = true;
+                cout << "found match: " << path << endl;
+                break;
+            }
+        }
+
+        return ret;
+    });
+
+    if (_fans.end() != fan)
+    {
+        (*fan)->setTarget(_target);
     }
 }
 
