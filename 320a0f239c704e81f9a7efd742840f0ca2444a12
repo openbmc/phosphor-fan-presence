@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ebc7d85_46224a10",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-09T15:42:57Z",
+      "side": 1,
+      "message": "I dont believe what you\u0027re doing in the try clause throws a DBusError exception does it? or even anything we\u0027d want to catch really...",
+      "range": {
+        "startLine": 93,
+        "startChar": 8,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "320a0f239c704e81f9a7efd742840f0ca2444a12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b6397f9_20ccbcec",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-09T15:42:57Z",
+      "side": 1,
+      "message": "I dont see utility.hpp included so it must be getting this indirectly?",
+      "range": {
+        "startLine": 109,
+        "startChar": 44,
+        "endLine": 109,
+        "endChar": 71
+      },
+      "revId": "320a0f239c704e81f9a7efd742840f0ca2444a12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb10564c_27f24ba7",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 20
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-09T15:42:57Z",
+      "side": 1,
+      "message": "nit: Actually its \"Set all sensors\u0027 owner state to not owned\"\n\nEach sensor\u0027s functional state will be updated accordingly using the method and duration configured while not have a service owner.",
+      "range": {
+        "startLine": 259,
+        "startChar": 8,
+        "endLine": 259,
+        "endChar": 45
+      },
+      "revId": "320a0f239c704e81f9a7efd742840f0ca2444a12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
