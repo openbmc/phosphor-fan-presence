@@ -235,6 +235,24 @@
       "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73bee92f_f876cefd",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-09T20:24:33Z",
+      "side": 1,
+      "message": "I think its worse to \"silently\" consume a would-be exception here and allow things to continue, particularly in the case it catches the OperationalStatus interface/Functional property is not found on the tach sensor inventory object.\n\nIf its the case of inventory service not running, we have that as a service file dependency which will be addressed/removed later affect this area of code anyways. I\u0027m just thinking it would be good to default to attempt at updating inventory if we get into this catch for now.",
+      "parentUuid": "e3baa001_2e9105c6",
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
