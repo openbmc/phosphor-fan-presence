@@ -216,6 +216,14 @@ class Zone : public ConfigBase
     void setTarget(uint64_t target);
 
     /**
+     * Sets one fan in the zone to the override target.
+     *
+     * @param[in] path - fan path
+     * @param[in] target - Target for fan
+     */
+    void setTarget(const std::string& path, uint64_t target);
+
+    /**
      * @brief Sets the automatic fan control allowed active state
      *
      * @param[in] ident - An identifier that affects the active state
