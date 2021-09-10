@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "3ad3b7c2_fa0cb124",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-10T01:27:49Z",
+      "side": 1,
+      "message": "else was an attempted CPU optimization, however we determined that the Notify event would not be sent in some cases. So it has been removed. And the check for non-zero size has been removed because I had believed I could use it as a service-online detector, which it is not.",
+      "parentUuid": "45f4d943_744847e4",
+      "range": {
+        "startLine": 98,
+        "startChar": 7,
+        "endLine": 100,
+        "endChar": 9
+      },
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "baf4418c_a80dffc9",
         "filename": "monitor/tach_sensor.cpp",
         "patchSetId": 5
@@ -253,6 +277,24 @@
       "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "907d5db0_0b6c9786",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-10T01:27:49Z",
+      "side": 1,
+      "message": "we determined that at least one recoverable exception can come from the getProperty() method. So even though other fatal exceptions could occur from calling updateInventory() in the catch block, it\u0027s best to handle what we can and try to recover from it. so the updateInventory() will be added to the catch.",
+      "parentUuid": "73bee92f_f876cefd",
+      "revId": "a80b78cdacc8c62d20369a27fff9e39c77b28371",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
