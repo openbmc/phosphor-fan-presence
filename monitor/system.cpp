@@ -37,6 +37,7 @@
 
 namespace phosphor::fan::monitor
 {
+namespace match = sdbusplus::bus::match;
 
 using json = nlohmann::json;
 using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
@@ -77,17 +78,20 @@ void System::start()
                       });
     }
 
-    auto sensorMap = buildNameOwnerChangedMap();
-
-    namespace match = sdbusplus::bus::match;
-
-    // for each service, register a callback handler for nameOwnerChanged
-    for (const auto& service_itr : sensorMap)
+    if (_sensorMatch.empty())
     {
-        _sensorMatch.push_back(std::make_unique<match::match>(
-            _bus, match::rules::nameOwnerChanged(service_itr.first),
-            std::bind(&System::tachSignalOffline, this, std::placeholders::_1,
-                      sensorMap)));
+        auto changeMap = buildNameOwnerChangedMap();
+
+        auto onOwnerChanged = std::bind(&System::tachSignalOffline, this,
+                                        std::placeholders::_1, changeMap);
+
+        // for each service, register a callback handler for nameOwnerChanged
+        for (const auto& service_itr : changeMap)
+        {
+            _sensorMatch.push_back(std::make_unique<match::match>(
+                _bus, match::rules::nameOwnerChanged(service_itr.first),
+                onOwnerChanged));
+        }
     }
 }
 
@@ -110,33 +114,41 @@ SensorMapType System::buildNameOwnerChangedMap() const
     std::vector<std::string> interfaces(unique_interfaces.begin(),
                                         unique_interfaces.end());
 
-    // get service information for all service names that are
-    // hosting these interfaces
-    auto serviceObjects =
-        util::SDBusPlus::getSubTreeRaw(_bus, FAN_SENSOR_PATH, interfaces, 0);
-
-    for (const auto& fan : _fans)
+    try
     {
-        // For every sensor in each fan
-        for (const auto& sensor : fan->sensors())
+        // get service information for all service names that are
+        // hosting these interfaces
+        auto serviceObjects = util::SDBusPlus::getSubTreeRaw(
+            _bus, FAN_SENSOR_PATH, interfaces, 0);
+
+        for (const auto& fan : _fans)
         {
-            const auto itServ = serviceObjects.find(sensor->name());
-
-            if (serviceObjects.end() == itServ || itServ->second.empty())
+            // For every sensor in each fan
+            for (const auto& sensor : fan->sensors())
             {
-                getLogger().log(
-                    fmt::format("Fan sensor entry {} not found in D-Bus",
-                                sensor->name()),
-                    Logger::error);
-                continue;
-            }
+                const auto itServ = serviceObjects.find(sensor->name());
 
-            for (const auto& [serviceName, unused] : itServ->second)
-            {
-                // map its service name to the sensor
-                sensorMap[serviceName].insert(sensor);
+                if (serviceObjects.end() == itServ || itServ->second.empty())
+                {
+                    getLogger().log(
+                        fmt::format("Fan sensor entry {} not found in D-Bus",
+                                    sensor->name()),
+                        Logger::error);
+                    continue;
+                }
+
+                for (const auto& [serviceName, unused] : itServ->second)
+                {
+                    // map its service name to the sensor
+                    sensorMap[serviceName].insert(sensor);
+                }
             }
         }
+    }
+    catch (const util::DBusError&)
+    {
+        // catch exception from getSubTreeRaw() when fan sensor paths don't
+        // exist yet
     }
 
     return sensorMap;
@@ -318,6 +330,23 @@ void System::powerStateChanged(bool powerStateOn)
         {
             handleOfflineFanController();
             return;
+        }
+
+        if (_sensorMatch.empty())
+        {
+            auto changeMap = buildNameOwnerChangedMap();
+
+            auto onOwnerChanged = std::bind(&System::tachSignalOffline, this,
+                                            std::placeholders::_1, changeMap);
+
+            // for each service, register a callback handler for
+            // nameOwnerChanged
+            for (const auto& service_itr : changeMap)
+            {
+                _sensorMatch.push_back(std::make_unique<match::match>(
+                    _bus, match::rules::nameOwnerChanged(service_itr.first),
+                    onOwnerChanged));
+            }
         }
 
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
