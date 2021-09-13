@@ -110,33 +110,40 @@ SensorMapType System::buildNameOwnerChangedMap() const
     std::vector<std::string> interfaces(unique_interfaces.begin(),
                                         unique_interfaces.end());
 
-    // get service information for all service names that are
-    // hosting these interfaces
-    auto serviceObjects =
-        util::SDBusPlus::getSubTreeRaw(_bus, FAN_SENSOR_PATH, interfaces, 0);
-
-    for (const auto& fan : _fans)
+    try
     {
-        // For every sensor in each fan
-        for (const auto& sensor : fan->sensors())
+        // get service information for all service names that are
+        // hosting these interfaces
+        auto serviceObjects = util::SDBusPlus::getSubTreeRaw(
+            _bus, FAN_SENSOR_PATH, interfaces, 0);
+
+        for (const auto& fan : _fans)
         {
-            const auto itServ = serviceObjects.find(sensor->name());
-
-            if (serviceObjects.end() == itServ || itServ->second.empty())
+            // For every sensor in each fan
+            for (const auto& sensor : fan->sensors())
             {
-                getLogger().log(
-                    fmt::format("Fan sensor entry {} not found in D-Bus",
-                                sensor->name()),
-                    Logger::error);
-                continue;
-            }
+                const auto itServ = serviceObjects.find(sensor->name());
 
-            for (const auto& [serviceName, unused] : itServ->second)
-            {
-                // map its service name to the sensor
-                sensorMap[serviceName].insert(sensor);
+                if (serviceObjects.end() == itServ || itServ->second.empty())
+                {
+                    getLogger().log(
+                        fmt::format("Fan sensor entry {} not found in D-Bus",
+                                    sensor->name()),
+                        Logger::error);
+                    continue;
+                }
+
+                for (const auto& [serviceName, unused] : itServ->second)
+                {
+                    // map its service name to the sensor
+                    sensorMap[serviceName].insert(sensor);
+                }
             }
         }
+    }
+    catch (const util::DBusError&)
+    {
+        // nothing to do, temporary mitigation for Witherspoon
     }
 
     return sensorMap;
