@@ -77,22 +77,16 @@ void System::start()
                       });
     }
 
-    auto sensorMap = buildNameOwnerChangedMap();
-
-    namespace match = sdbusplus::bus::match;
-
-    // for each service, register a callback handler for nameOwnerChanged
-    for (const auto& service_itr : sensorMap)
+    if (_sensorMatch.empty())
     {
-        _sensorMatch.push_back(std::make_unique<match::match>(
-            _bus, match::rules::nameOwnerChanged(service_itr.first),
-            std::bind(&System::tachSignalOffline, this, std::placeholders::_1,
-                      sensorMap)));
+        subscribeSensorsToServices();
     }
 }
 
-SensorMapType System::buildNameOwnerChangedMap() const
+void System::subscribeSensorsToServices()
 {
+    namespace match = sdbusplus::bus::match;
+
     SensorMapType sensorMap;
 
     // build a list of all interfaces, always including the value interface
@@ -110,36 +104,52 @@ SensorMapType System::buildNameOwnerChangedMap() const
     std::vector<std::string> interfaces(unique_interfaces.begin(),
                                         unique_interfaces.end());
 
-    // get service information for all service names that are
-    // hosting these interfaces
-    auto serviceObjects =
-        util::SDBusPlus::getSubTreeRaw(_bus, FAN_SENSOR_PATH, interfaces, 0);
-
-    for (const auto& fan : _fans)
+    try
     {
-        // For every sensor in each fan
-        for (const auto& sensor : fan->sensors())
+        // get service information for all service names that are
+        // hosting these interfaces
+        auto serviceObjects = util::SDBusPlus::getSubTreeRaw(
+            _bus, FAN_SENSOR_PATH, interfaces, 0);
+
+        for (const auto& fan : _fans)
         {
-            const auto itServ = serviceObjects.find(sensor->name());
-
-            if (serviceObjects.end() == itServ || itServ->second.empty())
+            // For every sensor in each fan
+            for (const auto& sensor : fan->sensors())
             {
-                getLogger().log(
-                    fmt::format("Fan sensor entry {} not found in D-Bus",
-                                sensor->name()),
-                    Logger::error);
-                continue;
-            }
+                const auto itServ = serviceObjects.find(sensor->name());
 
-            for (const auto& [serviceName, unused] : itServ->second)
-            {
-                // map its service name to the sensor
-                sensorMap[serviceName].insert(sensor);
+                if (serviceObjects.end() == itServ || itServ->second.empty())
+                {
+                    getLogger().log(
+                        fmt::format("Fan sensor entry {} not found in D-Bus",
+                                    sensor->name()),
+                        Logger::error);
+                    continue;
+                }
+
+                for (const auto& [serviceName, unused] : itServ->second)
+                {
+                    // associate service name with sensor
+                    sensorMap[serviceName].insert(sensor);
+                }
             }
         }
-    }
 
-    return sensorMap;
+        // only create 1 match per service
+        for (const auto& [serviceName, unused] : sensorMap)
+        {
+            // map its service name to the sensor
+            _sensorMatch.emplace_back(std::make_unique<match::match>(
+                _bus, match::rules::nameOwnerChanged(serviceName),
+                std::bind(&System::tachSignalOffline, this,
+                          std::placeholders::_1, sensorMap)));
+        }
+    }
+    catch (const util::DBusError&)
+    {
+        // catch exception from getSubTreeRaw() when fan sensor paths don't
+        // exist yet
+    }
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
@@ -169,6 +179,9 @@ void System::sighupHandler(sdeventplus::source::Signal&,
                               rule->check(PowerRuleState::runtime, _fanHealth);
                           });
         }
+
+        _sensorMatch.clear();
+        subscribeSensorsToServices();
     }
     catch (std::runtime_error& re)
     {
@@ -318,6 +331,11 @@ void System::powerStateChanged(bool powerStateOn)
         {
             handleOfflineFanController();
             return;
+        }
+
+        if (_sensorMatch.empty())
+        {
+            subscribeSensorsToServices();
         }
 
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
