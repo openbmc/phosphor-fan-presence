@@ -186,12 +186,11 @@ class System
     json captureSensorData();
 
     /**
-     * @brief Builds a mapping for sensors to be identified
-     *        for a given service name.
+     * @brief creates a subscription (service->sensor) to take sensors
+     *        on/offline when D-Bus starts/stops updating values
      *
-     * @return a map of service_name->[sensor1,sensor2...]
      */
-    SensorMapType buildNameOwnerChangedMap() const;
+    void subscribeSensorsToServices();
 
     /**
      * @brief Retrieve the configured trust groups
