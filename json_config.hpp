@@ -105,6 +105,8 @@ class JsonConfig
      */
     JsonConfig(std::function<void()> func) : _loadFunc(func)
     {
+        std::vector<std::string> compatObjPaths;
+
         _match = std::make_unique<sdbusplus::server::match::match>(
             util::SDBusPlus::getBus(),
             sdbusplus::bus::match::rules::interfacesAdded() +
@@ -112,7 +114,15 @@ class JsonConfig
             std::bind(&JsonConfig::compatIntfAdded, this,
                       std::placeholders::_1));
 
-        auto compatObjPaths = getCompatObjPaths();
+        try
+        {
+            compatObjPaths = getCompatObjPaths();
+        }
+        catch (const util::DBusMethodError&)
+        {
+            // Compatible interface does not exist on any dbus object yet
+        }
+
         if (!compatObjPaths.empty())
         {
             for (auto& path : compatObjPaths)
