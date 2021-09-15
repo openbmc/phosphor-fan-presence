@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e704c666_9065a352",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-15T18:11:55Z",
+      "side": 1,
+      "message": "nit: commit msg wrapped\n\nWith my additional comment on this patch set (in regard to this change and sighups), an enhancement definitely needs to be designed to detect the hwmon service(s) are running.",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 73
+      },
+      "revId": "702ebc9e726cd27992f854e2f4c7ef23cade6917",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36503a3a_5dbd7f6a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-15T18:11:55Z",
+      "side": 1,
+      "message": "I just realized that we need to clear and refresh the subscription to the sensor services here upon a sighup.\n\ni.e.)\n    _sensorMatch.clear();\n    subscribeSensorsToServices();",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 180,
+        "endChar": 9
+      },
+      "revId": "702ebc9e726cd27992f854e2f4c7ef23cade6917",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
