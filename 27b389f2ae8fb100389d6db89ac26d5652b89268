@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d2e46f9f_28bfb8d9",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-16T17:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "00035981_9fd6cf5f",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fec1ff15_484af5b3",
         "filename": "control/Makefile.am",
         "patchSetId": 32
@@ -45,6 +69,30 @@
       "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b684a2a1_31784f1f",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-16T17:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fec1ff15_484af5b3",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 11
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "a5e5ac44_a1da8c77",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-16T17:18:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96032565_c4a1ddb8",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3d185fc_d51b7e75",
         "filename": "control/Makefile.am",
         "patchSetId": 32
@@ -82,6 +154,30 @@
       "writtenOn": "2021-09-16T15:53:56Z",
       "side": 1,
       "message": "This does not use the format lib in this commit nor do I think fanctl has a reason to does it? Is this used in a future commit?",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec58e1e_19bc58ec",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-16T17:18:31Z",
+      "side": 1,
+      "message": "fanctl doesn\u0027t link without this. probably something pulled in from a header.",
+      "parentUuid": "a3d185fc_d51b7e75",
       "range": {
         "startLine": 67,
         "startChar": 1,
