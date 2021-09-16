@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "00035981_9fd6cf5f",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-16T15:53:56Z",
+      "side": 1,
+      "message": "I dont foresee the fanctl tool requiring to put an interface on dbus, shouldnt need this.",
+      "range": {
+        "startLine": 60,
+        "startChar": 1,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fec1ff15_484af5b3",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-16T15:53:56Z",
+      "side": 1,
+      "message": "I dont believe we have a need to link in filesystem until maybe a future enhancement to fanctl accesses the filesystem for some reason.",
+      "range": {
+        "startLine": 64,
+        "startChar": 1,
+        "endLine": 64,
+        "endChar": 11
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96032565_c4a1ddb8",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-16T15:53:56Z",
+      "side": 1,
+      "message": "Same here, dont think fanctl will ever interact with dbus directly with hosting any objects/interfaces on dbus.",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 66,
+        "endChar": 33
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d185fc_d51b7e75",
+        "filename": "control/Makefile.am",
+        "patchSetId": 32
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-16T15:53:56Z",
+      "side": 1,
+      "message": "This does not use the format lib in this commit nor do I think fanctl has a reason to does it? Is this used in a future commit?",
+      "range": {
+        "startLine": 67,
+        "startChar": 1,
+        "endLine": 67,
+        "endChar": 12
+      },
+      "revId": "27b389f2ae8fb100389d6db89ac26d5652b89268",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
