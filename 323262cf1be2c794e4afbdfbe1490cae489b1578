@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ebb7980_6a7c0f17",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-17T17:48:55Z",
+      "side": 1,
+      "message": "Looks like this can also be removed now as well?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 70
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37ca4b99_72f84999",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-17T17:48:55Z",
+      "side": 1,
+      "message": "What about a mix of RPM and PWM based fans? Maybe we should create an issue on the backlog to track enhancing this tool to be able to support a mix of RPM and PWM controled of fans.",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5c0ff83_b2193ff1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-17T17:48:55Z",
+      "side": 1,
+      "message": "Why the copy? Why not just use what\u0027s in \"tach\"?",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 39
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe5e85a6_18791424",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-17T17:48:55Z",
+      "side": 1,
+      "message": "Out of curiosity, if this was to throw an exception, what\u0027s returned back to the user in the console where they\u0027re running the tool?",
+      "range": {
+        "startLine": 381,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 70
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
