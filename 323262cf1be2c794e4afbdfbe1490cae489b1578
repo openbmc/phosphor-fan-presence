@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "de48a875_ee2a4b0e",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-17T20:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ebb7980_6a7c0f17",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 70
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37ca4b99_72f84999",
         "filename": "control/fanctl.cpp",
         "patchSetId": 35
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "ce4ca573_5970a126",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-17T20:15:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5c0ff83_b2193ff1",
+      "range": {
+        "startLine": 144,
+        "startChar": 4,
+        "endLine": 144,
+        "endChar": 39
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe5e85a6_18791424",
         "filename": "control/fanctl.cpp",
         "patchSetId": 35
@@ -91,6 +139,30 @@
       "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61c488c8_20389dc1",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-17T20:15:17Z",
+      "side": 1,
+      "message": "root@p10bmc:~# /tmp/fanctl get \nTARGET SENSOR    TARGET(RPM)   FEEDBACK SENSOR    FEEDBACK(RPM)\n    \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n    fan0_0/tmp/fanctl failed: DBus method failed: xyz.openbmc_project.Hwmon-ef376ae656f95cf4f5f1302e716\n    1.Hwmon1 /xyz/openbmc_project/sensors/fan_tach/fan0_0 org.freedesktop.DBus.Properties Get\n\nor\nroot@p10bmc:~# /tmp/fanctl get \n/tmp/fanctl failed: DBus method failed: xyz.openbmc_project.ObjectMapper /xyz/openbmc_project/object_mapper xyz.openbmc_project.ObjectMapper GetSubTreePaths",
+      "parentUuid": "fe5e85a6_18791424",
+      "range": {
+        "startLine": 381,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 70
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
