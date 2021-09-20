@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b95bbf32_6b6f4add",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-20T20:41:39Z",
+      "side": 1,
+      "message": "Done\n\nhttps://github.com/ibm-openbmc/dev/issues/3337",
+      "parentUuid": "37ca4b99_72f84999",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 29
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5c0ff83_b2193ff1",
         "filename": "control/fanctl.cpp",
         "patchSetId": 35
@@ -154,6 +178,30 @@
       "side": 1,
       "message": "root@p10bmc:~# /tmp/fanctl get \nTARGET SENSOR    TARGET(RPM)   FEEDBACK SENSOR    FEEDBACK(RPM)\n    \u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n    fan0_0/tmp/fanctl failed: DBus method failed: xyz.openbmc_project.Hwmon-ef376ae656f95cf4f5f1302e716\n    1.Hwmon1 /xyz/openbmc_project/sensors/fan_tach/fan0_0 org.freedesktop.DBus.Properties Get\n\nor\nroot@p10bmc:~# /tmp/fanctl get \n/tmp/fanctl failed: DBus method failed: xyz.openbmc_project.ObjectMapper /xyz/openbmc_project/object_mapper xyz.openbmc_project.ObjectMapper GetSubTreePaths",
       "parentUuid": "fe5e85a6_18791424",
+      "range": {
+        "startLine": 381,
+        "startChar": 16,
+        "endLine": 383,
+        "endChar": 70
+      },
+      "revId": "323262cf1be2c794e4afbdfbe1490cae489b1578",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d815f388_a27e173b",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 35
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-20T20:41:39Z",
+      "side": 1,
+      "message": "Great, thanks for the info!",
+      "parentUuid": "61c488c8_20389dc1",
       "range": {
         "startLine": 381,
         "startChar": 16,
