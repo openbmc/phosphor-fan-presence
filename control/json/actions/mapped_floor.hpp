@@ -96,6 +96,14 @@ using json = nlohmann::json;
  * Other notes:
  *  - If a group has multiple members, they must be numeric or else
  *    the code will throw an exception.
+ *
+ *  - The group inside the floors array can also be a Manager parameter, so that
+ *    this action can operate on a parameter value set by another action.
+ *
+ *    So instead of
+ *            "group": "altitude",
+ *    it can be:
+ *            "parameter": "some_parameter"
  */
 
 class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
@@ -177,7 +185,7 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
 
     struct FloorGroup
     {
-        const Group* group;
+        std::variant<const Group*, std::string> groupOrParameter;
         std::vector<FloorEntry> floorEntries;
     };
 
