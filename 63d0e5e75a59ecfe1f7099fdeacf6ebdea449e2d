@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba60267b_7f297358",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-21T20:54:53Z",
+      "side": 1,
+      "message": "What happens if the service is already running? Do we get the exception below or a different type of error message?\n\nI think we should handle the case where the `resume` is given but the service is already running by checking the service\u0027s state prior to attempting to start...providing some sort of message back to the user that fan control is already running. Reason for this is if they already ran `resume`, forgot they did, and then try and `resume` again.",
+      "range": {
+        "startLine": 465,
+        "startChar": 8,
+        "endLine": 468,
+        "endChar": 48
+      },
+      "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeda8249_5cc1aece",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-21T20:54:53Z",
+      "side": 1,
+      "message": "It doesnt appear that this is optional:\n\n```\nroot@p10bmc:~# ./fanctl set 5000  \nRequires at least 2 options used and only 1were given from [target,fan list,-h,--help]\nRun with --help for more information.\n```",
+      "range": {
+        "startLine": 520,
+        "startChar": 8,
+        "endLine": 521,
+        "endChar": 72
+      },
+      "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
