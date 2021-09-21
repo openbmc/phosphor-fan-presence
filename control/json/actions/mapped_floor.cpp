@@ -89,15 +89,27 @@ void MappedFloor::setFloorTable(const json& jsonObj)
 
         for (const auto& groupEntry : floors["floors"])
         {
-            if (!groupEntry.contains("group") || !groupEntry.contains("floors"))
+            if ((!groupEntry.contains("group") &&
+                 !groupEntry.contains("parameter")) ||
+                !groupEntry.contains("floors"))
             {
-                throw ActionParseError{ActionBase::getName(),
-                                       "Missing group or floors entries in "
-                                       "actions/fan_floors/floors JSON"};
+                throw ActionParseError{
+                    ActionBase::getName(),
+                    "Missing group, parameter, or floors entries in "
+                    "actions/fan_floors/floors JSON"};
             }
 
             FloorGroup fg;
-            fg.group = getGroup(groupEntry["group"].get<std::string>());
+            if (groupEntry.contains("group"))
+            {
+                fg.groupOrParameter =
+                    getGroup(groupEntry["group"].get<std::string>());
+            }
+            else
+            {
+                fg.groupOrParameter =
+                    groupEntry["parameter"].get<std::string>();
+            }
 
             for (const auto& floorEntry : groupEntry["floors"])
             {
@@ -230,9 +242,35 @@ void MappedFloor::run(Zone& zone)
         }
 
         // Now check each group in the tables
-        for (const auto& [group, floorGroups] : floorTable.floorGroups)
+        for (const auto& [groupOrParameter, floorGroups] :
+             floorTable.floorGroups)
         {
-            auto propertyValue = getMaxGroupValue(*group, manager);
+            std::optional<PropertyVariantType> propertyValue;
+
+            if (std::holds_alternative<std::string>(groupOrParameter))
+            {
+                propertyValue = Manager::getParameter(
+                    std::get<std::string>(groupOrParameter));
+                if (propertyValue)
+                {
+                    tryConvertToDouble(*propertyValue);
+                }
+                else
+                {
+                    log<level::ERR>(
+                        fmt::format("{}: Parameter {} specified in the JSON "
+                                    "could not be found",
+                                    ActionBase::getName(),
+                                    std::get<std::string>(groupOrParameter))
+                            .c_str());
+                }
+            }
+            else
+            {
+                propertyValue = getMaxGroupValue(
+                    *std::get<const Group*>(groupOrParameter), manager);
+            }
+
             if (!propertyValue)
             {
                 // Couldn't successfully get a value.  Results in default floor.
