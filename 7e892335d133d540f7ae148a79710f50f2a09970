@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40e35138_9adee3e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-21T20:33:12Z",
+      "side": 1,
+      "message": "This can be removed since that\u0027s all handled at configure time and nothing under `control` will be built/included with `--disable-control` is given at configure time. Nothing special should need to be done with the makefile to achieve this and I dont see anything special added in this commit for that anyways.",
+      "range": {
+        "startLine": 13,
+        "startChar": 56,
+        "endLine": 16,
+        "endChar": 64
+      },
+      "revId": "7e892335d133d540f7ae148a79710f50f2a09970",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "930d2abe_214da21d",
+        "filename": "control/Makefile.am",
+        "patchSetId": 47
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-21T20:33:12Z",
+      "side": 1,
+      "message": "Isnt this already included from line 35?\n\nI\u0027m thinking this commit should actually move the build/inclusion of fanctl when WANT_JSON_CONTROL is true since sighups were not supported in YAML based configured fan control.\n\nUp until this commit, fanctl would work for both JSON and YAML, however does not support `reloading` its config like JSON does thru sighups so lets just move all the \"fanctl_*` entries under the `if WANT_JSON_CONTROL` directive below (line 70).",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "7e892335d133d540f7ae148a79710f50f2a09970",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
