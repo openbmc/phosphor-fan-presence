@@ -173,21 +173,6 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
     }
 }
 
-void Zone::setActiveAllow(const std::string& ident, bool isActiveAllow)
-{
-    _active[ident] = isActiveAllow;
-    if (!isActiveAllow)
-    {
-        _isActive = false;
-    }
-    else
-    {
-        // Check all entries are set to allow active fan control
-        auto actPred = [](const auto& entry) { return entry.second; };
-        _isActive = std::all_of(_active.begin(), _active.end(), actPred);
-    }
-}
-
 void Zone::setFloor(uint64_t target)
 {
     // Check all entries are set to allow floor to be set

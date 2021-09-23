@@ -228,14 +228,6 @@ class Zone : public ConfigBase
     void setTargetHold(const std::string& ident, uint64_t target, bool hold);
 
     /**
-     * @brief Sets the automatic fan control allowed active state
-     *
-     * @param[in] ident - An identifier that affects the active state
-     * @param[in] isActiveAllow - Active state according to group
-     */
-    void setActiveAllow(const std::string& ident, bool isActiveAllow);
-
-    /**
      * @brief Set the floor to the given target and increase target to the floor
      * when the target is below the floor value when floor changes are allowed.
      *
@@ -442,9 +434,6 @@ class Zone : public ConfigBase
 
     /* The target decrease timer object */
     Timer _decTimer;
-
-    /* Map of active fan control allowed by a string identifier */
-    std::map<std::string, bool> _active;
 
     /* Map of target holds by a string identifier */
     std::unordered_map<std::string, uint64_t> _holds;
