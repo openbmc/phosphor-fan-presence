@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0190de2e_4a3c0020",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-23T19:26:28Z",
+      "side": 1,
+      "message": "It handles resume fine when fan-control is already running. It does emit an exception if you try to reload() while it\u0027s not running, however:\n\nroot@p10bmc:~# /tmp/build/fanctl reload\n/tmp/build/fanctl failed: DBus method failed: org.freedesktop.systemd1 /org/freedesktop/systemd1 org.freedesktop.systemd1.Manager KillUnit",
+      "parentUuid": "ba60267b_7f297358",
+      "range": {
+        "startLine": 465,
+        "startChar": 8,
+        "endLine": 468,
+        "endChar": 48
+      },
+      "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "aeda8249_5cc1aece",
         "filename": "control/fanctl.cpp",
         "patchSetId": 38
@@ -45,6 +69,30 @@
       "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2e62fb3_9fd5be32",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-23T19:26:28Z",
+      "side": 1,
+      "message": "the final fix for this is in the last commit. However there was another bug that was found and fixed in the latest changeset.",
+      "parentUuid": "aeda8249_5cc1aece",
+      "range": {
+        "startLine": 520,
+        "startChar": 8,
+        "endLine": 521,
+        "endChar": 72
+      },
+      "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
