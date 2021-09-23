@@ -143,6 +143,36 @@ void Zone::setTarget(uint64_t target)
     }
 }
 
+void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
+{
+    if (!hold)
+    {
+        _holds.erase(ident);
+    }
+    else
+    {
+        _holds[ident] = target;
+        _isActive = false;
+    }
+
+    auto itHoldMax = std::max_element(_holds.begin(), _holds.end(),
+                                      [](const auto& aHold, const auto& bHold) {
+                                          return aHold.second < bHold.second;
+                                      });
+    if (itHoldMax == _holds.end())
+    {
+        _isActive = true;
+    }
+    else
+    {
+        _target = itHoldMax->second;
+        for (auto& fan : _fans)
+        {
+            fan->setTarget(_target);
+        }
+    }
+}
+
 void Zone::setActiveAllow(const std::string& ident, bool isActiveAllow)
 {
     _active[ident] = isActiveAllow;

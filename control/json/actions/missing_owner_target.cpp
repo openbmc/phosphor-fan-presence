@@ -49,12 +49,8 @@ void MissingOwnerTarget::run(Zone& zone)
                         [&intf = group.getInterface()](const auto& member) {
                             return !Manager::hasOwner(member, intf);
                         });
-        if (isMissingOwner)
-        {
-            zone.setTarget(_target);
-        }
-        // Update group's fan control active allowed based on action results
-        zone.setActiveAllow(group.getName(), !isMissingOwner);
+        // Update zone's target hold based on action results
+        zone.setTargetHold(group.getName(), _target, isMissingOwner);
     }
 }
 

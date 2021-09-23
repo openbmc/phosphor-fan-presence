@@ -216,6 +216,18 @@ class Zone : public ConfigBase
     void setTarget(uint64_t target);
 
     /**
+     * Sets and holds all fans in the zone to the target given or releases a
+     * target hold resulting in the fans being held at the highest remaining
+     * hold target if other hold targets had been requested. When no hold
+     * targets exist, the zone returns to being active.
+     *
+     * @param[in] ident - Unique identifier for a target hold
+     * @param[in] target - Target to hold fans at
+     * @param[in] hold - Whether to hold(true) or release(false) a target hold
+     */
+    void setTargetHold(const std::string& ident, uint64_t target, bool hold);
+
+    /**
      * @brief Sets the automatic fan control allowed active state
      *
      * @param[in] ident - An identifier that affects the active state
@@ -433,6 +445,9 @@ class Zone : public ConfigBase
 
     /* Map of active fan control allowed by a string identifier */
     std::map<std::string, bool> _active;
+
+    /* Map of target holds by a string identifier */
+    std::unordered_map<std::string, uint64_t> _holds;
 
     /* Interface to property mapping of their associated set property handler
      * function */

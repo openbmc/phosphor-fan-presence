@@ -64,7 +64,6 @@ void CountStateTarget::run(Zone& zone)
             }
             if (numAtState >= _count)
             {
-                zone.setTarget(_target);
                 break;
             }
         }
@@ -74,9 +73,9 @@ void CountStateTarget::run(Zone& zone)
         }
     }
 
-    // Update zone's active fan control allowed based on action results
-    zone.setActiveAllow(ActionBase::getName() + std::to_string(_id),
-                        !(numAtState >= _count));
+    // Update zone's target hold based on action results
+    zone.setTargetHold(ActionBase::getName() + std::to_string(_id), _target,
+                       (numAtState >= _count));
 }
 
 void CountStateTarget::setCount(const json& jsonObj)
