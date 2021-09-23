@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f855020a_c8e13ca7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 47
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-23T19:25:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e35138_9adee3e3",
+      "range": {
+        "startLine": 13,
+        "startChar": 56,
+        "endLine": 16,
+        "endChar": 64
+      },
+      "revId": "7e892335d133d540f7ae148a79710f50f2a09970",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "930d2abe_214da21d",
         "filename": "control/Makefile.am",
         "patchSetId": 47
@@ -45,6 +69,30 @@
       "revId": "7e892335d133d540f7ae148a79710f50f2a09970",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6abeea3f_40f79669",
+        "filename": "control/Makefile.am",
+        "patchSetId": 47
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-23T19:25:44Z",
+      "side": 1,
+      "message": "per our discussion, we\u0027ll just disable the reload() function for YAML-enable builds",
+      "parentUuid": "930d2abe_214da21d",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 7
+      },
+      "revId": "7e892335d133d540f7ae148a79710f50f2a09970",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
