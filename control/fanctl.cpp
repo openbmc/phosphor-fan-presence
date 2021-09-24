@@ -559,8 +559,10 @@ int main(int argc, char* argv[])
 
     try
     {
-        CLI::App app{R"(Manually control, get fan tachs, view status, and resume
-             automatic control of all fans within a chassis.)"};
+        CLI::App app{"Manually control, get fan tachs, view status, and resume"
+                     " automatic control of all fans within a chassis.\
+Full doccumentation can be found at the readme:\
+https://github.com/openbmc/phosphor-fan-presence/tree/master/control"};
 
         initCLI(app, target, fanList);
 
