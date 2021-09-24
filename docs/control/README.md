@@ -126,6 +126,10 @@ TBD
 
 TBD
 
+Fans can be queried and controlled manually using the fanctl utility. Full documentation 
+can be found at
+https://github.com/openbmc/phosphor-fan-presence/blob/master/docs/control/fanctl/README.md
+
 
 ## Validation
 
