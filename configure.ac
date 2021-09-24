@@ -160,6 +160,8 @@ AS_IF([test "x$enable_control" != "xno"], [
         AC_ARG_VAR(MACHINE, [Machine name to install a particular set of associated config file(s)])
         AC_CHECK_HEADER(nlohmann/json.hpp, ,
                 [AC_MSG_ERROR([Could not find nlohmann/json.hpp... nlohmann/json package required])])
+        AC_CHECK_HEADER(CLI/CLI.hpp, ,
+                [AC_MSG_ERROR([Could not find CLI/CLI.hpp... cli11 package required])])
         # Set config flag for runtime json usage
         AC_DEFINE([CONTROL_USE_JSON], [1], [Fan control use runtime json configuration])
         AC_MSG_NOTICE([Fan control json configuration usage enabled])
