@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "23655c6e_8f09d17e",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-24T18:52:43Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0190de2e_4a3c0020",
+      "range": {
+        "startLine": 465,
+        "startChar": 8,
+        "endLine": 468,
+        "endChar": 48
+      },
+      "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aeda8249_5cc1aece",
         "filename": "control/fanctl.cpp",
         "patchSetId": 38
@@ -93,6 +117,30 @@
       "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d4eba17a_868d11c3",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 38
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-24T18:52:43Z",
+      "side": 1,
+      "message": "It appears there\u0027s no difference between ps38 and ps39.",
+      "parentUuid": "b2e62fb3_9fd5be32",
+      "range": {
+        "startLine": 520,
+        "startChar": 8,
+        "endLine": 521,
+        "endChar": 72
+      },
+      "revId": "63d0e5e75a59ecfe1f7099fdeacf6ebdea449e2d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
