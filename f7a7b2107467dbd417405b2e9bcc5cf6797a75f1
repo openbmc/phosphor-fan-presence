@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a31ae6f2_1c88f883",
+        "filename": "control/README.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-09-27T15:23:17Z",
+      "side": 1,
+      "message": "I think this should probably be a README.md and be in markdown.\n\nAlso, the other readmes are in the docs dir.  So you could move this under docs/control and then link to it from docs/control/README.md.",
+      "revId": "f7a7b2107467dbd417405b2e9bcc5cf6797a75f1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
