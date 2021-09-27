@@ -20,6 +20,7 @@ stamp-h1
 *.o
 phosphor-fan-presence-tach
 phosphor-fan-control
+fanctl
 fan_zone_defs.cpp
 phosphor-fan-monitor
 phosphor-cooling-type
