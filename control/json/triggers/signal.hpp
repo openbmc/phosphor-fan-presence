@@ -46,45 +46,41 @@ void subscribe(const std::string& match, SignalPkg&& pkg,
  * @brief Subscribes to a propertiesChanged signal
  *
  * @param[in] mgr - Pointer to manager of the trigger
- * @param[in] eventName - Name of event associated to the signal
  * @param[in] action - Action to be run when signal is received
  */
-void propertiesChanged(Manager* mgr, const std::string& eventName,
-                       std::unique_ptr<ActionBase>& action);
+void propertiesChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                       const json&);
 
 /**
  * @brief Subscribes to an interfacesAdded signal
  *
  * @param[in] mgr - Pointer to manager of the trigger
- * @param[in] eventName - Name of event associated to the signal
  * @param[in] action - Action to be run when signal is received
  */
-void interfacesAdded(Manager* mgr, const std::string& eventName,
-                     std::unique_ptr<ActionBase>& action);
+void interfacesAdded(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                     const json&);
 
 /**
  * @brief Subscribes to an interfacesRemoved signal
  *
  * @param[in] mgr - Pointer to manager of the trigger
- * @param[in] eventName - Name of event associated to the signal
  * @param[in] action - Action to be run when signal is received
  */
-void interfacesRemoved(Manager* mgr, const std::string& eventName,
-                       std::unique_ptr<ActionBase>& action);
+void interfacesRemoved(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                       const json&);
 
 /**
  * @brief Subscribes to a nameOwnerChanged signal
  *
  * @param[in] mgr - Pointer to manager of the trigger
- * @param[in] eventName - Name of event associated to the signal
  * @param[in] action - Action to be run when signal is received
  */
-void nameOwnerChanged(Manager* mgr, const std::string& eventName,
-                      std::unique_ptr<ActionBase>& actions);
+void nameOwnerChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                      const json&);
 
 // Match setup function for signals
-using SignalMatch = std::function<void(Manager*, const std::string&,
-                                       std::unique_ptr<ActionBase>& action)>;
+using SignalMatch = std::function<void(
+    Manager*, std::unique_ptr<ActionBase>& action, const json&)>;
 
 /* Supported signals to their corresponding match setup functions */
 static const std::unordered_map<std::string, SignalMatch> signals = {

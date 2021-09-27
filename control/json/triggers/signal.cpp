@@ -90,8 +90,8 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
     }
 }
 
-void propertiesChanged(Manager* mgr, const std::string& eventName,
-                       std::unique_ptr<ActionBase>& action)
+void propertiesChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                       const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -118,8 +118,8 @@ void propertiesChanged(Manager* mgr, const std::string& eventName,
     }
 }
 
-void interfacesAdded(Manager* mgr, const std::string& eventName,
-                     std::unique_ptr<ActionBase>& action)
+void interfacesAdded(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                     const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -144,8 +144,8 @@ void interfacesAdded(Manager* mgr, const std::string& eventName,
     }
 }
 
-void interfacesRemoved(Manager* mgr, const std::string& eventName,
-                       std::unique_ptr<ActionBase>& action)
+void interfacesRemoved(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                       const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -170,8 +170,8 @@ void interfacesRemoved(Manager* mgr, const std::string& eventName,
     }
 }
 
-void nameOwnerChanged(Manager* mgr, const std::string& eventName,
-                      std::unique_ptr<ActionBase>& action)
+void nameOwnerChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
+                      const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -205,9 +205,9 @@ void nameOwnerChanged(Manager* mgr, const std::string& eventName,
                 // service to appear? When to stop checking?
                 log<level::ERR>(
                     fmt::format(
-                        "Event '{}' will not be triggered by name owner "
-                        "changed signals from service of path {}, interface {}",
-                        eventName, member, group.getInterface())
+                        "Events will not be triggered by name owner changed"
+                        "signals from service of path {}, interface {}",
+                        member, group.getInterface())
                         .c_str());
             }
         }
@@ -241,12 +241,12 @@ enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
     }
 
     return [subscriber = std::move(subscriber)](
-               const std::string& eventName, Manager* mgr,
+               const json& jsonObj, Manager* mgr,
                std::vector<std::unique_ptr<ActionBase>>& actions) {
         for (auto& action : actions)
         {
             // Call signal subscriber for each group in the action
-            subscriber->second(mgr, eventName, action);
+            subscriber->second(mgr, action, jsonObj);
         }
     };
 }
