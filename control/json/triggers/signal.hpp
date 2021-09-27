@@ -78,6 +78,16 @@ void interfacesRemoved(Manager* mgr, std::unique_ptr<ActionBase>& action,
 void nameOwnerChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
                       const json&);
 
+/**
+ * @brief Subscribes to a dbus member signal
+ *
+ * @param[in] mgr - Pointer to manager of the trigger
+ * @param[in] action - Action to be run when signal is received
+ * @param[in] jsonObj - JSON object for the trigger
+ */
+void member(Manager* mgr, std::unique_ptr<ActionBase>& action,
+            const json& jsonObj);
+
 // Match setup function for signals
 using SignalMatch = std::function<void(
     Manager*, std::unique_ptr<ActionBase>& action, const json&)>;
@@ -87,7 +97,8 @@ static const std::unordered_map<std::string, SignalMatch> signals = {
     {"properties_changed", propertiesChanged},
     {"interfaces_added", interfacesAdded},
     {"interfaces_removed", interfacesRemoved},
-    {"name_owner_changed", nameOwnerChanged}};
+    {"name_owner_changed", nameOwnerChanged},
+    {"member", member}};
 
 /**
  * @brief Trigger to process an event after a signal is received

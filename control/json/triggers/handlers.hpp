@@ -154,6 +154,15 @@ struct Handlers
         mgr.setOwner(std::get<Path>(obj), serv, std::get<Intf>(obj), hasOwner);
         return true;
     }
+
+    /**
+     * @brief Processes a dbus member signal, there is nothing associated or
+     * any cache to update when this signal is received
+     */
+    static bool member(message&, const SignalObject&, Manager&)
+    {
+        return true;
+    }
 };
 
 } // namespace phosphor::fan::control::json::trigger::signal
