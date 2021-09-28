@@ -538,6 +538,7 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
     // status method
     std::string strHelp("Prints fan target/tach readings, present/functional "
                         "states, and fan-monitor/BMC/Power service status");
+
     auto cmdStatus = commands->add_subcommand("status", strHelp);
     cmdStatus->set_help_flag("-h, --help", strHelp);
     cmdStatus->require_option(0);
@@ -585,8 +586,11 @@ int main(int argc, char* argv[])
 
     try
     {
-        CLI::App app{"Manually control, get fan tachs, view status, and resume"
-                     " automatic control of all fans within a chassis."};
+        CLI::App app{"Manually control, get fan tachs, view status, and resume "
+                     "automatic control of all fans within a chassis. Full "
+                     "documentation can be found at the readme:\n"
+                     "https://github.com/openbmc/phosphor-fan-presence/tree/"
+                     "master/docs/control/fanctl"};
 
         initCLI(app, target, fanList);
 
