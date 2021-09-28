@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f8545a0c_3dcbef8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:10:22Z",
+      "side": 1,
+      "message": "nit: The repo is already known in the review, generally the commit msg title begins with what specific app within the repo the change affects, i.e. `fanctl: Add github link to help command`",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f5abea8_88f5ad15",
         "filename": "control/fanctl.cpp",
         "patchSetId": 1
