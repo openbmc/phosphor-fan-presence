@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d990c41_dcaa660c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T14:27:12Z",
+      "side": 1,
+      "message": "Your original commit msg was more accurate.\n\nThis is a specific check for when fan control is built and not related to any bitbake recipe since its in the phosphor-fan-presence repo\u0027s autoconf.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 44
+      },
+      "revId": "7e703444606a8781355066547394201c5d3fabd6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
