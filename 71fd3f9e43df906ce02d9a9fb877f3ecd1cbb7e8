@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "138517de_2b087e30",
+        "filename": "control/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-28T13:13:23Z",
+      "side": 1,
+      "message": "you can see a rendered version at https://github.com/mikecgithub/phosphor-fan-presence/blob/ibm1870/control/README.md",
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
