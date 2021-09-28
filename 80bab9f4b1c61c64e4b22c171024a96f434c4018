@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f5abea8_88f5ad15",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:08:40Z",
+      "side": 1,
+      "message": "Was there an intent to line break here? or am I missing what this is necessary to be here for?",
+      "range": {
+        "startLine": 566,
+        "startChar": 47,
+        "endLine": 566,
+        "endChar": 48
+      },
+      "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef4ee51f_3f3ccc44",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:08:40Z",
+      "side": 1,
+      "message": "Lets explicitly show its `http://...`\n\nAlso, I think there was a comment in the README review to have fanctl\u0027s README included under fan control\u0027s README(https://github.com/openbmc/phosphor-fan-presence/blob/master/docs/control/README.md) since this tool is included when fan control is installed.\n\nSo fanctl\u0027s README should end up at a location like this:\nhttps://github.com/openbmc/phosphor-fan-presence/blob/master/docs/control/fanctl/README.md",
+      "range": {
+        "startLine": 567,
+        "startChar": 0,
+        "endLine": 567,
+        "endChar": 60
+      },
+      "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
