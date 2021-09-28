@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "30e9d1ba_b8232423",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "nit: Its helpful to have this denote what within the repo is associated with this change, so `fanctl: ...` here.\n\nThis allows a commit msg title like this to be shortened to:\n`fanctl: Added README.md`",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de706ee_1cc7e96b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "README.md",
+      "range": {
+        "startLine": 7,
+        "startChar": 14,
+        "endLine": 7,
+        "endChar": 25
+      },
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "138517de_2b087e30",
         "filename": "control/README.md",
         "patchSetId": 8
@@ -13,6 +59,116 @@
       "writtenOn": "2021-09-28T13:13:23Z",
       "side": 1,
       "message": "you can see a rendered version at https://github.com/mikecgithub/phosphor-fan-presence/blob/ibm1870/control/README.md",
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4739deb2_cf04ef74",
+        "filename": "control/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "I get a 404 error trying to access that link.",
+      "parentUuid": "138517de_2b087e30",
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fb0666b_c5631138",
+        "filename": "control/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "Lets line break all the README text at the 80char mark like source code.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 418
+      },
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d1b852a_78cbc467",
+        "filename": "control/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "This shouldnt be required after its installed in the image since it will be found in $PATH, correct?",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 8
+      },
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60aec91e_ba2a18cf",
+        "filename": "control/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "Probably should include that this is also shown for `status`:\n\n```\n FAN        TARGET(RPM)  FEEDBACKS(RPMS)   PRESENT   FUNCTIONAL\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n fan0             10500      10500/14316      true         true\n fan1             10500      10500/14316      true         true\n fan2             10500      10500/14316      true         true\n fan3             10500      10500/14316      true         true\n fan4             10500      10500/14316      true         true\n fan5             10500      10500/14316      true         true\n```",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 83,
+        "endChar": 7
+      },
+      "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0551ebcb_5817e4f5",
+        "filename": "control/README.md",
+        "patchSetId": 8
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-28T15:54:24Z",
+      "side": 1,
+      "message": "This should read, `loading them in the order in which each is found (override location, given `Compatible` interface location, then default location).`\n\nOr something along those lines...",
+      "range": {
+        "startLine": 85,
+        "startChar": 32,
+        "endLine": 85,
+        "endChar": 67
+      },
       "revId": "71fd3f9e43df906ce02d9a9fb877f3ecd1cbb7e8",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
