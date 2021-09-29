@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "56a1a8c7_74f93348",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-29T14:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f8545a0c_3dcbef8b",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f5abea8_88f5ad15",
         "filename": "control/fanctl.cpp",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e5422f65_5cd87595",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-29T14:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f5abea8_88f5ad15",
+      "range": {
+        "startLine": 566,
+        "startChar": 47,
+        "endLine": 566,
+        "endChar": 48
+      },
+      "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef4ee51f_3f3ccc44",
         "filename": "control/fanctl.cpp",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "556c9427_7a4d42ca",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-09-29T14:00:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef4ee51f_3f3ccc44",
+      "range": {
+        "startLine": 567,
+        "startChar": 0,
+        "endLine": 567,
+        "endChar": 60
+      },
+      "revId": "80bab9f4b1c61c64e4b22c171024a96f434c4018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
