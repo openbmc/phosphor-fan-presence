@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e232e323_a58a70c0",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-29T15:42:45Z",
+      "side": 1,
+      "message": "Appears there was rebasing issue since the only change is this blank line now?\n\nGlanced at https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/47201 and looks like the link to the readme in the help was done in that commit now (and its pointing to the wrong location). Lets get that changed removed from that commit and back into here with the link corrected.",
+      "revId": "539b6bf762d7d288a477bef0d6f9eecd034d16c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
