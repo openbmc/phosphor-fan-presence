@@ -149,19 +149,6 @@ void Event::setActions(const json& jsonObj)
             throw std::runtime_error("Missing required event action name");
         }
 
-        // Append action specific groups to the list of event groups for each
-        // action in the event
-        auto actionGroups = _groups;
-        setGroups(jsonAct, _profiles, actionGroups);
-        if (actionGroups.empty())
-        {
-            log<level::DEBUG>(
-                fmt::format("No groups configured for event {}'s action {} "
-                            "based on the active profile(s)",
-                            getName(), jsonAct["name"].get<std::string>())
-                    .c_str());
-        }
-
         // Determine list of zones action should be run against
         std::vector<std::reference_wrapper<Zone>> actionZones;
         if (!jsonAct.contains("zones"))
@@ -211,13 +198,40 @@ void Event::setActions(const json& jsonObj)
                     .c_str());
         }
 
-        // Create the action for the event
-        auto actObj = ActionFactory::getAction(
-            jsonAct["name"].get<std::string>(), jsonAct,
-            std::move(actionGroups), std::move(actionZones));
-        if (actObj)
+        // Action specific groups, if any given, will override the use of event
+        // groups in the action(s)
+        std::vector<Group> actionGroups;
+        setGroups(jsonAct, _profiles, actionGroups);
+        if (!actionGroups.empty())
         {
-            _actions.emplace_back(std::move(actObj));
+            // Create the action for the event
+            auto actObj = ActionFactory::getAction(
+                jsonAct["name"].get<std::string>(), jsonAct,
+                std::move(actionGroups), std::move(actionZones));
+            if (actObj)
+            {
+                _actions.emplace_back(std::move(actObj));
+            }
+        }
+        else
+        {
+            // Create the action for the event
+            auto actObj = ActionFactory::getAction(
+                jsonAct["name"].get<std::string>(), jsonAct, _groups,
+                std::move(actionZones));
+            if (actObj)
+            {
+                _actions.emplace_back(std::move(actObj));
+            }
+        }
+
+        if (actionGroups.empty() && _groups.empty())
+        {
+            log<level::DEBUG>(
+                fmt::format("No groups configured for event {}'s action {} "
+                            "based on the active profile(s)",
+                            getName(), jsonAct["name"].get<std::string>())
+                    .c_str());
         }
     }
 }
