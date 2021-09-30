@@ -132,12 +132,14 @@ enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
         handler = methods.find(method);
     }
 
-    for (auto& action : actions)
-    {
-        // Groups are optional, so a method is only required if there are groups
-        // i.e.) An init triggered event without any groups results in just
-        // running the actions
-        if (!action->getGroups().empty() && handler == methods.end())
+    return [handler = std::move(handler)](
+               const std::string& eventName, Manager* mgr,
+               const std::vector<Group>& groups,
+               std::vector<std::unique_ptr<ActionBase>>& actions) {
+        // Event groups are optional, so a method is only required if there
+        // are event groups i.e.) An init triggered event without any event
+        // groups results in just running the actions
+        if (!groups.empty() && handler == methods.end())
         {
             // Construct list of available methods
             auto availMethods = std::accumulate(
@@ -152,20 +154,15 @@ enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
             log<level::ERR>(msg.c_str());
             throw std::runtime_error(msg.c_str());
         }
-    }
 
-    return [handler = std::move(handler)](
-               const std::string& eventName, Manager* mgr,
-               const std::vector<Group>& groups,
-               std::vector<std::unique_ptr<ActionBase>>& actions) {
+        for (const auto& group : groups)
+        {
+            // Call method handler for each group to populate cache
+            handler->second(mgr, group);
+        }
         for (auto& action : actions)
         {
-            for (const auto& group : action->getGroups())
-            {
-                // Call method handler for each group in the actions
-                handler->second(mgr, group);
-            }
-            // Run the action
+            // Run each action after initializing all the groups
             action->run();
         }
     };
