@@ -16,6 +16,7 @@
 #include "timer.hpp"
 
 #include "../manager.hpp"
+#include "group.hpp"
 #include "trigger_aliases.hpp"
 
 #include <fmt/format.h>
@@ -79,6 +80,7 @@ enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
 
     return [type = std::move(type), interval = std::move(interval)](
                const std::string& eventName, Manager* mgr,
+               const std::vector<Group>&,
                std::vector<std::unique_ptr<ActionBase>>& actions) {
         auto tpPtr = std::make_unique<TimerPkg>(eventName, std::ref(actions));
         mgr->addTimer(type, interval, std::move(tpPtr));

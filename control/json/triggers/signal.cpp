@@ -267,6 +267,7 @@ enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
 
     return [subscriber = std::move(subscriber),
             jsonObj](const std::string& eventName, Manager* mgr,
+                     const std::vector<Group>& groups,
                      std::vector<std::unique_ptr<ActionBase>>& actions) {
         for (auto& action : actions)
         {
