@@ -59,7 +59,7 @@ void Event::enable()
 {
     for (const auto& trigger : _triggers)
     {
-        trigger(getName(), _manager, _actions);
+        trigger(getName(), _manager, _groups, _actions);
     }
 }
 
