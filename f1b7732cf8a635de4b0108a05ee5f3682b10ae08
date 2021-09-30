@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08fa57ca_13b8db55",
+        "filename": "docs/control/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-30T19:32:46Z",
+      "side": 1,
+      "message": "Odd wrapping here, lets keep this in the 80char boundary.",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 15
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd0903da_f0ff8fac",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-30T19:32:46Z",
+      "side": 1,
+      "message": "Beyond 80char wrapped",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 81
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7489870e_864a6ccc",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-30T19:32:46Z",
+      "side": 1,
+      "message": "Beyond 80char wrapped",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 81
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219800f7_3f9c437c",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-30T19:32:46Z",
+      "side": 1,
+      "message": "So I noticed when trying this out that the `set` no longer takes the target sensor names, but instead a truncation of the name (fan0_0 would be given as fan0). I\u0027m somewhat indifferent on that as long as the mapping of the fan name given can be find the target sensor in your `loadDbus` mapping. I think for simplicity, `set` should take the target sensor name as given instead of a name that has to get translated to find its associated target sensor and an easier transition for those familiar with the bash version of this script already (which takes the target sensors as input).",
+      "range": {
+        "startLine": 62,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
