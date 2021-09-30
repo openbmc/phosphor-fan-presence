@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c80496f4_30eb5ee2",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-09-30T18:51:16Z",
+      "side": 1,
+      "message": "This doesnt look to be the correct link according to where the README.md is located in https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/47201",
+      "range": {
+        "startLine": 566,
+        "startChar": 22,
+        "endLine": 567,
+        "endChar": 41
+      },
+      "revId": "045568a8aecebeb39c809a793b5e221e1c13e4c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
