@@ -16,6 +16,7 @@
 #pragma once
 
 #include "action.hpp"
+#include "group.hpp"
 #include "manager.hpp"
 
 #include <nlohmann/json.hpp>
@@ -30,8 +31,9 @@ namespace phosphor::fan::control::json::trigger
 using json = nlohmann::json;
 
 // Trigger enablement function
-using enableTrigger = std::function<void(
-    const std::string&, Manager*, std::vector<std::unique_ptr<ActionBase>>&)>;
+using enableTrigger =
+    std::function<void(const std::string&, Manager*, const std::vector<Group>&,
+                       std::vector<std::unique_ptr<ActionBase>>&)>;
 
 // Trigger creation function
 using createTrigger =

@@ -156,6 +156,7 @@ enableTrigger triggerInit(const json& jsonObj, const std::string& eventName,
 
     return [handler = std::move(handler)](
                const std::string& eventName, Manager* mgr,
+               const std::vector<Group>& groups,
                std::vector<std::unique_ptr<ActionBase>>& actions) {
         for (auto& action : actions)
         {
