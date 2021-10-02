@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "798a4c62_878d8747",
+        "filename": "docs/control/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-02T18:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08fa57ca_13b8db55",
+      "range": {
+        "startLine": 129,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 15
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd0903da_f0ff8fac",
         "filename": "docs/control/fanctl/README.md",
         "patchSetId": 13
@@ -45,6 +69,30 @@
       "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d1b19de_eaccb894",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-02T18:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd0903da_f0ff8fac",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 81
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "70f57aa6_1864f33f",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-02T18:23:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7489870e_864a6ccc",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 81
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "219800f7_3f9c437c",
         "filename": "docs/control/fanctl/README.md",
         "patchSetId": 13
@@ -91,6 +163,30 @@
       "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccd2d1b4_620c8d8a",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 13
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-02T18:23:21Z",
+      "side": 1,
+      "message": "its been fixed to take either fan name or sensor name.",
+      "parentUuid": "219800f7_3f9c437c",
+      "range": {
+        "startLine": 62,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "f1b7732cf8a635de4b0108a05ee5f3682b10ae08",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
