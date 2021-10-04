@@ -32,6 +32,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server/manager.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
@@ -144,6 +145,13 @@ class Manager
      */
     void sighupHandler(sdeventplus::source::Signal&,
                        const struct signalfd_siginfo*);
+
+    /**
+     * @brief Callback function to handle receiving a USR1 signal to dump
+     * the flight recorder.
+     */
+    void sigUsr1Handler(sdeventplus::source::Signal&,
+                        const struct signalfd_siginfo*);
 
     /**
      * @brief Get the active profiles of the system where an empty list
@@ -518,6 +526,10 @@ class Manager
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
 
+    /* The sdeventplus wrapper around sd_event_add_defer to dump the
+     * flight recorder from the event loop after the USR1 signal.  */
+    std::unique_ptr<sdeventplus::source::Defer> _flightRecEventSource;
+
     /**
      * @brief A map of parameter names and values that are something
      *        other than just D-Bus property values that other actions
@@ -568,6 +580,11 @@ class Manager
      * entries within the other configuration files.
      */
     void setProfiles();
+
+    /**
+     * @brief Callback from _flightRecEventSource to dump the flight recorder
+     */
+    void dumpFlightRecorder(sdeventplus::source::EventBase&);
 };
 
 } // namespace phosphor::fan::control::json
