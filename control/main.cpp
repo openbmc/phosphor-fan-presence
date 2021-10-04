@@ -16,6 +16,7 @@
 #include "config.h"
 
 #ifndef CONTROL_USE_JSON
+#include "../utils/flight_recorder.hpp"
 #include "argument.hpp"
 #include "manager.hpp"
 #else
@@ -70,6 +71,8 @@ int main(int argc, char* argv[])
     try
     {
 #ifdef CONTROL_USE_JSON
+        phosphor::fan::control::json::FlightRecorder::instance().log("main",
+                                                                     "Startup");
         json::Manager manager(event);
 
         // Handle loading fan control's config file(s)
@@ -127,6 +130,21 @@ int main(int argc, char* argv[])
                         entry("INTERFACE=%s", e.interface.c_str()),
                         entry("PROPERTY=%s", e.property.c_str()));
     }
+    catch (std::exception& e)
+    {
+#ifdef CONTROL_USE_JSON
+        phosphor::fan::control::json::FlightRecorder::instance().log(
+            "main", "Unexpected exception exit");
+        phosphor::fan::control::json::FlightRecorder::instance().dump();
+#endif
+        throw;
+    }
+
+#ifdef CONTROL_USE_JSON
+    phosphor::fan::control::json::FlightRecorder::instance().log(
+        "main", "Abnormal exit");
+    phosphor::fan::control::json::FlightRecorder::instance().dump();
+#endif
 
     return 1;
 }
