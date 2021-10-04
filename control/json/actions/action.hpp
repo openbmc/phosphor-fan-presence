@@ -15,6 +15,7 @@
  */
 #pragma once
 
+#include "../utils/flight_recorder.hpp"
 #include "../zone.hpp"
 #include "config_base.hpp"
 #include "group.hpp"
@@ -119,7 +120,8 @@ class ActionBase : public ConfigBase
      * always include the action where no profiles are given.
      */
     ActionBase(const json& jsonObj, const std::vector<Group>& groups) :
-        ConfigBase(jsonObj), _groups(groups)
+        ConfigBase(jsonObj), _groups(groups),
+        _uniqueName(getName() + "-" + std::to_string(_actionCount++))
     {}
 
     /**
@@ -185,6 +187,27 @@ class ActionBase : public ConfigBase
                       [this](Zone& zone) { this->run(zone); });
     }
 
+    /**
+     * @brief Returns a unique name for the action.
+     *
+     * @return std::string - The name
+     */
+    const std::string& getUniqueName() const
+    {
+        return _uniqueName;
+    }
+
+    /**
+     * @brief Logs a message to the flight recorder using
+     *        the unique name of the action.
+     *
+     * @param[in] message - The message to log
+     */
+    void record(const std::string& message) const
+    {
+        FlightRecorder::instance().log(getUniqueName(), message);
+    }
+
   protected:
     /* Groups configured on the action */
     const std::vector<Group> _groups;
@@ -192,6 +215,13 @@ class ActionBase : public ConfigBase
   private:
     /* Zones configured on the action */
     std::vector<std::reference_wrapper<Zone>> _zones;
+
+    /* Unique name of the action.
+     * It's just the name plus _actionCount at the time of action creation. */
+    const std::string _uniqueName;
+
+    /* Running count of all actions */
+    static inline size_t _actionCount = 0;
 };
 
 /**
