@@ -17,6 +17,7 @@
 
 #include "manager.hpp"
 
+#include "../utils/flight_recorder.hpp"
 #include "action.hpp"
 #include "event.hpp"
 #include "fan.hpp"
@@ -89,6 +90,20 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
         log<level::ERR>("Error reloading configs, no changes made",
                         entry("LOAD_ERROR=%s", re.what()));
     }
+}
+
+void Manager::sigUsr1Handler(sdeventplus::source::Signal&,
+                             const struct signalfd_siginfo*)
+{
+    _flightRecEventSource = std::make_unique<sdeventplus::source::Defer>(
+        _event, std::bind(std::mem_fn(&Manager::dumpFlightRecorder), this,
+                          std::placeholders::_1));
+}
+
+void Manager::dumpFlightRecorder(sdeventplus::source::EventBase& /*source*/)
+{
+    FlightRecorder::instance().dump();
+    _flightRecEventSource.reset();
 }
 
 void Manager::load()
