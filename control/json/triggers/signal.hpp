@@ -48,7 +48,8 @@ void subscribe(const std::string& match, SignalPkg&& pkg,
  * @param[in] mgr - Pointer to manager of the trigger
  * @param[in] action - Action to be run when signal is received
  */
-void propertiesChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
+void propertiesChanged(Manager* mgr, const Group& group,
+                       std::vector<std::unique_ptr<ActionBase>>& actions,
                        const json&);
 
 /**
@@ -57,7 +58,8 @@ void propertiesChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
  * @param[in] mgr - Pointer to manager of the trigger
  * @param[in] action - Action to be run when signal is received
  */
-void interfacesAdded(Manager* mgr, std::unique_ptr<ActionBase>& action,
+void interfacesAdded(Manager* mgr, const Group& group,
+                     std::vector<std::unique_ptr<ActionBase>>& actions,
                      const json&);
 
 /**
@@ -66,7 +68,8 @@ void interfacesAdded(Manager* mgr, std::unique_ptr<ActionBase>& action,
  * @param[in] mgr - Pointer to manager of the trigger
  * @param[in] action - Action to be run when signal is received
  */
-void interfacesRemoved(Manager* mgr, std::unique_ptr<ActionBase>& action,
+void interfacesRemoved(Manager* mgr, const Group& group,
+                       std::vector<std::unique_ptr<ActionBase>>& actions,
                        const json&);
 
 /**
@@ -75,7 +78,8 @@ void interfacesRemoved(Manager* mgr, std::unique_ptr<ActionBase>& action,
  * @param[in] mgr - Pointer to manager of the trigger
  * @param[in] action - Action to be run when signal is received
  */
-void nameOwnerChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
+void nameOwnerChanged(Manager* mgr, const Group& group,
+                      std::vector<std::unique_ptr<ActionBase>>& actions,
                       const json&);
 
 /**
@@ -85,12 +89,14 @@ void nameOwnerChanged(Manager* mgr, std::unique_ptr<ActionBase>& action,
  * @param[in] action - Action to be run when signal is received
  * @param[in] jsonObj - JSON object for the trigger
  */
-void member(Manager* mgr, std::unique_ptr<ActionBase>& action,
+void member(Manager* mgr, const Group&,
+            std::vector<std::unique_ptr<ActionBase>>& actions,
             const json& jsonObj);
 
 // Match setup function for signals
 using SignalMatch = std::function<void(
-    Manager*, std::unique_ptr<ActionBase>& action, const json&)>;
+    Manager*, const Group&, std::vector<std::unique_ptr<ActionBase>>& actions,
+    const json&)>;
 
 /* Supported signals to their corresponding match setup functions */
 static const std::unordered_map<std::string, SignalMatch> signals = {
