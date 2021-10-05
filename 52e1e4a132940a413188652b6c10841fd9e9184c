@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e90ebb0f_698c6427",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-05T16:25:42Z",
+      "side": 1,
+      "message": "since this isn\u0027t in the phosphor-fan-control process, its FlightRecorder instance is different than yours, so calling dump here won\u0027t dump its data.  Instead, you\u0027ll want to send that USR1 signal to the phosphor-fan-control process",
+      "revId": "52e1e4a132940a413188652b6c10841fd9e9184c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
