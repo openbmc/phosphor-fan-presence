@@ -53,7 +53,8 @@ phosphor_fan_control_CXXFLAGS = \
 	-flto
 
 fanctl_SOURCES = \
-	fanctl.cpp
+	fanctl.cpp \
+	json/utils/flight_recorder.cpp
 
 fanctl_LDADD = \
 	$(SDBUSPLUS_LIBS) \

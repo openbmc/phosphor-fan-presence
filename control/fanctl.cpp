@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+#include "../utils/flight_recorder.hpp"
 #include "sdbusplus.hpp"
 
 #include <CLI/CLI.hpp>
@@ -574,6 +575,14 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
 }
 
 /**
+ * @function dump the FlightRecorder log data
+ */
+void dumpFlightRecorder()
+{
+    phosphor::fan::control::json::FlightRecorder::instance().dump();
+}
+
+/**
  * @function main entry point for the application
  */
 int main(int argc, char* argv[])
@@ -591,6 +600,13 @@ int main(int argc, char* argv[])
                      "master/docs/control/fanctl"};
 
         initCLI(app, target, fanList);
+
+        // Dump method
+        auto cmdDump = commands->add_subcommand(
+            "dump", "Dump the FlightRecorder diagnostic log");
+        cmdDump->set_help_flag("-h, --help",
+                               "Dump the FlightRecorder diagnostic log");
+        cmdDump->require_option(0);
 
         CLI11_PARSE(app, argc, argv);
 
@@ -613,6 +629,12 @@ int main(int argc, char* argv[])
         else if (app.got_subcommand("status"))
         {
             status();
+        }
+        else if (app.got_subcommand("dump"))
+        {
+            dumpFlightRecorder();
+            std::cout << "FlightRecorder log written to: /tmp/fan_control.txt"
+                      << std::endl;
         }
     }
     catch (const std::exception& e)
