@@ -123,8 +123,22 @@ void Manager::load()
             }
         }
 
-        // Load any events configured
-        auto events = getConfig<Event>(true, this, zones);
+        // Save all currently available groups, if any, then clear for reloading
+        auto groups = std::move(Event::getAllGroups(false));
+        Event::clearAllGroups();
+
+        std::map<configKey, std::unique_ptr<Event>> events;
+        try
+        {
+            // Load any events configured, including all the groups
+            events = getConfig<Event>(true, this, zones);
+        }
+        catch (const std::runtime_error& re)
+        {
+            // Restore saved set of all available groups for current events
+            Event::setAllGroups(std::move(groups));
+            throw re;
+        }
 
         // Enable zones
         _zones = std::move(zones);
