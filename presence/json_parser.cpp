@@ -91,7 +91,7 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
         }
         log<level::INFO>("Configuration loaded successfully");
     }
-    catch (std::runtime_error& re)
+    catch (const std::runtime_error& re)
     {
         log<level::ERR>("Error loading config, no config changes made",
                         entry("LOAD_ERROR=%s", re.what()));

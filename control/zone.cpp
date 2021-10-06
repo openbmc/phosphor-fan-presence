@@ -589,7 +589,7 @@ void Zone::restoreCurrentMode()
             iArch(current);
         }
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         log<level::ERR>(e.what());
         fs::remove(path);

@@ -69,7 +69,7 @@ bool Tach::start()
             std::get<double>(s) = util::SDBusPlus::getProperty<double>(
                 tachPath, tachIface, tachProperty);
         }
-        catch (std::exception&)
+        catch (const std::exception&)
         {
             // Assume not spinning.
 

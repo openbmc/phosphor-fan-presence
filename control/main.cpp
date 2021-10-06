@@ -98,13 +98,13 @@ int main(int argc, char* argv[])
     }
     // Log the useful metadata on these exceptions and let the app
     // return 1 so it is restarted without a core dump.
-    catch (phosphor::fan::util::DBusServiceError& e)
+    catch (const phosphor::fan::util::DBusServiceError& e)
     {
         log<level::ERR>("Uncaught DBus service lookup failure exception",
                         entry("PATH=%s", e.path.c_str()),
                         entry("INTERFACE=%s", e.interface.c_str()));
     }
-    catch (phosphor::fan::util::DBusMethodError& e)
+    catch (const phosphor::fan::util::DBusMethodError& e)
     {
         log<level::ERR>("Uncaught DBus method failure exception",
                         entry("BUSNAME=%s", e.busName.c_str()),
@@ -112,7 +112,7 @@ int main(int argc, char* argv[])
                         entry("INTERFACE=%s", e.interface.c_str()),
                         entry("METHOD=%s", e.method.c_str()));
     }
-    catch (phosphor::fan::util::DBusPropertyError& e)
+    catch (const phosphor::fan::util::DBusPropertyError& e)
     {
         log<level::ERR>("Uncaught DBus property access failure exception",
                         entry("BUSNAME=%s", e.busName.c_str()),

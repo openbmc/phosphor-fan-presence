@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
             coolingType.updateInventory(objpath);
             rc = 0;
         }
-        catch (DBusMethodError& dme)
+        catch (const DBusMethodError& dme)
         {
             log<level::ERR>(
                 fmt::format("Uncaught DBus method failure exception "
@@ -79,7 +79,7 @@ int main(int argc, char* argv[])
                             dme.busName, dme.path, dme.interface, dme.method)
                     .c_str());
         }
-        catch (std::exception& err)
+        catch (const std::exception& err)
         {
             log<phosphor::logging::level::ERR>(err.what());
         }

@@ -283,7 +283,7 @@ class JsonConfig
                 // Enable ignoring `//` or `/* */` comments
                 jsonConf = json::parse(file, nullptr, true, true);
             }
-            catch (std::exception& e)
+            catch (const std::exception& e)
             {
                 log<level::ERR>(
                     fmt::format(

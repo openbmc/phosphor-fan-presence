@@ -61,7 +61,7 @@ static void
         value =
             util::SDBusPlus::getProperty<T>(bus, path, interface, propertyName);
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         phosphor::logging::log<phosphor::logging::level::ERR>(e.what());
     }
@@ -102,7 +102,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                 util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
         }
     }
-    catch (util::DBusError& e)
+    catch (const util::DBusError& e)
     {
         log<level::DEBUG>(e.what());
     }

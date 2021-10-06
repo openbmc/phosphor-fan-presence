@@ -85,7 +85,7 @@ void DBusZone::restoreCurrentMode()
             iArch(current);
         }
     }
-    catch (std::exception& e)
+    catch (const std::exception& e)
     {
         // Include possible exception when removing file, otherwise ec = 0
         std::error_code ec;

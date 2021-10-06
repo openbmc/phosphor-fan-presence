@@ -306,7 +306,7 @@ class SDBusPlus
             }
             return mapperResp.begin()->first;
         }
-        catch (DBusMethodError& e)
+        catch (const DBusMethodError& e)
         {
             throw DBusServiceError{path, interface};
         }

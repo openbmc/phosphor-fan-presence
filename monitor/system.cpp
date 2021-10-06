@@ -183,7 +183,7 @@ void System::sighupHandler(sdeventplus::source::Signal&,
         _sensorMatch.clear();
         subscribeSensorsToServices();
     }
-    catch (std::runtime_error& re)
+    catch (const std::runtime_error& re)
     {
         log<level::ERR>("Error reloading config, no config changes made",
                         entry("LOAD_ERROR=%s", re.what()));

@@ -302,7 +302,7 @@ void status()
                     val = "false";
                 }
             }
-            catch (phosphor::fan::util::DBusPropertyError&)
+            catch (const phosphor::fan::util::DBusPropertyError&)
             {
                 val = "Unknown";
             }
@@ -327,7 +327,7 @@ void status()
                     val = "false";
                 }
             }
-            catch (phosphor::fan::util::DBusPropertyError&)
+            catch (const phosphor::fan::util::DBusPropertyError&)
             {
                 val = "Unknown";
             }

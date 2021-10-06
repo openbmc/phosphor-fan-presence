@@ -80,7 +80,7 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
         _loadAllowed = true;
         load();
     }
-    catch (std::runtime_error& re)
+    catch (const std::runtime_error& re)
     {
         // Restore saved available and active profiles
         _loadAllowed = false;
