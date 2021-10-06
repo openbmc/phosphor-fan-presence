@@ -37,6 +37,8 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
+std::map<configKey, std::unique_ptr<Group>> Event::allGroups;
+
 Event::Event(const json& jsonObj, Manager* mgr,
              std::map<configKey, std::unique_ptr<Zone>>& zones) :
     ConfigBase(jsonObj),
@@ -63,10 +65,15 @@ void Event::enable()
     }
 }
 
-auto& Event::getAvailGroups()
+std::map<configKey, std::unique_ptr<Group>>&
+    Event::getAllGroups(bool loadGroups)
 {
-    static auto groups = Manager::getConfig<Group>(true);
-    return groups;
+    if (allGroups.empty() && loadGroups)
+    {
+        allGroups = Manager::getConfig<Group>(true);
+    }
+
+    return allGroups;
 }
 
 void Event::configGroup(Group& group, const json& jsonObj)
@@ -110,7 +117,7 @@ void Event::setGroups(const json& jsonObj,
 {
     if (jsonObj.contains("groups"))
     {
-        auto& availGroups = getAvailGroups();
+        auto& availGroups = getAllGroups();
         for (const auto& jsonGrp : jsonObj["groups"])
         {
             if (!jsonGrp.contains("name"))
