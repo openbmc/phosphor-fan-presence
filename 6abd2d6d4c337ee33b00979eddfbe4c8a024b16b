@@ -46,6 +46,30 @@
       "revId": "6abd2d6d4c337ee33b00979eddfbe4c8a024b16b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05f4204d_4fcfc979",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 36
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2021-10-06T21:10:44Z",
+      "side": 1,
+      "message": "ps43 - \"Resume running phosphor-fan-control\" - Ah! That is better.\n-----\nWhat? Where?\n\"This commit contains the set/resume commands.\"\nOkay, there is a resume command.\n\nroot@p10bmc:~# fanctl set 10000\nroot@p10bmc:~# fanctl set 2000 fan1 fan3_0\nroot@p10bmc:~# fanctl get\nOkay, some get and set examples. What does resume do?",
+      "parentUuid": "a21031f6_8cfccfde",
+      "range": {
+        "startLine": 549,
+        "startChar": 0,
+        "endLine": 552,
+        "endChar": 9
+      },
+      "revId": "6abd2d6d4c337ee33b00979eddfbe4c8a024b16b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
