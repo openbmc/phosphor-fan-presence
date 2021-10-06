@@ -521,6 +521,25 @@ void reload()
 }
 
 /**
+ * @function dump the FlightRecorder log data
+ */
+void dumpFlightRecorder()
+{
+    try
+    {
+        SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
+                              "KillUnit", phosphorServiceName, "main", SIGUSR1);
+        std::cout << "FlightRecorder log written to: /tmp/fan_control.txt"
+                  << std::endl;
+    }
+    catch (const phosphor::fan::util::DBusPropertyError& e)
+    {
+        std::cerr << "Unable to dump flight recorder log: " << e.what()
+                  << std::endl;
+    }
+}
+
+/**
  * @function setup the CLI object to accept all options
  */
 void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
@@ -571,6 +590,13 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
     auto cmdResume = commands->add_subcommand("resume", strHelp);
     cmdResume->set_help_flag("-h, --help", strHelp);
     cmdResume->require_option(0);
+
+    // Dump method
+    auto cmdDump = commands->add_subcommand(
+        "dump", "Dump the FlightRecorder diagnostic log");
+    cmdDump->set_help_flag("-h, --help",
+                           "Dump the FlightRecorder diagnostic log");
+    cmdDump->require_option(0);
 }
 
 /**
@@ -613,6 +639,10 @@ int main(int argc, char* argv[])
         else if (app.got_subcommand("status"))
         {
             status();
+        }
+        else if (app.got_subcommand("dump"))
+        {
+            dumpFlightRecorder();
         }
     }
     catch (const std::exception& e)
