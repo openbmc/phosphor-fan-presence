@@ -42,6 +42,8 @@ using json = nlohmann::json;
  */
 class Fan : public ConfigBase
 {
+    friend class Zone;
+
   public:
     /* JSON file name for fans */
     static constexpr auto confFileName = "fans.json";
