@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea42808e_81565a02",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 57
+      },
+      "lineNbr": 505,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-07T15:18:47Z",
+      "side": 1,
+      "message": "Should directly add `#include \"config.h\"` to get this included..surprised this worked since the other includes done appear to indirectly pull this header in.\n\n...so I pulled this commit down and I\u0027m getting the YAML error below on a JSON config based machine, so this must be defaulting to `CONTROL_USE_JSON \u003d 0` and once that include is added I assume it will work correctly.\n\n```\nroot@p10bmc:~# ./fanctl status\nFan Control Service State   : loaded, active(running)\n\nCurrentBMCState     : xyz.openbmc_project.State.BMC.BMCState.Ready\nCurrentPowerState   : xyz.openbmc_project.State.Chassis.PowerState.On\nCurrentHostState    : xyz.openbmc_project.State.Host.HostState.Off\n\n FAN        TARGET(RPM)  FEEDBACK(RPM)   PRESENT     FUNCTIONAL\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n fan0         11200        7772/11200      true         true\n fan1         11200        7772/11200      true         true\n fan2         11200        7772/11200      true         true\n fan3         11200        7772/11200      true         true\n fan4         11200        7772/11200      true         true\n fan5         11200        7772/11200      true         true\nroot@p10bmc:~# ./fanctl reload\nError: reload function unavailable for YAML-configuration\n```",
+      "range": {
+        "startLine": 505,
+        "startChar": 1,
+        "endLine": 505,
+        "endChar": 23
+      },
+      "revId": "1d5bcd4f5cf8ad1a9c054c1cbfbe6c9bb1446a9c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
