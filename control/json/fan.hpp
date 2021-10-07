@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -109,6 +109,22 @@ class Fan : public ConfigBase
     void setTarget(uint64_t target);
 
   private:
+    /**
+     * Forces all contained sensors to the target (if this target is the higest.
+     * May be overridden by existing or subsequent higher values), ignoring
+     * subsequent setTarget() commands
+     *
+     * @param[in] target - The target lock to set/add
+     */
+    void lockTarget(uint64_t target);
+
+    /**
+     * Removes the provided target lock from the list of locks. Fan will unlock
+     * (become eligible for setTarget()) when all locks are removed from the
+     * list.
+     */
+    void unlockTarget(uint64_t target);
+
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
 
@@ -120,6 +136,12 @@ class Fan : public ConfigBase
 
     /* Target for this fan */
     uint64_t _target;
+
+    /* list of locked targets active on this fan */
+    std::vector<uint64_t> _lockedTargets;
+
+    /* When true, setTarget() commands will be ignored */
+    bool _locked = false;
 
     /**
      * Map of sensors containing the `Target` property on
