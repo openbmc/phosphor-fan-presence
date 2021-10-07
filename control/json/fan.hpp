@@ -108,6 +108,20 @@ class Fan : public ConfigBase
      */
     void setTarget(uint64_t target);
 
+    /**
+     * Forces all contained sensors to the target, ignoring subsequent
+     * setTarget() commands
+     *
+     * @param[in] target - The value to set
+     */
+    void lockTarget(uint64_t target);
+
+    /**
+     * Unlock the target, resume previous speed and respond to setTarget() again
+     *
+     */
+    void unlockTarget();
+
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
@@ -120,6 +134,9 @@ class Fan : public ConfigBase
 
     /* Target for this fan */
     uint64_t _target;
+
+    /* Target for this fan */
+    bool _locked = false;
 
     /**
      * Map of sensors containing the `Target` property on
