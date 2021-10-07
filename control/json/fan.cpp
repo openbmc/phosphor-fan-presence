@@ -89,7 +89,7 @@ void Fan::setZone(const json& jsonObj)
 
 void Fan::setTarget(uint64_t target)
 {
-    if (_target == target)
+    if ((_target == target) || _locked)
     {
         return;
     }
@@ -111,6 +111,34 @@ void Fan::setTarget(uint64_t target)
         }
     }
     _target = target;
+}
+
+void Fan::lockTarget(uint64_t target)
+{
+    _locked = true;
+
+    for (const auto& sensor : _sensors)
+    {
+        auto value = target;
+        try
+        {
+            util::SDBusPlus::setProperty<uint64_t>(
+                _bus, sensor.second, sensor.first, _interface,
+                FAN_TARGET_PROPERTY, std::move(value));
+        }
+        catch (const sdbusplus::exception::exception&)
+        {
+            throw util::DBusPropertyError{
+                fmt::format("Failed to set target for fan {}", _name).c_str(),
+                sensor.second, sensor.first, _interface, FAN_TARGET_PROPERTY};
+        }
+    }
+}
+
+void Fan::unlockTarget()
+{
+    _locked = false;
+    setTarget(_target);
 }
 
 } // namespace phosphor::fan::control::json
