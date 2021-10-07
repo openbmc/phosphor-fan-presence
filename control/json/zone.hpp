@@ -216,6 +216,22 @@ class Zone : public ConfigBase
     void setTarget(uint64_t target);
 
     /**
+     * Locks a specific Fan to a target value
+     *
+     * @param[in] fname - Fan to set
+     * @param[in] target - Target for fan
+     */
+    void lockFanTarget(const std::string& fname, uint64_t target);
+
+    /**
+     * Unlock a specific Fan
+     *
+     * @param[in] fname - Fan to set
+     * @param[in] fname - Target to de-register
+     */
+    void unlockFanTarget(const std::string& fname, uint64_t target);
+
+    /**
      * Sets and holds all fans in the zone to the target given or releases a
      * target hold resulting in the fans being held at the highest remaining
      * hold target if other hold targets had been requested. When no hold
