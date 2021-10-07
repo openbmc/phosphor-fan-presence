@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -214,6 +214,22 @@ class Zone : public ConfigBase
      * @param[in] target - Target for fans
      */
     void setTarget(uint64_t target);
+
+    /**
+     * Add a target lock for the specified fan.
+     *
+     * @param[in] fname - Fan to request/add the target lock
+     * @param[in] target - Target to register
+     */
+    void lockFanTarget(const std::string& fname, uint64_t target);
+
+    /**
+     * Remove target lock for specific fan.
+     *
+     * @param[in] fname - Fan to remove lock from
+     * @param[in] target- Target to de-register
+     */
+    void unlockFanTarget(const std::string& fname, uint64_t target);
 
     /**
      * Sets and holds all fans in the zone to the target given or releases a
