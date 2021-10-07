@@ -89,7 +89,7 @@ void Fan::setZone(const json& jsonObj)
 
 void Fan::setTarget(uint64_t target)
 {
-    if (_target == target)
+    if ((_target == target) || _locked)
     {
         return;
     }
@@ -111,6 +111,17 @@ void Fan::setTarget(uint64_t target)
         }
     }
     _target = target;
+}
+
+void Fan::lockTarget(uint64_t target)
+{
+    setTarget(target);
+    _locked = true;
+}
+
+void Fan::unlockTarget()
+{
+    _locked = false;
 }
 
 } // namespace phosphor::fan::control::json

@@ -42,6 +42,8 @@ using json = nlohmann::json;
  */
 class Fan : public ConfigBase
 {
+    friend class Zone;
+
   public:
     /* JSON file name for fans */
     static constexpr auto confFileName = "fans.json";
@@ -109,6 +111,22 @@ class Fan : public ConfigBase
     void setTarget(uint64_t target);
 
   private:
+
+    /**
+     * Forces all contained sensors to the target, ignoring subsequent
+     * setTarget() commands
+     *
+     * @param[in] target - The value to set
+     */
+    void lockTarget(uint64_t target);
+
+    /**
+     * Unlocks the target, resumes previous speed and responds to setTarget()
+     * again
+     *
+     */
+    void unlockTarget();
+
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
 
@@ -120,6 +138,9 @@ class Fan : public ConfigBase
 
     /* Target for this fan */
     uint64_t _target;
+
+    /* When true, setTarget() commands will be ignored */
+    bool _locked = false;
 
     /**
      * Map of sensors containing the `Target` property on
