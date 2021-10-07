@@ -16,6 +16,24 @@
       "revId": "dfec12a9f1dd15f9175cefc8733565ccb346490a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6260f77d_1895d759",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-07T14:13:27Z",
+      "side": 1,
+      "message": "Yes, bad json which would stop the reloading of the configs after the SIGHUP and the original configs stay loaded/active.\n\nThis is so any overridden json that has a typo, etc.. in it wanting to be loaded using SIGHUP will produce a failure message and fan control will continue running with the originally loaded configs.",
+      "parentUuid": "6d91eca8_3c0ff3fa",
+      "revId": "dfec12a9f1dd15f9175cefc8733565ccb346490a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
