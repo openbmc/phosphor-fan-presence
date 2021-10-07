@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -89,7 +89,7 @@ void Fan::setZone(const json& jsonObj)
 
 void Fan::setTarget(uint64_t target)
 {
-    if (_target == target)
+    if ((_target == target) || _locked)
     {
         return;
     }
@@ -111,6 +111,48 @@ void Fan::setTarget(uint64_t target)
         }
     }
     _target = target;
+}
+
+void Fan::lockTarget(uint64_t target)
+{
+    _lockedTargets.push_back(target);
+
+    if (target > _target)
+    {
+        _locked = false;
+        setTarget(target);
+    }
+
+    _locked = true;
+}
+
+void Fan::unlockTarget(uint64_t target)
+{
+    // find and remove the requested lock
+    auto itr(std::find_if(
+        _lockedTargets.begin(), _lockedTargets.end(),
+        [target](auto lockedTarget) { return target == lockedTarget; }));
+
+    if (_lockedTargets.end() != itr)
+    {
+        _lockedTargets.erase(itr);
+
+        _locked = false;
+
+        // if additional locks, re-lock at next-highest target
+        if (!_lockedTargets.empty())
+        {
+            itr =
+                std::max_element(_lockedTargets.begin(), _lockedTargets.end());
+            setTarget(*itr);
+
+            _locked = true;
+        }
+    }
+    else
+    {
+        _locked = false;
+    }
 }
 
 } // namespace phosphor::fan::control::json
