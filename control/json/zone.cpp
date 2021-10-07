@@ -143,6 +143,45 @@ void Zone::setTarget(uint64_t target)
     }
 }
 
+void Zone::lockFanTarget(const std::string& fname, uint64_t target)
+{
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
+
+    if (_fans.end() == fanItr)
+    {
+        // Probably log an error, or throw?
+        // throw std::runtime_error("Fan " + fname + " not found");
+    }
+    else
+    {
+        (*fanItr)->lockTarget(target);
+    }
+}
+
+void Zone::unlockFanTarget(const std::string& fname)
+{
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
+
+    if (_fans.end() == fanItr)
+    {
+        // Probably log an error, or throw?
+        // throw std::runtime_error("Fan " + fname + " not found");
+    }
+    else
+    {
+        (*fanItr)->unlockTarget();
+
+        // reset the speed
+        (*fanItr)->setTarget(getTarget());
+    }
+}
+
 void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
 {
     if (!hold)
