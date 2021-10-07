@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -141,6 +141,50 @@ void Zone::setTarget(uint64_t target)
         {
             fan->setTarget(_target);
         }
+    }
+}
+
+void Zone::lockFanTarget(const std::string& fname, uint64_t target)
+{
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
+
+    if (_fans.end() != fanItr)
+    {
+        (*fanItr)->lockTarget(target);
+    }
+    else
+    {
+        log<level::DEBUG>(
+            fmt::format("Configured fan {} not found in zone {} to lock target",
+                        fname, getName())
+                .c_str());
+    }
+}
+
+void Zone::unlockFanTarget(const std::string& fname, uint64_t target)
+{
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
+
+    if (_fans.end() != fanItr)
+    {
+        (*fanItr)->unlockTarget(target);
+
+        // attempt to resume Zone target on fan
+        (*fanItr)->setTarget(getTarget());
+    }
+    else
+    {
+        log<level::DEBUG>(
+            fmt::format(
+                "Configured fan {} not found in zone {} to unlock target",
+                fname, getName())
+                .c_str());
     }
 }
 
