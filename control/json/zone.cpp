@@ -144,6 +144,47 @@ void Zone::setTarget(uint64_t target)
     }
 }
 
+void Zone::lockFanTarget(const std::string& fname, uint64_t target)
+{
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
+
+    if (_fans.end() == fanItr)
+    {
+        log<level::DEBUG>(
+            fmt::format("Possible misconfiguration: cannot findfan: {}", fname)
+                .c_str());
+    }
+    else
+    {
+        (*fanItr)->lockTarget(target);
+    }
+}
+
+void Zone::unlockFanTarget(const std::string& fname)
+{
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
+
+    if (_fans.end() == fanItr)
+    {
+        log<level::DEBUG>(
+            fmt::format("Possible misconfiguration: cannot find fan: {}", fname)
+                .c_str());
+    }
+    else
+    {
+        (*fanItr)->unlockTarget();
+
+        // resume Zone target on fan
+        (*fanItr)->setTarget(getTarget());
+    }
+}
+
 void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
 {
     if (!hold)
