@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0cbcb6ce_9f654389",
+        "filename": "control/json/utils/flight_recorder.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-08T19:20:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "375d44f4_102d5474",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96809cc1_6c7f578a",
         "filename": "control/json/utils/flight_recorder.cpp",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2021-10-08T17:41:18Z",
       "side": 1,
       "message": "Just thought of something, would it be worth adding what journal entries that may exist for the fan control service in this flight recorder dump as well? Similar to what can be obtained using `journalctl -u phosphor-fan-control@0.service --no-pager` ? Which could make this flight recorder dump file a one-stop-shop for fan control debugging info.",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 27
+      },
+      "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1afc18eb_48c315f4",
+        "filename": "control/json/utils/flight_recorder.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-08T19:20:05Z",
+      "side": 1,
+      "message": "Yea, that should be doable.  I\u0027ll do it with a new commit since it probably isn\u0027t trivial.",
+      "parentUuid": "96809cc1_6c7f578a",
       "range": {
         "startLine": 62,
         "startChar": 0,
@@ -115,6 +163,30 @@
       "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "451d5703_50358a40",
+        "filename": "control/json/utils/flight_recorder.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-08T19:20:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf23f25d_3fb46e3c",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 24
+      },
+      "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
