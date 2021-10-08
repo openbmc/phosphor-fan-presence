@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "375d44f4_102d5474",
+        "filename": "control/json/utils/flight_recorder.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-08T17:26:20Z",
+      "side": 1,
+      "message": "Seems this could be shortened up to save the liner search with something like this:\n```\nauto\u0026 entry \u003d _entries[id];\nentry.push_back(Entry{ts, message});\nif (entry.size() \u003e maxEntriesPerID)\n{\n  entry.pop_front();\n}\n```",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 59,
+        "endChar": 5
+      },
+      "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "080a3cec_b96ab41d",
         "filename": "control/json/utils/flight_recorder.hpp",
         "patchSetId": 1
@@ -46,6 +69,29 @@
       "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf23f25d_3fb46e3c",
+        "filename": "control/json/utils/flight_recorder.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-08T17:26:20Z",
+      "side": 1,
+      "message": "Is the string key the ID? Probably better to use an unordered_map to save the map sorting on insertion since we dont need the weak (\u003c operator) ordering of the map for lookup.",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 24
+      },
+      "revId": "beca73e4f7f420ee44b5980ab8c482d215000d9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
