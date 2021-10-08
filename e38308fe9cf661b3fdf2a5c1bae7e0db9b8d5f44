@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c59e9c95_6f20ca94",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-08T17:36:15Z",
+      "side": 1,
+      "message": "or `systemctl kill -s USR1 phosphor-fan-control@0`",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 16,
+        "endChar": 44
+      },
+      "revId": "e38308fe9cf661b3fdf2a5c1bae7e0db9b8d5f44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
