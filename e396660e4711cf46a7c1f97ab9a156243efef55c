@@ -34,6 +34,24 @@
       "revId": "e396660e4711cf46a7c1f97ab9a156243efef55c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "812afd4d_b587213b",
+        "filename": "control/json/triggers/init.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-08T18:17:01Z",
+      "side": 1,
+      "message": "Also, the alias I think you\u0027re referring to is \"SignalActions\" so not sure its worth renaming for one spot in init triggers.",
+      "parentUuid": "b967f133_6c36d826",
+      "revId": "e396660e4711cf46a7c1f97ab9a156243efef55c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
