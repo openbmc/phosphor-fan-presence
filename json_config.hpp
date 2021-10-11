@@ -26,6 +26,9 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iostream>
+using std::cout;
+using std::endl;
 
 namespace phosphor::fan
 {
@@ -157,7 +160,7 @@ class JsonConfig
             try
             {
                 _loadFunc();
-                _match.reset();
+                cout << "Match reset: " << __LINE__ << endl;
             }
             catch (const NoConfigFound&)
             {
