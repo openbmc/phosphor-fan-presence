@@ -35,6 +35,9 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
+#include <iostream>
+using namespace std;
+
 namespace phosphor::fan::monitor
 {
 
@@ -42,6 +45,8 @@ using json = nlohmann::json;
 using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
 
 using namespace phosphor::logging;
+
+constexpr auto inventoryServ = "xyz.openbmc_project.Inventory.Manager";
 
 System::System(Mode mode, sdbusplus::bus::bus& bus,
                const sdeventplus::Event& event) :
@@ -55,6 +60,25 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
 
 void System::start()
 {
+    namespace match = sdbusplus::bus::match;
+
+    try
+    {
+        _inventoryMatch = std::make_unique<match::match>(
+            _bus,
+            "type='signal',member='InterfacesAdded',arg0path="
+            "'/xyz/openbmc_project/sensors/'",
+            std::bind(&System::serviceCallback, this, std::placeholders::_1,
+                      true));
+    }
+    catch (const util::DBusError& e)
+    {
+        // Unable to construct NameOwnerChanged match string
+        getLogger().log(
+            fmt::format("Exception creating sdbusplus:: callback: {}",
+                        e.what()),
+            Logger::error);
+    }
     _started = true;
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
@@ -76,17 +100,13 @@ void System::start()
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
     }
-
-    if (_sensorMatch.empty())
-    {
-        subscribeSensorsToServices();
-    }
 }
 
 void System::subscribeSensorsToServices()
 {
     namespace match = sdbusplus::bus::match;
 
+    cout << "Calling subscribe " << endl;
     SensorMapType sensorMap;
 
     // build a list of all interfaces, always including the value interface
@@ -98,6 +118,7 @@ void System::subscribeSensorsToServices()
         for (const auto& sensor : fan->sensors())
         {
             unique_interfaces.insert(sensor->getInterface());
+            cout << "Debug fan name: " << sensor->name() << endl;
         }
     }
     // convert them to vector to pass into getSubTreeRaw
@@ -150,6 +171,52 @@ void System::subscribeSensorsToServices()
         // catch exception from getSubTreeRaw() when fan sensor paths don't
         // exist yet
     }
+}
+
+void System::serviceCallback(sdbusplus::message::message& msg, bool online)
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::map<std::string,
+             std::map<std::string, std::variant<std::vector<std::string>>>>
+        intfProps;
+
+    if (online)
+    {
+        _inventoryMatch.reset();
+
+        // cancel further online notifications, subscribe to offline
+        // notification
+#if 0
+        _inventoryMatch = std::make_unique<match::match>(
+            _bus,
+            "type='signal',member='InterfacesRemoved',arg0path="
+            "'/xyz/openbmc_project/sensors/'",
+            std::bind(&System::serviceCallback, this, std::placeholders::_1,
+                      false));
+#endif
+
+        cout << "Inventory detected online" << endl;
+        subscribeSensorsToServices();
+        cout << "Tracer: " << __LINE__ << endl;
+    }
+    else
+    {
+        cout << "Inventory detected offline" << endl;
+
+#if 0
+        // unsubscribe sensors
+        // Disabled pending testing
+        _sensorMatch.clear();
+        _inventoryMatch = std::make_unique<match::match>(
+            _bus,
+            "type='signal',member='InterfacesAdded',arg0path="
+            "'/xyz/openbmc_project/sensors/'",
+            std::bind(&System::serviceCallback, this, std::placeholders::_1,false));
+#endif
+    }
+
+    cout << "Tracer: " << __LINE__ << endl;
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
