@@ -224,12 +224,11 @@ void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
                 createEventLog(sensorPath, interface, property, alarmValue);
             }
         }
-        catch (const DBusError& e)
+        catch (const sdbusplus::exception::exception& e)
         {
-            log<level::ERR>(
-                fmt::format("Failed reading sensor threshold properties: {}",
-                            e.what())
-                    .c_str());
+            // Sensor daemons that get their direction from entity manager
+            // may only be putting either the high alarm or low alarm on
+            // D-Bus, not both.
             continue;
         }
     }
