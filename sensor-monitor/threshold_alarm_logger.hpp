@@ -187,6 +187,11 @@ class ThresholdAlarmLogger
     sdbusplus::bus::match::match perfLossMatch;
 
     /**
+     * @brief The InterfacesRemoved match object
+     */
+    sdbusplus::bus::match::match ifacesRemovedMatch;
+
+    /**
      * @brief The current alarm values
      */
     std::map<InterfaceKey, std::map<PropertyName, bool>> alarms;
