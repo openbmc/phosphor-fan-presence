@@ -145,7 +145,6 @@ class JsonConfig
                 }
             }
             _loadFunc();
-            _match.reset();
         }
         else
         {
@@ -157,7 +156,6 @@ class JsonConfig
             try
             {
                 _loadFunc();
-                _match.reset();
             }
             catch (const NoConfigFound&)
             {
