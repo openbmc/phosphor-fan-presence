@@ -22,6 +22,7 @@
 #include "types.hpp"
 #include "utility.hpp"
 #ifdef MONITOR_USE_JSON
+#include "json_config.hpp"
 #include "json_parser.hpp"
 #endif
 
@@ -55,19 +56,65 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
 
 void System::start()
 {
-    _started = true;
+    namespace match = sdbusplus::bus::match;
+
+    auto invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
+        _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+        "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_INTF);
+
+    if (invServiceRunning)
+    {
+        load();
+    }
+    else
+    {
+        try
+        {
+            _inventoryMatch = std::make_unique<match::match>(
+                _bus, match::rules::nameOwnerChanged(util::INVENTORY_INTF),
+                std::bind(&System::serviceCallback, this,
+                          std::placeholders::_1));
+        }
+        catch (const util::DBusError& e)
+        {
+            // Unable to construct NameOwnerChanged match string
+            getLogger().log(
+                fmt::format("Exception creating sdbusplus:: callback: {}",
+                            e.what()),
+                Logger::error);
+        }
+    }
+}
+
+void System::load()
+{
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
-    auto confFile =
-        fan::JsonConfig::getConfFile(_bus, confAppName, confFileName);
-    jsonObj = fan::JsonConfig::load(confFile);
+    try
+    {
+        jsonObj = getJsonObj(_bus);
 #endif
-    // Retrieve and set trust groups within the trust manager
-    setTrustMgr(getTrustGroups(jsonObj));
-    // Retrieve fan definitions and create fan objects to be monitored
-    setFans(getFanDefinitions(jsonObj));
-    setFaultConfig(jsonObj);
-    log<level::INFO>("Configuration loaded");
+        auto trustGrps = getTrustGroups(jsonObj);
+        auto fanDefs = getFanDefinitions(jsonObj);
+        // Retrieve and set trust groups within the trust manager
+        setTrustMgr(getTrustGroups(jsonObj));
+        // Clear/set configured fan definitions
+        _fans.clear();
+        _fanHealth.clear();
+        // Retrieve fan definitions and create fan objects to be monitored
+        setFans(fanDefs);
+        setFaultConfig(jsonObj);
+        log<level::INFO>("Configuration loaded");
+
+        _loaded = true;
+#ifdef MONITOR_USE_JSON
+    }
+    catch (const phosphor::fan::NoConfigFound& e)
+    {
+        log<level::ERR>("Phosphor fan monitor config not found: {} ",
+                        entry("LOAD_ERROR=%s", e.what()));
+    }
+#endif
 
     if (_powerState->isPowerOn())
     {
@@ -76,16 +123,13 @@ void System::start()
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
     }
-
-    if (_sensorMatch.empty())
-    {
-        subscribeSensorsToServices();
-    }
 }
 
 void System::subscribeSensorsToServices()
 {
     namespace match = sdbusplus::bus::match;
+
+    _sensorMatch.clear();
 
     SensorMapType sensorMap;
 
@@ -152,41 +196,51 @@ void System::subscribeSensorsToServices()
     }
 }
 
+void System::serviceCallback(sdbusplus::message::message& msg)
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::string iface;
+    msg.read(iface);
+
+    if (util::INVENTORY_INTF != iface)
+    {
+        return;
+    }
+
+    std::string oldName;
+    msg.read(oldName);
+
+    std::string newName;
+    msg.read(newName);
+
+    load();
+
+    // cancel any further notifications about the service state
+    _inventoryMatch.reset();
+
+    subscribeSensorsToServices();
+}
+
 void System::sighupHandler(sdeventplus::source::Signal&,
                            const struct signalfd_siginfo*)
 {
-    try
+    // only load if inventory running
+    if (util::SDBusPlus::callMethodAndRead<bool>(
+            _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+            "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_INTF))
     {
-        json jsonObj = json::object();
-#ifdef MONITOR_USE_JSON
-        jsonObj = getJsonObj(_bus);
-#endif
-        auto trustGrps = getTrustGroups(jsonObj);
-        auto fanDefs = getFanDefinitions(jsonObj);
-        // Set configured trust groups
-        setTrustMgr(trustGrps);
-        // Clear/set configured fan definitions
-        _fans.clear();
-        _fanHealth.clear();
-        setFans(fanDefs);
-        setFaultConfig(jsonObj);
-        log<level::INFO>("Configuration reloaded successfully");
-
-        if (_powerState->isPowerOn())
+        try
         {
-            std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
-                          [this](auto& rule) {
-                              rule->check(PowerRuleState::runtime, _fanHealth);
-                          });
-        }
+            load();
 
-        _sensorMatch.clear();
-        subscribeSensorsToServices();
-    }
-    catch (const std::runtime_error& re)
-    {
-        log<level::ERR>("Error reloading config, no config changes made",
-                        entry("LOAD_ERROR=%s", re.what()));
+            log<level::INFO>("Configuration loaded");
+        }
+        catch (std::runtime_error& re)
+        {
+            log<level::ERR>("Error reloading config, no config changes made",
+                            entry("LOAD_ERROR=%s", re.what()));
+        }
     }
 }
 
@@ -317,7 +371,7 @@ void System::powerStateChanged(bool powerStateOn)
 
     if (powerStateOn)
     {
-        if (!_started)
+        if (!_loaded)
         {
             log<level::ERR>("No conf file found at power on");
             throw std::runtime_error("No conf file found at power on");

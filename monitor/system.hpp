@@ -113,9 +113,23 @@ class System
     }
 
     /**
-     * @brief Parses and populates the fan monitor trust groups and list of fans
+     * @brief tests the presence of Inventory and calls load() if present, else
+     *  waits for Inventory asynchronously and has a callback to load() when
+     * present
      */
     void start();
+
+    /**
+     * @brief Parses and populates the fan monitor trust groups and list of fans
+     */
+    void load();
+
+    /**
+     * @brief Callback from D-Bus when Inventory goes [on|off]line
+     *
+     * @param[in] msg - Service details.
+     */
+    void serviceCallback(sdbusplus::message::message& msg);
 
   private:
     /* The mode of fan monitor */
@@ -129,6 +143,9 @@ class System
 
     /* Trust manager of trust groups */
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
+
+    /* match object to detect Inventory service */
+    std::unique_ptr<sdbusplus::bus::match::match> _inventoryMatch;
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
@@ -173,9 +190,9 @@ class System
     std::vector<std::unique_ptr<sdbusplus::bus::match::match>> _sensorMatch;
 
     /**
-     * @brief If start() has been called
+     * @brief true if config files have been loaded
      */
-    bool _started = false;
+    bool _loaded = false;
 
     /**
      * @brief Captures tach sensor data as JSON for use in
