@@ -35,8 +35,14 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 namespace phosphor::fan::monitor
 {
+using PropertyVariantType =
+    std::variant<bool, int32_t, int64_t, double, std::string>;
 
 using json = nlohmann::json;
 using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
@@ -55,19 +61,83 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
 
 void System::start()
 {
-    _started = true;
-    json jsonObj = json::object();
+    namespace match = sdbusplus::bus::match;
+
+    cout << "Tracer: Sytem::start() " << endl;
+
+    auto invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
+        _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+        "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_INTF);
+
+    cout << "Tracer: () " << endl;
+
+    try
+    {
+        _interfaceMatch = std::make_unique<match::match>(
+            _bus, match::rules::nameOwnerChanged(util::INVENTORY_INTF),
+            std::bind(&System::serviceCallback, this, std::placeholders::_1));
+    }
+    catch (const util::DBusError& e)
+    {
+        // Unable to construct NameOwnerChanged match string
+        getLogger().log(
+            fmt::format("Exception creating sdbusplus:: callback: {}",
+                        e.what()),
+            Logger::error);
+    }
+
+    if (invServiceRunning)
+    {
+        cout << "inventory is running" << endl;
+        load();
+    }
+    else
+    {
+        cout << "inventory not running" << endl;
+        return;
+    }
+}
+
+void System::load(bool fromSigHup)
+{
+    cout << "Load tracer: " << __LINE__ << endl;
+    try
+    {
+        json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
-    auto confFile =
-        fan::JsonConfig::getConfFile(_bus, confAppName, confFileName);
-    jsonObj = fan::JsonConfig::load(confFile);
+        jsonObj = getJsonObj(_bus);
 #endif
-    // Retrieve and set trust groups within the trust manager
-    setTrustMgr(getTrustGroups(jsonObj));
-    // Retrieve fan definitions and create fan objects to be monitored
-    setFans(getFanDefinitions(jsonObj));
-    setFaultConfig(jsonObj);
-    log<level::INFO>("Configuration loaded");
+        auto trustGrps = getTrustGroups(jsonObj);
+        auto fanDefs = getFanDefinitions(jsonObj);
+        cout << "Load tracer: " << __LINE__ << endl;
+        // Retrieve and set trust groups within the trust manager
+        setTrustMgr(getTrustGroups(jsonObj));
+        // Clear/set configured fan definitions
+        _fans.clear();
+        _fanHealth.clear();
+        // Retrieve fan definitions and create fan objects to be monitored
+        setFans(fanDefs);
+        setFaultConfig(jsonObj);
+        std::string confLoad("Configuration loaded");
+        cout << "Load tracer: " << __LINE__ << endl;
+        if (fromSigHup)
+        {
+            confLoad = "Configuration reloaded successfully";
+        }
+        log<level::INFO>(confLoad.c_str());
+
+        // TODO: rename this to loaded
+        _started = true;
+    }
+    catch (const std::runtime_error& re)
+    {
+        cout << "Load tracer ERROR BAD CONFIG: " << re.what() << endl;
+        cout << "Load tracer ERROR BAD CONFIG: " << __LINE__ << endl;
+        log<level::ERR>("Error reloading config, no config changes made",
+                        entry("LOAD_ERROR=%s", re.what()));
+    }
+
+    cout << "Load tracer: " << __LINE__ << endl;
 
     if (_powerState->isPowerOn())
     {
@@ -76,16 +146,14 @@ void System::start()
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
     }
-
-    if (_sensorMatch.empty())
-    {
-        subscribeSensorsToServices();
-    }
 }
 
 void System::subscribeSensorsToServices()
 {
     namespace match = sdbusplus::bus::match;
+
+    cout << "Subscribe  tracer: " << __LINE__ << endl;
+    _sensorMatch.clear();
 
     SensorMapType sensorMap;
 
@@ -104,6 +172,7 @@ void System::subscribeSensorsToServices()
     std::vector<std::string> interfaces(unique_interfaces.begin(),
                                         unique_interfaces.end());
 
+    cout << "Subscribe  tracer: " << __LINE__ << endl;
     try
     {
         // get service information for all service names that are
@@ -145,48 +214,59 @@ void System::subscribeSensorsToServices()
                           std::placeholders::_1, sensorMap)));
         }
     }
-    catch (const util::DBusError&)
+    catch (const util::DBusError& e)
     {
+        cout << "Caught dbus error, possible service offline? " << e.what()
+             << endl;
         // catch exception from getSubTreeRaw() when fan sensor paths don't
         // exist yet
+    }
+    cout << "Subscribe  tracer: " << __LINE__ << endl;
+}
+
+void System::serviceCallback(sdbusplus::message::message& msg)
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::string iface;
+    msg.read(iface);
+
+    if (util::INVENTORY_INTF != iface)
+    {
+        return;
+    }
+
+    std::string oldName;
+    msg.read(oldName);
+
+    std::string newName;
+    msg.read(newName);
+
+    bool online(oldName.empty() && !newName.empty());
+
+    // to test: echo 5000 > /sys/class/hwmon/hwmon9/fanX_target
+    // will trigger feedback callback, fan out of range, will go to
+    // nonfunctional echo 11200 back to target, should go back to func
+
+    if (online)
+    {
+        cout << "Inventory detected online, calling load/subscribe" << endl;
+        load();
+        subscribeSensorsToServices();
     }
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
                            const struct signalfd_siginfo*)
 {
-    try
+    cout << "Sighup  tracer: " << __LINE__ << endl;
+    // only load if inventory running
+    if (util::SDBusPlus::callMethodAndRead<bool>(
+            _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+            "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_INTF))
     {
-        json jsonObj = json::object();
-#ifdef MONITOR_USE_JSON
-        jsonObj = getJsonObj(_bus);
-#endif
-        auto trustGrps = getTrustGroups(jsonObj);
-        auto fanDefs = getFanDefinitions(jsonObj);
-        // Set configured trust groups
-        setTrustMgr(trustGrps);
-        // Clear/set configured fan definitions
-        _fans.clear();
-        _fanHealth.clear();
-        setFans(fanDefs);
-        setFaultConfig(jsonObj);
-        log<level::INFO>("Configuration reloaded successfully");
-
-        if (_powerState->isPowerOn())
-        {
-            std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
-                          [this](auto& rule) {
-                              rule->check(PowerRuleState::runtime, _fanHealth);
-                          });
-        }
-
-        _sensorMatch.clear();
-        subscribeSensorsToServices();
-    }
-    catch (const std::runtime_error& re)
-    {
-        log<level::ERR>("Error reloading config, no config changes made",
-                        entry("LOAD_ERROR=%s", re.what()));
+        cout << "Sighup  tracer: " << __LINE__ << endl;
+        load(true);
     }
 }
 
