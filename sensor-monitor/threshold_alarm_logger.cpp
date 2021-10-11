@@ -107,7 +107,12 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(
                   "arg0='" +
                       perfLossInterface + "'",
                   std::bind(&ThresholdAlarmLogger::propertiesChanged, this,
-                            std::placeholders::_1))
+                            std::placeholders::_1)),
+    ifacesRemovedMatch(bus,
+                       "type='signal',member='InterfacesRemoved',arg0path="
+                       "'/xyz/openbmc_project/sensors/'",
+                       std::bind(&ThresholdAlarmLogger::interfacesRemoved, this,
+                                 std::placeholders::_1))
 {
     _powerState->addCallback("thresholdMon",
                              std::bind(&ThresholdAlarmLogger::powerStateChanged,
@@ -171,6 +176,25 @@ void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message::message& msg)
                                    alarmValue);
                 }
             }
+        }
+    }
+}
+
+void ThresholdAlarmLogger::interfacesRemoved(sdbusplus::message::message& msg)
+{
+    static const std::vector<std::string> thresholdNames{
+        warningInterface, criticalInterface, perfLossInterface};
+    sdbusplus::message::object_path path;
+    std::vector<std::string> interfaces;
+
+    msg.read(path, interfaces);
+
+    for (const auto& interface : interfaces)
+    {
+        if (std::find(thresholdNames.begin(), thresholdNames.end(),
+                      interface) != thresholdNames.end())
+        {
+            alarms.erase(InterfaceKey{path, interface});
         }
     }
 }
