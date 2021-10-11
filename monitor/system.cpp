@@ -37,6 +37,8 @@
 
 namespace phosphor::fan::monitor
 {
+using PropertyVariantType =
+    std::variant<bool, int32_t, int64_t, double, std::string>;
 
 using json = nlohmann::json;
 using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
@@ -55,6 +57,22 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
 
 void System::start()
 {
+    namespace match = sdbusplus::bus::match;
+
+    try
+    {
+        _interfaceMatch = std::make_unique<match::match>(
+            _bus, match::rules::nameOwnerChanged(fan::util::INVENTORY_INTF),
+            std::bind(&System::serviceCallback, this, std::placeholders::_1));
+    }
+    catch (const util::DBusError& e)
+    {
+        // Unable to construct NameOwnerChanged match string
+        getLogger().log(
+            fmt::format("Exception creating sdbusplus:: callback: {}",
+                        e.what()),
+            Logger::error);
+    }
     _started = true;
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
@@ -75,11 +93,6 @@ void System::start()
                       [this](auto& rule) {
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
-    }
-
-    if (_sensorMatch.empty())
-    {
-        subscribeSensorsToServices();
     }
 }
 
@@ -150,6 +163,38 @@ void System::subscribeSensorsToServices()
         // catch exception from getSubTreeRaw() when fan sensor paths don't
         // exist yet
     }
+}
+
+void System::serviceCallback(sdbusplus::message::message& msg)
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::string iface;
+    msg.read(iface);
+
+    if (fan::util::INVENTORY_INTF != iface)
+    {
+        return;
+    }
+
+    std::string oldName;
+    msg.read(oldName);
+
+    std::string newName;
+    msg.read(newName);
+
+    bool online(oldName.empty() && !newName.empty());
+
+    // to test: echo 5000 > /sys/class/hwmon/hwmon9/fanX_target
+    // will trigger feedback callback, fan out of range, will go to
+    // nonfunctional echo 11200 back to target, should go back to func
+
+    if (online)
+    {
+        subscribeSensorsToServices();
+    }
+    else
+    {}
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,

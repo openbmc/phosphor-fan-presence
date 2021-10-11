@@ -117,6 +117,13 @@ class System
      */
     void start();
 
+    /**
+     * @brief Callback from D-Bus when Inventory goes [on|off]line
+     *
+     * @param[in] msg - Service details.
+     */
+    void serviceCallback(sdbusplus::message::message& msg);
+
   private:
     /* The mode of fan monitor */
     Mode _mode;
@@ -129,6 +136,9 @@ class System
 
     /* Trust manager of trust groups */
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
+
+    /* match object to detect Inventory service */
+    std::unique_ptr<sdbusplus::bus::match::match> _interfaceMatch;
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
