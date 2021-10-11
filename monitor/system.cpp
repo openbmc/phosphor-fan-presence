@@ -35,8 +35,13 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
+#include <iostream>
+using namespace std;
+
 namespace phosphor::fan::monitor
 {
+using PropertyVariantType =
+    std::variant<bool, int32_t, int64_t, double, std::string>;
 
 using json = nlohmann::json;
 using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
@@ -55,6 +60,24 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
 
 void System::start()
 {
+    namespace match = sdbusplus::bus::match;
+
+    try
+    {
+        cout << "Tracer: " << __LINE__ << endl;
+        _interfaceMatch = std::make_unique<match::match>(
+            _bus, match::rules::nameOwnerChanged(fan::util::INVENTORY_INTF),
+            std::bind(&System::serviceCallback, this, std::placeholders::_1));
+        cout << "Tracer: " << __LINE__ << endl;
+    }
+    catch (const util::DBusError& e)
+    {
+        // Unable to construct NameOwnerChanged match string
+        getLogger().log(
+            fmt::format("Exception creating sdbusplus:: callback: {}",
+                        e.what()),
+            Logger::error);
+    }
     _started = true;
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
@@ -76,17 +99,13 @@ void System::start()
                           rule->check(PowerRuleState::runtime, _fanHealth);
                       });
     }
-
-    if (_sensorMatch.empty())
-    {
-        subscribeSensorsToServices();
-    }
 }
 
 void System::subscribeSensorsToServices()
 {
     namespace match = sdbusplus::bus::match;
 
+    cout << "Calling subscribe " << endl;
     SensorMapType sensorMap;
 
     // build a list of all interfaces, always including the value interface
@@ -150,6 +169,41 @@ void System::subscribeSensorsToServices()
         // catch exception from getSubTreeRaw() when fan sensor paths don't
         // exist yet
     }
+}
+
+void System::serviceCallback(sdbusplus::message::message& msg)
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::string iface;
+    msg.read(iface);
+
+    if (fan::util::INVENTORY_INTF != iface)
+    {
+        return;
+    }
+
+    std::string oldName;
+    msg.read(oldName);
+    cout << "oldName: " << oldName << endl;
+
+    std::string newName;
+    msg.read(newName);
+    cout << "newName: " << newName << endl;
+
+    bool online(oldName.empty() && !newName.empty());
+
+    // to test: echo 5000 > /sys/class/hwmon/hwmon9/fanX_target
+    // will trigger feedback callback, fan out of range, will go to
+    // nonfunctional echo 11200 back to target, should go back to func
+
+    if (online)
+    {
+        cout << "Inventory detected online, calling subscribe" << endl;
+        subscribeSensorsToServices();
+    }
+    else
+    {}
 }
 
 void System::sighupHandler(sdeventplus::source::Signal&,
