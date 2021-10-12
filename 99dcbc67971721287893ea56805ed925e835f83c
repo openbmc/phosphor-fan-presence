@@ -16,6 +16,23 @@
       "revId": "99dcbc67971721287893ea56805ed925e835f83c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e481367_ec72f66d",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-12T20:35:45Z",
+      "side": 1,
+      "message": "You could use the new record() function I added into the Action base class to log when you\u0027re locking and unlocking to the flight recorder, I think that would be helpful.",
+      "revId": "99dcbc67971721287893ea56805ed925e835f83c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
