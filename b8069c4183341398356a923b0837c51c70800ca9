@@ -46,6 +46,30 @@
       "revId": "b8069c4183341398356a923b0837c51c70800ca9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "144186e0_bd90f894",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-13T14:41:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb7ebce4_ee22bdc5",
+      "range": {
+        "startLine": 229,
+        "startChar": 12,
+        "endLine": 231,
+        "endChar": 31
+      },
+      "revId": "b8069c4183341398356a923b0837c51c70800ca9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
