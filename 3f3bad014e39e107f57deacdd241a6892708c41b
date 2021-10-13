@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e36c8a4a_601c5195",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-13T16:06:25Z",
+      "side": 1,
+      "message": "This is misleading since nothing here is related to inventory. The subscription you\u0027re doing is against interfacesAdded on sensors, not anything in inventory.",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 70,
+        "endChar": 45
+      },
+      "revId": "3f3bad014e39e107f57deacdd241a6892708c41b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fb1b5e0_4154a91b",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-13T16:06:25Z",
+      "side": 1,
+      "message": "Same here, this is looking for when interfaces are removed on sensors.\n\nWhy not use the nameHasOwner/nameOwnerChanged combination against the inventory service to know when its been started? Did you find that did not work?",
+      "range": {
+        "startLine": 191,
+        "startChar": 8,
+        "endLine": 194,
+        "endChar": 46
+      },
+      "revId": "3f3bad014e39e107f57deacdd241a6892708c41b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
