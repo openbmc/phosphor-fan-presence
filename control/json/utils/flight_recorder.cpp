@@ -21,15 +21,15 @@
 
 #include <algorithm>
 #include <ctime>
-#include <fstream>
 #include <iomanip>
+#include <sstream>
 #include <vector>
 
 constexpr auto maxEntriesPerID = 20;
-constexpr auto outputFile = "/tmp/fan_control.txt";
 
 namespace phosphor::fan::control::json
 {
+using json = nlohmann::json;
 
 FlightRecorder& FlightRecorder::instance()
 {
@@ -51,7 +51,7 @@ void FlightRecorder::log(const std::string& id, const std::string& message)
     }
 }
 
-void FlightRecorder::dump()
+void FlightRecorder::dump(json& data)
 {
     using namespace std::chrono;
     using Timepoint = time_point<system_clock, microseconds>;
@@ -74,15 +74,6 @@ void FlightRecorder::dump()
                   return std::get<Timepoint>(left) < std::get<Timepoint>(right);
               });
 
-    std::ofstream file{outputFile};
-
-    if (!file)
-    {
-        phosphor::logging::log<phosphor::logging::level::ERR>(
-            fmt::format("Could not open {} for writing", outputFile).c_str());
-        return;
-    }
-
     auto formatTime = [](const Timepoint& tp) {
         std::stringstream ss;
         std::time_t tt = system_clock::to_time_t(tp);
@@ -95,10 +86,14 @@ void FlightRecorder::dump()
         return ss.str();
     };
 
+    auto& fr = data["flight_recorder"];
+    std::stringstream ss;
+
     for (const auto& [ts, id, msg] : output)
     {
-        file << formatTime(ts) << ": " << std::setw(idSize) << id << ": " << msg
-             << "\n";
+        ss << formatTime(ts) << ": " << std::setw(idSize) << id << ": " << msg;
+        fr.push_back(ss.str());
+        ss.str("");
     }
 }
 
