@@ -58,6 +58,8 @@ std::map<std::string,
     Manager::_objects;
 std::unordered_map<std::string, PropertyVariantType> Manager::_parameters;
 
+const std::string Manager::dumpFile = "/tmp/fan_control_dump.json";
+
 Manager::Manager(const sdeventplus::Event& event) :
     _bus(util::SDBusPlus::getBus()), _event(event),
     _mgr(util::SDBusPlus::getBus(), CONTROL_OBJPATH), _loadAllowed(true),
@@ -95,15 +97,26 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
 void Manager::sigUsr1Handler(sdeventplus::source::Signal&,
                              const struct signalfd_siginfo*)
 {
-    _flightRecEventSource = std::make_unique<sdeventplus::source::Defer>(
-        _event, std::bind(std::mem_fn(&Manager::dumpFlightRecorder), this,
+    debugDumpEventSource = std::make_unique<sdeventplus::source::Defer>(
+        _event, std::bind(std::mem_fn(&Manager::dumpDebugData), this,
                           std::placeholders::_1));
 }
 
-void Manager::dumpFlightRecorder(sdeventplus::source::EventBase& /*source*/)
+void Manager::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
 {
-    FlightRecorder::instance().dump();
-    _flightRecEventSource.reset();
+    json data;
+    FlightRecorder::instance().dump(data);
+
+    std::ofstream file{Manager::dumpFile};
+    if (!file)
+    {
+        log<level::ERR>("Could not open file for fan dump");
+        return;
+    }
+
+    file << std::setw(4) << data;
+
+    debugDumpEventSource.reset();
 }
 
 void Manager::load()

@@ -531,7 +531,7 @@ void dumpFlightRecorder()
     {
         SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                               "KillUnit", phosphorServiceName, "main", SIGUSR1);
-        std::cout << "FlightRecorder log written to: /tmp/fan_control.txt"
+        std::cout << "FlightRecorder log written to: /tmp/fan_control_dump.json"
                   << std::endl;
     }
     catch (const phosphor::fan::util::DBusPropertyError& e)
