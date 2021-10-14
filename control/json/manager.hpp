@@ -587,6 +587,13 @@ class Manager
      * @brief Callback from debugDumpEventSource to dump debug data
      */
     void dumpDebugData(sdeventplus::source::EventBase&);
+
+    /**
+     * @brief Dump the _objects, _servTree, and _parameters maps to JSON
+     *
+     * @param[out] data - The JSON that will be filled in
+     */
+    void dumpCache(json& data);
 };
 
 } // namespace phosphor::fan::control::json
