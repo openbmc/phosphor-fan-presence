@@ -413,8 +413,10 @@ void Manager::addServices(const std::string& intf, int32_t depth)
         {
             // Path not found in cache
             auto intfs = {intf};
-            _servTree[itPath.first] = {
-                {itPath.second.begin()->first, std::make_pair(true, intfs)}};
+            for (const auto& [servName, servIntfs] : itPath.second)
+            {
+                _servTree[itPath.first][servName] = std::make_pair(true, intfs);
+            }
         }
     }
 }
