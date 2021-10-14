@@ -31,8 +31,18 @@
 #include <sdeventplus/source/signal.hpp>
 #include <stdplus/signal.hpp>
 
+#include <fstream>
+
 using namespace phosphor::fan::control;
 using namespace phosphor::logging;
+
+void dumpFlightRecorder()
+{
+    nlohmann::json data;
+    phosphor::fan::control::json::FlightRecorder::instance().dump(data);
+    std::ofstream file{json::Manager::dumpFile};
+    file << std::setw(4) << data;
+}
 
 int main(int argc, char* argv[])
 {
@@ -135,7 +145,7 @@ int main(int argc, char* argv[])
 #ifdef CONTROL_USE_JSON
         phosphor::fan::control::json::FlightRecorder::instance().log(
             "main", "Unexpected exception exit");
-        phosphor::fan::control::json::FlightRecorder::instance().dump();
+        dumpFlightRecorder();
 #endif
         throw;
     }
@@ -143,7 +153,7 @@ int main(int argc, char* argv[])
 #ifdef CONTROL_USE_JSON
     phosphor::fan::control::json::FlightRecorder::instance().log(
         "main", "Abnormal exit");
-    phosphor::fan::control::json::FlightRecorder::instance().dump();
+    dumpFlightRecorder();
 #endif
 
     return 1;

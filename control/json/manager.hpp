@@ -480,6 +480,9 @@ class Manager
         _parameters.erase(name);
     }
 
+    /* The name of the dump file */
+    static const std::string dumpFile;
+
   private:
     /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
@@ -526,9 +529,9 @@ class Manager
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
 
-    /* The sdeventplus wrapper around sd_event_add_defer to dump the
-     * flight recorder from the event loop after the USR1 signal.  */
-    std::unique_ptr<sdeventplus::source::Defer> _flightRecEventSource;
+    /* The sdeventplus wrapper around sd_event_add_defer to dump debug
+     * data from the event loop after the USR1 signal.  */
+    std::unique_ptr<sdeventplus::source::Defer> debugDumpEventSource;
 
     /**
      * @brief A map of parameter names and values that are something
@@ -582,9 +585,9 @@ class Manager
     void setProfiles();
 
     /**
-     * @brief Callback from _flightRecEventSource to dump the flight recorder
+     * @brief Callback from debugDumpEventSource to dump debug data
      */
-    void dumpFlightRecorder(sdeventplus::source::EventBase&);
+    void dumpDebugData(sdeventplus::source::EventBase&);
 };
 
 } // namespace phosphor::fan::control::json
