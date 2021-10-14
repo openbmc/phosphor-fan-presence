@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d8e3de8a_37cfc680",
+        "filename": "monitor/config_files/p10bmc/ibm,rainier-2u/config.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-14T19:53:18Z",
+      "side": 1,
+      "message": "this comment seems like it will get outdated quick",
+      "range": {
+        "startLine": 2,
+        "startChar": 55,
+        "endLine": 4,
+        "endChar": 1
+      },
+      "revId": "4ca133946ca10cd04e5fd6c176cc2ef151c7bb66",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
