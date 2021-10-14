@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "90092577_ba47be62",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-14T21:47:59Z",
+      "side": 1,
+      "message": "Why not just call setTarget then set _locked \u003d true?\n```\nvoid Fan::lockTarget(uint64_t target)\n{\n    setTarget(target)\n    _locked \u003d true;\n}\n```\n\nFor our use-case, this is fine...but we should consider how to handle more than one requests to lock the same fan like on a first-in-first-out request basis or another option?",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 1
+      },
+      "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16ba5b6a_654cf429",
         "filename": "control/json/fan.cpp",
         "patchSetId": 3
@@ -30,6 +53,24 @@
       "writtenOn": "2021-10-12T20:07:32Z",
       "side": 1,
       "message": "I just realized this will fail if the original _target (before locking) was 0. What I\u0027ll need is something odd-looking like _target\u003dtarget2+1;\n\nthoughts?",
+      "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f134382c_3326ec74",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-14T21:47:59Z",
+      "side": 1,
+      "message": "After a fan has been unlocked, it needs to re-set its target back to the current target that\u0027s set on the zone its included in. Requires invention of setting a reference to the zone object on the fan object at the time the Fan object is added to the zone (in Manager::load())?\n\nBut then could do this:\n```\nvoid Fan::unlockTarget()\n{\n    _locked \u003d false;\n    setTarget(_zone.getTarget());\n}\n```",
+      "parentUuid": "15dc3f1d_f3384f75",
       "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
