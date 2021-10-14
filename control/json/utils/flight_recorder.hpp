@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 #pragma once
+#include <nlohmann/json.hpp>
+
 #include <chrono>
 #include <cstdint>
 #include <deque>
@@ -23,6 +25,7 @@
 
 namespace phosphor::fan::control::json
 {
+using json = nlohmann::json;
 
 /**
  * @class FlightRecorder
@@ -61,11 +64,13 @@ class FlightRecorder
     void log(const std::string& id, const std::string& message);
 
     /**
-     * @brief Writes the flight recorder contents to file.
+     * @brief Writes the flight recorder contents to JSON.
      *
      * Sorts all messages by timestamp when doing so.
+     *
+     * @param[out] data - Filled in with the flight recorder data
      */
-    void dump();
+    void dump(json& data);
 
   private:
     FlightRecorder() = default;
