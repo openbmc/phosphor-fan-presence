@@ -106,6 +106,7 @@ void Manager::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
 {
     json data;
     FlightRecorder::instance().dump(data);
+    dumpCache(data);
 
     std::ofstream file{Manager::dumpFile};
     if (!file)
@@ -117,6 +118,35 @@ void Manager::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
     file << std::setw(4) << data;
 
     debugDumpEventSource.reset();
+}
+
+void Manager::dumpCache(json& data)
+{
+    auto& objects = data["objects"];
+    for (const auto& [path, interfaces] : _objects)
+    {
+        auto& interfaceJSON = objects[path];
+
+        for (const auto& [interface, properties] : interfaces)
+        {
+            auto& propertyJSON = interfaceJSON[interface];
+            for (const auto& [propName, propValue] : properties)
+            {
+                std::visit(
+                    [&obj = propertyJSON[propName]](auto&& val) { obj = val; },
+                    propValue);
+            }
+        }
+    }
+
+    auto& parameters = data["parameters"];
+    for (const auto& [name, value] : _parameters)
+    {
+        std::visit([&obj = parameters["name"]](auto&& val) { obj = val; },
+                   value);
+    }
+
+    data["services"] = _servTree;
 }
 
 void Manager::load()
