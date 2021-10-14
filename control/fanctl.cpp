@@ -525,18 +525,18 @@ void reload()
 /**
  * @function dump the FlightRecorder log data
  */
-void dumpFlightRecorder()
+void dumpFanControl()
 {
     try
     {
         SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                               "KillUnit", phosphorServiceName, "main", SIGUSR1);
-        std::cout << "FlightRecorder log written to: /tmp/fan_control_dump.json"
+        std::cout << "Fan control dump written to: /tmp/fan_control_dump.json"
                   << std::endl;
     }
     catch (const phosphor::fan::util::DBusPropertyError& e)
     {
-        std::cerr << "Unable to dump flight recorder log: " << e.what()
+        std::cerr << "Unable to dump fan control: " << e.what()
                   << std::endl;
     }
 }
@@ -644,7 +644,7 @@ int main(int argc, char* argv[])
         }
         else if (app.got_subcommand("dump"))
         {
-            dumpFlightRecorder();
+            dumpFanControl();
         }
     }
     catch (const std::exception& e)
