@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08c7721b_f9c74c40",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-15T18:34:15Z",
+      "side": 1,
+      "message": "I thought about splitting this up into timestamp, ID, and message fields in the JSON but it makes it harder to look at with just raw JSON.  If we ever add a fanctl helper to look at the data then we could revisit I was thinking.",
+      "revId": "996ec5b3d7cac48269d634b2926a9729c86316e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
