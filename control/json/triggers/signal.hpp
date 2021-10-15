@@ -89,10 +89,9 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
  * @param[in] mgr - Pointer to manager of the trigger
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
- * @param[in] jsonObj - JSON object for the trigger
  */
-void member(Manager* mgr, const Group&, SignalActions actions,
-            const json& jsonObj);
+void member(Manager* mgr, const Group& group, SignalActions actions,
+            const json&);
 
 // Match setup function for signals
 using SignalMatch = std::function<void(Manager*, const Group&,

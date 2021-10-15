@@ -201,29 +201,27 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
     }
 }
 
-void member(Manager* mgr, const Group&, SignalActions actions,
-            const json& jsonObj)
+void member(Manager* mgr, const Group& group, SignalActions actions,
+            const json&)
 {
-    if (!jsonObj.contains("member") || !jsonObj["member"].contains("name") ||
-        !jsonObj["member"].contains("path") ||
-        !jsonObj["member"].contains("interface"))
-    {
-        log<level::ERR>("Missing required member trigger attributes",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error("Missing required member trigger attributes");
-    }
-    const auto match =
-        rules::type::signal() +
-        rules::member(jsonObj["member"]["name"].get<std::string>()) +
-        rules::path(jsonObj["member"]["path"].get<std::string>()) +
-        rules::interface(jsonObj["member"]["interface"].get<std::string>());
     // No SignalObject required to associate to this signal
     SignalPkg signalPkg = {Handlers::member, SignalObject(),
                            SignalActions(actions)};
-    // If signal match already exists, then the member signal will be the
-    // same so add action to be run
+    // If signal match already exists, then the member signal will be
+    // the same so add action to be run
     auto isSameSig = [](SignalPkg& pkg) { return true; };
-    subscribe(match, std::move(signalPkg), isSameSig, mgr);
+
+    // Groups are optional, but a signal triggered event with no groups
+    // will do nothing since signals require a group
+    for (const auto& member : group.getMembers())
+    {
+        // Subscribe for signal from each group member
+        const auto match =
+            rules::type::signal() + rules::member(group.getProperty()) +
+            rules::path(member) + rules::interface(group.getInterface());
+
+        subscribe(match, std::move(signalPkg), isSameSig, mgr);
+    }
 }
 
 enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
