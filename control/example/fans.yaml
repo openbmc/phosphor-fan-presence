@@ -11,6 +11,10 @@
 #   sensors: [The list of sensors for this fan]
 #   target_interface: [The interface implemented by the fan target.
 #                      Default is xyz.openbmc_project.Control.FanSpeed]
+#   target_path: [The full target path, which implement
+#                 xyz.openbmc_project.Control.FanSpeed or
+#                 xyz.openbmc_project.Control.FanPwm interface
+#                 Default is /xyz/openbmc_project/sensors/fan_tach/
 
 #The cooling zone, a number, and the cooling profile, a string,
 #have to match the corresponding values in the fan zone yaml
@@ -30,3 +34,4 @@
 #    sensors:
 #     - fan1
 #    target_interface: xyz.openbmc_project.Control.FanPwm
+#    target_path: /xyz/openbmc_project/control/fanpwm/PWM1

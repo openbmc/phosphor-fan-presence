@@ -63,7 +63,17 @@ void Fan::setSensors(const json& jsonObj)
     std::string path;
     for (const auto& sensor : jsonObj["sensors"])
     {
-        path = FAN_SENSOR_PATH + sensor.get<std::string>();
+        if (!jsonObj.contains("target_path"))
+        {
+            // If not set the target_path in fans config,
+            // by default is /xyz/openbmc_project/sensors/fan_tach/
+            path = FAN_SENSOR_PATH + sensor.get<std::string>();
+        }
+        else
+        {
+            path = jsonObj["target_path"].get<std::string>();
+        }
+
         auto service = util::SDBusPlus::getService(_bus, path, _interface);
         _sensors[path] = service;
     }

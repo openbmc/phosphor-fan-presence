@@ -36,11 +36,23 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def) :
     _bus(bus), _name(std::get<fanNamePos>(def)),
     _interface(std::get<targetInterfacePos>(def))
 {
+    std::string controlPath = std::get<targetControlPathPos>(def);
+
     std::string path;
     auto sensors = std::get<sensorListPos>(def);
     for (auto& s : sensors)
     {
-        path = FAN_SENSOR_PATH + s;
+        if (controlPath.empty())
+        {
+            // If not set the target_path in fans config,
+            // by default is /xyz/openbmc_project/sensors/fan_tach/
+            path = FAN_SENSOR_PATH + s;
+        }
+        else
+        {
+            path = controlPath;
+        }
+
         auto service = util::SDBusPlus::getService(bus, path, _interface);
         _sensors[path] = service;
     }
