@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72773baa_24c8fb80",
+        "filename": "control/json/actions/get_managed_objects.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-15T17:47:59Z",
+      "side": 1,
+      "message": "doesn\u0027t need to be virtual unless this class is inherited from",
+      "revId": "a9673fd9de08b3e6e9b12baa61bc3bf56a1d01cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
