@@ -81,6 +81,16 @@ class ThresholdAlarmLogger
     void propertiesChanged(sdbusplus::message::message& msg);
 
     /**
+     * @brief The interfacesRemoved removed handler for the threshold
+     *        interfaces.
+     *
+     * Removes that threshold from the alarms map
+     *
+     * @param[in] msg - The signal message payload.
+     */
+    void interfacesRemoved(sdbusplus::message::message& msg);
+
+    /**
      * @brief Checks for active alarms on the path and threshold interface
      *        passed in and creates event logs if necessary.
      *
