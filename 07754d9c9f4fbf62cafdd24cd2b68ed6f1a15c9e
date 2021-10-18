@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "06a0d7a1_73516c85",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-18T18:40:20Z",
+      "side": 1,
+      "message": "if you call setTarget(), Fan will forget what its original value was. I think I should stash the old value in a new member variable and recall it upon unlock. I dont think we need a stack to recall N values, just the old value before it was locked. That would also address the problem below, where lock would fail if it were locked to its current speed.",
+      "parentUuid": "90092577_ba47be62",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 136,
+        "endChar": 1
+      },
+      "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16ba5b6a_654cf429",
         "filename": "control/json/fan.cpp",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e360305_88b2b641",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-18T18:40:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16ba5b6a_654cf429",
+      "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -74,6 +116,24 @@
       "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3f4748e_0223377d",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-18T18:40:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f134382c_3326ec74",
+      "revId": "07754d9c9f4fbf62cafdd24cd2b68ed6f1a15c9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
