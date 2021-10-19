@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bfe6aa01_7bbfa5e3",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-19T17:48:26Z",
+      "side": 1,
+      "message": "locking and unlocking is done through zone. making lock/unlock private makes it harder to misuse the lock fcn (unlock no longer restores its old speed). allowing friend access from zone permits the private functions to be called, instead of making each Fan hold onto a reference to Zone. (Zone is used to get the proper speed upon unlocking).",
+      "revId": "8ce427365d94aa5db7cddf05b9e7b45c37a0fafe",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5d30ed1d_c6c06fe3",
         "filename": "control/json/fan.hpp",
         "patchSetId": 6
