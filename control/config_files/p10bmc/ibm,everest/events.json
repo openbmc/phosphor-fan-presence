@@ -27,5 +27,34 @@
          "target": 10700
        }
      ]
+   },
+   {
+     // Hold fans at the given target when a number of fans are nonfunctional.
+     "name": "fan(s) faulted",
+     "groups": [
+       {
+         "name": "fan inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "count_state_before_target",
+         "count": 1,
+         "state": false,
+         "target": 10700
+       }
+     ]
    }
 ]
