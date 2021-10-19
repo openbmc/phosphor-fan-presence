@@ -1,0 +1,11 @@
+[
+ {
+   "name": "fan inventory",
+   "members": [
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan0",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan1",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan2",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan4"
+   ]
+ }
+]
