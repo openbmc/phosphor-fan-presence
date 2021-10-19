@@ -27,5 +27,59 @@
          "target": 11200
        }
      ]
+   },
+   {
+     // Hold fans at the given target when a number of rotors are nonfunctional.
+     "name": "fan(s) faulted",
+     "groups": [
+       {
+         "name": "fan0 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       },
+       {
+         "name": "fan1 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       },
+       {
+         "name": "fan2 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       },
+       {
+         "name": "fan3 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       },
+       {
+         "name": "fan4 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       },
+       {
+         "name": "fan5 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "count_state_before_target",
+         "count": 1,
+         "state": false,
+         "target": 11200
+       }
+     ]
    }
 ]
