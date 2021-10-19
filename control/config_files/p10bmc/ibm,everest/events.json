@@ -1,0 +1,31 @@
+[
+   {
+     // Hold fans at the given target when a number of fans are missing.
+     "name": "fan(s) missing",
+     "groups": [
+       {
+         "name": "fan inventory",
+         "interface": "xyz.openbmc_project.Inventory.Item",
+         "property": { "name": "Present" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "count_state_before_target",
+         "count": 1,
+         "state": false,
+         "target": 10700
+       }
+     ]
+   }
+]
