@@ -16,6 +16,24 @@
       "revId": "3f27d53624fef2ba502c122dbfa6e2bc7ec3e5d7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6480863_a6007154",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-20T17:04:33Z",
+      "side": 1,
+      "message": "I\u0027ll update this starting point to be based on the rotors and re-org the groups.json so it\u0027s ready for setting an individual fan to an override target when one of its rotors is nonfunc.",
+      "parentUuid": "1f7bcc69_9a09fcbe",
+      "revId": "3f27d53624fef2ba502c122dbfa6e2bc7ec3e5d7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
