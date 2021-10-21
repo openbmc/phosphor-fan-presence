@@ -39,7 +39,7 @@ class MissingOwnerTarget :
 {
   public:
     /* Name of this action */
-    static constexpr auto name = "set_speed_on_missing_owner";
+    static constexpr auto name = "set_target_on_missing_owner";
 
     MissingOwnerTarget() = delete;
     MissingOwnerTarget(const MissingOwnerTarget&) = delete;
