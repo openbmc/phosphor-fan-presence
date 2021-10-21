@@ -42,7 +42,7 @@ class RequestTargetBase :
 {
   public:
     /* Name of this action */
-    static constexpr auto name = "set_request_speed_base_with_max";
+    static constexpr auto name = "set_request_target_base_with_max";
 
     RequestTargetBase() = delete;
     RequestTargetBase(const RequestTargetBase&) = delete;

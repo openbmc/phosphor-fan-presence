@@ -56,12 +56,12 @@ void MissingOwnerTarget::run(Zone& zone)
 
 void MissingOwnerTarget::setTarget(const json& jsonObj)
 {
-    if (!jsonObj.contains("speed"))
+    if (!jsonObj.contains("target"))
     {
         throw ActionParseError{ActionBase::getName(),
-                               "Missing required speed value"};
+                               "Missing required target value"};
     }
-    _target = jsonObj["speed"].get<uint64_t>();
+    _target = jsonObj["target"].get<uint64_t>();
 }
 
 } // namespace phosphor::fan::control::json
