@@ -415,6 +415,33 @@ std::vector<std::string> Manager::getPaths(const std::string& serv,
     return paths;
 }
 
+void Manager::insertFilteredObjects(
+    ManagedObjects& ref,
+    std::function<bool(const PropertyVariantType&)> matchFunc)
+{
+    for (auto& [path, pathMap] : ref)
+    {
+        for (auto& [intf, intfMap] : pathMap)
+        {
+            // for each property on this path+interface
+            for (auto it = intfMap.begin(); it != intfMap.end();)
+            {
+                if (matchFunc(it->second))
+                {
+                    auto itr2 = std::next(it);
+                    intfMap.erase(it);
+                    it = itr2;
+                }
+                else
+                {
+                    _objects[path][intf][it->first] = it->second;
+                    it++;
+                }
+            }
+        }
+    }
+}
+
 void Manager::addObjects(const std::string& path, const std::string& intf,
                          const std::string& prop)
 {
@@ -434,58 +461,22 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     {
         // No object manager interface provided by service?
         // Attempt to retrieve property directly
-        auto variant = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+        auto value = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
             _bus, service, path, intf, prop);
-        _objects[path][intf][prop] = variant;
+
+        setProperty(path, intf, prop, value);
         return;
     }
 
     for (const auto& objMgrPath : objMgrPaths)
     {
         // Get all managed objects of service
+        // want to filter here...
         auto objects = util::SDBusPlus::getManagedObjects<PropertyVariantType>(
             _bus, service, objMgrPath);
 
-        // Add what's returned to the cache of objects
-        for (auto& object : objects)
-        {
-            auto itPath = _objects.find(object.first);
-            if (itPath != _objects.end())
-            {
-                // Path found in cache
-                for (auto& interface : itPath->second)
-                {
-                    auto itIntf = itPath->second.find(interface.first);
-                    if (itIntf != itPath->second.end())
-                    {
-                        // Interface found in cache
-                        for (auto& property : itIntf->second)
-                        {
-                            auto itProp = itIntf->second.find(property.first);
-                            if (itProp != itIntf->second.end())
-                            {
-                                // Property found, update value
-                                itProp->second = property.second;
-                            }
-                            else
-                            {
-                                itIntf->second.insert(property);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        // Interface not found in cache
-                        itPath->second.insert(interface);
-                    }
-                }
-            }
-            else
-            {
-                // Path not found in cache
-                _objects.insert(object);
-            }
-        }
+        // insert all objects but remove any NaN values
+        insertFilteredObjects(objects, &Manager::PropertyContainsNan);
     }
 }
 
@@ -510,6 +501,25 @@ const std::optional<PropertyVariantType>
     }
 
     return std::nullopt;
+}
+
+void Manager::setProperty(const std::string& path, const std::string& intf,
+                          const std::string& prop, PropertyVariantType value)
+{
+    // filter NaNs out of the system
+    if (PropertyContainsNan(value))
+    {
+        // dont use operator [] if paths dont exist
+        if (_objects.find(path) != _objects.end() &&
+            _objects[path].find(intf) != _objects[path].end())
+        {
+            _objects[path][intf].erase(prop);
+        }
+    }
+    else
+    {
+        _objects[path][intf][prop] = std::move(value);
+    }
 }
 
 void Manager::addTimer(const TimerType type,
