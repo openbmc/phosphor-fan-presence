@@ -36,12 +36,15 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <optional>
 #include <tuple>
 #include <utility>
 #include <vector>
+using std::cout;
+using std::endl;
 
 namespace phosphor::fan::control::json
 {
@@ -336,7 +339,21 @@ class Manager
     void setProperty(const std::string& path, const std::string& intf,
                      const std::string& prop, PropertyVariantType value)
     {
-        _objects[path][intf][prop] = std::move(value);
+        value = NAN;
+        // filter NaNs out of the system
+        if (std::holds_alternative<double>(value))
+        {
+            cout << "Removing NaN value : " << endl;
+            if (std::isnan(std::get<double>(value)))
+            {
+                cout << "Nan detected and erased " << endl;
+                _objects[path][intf].erase(prop);
+            }
+        }
+        else
+        {
+            _objects[path][intf][prop] = std::move(value);
+        }
     }
 
     /**
