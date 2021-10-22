@@ -38,11 +38,14 @@
 #include <chrono>
 #include <filesystem>
 #include <functional>
+#include <iostream>
 #include <map>
 #include <memory>
 #include <tuple>
 #include <utility>
 #include <vector>
+using std::cout;
+using std::endl;
 
 namespace phosphor::fan::control::json
 {
@@ -415,6 +418,30 @@ std::vector<std::string> Manager::getPaths(const std::string& serv,
     return paths;
 }
 
+template <typename T>
+void filter(T& ref, std::function<bool(const PropertyVariantType&)> removeFunc)
+{
+    for (auto& [key1, map1] : ref)
+    {
+        for (auto& [key2, map2] : map1)
+        {
+            for (auto it = map2.cbegin(); it != map2.cend();)
+            {
+                if (removeFunc(it->second))
+                {
+                    cout << "Doing remove func: " << std::string(key1) << " - "
+                         << key2 << endl;
+                    it = map2.erase(it);
+                }
+                else
+                {
+                    it++;
+                }
+            }
+        }
+    }
+}
+
 void Manager::addObjects(const std::string& path, const std::string& intf,
                          const std::string& prop)
 {
@@ -434,17 +461,46 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     {
         // No object manager interface provided by service?
         // Attempt to retrieve property directly
-        auto variant = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+        auto value = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
             _bus, service, path, intf, prop);
-        _objects[path][intf][prop] = variant;
+
+        setProperty(path, intf, prop, value);
         return;
     }
 
     for (const auto& objMgrPath : objMgrPaths)
     {
         // Get all managed objects of service
+        // want to filter here...
         auto objects = util::SDBusPlus::getManagedObjects<PropertyVariantType>(
             _bus, service, objMgrPath);
+
+        int ctr = 0;
+
+        // test
+        for (auto& [key1, map1] : objects)
+        {
+            for (auto& [key2, map2] : map1)
+            {
+                for (auto it = map2.begin(); it != map2.end();)
+                {
+                    if (ctr++ > 136)
+                    {
+                        it->second = NAN;
+                        goto done;
+                    }
+                }
+            }
+        }
+    done:
+
+        // remove all NaN values
+        filter(objects, &Manager::PropertyContainsNan);
+
+        // test: should not see any more messages about NaN being removed
+        cout << "done removing" << endl;
+        filter(objects, &Manager::PropertyContainsNan);
+        //////
 
         // Add what's returned to the cache of objects
         for (auto& object : objects)
@@ -461,16 +517,8 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
                         // Interface found in cache
                         for (auto& property : itIntf->second)
                         {
-                            auto itProp = itIntf->second.find(property.first);
-                            if (itProp != itIntf->second.end())
-                            {
-                                // Property found, update value
-                                itProp->second = property.second;
-                            }
-                            else
-                            {
-                                itIntf->second.insert(property);
-                            }
+                            setProperty(itPath->first, interface.first,
+                                        property.first, property.second);
                         }
                     }
                     else
@@ -510,6 +558,20 @@ const std::optional<PropertyVariantType>
     }
 
     return std::nullopt;
+}
+
+void Manager::setProperty(const std::string& path, const std::string& intf,
+                          const std::string& prop, PropertyVariantType value)
+{
+    // filter NaNs out of the system
+    if (PropertyContainsNan(value))
+    {
+        _objects[path][intf].erase(prop);
+    }
+    else
+    {
+        _objects[path][intf][prop] = std::move(value);
+    }
 }
 
 void Manager::addTimer(const TimerType type,
