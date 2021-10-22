@@ -434,9 +434,11 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     {
         // No object manager interface provided by service?
         // Attempt to retrieve property directly
-        auto variant = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+        auto value = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
             _bus, service, path, intf, prop);
-        _objects[path][intf][prop] = variant;
+
+        // add the property to the cache
+        setProperty(path, intf, prop, value);
         return;
     }
 
@@ -461,16 +463,8 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
                         // Interface found in cache
                         for (auto& property : itIntf->second)
                         {
-                            auto itProp = itIntf->second.find(property.first);
-                            if (itProp != itIntf->second.end())
-                            {
-                                // Property found, update value
-                                itProp->second = property.second;
-                            }
-                            else
-                            {
-                                itIntf->second.insert(property);
-                            }
+                            setProperty(itPath->first, interface.first,
+                                        property.first, property.second);
                         }
                     }
                     else
@@ -510,6 +504,20 @@ const std::optional<PropertyVariantType>
     }
 
     return std::nullopt;
+}
+
+void Manager::setProperty(const std::string& path, const std::string& intf,
+                          const std::string& prop, PropertyVariantType value)
+{
+    // filter NaNs out of the system
+    if (PropertyContainsNan(value))
+    {
+        _objects[path][intf].erase(prop);
+    }
+    else
+    {
+        _objects[path][intf][prop] = std::move(value);
+    }
 }
 
 void Manager::addTimer(const TimerType type,
