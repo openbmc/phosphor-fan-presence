@@ -334,10 +334,7 @@ class Manager
      * @param[in] value - Dbus object's property value
      */
     void setProperty(const std::string& path, const std::string& intf,
-                     const std::string& prop, PropertyVariantType value)
-    {
-        _objects[path][intf][prop] = std::move(value);
-    }
+                     const std::string& prop, PropertyVariantType value);
 
     /**
      * @brief Remove an object's interface
@@ -480,6 +477,18 @@ class Manager
     }
 
   private:
+    /**
+     * @brief Helper to detect when a property's double contains a NaN
+     * (not-a-number) value.
+     *
+     * @param[in] value - The property to test
+     */
+    static bool PropertyContainsNan(const PropertyVariantType& value)
+    {
+        return (std::holds_alternative<double>(value) &&
+                std::isnan(std::get<double>(value)));
+    }
+
     /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
 
