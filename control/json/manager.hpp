@@ -109,6 +109,20 @@ using SignalData = std::tuple<std::vector<SignalPkg>,
                               std::unique_ptr<sdbusplus::server::match::match>>;
 
 /**
+ * Package of data from a D-Bus call to get managed objects
+ * Tuple constructed of:
+ *     std::map<Path,            // D-Bus Path
+ *       std::map<Intf,          // D-Bus Interface
+ *         std::map<Property,    // D-Bus Property
+ *         std::variant>>>       // Variant value of that property
+ */
+using Path_v = sdbusplus::message::object_path;
+using Intf_v = std::string;
+using Prop_v = std::string;
+using ManagedObjects =
+    std::map<Path_v, std::map<Intf_v, std::map<Prop_v, PropertyVariantType>>>;
+
+/**
  * @class Manager - Represents the fan control manager's configuration
  *
  * A fan control manager configuration is optional, therefore the "manager.json"
@@ -334,10 +348,7 @@ class Manager
      * @param[in] value - Dbus object's property value
      */
     void setProperty(const std::string& path, const std::string& intf,
-                     const std::string& prop, PropertyVariantType value)
-    {
-        _objects[path][intf][prop] = std::move(value);
-    }
+                     const std::string& prop, PropertyVariantType value);
 
     /**
      * @brief Remove an object's interface
@@ -480,6 +491,33 @@ class Manager
     }
 
   private:
+    /**
+     * @brief Helper to detect when a property's double contains a NaN
+     * (not-a-number) value.
+     *
+     * @param[in] value - The property to test
+     */
+    static bool PropertyContainsNan(const PropertyVariantType& value)
+    {
+        return (std::holds_alternative<double>(value) &&
+                std::isnan(std::get<double>(value)));
+    }
+
+    /**
+     * @brief Insert managed objects into cache, but filter out propertties
+     * containing unwanted values (such as NaN)
+     *
+     * (not-a-number) value.
+     *
+     * @param[in] ref - The map of ManagedObjects to insert into cache
+     *
+     * @param[in] matchFunc - The functor to match a Property to prevent its
+     * insertion
+     */
+    void insertFilteredObjects(
+        ManagedObjects& ref,
+        std::function<bool(const PropertyVariantType&)> matchFunc);
+
     /* The sdbusplus bus object to use */
     sdbusplus::bus::bus& _bus;
 
