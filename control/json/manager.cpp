@@ -415,6 +415,12 @@ std::vector<std::string> Manager::getPaths(const std::string& serv,
     return paths;
 }
 
+static bool PropertyContainsNan(const PropertyVariantType& value)
+{
+    return (std::holds_alternative<double>(value) &&
+            std::isnan(std::get<double>(value)));
+}
+
 void Manager::addObjects(const std::string& path, const std::string& intf,
                          const std::string& prop)
 {
@@ -436,7 +442,10 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
         // Attempt to retrieve property directly
         auto variant = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
             _bus, service, path, intf, prop);
-        _objects[path][intf][prop] = variant;
+        if (!PropertyContainsNan(variant))
+        {
+            _objects[path][intf][prop] = variant;
+        }
         return;
     }
 
@@ -461,6 +470,12 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
                         // Interface found in cache
                         for (auto& property : itIntf->second)
                         {
+                            // skip un-representable values
+                            if (PropertyContainsNan(property.second))
+                            {
+                                continue;
+                            }
+
                             auto itProp = itIntf->second.find(property.first);
                             if (itProp != itIntf->second.end())
                             {
@@ -510,6 +525,20 @@ const std::optional<PropertyVariantType>
     }
 
     return std::nullopt;
+}
+
+void Manager::setProperty(const std::string& path, const std::string& intf,
+                          const std::string& prop, PropertyVariantType value)
+{
+    // filter NaNs out of the system
+    if (PropertyContainsNan(value))
+    {
+        _objects[path][intf].erase(prop);
+    }
+    else
+    {
+        _objects[path][intf][prop] = std::move(value);
+    }
 }
 
 void Manager::addTimer(const TimerType type,

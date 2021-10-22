@@ -334,10 +334,7 @@ class Manager
      * @param[in] value - Dbus object's property value
      */
     void setProperty(const std::string& path, const std::string& intf,
-                     const std::string& prop, PropertyVariantType value)
-    {
-        _objects[path][intf][prop] = std::move(value);
-    }
+                     const std::string& prop, PropertyVariantType value);
 
     /**
      * @brief Remove an object's interface
