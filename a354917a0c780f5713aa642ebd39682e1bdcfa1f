@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "f8e132fd_dbec56e9",
+        "filename": "control/example/fans.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2021-10-25T04:53:01Z",
+      "side": 1,
+      "message": "Yes Matthew,\n\nWhy I define the \"target_path\" is targetpath (/xyz/openbmc_project/control/fanpwm/) + targetname (PWM1) . It\u0027s a full path.\n\nAs you know, If we use the entity-manager replace the hwmon then the PWM target path will generated to new path (/xyz/openbmc_project/control/fanpwm/), NOT it /xyz/openbmc_project/sensors/fan_tach/.\n\nAnd the targetname (may be Pwm_1, Pwm_2, .... ) will be difference with the sensor_name at /xyz/openbmc_project/sensors/fan_tach/\n\nSo, I don\u0027t want to define the targetname, So I defined the target_path is a full path (/xyz/openbmc_project/control/fanpwm/PWM1) in case we don\u0027t use default and need define the target_path",
+      "parentUuid": "1c0e6105_58a6599b",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 37,
+        "endChar": 58
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec47402e_bd992f41",
         "filename": "control/fan.cpp",
         "patchSetId": 1
