@@ -504,7 +504,6 @@ void resume()
  */
 void reload()
 {
-#ifdef CONTROL_USE_JSON
     try
     {
         SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
@@ -515,11 +514,6 @@ void reload()
         std::cerr << "Unable to reload configuration files: " << e.what()
                   << std::endl;
     }
-#else
-    // YAML config doesn't support SIGHUP-based reloads
-    std::cerr << "Error: reload function unavailable for YAML-configuration"
-              << std::endl;
-#endif
 }
 
 /**
@@ -583,10 +577,12 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
         "[optional] list of 1+ fans to set target RPM/PWM (default: all)");
     cmdSet->require_option();
 
+#ifdef CONTROL_USE_JSON
     strHelp = "Reload phosphor-fan configuration files";
     auto cmdReload = commands->add_subcommand("reload", strHelp);
     cmdReload->set_help_flag("-h, --help", strHelp);
     cmdReload->require_option(0);
+#endif
 
     strHelp = "Resume running phosphor-fan-control";
     auto cmdResume = commands->add_subcommand("resume", strHelp);
@@ -632,10 +628,12 @@ int main(int argc, char* argv[])
         {
             set(target, fanList);
         }
+#ifdef CONTROL_USE_JSON
         else if (app.got_subcommand("reload"))
         {
             reload();
         }
+#endif
         else if (app.got_subcommand("resume"))
         {
             resume();
