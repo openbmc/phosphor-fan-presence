@@ -85,6 +85,7 @@ phosphor_fan_control_SOURCES += \
 	json/actions/timer_based_actions.cpp \
 	json/actions/mapped_floor.cpp \
 	json/actions/set_parameter_from_group_max.cpp \
+	json/actions/count_state_floor.cpp \
 	json/utils/flight_recorder.cpp \
 	json/utils/modifier.cpp
 else
