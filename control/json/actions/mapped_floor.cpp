@@ -324,11 +324,11 @@ void MappedFloor::run(Zone& zone)
 
     if (newFloor && !missingGroupProperty)
     {
-        zone.setFloor(*newFloor);
+        zone.setFloorHold(getUniqueName(), *newFloor, true);
     }
     else
     {
-        zone.setFloor(zone.getDefaultFloor());
+        zone.setFloorHold(getUniqueName(), zone.getDefaultFloor(), true);
     }
 }
 
