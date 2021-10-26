@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11d9751c_2c09c4d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-26T17:08:57Z",
+      "side": 1,
+      "message": "Not really \"blocking\", we want to remove any properties where their value is NaN.",
+      "range": {
+        "startLine": 7,
+        "startChar": 9,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "d325fc7599beb953856f739ec3adcd795955fc1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f69f186_5cfe78c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-26T17:08:57Z",
+      "side": 1,
+      "message": "Yes, this may be the case but one major functional path is actually when a sensor is offline (due to driver not loaded yet or some other state hasnt been achieved by the BMC yet to be able to read the sensor) that we want fan control to ignore it and remove it from the cache so no prior value of the sensor before it returned NaN is used in any fan control events.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "d325fc7599beb953856f739ec3adcd795955fc1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf1241cc_ec468dfb",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-26T17:08:57Z",
+      "side": 1,
+      "message": "This is trivial enough to declare/define in the header, otherwise please declare this function in the header.",
+      "revId": "d325fc7599beb953856f739ec3adcd795955fc1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39f62b9a_c05e4f39",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-26T17:08:57Z",
+      "side": 1,
+      "message": "This should remove the property from the cache if it contains NaN when read here. Just call setProperty here?",
+      "range": {
+        "startLine": 445,
+        "startChar": 8,
+        "endLine": 448,
+        "endChar": 9
+      },
+      "revId": "d325fc7599beb953856f739ec3adcd795955fc1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0577f2a9_d927f954",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-26T17:08:57Z",
+      "side": 1,
+      "message": "Dont think we want to continue here since that would result in the prior property\u0027s value remaining in the cache if it existed already.\n\nSeems like after we find the property on line 480, we should do the NaN check on line 483 and then remove and continue where `property.second` \u003d\u003d NaN. Probably should look into just using setProperty to handle each object returned from the getManagedObjects call driving this loop.",
+      "range": {
+        "startLine": 476,
+        "startChar": 32,
+        "endLine": 476,
+        "endChar": 41
+      },
+      "revId": "d325fc7599beb953856f739ec3adcd795955fc1b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
