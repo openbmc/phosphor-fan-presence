@@ -672,6 +672,7 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
     cmdResume->set_help_flag("-h, --help", strHelp);
     cmdResume->require_option(0);
 
+#ifdef CONTROL_USE_JSON
     // Dump method
     auto cmdDump = commands->add_subcommand(
         "dump", "Dump the FlightRecorder diagnostic log");
@@ -679,7 +680,7 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
                            "Dump the FlightRecorder diagnostic log");
     cmdDump->require_option(0);
 
-#ifdef CONTROL_USE_JSON
+    // Query dump
     auto cmdDumpQuery =
         commands->add_subcommand("query_dump", "Query the dump file");
 
@@ -736,11 +737,11 @@ int main(int argc, char* argv[])
         {
             status();
         }
+#ifdef CONTROL_USE_JSON
         else if (app.got_subcommand("dump"))
         {
             dumpFanControl();
         }
-#ifdef CONTROL_USE_JSON
         else if (app.got_subcommand("query_dump"))
         {
             queryDumpFile(dq);
