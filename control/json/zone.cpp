@@ -15,6 +15,7 @@
  */
 #include "zone.hpp"
 
+#include "../utils/flight_recorder.hpp"
 #include "dbus_zone.hpp"
 #include "fan.hpp"
 #include "sdbusplus.hpp"
@@ -147,19 +148,19 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
 {
     if (!hold)
     {
-        _holds.erase(ident);
+        _targetHolds.erase(ident);
     }
     else
     {
-        _holds[ident] = target;
+        _targetHolds[ident] = target;
         _isActive = false;
     }
 
-    auto itHoldMax = std::max_element(_holds.begin(), _holds.end(),
+    auto itHoldMax = std::max_element(_targetHolds.begin(), _targetHolds.end(),
                                       [](const auto& aHold, const auto& bHold) {
                                           return aHold.second < bHold.second;
                                       });
-    if (itHoldMax == _holds.end())
+    if (itHoldMax == _targetHolds.end())
     {
         _isActive = true;
     }
@@ -170,6 +171,71 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
         {
             fan->setTarget(_target);
         }
+    }
+}
+
+void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
+{
+    using namespace std::string_literals;
+
+    if (!hold)
+    {
+        size_t removed = _floorHolds.erase(ident);
+        if (removed)
+        {
+            FlightRecorder::instance().log(
+                "zone-floor"s + getName(),
+                fmt::format("{} is removing floor hold", ident));
+        }
+    }
+    else
+    {
+        if (!((_floorHolds.find(ident) != _floorHolds.end()) &&
+              (_floorHolds[ident] == target)))
+        {
+            FlightRecorder::instance().log(
+                "zone-floor"s + getName(),
+                fmt::format("{} is setting floor hold to {}", ident, target));
+        }
+        _floorHolds[ident] = target;
+    }
+
+    if (!std::all_of(_floorChange.begin(), _floorChange.end(),
+                     [](const auto& entry) { return entry.second; }))
+    {
+        return;
+    }
+
+    auto itHoldMax = std::max_element(_floorHolds.begin(), _floorHolds.end(),
+                                      [](const auto& aHold, const auto& bHold) {
+                                          return aHold.second < bHold.second;
+                                      });
+    if (itHoldMax == _floorHolds.end())
+    {
+        if (_floor != _defaultFloor)
+        {
+            FlightRecorder::instance().log(
+                "zone-floor"s + getName(),
+                fmt::format("No set floor exists, using default floor",
+                            _defaultFloor));
+        }
+        _floor = _defaultFloor;
+    }
+    else
+    {
+        if (_floor != itHoldMax->second)
+        {
+            FlightRecorder::instance().log(
+                "zone-floor"s + getName(),
+                fmt::format("Setting new floor to {}", itHoldMax->second));
+        }
+        _floor = itHoldMax->second;
+    }
+
+    // Floor above target, update target to floor
+    if (_target < _floor)
+    {
+        requestIncrease(_floor - _target);
     }
 }
 
@@ -378,7 +444,8 @@ json Zone::dump() const
     output["floor_change"] = _floorChange;
     output["decrease_allowed"] = _decAllowed;
     output["persisted_props"] = _propsPersisted;
-    output["holds"] = _holds;
+    output["target_holds"] = _targetHolds;
+    output["floor_holds"] = _floorHolds;
 
     return output;
 }
