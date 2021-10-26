@@ -236,6 +236,18 @@ class Zone : public ConfigBase
     void setFloor(uint64_t target);
 
     /**
+     * Sets and holds the floor of the zone to the target given or releases a
+     * floor hold resulting in the fans being held at the highest remaining
+     * hold target if other floor hold targets had been requested. When no hold
+     * targets exist, the floor gets set to the default floor value.
+     *
+     * @param[in] ident - Unique identifier for a floor hold
+     * @param[in] target - Floor value
+     * @param[in] hold - Whether to hold(true) or release(false) a hold
+     */
+    void setFloorHold(const std::string& ident, uint64_t target, bool hold);
+
+    /**
      * @brief Set the default floor to the given value
      *
      * @param[in] value - Value to set the default floor to
@@ -436,7 +448,10 @@ class Zone : public ConfigBase
     Timer _decTimer;
 
     /* Map of target holds by a string identifier */
-    std::unordered_map<std::string, uint64_t> _holds;
+    std::unordered_map<std::string, uint64_t> _targetHolds;
+
+    /* Map of floor holds by a string identifier */
+    std::unordered_map<std::string, uint64_t> _floorHolds;
 
     /* Interface to property mapping of their associated set property handler
      * function */
