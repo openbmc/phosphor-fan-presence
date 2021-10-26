@@ -593,12 +593,14 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
     cmdResume->set_help_flag("-h, --help", strHelp);
     cmdResume->require_option(0);
 
+#ifdef CONTROL_USE_JSON
     // Dump method
     auto cmdDump = commands->add_subcommand(
         "dump", "Dump the FlightRecorder diagnostic log");
     cmdDump->set_help_flag("-h, --help",
                            "Dump the FlightRecorder diagnostic log");
     cmdDump->require_option(0);
+#endif
 }
 
 /**
@@ -642,10 +644,12 @@ int main(int argc, char* argv[])
         {
             status();
         }
+#ifdef CONTROL_USE_JSON
         else if (app.got_subcommand("dump"))
         {
             dumpFlightRecorder();
         }
+#endif
     }
     catch (const std::exception& e)
     {
