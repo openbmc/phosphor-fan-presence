@@ -9,5 +9,17 @@
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan4",
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan5"
    ]
+ },
+ {
+   "name": "power mode",
+   "members": [
+     "/xyz/openbmc_project/control/host0/power_mode"
+   ]
+ },
+ {
+   "name": "ambient temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
+    ]
  }
 ]

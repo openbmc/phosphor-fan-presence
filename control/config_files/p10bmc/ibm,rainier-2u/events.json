@@ -81,5 +81,95 @@
          "target": 11200
        }
      ]
+   },
+   {
+    // Set the floor based on the power mode
+     "name": "power mode floor",
+     "groups": [
+      {
+        "name": "power mode",
+        "interface": "xyz.openbmc_project.Control.Power.Mode",
+        "property": { "name": "PowerMode" }
+      },
+      {
+        "name": "ambient temp",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": {
+          "name": "Value"
+        }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "mapped_floor",
+         "key_group": "ambient temp",
+         "fan_floors": [
+          {
+            // Entry valid for temps < 27
+            "key": 27,
+            "floors": [
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 4100
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 4100
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 4100
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 4100
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps >= 27
+            "key": 255,
+            "floors": [
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 8000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 8000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 8000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 8000
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+       }
+     ]
    }
 ]
