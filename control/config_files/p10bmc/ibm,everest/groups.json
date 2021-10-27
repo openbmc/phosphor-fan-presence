@@ -35,5 +35,23 @@
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3/fan3_0",
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3/fan3_1"
    ]
+ },
+ {
+   "name": "power mode",
+   "members": [
+     "/xyz/openbmc_project/control/host0/power_mode"
+   ]
+ },
+ {
+   "name": "ambient temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
+    ]
+ },
+ {
+   "name": "altitude",
+   "members": [
+      "/xyz/openbmc_project/sensors/altitude/Altitude"
+    ]
  }
 ]

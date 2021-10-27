@@ -71,5 +71,144 @@
          "target": 10700
        }
      ]
+   },
+   {
+    // Set the floor based on the power mode and altitude
+     "name": "power mode floor",
+     "groups": [
+      {
+        "name": "power mode",
+        "interface": "xyz.openbmc_project.Control.Power.Mode",
+        "property": { "name": "PowerMode" }
+      },
+      {
+        "name": "ambient temp",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": {
+          "name": "Value"
+        }
+      },
+      {
+        "name": "altitude",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": {
+          "name": "Value"
+        }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "mapped_floor",
+         "key_group": "ambient temp",
+         "fan_floors": [
+          {
+            // Entry valid for temps < 28
+            "key": 28,
+            "floors": [
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 4300
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 3800
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 4300
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 4300
+                  }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  {
+                    "value": 500,
+                    "floor": 4300
+                  },
+                  {
+                    "value": 1500,
+                    "floor": 4800
+                  },
+                  {
+                    "value": 2500,
+                    "floor": 5500
+                  },
+                  {
+                    "value": 3500,
+                    "floor": 6400
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps >= 28
+            "key": 255,
+            "floors": [
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 6400
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 5900
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 6400
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 6400
+                  }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  {
+                    "value": 500,
+                    "floor": 4300
+                  },
+                  {
+                    "value": 1500,
+                    "floor": 4800
+                  },
+                  {
+                    "value": 2500,
+                    "floor": 5500
+                  },
+                  {
+                    "value": 3500,
+                    "floor": 6400
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+       }
+     ]
    }
 ]
