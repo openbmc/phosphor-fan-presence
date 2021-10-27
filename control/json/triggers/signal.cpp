@@ -165,6 +165,7 @@ void interfacesRemoved(Manager* mgr, const Group& group, SignalActions actions,
 void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
                       const json&)
 {
+    std::vector<std::string> grpServices;
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
     for (const auto& member : group.getMembers())
@@ -172,19 +173,28 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
         auto serv = Manager::getService(member, group.getInterface());
         if (!serv.empty())
         {
-            // Setup name owner changed signal handler on the group
-            // member's service
-            const auto match = rules::nameOwnerChanged(serv);
-            SignalPkg signalPkg = {Handlers::nameOwnerChanged,
-                                   SignalObject(std::cref(member),
-                                                std::cref(group.getInterface()),
-                                                std::cref(group.getProperty())),
-                                   SignalActions(actions)};
-            // If signal match already exists, then the service will be the
-            // same so add action to be run
-            auto isSameSig = [](SignalPkg& pkg) { return true; };
+            // No need to re-subscribe to the same service's nameOwnerChanged
+            // signal when a prior group member provided by the same service
+            // already did the subscription
+            if (std::find(grpServices.begin(), grpServices.end(), serv) ==
+                grpServices.end())
+            {
+                // Setup name owner changed signal handler on the group
+                // member's service
+                const auto match = rules::nameOwnerChanged(serv);
+                SignalPkg signalPkg = {
+                    Handlers::nameOwnerChanged,
+                    SignalObject(std::cref(member),
+                                 std::cref(group.getInterface()),
+                                 std::cref(group.getProperty())),
+                    SignalActions(actions)};
+                // If signal match already exists, then the service will be the
+                // same so add action to be run
+                auto isSameSig = [](SignalPkg& pkg) { return true; };
 
-            subscribe(match, std::move(signalPkg), isSameSig, mgr);
+                subscribe(match, std::move(signalPkg), isSameSig, mgr);
+                grpServices.emplace_back(serv);
+            }
         }
         else
         {
