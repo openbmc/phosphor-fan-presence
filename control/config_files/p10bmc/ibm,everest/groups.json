@@ -344,5 +344,23 @@
      "/xyz/openbmc_project/sensors/temperature/proc7_core15_0_temp",
      "/xyz/openbmc_project/sensors/temperature/proc7_core15_1_temp"
    ]
+ },
+ {
+   "name": "power mode",
+   "members": [
+     "/xyz/openbmc_project/control/host0/power_mode"
+   ]
+ },
+ {
+   "name": "ambient temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
+    ]
+ },
+ {
+   "name": "altitude",
+   "members": [
+      "/xyz/openbmc_project/sensors/altitude/Altitude"
+    ]
  }
 ]
