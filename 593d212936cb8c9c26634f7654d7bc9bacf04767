@@ -22,6 +22,30 @@
       "revId": "593d212936cb8c9c26634f7654d7bc9bacf04767",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b84f3b6c_16f7ae63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-10-27T13:52:57Z",
+      "side": 1,
+      "message": "This still has the same issue.  If fan monitor were to set the rotor/enclosure back to functional, it would turn off the fault LED which doesn\u0027t jive with lightpath.",
+      "parentUuid": "73511519_d264e2b4",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 36
+      },
+      "revId": "593d212936cb8c9c26634f7654d7bc9bacf04767",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
