@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "861a4cfc_2cc86de6",
+        "filename": "control/json/actions/count_state_floor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-27T14:39:50Z",
+      "side": 1,
+      "message": "doesn\u0027t appear to be used in this file",
+      "revId": "92daceae0b5147fb53f1e035b089e046fc17d92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60a9cd18_ff228ea4",
+        "filename": "control/json/actions/count_state_floor.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-10-27T14:39:50Z",
+      "side": 1,
+      "message": "floor",
+      "revId": "92daceae0b5147fb53f1e035b089e046fc17d92a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
