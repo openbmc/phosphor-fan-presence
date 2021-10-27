@@ -48,5 +48,23 @@
      "/org/open_power/control/occ6",
      "/org/open_power/control/occ7"
    ]
+ },
+ {
+   "name": "power mode",
+   "members": [
+     "/xyz/openbmc_project/control/host0/power_mode"
+   ]
+ },
+ {
+   "name": "ambient temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
+    ]
+ },
+ {
+   "name": "altitude",
+   "members": [
+      "/xyz/openbmc_project/sensors/altitude/Altitude"
+    ]
  }
 ]
