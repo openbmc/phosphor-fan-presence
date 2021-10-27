@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "67e8148a_fcf583ba",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-27T20:59:47Z",
+      "side": 1,
+      "message": "Since it may or may not be added to the cache(not added when its NaN), lets just remove this comment.",
+      "range": {
+        "startLine": 440,
+        "startChar": 8,
+        "endLine": 440,
+        "endChar": 40
+      },
+      "revId": "ba03b5748cd0cd68eb957f5089d3e96b73fa3c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "342ff791_de68d4b7",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-27T20:59:47Z",
+      "side": 1,
+      "message": "This looks good!",
+      "range": {
+        "startLine": 466,
+        "startChar": 28,
+        "endLine": 467,
+        "endChar": 73
+      },
+      "revId": "ba03b5748cd0cd68eb957f5089d3e96b73fa3c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e27831_7172b68b",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-27T20:59:47Z",
+      "side": 1,
+      "message": "Same as I stated below.. need to check for NaN for each property on this `interface`.",
+      "range": {
+        "startLine": 472,
+        "startChar": 24,
+        "endLine": 473,
+        "endChar": 57
+      },
+      "revId": "ba03b5748cd0cd68eb957f5089d3e96b73fa3c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baad7306_14f373f3",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-27T20:59:47Z",
+      "side": 1,
+      "message": "Since we cant guarantee that `addObjects` wont be called by something other than an init trigger in the future, we have to assume this could be called at anytime to update the cache, so we need to handle checking for NaN on each object entry and remove the corresponding entry from the cache if it exists.\n\nSo, checking for NaN also needs to be done here for each entry in `object`.",
+      "range": {
+        "startLine": 479,
+        "startChar": 16,
+        "endLine": 480,
+        "endChar": 40
+      },
+      "revId": "ba03b5748cd0cd68eb957f5089d3e96b73fa3c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd1773cb_c3f589a0",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-27T20:59:47Z",
+      "side": 1,
+      "message": "cache",
+      "range": {
+        "startLine": 512,
+        "startChar": 30,
+        "endLine": 512,
+        "endChar": 36
+      },
+      "revId": "ba03b5748cd0cd68eb957f5089d3e96b73fa3c6d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
