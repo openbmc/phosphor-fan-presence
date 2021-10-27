@@ -176,5 +176,121 @@
         "use_config_specific_files": true
       }
     ]
-  }
+  },
+  {
+    // Set the floor based on the power mode and PCIe floor index
+     "name": "power mode floor",
+     "groups": [
+      {
+        "name": "power mode",
+        "interface": "xyz.openbmc_project.Control.Power.Mode",
+        "property": { "name": "PowerMode" }
+      },
+      {
+        "name": "ambient temp",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": {
+          "name": "Value"
+        }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "mapped_floor",
+         "key_group": "ambient temp",
+         "fan_floors": [
+          {
+            // Entry valid for temps < 27
+            "key": 27,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  {
+                    "value": 1,
+                    "floor": 4100
+                  },
+                  {
+                    "value": 2,
+                    "floor": 6000
+                  }
+                ]
+              },
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 2600
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 2600
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 2600
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 2600
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps >= 27
+            "key": 255,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  {
+                    "value": 1,
+                    "floor": 4100
+                  },
+                  {
+                    "value": 2,
+                    "floor": 6000
+                  }
+                ]
+              },
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 8000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 8000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 8000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 8000
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+       }
+     ]
+   }
 ]
