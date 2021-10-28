@@ -9,6 +9,7 @@
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
          "nonfunc_rotor_error_delay": 0,
+         "set_func_on_present": true,
          "sensors": [
             {
                "name": "fan0_0",
@@ -26,6 +27,7 @@
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
          "nonfunc_rotor_error_delay": 0,
+         "set_func_on_present": true,
          "sensors": [
             {
                "name": "fan1_0",
@@ -43,6 +45,7 @@
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
          "nonfunc_rotor_error_delay": 0,
+         "set_func_on_present": true,
          "sensors": [
             {
                "name": "fan2_0",
@@ -60,6 +63,7 @@
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
          "nonfunc_rotor_error_delay": 0,
+         "set_func_on_present": true,
          "sensors": [
             {
                "name": "fan4_0",
