@@ -71,18 +71,31 @@ std::chrono::microseconds getInterval(const json& jsonObj)
         jsonObj["interval"].get<uint64_t>());
 }
 
+bool getPreload(const json& jsonObj)
+{
+    if (jsonObj.contains("preload_groups") &&
+        jsonObj["preload_groups"].get<bool>())
+    {
+        return true;
+    }
+    return false;
+}
+
 enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
                            std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     // Get the type and interval of this timer from the JSON
     auto type = getType(jsonObj);
     auto interval = getInterval(jsonObj);
+    auto preload = getPreload(jsonObj);
 
-    return [type = std::move(type), interval = std::move(interval)](
+    return [type = std::move(type), interval = std::move(interval),
+            preload = std::move(preload)](
                const std::string& eventName, Manager* mgr,
-               const std::vector<Group>&,
+               const std::vector<Group>& groups,
                std::vector<std::unique_ptr<ActionBase>>& actions) {
-        auto tpPtr = std::make_unique<TimerPkg>(eventName, std::ref(actions));
+        auto tpPtr = std::make_unique<TimerPkg>(eventName, std::ref(actions),
+                                                std::cref(groups), preload);
         mgr->addTimer(type, interval, std::move(tpPtr));
     };
 }
