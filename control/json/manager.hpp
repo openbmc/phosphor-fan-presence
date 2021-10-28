@@ -64,9 +64,12 @@ enum class TimerType
  *      std::string = Timer package unique identifier
  *      std::vector<std::unique_ptr<ActionBase>> = List of pointers to actions
  * that run when the timer expires
+ *      const std::vector<Group> = List of groups
+ *      bool = If groups should be preloaded before actions are run
  */
 using TimerPkg =
-    std::tuple<std::string, std::vector<std::unique_ptr<ActionBase>>&>;
+    std::tuple<std::string, std::vector<std::unique_ptr<ActionBase>>&,
+               const std::vector<Group>&, bool>;
 /**
  * Data associated with a running timer that's used when it expires
  * Pair constructed of:
@@ -584,6 +587,13 @@ class Manager
      * @brief Callback from _flightRecEventSource to dump the flight recorder
      */
     void dumpFlightRecorder(sdeventplus::source::EventBase&);
+
+    /**
+     * @brief Add a group to the cache dataset.
+     *
+     * @param[in] group - The group to add
+     */
+    void addGroup(const Group& group);
 };
 
 } // namespace phosphor::fan::control::json

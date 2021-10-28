@@ -535,8 +535,36 @@ void Manager::addTimer(const TimerType type,
     _timers.emplace_back(std::move(dataPtr), std::move(timer));
 }
 
+void Manager::addGroup(const Group& group)
+{
+    const auto& members = group.getMembers();
+    for (const auto& member : members)
+    {
+        try
+        {
+            auto service = getService(member, group.getInterface());
+
+            auto variant =
+                util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+                    service, member, group.getInterface(), group.getProperty());
+
+            setProperty(member, group.getInterface(), group.getProperty(),
+                        variant);
+        }
+        catch (const std::exception& e)
+        {}
+    }
+}
+
 void Manager::timerExpired(TimerData& data)
 {
+    if (std::get<bool>(data.second))
+    {
+        const auto& groups = std::get<const std::vector<Group>&>(data.second);
+        std::for_each(groups.begin(), groups.end(),
+                      [this](const auto& group) { addGroup(group); });
+    }
+
     auto& actions =
         std::get<std::vector<std::unique_ptr<ActionBase>>&>(data.second);
     // Perform the actions in the timer data
