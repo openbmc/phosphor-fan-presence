@@ -71,5 +71,54 @@
          "target": 10700
        }
      ]
+   },
+   {
+     // Hold fans at the given target when any critical service
+     // is not running for 5 seconds.
+     "name": "service(s) missing",
+     "groups": [
+       {
+         "name": "occ objects",
+         "interface": "org.open_power.OCC.Status",
+         "property": { "name": "OccActive" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "name_has_owner"
+       },
+       {
+         "class": "signal",
+         "signal": "name_owner_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "call_actions_based_on_timer",
+         "timer": {
+           "interval": 5000000,
+           "type": "oneshot"
+         },
+         "actions": [
+           {
+             "name": "set_target_on_missing_owner",
+             "groups": [
+               {
+                 "name": "fan inventory",
+                 "interface": "xyz.openbmc_project.Inventory.Item",
+                 "property": { "name": "Present" }
+               },
+               {
+                 "name": "occ objects",
+                 "interface": "org.open_power.OCC.Status",
+                 "property": { "name": "OccActive" }
+               }
+             ],
+             "target": 10700
+           }
+         ]
+       }
+     ]
    }
 ]

@@ -51,5 +51,14 @@
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan5/fan5_0",
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan5/fan5_1"
    ]
+ },
+ {
+   "name": "occ objects",
+   "members": [
+     "/org/open_power/control/occ0",
+     "/org/open_power/control/occ1",
+     "/org/open_power/control/occ2",
+     "/org/open_power/control/occ3"
+   ]
  }
 ]

@@ -31,5 +31,12 @@
    "members": [
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan4/fan4_0"
    ]
+ },
+ {
+   "name": "occ objects",
+   "members": [
+     "/org/open_power/control/occ0",
+     "/org/open_power/control/occ1"
+   ]
  }
 ]

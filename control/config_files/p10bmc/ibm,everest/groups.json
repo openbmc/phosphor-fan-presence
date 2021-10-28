@@ -35,5 +35,18 @@
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3/fan3_0",
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3/fan3_1"
    ]
+ },
+ {
+   "name": "occ objects",
+   "members": [
+     "/org/open_power/control/occ0",
+     "/org/open_power/control/occ1",
+     "/org/open_power/control/occ2",
+     "/org/open_power/control/occ3",
+     "/org/open_power/control/occ4",
+     "/org/open_power/control/occ5",
+     "/org/open_power/control/occ6",
+     "/org/open_power/control/occ7"
+   ]
  }
 ]
