@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "db5b1180_1d22f93a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2021-10-28T14:33:45Z",
+      "side": 1,
+      "message": "Yes, I will fix it! thank you",
+      "parentUuid": "759dc605_e751efc3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 77
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1c0e6105_58a6599b",
         "filename": "control/example/fans.yaml",
         "patchSetId": 1
@@ -95,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8d05d50e_5dbbdf50",
+        "filename": "control/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2021-10-28T14:33:45Z",
+      "side": 1,
+      "message": "the targetname (may be Pwm_1, Pwm_2, .... ) at /xyz/openbmc_project/control/fanpwm/ will be difference with the sensor_name at /xyz/openbmc_project/sensors/fan_tach/\n\nSo I would like to define the target_path as full path, it includes the targetname",
+      "parentUuid": "ec47402e_bd992f41",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "783f0e38_f4474f1e",
         "filename": "control/gen-fan-zone-defs.py",
         "patchSetId": 1
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8bf8ecb9_9c336483",
+        "filename": "control/gen-fan-zone-defs.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2021-10-28T14:33:45Z",
+      "side": 1,
+      "message": "Ok Matthew, it will be clear after we choose the target_path format.",
+      "parentUuid": "783f0e38_f4474f1e",
+      "range": {
+        "startLine": 702,
+        "startChar": 12,
+        "endLine": 702,
+        "endChar": 14
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "47f27fb8_56354ada",
         "filename": "control/json/fan.cpp",
         "patchSetId": 1
@@ -129,6 +201,30 @@
       "writtenOn": "2021-10-18T18:56:37Z",
       "side": 1,
       "message": "This should be the target_path + sensor.get\u003cstd::string\u003e() where the path is given to the sensor. Even on a dbus-sensors implementation, there\u0027s a sensor name that\u0027s provided which an be appended to this target_path.",
+      "range": {
+        "startLine": 74,
+        "startChar": 19,
+        "endLine": 74,
+        "endChar": 60
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86eb69ef_ad78d58d",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000994
+      },
+      "writtenOn": "2021-10-28T14:33:45Z",
+      "side": 1,
+      "message": "We need to discuss the target_path. It should be a full path or target_path + target_name ?",
+      "parentUuid": "47f27fb8_56354ada",
       "range": {
         "startLine": 74,
         "startChar": 19,
