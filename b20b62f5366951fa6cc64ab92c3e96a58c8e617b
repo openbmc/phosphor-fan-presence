@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb5d3fe5_eed967a6",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T19:27:09Z",
+      "side": 1,
+      "message": "That\u0027s assuming the `org.freedesktop.DBus.ObjectManager` interface exists, otherwise addObjects retrieves the single property.\n\nIf you want to be able to skip other objects in the same service, a check for that interface on the service should be done in here prior to skipping other objects in the same service.",
+      "range": {
+        "startLine": 40,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "b20b62f5366951fa6cc64ab92c3e96a58c8e617b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "645864e4_d9653b5a",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T19:27:09Z",
+      "side": 1,
+      "message": "Honestly, I think this is broken but I know this was pulled from the timer_based_actions action. It\u0027ll be something I\u0027ll look into and update in here and the timer_based_actions as I think both TimerBasedActions::setActions and this GetManagedObjects::setActions should more closely follow how Event::setActions deals with profiles and zones.",
+      "range": {
+        "startLine": 112,
+        "startChar": 8,
+        "endLine": 112,
+        "endChar": 72
+      },
+      "revId": "b20b62f5366951fa6cc64ab92c3e96a58c8e617b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
