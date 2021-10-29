@@ -19,8 +19,11 @@
 #include "sdbusplus.hpp"
 
 #include <CLI/CLI.hpp>
+#include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <chrono>
+#include <filesystem>
 #include <iomanip>
 #include <iostream>
 
@@ -30,6 +33,7 @@ constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
 constexpr auto systemdPath = "/org/freedesktop/systemd1";
 constexpr auto systemdService = "org.freedesktop.systemd1";
 constexpr auto phosphorServiceName = "phosphor-fan-control@0.service";
+constexpr auto dumpFile = "/tmp/fan_control_dump.json";
 
 enum
 {
@@ -37,6 +41,13 @@ enum
     PATH_MAP = 1,
     IFACES = 2,
     METHOD = 3
+};
+
+struct DumpQuery
+{
+    std::string section;
+    std::string name;
+    std::vector<std::string> properties;
 };
 
 /**
@@ -531,7 +542,7 @@ void dumpFanControl()
     {
         SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                               "KillUnit", phosphorServiceName, "main", SIGUSR1);
-        std::cout << "Fan control dump written to: /tmp/fan_control_dump.json"
+        std::cout << "Fan control dump written to: " << dumpFile
                   << std::endl;
     }
     catch (const phosphor::fan::util::DBusPropertyError& e)
@@ -541,9 +552,79 @@ void dumpFanControl()
 }
 
 /**
+ * @function Query items in the dump file
+ */
+void queryDumpFile(const DumpQuery& dq)
+{
+    nlohmann::json output;
+    std::ifstream file{dumpFile};
+
+    if (!file.good())
+    {
+        std::cerr << "Unable to open dump file, please run 'fanctl dump'.\n";
+        return;
+    }
+
+    auto dumpData = nlohmann::json::parse(file, nullptr, true);
+
+    if (!dumpData.contains(dq.section))
+    {
+        std::cerr << "Error: Dump file does not contain " << dq.section
+                  << " section"
+                  << "\n";
+        return;
+    }
+
+    const auto& section = dumpData.at(dq.section);
+
+    for (const auto& [key1, values1] : section.items())
+    {
+        if (dq.name.empty() || (key1.find(dq.name) != std::string::npos))
+        {
+            // If no properties specified, print the whole JSON value
+            if (dq.properties.empty())
+            {
+                output[key1] = values1;
+                continue;
+            }
+
+            // Look for properties both one and two levels down.
+            // Future improvement: Use recursion.
+            for (const auto& [key2, values2] : values1.items())
+            {
+                for (const auto& prop : dq.properties)
+                {
+                    if (prop == key2)
+                    {
+                        output[key1][prop] = values2;
+                    }
+                }
+
+                for (const auto& [key3, values3] : values2.items())
+                {
+                    for (const auto& prop : dq.properties)
+                    {
+                        if (prop == key3)
+                        {
+                            output[key1][prop] = values3;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    if (!output.empty())
+    {
+        std::cout << std::setw(4) << output << "\n";
+    }
+}
+
+/**
  * @function setup the CLI object to accept all options
  */
-void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
+void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
+             DumpQuery& dq)
 {
     app.set_help_flag("-h,--help", "Print this help page and exit.");
 
@@ -598,6 +679,18 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList)
     cmdDump->set_help_flag("-h, --help",
                            "Dump the FlightRecorder diagnostic log");
     cmdDump->require_option(0);
+
+    auto cmdDumpQuery =
+        commands->add_subcommand("query_dump", "Query the dump file");
+
+    cmdDumpQuery->set_help_flag("-h, --help", "Query the dump file");
+    cmdDumpQuery
+        ->add_option("-s, --section", dq.section, "Dump file section name")
+        ->required();
+    cmdDumpQuery->add_option("-n, --name", dq.name,
+                             "Optional dump file entry name (or substring)");
+    cmdDumpQuery->add_option("-p, --properties", dq.properties,
+                             "Optional list of dump file property names");
 }
 
 /**
@@ -608,6 +701,7 @@ int main(int argc, char* argv[])
     auto rc = 0;
     uint64_t target{0U};
     std::vector<std::string> fanList;
+    DumpQuery dq;
 
     try
     {
@@ -617,7 +711,7 @@ int main(int argc, char* argv[])
                      "https://github.com/openbmc/phosphor-fan-presence/tree/"
                      "master/docs/control/fanctl"};
 
-        initCLI(app, target, fanList);
+        initCLI(app, target, fanList, dq);
 
         CLI11_PARSE(app, argc, argv);
 
@@ -644,6 +738,10 @@ int main(int argc, char* argv[])
         else if (app.got_subcommand("dump"))
         {
             dumpFanControl();
+        }
+        else if (app.got_subcommand("query_dump"))
+        {
+            queryDumpFile(dq);
         }
     }
     catch (const std::exception& e)
