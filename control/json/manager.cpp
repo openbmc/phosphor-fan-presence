@@ -186,6 +186,16 @@ void Manager::powerStateChanged(bool powerStateOn)
         std::for_each(_zones.begin(), _zones.end(), [](const auto& entry) {
             entry.second->setTarget(entry.second->getPoweronTarget());
         });
+
+        // Tell events to run their power on triggers
+        std::for_each(_events.begin(), _events.end(),
+                      [](const auto& entry) { entry.second->powerOn(); });
+    }
+    else
+    {
+        // Tell events to run their power off triggers
+        std::for_each(_events.begin(), _events.end(),
+                      [](const auto& entry) { entry.second->powerOff(); });
     }
 }
 
