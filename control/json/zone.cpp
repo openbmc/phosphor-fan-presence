@@ -360,6 +360,29 @@ void Zone::setInterfaces(const json& jsonObj)
     }
 }
 
+json Zone::dump() const
+{
+    json output;
+
+    output["active"] = _isActive;
+    output["floor"] = _floor;
+    output["target"] = _target;
+    output["increase_delta"] = _incDelta;
+    output["decrease_delta"] = _decDelta;
+    output["power_on_target"] = _poweronTarget;
+    output["default_ceiling"] = _defaultCeiling;
+    output["default_floor"] = _defaultFloor;
+    output["increase_delay"] = _incDelay.count();
+    output["decrease_interval"] = _decInterval.count();
+    output["requested_target_base"] = _requestTargetBase;
+    output["floor_change"] = _floorChange;
+    output["decrease_allowed"] = _decAllowed;
+    output["persisted_props"] = _propsPersisted;
+    output["holds"] = _holds;
+
+    return output;
+}
+
 /**
  * Properties of interfaces supported by the zone configuration that return
  * a handler function that sets the zone's property value(s) and persist

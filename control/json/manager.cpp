@@ -108,6 +108,10 @@ void Manager::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
     FlightRecorder::instance().dump(data);
     dumpCache(data);
 
+    std::for_each(_zones.begin(), _zones.end(), [&data](const auto& zone) {
+        data["zones"][zone.second->getName()] = zone.second->dump();
+    });
+
     std::ofstream file{Manager::dumpFile};
     if (!file)
     {
