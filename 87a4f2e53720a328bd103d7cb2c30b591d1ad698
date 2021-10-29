@@ -45,6 +45,30 @@
       "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff519701_125d53af",
+        "filename": "control/json/triggers/timer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T18:18:31Z",
+      "side": 1,
+      "message": "In fact, I\u0027m wondering if this would remove any scope concerns\n```\nelse\n{\n    auto tpPtr \u003d std::make_unique\u003cTimerPkg\u003e(eventName, std::ref(actions), std::vector\u003cGroup\u003e());\n    mgr-\u003eaddTimer(type, interval, std::move(tpPtr));\n}",
+      "parentUuid": "d63d2b5b_f9cc4d50",
+      "range": {
+        "startLine": 98,
+        "startChar": 48,
+        "endLine": 98,
+        "endChar": 64
+      },
+      "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
