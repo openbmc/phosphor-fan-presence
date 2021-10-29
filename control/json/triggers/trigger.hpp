@@ -29,6 +29,8 @@ namespace phosphor::fan::control::json::trigger
 static const std::map<std::string, createTrigger> triggers = {
     {"timer", timer::triggerTimer},
     {"signal", signal::triggerSignal},
-    {"init", init::triggerInit}};
+    {"init", init::triggerInit},
+    {"poweron", init::triggerInit},
+    {"poweroff", init::triggerInit}};
 
 } // namespace phosphor::fan::control::json::trigger
