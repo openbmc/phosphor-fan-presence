@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "3a862981_d426770f",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T20:20:29Z",
+      "side": 1,
+      "message": "Yeah, we definitely dont want stale data left in the cache if we\u0027re unable to get to it when the timer expires. So I\u0027d say lets atleast erase it from the cache here if we\u0027re not able to retrieve it at this point.",
+      "parentUuid": "decb389a_16c95f6a",
+      "range": {
+        "startLine": 554,
+        "startChar": 8,
+        "endLine": 555,
+        "endChar": 10
+      },
+      "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d63d2b5b_f9cc4d50",
         "filename": "control/json/triggers/timer.cpp",
         "patchSetId": 2
@@ -117,6 +141,30 @@
       "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67fe6a5_08dac7c6",
+        "filename": "control/json/triggers/timer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T20:20:29Z",
+      "side": 1,
+      "message": "Yeah, I thought it would be a dangling reference also except after I read that a cref was copy constructable and went spiraling down that path but that would still leave a dangling reference since it\u0027d be a copy of a reference wrapper.",
+      "parentUuid": "37e2e980_a23d751c",
+      "range": {
+        "startLine": 98,
+        "startChar": 48,
+        "endLine": 98,
+        "endChar": 64
+      },
+      "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
