@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "dceb78f8_be1075da",
+        "filename": "control/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T20:05:25Z",
+      "side": 1,
+      "message": "Are you saying you have the following dbus object paths as an example?\n```\n/xyz/openbmc_project/control/fanpwm/PWM_1\n/xyz/openbmc_project/sensors/fan_tach/PWM_1\n```\nwhere /xyz/openbmc_project/control/fanpwm/PWM_1 has the target interface on it and /xyz/openbmc_project/sensors/fan_tach/PWM_1 has the value interface?\n\nPlease provide an example of your dbus object paths and what interfaces(target and value) are on each path. Thanks",
+      "parentUuid": "8d05d50e_5dbbdf50",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "783f0e38_f4474f1e",
         "filename": "control/gen-fan-zone-defs.py",
         "patchSetId": 1
