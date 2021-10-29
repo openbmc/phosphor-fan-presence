@@ -49,6 +49,10 @@ resume
     * Note: In the case where a system does not have an active fan control
       algorithm enabled yet, an intended safe fan target should be set
       prior to resuming
+dump
+    - Tell fan control to dump its caches and flight recorder.
+query_dump
+    - Provides arguments to search the dump file.
 help
     - Display this help and exit
 ```
@@ -112,3 +116,14 @@ help
 
     > fanctl reload
 
+- Tell the fan control daemon to dump debug data to /tmp/fan\_control\_dump.json
+    > fanctl dump
+
+- Print all temperatures in the fan control cache after running 'fanctl dump':
+    > fanctl query_dump -s objects -n sensors/temperature -p Value
+
+- Print every interface and property in the Ambient temp sensor's cache entry:
+    > fanctl query_dump -s objects -n Ambient
+
+- Print the flight recorder after running 'fanctl dump':
+    > fanctl query_dump -s flight_recorder
