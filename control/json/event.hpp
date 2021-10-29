@@ -79,6 +79,16 @@ class Event : public ConfigBase
     void enable();
 
     /**
+     * @brief Call any power on triggers
+     */
+    void powerOn();
+
+    /**
+     * @brief Call any power off triggers
+     */
+    void powerOff();
+
+    /**
      * @brief Clear all groups available for events
      */
     static void clearAllGroups()
@@ -147,8 +157,8 @@ class Event : public ConfigBase
     /* List of actions for this event */
     std::vector<std::unique_ptr<ActionBase>> _actions;
 
-    /* List of trigger enablement functions for this event */
-    std::vector<trigger::enableTrigger> _triggers;
+    /* List of trigger type and enablement functions for this event */
+    std::vector<std::tuple<std::string, trigger::enableTrigger>> _triggers;
 
     /* All groups available to be configred on events */
     static std::map<configKey, std::unique_ptr<Group>> allGroups;
