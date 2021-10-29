@@ -377,6 +377,13 @@ class Zone : public ConfigBase
         };
     }
 
+    /**
+     * @brief Dump the attributes into JSON
+     *
+     * @return json - JSON object with the attributes
+     */
+    json dump() const;
+
   private:
     /* The zone's associated dbus object */
     std::unique_ptr<DBusZone> _dbusZone;
