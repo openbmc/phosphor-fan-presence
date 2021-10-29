@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5398401d_531c56ac",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 555,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T18:15:00Z",
+      "side": 1,
+      "message": "Should consider logging atleast a DEBUG msg to the journal that we failed to get a particular property? Though this could fill up the DEBUG journal quick depending on the interval of the timer, so I can be convinced to not log anything here.",
+      "range": {
+        "startLine": 554,
+        "startChar": 8,
+        "endLine": 555,
+        "endChar": 10
+      },
+      "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d63d2b5b_f9cc4d50",
+        "filename": "control/json/triggers/timer.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-10-29T18:15:00Z",
+      "side": 1,
+      "message": "std::cref(groups)\n\nAfter we talked, it seems instead of sending the preload bool we could make the TimerPkg with std::cref(groups) when preload \u003d\u003d true or pass down `const std::vector\u003cGroup\u003e emptyGroups;` when preload \u003d\u003d false.\n\nstd::cref would create a copy constructable reference_wrapper around emptyGroups.\n\ni.e.)\n```\nif (preload)\n{\n    auto tpPtr \u003d std::make_unique\u003cTimerPkg\u003e(eventName, std::ref(actions), std::cref(groups));\n    mgr-\u003eaddTimer(type, interval, std::move(tpPtr));\n}\nelse\n{\n    const std::vector\u003cGroup\u003e emptyGroups;\n    auto tpPtr \u003d std::make_unique\u003cTimerPkg\u003e(eventName, std::ref(actions), std::cref(emptyGroups));\n    mgr-\u003eaddTimer(type, interval, std::move(tpPtr));\n}\n```\nThis compiles, but I have not tested it..",
+      "range": {
+        "startLine": 98,
+        "startChar": 48,
+        "endLine": 98,
+        "endChar": 64
+      },
+      "revId": "87a4f2e53720a328bd103d7cb2c30b591d1ad698",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
