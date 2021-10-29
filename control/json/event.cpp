@@ -59,9 +59,35 @@ Event::Event(const json& jsonObj, Manager* mgr,
 
 void Event::enable()
 {
-    for (const auto& trigger : _triggers)
+    for (const auto& [type, trigger] : _triggers)
     {
-        trigger(getName(), _manager, _groups, _actions);
+        // Don't call the powerOn or powerOff triggers
+        if (type.find("power") == std::string::npos)
+        {
+            trigger(getName(), _manager, _groups, _actions);
+        }
+    }
+}
+
+void Event::powerOn()
+{
+    for (const auto& [type, trigger] : _triggers)
+    {
+        if (type == "poweron")
+        {
+            trigger(getName(), _manager, _groups, _actions);
+        }
+    }
+}
+
+void Event::powerOff()
+{
+    for (const auto& [type, trigger] : _triggers)
+    {
+        if (type == "poweroff")
+        {
+            trigger(getName(), _manager, _groups, _actions);
+        }
     }
 }
 
@@ -266,6 +292,7 @@ void Event::setTriggers(const json& jsonObj)
         if (trigFunc != trigger::triggers.end())
         {
             _triggers.emplace_back(
+                trigFunc->first,
                 trigFunc->second(jsonTrig, getName(), _actions));
         }
         else
