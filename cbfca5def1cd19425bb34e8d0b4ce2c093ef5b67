@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "82012225_7c31cc82",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T18:14:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "542f9b57_7a5cd1ba",
+      "range": {
+        "startLine": 567,
+        "startChar": 46,
+        "endLine": 567,
+        "endChar": 61
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "37e505ac_b9a8b726",
         "filename": "control/fanctl.cpp",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2021-11-01T16:15:03Z",
       "side": 1,
       "message": "Another future improvement maybe to be a case-insensitive and/or string contains check for dumping properties.",
+      "range": {
+        "startLine": 596,
+        "startChar": 24,
+        "endLine": 596,
+        "endChar": 36
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1284c54a_b59ae345",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T18:14:22Z",
+      "side": 1,
+      "message": "Would be easy enough, though then \u0027value\u0027 would also match on \u0027MinValue\u0027 and \u0027MaxValue\u0027 which are pretty uninteresting.",
+      "parentUuid": "37e505ac_b9a8b726",
       "range": {
         "startLine": 596,
         "startChar": 24,
@@ -68,6 +116,30 @@
       "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07143078_303194a7",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T18:14:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfda9f59_5f11bc2d",
+      "range": {
+        "startLine": 682,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 74
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -108,6 +180,24 @@
       "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "770fb28c_6309d4bb",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T18:14:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10ece2c2_66777eee",
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
