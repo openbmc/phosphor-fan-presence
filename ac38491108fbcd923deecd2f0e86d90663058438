@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a23ff033_05834a91",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T16:36:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7482c20f_7dd2ba23",
+      "range": {
+        "startLine": 183,
+        "startChar": 8,
+        "endLine": 189,
+        "endChar": 33
+      },
+      "revId": "ac38491108fbcd923deecd2f0e86d90663058438",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2faeb890_364dad4a",
         "filename": "control/json/zone.cpp",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2021-11-01T14:49:44Z",
       "side": 1,
       "message": "To save from doing the find, we could just record that \"set floor hold for ident to target\".\n\nFloor holds are not intended to really change too often, so doing this shouldnt flood the flight recorder...and if it does then something else is likely wrong with the configuration.",
+      "range": {
+        "startLine": 193,
+        "startChar": 8,
+        "endLine": 199,
+        "endChar": 9
+      },
+      "revId": "ac38491108fbcd923deecd2f0e86d90663058438",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b29928_29281a21",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T16:36:59Z",
+      "side": 1,
+      "message": "Done. \n\nThough mapped_floor will do it every time it runs, which could be every second with the ambient.",
+      "parentUuid": "2faeb890_364dad4a",
       "range": {
         "startLine": 193,
         "startChar": 8,
@@ -68,6 +116,30 @@
       "revId": "ac38491108fbcd923deecd2f0e86d90663058438",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "981afc22_7d113101",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-01T16:36:59Z",
+      "side": 1,
+      "message": "This would only get logged if the \u0027hold\u0027 var passed in is false, meaning some action is basically removing its vote on the floor.",
+      "parentUuid": "a4ddd85c_d3548b54",
+      "range": {
+        "startLine": 219,
+        "startChar": 29,
+        "endLine": 219,
+        "endChar": 63
+      },
+      "revId": "ac38491108fbcd923deecd2f0e86d90663058438",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
