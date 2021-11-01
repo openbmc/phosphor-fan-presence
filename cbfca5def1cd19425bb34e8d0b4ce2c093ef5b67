@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "542f9b57_7a5cd1ba",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-01T16:15:03Z",
+      "side": 1,
+      "message": "These are the default values for these parameters, so no need to have them here.",
+      "range": {
+        "startLine": 567,
+        "startChar": 46,
+        "endLine": 567,
+        "endChar": 61
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37e505ac_b9a8b726",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-01T16:15:03Z",
+      "side": 1,
+      "message": "Another future improvement maybe to be a case-insensitive and/or string contains check for dumping properties.",
+      "range": {
+        "startLine": 596,
+        "startChar": 24,
+        "endLine": 596,
+        "endChar": 36
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfda9f59_5f11bc2d",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-01T16:15:03Z",
+      "side": 1,
+      "message": "Wrap this with the ifdef CONTROL_USE_JSON\n```\n#ifdef CONTROL_USE_JSON\n.\n.\n.\n#endif\n```",
+      "range": {
+        "startLine": 682,
+        "startChar": 4,
+        "endLine": 692,
+        "endChar": 74
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eabf384_6152b218",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-01T16:15:03Z",
+      "side": 1,
+      "message": "Wrap this with the ifdef CONTROL_USE_JSON\n```\n#ifdef CONTROL_USE_JSON\n.\n.\n.\n#endif\n```",
+      "range": {
+        "startLine": 741,
+        "startChar": 6,
+        "endLine": 744,
+        "endChar": 9
+      },
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10ece2c2_66777eee",
+        "filename": "docs/control/fanctl/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-01T16:15:03Z",
+      "side": 1,
+      "message": "For completeness, add a `dump` example too?",
+      "revId": "cbfca5def1cd19425bb34e8d0b4ce2c093ef5b67",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
