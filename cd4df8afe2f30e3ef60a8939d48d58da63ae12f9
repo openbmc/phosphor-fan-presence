@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b66050c8_5190b464",
+        "filename": "control/json/triggers/timer.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-02T15:18:59Z",
+      "side": 1,
+      "message": "This should be `std::cref(groups)`",
+      "range": {
+        "startLine": 98,
+        "startChar": 48,
+        "endLine": 98,
+        "endChar": 64
+      },
+      "revId": "cd4df8afe2f30e3ef60a8939d48d58da63ae12f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
