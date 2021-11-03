@@ -124,7 +124,8 @@ void interfacesAdded(Manager* mgr, const Group& group, SignalActions actions,
     for (const auto& member : group.getMembers())
     {
         // Setup interfaces added signal handler on the group member
-        const auto match = rules::interfacesAdded(member);
+        const auto match =
+            rules::interfacesAdded() + rules::argNpath(0, member);
         SignalPkg signalPkg = {Handlers::interfacesAdded,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
