@@ -135,5 +135,40 @@
          ]
        }
      ]
-   }
+   },
+   {
+    // Set a fan floor if an OCC isn't active
+    "name": "Non-active OCCs",
+    "groups": [
+      {
+        "name": "occ objects",
+        "interface": "org.open_power.OCC.Status",
+        "property": {
+          "name": "OccActive"
+        }
+      }
+    ],
+    "triggers": [
+      {
+        "class": "signal",
+        "signal": "properties_changed"
+      },
+      {
+        "class": "signal",
+        "signal": "interfaces_added"
+      },
+      {
+        "class": "init",
+        "method": "get_properties"
+      }
+    ],
+    "actions": [
+      {
+        "name": "count_state_floor",
+        "count": 1,
+        "state": false,
+        "floor": 10000
+      }
+    ]
+  }
 ]
