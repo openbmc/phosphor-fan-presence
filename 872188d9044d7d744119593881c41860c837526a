@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6678ba7f_a6cdd090",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-03T19:40:15Z",
+      "side": 1,
+      "message": "Can the object manager interface exist on more than one level in an object path? Such as at `/xyz/openbmc_project/sensors` and `/xyz/openbmc_project`.\n\nIf it can, there\u0027s no ordering to what\u0027s returned by `getPaths` so this wouldn\u0027t necessarily find the most immediate ancestor of the member.",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb155a9_2d5343a2",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-03T19:40:15Z",
+      "side": 1,
+      "message": "Dont think we want to keep inserting the service when there is no obj mgr.",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 17
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
