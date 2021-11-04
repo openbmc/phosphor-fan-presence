@@ -570,6 +570,20 @@ void queryDumpFile(const DumpQuery& dq)
 
     const auto& section = dumpData.at(dq.section);
 
+    if (section.is_array())
+    {
+        for (const auto& entry : section)
+        {
+            if (!entry.is_string() || dq.name.empty() ||
+                (entry.get<std::string>().find(dq.name) != std::string::npos))
+            {
+                output[dq.section].push_back(entry);
+            }
+        }
+        std::cout << std::setw(4) << output << "\n";
+        return;
+    }
+
     for (const auto& [key1, values1] : section.items())
     {
         if (dq.name.empty() || (key1.find(dq.name) != std::string::npos))
