@@ -1,9 +1,35 @@
 [
-    {
-        "name": "0",
-        "poweron_target": 17250,
-        "default_floor": 17250,
-        "increase_delay": 5,
-        "decrease_interval": 30
-    }
+  {
+    "name": "0",
+    "poweron_target": 17250,
+    "default_floor": 17250,
+    "increase_delay": 5,
+    "decrease_interval": 30,
+    "interfaces": [
+      {
+        "name": "xyz.openbmc_project.Control.ThermalMode",
+        "properties": [
+          {
+            "name": "Supported",
+            "values": [
+              {
+                "value": "MaxPerf"
+              },
+              {
+                "value": "Static"
+              },
+              {
+                "value": "PowerSave"
+              }
+            ]
+          },
+          {
+            "name": "Current",
+            "value": "MaxPerf",
+            "persist": true
+          }
+        ]
+      }
+    ]
+  }
 ]
