@@ -257,12 +257,15 @@ void MappedFloor::run(Zone& zone)
                 }
                 else
                 {
-                    log<level::ERR>(
+                    // If the parameter isn't there, then don't use
+                    // this floor table
+                    log<level::DEBUG>(
                         fmt::format("{}: Parameter {} specified in the JSON "
                                     "could not be found",
                                     ActionBase::getName(),
                                     std::get<std::string>(groupOrParameter))
                             .c_str());
+                    continue;
                 }
             }
             else
