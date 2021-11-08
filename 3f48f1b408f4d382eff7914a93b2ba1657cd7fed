@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9bf9a57b_298637cc",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-08T19:02:39Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand why this was failing. Is it because the sensor didn\u0027t have both the \u0027alarmHigh\u0027 and \u0027alarmLow\u0027 properties on D-Bus?",
+      "revId": "3f48f1b408f4d382eff7914a93b2ba1657cd7fed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
