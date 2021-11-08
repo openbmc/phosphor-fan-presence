@@ -162,6 +162,22 @@ void ShutdownAlarmMonitor::checkAlarms()
                                  .c_str());
             continue;
         }
+        catch (const DBusMethodError& e)
+        {
+            // The sensor isn't on D-Bus anymore
+            log<level::INFO>(fmt::format("No {} interface on {} anymore.",
+                                         interface, sensorPath)
+                                 .c_str());
+            continue;
+        }
+        catch (sdbusplus::exception::SdBusError& e)
+        {
+            // The sensor isn't on D-Bus anymore
+            log<level::INFO>(fmt::format("No {} interface on {} anymore.",
+                                         interface, sensorPath)
+                                 .c_str());
+            continue;
+        }
 
         checkAlarm(value, alarmKey);
     }
