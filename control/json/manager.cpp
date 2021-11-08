@@ -146,8 +146,7 @@ void Manager::dumpCache(json& data)
     auto& parameters = data["parameters"];
     for (const auto& [name, value] : _parameters)
     {
-        std::visit([&obj = parameters["name"]](auto&& val) { obj = val; },
-                   value);
+        std::visit([&obj = parameters[name]](auto&& val) { obj = val; }, value);
     }
 
     data["services"] = _servTree;
