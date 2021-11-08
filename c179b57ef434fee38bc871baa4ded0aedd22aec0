@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a6b02d1_aa804997",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-08T16:39:30Z",
+      "side": 1,
+      "message": "Log a debug message as this would be a misconfiguration with the fan name given in the action to do the lock.",
+      "range": {
+        "startLine": 155,
+        "startChar": 8,
+        "endLine": 156,
+        "endChar": 67
+      },
+      "revId": "c179b57ef434fee38bc871baa4ded0aedd22aec0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1ddd0c4_8f598eae",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-08T16:39:30Z",
+      "side": 1,
+      "message": "Log a debug message as this would also be the same misconfiguration with the fan name given in the action that would do the lock.",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 174,
+        "endChar": 67
+      },
+      "revId": "c179b57ef434fee38bc871baa4ded0aedd22aec0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45483c4c_3d8048e0",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-08T16:39:30Z",
+      "side": 1,
+      "message": "Ah, appears there were comments on doing this are in the prior commit but looks to be done here. So this should be \"Resume zone target on fan\" and the prior commit comments on resuming should be removed.",
+      "range": {
+        "startLine": 180,
+        "startChar": 8,
+        "endLine": 181,
+        "endChar": 42
+      },
+      "revId": "c179b57ef434fee38bc871baa4ded0aedd22aec0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
