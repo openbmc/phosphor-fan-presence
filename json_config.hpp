@@ -311,6 +311,16 @@ class JsonConfig
         return jsonConf;
     }
 
+    /**
+     * @brief Return the compatible values property
+     *
+     * @return const std::vector<std::string>& - The values
+     */
+    static const std::vector<std::string>& getCompatValues()
+    {
+        return _confCompatValues;
+    }
+
   private:
     /* Load function to call for a fan app to load its config file(s). */
     std::function<void()> _loadFunc;
