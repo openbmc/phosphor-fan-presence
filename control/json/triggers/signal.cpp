@@ -49,28 +49,28 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
     if (signalData.empty())
     {
         // Signal subscription doesnt exist, add signal package and subscribe
-        std::vector<SignalPkg> pkgs = {signalPkg};
-        std::vector<SignalPkg> dataPkgs =
-            std::vector<SignalPkg>(std::move(pkgs));
+        std::unique_ptr<std::vector<SignalPkg>> pkgs =
+            std::make_unique<std::vector<SignalPkg>>();
+        pkgs->emplace_back(std::move(signalPkg));
         std::unique_ptr<sdbusplus::server::match::match> ptrMatch = nullptr;
-        // TODO(ibm-openbmc/#3195) - Filter signal subscriptions to objects
-        // owned by fan control?
         if (!match.empty())
         {
             // Subscribe to signal
             ptrMatch = std::make_unique<sdbusplus::server::match::match>(
                 mgr->getBus(), match.c_str(),
                 std::bind(std::mem_fn(&Manager::handleSignal), &(*mgr),
-                          std::placeholders::_1, dataPkgs));
+                          std::placeholders::_1, pkgs.get()));
         }
-        signalData.emplace_back(std::move(dataPkgs), std::move(ptrMatch));
+        signalData.emplace_back(std::move(pkgs), std::move(ptrMatch));
     }
     else
     {
         // Signal subscription already exists
         // Only a single signal data entry tied to each match is supported
-        auto& pkgs = std::get<std::vector<SignalPkg>>(signalData.front());
-        for (auto& pkg : pkgs)
+        auto& pkgs = std::get<std::unique_ptr<std::vector<SignalPkg>>>(
+            signalData.front());
+        auto sameSignal = false;
+        for (auto& pkg : *pkgs)
         {
             if (isSameSig(pkg))
             {
@@ -81,12 +81,14 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
                 actions.insert(actions.end(),
                                std::make_move_iterator(pkgActions.begin()),
                                std::make_move_iterator(pkgActions.end()));
+                sameSignal = true;
+                break;
             }
-            else
-            {
-                // Expected signal differs, add signal package
-                pkgs.emplace_back(std::move(signalPkg));
-            }
+        }
+        if (!sameSignal)
+        {
+            // Expected signal differs, add signal package
+            pkgs->emplace_back(std::move(signalPkg));
         }
     }
 }

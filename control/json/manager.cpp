@@ -28,6 +28,8 @@
 #include "sdbusplus.hpp"
 #include "zone.hpp"
 
+#include <systemd/sd-bus.h>
+
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server/manager.hpp>
@@ -655,9 +657,9 @@ void Manager::timerExpired(TimerData& data)
 }
 
 void Manager::handleSignal(sdbusplus::message::message& msg,
-                           const std::vector<SignalPkg>& pkgs)
+                           const std::vector<SignalPkg>* pkgs)
 {
-    for (auto& pkg : pkgs)
+    for (auto& pkg : *pkgs)
     {
         // Handle the signal callback and only run the actions if the handler
         // updated the cache for the given SignalObject
@@ -668,6 +670,11 @@ void Manager::handleSignal(sdbusplus::message::message& msg,
             auto& actions = std::get<SignalActions>(pkg);
             std::for_each(actions.begin(), actions.end(),
                           [](auto& action) { action.get()->run(); });
+        }
+        // Only rewind message when not last package
+        if (&pkg != &pkgs->back())
+        {
+            sd_bus_message_rewind(msg.get(), true);
         }
     }
 }
