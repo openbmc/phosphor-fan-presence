@@ -112,6 +112,12 @@ using SignalData = std::tuple<std::vector<SignalPkg>,
                               std::unique_ptr<sdbusplus::server::match::match>>;
 
 /**
+ * Actions to run when a parameter trigger runs.
+ */
+using ParamTriggerData = std::vector<
+    std::reference_wrapper<const std::vector<std::unique_ptr<ActionBase>>>>;
+
+/**
  * @class Manager - Represents the fan control manager's configuration
  *
  * A fan control manager configuration is optional, therefore the "manager.json"
@@ -450,7 +456,15 @@ class Manager
     static void setParameter(const std::string& name,
                              const PropertyVariantType& value)
     {
+        auto it = _parameters.find(name);
+        auto changed = (it == _parameters.end()) ||
+                       ((it != _parameters.end()) && it->second != value);
         _parameters[name] = value;
+
+        if (changed)
+        {
+            runParameterActions(name);
+        }
     }
 
     /**
@@ -479,8 +493,31 @@ class Manager
      */
     static void deleteParameter(const std::string& name)
     {
-        _parameters.erase(name);
+        size_t deleted = _parameters.erase(name);
+
+        if (deleted)
+        {
+            runParameterActions(name);
+        }
     }
+
+    /**
+     * @brief Runs the actions registered to a parameter
+     *        trigger with this name.
+     *
+     * @param[in] name - The parameter name
+     */
+    static void runParameterActions(const std::string& name);
+
+    /**
+     * @brief Adds a parameter trigger
+     *
+     * @param[in] name - The parameter name
+     * @param[in] actions - The actions to run on the trigger
+     */
+    static void addParameterTrigger(
+        const std::string& name,
+        const std::vector<std::unique_ptr<ActionBase>>& actions);
 
     /* The name of the dump file */
     static const std::string dumpFile;
@@ -541,6 +578,12 @@ class Manager
      *        can set and use.
      */
     static std::unordered_map<std::string, PropertyVariantType> _parameters;
+
+    /**
+     * @brief Map of parameter names to the actions to run when their
+     *        values change.
+     */
+    static std::unordered_map<std::string, ParamTriggerData> _parameterTriggers;
 
     /**
      * @brief Callback for power state changes
