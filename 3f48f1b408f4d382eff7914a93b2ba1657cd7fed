@@ -34,6 +34,24 @@
       "revId": "3f48f1b408f4d382eff7914a93b2ba1657cd7fed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b1c4caf_daa5025d",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-09T15:01:26Z",
+      "side": 1,
+      "message": "Could you fix findAlarms() to only add an alarm that is on d-bus?  You could do a get all properties on each path/interface and only add alarms that are present.",
+      "parentUuid": "ce2ba523_e2bda771",
+      "revId": "3f48f1b408f4d382eff7914a93b2ba1657cd7fed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
