@@ -59,6 +59,7 @@ std::map<std::string,
          std::map<std::string, std::map<std::string, PropertyVariantType>>>
     Manager::_objects;
 std::unordered_map<std::string, PropertyVariantType> Manager::_parameters;
+std::unordered_map<std::string, ParamTriggerData> Manager::_parameterTriggers;
 
 const std::string Manager::dumpFile = "/tmp/fan_control_dump.json";
 
@@ -705,6 +706,36 @@ void Manager::setProfiles()
         if (profile.second->isActive())
         {
             _activeProfiles.emplace_back(profile.first.first);
+        }
+    }
+}
+
+void Manager::addParameterTrigger(
+    const std::string& name,
+    const std::vector<std::unique_ptr<ActionBase>>& actions)
+{
+    auto it = _parameterTriggers.find(name);
+    if (it != _parameterTriggers.end())
+    {
+        it->second.push_back(actions);
+    }
+    else
+    {
+        ParamTriggerData triggerActions;
+        triggerActions.push_back(actions);
+        _parameterTriggers[name] = std::move(triggerActions);
+    }
+}
+
+void Manager::runParameterActions(const std::string& name)
+{
+    auto it = _parameterTriggers.find(name);
+    if (it != _parameterTriggers.end())
+    {
+        for (const auto& actions : it->second)
+        {
+            std::for_each(actions.get().begin(), actions.get().end(),
+                          [](auto& action) { action->run(); });
         }
     }
 }
