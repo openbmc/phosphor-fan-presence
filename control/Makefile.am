@@ -89,7 +89,8 @@ phosphor_fan_control_SOURCES += \
 	json/actions/count_state_floor.cpp \
 	json/actions/get_managed_objects.cpp \
 	json/utils/flight_recorder.cpp \
-	json/utils/modifier.cpp
+	json/utils/modifier.cpp \
+	json/utils/pcie_card_metadata.cpp
 else
 phosphor_fan_control_SOURCES += \
 	argument.cpp \
