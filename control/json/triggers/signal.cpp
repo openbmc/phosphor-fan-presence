@@ -76,8 +76,8 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
             {
                 // Same SignalObject signal to trigger event actions,
                 // add actions to be run when signal for SignalObject received
-                auto& pkgActions = std::get<SignalActions>(signalPkg);
-                auto& actions = std::get<SignalActions>(pkg);
+                auto& pkgActions = std::get<TriggerActions>(signalPkg);
+                auto& actions = std::get<TriggerActions>(pkg);
                 actions.insert(actions.end(), pkgActions.begin(),
                                pkgActions.end());
                 sameSignal = true;
@@ -92,8 +92,8 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
     }
 }
 
-void propertiesChanged(Manager* mgr, const Group& group, SignalActions& actions,
-                       const json&)
+void propertiesChanged(Manager* mgr, const Group& group,
+                       TriggerActions& actions, const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -117,7 +117,7 @@ void propertiesChanged(Manager* mgr, const Group& group, SignalActions& actions,
     }
 }
 
-void interfacesAdded(Manager* mgr, const Group& group, SignalActions& actions,
+void interfacesAdded(Manager* mgr, const Group& group, TriggerActions& actions,
                      const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
@@ -141,8 +141,8 @@ void interfacesAdded(Manager* mgr, const Group& group, SignalActions& actions,
     }
 }
 
-void interfacesRemoved(Manager* mgr, const Group& group, SignalActions& actions,
-                       const json&)
+void interfacesRemoved(Manager* mgr, const Group& group,
+                       TriggerActions& actions, const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -164,7 +164,7 @@ void interfacesRemoved(Manager* mgr, const Group& group, SignalActions& actions,
     }
 }
 
-void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions& actions,
+void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
                       const json&)
 {
     std::vector<std::string> grpServices;
@@ -213,7 +213,7 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions& actions,
     }
 }
 
-void member(Manager* mgr, const Group& group, SignalActions& actions,
+void member(Manager* mgr, const Group& group, TriggerActions& actions,
             const json&)
 {
     // No SignalObject required to associate to this signal
@@ -265,7 +265,7 @@ enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
             jsonObj](const std::string& eventName, Manager* mgr,
                      const std::vector<Group>& groups,
                      std::vector<std::unique_ptr<ActionBase>>& actions) {
-        SignalActions signalActions;
+        TriggerActions signalActions;
         std::for_each(actions.begin(), actions.end(),
                       [&signalActions](auto& action) {
                           signalActions.emplace_back(std::ref(action));

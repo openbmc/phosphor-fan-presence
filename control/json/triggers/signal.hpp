@@ -50,8 +50,8 @@ void subscribe(const std::string& match, SignalPkg&& pkg,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void propertiesChanged(Manager* mgr, const Group& group, SignalActions& actions,
-                       const json&);
+void propertiesChanged(Manager* mgr, const Group& group,
+                       TriggerActions& actions, const json&);
 
 /**
  * @brief Subscribes to an interfacesAdded signal
@@ -60,7 +60,7 @@ void propertiesChanged(Manager* mgr, const Group& group, SignalActions& actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void interfacesAdded(Manager* mgr, const Group& group, SignalActions& actions,
+void interfacesAdded(Manager* mgr, const Group& group, TriggerActions& actions,
                      const json&);
 
 /**
@@ -70,8 +70,8 @@ void interfacesAdded(Manager* mgr, const Group& group, SignalActions& actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void interfacesRemoved(Manager* mgr, const Group& group, SignalActions& actions,
-                       const json&);
+void interfacesRemoved(Manager* mgr, const Group& group,
+                       TriggerActions& actions, const json&);
 
 /**
  * @brief Subscribes to a nameOwnerChanged signal
@@ -80,7 +80,7 @@ void interfacesRemoved(Manager* mgr, const Group& group, SignalActions& actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions& actions,
+void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
                       const json&);
 
 /**
@@ -90,12 +90,12 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions& actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void member(Manager* mgr, const Group& group, SignalActions& actions,
+void member(Manager* mgr, const Group& group, TriggerActions& actions,
             const json&);
 
 // Match setup function for signals
 using SignalMatch =
-    std::function<void(Manager*, const Group&, SignalActions&, const json&)>;
+    std::function<void(Manager*, const Group&, TriggerActions&, const json&)>;
 
 /* Supported signals to their corresponding match setup functions */
 static const std::unordered_map<std::string, SignalMatch> signals = {

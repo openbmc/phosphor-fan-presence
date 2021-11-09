@@ -59,6 +59,7 @@ std::map<std::string,
          std::map<std::string, std::map<std::string, PropertyVariantType>>>
     Manager::_objects;
 std::unordered_map<std::string, PropertyVariantType> Manager::_parameters;
+std::unordered_map<std::string, TriggerActions> Manager::_parameterTriggers;
 
 const std::string Manager::dumpFile = "/tmp/fan_control_dump.json";
 
@@ -665,7 +666,7 @@ void Manager::handleSignal(sdbusplus::message::message& msg,
                                          *this))
         {
             // Perform the actions in the handler package
-            auto& actions = std::get<SignalActions>(pkg);
+            auto& actions = std::get<TriggerActions>(pkg);
             std::for_each(actions.begin(), actions.end(), [](auto& action) {
                 if (action.get())
                 {
@@ -708,6 +709,38 @@ void Manager::setProfiles()
         {
             _activeProfiles.emplace_back(profile.first.first);
         }
+    }
+}
+
+void Manager::addParameterTrigger(
+    const std::string& name, std::vector<std::unique_ptr<ActionBase>>& actions)
+{
+    auto it = _parameterTriggers.find(name);
+    if (it != _parameterTriggers.end())
+    {
+        std::for_each(actions.begin(), actions.end(),
+                      [&actList = it->second](auto& action) {
+                          actList.emplace_back(std::ref(action));
+                      });
+    }
+    else
+    {
+        TriggerActions triggerActions;
+        std::for_each(actions.begin(), actions.end(),
+                      [&triggerActions](auto& action) {
+                          triggerActions.emplace_back(std::ref(action));
+                      });
+        _parameterTriggers[name] = std::move(triggerActions);
+    }
+}
+
+void Manager::runParameterActions(const std::string& name)
+{
+    auto it = _parameterTriggers.find(name);
+    if (it != _parameterTriggers.end())
+    {
+        std::for_each(it->second.begin(), it->second.end(),
+                      [](auto& action) { action.get()->run(); });
     }
 }
 

@@ -86,7 +86,7 @@ constexpr auto Intf = 1;
 constexpr auto Prop = 2;
 using SignalObject = std::tuple<std::string, std::string, std::string>;
 /* Dbus signal actions */
-using SignalActions =
+using TriggerActions =
     std::vector<std::reference_wrapper<std::unique_ptr<ActionBase>>>;
 /**
  * Signal handler function that handles parsing a signal's message for a
@@ -99,9 +99,9 @@ using SignalHandler = std::function<bool(sdbusplus::message::message&,
  * Tuple constructed of:
  *     SignalHandler = Signal handler function
  *     SignalObject = Dbus signal object
- *     SignalActions = List of actions that are run when the signal is received
+ *     TriggerActions = List of actions that are run when the signal is received
  */
-using SignalPkg = std::tuple<SignalHandler, SignalObject, SignalActions>;
+using SignalPkg = std::tuple<SignalHandler, SignalObject, TriggerActions>;
 /**
  * Data associated to a subscribed signal
  * Tuple constructed of:
@@ -126,6 +126,12 @@ using Intf_v = std::string;
 using Prop_v = std::string;
 using ManagedObjects =
     std::map<Path_v, std::map<Intf_v, std::map<Prop_v, PropertyVariantType>>>;
+
+/**
+ * Actions to run when a parameter trigger runs.
+ */
+using ParamTriggerData = std::vector<
+    std::reference_wrapper<const std::vector<std::unique_ptr<ActionBase>>>>;
 
 /**
  * @class Manager - Represents the fan control manager's configuration
@@ -463,7 +469,15 @@ class Manager
     static void setParameter(const std::string& name,
                              const PropertyVariantType& value)
     {
+        auto it = _parameters.find(name);
+        auto changed = (it == _parameters.end()) ||
+                       ((it != _parameters.end()) && it->second != value);
         _parameters[name] = value;
+
+        if (changed)
+        {
+            runParameterActions(name);
+        }
     }
 
     /**
@@ -492,8 +506,31 @@ class Manager
      */
     static void deleteParameter(const std::string& name)
     {
-        _parameters.erase(name);
+        size_t deleted = _parameters.erase(name);
+
+        if (deleted)
+        {
+            runParameterActions(name);
+        }
     }
+
+    /**
+     * @brief Runs the actions registered to a parameter
+     *        trigger with this name.
+     *
+     * @param[in] name - The parameter name
+     */
+    static void runParameterActions(const std::string& name);
+
+    /**
+     * @brief Adds a parameter trigger
+     *
+     * @param[in] name - The parameter name
+     * @param[in] actions - The actions to run on the trigger
+     */
+    static void
+        addParameterTrigger(const std::string& name,
+                            std::vector<std::unique_ptr<ActionBase>>& actions);
 
     /* The name of the dump file */
     static const std::string dumpFile;
@@ -574,6 +611,12 @@ class Manager
      *        can set and use.
      */
     static std::unordered_map<std::string, PropertyVariantType> _parameters;
+
+    /**
+     * @brief Map of parameter names to the actions to run when their
+     *        values change.
+     */
+    static std::unordered_map<std::string, TriggerActions> _parameterTriggers;
 
     /**
      * @brief Callback for power state changes
