@@ -1,0 +1,53 @@
+{
+  "default_floor_index": 2,
+  "cards": [
+    {
+      "comment": "Card 1",
+      "device_id": "0x1015",
+      "vendor_id": "0x15B3",
+      "subsystem_id": "0x061E",
+      "subsystem_vendor_id": "0x1014",
+      "floor_index": 1
+    },
+    {
+      "comment": "Card 2",
+      "device_id": "0x034a",
+      "vendor_id": "0x1014",
+      "subsystem_id": "0x033B",
+      "subsystem_vendor_id": "0x1014",
+      "floor_index": 1
+    },
+    {
+      "comment": "Card 3",
+      "device_id": "0x101D",
+      "vendor_id": "0x15B3",
+      "subsystem_id": "0x06A6",
+      "subsystem_vendor_id": "0x1014",
+      "floor_index": 1
+    },
+    {
+      "comment": "Card 4",
+      "device_id": "0x2261",
+      "vendor_id": "0x1077",
+      "subsystem_id": "0x0650",
+      "subsystem_vendor_id": "0x1014",
+      "floor_index": 1
+    },
+    {
+      "comment": "Card 5",
+      "device_id": "0xA824",
+      "vendor_id": "0x144D",
+      "subsystem_id": "0x0682",
+      "subsystem_vendor_id": "0x1014",
+      "floor_index": 1
+    },
+    {
+      "comment": "Card 6",
+      "device_id": "0xE300",
+      "vendor_id": "0x10DF",
+      "subsystem_id": "0x0614",
+      "subsystem_vendor_id": "0x1014",
+      "floor_index": 1
+    }
+  ]
+}
