@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bf056a6_8c26aaa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "the fan is restored to its zone\u0027s current target.",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 55
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7d9f906_8445cf7e",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "Doesnt appear to be currently used, however it should be to handle if more than one instance of this action against the same fan could exist across events.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d913d7d_dbe7b1a4",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "This should be put in its own function since its a required JSON entry and should throw an ActionParseError if its not there.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98d9cc31_ddeb60fc",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "This can be greatly simplified if the result of bool `(numAtState \u003e\u003d _count)` was given to the zone\u0027s function to determine whether to lock or unlock a fan.\n\nAlso, the `goto` isnt necessary since breaking out of the loop once the numAtState \u003e\u003d _count can be done, even if that check is done twice (once for the inner loop and once for the outer loop).\n\nDoes this not work when recording to the flight recorder?\n```\nrecord(\"Zone fans unlocked\");\n```",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c827b432_34dff629",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "Action to override fan targets",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fca2080_aed4833d",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "This is a configuration specific statement, instead a description of how this action class works by checking groups against the configured state and when the given `count` or more are at that state, the given fans are locked at a given target.\n\nThis is also a good place to put an example JSON config using this action and writing up an associated description.",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3da3015f_6397b6cc",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 64,
+        "startChar": 55,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cfee749_e741d151",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "Aren\u0027t the fans given, locked at the configured target?\n\nMaybe just remove this since the next sentence correctly describes what happens.",
+      "range": {
+        "startLine": 65,
+        "startChar": 71,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb58143_684b3075",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "I didnt see your updates in the zone and/or fan objects use an instance id, which I think they should have since you could have more than one event locking a fan speed based on different triggers.\n\nThen the highest fan lock target should always be used if there\u0027s more than one. Once that is unlocked, if another lock on the same fan exists from a different event, the next highest lock target is used...once no other locks exist, the fan should return to its zone\u0027s current target.",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6950f1de_45a00a43",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "This should not keep track of any lock state as this is determined each time the action is run.",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f041af1_f0e2a6de",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-10T16:08:38Z",
+      "side": 1,
+      "message": "Please add comment for what this is for.",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 35
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
