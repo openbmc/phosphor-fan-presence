@@ -112,5 +112,31 @@
      "/xyz/openbmc_project/sensors/temperature/proc1_core15_0_temp",
      "/xyz/openbmc_project/sensors/temperature/proc1_core15_1_temp"
    ]
- }
+ },
+ {
+   "name": "pcie cards",
+   "members": [
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot1/pcie_card1",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot2/pcie_card2",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot6/pcie_card6",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot7/pcie_card7",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot8/pcie_card8",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot9/pcie_card9",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot10/pcie_card10",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot11/pcie_card11"
+     ]
+  },
+  {
+   "name": "pcie slots",
+   "members": [
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot1",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot2",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot6",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot7",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot8",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot9",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot10",
+     "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot11"
+     ]
+  }
 ]
