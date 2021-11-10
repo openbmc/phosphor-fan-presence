@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "744a34d5_0e8f2632",
+        "filename": "control/json/triggers/signal.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-10T16:40:32Z",
+      "side": 1,
+      "message": "this results in multiples moves of signalPkg",
+      "revId": "f6403e3c39f1444cd673df5cdefa8f06f470cebc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
