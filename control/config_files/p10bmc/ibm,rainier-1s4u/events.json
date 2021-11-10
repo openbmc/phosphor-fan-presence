@@ -125,5 +125,61 @@
          ]
        }
      ]
-   }
+   },
+   {
+    "name": "set pcie floor index",
+    "groups": [
+      {
+        "name": "pcie slots",
+        "interface": "xyz.openbmc_project.State.Decorator.PowerState",
+        "property": {
+          "name": "PowerState"
+        }
+      },
+      {
+        "name": "pcie cards",
+        "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+        "property": {
+          "name": "Function0DeviceId"
+        }
+      },
+      {
+        "name": "pcie cards",
+        "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+        "property": {
+          "name": "Function0VendorId"
+        }
+      },
+      {
+        "name": "pcie cards",
+        "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+        "property": {
+          "name": "Function0SubsystemId"
+        }
+      },
+      {
+        "name": "pcie cards",
+        "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+        "property": {
+          "name": "Function0SubsystemVendorId"
+        }
+      }
+    ],
+    "triggers": [
+      {
+        "class": "init",
+        "method": "get_properties"
+      },
+      {
+        "class": "signal",
+        "signal": "properties_changed"
+      }
+    ],
+    "actions": [
+      {
+        "name": "pcie_card_floors",
+        "use_config_specific_files": true
+      }
+    ]
+  }
 ]
