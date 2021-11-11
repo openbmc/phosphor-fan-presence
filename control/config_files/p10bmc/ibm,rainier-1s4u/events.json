@@ -297,5 +297,141 @@
         ]
        }
      ]
+   },
+   {
+     "name": "Set Proc 0 Core DVFS parameter",
+     "groups": [
+       {
+         "name": "proc 0 core dvfs temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_0_core_dvfs_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 3
+         }
+       }
+     ]
+   },
+   {
+     "name": "Set Proc 1 Core DVFS parameter",
+     "groups": [
+       {
+         "name": "proc 1 core dvfs temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_1_core_dvfs_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 3
+         }
+       }
+     ]
+   },
+   {
+     "name": "Set Proc 0 IO Ring DVFS parameter",
+     "groups": [
+       {
+         "name": "proc 0 ioring dvfs temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_0_ioring_dvfs_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 3
+         }
+       }
+     ]
+   },
+   {
+     "name": "Set Proc 1 IO Ring DVFS parameter",
+     "groups": [
+       {
+         "name": "proc 1 ioring dvfs temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_1_ioring_dvfs_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 3
+         }
+       }
+     ]
    }
 ]

@@ -362,5 +362,101 @@
    "members": [
       "/xyz/openbmc_project/sensors/altitude/Altitude"
     ]
+ },
+ {
+   "name": "proc 0 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc0_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 1 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc1_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 2 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc2_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 3 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc3_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 4 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc4_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 5 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc5_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 6 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc6_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 7 core dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc7_core_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 0 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc0_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 1 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc1_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 2 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc2_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 3 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc3_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 4 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc4_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 5 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc5_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 6 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc6_ioring_dvfs_temp"
+    ]
+ },
+ {
+   "name": "proc 7 ioring dvfs temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/proc7_ioring_dvfs_temp"
+    ]
  }
 ]
