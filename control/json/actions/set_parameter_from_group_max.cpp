@@ -96,7 +96,7 @@ void SetParameterFromGroupMax::run(Zone& zone)
         }
     }
 
-    if (_modifier)
+    if (_modifier && max)
     {
         try
         {
@@ -112,7 +112,14 @@ void SetParameterFromGroupMax::run(Zone& zone)
         }
     }
 
-    Manager::setParameter(_name, *max);
+    if (max)
+    {
+        Manager::setParameter(_name, *max);
+    }
+    else
+    {
+        Manager::deleteParameter(_name);
+    }
 }
 
 void SetParameterFromGroupMax::setParameterName(const json& jsonObj)
