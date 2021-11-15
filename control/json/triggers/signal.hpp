@@ -50,7 +50,7 @@ void subscribe(const std::string& match, SignalPkg&& pkg,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void propertiesChanged(Manager* mgr, const Group& group, SignalActions actions,
+void propertiesChanged(Manager* mgr, const Group& group, SignalActions& actions,
                        const json&);
 
 /**
@@ -60,7 +60,7 @@ void propertiesChanged(Manager* mgr, const Group& group, SignalActions actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void interfacesAdded(Manager* mgr, const Group& group, SignalActions actions,
+void interfacesAdded(Manager* mgr, const Group& group, SignalActions& actions,
                      const json&);
 
 /**
@@ -70,7 +70,7 @@ void interfacesAdded(Manager* mgr, const Group& group, SignalActions actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void interfacesRemoved(Manager* mgr, const Group& group, SignalActions actions,
+void interfacesRemoved(Manager* mgr, const Group& group, SignalActions& actions,
                        const json&);
 
 /**
@@ -80,7 +80,7 @@ void interfacesRemoved(Manager* mgr, const Group& group, SignalActions actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
+void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions& actions,
                       const json&);
 
 /**
@@ -90,12 +90,12 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
  * @param[in] group - Group to subscribe signal against
  * @param[in] actions - Actions to be run when signal is received
  */
-void member(Manager* mgr, const Group& group, SignalActions actions,
+void member(Manager* mgr, const Group& group, SignalActions& actions,
             const json&);
 
 // Match setup function for signals
-using SignalMatch = std::function<void(Manager*, const Group&,
-                                       SignalActions actions, const json&)>;
+using SignalMatch =
+    std::function<void(Manager*, const Group&, SignalActions&, const json&)>;
 
 /* Supported signals to their corresponding match setup functions */
 static const std::unordered_map<std::string, SignalMatch> signals = {
@@ -117,6 +117,6 @@ static const std::unordered_map<std::string, SignalMatch> signals = {
  * configuration, is received.
  */
 enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
-                            SignalActions actions);
+                            std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::signal

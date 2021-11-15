@@ -86,7 +86,8 @@ constexpr auto Intf = 1;
 constexpr auto Prop = 2;
 using SignalObject = std::tuple<std::string, std::string, std::string>;
 /* Dbus signal actions */
-using SignalActions = std::vector<std::unique_ptr<ActionBase>>&;
+using SignalActions =
+    std::vector<std::reference_wrapper<std::unique_ptr<ActionBase>>>;
 /**
  * Signal handler function that handles parsing a signal's message for a
  * particular signal object and stores the results in the manager
