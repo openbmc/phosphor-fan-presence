@@ -472,6 +472,30 @@
     },
     {
       "key": {
+        "uuid": "6dba443d_1a012349",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T20:19:25Z",
+      "side": 1,
+      "message": "When the unlock condition is detected you need to know if the action was in the locked state.",
+      "parentUuid": "d4006e55_b9874c03",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f041af1_f0e2a6de",
         "filename": "control/json/actions/override_fan_target.hpp",
         "patchSetId": 9
