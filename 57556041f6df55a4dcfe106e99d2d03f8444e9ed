@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a39e1038_1e7ad232",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bf056a6_8c26aaa7",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 55
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7d9f906_8445cf7e",
         "filename": "control/json/actions/override_fan_target.cpp",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112c3b4d_091b7aa9",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e7d9f906_8445cf7e",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 41
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8924d131_a7916be3",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d913d7d_dbe7b1a4",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 44,
+        "endChar": 60
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98d9cc31_ddeb60fc",
         "filename": "control/json/actions/override_fan_target.cpp",
         "patchSetId": 9
@@ -91,6 +163,30 @@
       "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c679b65_b59bed8b",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Ack - fix will be deferred into next commit",
+      "parentUuid": "98d9cc31_ddeb60fc",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 98,
+        "endChar": 5
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "c48ccbd6_dc654f4c",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c827b432_34dff629",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 31,
+        "endChar": 14
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fca2080_aed4833d",
         "filename": "control/json/actions/override_fan_target.hpp",
         "patchSetId": 9
@@ -137,6 +257,30 @@
       "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aa6aebc_63457349",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fca2080_aed4833d",
+      "range": {
+        "startLine": 33,
+        "startChar": 3,
+        "endLine": 36,
+        "endChar": 20
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "835a2bd0_a3ebb93d",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3da3015f_6397b6cc",
+      "range": {
+        "startLine": 64,
+        "startChar": 55,
+        "endLine": 65,
+        "endChar": 42
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2cfee749_e741d151",
         "filename": "control/json/actions/override_fan_target.hpp",
         "patchSetId": 9
@@ -183,6 +351,30 @@
       "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0687781_eb0aedc4",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2cfee749_e741d151",
+      "range": {
+        "startLine": 65,
+        "startChar": 71,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "2a190426_41d28771",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Ack, I am addressing the easy comments first and the multi-lock functionality will come in a subsequent commit.",
+      "parentUuid": "4cb58143_684b3075",
+      "range": {
+        "startLine": 75,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 29
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6950f1de_45a00a43",
         "filename": "control/json/actions/override_fan_target.hpp",
         "patchSetId": 9
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "d4006e55_b9874c03",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6950f1de_45a00a43",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 25
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f041af1_f0e2a6de",
         "filename": "control/json/actions/override_fan_target.hpp",
         "patchSetId": 9
@@ -252,6 +492,30 @@
       "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbf7f520_09c0d2b9",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-15T16:48:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f041af1_f0e2a6de",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 35
+      },
+      "revId": "57556041f6df55a4dcfe106e99d2d03f8444e9ed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
