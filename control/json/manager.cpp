@@ -668,8 +668,12 @@ void Manager::handleSignal(sdbusplus::message::message& msg,
         {
             // Perform the actions in the handler package
             auto& actions = std::get<SignalActions>(pkg);
-            std::for_each(actions.begin(), actions.end(),
-                          [](auto& action) { action.get()->run(); });
+            std::for_each(actions.begin(), actions.end(), [](auto& action) {
+                if (action.get())
+                {
+                    action.get()->run();
+                }
+            });
         }
         // Only rewind message when not last package
         if (&pkg != &pkgs->back())

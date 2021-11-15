@@ -74,13 +74,12 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
         {
             if (isSameSig(pkg))
             {
-                // Same signal expected, add actions to be run when signal
-                // received
+                // Same SignalObject signal to trigger event actions,
+                // add actions to be run when signal for SignalObject received
                 auto& pkgActions = std::get<SignalActions>(signalPkg);
                 auto& actions = std::get<SignalActions>(pkg);
-                actions.insert(actions.end(),
-                               std::make_move_iterator(pkgActions.begin()),
-                               std::make_move_iterator(pkgActions.end()));
+                actions.insert(actions.end(), pkgActions.begin(),
+                               pkgActions.end());
                 sameSignal = true;
                 break;
             }
@@ -93,7 +92,7 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
     }
 }
 
-void propertiesChanged(Manager* mgr, const Group& group, SignalActions actions,
+void propertiesChanged(Manager* mgr, const Group& group, SignalActions& actions,
                        const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
@@ -108,7 +107,7 @@ void propertiesChanged(Manager* mgr, const Group& group, SignalActions actions,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
                                             std::cref(group.getProperty())),
-                               SignalActions(actions)};
+                               actions};
         auto isSameSig = [&prop = group.getProperty()](SignalPkg& pkg) {
             auto& obj = std::get<SignalObject>(pkg);
             return prop == std::get<Prop>(obj);
@@ -118,7 +117,7 @@ void propertiesChanged(Manager* mgr, const Group& group, SignalActions actions,
     }
 }
 
-void interfacesAdded(Manager* mgr, const Group& group, SignalActions actions,
+void interfacesAdded(Manager* mgr, const Group& group, SignalActions& actions,
                      const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
@@ -132,7 +131,7 @@ void interfacesAdded(Manager* mgr, const Group& group, SignalActions actions,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
                                             std::cref(group.getProperty())),
-                               SignalActions(actions)};
+                               actions};
         auto isSameSig = [&intf = group.getInterface()](SignalPkg& pkg) {
             auto& obj = std::get<SignalObject>(pkg);
             return intf == std::get<Intf>(obj);
@@ -142,7 +141,7 @@ void interfacesAdded(Manager* mgr, const Group& group, SignalActions actions,
     }
 }
 
-void interfacesRemoved(Manager* mgr, const Group& group, SignalActions actions,
+void interfacesRemoved(Manager* mgr, const Group& group, SignalActions& actions,
                        const json&)
 {
     // Groups are optional, but a signal triggered event with no groups
@@ -155,7 +154,7 @@ void interfacesRemoved(Manager* mgr, const Group& group, SignalActions actions,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
                                             std::cref(group.getProperty())),
-                               SignalActions(actions)};
+                               actions};
         auto isSameSig = [&intf = group.getInterface()](SignalPkg& pkg) {
             auto& obj = std::get<SignalObject>(pkg);
             return intf == std::get<Intf>(obj);
@@ -165,7 +164,7 @@ void interfacesRemoved(Manager* mgr, const Group& group, SignalActions actions,
     }
 }
 
-void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
+void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions& actions,
                       const json&)
 {
     std::vector<std::string> grpServices;
@@ -190,7 +189,7 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
                     SignalObject(std::cref(member),
                                  std::cref(group.getInterface()),
                                  std::cref(group.getProperty())),
-                    SignalActions(actions)};
+                    actions};
                 // If signal match already exists, then the service will be the
                 // same so add action to be run
                 auto isSameSig = [](SignalPkg& pkg) { return true; };
@@ -214,12 +213,11 @@ void nameOwnerChanged(Manager* mgr, const Group& group, SignalActions actions,
     }
 }
 
-void member(Manager* mgr, const Group& group, SignalActions actions,
+void member(Manager* mgr, const Group& group, SignalActions& actions,
             const json&)
 {
     // No SignalObject required to associate to this signal
-    SignalPkg signalPkg = {Handlers::member, SignalObject(),
-                           SignalActions(actions)};
+    SignalPkg signalPkg = {Handlers::member, SignalObject(), actions};
     // If signal match already exists, then the member signal will be the
     // same so add action to be run
     auto isSameSig = [](SignalPkg& pkg) { return true; };
@@ -238,7 +236,7 @@ void member(Manager* mgr, const Group& group, SignalActions actions,
 }
 
 enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
-                            SignalActions actions)
+                            std::vector<std::unique_ptr<ActionBase>>& actions)
 {
     auto subscriber = signals.end();
     if (jsonObj.contains("signal"))
@@ -267,10 +265,15 @@ enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
             jsonObj](const std::string& eventName, Manager* mgr,
                      const std::vector<Group>& groups,
                      std::vector<std::unique_ptr<ActionBase>>& actions) {
+        SignalActions signalActions;
+        std::for_each(actions.begin(), actions.end(),
+                      [&signalActions](auto& action) {
+                          signalActions.emplace_back(std::ref(action));
+                      });
         for (const auto& group : groups)
         {
             // Call signal subscriber for each group
-            subscriber->second(mgr, group, actions, jsonObj);
+            subscriber->second(mgr, group, signalActions, jsonObj);
         }
     };
 }
