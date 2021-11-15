@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e5483b7_4a90a223",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-15T17:26:25Z",
+      "side": 1,
+      "message": "i\u0027d need an interfaces_added trigger here as well.",
+      "revId": "f08f37bc13fc5140340b60c3a33506025ef0669c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
