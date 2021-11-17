@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4cc4335_80c207c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "You\u0027re using nameHasOwner/nameOwnerChanged now right?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 23
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9427fee8_284f8e91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "wrapping",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 385
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcad0637_d2853aaa",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "What\u0027s this for?",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 62
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d6fe18_1432afc3",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "With current functionality, there\u0027s no reason to do this if the inventory service is running.\n\nIf its not running, then subscribe to nameOwnerChanged so the configs can be loaded and fan monitor can start, then could reset the match on the nameOwnerChanged. (This should be done until we\u0027re going to handle inventory service crashing at runtime beyond how fan monitor handles it currently)",
+      "range": {
+        "startLine": 67,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 5
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caab5561_d0cb035a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "Is this the only reason to have that `fromSigHup` bool? IMHO, I dont find this worth the extra parameter.",
+      "range": {
+        "startLine": 107,
+        "startChar": 8,
+        "endLine": 110,
+        "endChar": 9
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30baeb29_8a421520",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "Doesnt look to be used, so why add?",
+      "range": {
+        "startLine": 197,
+        "startChar": 33,
+        "endLine": 197,
+        "endChar": 35
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae5c23d4_53067ac6",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "Wont need this if the match is reset after seeing inventory has started so fan monitor can load/run.",
+      "range": {
+        "startLine": 228,
+        "startChar": 3,
+        "endLine": 231,
+        "endChar": 5
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70b066ac_723154e3",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "It would be better to keep the owned state of the inventory service with the nameOwnerChanged signals, so maybe we dont reset that match? and instead fixup how to check whether to `load()` or not by looking at if we already have objects created or not.",
+      "range": {
+        "startLine": 242,
+        "startChar": 3,
+        "endLine": 245,
+        "endChar": 74
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "925e1a66_14e70b05",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-17T15:06:06Z",
+      "side": 1,
+      "message": "Its no longer an interface match when using nameOwnerChanged signals.",
+      "range": {
+        "startLine": 150,
+        "startChar": 50,
+        "endLine": 150,
+        "endChar": 65
+      },
+      "revId": "fdf5d262a348ad2ebac6f5b53ae7d4485164060d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
