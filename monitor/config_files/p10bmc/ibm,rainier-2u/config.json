@@ -6,7 +6,7 @@
          "inventory": "/system/chassis/motherboard/fan0",
          "method": "count",
          "count_interval": 1,
-         "deviation": 15,
+         "deviation": 18,
          "num_sensors_nonfunc_for_fan_nonfunc": 0,
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
@@ -22,8 +22,8 @@
                "name": "fan0_1",
                "threshold": 30,
                "has_target": false,
-               "factor": 0.627,
-               "offset": 750
+               "factor": 0.625,
+               "offset": 1100
             }
          ]
       },
@@ -31,7 +31,7 @@
          "inventory": "/system/chassis/motherboard/fan1",
          "method": "count",
          "count_interval": 1,
-         "deviation": 15,
+         "deviation": 18,
          "num_sensors_nonfunc_for_fan_nonfunc": 0,
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
@@ -47,8 +47,8 @@
                "name": "fan1_1",
                "threshold": 30,
                "has_target": false,
-               "factor": 0.627,
-               "offset": 750
+               "factor": 0.625,
+               "offset": 1100
             }
          ]
       },
@@ -56,7 +56,7 @@
          "inventory": "/system/chassis/motherboard/fan2",
          "method": "count",
          "count_interval": 1,
-         "deviation": 15,
+         "deviation": 18,
          "num_sensors_nonfunc_for_fan_nonfunc": 0,
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
@@ -72,8 +72,8 @@
                "name": "fan2_1",
                "threshold": 30,
                "has_target": false,
-               "factor": 0.627,
-               "offset": 750
+               "factor": 0.625,
+               "offset": 1100
             }
          ]
       },
@@ -81,7 +81,7 @@
          "inventory": "/system/chassis/motherboard/fan3",
          "method": "count",
          "count_interval": 1,
-         "deviation": 15,
+         "deviation": 18,
          "num_sensors_nonfunc_for_fan_nonfunc": 0,
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
@@ -97,8 +97,8 @@
                "name": "fan3_1",
                "threshold": 30,
                "has_target": false,
-               "factor": 0.627,
-               "offset": 750
+               "factor": 0.625,
+               "offset": 1100
             }
          ]
       },
@@ -106,7 +106,7 @@
          "inventory": "/system/chassis/motherboard/fan4",
          "method": "count",
          "count_interval": 1,
-         "deviation": 15,
+         "deviation": 18,
          "num_sensors_nonfunc_for_fan_nonfunc": 0,
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
@@ -122,8 +122,8 @@
                "name": "fan4_1",
                "threshold": 30,
                "has_target": false,
-               "factor": 0.627,
-               "offset": 750
+               "factor": 0.625,
+               "offset": 1100
             }
          ]
       },
@@ -131,7 +131,7 @@
          "inventory": "/system/chassis/motherboard/fan5",
          "method": "count",
          "count_interval": 1,
-         "deviation": 15,
+         "deviation": 18,
          "num_sensors_nonfunc_for_fan_nonfunc": 0,
          "monitor_start_delay": 30,
          "fan_missing_error_delay": 20,
@@ -147,8 +147,8 @@
                "name": "fan5_1",
                "threshold": 30,
                "has_target": false,
-               "factor": 0.627,
-               "offset": 750
+               "factor": 0.625,
+               "offset": 1100
             }
          ]
       }
