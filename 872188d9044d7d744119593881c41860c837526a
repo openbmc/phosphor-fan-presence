@@ -45,6 +45,29 @@
       "revId": "872188d9044d7d744119593881c41860c837526a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "737601bf_3acc32d3",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-11-18T19:13:03Z",
+      "side": 1,
+      "message": "this can be simplified into: profiles \u003d jsonAct[\"profiles\"].get\u003cstd::vector\u003cstd::string\u003e\u003e();",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 13
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
