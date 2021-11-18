@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "129a2081_4940dfb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-18T15:33:04Z",
+      "side": 1,
+      "message": "To match how signals are configured, might as well just make this be \"parameter\".",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e8811c_8fef3ab6",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-18T15:33:04Z",
+      "side": 1,
+      "message": "May want to consider simplifying this similar to the change I did for signals -\u003e https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/48858\n\nstd::vector\u003cstd::reference_wrapper\u003cstd::unique_ptr\u003cActionBase\u003e\u003e\u003e;\n\nIn fact, may be able to reuse SignalActions from that change directly? maybe then we should have this \"parameter\" trigger be of `signal` class?",
+      "range": {
+        "startLine": 118,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 76
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
