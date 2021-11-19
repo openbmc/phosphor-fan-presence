@@ -106,11 +106,11 @@ using SignalPkg = std::tuple<SignalHandler, SignalObject, SignalActions>;
  * Tuple constructed of:
  *     std::unique_ptr<std::vector<SignalPkg>> =
  *         Pointer to list of the signal's packages
- *     std::unique_ptr<sdbusplus::server::match::match> =
+ *     std::unique_ptr<sdbusplus::bus::match_t> =
  *         Pointer to match holding the subscription to a signal
  */
 using SignalData = std::tuple<std::unique_ptr<std::vector<SignalPkg>>,
-                              std::unique_ptr<sdbusplus::server::match::match>>;
+                              std::unique_ptr<sdbusplus::bus::match_t>>;
 
 /**
  * @class Manager - Represents the fan control manager's configuration

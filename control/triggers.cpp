@@ -28,11 +28,11 @@ Trigger signal(const std::string& match, SignalHandler&& handler)
         // Setup signal matches of the property for event
         std::unique_ptr<EventData> eventData =
             std::make_unique<EventData>(group, match, handler, actions);
-        std::unique_ptr<sdbusplus::server::match::match> mPtr = nullptr;
+        std::unique_ptr<sdbusplus::bus::match_t> mPtr = nullptr;
         if (!match.empty())
         {
             // Subscribe to signal match
-            mPtr = std::make_unique<sdbusplus::server::match::match>(
+            mPtr = std::make_unique<sdbusplus::bus::match_t>(
                 zone.getBus(), match.c_str(),
                 std::bind(std::mem_fn(&Zone::handleEvent), &zone,
                           std::placeholders::_1, eventData.get()));
