@@ -164,10 +164,16 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
         {
             threshold = sensor["threshold"].get<size_t>();
         }
+        // Ignore being above the allowed max is optional, defaults to not
+        bool ignoreAboveMax = false;
+        if (sensor.contains("ignore_above_max"))
+        {
+            ignoreAboveMax = sensor["ignore_above_max"].get<bool>();
+        }
 
         sensorDefs.emplace_back(std::tuple(
             sensor["name"].get<std::string>(), sensor["has_target"].get<bool>(),
-            targetIntf, factor, offset, threshold));
+            targetIntf, factor, offset, threshold, ignoreAboveMax));
     }
 
     return sensorDefs;
