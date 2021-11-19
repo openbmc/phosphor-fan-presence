@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a6e72eb_13e154fe",
+        "filename": "control/json/actions/set_parameter_from_group_max.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-19T21:53:45Z",
+      "side": 1,
+      "message": "What if setParameter just removed the parameter when it was nullopt so there isnt a need to have separate set/delete methods?",
+      "range": {
+        "startLine": 117,
+        "startChar": 8,
+        "endLine": 117,
+        "endChar": 43
+      },
+      "revId": "f52802ae327eac1e12616dac96dcd467ceacf7c1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
