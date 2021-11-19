@@ -26,6 +26,7 @@
 
 #include <experimental/filesystem>
 #include <functional>
+#include <optional>
 #include <utility>
 
 namespace phosphor
@@ -71,13 +72,15 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                        const std::string& id, bool hasTarget, size_t funcDelay,
                        const std::string& interface, double factor,
                        int64_t offset, size_t method, size_t threshold,
-                       size_t timeout, const std::optional<size_t>& errorDelay,
+                       bool ignoreAboveMax, size_t timeout,
+                       const std::optional<size_t>& errorDelay,
                        size_t countInterval, const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan), _name(FAN_SENSOR_PATH + id), _invName(path(fan.getName()) / id),
     _hasTarget(hasTarget), _funcDelay(funcDelay), _interface(interface),
     _factor(factor), _offset(offset), _method(method), _threshold(threshold),
-    _timeout(timeout), _timerMode(TimerMode::func),
+    _ignoreAboveMax(ignoreAboveMax), _timeout(timeout),
+    _timerMode(TimerMode::func),
     _timer(event, std::bind(&Fan::updateState, &fan, std::ref(*this))),
     _errorDelay(errorDelay), _countInterval(countInterval)
 {
@@ -190,15 +193,21 @@ uint64_t TachSensor::getTarget() const
     return _tachTarget;
 }
 
-std::pair<uint64_t, uint64_t> TachSensor::getRange(const size_t deviation) const
+std::pair<uint64_t, std::optional<uint64_t>>
+    TachSensor::getRange(const size_t deviation) const
 {
     // Determine min/max range applying the deviation
     uint64_t min = getTarget() * (100 - deviation) / 100;
-    uint64_t max = getTarget() * (100 + deviation) / 100;
+    std::optional<uint64_t> max = getTarget() * (100 + deviation) / 100;
 
     // Adjust the min/max range by applying the factor & offset
     min = min * _factor + _offset;
-    max = max * _factor + _offset;
+    max = max.value() * _factor + _offset;
+
+    if (_ignoreAboveMax)
+    {
+        max = std::nullopt;
+    }
 
     return std::make_pair(min, max);
 }

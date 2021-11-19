@@ -70,13 +70,16 @@ const std::vector<FanDefinition> fanDefinitions
                       factor = sensor.get('factor', 1)
                       offset = sensor.get('offset', 0)
                       threshold = sensor.get('threshold', 1)
+                      ignore_above_max = str(sensor.get(
+                          'ignore_above_max', False)).lower()
                   %> \
                       SensorDefinition{"${sensor['name']}",
                                        ${has_target},
                                        "${target_interface}",
                                        ${factor},
                                        ${offset},
-                                       ${threshold}},
+                                       ${threshold},
+                                       ${ignore_above_max}},
                   %endfor
                   },
                   %if ('condition' in fan_data) and \

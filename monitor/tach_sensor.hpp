@@ -10,6 +10,7 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <optional>
 #include <utility>
 
 namespace phosphor
@@ -95,6 +96,7 @@ class TachSensor
      * @param[in] offset - the offset of the sensor target
      * @param[in] method - the method of out of range
      * @param[in] threshold - the threshold of counter method
+     * @param[in] ignoreAboveMax - whether to ignore being above max or not
      * @param[in] timeout - Normal timeout value to use
      * @param[in] errorDelay - Delay in seconds before creating an error
      *                         or std::nullopt if no errors.
@@ -105,9 +107,9 @@ class TachSensor
     TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                const std::string& id, bool hasTarget, size_t funcDelay,
                const std::string& interface, double factor, int64_t offset,
-               size_t method, size_t threshold, size_t timeout,
-               const std::optional<size_t>& errorDelay, size_t countInterval,
-               const sdeventplus::Event& event);
+               size_t method, size_t threshold, bool ignoreAboveMax,
+               size_t timeout, const std::optional<size_t>& errorDelay,
+               size_t countInterval, const sdeventplus::Event& event);
 
     /**
      * @brief Reads a property from the input message and stores it in value.
@@ -337,9 +339,10 @@ class TachSensor
      *
      * @param[in] deviation - The configured deviation(in percent) allowed
      *
-     * @return pair - Min/Max range of speeds allowed
+     * @return pair - Min/Max(optional) range of speeds allowed
      */
-    std::pair<uint64_t, uint64_t> getRange(const size_t deviation) const;
+    std::pair<uint64_t, std::optional<uint64_t>>
+        getRange(const size_t deviation) const;
 
     /**
      * @brief Processes the current state of the sensor
@@ -456,6 +459,11 @@ class TachSensor
      * @brief The threshold for count method
      */
     const size_t _threshold;
+
+    /**
+     * @brief Whether to ignore being above the max or not
+     */
+    const bool _ignoreAboveMax;
 
     /**
      * @brief The counter for count method
