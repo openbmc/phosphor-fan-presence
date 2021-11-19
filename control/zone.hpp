@@ -573,9 +573,9 @@ class Zone : public ThermalObject
      * @param[in] data - Event data for signal
      * @param[in] match - Subscribed signal match
      */
-    inline void
-        addSignal(const std::string& name, std::unique_ptr<EventData>&& data,
-                  std::unique_ptr<sdbusplus::server::match::match>&& match)
+    inline void addSignal(const std::string& name,
+                          std::unique_ptr<EventData>&& data,
+                          std::unique_ptr<sdbusplus::bus::match_t>&& match)
     {
         _signalEvents[name].emplace_back(std::move(data), std::move(match));
     }

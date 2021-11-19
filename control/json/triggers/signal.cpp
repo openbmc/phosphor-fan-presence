@@ -52,11 +52,11 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
         std::unique_ptr<std::vector<SignalPkg>> pkgs =
             std::make_unique<std::vector<SignalPkg>>();
         pkgs->emplace_back(std::move(signalPkg));
-        std::unique_ptr<sdbusplus::server::match::match> ptrMatch = nullptr;
+        std::unique_ptr<sdbusplus::bus::match_t> ptrMatch = nullptr;
         if (!match.empty())
         {
             // Subscribe to signal
-            ptrMatch = std::make_unique<sdbusplus::server::match::match>(
+            ptrMatch = std::make_unique<sdbusplus::bus::match_t>(
                 mgr->getBus(), match.c_str(),
                 std::bind(std::mem_fn(&Manager::handleSignal), &(*mgr),
                           std::placeholders::_1, pkgs.get()));

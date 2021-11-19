@@ -4,7 +4,7 @@
 
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
-#include <sdbusplus/server.hpp>
+#include <sdbusplus/bus/match.hpp>
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
@@ -491,12 +491,12 @@ class TachSensor
     /**
      * @brief The match object for the Value properties changed signal
      */
-    std::unique_ptr<sdbusplus::server::match::match> tachSignal;
+    std::unique_ptr<sdbusplus::bus::match_t> tachSignal;
 
     /**
      * @brief The match object for the Target properties changed signal
      */
-    std::unique_ptr<sdbusplus::server::match::match> targetSignal;
+    std::unique_ptr<sdbusplus::bus::match_t> targetSignal;
 
     /**
      * @brief The number of seconds to wait between a sensor being set
