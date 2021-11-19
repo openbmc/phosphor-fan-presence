@@ -1,5 +1,5 @@
 #pragma once
-#include <sdbusplus/server.hpp>
+#include <sdbusplus/bus/match.hpp>
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
@@ -97,9 +97,8 @@ using TimerEvent = std::tuple<std::unique_ptr<EventData>, Timer>;
 
 constexpr auto signalEventDataPos = 0;
 constexpr auto signalMatchPos = 1;
-using SignalEvent =
-    std::tuple<std::unique_ptr<EventData>,
-               std::unique_ptr<sdbusplus::server::match::match>>;
+using SignalEvent = std::tuple<std::unique_ptr<EventData>,
+                               std::unique_ptr<sdbusplus::bus::match_t>>;
 
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;

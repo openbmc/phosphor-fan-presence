@@ -132,7 +132,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 
         auto match = getMatchString(util::FAN_SENSOR_VALUE_INTF);
 
-        tachSignal = std::make_unique<sdbusplus::server::match::match>(
+        tachSignal = std::make_unique<sdbusplus::bus::match_t>(
             _bus, match.c_str(),
             [this](auto& msg) { this->handleTachChange(msg); });
 
@@ -140,7 +140,7 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
         {
             match = getMatchString(_interface);
 
-            targetSignal = std::make_unique<sdbusplus::server::match::match>(
+            targetSignal = std::make_unique<sdbusplus::bus::match_t>(
                 _bus, match.c_str(),
                 [this](auto& msg) { this->handleTargetChange(msg); });
         }
