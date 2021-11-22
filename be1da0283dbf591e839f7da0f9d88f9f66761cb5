@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f2571a2_0bf67089",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-22T21:38:41Z",
+      "side": 1,
+      "message": "These files look to be identical?\n\nCould place a single pcie_cards.json file at `config_files/p10bmc/` and it\u0027ll be installed to the default /usr/share/phopshor-fan-presence/control/ location. If wanted to support a single pcie_cards.json file for all p10bmc machines, this would simplify adding cards and let the events\u0027 action config deal with which cards are found within a machine.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "be1da0283dbf591e839f7da0f9d88f9f66761cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c84aec1e_218d20b5",
+        "filename": "control/config_files/p10bmc/ibm,everest/pcie_cards.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-22T21:38:41Z",
+      "side": 1,
+      "message": "Make this be \"name\"?\n\nThen additional comments can be added using `//` or `/* */` when parsing the JSON with nlohmann using:\n```\n// Enable ignoring `//` or `/* */` comments\njsonConf \u003d nlohmann::json::parse(file, nullptr, true, true);\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "be1da0283dbf591e839f7da0f9d88f9f66761cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
