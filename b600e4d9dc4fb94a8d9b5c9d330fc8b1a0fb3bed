@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ecfb0ad_aeb42818",
+        "filename": "control/config_files/p10bmc/ibm,everest/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-22T23:08:57Z",
+      "side": 1,
+      "message": "and ambient",
+      "range": {
+        "startLine": 125,
+        "startChar": 34,
+        "endLine": 125,
+        "endChar": 57
+      },
+      "revId": "b600e4d9dc4fb94a8d9b5c9d330fc8b1a0fb3bed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698b2ed2_8f97b903",
+        "filename": "control/config_files/p10bmc/ibm,everest/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-22T23:08:57Z",
+      "side": 1,
+      "message": "Really is a complete \"set floor\" event",
+      "range": {
+        "startLine": 126,
+        "startChar": 14,
+        "endLine": 126,
+        "endChar": 30
+      },
+      "revId": "b600e4d9dc4fb94a8d9b5c9d330fc8b1a0fb3bed",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
