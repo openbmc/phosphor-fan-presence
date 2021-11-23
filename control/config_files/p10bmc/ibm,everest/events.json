@@ -78,6 +78,11 @@
      "name": "service(s) missing",
      "groups": [
        {
+         "name": "fan inventory",
+         "interface": "xyz.openbmc_project.Inventory.Item",
+         "property": { "name": "Present" }
+       },
+       {
          "name": "occ objects",
          "interface": "org.open_power.OCC.Status",
          "property": { "name": "OccActive" }
