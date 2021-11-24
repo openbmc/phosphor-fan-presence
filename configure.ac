@@ -97,6 +97,16 @@ AM_CONDITIONAL([WANT_COOLING_TYPE], [test "x$enable_cooling_type" != "xno"])
 AM_CONDITIONAL([WANT_MONITOR], [test "x$enable_monitor" != "xno"])
 AM_CONDITIONAL([WANT_SENSOR_MONITOR], [test "x$enable_sensor_monitor" == "xyes"])
 
+
+AS_IF([test "x$enable_host_state" == "xyes"],
+    [
+        AM_CONDITIONAL(HOST_STATE_ENABLED, true)
+    ],
+    [
+        AM_CONDITIONAL(HOST_STATE_ENABLED, false)
+    ]
+)
+
 # Package specific checks.
 AS_IF([test "x$enable_presence" != "xno"], [
     # Use runtime(json) config, otherwise default to compile time(yaml) config
