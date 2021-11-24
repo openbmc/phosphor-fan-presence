@@ -28,8 +28,15 @@ int main(int argc, char* argv[])
     auto bus = sdbusplus::bus::new_default();
     bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
+#ifndef ENABLE_HOST_STATE
     std::shared_ptr<phosphor::fan::PowerState> powerState =
         std::make_shared<phosphor::fan::PGoodState>();
+#endif
+
+#ifdef ENABLE_HOST_STATE
+    std::shared_ptr<phosphor::fan::PowerState> powerState =
+        std::make_shared<phosphor::fan::HostPowerState>();
+#endif
 
     ShutdownAlarmMonitor shutdownMonitor{bus, event, powerState};
 
