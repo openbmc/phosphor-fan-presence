@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "90be4e94_a3e497a9",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-24T19:13:09Z",
+      "side": 1,
+      "message": "and ambient",
+      "range": {
+        "startLine": 181,
+        "startChar": 34,
+        "endLine": 181,
+        "endChar": 65
+      },
+      "revId": "db473dc166ad9c1695c69af80aac6b706ad471ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bc2ef29_070d2bac",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-24T19:13:09Z",
+      "side": 1,
+      "message": "Really is a complete \"set floor\" event",
+      "range": {
+        "startLine": 182,
+        "startChar": 14,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "db473dc166ad9c1695c69af80aac6b706ad471ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51d06dad_17286d76",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-24T19:13:09Z",
+      "side": 1,
+      "message": "Changes to this parameter will not trigger this floor event. Will there be a follow up change to get this enabled using a parameter change trigger?",
+      "range": {
+        "startLine": 217,
+        "startChar": 16,
+        "endLine": 217,
+        "endChar": 48
+      },
+      "revId": "db473dc166ad9c1695c69af80aac6b706ad471ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
