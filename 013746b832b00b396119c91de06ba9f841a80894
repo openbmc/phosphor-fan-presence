@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a83ddec_edb3a790",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/groups.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-24T20:57:06Z",
+      "side": 1,
+      "message": "Saw these paths in simulation from the OCC service\n\n`/xyz/openbmc_project/sensors/temperature/proc0_core0_0_temp`\n\n@cjcain, I believe that\u0027s going to be changed to what I have here in the config, correct?",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "013746b832b00b396119c91de06ba9f841a80894",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
