@@ -4,9 +4,13 @@
 
 #include <fmt/format.h>
 
+#include <boost/asio/io_service.hpp>
 #include <phosphor-logging/log.hpp>
+#include <sdbusplus/asio/connection.hpp>
+#include <sdbusplus/asio/object_server.hpp>
 
 #include <functional>
+#include <iostream>
 
 namespace phosphor::fan
 {
@@ -216,6 +220,149 @@ class PGoodState : public PowerState
 
     /** @brief D-Bus property constant */
     const std::string _pgoodProperty{"pgood"};
+
+    /** @brief The propertiesChanged match */
+    sdbusplus::bus::match::match _match;
+};
+
+/**
+ * @class HostPowerState
+ *
+ * This class implements the PowerState API by looking at the 'powerState'
+ * property on the phosphor virtual sensor interface.
+ */
+class HostPowerState : public PowerState
+{
+  public:
+    virtual ~HostPowerState() = default;
+    HostPowerState(const HostPowerState&) = delete;
+    HostPowerState& operator=(const HostPowerState&) = delete;
+    HostPowerState(HostPowerState&&) = delete;
+    HostPowerState& operator=(HostPowerState&&) = delete;
+
+    HostPowerState() :
+        PowerState(), _match(_bus,
+                             sdbusplus::bus::match::rules::propertiesChanged(
+                                 _hostStatePath, _hostStateInterface),
+                             [this](auto& msg) { this->hostStateChanged(msg); })
+    {
+        readHostState();
+    }
+
+    /**
+     * @brief Constructor
+     *
+     * @param[in] bus - The D-Bus bus connection object
+     * @param[in] callback - The function that should be run when
+     *                       the power state changes
+     */
+    HostPowerState(sdbusplus::bus::bus& bus, StateChangeFunc func) :
+        PowerState(bus, func),
+        _match(_bus,
+               sdbusplus::bus::match::rules::propertiesChanged(
+                   _hostStatePath, _hostStateInterface),
+               [this](auto& msg) { this->hostStateChanged(msg); })
+    {
+        readHostState();
+    }
+
+    /**
+     * @brief PropertiesChanged callback for the CurrentHostState property.
+     *
+     * Will call the registered callback function if necessary.
+     *
+     * @param[in] msg - The payload of the propertiesChanged signal
+     */
+    void hostStateChanged(sdbusplus::message::message& msg)
+    {
+        std::string interface;
+        std::map<std::string, std::variant<std::string>> properties;
+
+        msg.read(interface, properties);
+
+        auto hostStateProp = properties.find(_hostStateProperty);
+        if (hostStateProp != properties.end())
+        {
+            const std::string& hostState =
+                std::get<std::string>(hostStateProp->second);
+
+            setHostPowerState(hostState);
+        }
+    }
+
+  private:
+    void setHostPowerState(std::string currentHostState)
+    {
+        std::string lastElement(
+            currentHostState.substr(currentHostState.rfind(".") + 1));
+
+        if (lastElement == "Running" ||
+            lastElement == "TransitioningToRunning" ||
+            lastElement == "DiagnosticMode")
+        {
+            setPowerState(true);
+        }
+        else if (lastElement == "Off" || lastElement == "TransitioningToOff" ||
+                 lastElement == "Standby" || lastElement == "Quiesced")
+        {
+            setPowerState(false);
+        }
+        else
+        {
+            std::cerr << "Invalid current HostState \n" << std::endl;
+        }
+    }
+
+    /**
+     * @brief Reads the CurrentHostState property from D-Bus and saves it.
+     */
+    void readHostState()
+    {
+        std::string hostStatePath;
+        std::string hostStateservice;
+        std::string hostService = "xyz.openbmc_project.State.Host";
+
+        int32_t depth = 0;
+        const std::string path = "/";
+
+        auto mapperResponse =
+            util::SDBusPlus::getSubTree(_bus, path, _hostStateInterface, depth);
+
+        if (mapperResponse.empty())
+        {
+            // No errors to process.
+            return;
+        }
+
+        for (const auto& path : mapperResponse)
+        {
+            for (auto service : path.second)
+            {
+                hostStateservice = service.first.c_str();
+
+                if (hostStateservice.find(hostService) != std::string::npos)
+                {
+                    hostStatePath = path.first.c_str();
+
+                    auto currentHostState =
+                        util::SDBusPlus::getProperty<std::string>(
+                            hostStateservice, hostStatePath,
+                            _hostStateInterface, _hostStateProperty);
+
+                    setHostPowerState(currentHostState);
+                }
+            }
+        }
+    }
+
+    /** @brief D-Bus path constant */
+    const std::string _hostStatePath{"xyz/openbmc_project/state/host"};
+
+    /** @brief D-Bus interface constant */
+    const std::string _hostStateInterface{"xyz.openbmc_project.State.Host"};
+
+    /** @brief D-Bus property constant */
+    const std::string _hostStateProperty{"CurrentHostState"};
 
     /** @brief The propertiesChanged match */
     sdbusplus::bus::match::match _match;
