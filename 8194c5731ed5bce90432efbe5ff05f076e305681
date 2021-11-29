@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "affb3db2_5a7b5327",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-29T16:28:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "129a2081_4940dfb4",
+      "range": {
+        "startLine": 19,
+        "startChar": 5,
+        "endLine": 19,
+        "endChar": 19
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75e8811c_8fef3ab6",
         "filename": "control/json/manager.hpp",
         "patchSetId": 2
@@ -60,6 +84,30 @@
       "side": 1,
       "message": "Lets not have this be of `signal` class, but would be good to have this updated to use the updated SignalActions and maybe change that to be \"TriggerActions\" used by both signal and parameter triggers.",
       "parentUuid": "75e8811c_8fef3ab6",
+      "range": {
+        "startLine": 118,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 76
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af39ccf4_edeeca85",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-29T16:28:15Z",
+      "side": 1,
+      "message": "If I were to do that, then I\u0027d have to write code in addParameterTrigger or in the calling lambda to convert the incoming vector of unique_ptrs into a vector of references. You\u0027d still like that to be done so it can use that type?",
+      "parentUuid": "76b29729_4bcd015a",
       "range": {
         "startLine": 118,
         "startChar": 25,
