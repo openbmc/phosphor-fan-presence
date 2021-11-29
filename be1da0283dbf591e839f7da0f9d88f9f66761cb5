@@ -93,6 +93,30 @@
       "revId": "be1da0283dbf591e839f7da0f9d88f9f66761cb5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e65c760a_7e8f3be7",
+        "filename": "control/config_files/p10bmc/ibm,everest/pcie_cards.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-29T21:07:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61dfb43a_83f7f775",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "be1da0283dbf591e839f7da0f9d88f9f66761cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
