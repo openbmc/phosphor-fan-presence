@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c2307b58_1628bc3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-29T16:33:39Z",
+      "side": 1,
+      "message": "In a meeting a while ago, the system owners said they didn\u0027t want to share anything since there is no reason to think they would have the same floor index values.",
+      "parentUuid": "1f2571a2_0bf67089",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 58
+      },
+      "revId": "be1da0283dbf591e839f7da0f9d88f9f66761cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c84aec1e_218d20b5",
         "filename": "control/config_files/p10bmc/ibm,everest/pcie_cards.json",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2021-11-22T21:38:41Z",
       "side": 1,
       "message": "Make this be \"name\"?\n\nThen additional comments can be added using `//` or `/* */` when parsing the JSON with nlohmann using:\n```\n// Enable ignoring `//` or `/* */` comments\njsonConf \u003d nlohmann::json::parse(file, nullptr, true, true);\n```",
+      "range": {
+        "startLine": 5,
+        "startChar": 7,
+        "endLine": 5,
+        "endChar": 14
+      },
+      "revId": "be1da0283dbf591e839f7da0f9d88f9f66761cb5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61dfb43a_83f7f775",
+        "filename": "control/config_files/p10bmc/ibm,everest/pcie_cards.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-29T16:33:39Z",
+      "side": 1,
+      "message": "Yea, agreed, I was going to do that and then forgot apparently.\n\nIn general I\u0027m not a huge fan of comments in JSON because it breaks my editor highlighting and isn\u0027t supported by jq (or python-json) so I can\u0027t use that to validate the JSON.  jsonlint supports them with -S, but that also then turns off checks for missing commas and such. I guess I could write a standalone c++ app that uses nlohmann, but that is extra work.",
+      "parentUuid": "c84aec1e_218d20b5",
       "range": {
         "startLine": 5,
         "startChar": 7,
