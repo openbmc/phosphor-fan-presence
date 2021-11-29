@@ -22,6 +22,30 @@
       "revId": "013746b832b00b396119c91de06ba9f841a80894",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053d6400_dd9797b2",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/groups.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-29T23:17:45Z",
+      "side": 1,
+      "message": "The proc0_core0_0_temp is what shows up after I changed the names to be the small core names, since that is all the OCC knows about.\n\n\nIt would be pretty easy to make a new sensor for the max value of all the cores on a chip if that would be useful, though we\u0027d have to discuss what to do if it\u0027s possible the OCC could fail to get a specific core temp.",
+      "parentUuid": "9a83ddec_edb3a790",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "013746b832b00b396119c91de06ba9f841a80894",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
