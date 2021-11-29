@@ -463,20 +463,34 @@ class Manager
     /**
      * @brief Sets a value in the parameter map.
      *
+     * If it's a std::nullopt, it will be deleted instead.
+     *
      * @param[in] name - The parameter name
      * @param[in] value - The parameter value
      */
     static void setParameter(const std::string& name,
-                             const PropertyVariantType& value)
+                             const std::optional<PropertyVariantType>& value)
     {
-        auto it = _parameters.find(name);
-        auto changed = (it == _parameters.end()) ||
-                       ((it != _parameters.end()) && it->second != value);
-        _parameters[name] = value;
-
-        if (changed)
+        if (value)
         {
-            runParameterActions(name);
+            auto it = _parameters.find(name);
+            auto changed = (it == _parameters.end()) ||
+                           ((it != _parameters.end()) && it->second != *value);
+            _parameters[name] = *value;
+
+            if (changed)
+            {
+                runParameterActions(name);
+            }
+        }
+        else
+        {
+            size_t deleted = _parameters.erase(name);
+
+            if (deleted)
+            {
+                runParameterActions(name);
+            }
         }
     }
 
@@ -497,21 +511,6 @@ class Manager
         }
 
         return std::nullopt;
-    }
-
-    /**
-     * @brief Deletes a parameter from the parameter map
-     *
-     * @param[in] name - The parameter name
-     */
-    static void deleteParameter(const std::string& name)
-    {
-        size_t deleted = _parameters.erase(name);
-
-        if (deleted)
-        {
-            runParameterActions(name);
-        }
     }
 
     /**
