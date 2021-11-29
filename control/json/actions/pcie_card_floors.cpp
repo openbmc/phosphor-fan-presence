@@ -145,7 +145,7 @@ void PCIeCardFloors::execute(Zone& zone)
     else if (origIndexVariant)
     {
         record(fmt::format("Removing parameter {}", floorIndexParam));
-        Manager::deleteParameter(floorIndexParam);
+        Manager::setParameter(floorIndexParam, std::nullopt);
     }
 }
 
