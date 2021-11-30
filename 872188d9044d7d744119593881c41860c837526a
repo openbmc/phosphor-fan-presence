@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3ef8313a_e7bc3ca0",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-30T16:49:17Z",
+      "side": 1,
+      "message": "I don\u0027t think there\u0027s a valid use case for that.  I can revisit in the future if one shows up.",
+      "parentUuid": "6678ba7f_a6cdd090",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8eb155a9_2d5343a2",
         "filename": "control/json/actions/get_managed_objects.cpp",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "628b9bf0_a265e2f6",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-30T16:49:17Z",
+      "side": 1,
+      "message": "oof, typo\nDone.",
+      "parentUuid": "8eb155a9_2d5343a2",
+      "range": {
+        "startLine": 72,
+        "startChar": 16,
+        "endLine": 75,
+        "endChar": 17
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "737601bf_3acc32d3",
         "filename": "control/json/actions/get_managed_objects.cpp",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "872188d9044d7d744119593881c41860c837526a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21f9de75_1d5b8543",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-11-30T16:49:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "737601bf_3acc32d3",
+      "range": {
+        "startLine": 120,
+        "startChar": 0,
+        "endLine": 123,
+        "endChar": 13
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
