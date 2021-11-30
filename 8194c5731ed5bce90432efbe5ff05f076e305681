@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "10de556c_fca1251a",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 727,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-30T20:55:50Z",
+      "side": 1,
+      "message": "With ParamTriggerData type the same as SignalActions, this could change to something like:\n\n```\n    auto it \u003d _parameterTriggers.find(name);\n    if (it !\u003d _parameterTriggers.end())\n    {\n        // Taken from signal.cpp::triggerSignal()\u0027s returned lambda\n        std::for_each(actions.begin(), actions.end(),\n                      [\u0026it-\u003esecond \u003d actions](auto\u0026 action) {\n                          actions.emplace_back(std::ref(action));\n                      });\n    }\n    else\n    {\n        ParamTriggerData triggerActions;\n        std::for_each(actions.begin(), actions.end(),\n                      [\u0026triggerActions](auto\u0026 action) {\n                          triggerActions.emplace_back(std::ref(action));\n                      });\n        _parameterTriggers[name] \u003d std::move(triggerActions);\n    }\n```",
+      "range": {
+        "startLine": 717,
+        "startChar": 4,
+        "endLine": 727,
+        "endChar": 5
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75e8811c_8fef3ab6",
         "filename": "control/json/manager.hpp",
         "patchSetId": 2
@@ -108,6 +131,30 @@
       "side": 1,
       "message": "If I were to do that, then I\u0027d have to write code in addParameterTrigger or in the calling lambda to convert the incoming vector of unique_ptrs into a vector of references. You\u0027d still like that to be done so it can use that type?",
       "parentUuid": "76b29729_4bcd015a",
+      "range": {
+        "startLine": 118,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 76
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d74d42d_66db346d",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-30T20:55:50Z",
+      "side": 1,
+      "message": "It seems it\u0027d be better to flatten to a single vector of the actions instead of a vector-of-vector and there shouldnt be much to adjust in addParameterTrigger to do this? I\u0027ve added a comment there on what can be done.\n\nEssentially the list of actions per trigger shouldnt be too long really, I\u0027m just looking for the best structure to keep the actions organized in if there were to be more than one event configured to run different actions when the same member signal, etc.. is used to trigger them.",
+      "parentUuid": "af39ccf4_edeeca85",
       "range": {
         "startLine": 118,
         "startChar": 25,
