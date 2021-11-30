@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40cc4631_015841f8",
+        "filename": "control/config_files/p10bmc/ibm,rainier-4u/events.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-30T22:36:17Z",
+      "side": 1,
+      "message": "We should also include the `interfaces_removed` signal, which can be added later as I dont believe the OCC control app would purposely remove the interface currently.\n\nI found while testing before pushing basically the same event that we could have stale OCC active property states if interfacesRemoved signals are sent and they are not removed from the cache.",
+      "range": {
+        "startLine": 151,
+        "startChar": 6,
+        "endLine": 154,
+        "endChar": 8
+      },
+      "revId": "64cce247bb02a75772f105af205f1995bba3c029",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
