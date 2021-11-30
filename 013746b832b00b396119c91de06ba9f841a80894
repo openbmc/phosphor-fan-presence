@@ -70,6 +70,30 @@
       "revId": "013746b832b00b396119c91de06ba9f841a80894",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c41afbe_34e58900",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/groups.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-30T16:04:53Z",
+      "side": 1,
+      "message": "Done\n\nSwitched to small core names and since I was in here, broke up the cores to be per proc and added the dvfs temps per proc as well.",
+      "parentUuid": "d4869126_599ad9c0",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "013746b832b00b396119c91de06ba9f841a80894",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
