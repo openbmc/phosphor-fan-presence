@@ -83,6 +83,43 @@
      ]
    },
    {
+     // Hold fans at the given target when any OCC is not active.
+     "name": "occ(s) not active",
+     "groups": [
+       {
+         "name": "occ objects",
+         "interface": "org.open_power.OCC.States",
+         "property": { "name": "OccActive" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_removed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "count_state_before_target",
+         "count": 1,
+         "state": false,
+         "target": 11200
+       }
+     ]
+   },
+   {
      // Hold fans at the given target when any critical service
      // is not running for 5 seconds.
      "name": "service(s) missing",
