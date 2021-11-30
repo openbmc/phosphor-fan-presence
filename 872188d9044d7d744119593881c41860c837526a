@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "f0f6e108_0032c9d8",
+        "filename": "control/json/actions/get_managed_objects.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-30T18:31:48Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3ef8313a_e7bc3ca0",
+      "range": {
+        "startLine": 63,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 31
+      },
+      "revId": "872188d9044d7d744119593881c41860c837526a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8eb155a9_2d5343a2",
         "filename": "control/json/actions/get_managed_objects.cpp",
         "patchSetId": 4
