@@ -229,5 +229,12 @@
      "/xyz/openbmc_project/sensors/temperature/dimm14_extmb_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm15_extmb_temp"
    ]
+ },
+ {
+   "name": "vdd vrm temps",
+   "members": [
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd0_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd1_temp"
+   ]
  }
 ]
