@@ -46,6 +46,30 @@
       "revId": "013746b832b00b396119c91de06ba9f841a80894",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4869126_599ad9c0",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/groups.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-11-30T00:59:06Z",
+      "side": 1,
+      "message": "Ah, ok.. I was thinking it was in the works to be named like I have here. At this point, I guess I should just update these to be the small core names and we can discuss what changes it would take to switch to a max value of all cores. \n\nHaving a single max temp from all the cores would certainly cut down on the number of sensors needing to be read. Would definitely need to see how the OCC handles failing to get a specific core temp...but, from a fan control perspective, I\u0027m now aware of having to look at the core functional states and have fans react to that currently.",
+      "parentUuid": "053d6400_dd9797b2",
+      "range": {
+        "startLine": 67,
+        "startChar": 5,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "013746b832b00b396119c91de06ba9f841a80894",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
