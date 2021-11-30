@@ -737,5 +737,18 @@
      "/xyz/openbmc_project/sensors/temperature/dimm62_extmb_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm63_extmb_temp"
    ]
+ },
+ {
+   "name": "vdd vrm temps",
+   "members": [
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd0_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd1_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd2_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd3_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd4_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd5_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd6_temp",
+     "/xyz/openbmc_project/sensors/temperature/vrm_vdd7_temp"
+   ]
  }
 ]
