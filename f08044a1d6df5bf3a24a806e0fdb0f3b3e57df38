@@ -1,0 +1,222 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eaf57de8_fd0cbd05",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "how is this getting set before readHostState is called?",
+      "range": {
+        "startLine": 246,
+        "startChar": 32,
+        "endLine": 246,
+        "endChar": 48
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0e4377_9405fb92",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "const std::string\u0026 or const auto\u0026  would be better",
+      "range": {
+        "startLine": 286,
+        "startChar": 12,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b223d70_f57d5511",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "The host state enums have more than just Running and Off.  Is that possible with your code?",
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49db1476_9e61ad94",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "You also have this below on 369. I don\u0027t think it needs to be a class member?",
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b91c8cb1_65897d0f",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "if you did something like [path, services]  here instead I think it would be easier to read.",
+      "range": {
+        "startLine": 323,
+        "startChar": 25,
+        "endLine": 323,
+        "endChar": 29
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4999369d_efbefb18",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "here could do:  (const auto\u0026 [serviceName, interfaces] : services)  or something like that",
+      "range": {
+        "startLine": 325,
+        "startChar": 21,
+        "endLine": 325,
+        "endChar": 47
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "843a6cdc_170dc1d4",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "is there a reason you can\u0027t just do a \u003d\u003d here?  do you have more than 1 host service?",
+      "range": {
+        "startLine": 329,
+        "startChar": 20,
+        "endLine": 329,
+        "endChar": 73
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15421f1d_a4e85e48",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "currentHostState",
+      "range": {
+        "startLine": 335,
+        "startChar": 29,
+        "endLine": 335,
+        "endChar": 46
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27960dd4_f2d19eb2",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "since you already found the service with GetSubTree I don\u0027t think it\u0027s possible to get a DbusServiceError here.  You could still catch a sdbusplus::exception::exception here or nothing at all if you wanted.",
+      "range": {
+        "startLine": 354,
+        "startChar": 23,
+        "endLine": 355,
+        "endChar": 33
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e377904d_2a36462e",
+        "filename": "sensor-monitor/Makefile.am",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T19:26:48Z",
+      "side": 1,
+      "message": "how would this get set?  Usually people add these with the --enable options in configure.ac",
+      "range": {
+        "startLine": 30,
+        "startChar": 20,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
