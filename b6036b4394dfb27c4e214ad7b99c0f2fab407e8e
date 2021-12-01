@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7e992fc_b7e34d30",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "How is the ordering of inserting systemNames enforced to accept a list that could be given not based on the IBMCompatible interface?",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 73
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c03df940_da5c9354",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "But giving a default_floor_index is optional, right?",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0b3e782_c09fffaa",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "May want to consider listing out the JSON attributes in the exception message saying that one or more are missing, I had done this to make it easier to debug or find typos in the JSON config.",
+      "range": {
+        "startLine": 121,
+        "startChar": 12,
+        "endLine": 121,
+        "endChar": 63
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcc7d064_274d810d",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "Isnt this already be caught on line 119?",
+      "range": {
+        "startLine": 136,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 9
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64325d91_9c73ddbd",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "Couldnt 0 be a valid index?",
+      "range": {
+        "startLine": 142,
+        "startChar": 52,
+        "endLine": 142,
+        "endChar": 53
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa0daa59_ebe51578",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "regular",
+      "range": {
+        "startLine": 58,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ecb7dfc_fbb7f5c9",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "`sensor_name` is used in the JSON, can this support more than one sensor? If so, the sensor names have to collectively be represented with a regular expression?",
+      "range": {
+        "startLine": 59,
+        "startChar": 49,
+        "endLine": 59,
+        "endChar": 54
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ff2daaf_8b33b79d",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "An optional",
+      "range": {
+        "startLine": 61,
+        "startChar": 3,
+        "endLine": 61,
+        "endChar": 6
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a398bc3_c9c5bca5",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "first? Isnt this just the config file name to load?",
+      "range": {
+        "startLine": 77,
+        "startChar": 39,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a556741a_89efd5ed",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "I\u0027d prefer we did not require a list of system names to be provided since all the other config files can be loaded without this interface existing using a default location.",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 78,
+        "endChar": 49
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b96c5e7c_3f26e845",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "What\u0027s the reason to have this separate than having the default floor index value get returned by just calling `lookup()`?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f93e275_324a83fb",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "Like mentioned above, maybe remove the reference to this interface name and default the systemNames list to be empty so its not required to be given.",
+      "range": {
+        "startLine": 145,
+        "startChar": 36,
+        "endLine": 145,
+        "endChar": 49
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644bcc8f_2ac67f21",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-01T21:50:27Z",
+      "side": 1,
+      "message": "But having a default_floor_index in the JSON is optional and 0 could be a valid unintended index? If the lookup fails and not default_floor_index was given, shouldnt it just produce an error or return nothing on the lookup?",
+      "range": {
+        "startLine": 168,
+        "startChar": 14,
+        "endLine": 168,
+        "endChar": 63
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
