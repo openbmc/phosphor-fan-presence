@@ -188,6 +188,30 @@
       "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "539b8097_8fb4a9d3",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-01T16:21:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d74d42d_66db346d",
+      "range": {
+        "startLine": 118,
+        "startChar": 25,
+        "endLine": 119,
+        "endChar": 76
+      },
+      "revId": "8194c5731ed5bce90432efbe5ff05f076e305681",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
