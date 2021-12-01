@@ -44,6 +44,20 @@ NetTargetDecrease::NetTargetDecrease(const json& jsonObj,
 
 void NetTargetDecrease::run(Zone& zone)
 {
+    if (!_stateParameter.empty())
+    {
+        auto s = Manager::getParameter(_stateParameter);
+        if (!s)
+        {
+            log<level::DEBUG>(
+                fmt::format("Action {}: State parameter {} not found",
+                            ActionBase::getName(), _stateParameter)
+                    .c_str());
+            return;
+        }
+        _state = *s;
+    }
+
     auto netDelta = zone.getDecDelta();
     for (const auto& group : _groups)
     {
@@ -135,12 +149,20 @@ void NetTargetDecrease::run(Zone& zone)
 
 void NetTargetDecrease::setState(const json& jsonObj)
 {
-    if (!jsonObj.contains("state"))
+    if (jsonObj.contains("state"))
     {
-        throw ActionParseError{ActionBase::getName(),
-                               "Missing required state value"};
+        _state = getJsonValue(jsonObj["state"]);
     }
-    _state = getJsonValue(jsonObj["state"]);
+    else if (jsonObj.contains("state_parameter_name"))
+    {
+        _stateParameter = jsonObj["state_parameter_name"].get<std::string>();
+    }
+    else
+    {
+        throw ActionParseError{
+            ActionBase::getName(),
+            "Missing required state or state_parameter_name value"};
+    }
 }
 
 void NetTargetDecrease::setDelta(const json& jsonObj)

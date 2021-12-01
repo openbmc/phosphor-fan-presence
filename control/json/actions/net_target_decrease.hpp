@@ -75,6 +75,9 @@ class NetTargetDecrease :
      * dbus objects are processed, the minimum net target decrease calculated is
      * requested on the zone.
      *
+     * The state value can be specified in the JSON, or as a Manager parameter
+     * that another action will have set.
+     *
      * @param[in] zone - Zone to run the action on
      */
     void run(Zone& zone) override;
@@ -82,6 +85,12 @@ class NetTargetDecrease :
   private:
     /* State the members must be at to decrease the target */
     PropertyVariantType _state;
+
+    /**
+     * The Manager parameter to use to get the state value if that
+     * was the method specified in the JSON.
+     */
+    std::string _stateParameter;
 
     /* Decrease delta for this action */
     uint64_t _delta;
