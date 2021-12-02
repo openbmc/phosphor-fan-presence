@@ -506,5 +506,89 @@
          }
        }
      ]
+   },
+   {
+     // Collect group temperatures each iteration the repeating timer expires
+     "name": "Fan control timer loop",
+     "groups": [
+       {
+         "name": "proc0 core temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc1 core temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc2 core temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc3 core temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc0 ioring temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc1 ioring temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc2 ioring temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "proc3 ioring temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "dram temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "pmic temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "internal memory buffer temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "dram and external memory buffer temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "external memory buffer temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "vdd vrm temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "timer",
+         "type": "repeating",
+         "interval": 2000000,
+         "preload_groups": true
+       }
+     ]
    }
 ]
