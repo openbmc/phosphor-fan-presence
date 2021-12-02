@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21edd1e6_a527a30d",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/groups.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2021-12-02T17:06:52Z",
+      "side": 1,
+      "message": "workbook says 1s4u has 8 omi slots, but I\u0027m not exactly sure how that correlates to # of ddimms, it does say for scm, so maybe dcm supports 16 slots?",
+      "revId": "50ca2aff80735adcb1a5bf52fcf855ca9e872897",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
