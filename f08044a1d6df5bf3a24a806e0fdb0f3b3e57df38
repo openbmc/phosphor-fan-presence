@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "63037668_a0cb5d1f",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-02T07:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7f0e4377_9405fb92",
+      "range": {
+        "startLine": 286,
+        "startChar": 12,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b223d70_f57d5511",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -82,6 +106,24 @@
     },
     {
       "key": {
+        "uuid": "4eee7862_4758afee",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-02T07:48:14Z",
+      "side": 1,
+      "message": "Ack. We can use the class member instead of the new variable \"hostIntfs\"",
+      "parentUuid": "49db1476_9e61ad94",
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b91c8cb1_65897d0f",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -105,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "ccd581e2_30da046a",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-02T07:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b91c8cb1_65897d0f",
+      "range": {
+        "startLine": 323,
+        "startChar": 25,
+        "endLine": 323,
+        "endChar": 29
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4999369d_efbefb18",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -125,6 +191,30 @@
       "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d031a7fa_260df8c4",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-02T07:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4999369d_efbefb18",
+      "range": {
+        "startLine": 325,
+        "startChar": 21,
+        "endLine": 325,
+        "endChar": 47
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +264,30 @@
     },
     {
       "key": {
+        "uuid": "7985827b_abed98ed",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-02T07:48:14Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "15421f1d_a4e85e48",
+      "range": {
+        "startLine": 335,
+        "startChar": 29,
+        "endLine": 335,
+        "endChar": 46
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "27960dd4_f2d19eb2",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -194,6 +308,30 @@
       "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d64c94d4_108f4339",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-02T07:48:14Z",
+      "side": 1,
+      "message": "Ack. I will remove the try catch as DbusServiceError handled in GetSubTree.",
+      "parentUuid": "27960dd4_f2d19eb2",
+      "range": {
+        "startLine": 354,
+        "startChar": 23,
+        "endLine": 355,
+        "endChar": 33
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
