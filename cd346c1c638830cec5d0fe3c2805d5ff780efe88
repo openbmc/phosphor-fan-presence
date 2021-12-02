@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e37d7d_d50313e1",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-02T04:22:03Z",
+      "side": 1,
+      "message": "Need interfacesAdded or interfacesRemoved triggers?",
+      "revId": "cd346c1c638830cec5d0fe3c2805d5ff780efe88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b68122b9_e62644dc",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/groups.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-02T04:22:03Z",
+      "side": 1,
+      "message": "Interesting slot numbering for what\u0027s used on the single socket...",
+      "revId": "cd346c1c638830cec5d0fe3c2805d5ff780efe88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39be7f6f_67a2d932",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/groups.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-02T04:22:03Z",
+      "side": 1,
+      "message": "Why was `5` skipped?",
+      "range": {
+        "startLine": 219,
+        "startChar": 5,
+        "endLine": 220,
+        "endChar": 86
+      },
+      "revId": "cd346c1c638830cec5d0fe3c2805d5ff780efe88",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
