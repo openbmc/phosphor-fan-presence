@@ -202,6 +202,14 @@
              "operator": "minus",
              "value": 10
          }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_0_core_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
+         }
        }
      ]
    },
@@ -235,6 +243,14 @@
          "modifier": {
              "operator": "minus",
              "value": 10
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_1_core_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
          }
        }
      ]
@@ -270,6 +286,14 @@
              "operator": "minus",
              "value": 10
          }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_2_core_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
+         }
        }
      ]
    },
@@ -304,6 +328,14 @@
              "operator": "minus",
              "value": 10
          }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_3_core_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
+         }
        }
      ]
    },
@@ -337,6 +369,14 @@
          "modifier": {
              "operator": "minus",
              "value": 10
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_0_ioring_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
          }
        }
      ]
@@ -373,6 +413,14 @@
              "operator": "minus",
              "value": 10
          }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_1_ioring_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
+         }
        }
      ]
    },
@@ -407,6 +455,14 @@
              "operator": "minus",
              "value": 10
          }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_2_ioring_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
+         }
        }
      ]
    },
@@ -440,6 +496,14 @@
          "modifier": {
              "operator": "minus",
              "value": 10
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "proc_3_ioring_dvfs_decrease_temp",
+         "modifier": {
+             "operator": "minus",
+             "value": 13
          }
        }
      ]
