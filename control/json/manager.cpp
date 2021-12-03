@@ -596,30 +596,59 @@ void Manager::addTimer(const TimerType type,
 
 void Manager::addGroup(const Group& group)
 {
-    const auto& members = group.getMembers();
-    for (const auto& member : members)
+    std::set<std::string> services;
+    for (const auto& member : group.getMembers())
     {
         try
         {
-            auto service = getService(member, group.getInterface());
+            const auto& service =
+                util::SDBusPlus::getService(member, group.getInterface());
 
-            auto variant =
-                util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
-                    service, member, group.getInterface(), group.getProperty());
+            // TODO - Optimize to only retrieve the paths on this service
+            auto objMgrPaths =
+                getPaths(service, "org.freedesktop.DBus.ObjectManager");
 
-            setProperty(member, group.getInterface(), group.getProperty(),
-                        variant);
-        }
-        catch (const std::exception& e)
-        {
-            try
+            // Look for the ObjectManager as an ancestor from the member.
+            auto hasObjMgr =
+                std::any_of(objMgrPaths.begin(), objMgrPaths.end(),
+                            [&member](const auto& path) {
+                                return member.find(path) != std::string::npos;
+                            });
+
+            if (!hasObjMgr)
             {
-                _objects.at(member)
-                    .at(group.getInterface())
-                    .erase(group.getProperty());
+                // No object manager interface provided for group member
+                // Attempt to retrieve group member property directly
+                auto value =
+                    util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+                        _bus, service, member, group.getInterface(),
+                        group.getProperty());
+
+                setProperty(member, group.getInterface(), group.getProperty(),
+                            value);
+                continue;
             }
-            catch (const std::out_of_range&)
-            {}
+
+            if (services.find(service) == services.end())
+            {
+                services.insert(service);
+                for (const auto& objMgrPath : objMgrPaths)
+                {
+                    // Get all managed objects from the service
+                    auto objects =
+                        util::SDBusPlus::getManagedObjects<PropertyVariantType>(
+                            _bus, service, objMgrPath);
+
+                    // Insert objects into cache
+                    insertFilteredObjects(objects);
+                }
+            }
+        }
+        catch (const util::DBusServiceError&)
+        {
+            // No service found for group member containing the group's
+            // configured interface
+            continue;
         }
     }
 }
