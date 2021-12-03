@@ -596,30 +596,53 @@ void Manager::addTimer(const TimerType type,
 
 void Manager::addGroup(const Group& group)
 {
-    const auto& members = group.getMembers();
-    for (const auto& member : members)
+    std::set<std::string> services;
+    for (const auto& member : group.getMembers())
     {
-        try
-        {
-            auto service = getService(member, group.getInterface());
+        const auto& service = getService(member, group.getInterface());
 
-            auto variant =
+        if (service.empty())
+        {
+            continue;
+        }
+
+        auto objMgrPaths =
+            getPaths(service, "org.freedesktop.DBus.ObjectManager");
+
+        // Look for the ObjectManager as an ancestor from the member.
+        auto hasObjMgr =
+            std::any_of(objMgrPaths.begin(), objMgrPaths.end(),
+                        [&member](const auto& path) {
+                            return member.find(path) != std::string::npos;
+                        });
+
+        if (!hasObjMgr)
+        {
+            // No object manager interface provided for group member
+            // Attempt to retrieve group member property directly
+            auto value =
                 util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
-                    service, member, group.getInterface(), group.getProperty());
+                    _bus, service, member, group.getInterface(),
+                    group.getProperty());
 
             setProperty(member, group.getInterface(), group.getProperty(),
-                        variant);
+                        value);
+            continue;
         }
-        catch (const std::exception& e)
+
+        if (services.find(service) == services.end())
         {
-            try
+            services.insert(service);
+            for (const auto& objMgrPath : objMgrPaths)
             {
-                _objects.at(member)
-                    .at(group.getInterface())
-                    .erase(group.getProperty());
+                // Get all managed objects from the service
+                auto objects =
+                    util::SDBusPlus::getManagedObjects<PropertyVariantType>(
+                        _bus, service, objMgrPath);
+
+                // Insert objects into cache
+                insertFilteredObjects(objects);
             }
-            catch (const std::out_of_range&)
-            {}
         }
     }
 }
