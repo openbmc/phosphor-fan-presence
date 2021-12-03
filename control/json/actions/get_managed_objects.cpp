@@ -18,8 +18,6 @@
 #include "../manager.hpp"
 #include "event.hpp"
 
-#include <iostream>
-
 namespace phosphor::fan::control::json
 {
 
