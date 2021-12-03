@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f14abd_2663d072",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "Should we make this part of this action\u0027s JSON config in case it needs to be changed? or maybe make it optional where it defaults to 1sec when not given? i.e. \"slotPowerDelay\" or similar",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 40
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa88bb8f_b058db9e",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "Is this valid for all types of event triggers that could trigger this action? I think having the `settleTime` configurable in the JSON would help where maybe the event trigger doesnt want a delay and a settleTime \u003d 0 would disable the timer from being used.\n\nProbably should default to 0  when not given in the JSON config, since not all configs may need this settleTimer and its specific to the system on how it powers the slots.",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 42
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a55ac34_c3951cc2",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "Add a debug log here since this action is really dependent on groups having the power state interface and if they dont, that could be a misconfiguration.",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 21
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6200bb5_03bd3eee",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "It\u0027s expected that they\u0027d be powered on at this point after the settleTimer expires, right? Should something be logged here if they\u0027re not to indicate a longer settleTimer is needed or there\u0027s a problem?\n\nOf course, when I say something should be logged here, maybe instead of to the journal something could get added to the flight recorder for this action?",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f9a9aa_a7597253",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "Also commented in the pcie meta data class, this if/else wouldnt be needed if the default_floor_index was returned as the floor index in the getFloorIndexFromSlot() call.",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 39
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62fab055_90b68b99",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "Instead of having this, could just enforce a default location to check for a base config file.",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 5
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bde8d76_b09535fc",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "Ah, I see how you\u0027re using this now.",
+      "range": {
+        "startLine": 176,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 5
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e091c3e8_f9b97d17",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "To eliminate this try/catch, the Manager::getProperty() method could be used, which returns std::optional\u003cPropertyVariantType\u003e and this method could be something like:\n```\nauto variantValue \u003d Manager::getProperty(objectPath, pcieDeviceIface, propertyName);\nif (variantValue)\n{\n    try\n    {\n        return std::stoul(std::get\u003cstd::string\u003e(variantValue), nullptr, 0);\n    }\n    catch (const std::invalid_argument\u0026 e)\n    {\n        throw std::runtime_error(\n            fmt::format(\"{}: {} has invalid PCIeDevice property {} value: {}\",\n                        ActionBase::getName(), objectPath, propertyName,\n                        std::get\u003cstd::string\u003e(variantValue))\n                .c_str());\n    }\n}\nelse\n{\n    throw std::runtime_error(\n        fmt::format(\n            \"{}: Could not get PCIeDevice property {} {} from cache \",\n            ActionBase::getName(), objectPath, propertyName)\n            .c_str());\n}\n```",
+      "range": {
+        "startLine": 190,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8355a33_e1b9b1cc",
+        "filename": "control/json/actions/pcie_card_floors.hpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T21:59:24Z",
+      "side": 1,
+      "message": "?",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 47
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
