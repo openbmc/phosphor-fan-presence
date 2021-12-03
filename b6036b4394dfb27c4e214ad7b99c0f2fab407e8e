@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b139d4a2_3be1f2c8",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T20:02:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8d549c33_bcb21df0",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 69,
+        "endChar": 73
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c03df940_da5c9354",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
         "patchSetId": 5
@@ -401,6 +425,30 @@
     },
     {
       "key": {
+        "uuid": "56d786a0_1aa8df20",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T20:02:45Z",
+      "side": 1,
+      "message": "We could enforce that the common stuff be at a default(base) location(i.e. not needing to be passed in here then that would result in only needing to pass in a list of additional directory locations given in a priority order be passed to this constructor), then given anything in systemNames locations would overwrite any matching entries from the common one found at the default location?",
+      "parentUuid": "e21fcd05_5940f9a2",
+      "range": {
+        "startLine": 77,
+        "startChar": 39,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a556741a_89efd5ed",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
         "patchSetId": 5
@@ -460,6 +508,30 @@
       "side": 1,
       "message": "I should clarify.  Whether or not we\u0027ll use the IBMCompatibleNames stuff will be specified in the JSON data and the action class that owns this class will then either fill in the names list or leave it empty as needed.",
       "parentUuid": "bf6dcc97_5c4d69f6",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 78,
+        "endChar": 49
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a930fb40_bffddca3",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T20:02:45Z",
+      "side": 1,
+      "message": "Ok, but with this being a utility class it will always depend on how the the action, etc.. is implemented to use this. At a minimum we should remove the references to \"IBMCompatible\" since I have a feeling that interface will be deprecated in the future so really this should accept an optional priority ordered list of names to look for pcie json files. FWIW, removing the references to that interface name in the json_config class is on my list to do eventually as well.",
+      "parentUuid": "6cee8e6a_519b0a6f",
       "range": {
         "startLine": 78,
         "startChar": 36,
@@ -553,6 +625,30 @@
       "side": 1,
       "message": "it\u0027ll crash while loading the JSON if the defaultFloorIndex isn\u0027t specified because it isn\u0027t optional.",
       "parentUuid": "644bcc8f_2ac67f21",
+      "range": {
+        "startLine": 168,
+        "startChar": 14,
+        "endLine": 168,
+        "endChar": 63
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b4127ae_531e4426",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-03T20:02:45Z",
+      "side": 1,
+      "message": "ok, that contradicts the parsing code for `default_floor_index`",
+      "parentUuid": "e099102e_8bc5832b",
       "range": {
         "startLine": 168,
         "startChar": 14,
