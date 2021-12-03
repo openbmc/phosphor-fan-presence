@@ -432,6 +432,7 @@ json Zone::dump() const
 
     output["active"] = _isActive;
     output["floor"] = _floor;
+    output["ceiling"] = _ceiling;
     output["target"] = _target;
     output["increase_delta"] = _incDelta;
     output["decrease_delta"] = _decDelta;
