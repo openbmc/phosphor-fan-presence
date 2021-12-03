@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f768119d_6e5f7d02",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "We have multi hosts for our platform. So only, not added static path by default. The path is getting by GetSubTree. Is there any way to use only interface in propertiesChanged ?",
+      "parentUuid": "eaf57de8_fd0cbd05",
+      "range": {
+        "startLine": 246,
+        "startChar": 32,
+        "endLine": 246,
+        "endChar": 48
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7f0e4377_9405fb92",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "91e1ce9b_7efc81a0",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "63037668_a0cb5d1f",
+      "range": {
+        "startLine": 286,
+        "startChar": 12,
+        "endLine": 286,
+        "endChar": 24
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b223d70_f57d5511",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -86,6 +134,24 @@
       "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c3475ab_35895923",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "Updated with other hostStates.",
+      "parentUuid": "6b223d70_f57d5511",
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +184,24 @@
       "side": 1,
       "message": "Ack. We can use the class member instead of the new variable \"hostIntfs\"",
       "parentUuid": "49db1476_9e61ad94",
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca1e5132_b6470cdb",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "4eee7862_4758afee",
       "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
@@ -159,6 +243,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "b91c8cb1_65897d0f",
+      "range": {
+        "startLine": 323,
+        "startChar": 25,
+        "endLine": 323,
+        "endChar": 29
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8f45d352_71fd2e44",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ccd581e2_30da046a",
       "range": {
         "startLine": 323,
         "startChar": 25,
@@ -218,6 +326,30 @@
     },
     {
       "key": {
+        "uuid": "60b70eb5_0e2c3f65",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "d031a7fa_260df8c4",
+      "range": {
+        "startLine": 325,
+        "startChar": 21,
+        "endLine": 325,
+        "endChar": 47
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843a6cdc_170dc1d4",
         "filename": "power_state.hpp",
         "patchSetId": 2
@@ -238,6 +370,30 @@
       "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f755bd_f53a32d6",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "Yes. We have more than one host service. multi hosts.",
+      "parentUuid": "843a6cdc_170dc1d4",
+      "range": {
+        "startLine": 329,
+        "startChar": 20,
+        "endLine": 329,
+        "endChar": 73
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -276,6 +432,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "15421f1d_a4e85e48",
+      "range": {
+        "startLine": 335,
+        "startChar": 29,
+        "endLine": 335,
+        "endChar": 46
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91a79857_8162e0c5",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "7985827b_abed98ed",
       "range": {
         "startLine": 335,
         "startChar": 29,
@@ -335,6 +515,30 @@
     },
     {
       "key": {
+        "uuid": "0df84878_ffe2ce7c",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "d64c94d4_108f4339",
+      "range": {
+        "startLine": 354,
+        "startChar": 23,
+        "endLine": 355,
+        "endChar": 33
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e377904d_2a36462e",
         "filename": "sensor-monitor/Makefile.am",
         "patchSetId": 2
@@ -355,6 +559,30 @@
       "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b93968ac_50f08729",
+        "filename": "sensor-monitor/Makefile.am",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-03T16:31:16Z",
+      "side": 1,
+      "message": "This is set in Machine layer, bbappend file. \n\"EXTRA_OEMAKE +\u003d \"HOSTSTATE\u003d1\"",
+      "parentUuid": "e377904d_2a36462e",
+      "range": {
+        "startLine": 30,
+        "startChar": 20,
+        "endLine": 30,
+        "endChar": 32
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
