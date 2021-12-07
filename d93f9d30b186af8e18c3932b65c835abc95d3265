@@ -22,6 +22,30 @@
       "revId": "d93f9d30b186af8e18c3932b65c835abc95d3265",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65224c84_16e50266",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-07T15:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85a80b6a_e8b946f5",
+      "range": {
+        "startLine": 267,
+        "startChar": 33,
+        "endLine": 267,
+        "endChar": 54
+      },
+      "revId": "d93f9d30b186af8e18c3932b65c835abc95d3265",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
