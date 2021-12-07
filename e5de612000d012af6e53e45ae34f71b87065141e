@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5507e608_c5a6c6c3",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-07T01:40:29Z",
+      "side": 1,
+      "message": "Need to use SDBusPlus::getService() instead as this continuously attempts to find the service for members that do not exist on dbus, which they should just be skipped.",
+      "range": {
+        "startLine": 602,
+        "startChar": 8,
+        "endLine": 602,
+        "endChar": 71
+      },
+      "revId": "e5de612000d012af6e53e45ae34f71b87065141e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
