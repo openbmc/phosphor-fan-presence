@@ -157,7 +157,6 @@ class JsonConfig
             try
             {
                 _loadFunc();
-                _match.reset();
             }
             catch (const NoConfigFound&)
             {
