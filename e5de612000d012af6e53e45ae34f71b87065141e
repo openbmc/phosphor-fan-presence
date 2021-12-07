@@ -22,6 +22,29 @@
       "revId": "e5de612000d012af6e53e45ae34f71b87065141e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07b8a978_d8a2bdda",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-07T01:42:17Z",
+      "side": 1,
+      "message": "An additional optimization should be considered here to minimize the number of entries in the cache since this call results in all the paths on dbus with the ObjectManager interface to be added.",
+      "range": {
+        "startLine": 609,
+        "startChar": 8,
+        "endLine": 610,
+        "endChar": 68
+      },
+      "revId": "e5de612000d012af6e53e45ae34f71b87065141e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
