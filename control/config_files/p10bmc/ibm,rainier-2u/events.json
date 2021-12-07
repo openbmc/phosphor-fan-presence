@@ -253,6 +253,176 @@
         "interval": 2000000,
         "preload_groups": true
       }
+    ],
+    "actions": [
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc0 core temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_0_core_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc1 core temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_1_core_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc2 core temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_2_core_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc3 core temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_3_core_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc0 ioring temp",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_0_ioring_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc1 ioring temp",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_1_ioring_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc2 ioring temp",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_2_ioring_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "proc3 ioring temp",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state_parameter_name": "proc_3_ioring_dvfs_temp",
+        "delta": 300
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "dram temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 66.0,
+        "delta": 200
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "pmic temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 62.0,
+        "delta": 200
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "internal memory buffer temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 72.0,
+        "delta": 200
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "dram and external memory buffer temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 55.0,
+        "delta": 200
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "external memory buffer temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 55.0,
+        "delta": 200
+      },
+      {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "vdd vrm temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 82.0,
+        "delta": 300
+      }
     ]
   }
 ]
