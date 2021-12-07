@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d6b186cf_a8351ba8",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 602,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-07T15:24:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5507e608_c5a6c6c3",
+      "range": {
+        "startLine": 602,
+        "startChar": 8,
+        "endLine": 602,
+        "endChar": 71
+      },
+      "revId": "e5de612000d012af6e53e45ae34f71b87065141e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "07b8a978_d8a2bdda",
         "filename": "control/json/manager.cpp",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "e5de612000d012af6e53e45ae34f71b87065141e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cab275f3_714c2350",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-07T15:24:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07b8a978_d8a2bdda",
+      "range": {
+        "startLine": 609,
+        "startChar": 8,
+        "endLine": 610,
+        "endChar": 68
+      },
+      "revId": "e5de612000d012af6e53e45ae34f71b87065141e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
