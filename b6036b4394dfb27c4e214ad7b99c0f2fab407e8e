@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "e8cb9971_0e4bbb39",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa0daa59_ebe51578",
+      "range": {
+        "startLine": 58,
+        "startChar": 36,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ecb7dfc_fbb7f5c9",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
         "patchSetId": 5
@@ -343,6 +367,30 @@
       "side": 1,
       "message": "Yea, though frankly I think we\u0027ve since talked ourselves out of needing any of that, so maybe I can just remove it.",
       "parentUuid": "2ecb7dfc_fbb7f5c9",
+      "range": {
+        "startLine": 59,
+        "startChar": 49,
+        "endLine": 59,
+        "endChar": 54
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7962ef6_e34cf107",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "I removed the sensor name stuff since I don\u0027t think we\u0027ll need to use it.",
+      "parentUuid": "7a7abb8c_423945c6",
       "range": {
         "startLine": 59,
         "startChar": 49,
@@ -437,6 +485,30 @@
       "side": 1,
       "message": "We could enforce that the common stuff be at a default(base) location(i.e. not needing to be passed in here then that would result in only needing to pass in a list of additional directory locations given in a priority order be passed to this constructor), then given anything in systemNames locations would overwrite any matching entries from the common one found at the default location?",
       "parentUuid": "e21fcd05_5940f9a2",
+      "range": {
+        "startLine": 77,
+        "startChar": 39,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847192f7_6db89661",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Rewrote this to just look in the default location if systemNames is empty.",
+      "parentUuid": "56d786a0_1aa8df20",
       "range": {
         "startLine": 77,
         "startChar": 39,
@@ -567,6 +639,30 @@
     },
     {
       "key": {
+        "uuid": "11a25972_da1c228b",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Because I want the caller to know if a valid entry was found or not.",
+      "parentUuid": "b96c5e7c_3f26e845",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f93e275_324a83fb",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
         "patchSetId": 5
@@ -587,6 +683,30 @@
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa45772_54bfd473",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f93e275_324a83fb",
+      "range": {
+        "startLine": 145,
+        "startChar": 36,
+        "endLine": 145,
+        "endChar": 49
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -658,6 +778,30 @@
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd129c19_76e9f058",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b4127ae_531e4426",
+      "range": {
+        "startLine": 168,
+        "startChar": 14,
+        "endLine": 168,
+        "endChar": 63
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     }
   ]
 }
