@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "274da222_e9235aab",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "I will do that, though not sure I see a use for it.",
+      "parentUuid": "aa88bb8f_b058db9e",
+      "range": {
+        "startLine": 47,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 42
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9a55ac34_c3951cc2",
         "filename": "control/json/actions/pcie_card_floors.cpp",
         "patchSetId": 6
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "68062d0b_35d142b1",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a55ac34_c3951cc2",
+      "range": {
+        "startLine": 71,
+        "startChar": 12,
+        "endLine": 71,
+        "endChar": 21
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6200bb5_03bd3eee",
         "filename": "control/json/actions/pcie_card_floors.cpp",
         "patchSetId": 6
@@ -82,6 +130,30 @@
       "writtenOn": "2021-12-03T21:59:24Z",
       "side": 1,
       "message": "It\u0027s expected that they\u0027d be powered on at this point after the settleTimer expires, right? Should something be logged here if they\u0027re not to indicate a longer settleTimer is needed or there\u0027s a problem?\n\nOf course, when I say something should be logged here, maybe instead of to the journal something could get added to the flight recorder for this action?",
+      "range": {
+        "startLine": 94,
+        "startChar": 15,
+        "endLine": 94,
+        "endChar": 25
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "037ff515_c1382e92",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "The slot could be empty, in which case it would never turn on.  Also, PHYP powers off cards that aren\u0027t assigned to a partition.",
+      "parentUuid": "b6200bb5_03bd3eee",
       "range": {
         "startLine": 94,
         "startChar": 15,
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "ba250ec6_835dc2a3",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "i originally did it that way, but I wanted to be able to throw the config into the flight recorder on line 121 so we can see it all in one place.",
+      "parentUuid": "c1f9a9aa_a7597253",
+      "range": {
+        "startLine": 98,
+        "startChar": 12,
+        "endLine": 98,
+        "endChar": 39
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "62fab055_90b68b99",
         "filename": "control/json/actions/pcie_card_floors.cpp",
         "patchSetId": 6
@@ -137,6 +233,30 @@
       "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "356544af_f228292f",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62fab055_90b68b99",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 5
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +294,30 @@
       "writtenOn": "2021-12-03T21:59:24Z",
       "side": 1,
       "message": "To eliminate this try/catch, the Manager::getProperty() method could be used, which returns std::optional\u003cPropertyVariantType\u003e and this method could be something like:\n```\nauto variantValue \u003d Manager::getProperty(objectPath, pcieDeviceIface, propertyName);\nif (variantValue)\n{\n    try\n    {\n        return std::stoul(std::get\u003cstd::string\u003e(variantValue), nullptr, 0);\n    }\n    catch (const std::invalid_argument\u0026 e)\n    {\n        throw std::runtime_error(\n            fmt::format(\"{}: {} has invalid PCIeDevice property {} value: {}\",\n                        ActionBase::getName(), objectPath, propertyName,\n                        std::get\u003cstd::string\u003e(variantValue))\n                .c_str());\n    }\n}\nelse\n{\n    throw std::runtime_error(\n        fmt::format(\n            \"{}: Could not get PCIeDevice property {} {} from cache \",\n            ActionBase::getName(), objectPath, propertyName)\n            .c_str());\n}\n```",
+      "range": {
+        "startLine": 190,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a48c208b_87867f0c",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-08T20:03:34Z",
+      "side": 1,
+      "message": "That one isn\u0027t static, so would have to start storing the Manager ptr/ref.",
+      "parentUuid": "e091c3e8_f9b97d17",
       "range": {
         "startLine": 190,
         "startChar": 4,
