@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e816330b_f1bb99cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-09T05:03:28Z",
+      "side": 1,
+      "message": "FWIW, during a meeting with the thermal leads, the Everest lead said that what\u0027s used for the Rainier4U for PCIe can be replicated to Everest as a starting point.",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 55
+      },
+      "revId": "f1f3998b3f4579a8da9d1e540dbc4d696e143770",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
