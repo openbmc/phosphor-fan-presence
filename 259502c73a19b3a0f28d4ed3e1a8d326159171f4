@@ -16,6 +16,24 @@
       "revId": "259502c73a19b3a0f28d4ed3e1a8d326159171f4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343b2996_66150510",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/groups.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-09T17:13:00Z",
+      "side": 1,
+      "message": "Correct, having the extra here in case they increase to all 24 will not affect fan control while they are not found on dbus.",
+      "parentUuid": "dc010344_7f0d61e2",
+      "revId": "259502c73a19b3a0f28d4ed3e1a8d326159171f4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
