@@ -146,12 +146,27 @@ void Zone::setTarget(uint64_t target)
 
 void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
 {
+    using namespace std::string_literals;
+
     if (!hold)
     {
-        _targetHolds.erase(ident);
+        size_t removed = _targetHolds.erase(ident);
+        if (removed)
+        {
+            FlightRecorder::instance().log(
+                "zone-target"s + getName(),
+                fmt::format("{} is removing target hold", ident));
+        }
     }
     else
     {
+        if (!((_targetHolds.find(ident) != _targetHolds.end()) &&
+              (_targetHolds[ident] == target)))
+        {
+            FlightRecorder::instance().log(
+                "zone-target"s + getName(),
+                fmt::format("{} is setting target hold to {}", ident, target));
+        }
         _targetHolds[ident] = target;
         _isActive = false;
     }
@@ -166,6 +181,14 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
     }
     else
     {
+        if (_target != itHoldMax->second)
+        {
+            FlightRecorder::instance().log(
+                "zone-target"s + getName(),
+                fmt::format("Settings fans to target hold of {}",
+                            itHoldMax->second));
+        }
+
         _target = itHoldMax->second;
         for (auto& fan : _fans)
         {
