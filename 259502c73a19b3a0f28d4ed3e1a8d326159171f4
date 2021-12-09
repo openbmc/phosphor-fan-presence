@@ -34,6 +34,24 @@
       "revId": "259502c73a19b3a0f28d4ed3e1a8d326159171f4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35d9812b_a7ef0640",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/groups.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2021-12-09T17:15:13Z",
+      "side": 1,
+      "message": "I\u0027m fine with going down to 16 if we want for now since I\u0027d think if they go up to 24 there\u0027d be additional required config changes elsewhere.",
+      "parentUuid": "343b2996_66150510",
+      "revId": "259502c73a19b3a0f28d4ed3e1a8d326159171f4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
