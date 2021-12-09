@@ -346,6 +346,18 @@
         "delta": 300
       },
       {
+        "name": "set_net_increase_target",
+        "groups": [
+          {
+            "name": "nvme temps",
+            "interface": "xyz.openbmc_project.Sensor.Value",
+            "property": { "name": "Value" }
+          }
+        ],
+        "state": 58.0,
+        "delta": 200
+      },
+      {
         "name": "set_net_decrease_target",
         "groups": [
           {
