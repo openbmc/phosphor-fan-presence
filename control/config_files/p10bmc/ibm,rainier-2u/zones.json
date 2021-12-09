@@ -2,7 +2,7 @@
     {
         "name": "0",
         "poweron_target": 11200,
-        "default_floor": 8000,
+        "default_floor": 11200,
         "increase_delay": 5,
         "decrease_interval": 30
     }
