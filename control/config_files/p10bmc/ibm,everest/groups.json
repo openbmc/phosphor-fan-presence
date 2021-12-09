@@ -750,5 +750,20 @@
      "/xyz/openbmc_project/sensors/temperature/vrm_vdd6_temp",
      "/xyz/openbmc_project/sensors/temperature/vrm_vdd7_temp"
    ]
+ },
+ {
+   "name": "nvme temps",
+   "members": [
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_1_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_2_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_3_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_4_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_5_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_6_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_7_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_8_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_9_Temp",
+     "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_10_Temp"
+   ]
  }
 ]
