@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "076bc492_e4e37bca",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-09T10:52:56Z",
+      "side": 1,
+      "message": "Done. Thanks for your suggestions.",
+      "parentUuid": "489ce2b3_d28bbad0",
+      "range": {
+        "startLine": 246,
+        "startChar": 32,
+        "endLine": 246,
+        "endChar": 48
+      },
+      "revId": "f08044a1d6df5bf3a24a806e0fdb0f3b3e57df38",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0e4377_9405fb92",
         "filename": "power_state.hpp",
         "patchSetId": 2
