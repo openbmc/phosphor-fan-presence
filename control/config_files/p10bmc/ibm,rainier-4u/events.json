@@ -616,5 +616,23 @@
         "delta": 40
       }
     ]
+  },
+  {
+    // Remove NVMe temperature objects from cache when they are removed from
+    // dbus. There's no need to react to their removal.
+    "name": "remove nvme objects",
+    "groups": [
+      {
+        "name": "nvme temps",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": { "name": "Value" }
+      }
+    ],
+    "triggers": [
+      {
+        "class": "signal",
+        "signal": "interfaces_removed"
+      }
+    ]
   }
 ]
