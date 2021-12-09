@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc010344_7f0d61e2",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/groups.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2021-12-09T16:35:30Z",
+      "side": 1,
+      "message": "sys workbook has max of 16 nvme drives for 1s4u. or specifying 24 here in case they later bump it up to 24?",
+      "revId": "259502c73a19b3a0f28d4ed3e1a8d326159171f4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
