@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80b60e64_a0d0b3f9",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-09T21:43:30Z",
+      "side": 1,
+      "message": "need to change to:\n Manager::setParameter(floorIndexParam, std::nullopt);\n\nafter https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/49139 merges",
+      "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
