@@ -34,6 +34,24 @@
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e8671ae_62316199",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-10T14:58:30Z",
+      "side": 1,
+      "message": "A few questions so I can understand your situation:\n\nYou want to power off all the hosts at once, right, and not just the host with the over-threshold sensors?\n\nIs there any reason the hosts could have different power states for any significant amount of time?\n\nAnd a follow on, is there a case where a sensor from a powered off host could go over-threshold and cause a power off of the hosts that are on?",
+      "parentUuid": "ed6fb6ec_697b4538",
+      "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
