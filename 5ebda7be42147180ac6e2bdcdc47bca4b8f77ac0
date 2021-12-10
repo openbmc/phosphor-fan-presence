@@ -16,6 +16,24 @@
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed6fb6ec_697b4538",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-10T14:32:11Z",
+      "side": 1,
+      "message": "Agree. It\u0027s enable powerState only for last host.\n\nShall we set powerState as true if any one of the host is ON or Running ? Please suggest.",
+      "parentUuid": "37ca0ed0_b1ed49fc",
+      "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
