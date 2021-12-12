@@ -81,20 +81,11 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
         _trustManager->registerSensor(_sensors.back());
     }
 
-    bool functionalState =
-        (_numSensorFailsForNonFunc == 0) ||
-        (countNonFunctionalSensors() < _numSensorFailsForNonFunc);
+    for (auto& sensor : _sensors)
+        sensor->setFunctional(true);
 
-    if (updateInventory(functionalState) && !functionalState)
-    {
-        // the inventory update threw an exception, possibly because D-Bus
-        // wasn't ready. Try to update sensors back to functional to avoid a
-        // false-alarm. They will be updated again from subscribing to the
-        // properties-changed event
-
-        for (auto& sensor : _sensors)
-            sensor->setFunctional(true);
-    }
+    // mark sensors functional initially
+    updateInventory(true);
 
 #ifndef MONITOR_USE_JSON
     // Check current tach state when entering monitor mode
