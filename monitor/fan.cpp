@@ -513,6 +513,9 @@ void Fan::powerStateChanged(bool powerStateOn)
 #ifdef MONITOR_USE_JSON
     if (powerStateOn)
     {
+        for (auto& sensor : _sensors)
+            sensor->setFunctional(true);
+
         _monitorTimer.restartOnce(std::chrono::seconds(_monitorDelay));
 
         _numSensorsOnDBusAtPowerOn = 0;
