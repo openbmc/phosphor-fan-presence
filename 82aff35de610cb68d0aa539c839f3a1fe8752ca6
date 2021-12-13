@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "992571ef_3367df98",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-13T23:00:01Z",
+      "side": 1,
+      "message": "Is this undoing the changes you put into the TachSensor constructor to read the functional state out of the inventory? Would those need to be removed?",
+      "revId": "82aff35de610cb68d0aa539c839f3a1fe8752ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9caedb1_b89845ce",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-13T23:00:01Z",
+      "side": 1,
+      "message": "(technically this is marking the fan functional, not the sensors)",
+      "range": {
+        "startLine": 87,
+        "startChar": 0,
+        "endLine": 87,
+        "endChar": 40
+      },
+      "revId": "82aff35de610cb68d0aa539c839f3a1fe8752ca6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
