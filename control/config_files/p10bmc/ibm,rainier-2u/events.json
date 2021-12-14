@@ -708,6 +708,18 @@
          "delta": 200
        },
        {
+         "name": "set_net_increase_target",
+         "groups": [
+           {
+             "name": "planar temps",
+             "interface": "xyz.openbmc_project.Sensor.Value",
+             "property": { "name": "Value" }
+           }
+         ],
+         "state": 65.0,
+         "delta": 255
+       },
+       {
          "name": "set_net_decrease_target",
          "groups": [
            {
@@ -886,6 +898,18 @@
          ],
          "state": 55.0,
          "delta": 40
+       },
+       {
+         "name": "set_net_decrease_target",
+         "groups": [
+           {
+             "name": "planar temps",
+             "interface": "xyz.openbmc_project.Sensor.Value",
+             "property": { "name": "Value" }
+           }
+         ],
+         "state": 60.0,
+         "delta": 80
        }
      ]
    },
