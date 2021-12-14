@@ -52,6 +52,24 @@
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02c713d8_12efc485",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-14T06:19:52Z",
+      "side": 1,
+      "message": "Matt : You want to power off all the hosts at once, right, and not just the host with the over-threshold sensors?\n\nKumar : Yes. I want to power off all the hosts at once. We have Fan sensors for entire chassis and monitoring the fan sensor and power off all the hosts if fan sensors value goes below threshold to avoid over heating/temperature in the chassis. \n\nWe don\u0027t have fan sensor for each hosts. It is not related to any particular hosts. That\u0027s the reason, I wanted to power off all the hosts at once.\n\nMatt : Is there any reason the hosts could have different power states for any significant amount of time?\n\nKumar:  We have power control options. User can do power on/off the hosts. So, It can be controlled by user for some time.\n\nMatt : Is there a case where a sensor from a powered off host could go over-threshold and cause a power off of the hosts that are on?\n\nKumar : This is not related to any particular hosts. So, We power off the all the hosts at once. It\u0027s irrespective of host sensors.",
+      "parentUuid": "9e8671ae_62316199",
+      "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
     }
   ]
 }
