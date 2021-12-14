@@ -497,5 +497,12 @@
      "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_23_Temp",
      "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_24_Temp"
    ]
+ },
+ {
+   "name": "planar temps",
+   "members": [
+     "/xyz/openbmc_project/sensors/temperature/PCIE_0_Temp",
+     "/xyz/openbmc_project/sensors/temperature/PCIE_1_Temp"
+   ]
  }
 ]
