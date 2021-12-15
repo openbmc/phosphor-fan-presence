@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 11200
+         "target": 17250
        }
      ]
    },
@@ -78,7 +78,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 11200
+         "target": 17250
        }
      ]
    },
@@ -130,7 +130,7 @@
                  "property": { "name": "OccActive" }
                }
              ],
-             "target": 11200
+             "target": 17250
            }
          ]
        }
@@ -167,7 +167,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 11200
+        "floor": 17250
       }
     ]
   },
