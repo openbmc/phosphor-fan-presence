@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "afb6b6ab_b3277663",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "Please shorten to 50 chars",
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "363c21ba_0845d8dc",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "don\u0027t think you need any of these new includes?",
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71668b5e_3f43e2f9",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "const std::vector\u003cstd::string\u003e\u0026    is preferred for vectors",
+      "range": {
+        "startLine": 300,
+        "startChar": 27,
+        "endLine": 300,
+        "endChar": 51
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "883d30b6_9106aead",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "instead of using an index you can just use a structured binding like:\n\nfor (const auto\u0026 powerState : hostPowerStates)\n{\n   if (powerState \u003d\u003d \"Running\") || ...\n}",
+      "range": {
+        "startLine": 303,
+        "startChar": 13,
+        "endLine": 303,
+        "endChar": 68
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d51bfa3_1af18645",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "\u0027hostStateService\u0027 to make it camelCase\n\nalso, do you really need the .c_str()?",
+      "range": {
+        "startLine": 351,
+        "startChar": 16,
+        "endLine": 351,
+        "endChar": 33
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2453d87_257fddcb",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "same question on c_str() here.",
+      "range": {
+        "startLine": 355,
+        "startChar": 47,
+        "endLine": 355,
+        "endChar": 55
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "993e8116_ce253b93",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2021-12-15T22:04:09Z",
+      "side": 1,
+      "message": "missing a leading \u0027/\u0027 here?\n\nyou also may need a trailing \u0027/\u0027 to get it to work in propertiesChangedNamespace.  Were you able to test it works?",
+      "range": {
+        "startLine": 373,
+        "startChar": 37,
+        "endLine": 373,
+        "endChar": 39
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
