@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "41ea7252_335f200e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3bdb6ff_cd23174c",
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "363c21ba_0845d8dc",
         "filename": "power_state.hpp",
         "patchSetId": 5
@@ -66,6 +84,24 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "363c21ba_0845d8dc",
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "280d2f2e_2bcf20ce",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6830e9f0_42da5ef5",
       "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
       "unresolved": false
@@ -107,6 +143,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "71668b5e_3f43e2f9",
+      "range": {
+        "startLine": 300,
+        "startChar": 27,
+        "endLine": 300,
+        "endChar": 51
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b8a0b74_5b164f31",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "27e21029_8e8d7317",
       "range": {
         "startLine": 300,
         "startChar": 27,
@@ -166,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "6f4ed369_205112ef",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53ab86b5_8b82faa6",
+      "range": {
+        "startLine": 303,
+        "startChar": 13,
+        "endLine": 303,
+        "endChar": 68
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d51bfa3_1af18645",
         "filename": "power_state.hpp",
         "patchSetId": 5
@@ -201,6 +285,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "3d51bfa3_1af18645",
+      "range": {
+        "startLine": 351,
+        "startChar": 16,
+        "endLine": 351,
+        "endChar": 33
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93d37215_edd1c2e1",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eeafa52c_14e76191",
       "range": {
         "startLine": 351,
         "startChar": 16,
@@ -260,6 +368,30 @@
     },
     {
       "key": {
+        "uuid": "6746c985_d257ba86",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 355,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a79e67f_9cffe7bc",
+      "range": {
+        "startLine": 355,
+        "startChar": 47,
+        "endLine": 355,
+        "endChar": 55
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "993e8116_ce253b93",
         "filename": "power_state.hpp",
         "patchSetId": 5
@@ -295,6 +427,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "993e8116_ce253b93",
+      "range": {
+        "startLine": 373,
+        "startChar": 37,
+        "endLine": 373,
+        "endChar": 39
+      },
+      "revId": "5db35b695203bb1e0bcce79e02706b5d3af164dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb0abd1b_f8e1fe3d",
+        "filename": "power_state.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2021-12-20T10:36:19Z",
+      "side": 1,
+      "message": "Done. The multi host path like host1, host2, host3 and host4 is not working with propertiesChangedNamespace. So, updated them using only with interfaces. So, the callback will execute if any properties changed in any one of the D-bus paths.",
+      "parentUuid": "5612c352_239b62ff",
       "range": {
         "startLine": 373,
         "startChar": 37,
