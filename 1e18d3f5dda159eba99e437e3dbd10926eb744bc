@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2940c437_bea8021d",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-12-20T14:41:49Z",
+      "side": 1,
+      "message": "I\u0027m putting this in the right place (previously the sensors were set to functional on startup, not poweron), but I\u0027m downgrading the review to WIP so it can be discussed properly. Down a few lines on 537 you can see that the sensor is already being set to functional if it\u0027s both present and non-functional. I will see if somehow the _present state can get of sync, but it mostly looks like set-functional-on-poweron is already present.",
+      "revId": "1e18d3f5dda159eba99e437e3dbd10926eb744bc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
+      "unresolved": true
+    }
+  ]
+}
