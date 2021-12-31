@@ -41,6 +41,9 @@ using json = nlohmann::json;
 using SensorMapType =
     std::map<std::string, std::set<std::shared_ptr<TachSensor>>>;
 
+// D-Bus matching object
+using HwMonMatch = std::unique_ptr<sdbusplus::bus::match::match>;
+
 class System
 {
   public:
@@ -117,7 +120,25 @@ class System
      */
     void start();
 
+    /**
+     * @brief Callback from D-Bus when Hwmon goes [on|off]line
+     *
+     * @param[in] unused - dbus message with service metadata
+     *
+     * @param[in] clearSubscriptions - true if service went offline and match
+     * objects should be cleared
+     */
+    void hwmonCallback(const sdbusplus::message::message& unused,
+                       bool clearSubscriptions);
+
   private:
+    /**
+     * @brief sets up match objects to detect hwmon changes
+     * @return bool - if hwmonitor is running and callback registered
+     * successfully
+     */
+    bool subscribeHwmon();
+
     /* The mode of fan monitor */
     Mode _mode;
 
@@ -129,6 +150,9 @@ class System
 
     /* Trust manager of trust groups */
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
+
+    /* match objects to detect Hwmon services */
+    std::vector<HwMonMatch> _hwmonMatches;
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
