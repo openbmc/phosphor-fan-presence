@@ -35,6 +35,10 @@
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
+#include <iostream>
+using std::cout;
+using std::endl;
+
 namespace phosphor::fan::monitor
 {
 
@@ -56,6 +60,7 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
 void System::start()
 {
     _started = true;
+
     json jsonObj = json::object();
 #ifdef MONITOR_USE_JSON
     auto confFile =
@@ -77,10 +82,138 @@ void System::start()
                       });
     }
 
-    if (_sensorMatch.empty())
+    auto hwmonRunning = subscribeHwmon();
+
+    if (hwmonRunning && _sensorMatch.empty())
     {
         subscribeSensorsToServices();
     }
+    else if (!hwmonRunning)
+    {
+        namespace match = sdbusplus::bus::match;
+        cout << "Making off match" << endl;
+
+        // this is not going to fly...
+        std::string svcName("xyz.openbmc_project.Hwmon-"
+                            "ef376ae656f95cf4f5f1302e716027bad06ce814475f3c4b29"
+                            "0be78467562051.Hwmon1");
+
+        // duplicate subscription
+        _hwmonMatches.push_back(std::make_unique<match::match>(
+            _bus, match::rules::nameOwnerChanged(svcName),
+            std::bind(&System::hwmonCallback, this, std::placeholders::_1,
+                      false)));
+    }
+}
+
+bool System::subscribeHwmon()
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::set<std::string> svcNames, fanPaths, ifaces;
+
+    // - use target interface
+    // - sensor.Value is first interface
+    // - either PWM/RPM target iface
+    // - use _name from tach_sensor.cpp
+    // - may or may not have a target
+
+    for (const auto& fan : _fans)
+    {
+        for (const auto& sensor : fan->sensors())
+        {
+            fanPaths.insert(sensor->name());
+            auto iface(sensor->getInterface());
+            if (!iface.empty())
+            {
+                ifaces.insert(iface);
+            }
+            cout << sensor->getInterface() << endl;
+        }
+    }
+
+    ifaces.insert(util::FAN_SENSOR_VALUE_INTF);
+    std::vector<std::string> ifaces2(ifaces.begin(), ifaces.end());
+
+    try
+    {
+        for (auto& path :
+             util::SDBusPlus::getSubTreeRaw(_bus, FAN_SENSOR_PATH, ifaces2, 0))
+        {
+            // this echoes the path back cout << path.first << endl;
+            cout << path.first << endl;
+
+            auto pathItr = fanPaths.find(path.first);
+
+            if (fanPaths.end() != pathItr)
+            {
+                // mark path as accounted for
+                fanPaths.erase(pathItr);
+            }
+            else
+            {
+                // TODO: not sure what to do here. this shouldn't happen
+                cout << "Could not find path for " << path.first << endl;
+            }
+
+            for (auto& service : path.second)
+            {
+                svcNames.insert(service.first);
+
+                // for(auto & secondName : service.second)
+                //    cout << secondName << endl;
+                // cout << "-----" << endl;
+                // shows things liek Sensor.Value, Control.Fanspeed, Op.Status
+            }
+        }
+    }
+    catch (std::exception& e)
+    {
+        cout << "caught dbus exception 1 " << endl;
+    }
+
+    if (fanPaths.size() > 0)
+    {
+        for (auto& path : fanPaths)
+            cout << "Error: path remaining " << path << endl;
+    }
+
+    bool svcRunning = false;
+
+    for (const auto& svcName : svcNames)
+    {
+        cout << "service: " << svcName << endl;
+
+        try
+        {
+
+            svcRunning = util::SDBusPlus::callMethodAndRead<bool>(
+                _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+                "org.freedesktop.DBus", "NameHasOwner", svcName);
+
+            // register a callback for each unique service
+            _hwmonMatches.push_back(std::make_unique<match::match>(
+                _bus, match::rules::nameOwnerChanged(svcName),
+                std::bind(&System::hwmonCallback, this, std::placeholders::_1,
+                          true)));
+
+            if (svcRunning)
+            {
+                cout << "Yes the sensor service is running" << endl;
+            }
+            else
+            {
+                cout << "No the sensor service is not running" << endl;
+            }
+        }
+        catch (std::exception& e)
+        {
+            cout << "Caught excep3: " << e.what() << endl;
+        }
+    }
+
+    // true return value means ok to fully startup
+    return _hwmonMatches.size() == svcNames.size();
 }
 
 void System::subscribeSensorsToServices()
@@ -190,6 +323,25 @@ void System::sighupHandler(sdeventplus::source::Signal&,
     }
 }
 
+void System::hwmonCallback(sdbusplus::message::message& msg, bool online)
+{
+    cout << "debug hwmon callback " << (online ? "online" : "offline") << endl;
+    namespace match = sdbusplus::bus::match;
+
+    std::string iface;
+    msg.read(iface);
+    cout << "debug iface: " << iface << endl;
+
+    if (online)
+    {
+        // this is only for the base case, separate investigation will
+        // be required for sighandler
+        subscribeSensorsToServices();
+    }
+    else
+    {}
+}
+
 const std::vector<CreateGroupFunction>
     System::getTrustGroups(const json& jsonObj)
 {
@@ -247,6 +399,9 @@ void System::tachSignalOffline(sdbusplus::message::message& msg,
     msg.read(serviceName);
     msg.read(oldOwner);
     msg.read(newOwner);
+
+    cout << "debug: " << serviceName << "|" << oldOwner << "|" << newOwner
+         << endl;
 
     // true if sensor server came back online, false -> went offline
     bool hasOwner = !newOwner.empty() && oldOwner.empty();
