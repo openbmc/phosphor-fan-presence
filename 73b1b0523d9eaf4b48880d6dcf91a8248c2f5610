@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e715513_4edf4d28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2021-12-31T15:48:41Z",
+      "side": 1,
+      "message": "I want to break this into at least 2 parts:\n\n1) reliably detect the hwmon service(s) on/offline\n\n[optional 1.5] - extract the mangled-name of the hwmon service, right now it\u0027s hard-coded\n\n2) incorporate (1) into starting fan-monitor, under happy path as well as the sighup handler\n\n",
+      "revId": "73b1b0523d9eaf4b48880d6dcf91a8248c2f5610",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
