@@ -113,7 +113,124 @@ void System::load()
                       });
     }
 
-    subscribeSensorsToServices();
+    auto hwmonRunning = subscribeHwmon();
+
+    if (hwmonRunning && _sensorMatch.empty())
+    {
+        subscribeSensorsToServices();
+    }
+    else if (!hwmonRunning)
+    {
+        // TODO: enter polling loop waiting for hwmon
+    }
+}
+
+bool System::subscribeHwmon()
+{
+    namespace match = sdbusplus::bus::match;
+
+    std::set<std::string> svcNames, fanPaths, ifaces;
+
+    // collect a list of all unique fan interfaces
+    for (const auto& fan : _fans)
+    {
+        for (const auto& sensor : fan->sensors())
+        {
+            fanPaths.insert(sensor->name());
+            auto iface(sensor->getInterface());
+            if (!iface.empty())
+            {
+                ifaces.insert(iface);
+            }
+        }
+    }
+
+    ifaces.insert(util::FAN_SENSOR_VALUE_INTF);
+    std::vector<std::string> ifacesVec(ifaces.begin(), ifaces.end());
+
+    try
+    {
+        // for each fan interface, record its service(s)
+        for (auto& path : util::SDBusPlus::getSubTreeRaw(_bus, FAN_SENSOR_PATH,
+                                                         ifacesVec, 0))
+        {
+            auto pathItr = fanPaths.find(path.first);
+
+            // mark that the path was inspected.
+            if (fanPaths.end() != pathItr)
+            {
+                fanPaths.erase(pathItr);
+            }
+            else
+            {
+                // a fan was found that we are not configured to use.
+                getLogger().log(
+                    fmt::format(
+                        "Unconfigured fan path found: {}, services not added ",
+                        path.first),
+                    Logger::info);
+            }
+
+            for (auto& service : path.second)
+            {
+                svcNames.insert(service.first);
+            }
+        }
+    }
+    catch (std::exception& e)
+    {
+        getLogger().log(
+            fmt::format("Caught D-Bus exception during getSubTreeRaw(): {}",
+                        e.what(), Logger::error));
+
+        return false;
+    }
+
+    // log any registered fans that do not publish to D-Bus
+    if (fanPaths.size() > 0)
+    {
+        getLogger().log(fmt::format(
+            "Fan(s) configured but not found in D-Bus: {}",
+            std::accumulate(fanPaths.begin(), fanPaths.end(), std::string("")),
+            Logger::error));
+    }
+
+    bool svcRunning = false;
+
+    // register the match callback for each service
+    for (const auto& svcName : svcNames)
+    {
+        try
+        {
+            svcRunning = util::SDBusPlus::callMethodAndRead<bool>(
+                _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+                "org.freedesktop.DBus", "NameHasOwner", svcName);
+
+            // register a callback for each unique service
+            // true indicates that the service went offline
+            _hwmonMatches.push_back(std::make_unique<match::match>(
+                _bus, match::rules::nameOwnerChanged(svcName),
+                std::bind(&System::hwmonCallback, this, std::placeholders::_1,
+                          true)));
+        }
+        catch (std::exception& e)
+        {
+            getLogger().log(fmt::format(
+                "Caught D-Bus exception during callMethodAndRead(): {}",
+                e.what(), Logger::error));
+            svcRunning = false;
+        }
+
+        if (!svcRunning)
+        {
+            // clear CB and force false return val
+            _hwmonMatches.clear();
+            break;
+        }
+    }
+
+    // true return value means ok to fully startup
+    return _hwmonMatches.size() == svcNames.size();
 }
 
 void System::subscribeSensorsToServices()
@@ -229,6 +346,10 @@ void System::sighupHandler(sdeventplus::source::Signal&,
                         entry("LOAD_ERROR=%s", re.what()));
     }
 }
+
+void System::hwmonCallback(const sdbusplus::message::message& unused,
+                           bool clearSubscriptions)
+{}
 
 const std::vector<CreateGroupFunction>
     System::getTrustGroups(const json& jsonObj)
