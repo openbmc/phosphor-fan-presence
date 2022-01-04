@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da82ee7c_28e4a510",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-04T14:49:06Z",
+      "side": 1,
+      "message": "I expect this to go into 2-3 commits.\n\nFirst one detects service names and registers a callback. Second will detect poweroff state and safely wait. Third will handle chassison state (fill in callback to handle service going offline).  ",
+      "revId": "142fe2b3e2d45f5669b84a41e439748c1094f9f3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
