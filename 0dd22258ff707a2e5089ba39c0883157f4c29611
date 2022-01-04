@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "27d47b89_5883e101",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-04T22:45:34Z",
+      "side": 1,
+      "message": "Now that we got a real PCIe card list for the Rainier 2U, I\u0027m not sure if we need this one.",
+      "revId": "0dd22258ff707a2e5089ba39c0883157f4c29611",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
