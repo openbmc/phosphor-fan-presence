@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "393e0b19_ce1aaaa2",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-04T19:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "119c36d2_4b8a575f",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "80b60e64_a0d0b3f9",
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "This dependency has been merged now.",
       "parentUuid": "80b60e64_a0d0b3f9",
+      "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7b10f6c_3feedee3",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-04T19:47:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "016ffbd3_b1684dc1",
       "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
