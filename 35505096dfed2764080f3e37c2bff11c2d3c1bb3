@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "977d7237_5ec722ba",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-04T17:38:25Z",
+      "side": 1,
+      "message": "what\u0027s the reason you\u0027re looking for more than just the Sensor.Value interface?",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0c37c1d_bb3b7336",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-04T17:38:25Z",
+      "side": 1,
+      "message": "If GetSubTree returned the service, then it will be running, so I\u0027m not sure this NameHasOwner call is necessary?",
+      "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
