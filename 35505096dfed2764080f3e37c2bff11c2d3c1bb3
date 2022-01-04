@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "84165ceb_bf4b66c2",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-04T18:44:23Z",
+      "side": 1,
+      "message": "To handle the services hosting the configured target interface(s) which may or may not be the same as the services hosting the Sensor.Value interface.",
+      "parentUuid": "977d7237_5ec722ba",
+      "range": {
+        "startLine": 99,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b0c37c1d_bb3b7336",
         "filename": "monitor/system.cpp",
         "patchSetId": 3
