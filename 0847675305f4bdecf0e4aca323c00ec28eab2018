@@ -1,6 +1,30 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "119c36d2_4b8a575f",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-04T18:34:33Z",
+      "side": 1,
+      "message": "This can be removed now with the JSON setting `_settleTime`, right?",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "80b60e64_a0d0b3f9",
         "filename": "control/json/actions/pcie_card_floors.cpp",
@@ -14,8 +38,25 @@
       "side": 1,
       "message": "need to change to:\n Manager::setParameter(floorIndexParam, std::nullopt);\n\nafter https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/49139 merges",
       "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "016ffbd3_b1684dc1",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-04T18:34:33Z",
+      "side": 1,
+      "message": "This dependency has been merged now.",
+      "parentUuid": "80b60e64_a0d0b3f9",
+      "revId": "0847675305f4bdecf0e4aca323c00ec28eab2018",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
