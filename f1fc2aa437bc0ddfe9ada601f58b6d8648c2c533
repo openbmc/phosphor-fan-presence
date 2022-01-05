@@ -16,6 +16,46 @@
       "message": "Hi All,\n\nCould you please review this patch and provide your comments if any\n\nThanks,\nKumar.",
       "revId": "f1fc2aa437bc0ddfe9ada601f58b6d8648c2c533",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "914f14eb_f3b51202",
+        "filename": "power_state.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-05T15:24:49Z",
+      "side": 1,
+      "message": "Does it matter to your use case if setPowerState(false) gets called a few times in this function before setPowerStateTrue does?  Also depending on which host is the one that is on, it may affect how many setPowerState(false)s get called.\n\nWould it work if you just used vars to track the power states in the loop and  then called setPowerState() appropriately at the end?",
+      "revId": "f1fc2aa437bc0ddfe9ada601f58b6d8648c2c533",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a2ecbc2_1ec1086b",
+        "filename": "power_state.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-05T15:24:49Z",
+      "side": 1,
+      "message": "can be const auto\u0026",
+      "range": {
+        "startLine": 349,
+        "startChar": 17,
+        "endLine": 349,
+        "endChar": 21
+      },
+      "revId": "f1fc2aa437bc0ddfe9ada601f58b6d8648c2c533",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
