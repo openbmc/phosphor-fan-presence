@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c672ca45_430d690b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-05T14:29:07Z",
+      "side": 1,
+      "message": "Hi All,\n\nCould you please review this patch and provide your comments if any\n\nThanks,\nKumar.",
+      "revId": "f1fc2aa437bc0ddfe9ada601f58b6d8648c2c533",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
