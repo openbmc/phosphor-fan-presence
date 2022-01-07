@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "b7e992fc_b7e34d30",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -20,10 +21,10 @@
         "endChar": 73
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8d549c33_bcb21df0",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -44,10 +45,10 @@
         "endChar": 73
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "b139d4a2_3be1f2c8",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -68,10 +69,10 @@
         "endChar": 73
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c03df940_da5c9354",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -91,10 +92,10 @@
         "endChar": 5
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1d83d9af_ded366fa",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -115,10 +116,10 @@
         "endChar": 5
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6ce2d761_6c47727a",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -139,10 +140,34 @@
         "endChar": 5
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a290ea9_2bb3b8da",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-07T17:01:32Z",
+      "side": 1,
+      "message": "As discussed, I will remove the default floor index completely.",
+      "parentUuid": "6ce2d761_6c47727a",
+      "range": {
+        "startLine": 99,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 5
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d0b3e782_c09fffaa",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -162,10 +187,10 @@
         "endChar": 63
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "365bb006_bb0f79e9",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -186,10 +211,10 @@
         "endChar": 63
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dcc7d064_274d810d",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -209,10 +234,10 @@
         "endChar": 9
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3000945e_a97905fe",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -233,10 +258,10 @@
         "endChar": 9
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "64325d91_9c73ddbd",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -256,10 +281,10 @@
         "endChar": 53
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5b57890a_2e555411",
         "filename": "control/json/utils/pcie_card_metadata.cpp",
@@ -280,10 +305,34 @@
         "endChar": 53
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b43757f8_26ff884f",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-07T17:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b57890a_2e555411",
+      "range": {
+        "startLine": 142,
+        "startChar": 52,
+        "endLine": 142,
+        "endChar": 53
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "fa0daa59_ebe51578",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -303,10 +352,10 @@
         "endChar": 45
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e8cb9971_0e4bbb39",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -327,10 +376,10 @@
         "endChar": 45
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "2ecb7dfc_fbb7f5c9",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -350,10 +399,10 @@
         "endChar": 54
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7a7abb8c_423945c6",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -374,10 +423,10 @@
         "endChar": 54
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b7962ef6_e34cf107",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -398,10 +447,10 @@
         "endChar": 54
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6ff2daaf_8b33b79d",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -421,10 +470,10 @@
         "endChar": 6
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "7a398bc3_c9c5bca5",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -444,10 +493,10 @@
         "endChar": 44
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e21fcd05_5940f9a2",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -468,10 +517,10 @@
         "endChar": 44
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "56d786a0_1aa8df20",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -492,10 +541,10 @@
         "endChar": 44
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "847192f7_6db89661",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -516,10 +565,10 @@
         "endChar": 44
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a556741a_89efd5ed",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -539,10 +588,10 @@
         "endChar": 49
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "bf6dcc97_5c4d69f6",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -563,10 +612,10 @@
         "endChar": 49
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "6cee8e6a_519b0a6f",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -587,10 +636,10 @@
         "endChar": 49
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a930fb40_bffddca3",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -611,10 +660,10 @@
         "endChar": 49
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "b96c5e7c_3f26e845",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -634,10 +683,10 @@
         "endChar": 5
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "11a25972_da1c228b",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -658,10 +707,10 @@
         "endChar": 5
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "5f93e275_324a83fb",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -681,10 +730,10 @@
         "endChar": 49
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "4fa45772_54bfd473",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -705,10 +754,10 @@
         "endChar": 49
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "644bcc8f_2ac67f21",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -728,10 +777,10 @@
         "endChar": 63
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e099102e_8bc5832b",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -752,10 +801,10 @@
         "endChar": 63
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0b4127ae_531e4426",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -776,10 +825,10 @@
         "endChar": 63
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "bd129c19_76e9f058",
         "filename": "control/json/utils/pcie_card_metadata.hpp",
@@ -800,8 +849,7 @@
         "endChar": 63
       },
       "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
