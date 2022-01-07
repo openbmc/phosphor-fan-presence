@@ -497,6 +497,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fec9b246_004ec25a",
+        "filename": "control/json/actions/pcie_card_floors.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-07T01:28:51Z",
+      "side": 1,
+      "message": "I dont quite follow that since a reference to the zone is given to `execute()` and could be passed down to here, but this is fine and will look into enhancements as improvements are made to the Manager.",
+      "parentUuid": "a63380c4_016eae24",
+      "range": {
+        "startLine": 190,
+        "startChar": 4,
+        "endLine": 203,
+        "endChar": 5
+      },
+      "revId": "b9c143031e9a171f87e6b0579eca18359bbb2b19",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8355a33_e1b9b1cc",
