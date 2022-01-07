@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb21a4d8_550d18a9",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-07T18:52:28Z",
+      "side": 1,
+      "message": "Could you add an @return here to desribe what the bool indicates?",
+      "revId": "df6aae7c8e37813fc54dbd5752253f25b21a5195",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
