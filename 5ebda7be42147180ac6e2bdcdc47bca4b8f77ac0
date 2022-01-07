@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "37ca0ed0_b1ed49fc",
         "filename": "power_state.hpp",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Do you need to worry about some hosts being on while others are off?  Looks like now you\u0027d always get the answer of the last host.",
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ed6fb6ec_697b4538",
         "filename": "power_state.hpp",
@@ -32,10 +33,10 @@
       "message": "Agree. It\u0027s enable powerState only for last host.\n\nShall we set powerState as true if any one of the host is ON or Running ? Please suggest.",
       "parentUuid": "37ca0ed0_b1ed49fc",
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9e8671ae_62316199",
         "filename": "power_state.hpp",
@@ -50,10 +51,10 @@
       "message": "A few questions so I can understand your situation:\n\nYou want to power off all the hosts at once, right, and not just the host with the over-threshold sensors?\n\nIs there any reason the hosts could have different power states for any significant amount of time?\n\nAnd a follow on, is there a case where a sensor from a powered off host could go over-threshold and cause a power off of the hosts that are on?",
       "parentUuid": "ed6fb6ec_697b4538",
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "02c713d8_12efc485",
         "filename": "power_state.hpp",
@@ -68,10 +69,10 @@
       "message": "Matt : You want to power off all the hosts at once, right, and not just the host with the over-threshold sensors?\n\nKumar : Yes. I want to power off all the hosts at once. We have Fan sensors for entire chassis and monitoring the fan sensor and power off all the hosts if fan sensors value goes below threshold to avoid over heating/temperature in the chassis. \n\nWe don\u0027t have fan sensor for each hosts. It is not related to any particular hosts. That\u0027s the reason, I wanted to power off all the hosts at once.\n\nMatt : Is there any reason the hosts could have different power states for any significant amount of time?\n\nKumar:  We have power control options. User can do power on/off the hosts. So, It can be controlled by user for some time.\n\nMatt : Is there a case where a sensor from a powered off host could go over-threshold and cause a power off of the hosts that are on?\n\nKumar : This is not related to any particular hosts. So, We power off the all the hosts at once. It\u0027s irrespective of host sensors.",
       "parentUuid": "9e8671ae_62316199",
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "9d4cb5d3_d08e86e8",
         "filename": "power_state.hpp",
@@ -86,10 +87,10 @@
       "message": "OK, in that case then it seems like you\u0027d want the host state to be true if any host state is on?",
       "parentUuid": "02c713d8_12efc485",
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "a730660a_1ceb8fd6",
         "filename": "power_state.hpp",
@@ -104,8 +105,25 @@
       "message": "Yes. Host state should be true if any host is on.",
       "parentUuid": "9d4cb5d3_d08e86e8",
       "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ca79d2_8aec5573",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-07T18:46:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a730660a_1ceb8fd6",
+      "revId": "5ebda7be42147180ac6e2bdcdc47bca4b8f77ac0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
