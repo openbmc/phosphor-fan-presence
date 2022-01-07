@@ -27,6 +27,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
+#include <sdeventplus/utility/timer.hpp>
 
 #include <memory>
 #include <optional>
@@ -42,7 +43,9 @@ using SensorMapType =
     std::map<std::string, std::set<std::shared_ptr<TachSensor>>>;
 
 // D-Bus matching object
-using HwMonMatch = std::unique_ptr<sdbusplus::bus::match::match>;
+using DBusMatch = std::unique_ptr<sdbusplus::bus::match::match>;
+
+using Timer = sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>;
 
 class System
 {
@@ -122,14 +125,8 @@ class System
 
     /**
      * @brief Callback from D-Bus when Hwmon goes [on|off]line
-     *
-     * @param[in] unused - dbus message with service metadata
-     *
-     * @param[in] clearSubscriptions - true if service went offline and match
-     * objects should be cleared
      */
-    void hwmonCallback(const sdbusplus::message::message& unused,
-                       bool clearSubscriptions);
+    void hwmonCallback();
 
   private:
     /**
@@ -152,7 +149,7 @@ class System
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
 
     /* match objects to detect Hwmon services */
-    std::vector<HwMonMatch> _hwmonMatches;
+    std::vector<DBusMatch> _hwmonMatches;
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
@@ -194,7 +191,10 @@ class System
     /**
      * @brief The tach sensors D-Bus match objects
      */
-    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> _sensorMatch;
+    std::vector<DBusMatch> _sensorMatch;
+
+    /* timer to poll for missing services */
+    Timer _hwmonRetryTimer;
 
     /**
      * @brief If start() has been called
