@@ -22,6 +22,30 @@
       },
       "revId": "90babb17259e90f0a74b58b0276dd9b8ecec26ae",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d7eeee8_f5e23470",
+        "filename": "power_state.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-07T06:31:29Z",
+      "side": 1,
+      "message": "Yes. These are the possible states. I will update the flag to false as default and  check only for \"On\" case.",
+      "parentUuid": "64ce5737_2d79f5a5",
+      "range": {
+        "startLine": 305,
+        "startChar": 0,
+        "endLine": 315,
+        "endChar": 73
+      },
+      "revId": "90babb17259e90f0a74b58b0276dd9b8ecec26ae",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
