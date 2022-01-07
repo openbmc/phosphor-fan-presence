@@ -17,6 +17,7 @@
 
 #include "fan.hpp"
 #include "fan_defs.hpp"
+#include "sdeventplus.hpp"
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
 #include "types.hpp"
@@ -51,7 +52,9 @@ System::System(Mode mode, sdbusplus::bus::bus& bus,
     _powerState(std::make_unique<PGoodState>(
         bus, std::bind(std::mem_fn(&System::powerStateChanged), this,
                        std::placeholders::_1))),
-    _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
+    _thermalAlert(bus, THERMAL_ALERT_OBJPATH),
+    _hwmonRetryTimer(util::SDEventPlus::getEvent(),
+                     std::bind(&System::hwmonCallback, this))
 {}
 
 void System::start()
@@ -113,16 +116,8 @@ void System::load()
                       });
     }
 
-    auto hwmonRunning = subscribeHwmon();
-
-    if (hwmonRunning && _sensorMatch.empty())
-    {
-        subscribeSensorsToServices();
-    }
-    else if (!hwmonRunning)
-    {
-        // TODO: enter polling loop waiting for hwmon
-    }
+    // start hwmon driver detection
+    hwmonCallback();
 }
 
 bool System::subscribeHwmon()
@@ -210,8 +205,7 @@ bool System::subscribeHwmon()
             // true indicates that the service went offline
             _hwmonMatches.push_back(std::make_unique<match::match>(
                 _bus, match::rules::nameOwnerChanged(svcName),
-                std::bind(&System::hwmonCallback, this, std::placeholders::_1,
-                          true)));
+                [=](const auto& unused) { hwmonCallback(); }));
         }
         catch (std::exception& e)
         {
@@ -230,7 +224,7 @@ bool System::subscribeHwmon()
     }
 
     // true return value means ok to fully startup
-    return _hwmonMatches.size() == svcNames.size();
+    return svcRunning && (_hwmonMatches.size() == svcNames.size());
 }
 
 void System::subscribeSensorsToServices()
@@ -347,9 +341,23 @@ void System::sighupHandler(sdeventplus::source::Signal&,
     }
 }
 
-void System::hwmonCallback(const sdbusplus::message::message& unused,
-                           bool clearSubscriptions)
-{}
+void System::hwmonCallback()
+{
+    _hwmonMatches.clear();
+    _sensorMatch.clear();
+
+    if (subscribeHwmon())
+    {
+        // hwMon is running and this cb is registered
+        subscribeSensorsToServices();
+        _hwmonRetryTimer.setEnabled(false);
+    }
+    else
+    {
+        // hwMon not running. activate this function again in a few seconds
+        _hwmonRetryTimer.restartOnce(std::chrono::seconds(2));
+    }
+}
 
 const std::vector<CreateGroupFunction>
     System::getTrustGroups(const json& jsonObj)
