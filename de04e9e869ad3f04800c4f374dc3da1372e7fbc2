@@ -22,6 +22,30 @@
       },
       "revId": "de04e9e869ad3f04800c4f374dc3da1372e7fbc2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "273c3169_043f7ba2",
+        "filename": "power_state.hpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-09T14:43:47Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9443191e_30446945",
+      "range": {
+        "startLine": 313,
+        "startChar": 0,
+        "endLine": 316,
+        "endChar": 13
+      },
+      "revId": "de04e9e869ad3f04800c4f374dc3da1372e7fbc2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
