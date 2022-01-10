@@ -868,5 +868,18 @@
      "/xyz/openbmc_project/sensors/temperature/PCIE_0_Temp",
      "/xyz/openbmc_project/sensors/temperature/PCIE_1_Temp"
    ]
+ },
+ {
+   "name": "bear lake temps",
+   "members": [
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_1_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_2_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_3_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_4_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_5_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_6_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_7_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_8_Temp"
+   ]
  }
 ]

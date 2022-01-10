@@ -1246,6 +1246,18 @@
          "delta": 255
        },
        {
+         "name": "set_net_increase_target",
+         "groups": [
+           {
+             "name": "bear lake temps",
+             "interface": "xyz.openbmc_project.Sensor.Value",
+             "property": { "name": "Value" }
+           }
+         ],
+         "state": 70.0,
+         "delta": 255
+       },
+       {
          "name": "set_net_decrease_target",
          "groups": [
            {
@@ -1531,6 +1543,18 @@
            }
          ],
          "state": 63.0,
+         "delta": 80
+       },
+       {
+         "name": "set_net_decrease_target",
+         "groups": [
+           {
+             "name": "bear lake temps",
+             "interface": "xyz.openbmc_project.Sensor.Value",
+             "property": { "name": "Value" }
+           }
+         ],
+         "state": 65.0,
          "delta": 80
        }
      ]
