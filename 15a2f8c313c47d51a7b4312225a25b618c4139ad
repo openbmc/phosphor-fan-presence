@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "b3eab7b8_306fd6a1",
         "filename": "control/json/zone.cpp",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "I\u0027ll defer to Matt B on this",
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1de7236d_6737376e",
         "filename": "control/json/zone.cpp",
@@ -32,10 +33,28 @@
       "message": "I\u0027d say to do the following:\n```\nif (fanItr !\u003d _fans.end())\n{\n    (*fanItr)-\u003elockTarget(target);\n}\nelse\n{\n    log\u003clevel::DEBUG\u003e(fmt::format(\"Configured fan {} not found in zone {} to lock target\", fname, getName()).c_str());\n}\n```\n\nReason is that its up to the user to have configured any events/actions that would be locking a fan\u0027s target with the appropriate fan names against the correct zone.",
       "parentUuid": "b3eab7b8_306fd6a1",
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae573da7_3a06899a",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-10T14:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1de7236d_6737376e",
+      "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4cb20444_70d4d2da",
         "filename": "control/json/zone.cpp",
@@ -55,10 +74,34 @@
         "endChar": 5
       },
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "93cceada_a3fdd3ab",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-10T14:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cb20444_70d4d2da",
+      "range": {
+        "startLine": 171,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 5
+      },
+      "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d675261c_98b8c6db",
         "filename": "control/json/zone.hpp",
@@ -78,10 +121,10 @@
         "endChar": 19
       },
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "cc496f40_7ce505d7",
         "filename": "control/json/zone.hpp",
@@ -102,10 +145,10 @@
         "endChar": 19
       },
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "68750869_6694fbb8",
         "filename": "control/json/zone.hpp",
@@ -125,10 +168,10 @@
         "endChar": 21
       },
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "295ac72c_d2c88cc2",
         "filename": "control/json/zone.hpp",
@@ -149,8 +192,7 @@
         "endChar": 21
       },
       "revId": "15a2f8c313c47d51a7b4312225a25b618c4139ad",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": false
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
