@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd0cad98_744d22a3",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-10T22:44:03Z",
+      "side": 1,
+      "message": "Is there a reason you\u0027re not using sdbusplus::bus::match::rules ?\n\nThis match looks to me like it matches on way too many items.  Don\u0027t we have a path and/or namespace to match on?  How are you going to support multi-host when you don\u0027t have an instance you are matching on?",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1272729_106cdec7",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-10T22:44:03Z",
+      "side": 1,
+      "message": "Please fix match.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d48c54d4_30653417",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-10T22:44:03Z",
+      "side": 1,
+      "message": "Can you switch this code to properly use the \u0027from_string\u0027 method rather than doing your own string matching?",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 9
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0c840cb_e05f282f",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-10T22:44:03Z",
+      "side": 1,
+      "message": "Please switch this to use a PDI enumeration rather than a string.",
+      "range": {
+        "startLine": 301,
+        "startChar": 27,
+        "endLine": 301,
+        "endChar": 68
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a9859c2_c1d6572d",
+        "filename": "sensor-monitor/Makefile.am",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-10T22:44:03Z",
+      "side": 1,
+      "message": "Doesn\u0027t this turn it on for everyone?  I suspect this isn\u0027t what you intented.",
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70a392fb_417a275d",
+        "filename": "sensor-monitor/main.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-10T22:44:03Z",
+      "side": 1,
+      "message": "#else ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
