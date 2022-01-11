@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "11a85cb1_a0c50ad4",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-11T10:10:02Z",
+      "side": 1,
+      "message": "I initially used with sdbusplus::bus::match::rules::propertiesChanged and sdbusplus::bus::match::rules::propertiesChangedNamespace. \n\nBut, the multi host path like host1, host2, host3 and host4 is not working with propertiesChangedNamespace and propertiesChanged. So, updated them using only with interfaces. So, the callback will execute if any properties changed in any one of these D-bus paths.",
+      "parentUuid": "cd0cad98_744d22a3",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1272729_106cdec7",
         "filename": "power_state.hpp",
         "patchSetId": 10
@@ -70,6 +94,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "65f31bc9_2cb36f1f",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-11T10:10:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d48c54d4_30653417",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 9
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c840cb_e05f282f",
@@ -83,6 +131,30 @@
       "writtenOn": "2022-01-10T22:44:03Z",
       "side": 1,
       "message": "Please switch this to use a PDI enumeration rather than a string.",
+      "range": {
+        "startLine": 301,
+        "startChar": 27,
+        "endLine": 301,
+        "endChar": 68
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "536c9342_6e85dff9",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-11T10:10:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e0c840cb_e05f282f",
       "range": {
         "startLine": 301,
         "startChar": 27,
@@ -112,6 +184,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "2fa56749_199a1b8a",
+        "filename": "sensor-monitor/Makefile.am",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-11T10:10:02Z",
+      "side": 1,
+      "message": "No. This is turn on only if it is enabled in machine layer (HOSTSTATE\u003d1).",
+      "parentUuid": "8a9859c2_c1d6572d",
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "70a392fb_417a275d",
         "filename": "sensor-monitor/main.cpp",
         "patchSetId": 10
@@ -123,6 +213,30 @@
       "writtenOn": "2022-01-10T22:44:03Z",
       "side": 1,
       "message": "#else ?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ed3b489_11cd29ba",
+        "filename": "sensor-monitor/main.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-11T10:10:02Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "70a392fb_417a275d",
       "range": {
         "startLine": 34,
         "startChar": 0,
