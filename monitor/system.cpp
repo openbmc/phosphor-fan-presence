@@ -60,7 +60,7 @@ void System::start()
 
     _invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
         _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
-        "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_INTF);
+        "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_SVC);
 
     if (_invServiceRunning)
     {

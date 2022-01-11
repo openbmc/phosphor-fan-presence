@@ -27,6 +27,7 @@ constexpr auto MAPPER_INTERFACE = "xyz.openbmc_project.ObjectMapper";
 
 constexpr auto INVENTORY_PATH = "/xyz/openbmc_project/inventory";
 constexpr auto INVENTORY_INTF = "xyz.openbmc_project.Inventory.Manager";
+constexpr auto INVENTORY_SVC = "xyz.openbmc_project.Inventory.Manager";
 
 constexpr auto OPERATIONAL_STATUS_INTF =
     "xyz.openbmc_project.State.Decorator.OperationalStatus";
