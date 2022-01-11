@@ -581,6 +581,16 @@
          "name": "vdd vrm temps",
          "interface": "xyz.openbmc_project.Sensor.Value",
          "property": { "name": "Value" }
+       },
+       {
+         "name": "nvme temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "planar temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
        }
      ],
      "triggers": [
