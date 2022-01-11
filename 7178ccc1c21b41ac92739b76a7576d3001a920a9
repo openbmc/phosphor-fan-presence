@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "b2cc9db9_ad5469fb",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-11T12:24:30Z",
+      "side": 1,
+      "message": "What did you try for propertiesChangedNamespace?  We should get to the bottom of this so that we\u0027re not sending almost all PropertiesChanged signals at the daemon.",
+      "parentUuid": "11a85cb1_a0c50ad4",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1272729_106cdec7",
         "filename": "power_state.hpp",
         "patchSetId": 10
@@ -196,6 +220,24 @@
       "side": 1,
       "message": "No. This is turn on only if it is enabled in machine layer (HOSTSTATE\u003d1).",
       "parentUuid": "8a9859c2_c1d6572d",
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e4c0282_2d4ff257",
+        "filename": "sensor-monitor/Makefile.am",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-11T12:24:30Z",
+      "side": 1,
+      "message": "How?  The way I read this is that \"-DENABLE_HOST_STATE\" is always passed to the compiler.  I don\u0027t see any conditional here because ENABLE_HOST_STATE is a local variable that is never evaluated.",
+      "parentUuid": "2fa56749_199a1b8a",
       "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
