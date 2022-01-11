@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3d2627c_74f07a3a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-11T18:20:55Z",
+      "side": 1,
+      "message": "I dont believe there\u0027s anything to try/catch here by simply making a match, is there?\n\nI think you can just make the `_inventoryMatch` when the inventory service is not running yet.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 9
+      },
+      "revId": "cea241d39aedad322dfbb2da041e22c902ee091b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
