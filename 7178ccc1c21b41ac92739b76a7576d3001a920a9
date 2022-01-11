@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6ea38b66_6f963f2c",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-11T15:20:01Z",
+      "side": 1,
+      "message": "HostPowerState() :\n        PowerState(),\n        _match(_bus,\n               sdbusplus::bus::match::rules::propertiesChangedNamespace(\n                   _hostStatePath, _hostStateInterface),\n               [this](auto\u0026 msg) { this-\u003ehostStateChanged(msg); })\n    {\n        readHostState();\n    }\n\nconst std::string _hostStatePath{\"xyz/openbmc_project/state/host\"};\n\nI tried with the above code and dbus object path. readHostState callback is not called for the multi host dbus path \"xyz/openbmc_project/state/host1\" \n\"xyz/openbmc_project/state/host2\" .,\n\nBut if _hostStatePath{\"xyz/openbmc_project/state/host1\"} works for single host path. But we wanted to get signals for all the multi host dbus paths (host1, host2, etc).",
+      "parentUuid": "b2cc9db9_ad5469fb",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c1272729_106cdec7",
         "filename": "power_state.hpp",
         "patchSetId": 10
