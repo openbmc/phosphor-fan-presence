@@ -22,6 +22,53 @@
       },
       "revId": "cea241d39aedad322dfbb2da041e22c902ee091b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "129bd522_ed51a370",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-11T22:55:13Z",
+      "side": 1,
+      "message": "You\u0027ll want to create _inventoryMatch before the method call on line 61 or there is a (very small) window where the service could be started after that call but before you create the match, meaning you\u0027d never get a callback.\n\nYou can then delete it if the inventory is up.",
+      "parentUuid": "b3d2627c_74f07a3a",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 85,
+        "endChar": 9
+      },
+      "revId": "cea241d39aedad322dfbb2da041e22c902ee091b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d485e2c8_fdec8025",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-11T22:55:13Z",
+      "side": 1,
+      "message": "could you add inventory in the name somehow since it\u0027s just for that service?  invServiceCallback maybe?",
+      "range": {
+        "startLine": 132,
+        "startChar": 9,
+        "endLine": 132,
+        "endChar": 24
+      },
+      "revId": "cea241d39aedad322dfbb2da041e22c902ee091b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
