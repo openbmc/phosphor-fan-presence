@@ -590,6 +590,16 @@
          "name": "planar temps",
          "interface": "xyz.openbmc_project.Sensor.Value",
          "property": { "name": "Value" }
+       },
+       {
+         "name": "flett temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "bear river temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
        }
      ],
      "triggers": [
