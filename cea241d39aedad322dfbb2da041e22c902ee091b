@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f24d0ae_5485bb49",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T17:08:42Z",
+      "side": 1,
+      "message": "fwiw, I loaded up a quick hack utilizing this variable in System::start() where the config is only loaded if inventory is running and a config has not been loaded yet. Initially it seems only having this set to false when fan monitor starts is the only use-case and after fan monitor loads its config after starting, the only way to reload its config is thru SIGHUP.",
+      "parentUuid": "13592a8b_a9e3a165",
+      "revId": "cea241d39aedad322dfbb2da041e22c902ee091b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d485e2c8_fdec8025",
         "filename": "monitor/system.hpp",
         "patchSetId": 15
