@@ -172,6 +172,104 @@
     ]
   },
   {
+    // Set a raised fan floor when any OCC sensor is nonfunctional
+    "name": "Nonfunctional OCC sensors",
+    "groups": [
+      {
+        "name": "proc0 core temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc1 core temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc2 core temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc3 core temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc0 ioring temp",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc1 ioring temp",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc2 ioring temp",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "proc3 ioring temp",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "dram temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "pmic temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "internal memory buffer temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "dram and external memory buffer temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "external memory buffer temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "vdd vrm temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      }
+    ],
+    "triggers": [
+      {
+        "class": "signal",
+        "signal": "properties_changed"
+      },
+      {
+        "class": "signal",
+        "signal": "interfaces_added"
+      },
+      {
+        "class": "init",
+        "method": "get_properties"
+      }
+    ],
+    "actions": [
+      {
+        "name": "count_state_floor",
+        "count": 1,
+        "state": false,
+        "floor": 17250
+      }
+    ]
+  },
+  {
      "name": "Set Proc 0 Core DVFS parameter",
      "groups": [
        {
