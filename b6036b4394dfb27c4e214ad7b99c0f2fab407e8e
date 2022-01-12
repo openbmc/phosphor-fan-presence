@@ -474,6 +474,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "507d29f1_5b635347",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T17:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7962ef6_e34cf107",
+      "range": {
+        "startLine": 59,
+        "startChar": 49,
+        "endLine": 59,
+        "endChar": 54
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6ff2daaf_8b33b79d",
@@ -487,6 +511,30 @@
       "writtenOn": "2021-12-01T21:50:27Z",
       "side": 1,
       "message": "An optional",
+      "range": {
+        "startLine": 61,
+        "startChar": 3,
+        "endLine": 61,
+        "endChar": 6
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddd04916_ac1b17d5",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T17:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ff2daaf_8b33b79d",
       "range": {
         "startLine": 61,
         "startChar": 3,
@@ -592,6 +640,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6b2317c_151748c8",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T17:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "847192f7_6db89661",
+      "range": {
+        "startLine": 77,
+        "startChar": 39,
+        "endLine": 77,
+        "endChar": 44
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a556741a_89efd5ed",
@@ -687,6 +759,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6233dfd_b3ab4b31",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T17:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a930fb40_bffddca3",
+      "range": {
+        "startLine": 78,
+        "startChar": 36,
+        "endLine": 78,
+        "endChar": 49
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b96c5e7c_3f26e845",
@@ -724,6 +820,30 @@
       "side": 1,
       "message": "Because I want the caller to know if a valid entry was found or not.",
       "parentUuid": "b96c5e7c_3f26e845",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 107,
+        "endChar": 5
+      },
+      "revId": "b6036b4394dfb27c4e214ad7b99c0f2fab407e8e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9f43cb9_ff0bfb09",
+        "filename": "control/json/utils/pcie_card_metadata.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T17:28:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a25972_da1c228b",
       "range": {
         "startLine": 101,
         "startChar": 4,
