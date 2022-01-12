@@ -16,6 +16,24 @@
       "message": "People restart entity-manager a lot for debug.  If that were to happen now with the match still around, would that result in load() being called again even after fan-control is up?  Maybe you can put a !_loaded check in load() to be sure to only run it once?",
       "revId": "98671610a7d79e4a19eaff37010219772db8e2cc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6cfe393_cb56fcfb",
+        "filename": "json_config.hpp",
+        "patchSetId": 15
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-12T00:01:00Z",
+      "side": 0,
+      "message": "I also found this issue in testing and pinged Mike on the side about this as well, which it\u0027s correct to remove it here, just that the additional changes (like you noted with using `!_loaded`) are missing and need to be added.",
+      "parentUuid": "82d85be7_4afe36bc",
+      "revId": "98671610a7d79e4a19eaff37010219772db8e2cc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
