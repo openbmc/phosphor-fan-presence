@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "73303463_5f71316a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T21:39:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93a3ca66_6447395b",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "096924f6778989b2d12058f88f50dab82aeddb12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ca284d26_19fcfeac",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-13T20:24:06Z",
       "side": 1,
       "message": "No need to wrap this since load is only called when its already known that loading the config is allowed. (i.e. want to refresh the sensor subscriptions after a SIGHUP)",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "096924f6778989b2d12058f88f50dab82aeddb12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec557e67_ec323d54",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T21:39:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca284d26_19fcfeac",
       "range": {
         "startLine": 112,
         "startChar": 4,
