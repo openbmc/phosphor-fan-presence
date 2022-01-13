@@ -172,7 +172,8 @@
     ]
   },
   {
-    // Set a raised fan floor when any temperature sensor is nonfunctional
+    // Set a raised fan floor when any temperature or altitude sensor is
+    // nonfunctional
     "name": "Nonfunctional temperature sensors",
     "groups": [
       {
@@ -262,6 +263,16 @@
       },
       {
         "name": "bear lake temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "ambient temp",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "altitude",
         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
         "property": { "name": "Functional" }
       }
