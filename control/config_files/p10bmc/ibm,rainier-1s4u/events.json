@@ -162,8 +162,8 @@
     ]
   },
   {
-    // Set a raised fan floor when any OCC sensor is nonfunctional
-    "name": "Nonfunctional OCC sensors",
+    // Set a raised fan floor when any temperature sensor is nonfunctional
+    "name": "Nonfunctional temperature sensors",
     "groups": [
       {
         "name": "proc0 core temps",
@@ -212,6 +212,26 @@
       },
       {
         "name": "vdd vrm temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "nvme temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "planar temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "flett temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
+      },
+      {
+        "name": "bear lake temps",
         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
         "property": { "name": "Functional" }
       }
