@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93a3ca66_6447395b",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-13T20:24:06Z",
+      "side": 1,
+      "message": "We still want to reset `_inventoryMatch` when the inventory service is running, and then check whether we\u0027ve already loaded our configs or not.\n\nThis start() method is called each time an interfacesAdded signal for the Compatible interface is sent, which would recreate the _inventoryMatch, which we\u0027d want to reset if inventory is running.",
+      "range": {
+        "startLine": 70,
+        "startChar": 4,
+        "endLine": 70,
+        "endChar": 38
+      },
+      "revId": "096924f6778989b2d12058f88f50dab82aeddb12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca284d26_19fcfeac",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-13T20:24:06Z",
+      "side": 1,
+      "message": "No need to wrap this since load is only called when its already known that loading the config is allowed. (i.e. want to refresh the sensor subscriptions after a SIGHUP)",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 29
+      },
+      "revId": "096924f6778989b2d12058f88f50dab82aeddb12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
