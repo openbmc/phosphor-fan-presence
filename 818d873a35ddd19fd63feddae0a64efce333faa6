@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fcb77635_50d0a546",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T19:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79213375_19347381",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 22
+      },
+      "revId": "818d873a35ddd19fd63feddae0a64efce333faa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "411b4c61_371b0449",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-01-12T22:50:20Z",
       "side": 1,
       "message": "Need to wrap this with a `!_loaded` check to handle if the inventory service is restarted after fan monitor was up and running with a config.\n```\nif (!_loaded)\n{\n    load();\n}\n```",
+      "range": {
+        "startLine": 73,
+        "startChar": 8,
+        "endLine": 73,
+        "endChar": 15
+      },
+      "revId": "818d873a35ddd19fd63feddae0a64efce333faa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab5e8ac8_40978834",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T19:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "411b4c61_371b0449",
       "range": {
         "startLine": 73,
         "startChar": 8,
@@ -81,6 +129,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0bfee4e7_f827a05a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T19:07:26Z",
+      "side": 1,
+      "message": "Done\n\nI think the reasoning was since monitor cannot start without Inventory, it seemed possible to delay connecting the sensors until the inventory prereq was met. There may be a slight timing advantage in setting up the Fan obj\u0027s before inventory is ready, resulting in faster bootup so it\u0027s probably better to subscribe first.",
+      "parentUuid": "1cb94705_16b70d88",
+      "revId": "818d873a35ddd19fd63feddae0a64efce333faa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1525868f_82010531",
@@ -94,6 +160,30 @@
       "writtenOn": "2022-01-12T22:50:20Z",
       "side": 1,
       "message": "For completeness, I feel as though we should explicitly check that `newName` is not empty before we call load() as well. `newName` being empty  would represent the inventory service no longer running. In addition, probably could add a comment stating that this should never happen since we reset the match on the first nameOwnerChanged signal received for the inventory service.",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 22
+      },
+      "revId": "818d873a35ddd19fd63feddae0a64efce333faa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d37884d_42d3b510",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T19:07:26Z",
+      "side": 1,
+      "message": "Done\n\nSeparately, if we want to keep program image size down, I can make one std::string and use references/recycle the variable. What do you think?",
+      "parentUuid": "1525868f_82010531",
       "range": {
         "startLine": 200,
         "startChar": 4,
@@ -127,6 +217,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86b20456_a2088d66",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T19:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0d0b791_daee5e96",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 210,
+        "endChar": 33
+      },
+      "revId": "818d873a35ddd19fd63feddae0a64efce333faa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c5dfea3_646c90d1",
@@ -140,6 +254,30 @@
       "writtenOn": "2022-01-12T22:50:20Z",
       "side": 1,
       "message": "This would not be guaranteed to still be true whenever fan monitor receives a SIGHUP. There isnt a requirement that inventory being running to accept a SIGHUP to reload fan monitor\u0027s config since inventory had to be running for fan monitor to be running to be able to receive the SIGHUP.",
+      "range": {
+        "startLine": 217,
+        "startChar": 8,
+        "endLine": 217,
+        "endChar": 26
+      },
+      "revId": "818d873a35ddd19fd63feddae0a64efce333faa6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb586f60_40d53122",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 17
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-13T19:07:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c5dfea3_646c90d1",
       "range": {
         "startLine": 217,
         "startChar": 8,
