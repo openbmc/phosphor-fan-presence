@@ -73,7 +73,11 @@ void nameHasOwner(Manager* mgr, const Group& group)
         auto intf = group.getInterface();
         try
         {
-            servName = mgr->getService(member, intf);
+            servName = group.getService();
+            if (servName.empty())
+            {
+                servName = mgr->getService(member, intf);
+            }
             if (!servName.empty() && lastName != servName)
             {
                 // Member not provided by same service as last group member
