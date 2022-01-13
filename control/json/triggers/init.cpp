@@ -66,6 +66,7 @@ void getProperties(Manager* mgr, const Group& group)
 
 void nameHasOwner(Manager* mgr, const Group& group)
 {
+
     std::string lastName = "";
     for (const auto& member : group.getMembers())
     {
@@ -73,7 +74,11 @@ void nameHasOwner(Manager* mgr, const Group& group)
         auto intf = group.getInterface();
         try
         {
-            servName = mgr->getService(member, intf);
+            servName = group.getService();
+            if (servName.empty())
+            {
+                servName = mgr->getService(member, intf);
+            }
             if (!servName.empty() && lastName != servName)
             {
                 // Member not provided by same service as last group member
@@ -88,13 +93,12 @@ void nameHasOwner(Manager* mgr, const Group& group)
             if (servName.empty())
             {
                 // Path and/or interface configured does not exist on dbus?
-                // TODO How to handle this? Create timer to keep checking for
-                // object/service to appear? When to stop checking?
-                log<level::ERR>(
-                    fmt::format(
-                        "Unable to get service name for path {}, interface {}",
-                        member, intf)
-                        .c_str());
+                // TODO How to handle this? Create timer to keep checking
+                // for object/service to appear? When to stop checking?
+                log<level::ERR>(fmt::format("Unable to get service name "
+                                            "for path {}, interface {}",
+                                            member, intf)
+                                    .c_str());
             }
         }
         catch (const util::DBusMethodError& dme)
@@ -107,13 +111,12 @@ void nameHasOwner(Manager* mgr, const Group& group)
             else
             {
                 // Path and/or interface configured does not exist on dbus?
-                // TODO How to handle this? Create timer to keep checking for
-                // object/service to appear? When to stop checking?
-                log<level::ERR>(
-                    fmt::format(
-                        "Unable to get service name for path {}, interface {}",
-                        member, intf)
-                        .c_str());
+                // TODO How to handle this? Create timer to keep checking
+                // for object/service to appear? When to stop checking?
+                log<level::ERR>(fmt::format("Unable to get service name "
+                                            "for path {}, interface {}",
+                                            member, intf)
+                                    .c_str());
                 throw dme;
             }
         }
