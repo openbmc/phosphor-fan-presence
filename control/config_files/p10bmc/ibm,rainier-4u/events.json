@@ -264,6 +264,11 @@
         "name": "bear lake temps",
         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
         "property": { "name": "Functional" }
+      },
+      {
+        "name": "ambient temp",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
       }
     ],
     "triggers": [
