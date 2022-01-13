@@ -520,5 +520,11 @@
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_3_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_4_Temp"
    ]
+ },
+ {
+   "name": "ambient temp",
+   "members": [
+      "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
+   ]
  }
 ]
