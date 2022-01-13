@@ -172,7 +172,11 @@ void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
     // will do nothing since signals require a group
     for (const auto& member : group.getMembers())
     {
-        auto serv = Manager::getService(member, group.getInterface());
+        auto serv = group.getService();
+        if (serv.empty())
+        {
+            serv = Manager::getService(member, group.getInterface());
+        }
         if (!serv.empty())
         {
             // No need to re-subscribe to the same service's nameOwnerChanged
