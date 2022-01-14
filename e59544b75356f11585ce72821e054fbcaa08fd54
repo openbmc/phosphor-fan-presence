@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "92122b72_bb18ef6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-14T20:48:21Z",
+      "side": 1,
+      "message": "2U \u003d bear river group name, whereas 4U \u003d bear lake group name.. going to update these to be \"pcie cable card\" group names to remove possible copy/paste errors of group names",
+      "revId": "e59544b75356f11585ce72821e054fbcaa08fd54",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
