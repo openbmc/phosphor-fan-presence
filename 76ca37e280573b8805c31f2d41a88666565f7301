@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34a3bd58_492dfb29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000318
+      },
+      "writtenOn": "2022-01-14T22:58:55Z",
+      "side": 1,
+      "message": "Are you changing the cable card names to \"pcie cable card\" so it can be consistent across all systems?",
+      "revId": "76ca37e280573b8805c31f2d41a88666565f7301",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
