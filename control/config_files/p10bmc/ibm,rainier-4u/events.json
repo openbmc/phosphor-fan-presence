@@ -96,6 +96,31 @@
          "name": "occ objects",
          "interface": "org.open_power.OCC.Status",
          "property": { "name": "OccActive" }
+       },
+       {
+         "name": "nvme temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "planar temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "flett temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "bear lake temps",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "ambient temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
        }
      ],
      "triggers": [
@@ -128,6 +153,31 @@
                  "name": "occ objects",
                  "interface": "org.open_power.OCC.Status",
                  "property": { "name": "OccActive" }
+               },
+               {
+                 "name": "nvme temps",
+                 "interface": "xyz.openbmc_project.Sensor.Value",
+                 "property": { "name": "Value" }
+               },
+               {
+                 "name": "planar temps",
+                 "interface": "xyz.openbmc_project.Sensor.Value",
+                 "property": { "name": "Value" }
+               },
+               {
+                 "name": "flett temps",
+                 "interface": "xyz.openbmc_project.Sensor.Value",
+                 "property": { "name": "Value" }
+               },
+               {
+                 "name": "bear lake temps",
+                 "interface": "xyz.openbmc_project.Sensor.Value",
+                 "property": { "name": "Value" }
+               },
+               {
+                 "name": "ambient temp",
+                 "interface": "xyz.openbmc_project.Sensor.Value",
+                 "property": { "name": "Value" }
                }
              ],
              "target": 10000

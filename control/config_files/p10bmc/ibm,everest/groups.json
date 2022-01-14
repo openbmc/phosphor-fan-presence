@@ -849,6 +849,7 @@
  },
  {
    "name": "nvme temps",
+   "service": "xyz.openbmc_project.NVMeSensor",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_1_Temp",
      "/xyz/openbmc_project/sensors/temperature/Samsung_PM1735_2_Temp",
@@ -871,6 +872,7 @@
  },
  {
    "name": "bear lake temps",
+   "service": "xyz.openbmc_project.HwmonTempSensor",
    "members": [
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_1_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_2_Temp",
