@@ -3,6 +3,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3031d2de_1a369b87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-14T22:26:21Z",
+      "side": 1,
+      "message": "The sensors on the BearRiver/Lake cable cards behave the same as the Flett and won\u0027t be on D-Bus until the card is powered on for the first time.",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 9
+      },
+      "revId": "cebdcb075f5ba141a227875f56bc4e347974682f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3305d1f4_c505a9eb",
         "filename": "control/config_files/p10bmc/ibm,everest/groups.json",
         "patchSetId": 1
