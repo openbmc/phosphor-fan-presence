@@ -103,7 +103,7 @@
          "property": { "name": "Value" }
        },
        {
-         "name": "bear lake temps",
+         "name": "pcie cable card temps",
          "interface": "xyz.openbmc_project.Sensor.Value",
          "property": { "name": "Value" }
        },
@@ -165,7 +165,7 @@
                  "property": { "name": "Value" }
                },
                {
-                 "name": "bear lake temps",
+                 "name": "pcie cable card temps",
                  "interface": "xyz.openbmc_project.Sensor.Value",
                  "property": { "name": "Value" }
                },
@@ -342,7 +342,7 @@
         "property": { "name": "Functional" }
       },
       {
-        "name": "bear lake temps",
+        "name": "pcie cable card temps",
         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
         "property": { "name": "Functional" }
       },
@@ -1177,7 +1177,7 @@
          "property": { "name": "Value" }
        },
        {
-         "name": "bear lake temps",
+         "name": "pcie cable card temps",
          "interface": "xyz.openbmc_project.Sensor.Value",
          "property": { "name": "Value" }
        }
@@ -1483,7 +1483,7 @@
          "name": "set_net_increase_target",
          "groups": [
            {
-             "name": "bear lake temps",
+             "name": "pcie cable card temps",
              "interface": "xyz.openbmc_project.Sensor.Value",
              "property": { "name": "Value" }
            }
@@ -1783,7 +1783,7 @@
          "name": "set_net_decrease_target",
          "groups": [
            {
-             "name": "bear lake temps",
+             "name": "pcie cable card temps",
              "interface": "xyz.openbmc_project.Sensor.Value",
              "property": { "name": "Value" }
            }
