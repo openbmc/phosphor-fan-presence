@@ -50,10 +50,6 @@ void NetTargetIncrease::run(Zone& zone)
         auto s = Manager::getParameter(_stateParameter);
         if (!s)
         {
-            log<level::DEBUG>(
-                fmt::format("Action {}: State parameter {} not found",
-                            ActionBase::getName(), _stateParameter)
-                    .c_str());
             return;
         }
         _state = *s;
