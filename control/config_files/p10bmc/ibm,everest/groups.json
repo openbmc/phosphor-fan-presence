@@ -871,7 +871,8 @@
    ]
  },
  {
-   "name": "bear lake temps",
+   // Bear Lake card
+   "name": "pcie cable card temps",
    "service": "xyz.openbmc_project.HwmonTempSensor",
    "members": [
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_1_Temp",
