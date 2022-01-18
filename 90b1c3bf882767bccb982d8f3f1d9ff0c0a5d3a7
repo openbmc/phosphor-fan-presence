@@ -68,6 +68,98 @@
       },
       "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a20ca0c2_12f05ca0",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:30:46Z",
+      "side": 1,
+      "message": "\"if its the highest target lock\"",
+      "range": {
+        "startLine": 113,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 49
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a70cceb5_4f8a419f",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:30:46Z",
+      "side": 1,
+      "message": "The target lock to set/add",
+      "range": {
+        "startLine": 116,
+        "startChar": 27,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "130847fa_cf1bb25f",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:30:46Z",
+      "side": 1,
+      "message": "Doesn\u0027t this just remove the provided target lock from the list of locks and if it results in the list being empty, the fan is unlocked?",
+      "range": {
+        "startLine": 121,
+        "startChar": 7,
+        "endLine": 121,
+        "endChar": 66
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd163285_c00b0538",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:30:46Z",
+      "side": 1,
+      "message": "Extra line",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 6
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
