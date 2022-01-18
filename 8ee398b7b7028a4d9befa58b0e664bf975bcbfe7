@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aed99f31_433ef25a",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "To clarify, this is an \"attempt\" to resume the zone\u0027s target on the fan, right?",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 36
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b49522c6_482bb2f9",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "It will really just request/add a target lock for a specific fan since there could be other higher locks in place on the fan already right?",
+      "range": {
+        "startLine": 219,
+        "startChar": 7,
+        "endLine": 219,
+        "endChar": 45
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3ce48909_c4df72e1",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "Fan to request/add the target lock",
+      "range": {
+        "startLine": 221,
+        "startChar": 26,
+        "endLine": 221,
+        "endChar": 36
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d1007e6d_a6ede711",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "Target to register",
+      "range": {
+        "startLine": 222,
+        "startChar": 27,
+        "endLine": 222,
+        "endChar": 41
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "23c4fbb6_31a0c5d6",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "It will just remove the target lock from the given fan, which may or may not unlock the fan back into zone control right?",
+      "range": {
+        "startLine": 227,
+        "startChar": 7,
+        "endLine": 227,
+        "endChar": 28
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "412a4cb4_17ac76ea",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "Fan to remove the given target lock from",
+      "range": {
+        "startLine": 229,
+        "startChar": 26,
+        "endLine": 229,
+        "endChar": 36
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc3e353_4007efb9",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:49:09Z",
+      "side": 1,
+      "message": "target",
+      "range": {
+        "startLine": 230,
+        "startChar": 18,
+        "endLine": 230,
+        "endChar": 23
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
