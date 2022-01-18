@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94d8190c_05829ca8",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:16:15Z",
+      "side": 1,
+      "message": "Don\u0027t actually need this check since `find_if` will immediately return `_lockedTargets.end()` when empty.",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 33
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc6a631b_9d9790e1",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:16:15Z",
+      "side": 1,
+      "message": "!_lockedTargets.empty()",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 41
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "746cb2f1_c7e3aebe",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T21:16:15Z",
+      "side": 1,
+      "message": "Should we assert then? or just remove the else entirely?",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 32
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
