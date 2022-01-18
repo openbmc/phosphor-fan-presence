@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "99c89900_15bb59ff",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "2022 😞",
+      "range": {
+        "startLine": 2,
+        "startChar": 15,
+        "endLine": 2,
+        "endChar": 19
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66ba8f34_f9133eae",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "Did you find this helps in efficiency for the different types of triggers that could be used on this action? It seems maybe this is just saving the finding of the fan on the zone when this action would be triggered and the fans are already unlocked?",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 15
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b0f4d3c1_14947398",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "This should reflect that the a lock is requested to the fans on the zone since they may not be locked to the target given here.\n\nAlso, can this get enhanced with the zone name, fan names, and requested lock target value that is requested?",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "14395b70_30ff2a8c",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "Same here as noted in lockFans()",
+      "range": {
+        "startLine": 95,
+        "startChar": 11,
+        "endLine": 95,
+        "endChar": 32
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98910f50_4b6fc51b",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "This may not be true since there could be other reasons a fan is still locked.",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 20
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a7e52c5_8d5c1868",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "2022 (now that I finally got around to looking at it...sorry)",
+      "range": {
+        "startLine": 2,
+        "startChar": 15,
+        "endLine": 2,
+        "endChar": 19
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f497d93f_18fbee41",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "odd wrapping",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 32
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "922fb04e_5e4a0fdc",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "I dont understand this comment. State the members must be at to lock fans at the given target?",
+      "range": {
+        "startLine": 105,
+        "startChar": 7,
+        "endLine": 105,
+        "endChar": 56
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "34c7e8bf_4c0dc9f1",
+        "filename": "control/json/actions/override_fan_target.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-18T22:37:09Z",
+      "side": 1,
+      "message": "I dont believe this should be needed since the locked state can be determined from the count right?",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 115,
+        "endChar": 17
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
