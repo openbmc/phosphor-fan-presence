@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "475ea1e3_8c861890",
+        "filename": "configure.ac",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-19T19:12:17Z",
+      "side": 1,
+      "message": "if you\u0027re going to add a --enable option, you need to use AC_ARG_ENABLE, like up above",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd4657f7_6514fa51",
         "filename": "power_state.hpp",
         "patchSetId": 11
