@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "90f7e1d8_5d3583c4",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-19T16:24:02Z",
+      "side": 1,
+      "message": "highest",
+      "range": {
+        "startLine": 113,
+        "startChar": 73,
+        "endLine": 113,
+        "endChar": 79
+      },
+      "revId": "43493b400ef872fc2db28f95e809782acfe5f7c7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
