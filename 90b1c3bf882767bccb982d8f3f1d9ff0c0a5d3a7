@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "11758575_5dc28843",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94d8190c_05829ca8",
+      "range": {
+        "startLine": 131,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 33
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fc6a631b_9d9790e1",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-18T21:16:15Z",
       "side": 1,
       "message": "!_lockedTargets.empty()",
+      "range": {
+        "startLine": 145,
+        "startChar": 16,
+        "endLine": 145,
+        "endChar": 41
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfbf0fd8_75d35bc7",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc6a631b_9d9790e1",
       "range": {
         "startLine": 145,
         "startChar": 16,
@@ -72,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c156dfc_e1a6ae67",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "It should never happen, but if it somehow did the _locked flag won\u0027t clear. Then no more targets can be set due to line 92. For that reason I think it\u0027s safer to leave this.",
+      "parentUuid": "746cb2f1_c7e3aebe",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 32
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a20ca0c2_12f05ca0",
         "filename": "control/json/fan.hpp",
         "patchSetId": 11
@@ -83,6 +155,30 @@
       "writtenOn": "2022-01-18T21:30:46Z",
       "side": 1,
       "message": "\"if its the highest target lock\"",
+      "range": {
+        "startLine": 113,
+        "startChar": 7,
+        "endLine": 113,
+        "endChar": 49
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5fe17d3_304b690e",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a20ca0c2_12f05ca0",
       "range": {
         "startLine": 113,
         "startChar": 7,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d939861_151d996c",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a70cceb5_4f8a419f",
+      "range": {
+        "startLine": 116,
+        "startChar": 27,
+        "endLine": 116,
+        "endChar": 43
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "130847fa_cf1bb25f",
@@ -139,6 +259,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2b59e75e_f6d2c2a5",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "130847fa_cf1bb25f",
+      "range": {
+        "startLine": 121,
+        "startChar": 7,
+        "endLine": 121,
+        "endChar": 66
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd163285_c00b0538",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-01-18T21:30:46Z",
       "side": 1,
       "message": "Extra line",
+      "range": {
+        "startLine": 122,
+        "startChar": 1,
+        "endLine": 122,
+        "endChar": 6
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "63e6ecf8_3ccf1c46",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd163285_c00b0538",
       "range": {
         "startLine": 122,
         "startChar": 1,
