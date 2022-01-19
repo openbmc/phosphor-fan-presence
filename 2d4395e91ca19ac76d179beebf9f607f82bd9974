@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd4657f7_6514fa51",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-19T19:10:23Z",
+      "side": 1,
+      "message": "You don\u0027t need to write this yourself.  If you look in the sdbusplus generated server.hpp/cpp for this in phosphor-dbus-interfaces, you\u0027ll see:\n\n        /** @brief Convert a string to an appropriate enum value.\n         *  @param[in] s - The string to convert in the form of\n         *                 \"xyz.openbmc_project.State.Host.\u003cvalue name\u003e\"\n         *  @return - The enum value.\n         *\n         *  @note Throws if string is not a valid mapping.\n         */\n        static HostState convertHostStateFromString(const std::string\u0026 s);",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
