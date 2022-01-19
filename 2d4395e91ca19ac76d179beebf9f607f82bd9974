@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "41cac861_926c78ae",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-19T19:25:00Z",
+      "side": 1,
+      "message": "I think you were mentioning issues with propertiesChangedNamespace working?  Someone submitted a fix for it today.  Would be good to confirm this code still works as you expect with the sdbusplus change.\n\nhttps://github.com/openbmc/sdbusplus/commit/7662fa6932c90c134ecc815be688957fa45e1c84",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fd4657f7_6514fa51",
         "filename": "power_state.hpp",
         "patchSetId": 11
@@ -31,6 +48,52 @@
       "writtenOn": "2022-01-19T19:10:23Z",
       "side": 1,
       "message": "You don\u0027t need to write this yourself.  If you look in the sdbusplus generated server.hpp/cpp for this in phosphor-dbus-interfaces, you\u0027ll see:\n\n        /** @brief Convert a string to an appropriate enum value.\n         *  @param[in] s - The string to convert in the form of\n         *                 \"xyz.openbmc_project.State.Host.\u003cvalue name\u003e\"\n         *  @return - The enum value.\n         *\n         *  @note Throws if string is not a valid mapping.\n         */\n        static HostState convertHostStateFromString(const std::string\u0026 s);",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df95e70b_30e74927",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-19T19:25:00Z",
+      "side": 1,
+      "message": "Right... As Matt said above you don\u0027t need these functions and this work.\n\nThis can be just:\n\nauto currentHostState \u003d sdbusplus::message::convert_from_string\u003cHost::HostState\u003e(std::get\u003cstd::string\u003e(hostStateProp-\u003esecond));",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 74
+      },
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8500806_da4008b0",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-01-19T19:25:00Z",
+      "side": 1,
+      "message": "And `getProperty\u003cHost::HostState\u003e` here.  The dbus code already handles unpacking an enum-type correctly.",
+      "range": {
+        "startLine": 396,
+        "startChar": 53,
+        "endLine": 401,
+        "endChar": 58
+      },
       "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
