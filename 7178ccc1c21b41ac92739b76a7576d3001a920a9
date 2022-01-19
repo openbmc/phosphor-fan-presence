@@ -144,6 +144,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "37ca6942_4efcd173",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-19T12:27:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "059ef6a2_269d9a68",
+      "range": {
+        "startLine": 244,
+        "startChar": 0,
+        "endLine": 246,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1272729_106cdec7",
@@ -157,6 +181,30 @@
       "writtenOn": "2022-01-10T22:44:03Z",
       "side": 1,
       "message": "Please fix match.",
+      "range": {
+        "startLine": 263,
+        "startChar": 0,
+        "endLine": 265,
+        "endChar": 42
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c889533e_c9a688a9",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-19T12:27:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1272729_106cdec7",
       "range": {
         "startLine": 263,
         "startChar": 0,
@@ -214,6 +262,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62bc6a04_e928daac",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-19T12:27:41Z",
+      "side": 1,
+      "message": "Do you suggest from_string from boost ? Could you please provide any sample code reference for this ?",
+      "parentUuid": "65f31bc9_2cb36f1f",
+      "range": {
+        "startLine": 286,
+        "startChar": 0,
+        "endLine": 297,
+        "endChar": 9
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e0c840cb_e05f282f",
@@ -251,6 +323,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "e0c840cb_e05f282f",
+      "range": {
+        "startLine": 301,
+        "startChar": 27,
+        "endLine": 301,
+        "endChar": 68
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e3cd6c9a_c610b7f6",
+        "filename": "power_state.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-19T12:27:41Z",
+      "side": 1,
+      "message": "\u003e Ack\n\nDone",
+      "parentUuid": "536c9342_6e85dff9",
       "range": {
         "startLine": 301,
         "startChar": 27,
@@ -314,6 +410,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "53f6a0e5_af50fda1",
+        "filename": "sensor-monitor/Makefile.am",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-19T12:27:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e4c0282_2d4ff257",
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "70a392fb_417a275d",
@@ -351,6 +465,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "70a392fb_417a275d",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 24
+      },
+      "revId": "7178ccc1c21b41ac92739b76a7576d3001a920a9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a24bd071_a0b1ee5d",
+        "filename": "sensor-monitor/main.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-19T12:27:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ed3b489_11cd29ba",
       "range": {
         "startLine": 34,
         "startChar": 0,
