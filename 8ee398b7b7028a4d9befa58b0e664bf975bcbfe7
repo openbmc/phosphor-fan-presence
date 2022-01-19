@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "91d9fb1a_abc9a089",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "yes",
+      "parentUuid": "aed99f31_433ef25a",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 36
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b49522c6_482bb2f9",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-01-18T21:49:09Z",
       "side": 1,
       "message": "It will really just request/add a target lock for a specific fan since there could be other higher locks in place on the fan already right?",
+      "range": {
+        "startLine": 219,
+        "startChar": 7,
+        "endLine": 219,
+        "endChar": 45
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7278b1a7_9f1ff68e",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b49522c6_482bb2f9",
       "range": {
         "startLine": 219,
         "startChar": 7,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "28b990ab_21cf13c4",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ce48909_c4df72e1",
+      "range": {
+        "startLine": 221,
+        "startChar": 26,
+        "endLine": 221,
+        "endChar": 36
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d1007e6d_a6ede711",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-01-18T21:49:09Z",
       "side": 1,
       "message": "Target to register",
+      "range": {
+        "startLine": 222,
+        "startChar": 27,
+        "endLine": 222,
+        "endChar": 41
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed31f9f9_6c361d69",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1007e6d_a6ede711",
       "range": {
         "startLine": 222,
         "startChar": 27,
@@ -116,6 +212,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "10d0ed21_ad07ed7c",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23c4fbb6_31a0c5d6",
+      "range": {
+        "startLine": 227,
+        "startChar": 7,
+        "endLine": 227,
+        "endChar": 28
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "412a4cb4_17ac76ea",
@@ -139,6 +259,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "605bb079_fcbd974f",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "412a4cb4_17ac76ea",
+      "range": {
+        "startLine": 229,
+        "startChar": 26,
+        "endLine": 229,
+        "endChar": 36
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dc3e353_4007efb9",
@@ -152,6 +296,30 @@
       "writtenOn": "2022-01-18T21:49:09Z",
       "side": 1,
       "message": "target",
+      "range": {
+        "startLine": 230,
+        "startChar": 18,
+        "endLine": 230,
+        "endChar": 23
+      },
+      "revId": "8ee398b7b7028a4d9befa58b0e664bf975bcbfe7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7981729d_2c81e801",
+        "filename": "control/json/zone.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-19T01:10:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1dc3e353_4007efb9",
       "range": {
         "startLine": 230,
         "startChar": 18,
