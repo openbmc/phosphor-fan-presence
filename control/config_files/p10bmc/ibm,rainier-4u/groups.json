@@ -563,5 +563,11 @@
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot10",
      "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot11"
    ]
+ },
+ {
+   "name": "power mode",
+   "members": [
+     "/xyz/openbmc_project/control/host0/power_mode"
+   ]
  }
 ]
