@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e02048f3_1812e520",
+        "filename": "configure.ac",
+        "patchSetId": 11
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-22T06:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "475ea1e3_8c861890",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41cac861_926c78ae",
@@ -35,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf2a6136_eacaf65d",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-22T06:10:20Z",
+      "side": 1,
+      "message": "I have checked with this new commit, propertiesChangedNamespace is working with D-bus path \"/xyz/openbmc_project/state\". \n\nAs per this reference, the dbus path has to be \"/xyz/openbmc_project/state\"\nhttps://github.com/openbmc/phosphor-virtual-sensor/blob/1204b43374720e9b338ea0aa6be75d8d27e0477e/virtualSensor.cpp#L718.",
+      "parentUuid": "41cac861_926c78ae",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fd4657f7_6514fa51",
@@ -48,6 +84,24 @@
       "writtenOn": "2022-01-19T19:10:23Z",
       "side": 1,
       "message": "You don\u0027t need to write this yourself.  If you look in the sdbusplus generated server.hpp/cpp for this in phosphor-dbus-interfaces, you\u0027ll see:\n\n        /** @brief Convert a string to an appropriate enum value.\n         *  @param[in] s - The string to convert in the form of\n         *                 \"xyz.openbmc_project.State.Host.\u003cvalue name\u003e\"\n         *  @return - The enum value.\n         *\n         *  @note Throws if string is not a valid mapping.\n         */\n        static HostState convertHostStateFromString(const std::string\u0026 s);",
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "065b3b5e_8d10e660",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-22T06:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd4657f7_6514fa51",
       "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +129,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e56acb7_a355e2dc",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-22T06:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df95e70b_30e74927",
+      "range": {
+        "startLine": 326,
+        "startChar": 0,
+        "endLine": 330,
+        "endChar": 74
+      },
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a8500806_da4008b0",
@@ -88,6 +166,30 @@
       "writtenOn": "2022-01-19T19:25:00Z",
       "side": 1,
       "message": "And `getProperty\u003cHost::HostState\u003e` here.  The dbus code already handles unpacking an enum-type correctly.",
+      "range": {
+        "startLine": 396,
+        "startChar": 53,
+        "endLine": 401,
+        "endChar": 58
+      },
+      "revId": "2d4395e91ca19ac76d179beebf9f607f82bd9974",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f797ea4_870dc30e",
+        "filename": "power_state.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1000546
+      },
+      "writtenOn": "2022-01-22T06:10:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8500806_da4008b0",
       "range": {
         "startLine": 396,
         "startChar": 53,
