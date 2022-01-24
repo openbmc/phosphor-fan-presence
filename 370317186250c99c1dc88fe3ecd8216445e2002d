@@ -16,6 +16,24 @@
       "message": "this is an NVMe drive, probably don\u0027t need it in here?\n\n(also, the pcie slots groups doesn\u0027t have the nvme slots anyway)",
       "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "849e55f7_959df743",
+        "filename": "control/config_files/p10bmc/ibm,rainier-4u/pcie_cards.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-24T18:13:11Z",
+      "side": 1,
+      "message": "But isnt this a pcie connected nvme?\n\nI\u0027m not sure if this will be used on 4U or not, so I defaulted to adding it since it was supported on the prior generation system.",
+      "parentUuid": "77d89508_51059444",
+      "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
