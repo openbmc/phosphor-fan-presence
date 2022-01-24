@@ -95,6 +95,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5e81af6_55e495c3",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-24T18:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fd4a07b_128600bb",
+      "range": {
+        "startLine": 75,
+        "startChar": 8,
+        "endLine": 75,
+        "endChar": 15
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0f4d3c1_14947398",
@@ -226,6 +250,30 @@
       "side": 1,
       "message": "The bool does not represent the locked state of fans. It is a logical aid to manage the state of the OverrideFanTarget action.",
       "parentUuid": "98910f50_4b6fc51b",
+      "range": {
+        "startLine": 103,
+        "startChar": 4,
+        "endLine": 103,
+        "endChar": 20
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12edd8c0_1f5ecf53",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-24T18:20:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb7a5df2_1f782674",
       "range": {
         "startLine": 103,
         "startChar": 4,
