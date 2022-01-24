@@ -166,6 +166,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ba5b764_28fda963",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-24T18:22:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8be44c45_769a9dd3",
+      "range": {
+        "startLine": 157,
+        "startChar": 8,
+        "endLine": 157,
+        "endChar": 32
+      },
+      "revId": "90b1c3bf882767bccb982d8f3f1d9ff0c0a5d3a7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a20ca0c2_12f05ca0",
