@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77d89508_51059444",
+        "filename": "control/config_files/p10bmc/ibm,rainier-4u/pcie_cards.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-24T17:46:14Z",
+      "side": 1,
+      "message": "this is an NVMe drive, probably don\u0027t need it in here?\n\n(also, the pcie slots groups doesn\u0027t have the nvme slots anyway)",
+      "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
