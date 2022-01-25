@@ -1810,5 +1810,191 @@
          "signal": "interfaces_removed"
        }
      ]
+   },
+   {
+     "name": "set pcie floor index",
+     "groups": [
+       {
+         "name": "pcie slots",
+         "interface": "xyz.openbmc_project.State.Decorator.PowerState",
+         "property": {
+           "name": "PowerState"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0DeviceId"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0VendorId"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0SubsystemId"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0SubsystemVendorId"
+         }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       }
+     ],
+     "actions": [
+       {
+         "name": "pcie_card_floors",
+         "use_config_specific_files": true,
+         "settle_time": 2
+       }
+     ]
+   },
+   {
+     "name": "Fan floors",
+     "groups": [
+       {
+         "name": "ambient temp",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       },
+       {
+         "name": "altitude",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       }
+     ],
+     "actions": [
+       {
+         "name": "mapped_floor",
+         "key_group": "ambient temp",
+         "fan_floors": [
+          {
+            // Entry valid for ambient temp < 21
+            "key": 21,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 3300 },
+                  { "value": 2, "floor": 3800 },
+                  { "value": 3, "floor": 4300 }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  { "value": 900, "floor": 4800 },
+                  { "value": 1800, "floor": 5400 },
+                  { "value": 2700, "floor": 6300 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for ambient temp < 27
+            "key": 27,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 4800 },
+                  { "value": 2, "floor": 5400 },
+                  { "value": 3, "floor": 6500 }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  { "value": 900, "floor": 5700 },
+                  { "value": 1800, "floor": 6400 },
+                  { "value": 2700, "floor": 7400 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for ambient temp < 33
+            "key": 33,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 5700 },
+                  { "value": 2, "floor": 6500 },
+                  { "value": 3, "floor": 7700 }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  { "value": 900, "floor": 7200 },
+                  { "value": 1800, "floor": 8000 },
+                  { "value": 2700, "floor": 9100 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for ambient temp < 43
+            "key": 43,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 6500 },
+                  { "value": 2, "floor": 8300 },
+                  { "value": 3, "floor": 10300 }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  { "value": 900, "floor": 9200 },
+                  { "value": 1800, "floor": 10100 },
+                  { "value": 2700, "floor": 11300 }
+                ]
+              }
+            ]
+          }
+        ]
+       }
+     ]
    }
 ]
