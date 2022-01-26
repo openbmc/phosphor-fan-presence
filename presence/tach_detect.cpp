@@ -17,14 +17,20 @@
 #ifdef PRESENCE_USE_JSON
 #include "json_config.hpp"
 #include "json_parser.hpp"
+#include "utility.hpp"
 #else
 #include "generated.hpp"
 #endif
+#include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 #include <stdplus/signal.hpp>
 
 #include <functional>
+
+void loadJsonAndStart(sdbusplus::bus::bus& bus, sdeventplus::Event& event);
+
+namespace presence = phosphor::fan::presence;
 
 int main(void)
 {
@@ -36,6 +42,53 @@ int main(void)
 
 #ifdef PRESENCE_USE_JSON
 
+    namespace match = sdbusplus::bus::match;
+    using Match = match::match;
+
+    auto waitForInventory = std::make_unique<Match>(
+        bus, match::rules::nameOwnerChanged(util::INVENTORY_SVC),
+        [&bus, &event](auto& msg) {
+            std::string msgStr;
+            msg.read(msgStr);
+
+            // first string is inteface, make sure it's for us
+            if (util::INVENTORY_INTF != msgStr)
+            {
+                return;
+            }
+
+            msg.read(msgStr); // old name, not used
+            msg.read(msgStr); // new name
+
+            if (!msgStr.empty())
+            {
+                loadJsonAndStart(bus, event);
+            }
+        });
+
+    bool invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
+        bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+        "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_SVC);
+
+    if (invServiceRunning)
+    {
+        waitForInventory.reset();
+        loadJsonAndStart(bus, event);
+    }
+
+#else
+    for (auto& p : presence::ConfigPolicy::get())
+    {
+        p->monitor();
+    }
+#endif
+
+    return event.loop();
+}
+
+#ifdef PRESENCE_USE_JSON
+void loadJsonAndStart(sdbusplus::bus::bus& bus, sdeventplus::Event& event)
+{
     presence::JsonConfig config(bus);
 
     // jsonConfig will call config::start when
@@ -48,12 +101,5 @@ int main(void)
         event, SIGHUP,
         std::bind(&presence::JsonConfig::sighupHandler, &config,
                   std::placeholders::_1, std::placeholders::_2));
-#else
-    for (auto& p : presence::ConfigPolicy::get())
-    {
-        p->monitor();
-    }
-#endif
-
-    return event.loop();
 }
+#endif
