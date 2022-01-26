@@ -16,6 +16,23 @@
       "message": "Did you happen to get any idea how this happened?\n\nCould you see the contents of the file?",
       "revId": "fd5aff2d53aebe7d27c159467abba7007ee8fc4d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30d536c7_80bc5c47",
+        "filename": "sensor-monitor/alarm_timestamps.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-26T16:31:52Z",
+      "side": 1,
+      "message": "This is a bit concerning, because it could mean an EPOW wouldn\u0027t happen because the timestamps were lost.\n\nI wonder though if you hit this on file that was around that had no timestamps in it, and some point  along the way it got corrupted.\n\nMaybe in save() you could remove the file if there aren\u0027t any timestamps?",
+      "revId": "fd5aff2d53aebe7d27c159467abba7007ee8fc4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
