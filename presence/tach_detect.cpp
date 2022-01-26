@@ -17,37 +17,25 @@
 #ifdef PRESENCE_USE_JSON
 #include "json_config.hpp"
 #include "json_parser.hpp"
+#include "utility.hpp"
 #else
 #include "generated.hpp"
 #endif
+#include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 #include <stdplus/signal.hpp>
 
-#include <functional>
+namespace presence = phosphor::fan::presence;
 
 int main(void)
 {
-    using namespace phosphor::fan;
-
-    auto bus = sdbusplus::bus::new_default();
     auto event = sdeventplus::Event::get_default();
-    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
 
 #ifdef PRESENCE_USE_JSON
-
-    presence::JsonConfig config(bus);
-
-    // jsonConfig will call config::start when
-    // the conf file is available.
-    phosphor::fan::JsonConfig jsonConfig{
-        std::bind(&presence::JsonConfig::start, &config)};
-
-    stdplus::signal::block(SIGHUP);
-    sdeventplus::source::Signal signal(
-        event, SIGHUP,
-        std::bind(&presence::JsonConfig::sighupHandler, &config,
-                  std::placeholders::_1, std::placeholders::_2));
+    auto bus = sdbusplus::bus::new_default();
+    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
+    presence::JsonConfig jsonConfig(bus, event);
 #else
     for (auto& p : presence::ConfigPolicy::get())
     {

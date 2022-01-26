@@ -1,5 +1,5 @@
 /**
- * Copyright © 2019 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
  */
 #include "json_parser.hpp"
 
+#include "../json_config.hpp"
 #include "anyof.hpp"
 #include "fallback.hpp"
 #include "gpio.hpp"
@@ -52,34 +53,65 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
 const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
-JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
-{}
-
-void JsonConfig::start()
+JsonConfig::JsonConfig(sdbusplus::bus::bus& bus, sdeventplus::Event& event) :
+    _bus(bus), _event(event)
 {
-    using config = fan::JsonConfig;
+    bool invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
+        _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
+        "org.freedesktop.DBus", "NameHasOwner", util::INVENTORY_SVC);
 
-    process(config::load(config::getConfFile(_bus, confAppName, confFileName)));
+    // registers a callback to handle the SIGHUP signal
+    auto registerSigHandler = [=]() {
+        stdplus::signal::block(SIGHUP);
 
-    for (auto& p : _policies)
+        _signalObj = std::make_unique<sdeventplus::source::Signal>(
+            _event, SIGHUP, [=](auto& sigSrc, const auto& sigInfo) {
+                _reporter.reset();
+
+                start();
+            });
+    };
+
+    if (invServiceRunning)
     {
-        p->monitor();
+        registerSigHandler();
+        start();
+    }
+    else
+    {
+        // Inventory is not running, so register a callback when it becomes
+        // available
+        _inventoryMatch = std::make_unique<sdbusplus::bus::match::match>(
+            _bus,
+            sdbusplus::bus::match::rules::nameOwnerChanged(util::INVENTORY_SVC),
+            [=](auto& msg) {
+                std::string msgStr;
+                msg.read(msgStr);
+
+                // first string is inteface, make sure it's for us
+                if (util::INVENTORY_INTF != msgStr)
+                {
+                    return;
+                }
+
+                msg.read(msgStr); // old name, not used
+                msg.read(msgStr); // new name
+
+                if (!msgStr.empty())
+                {
+                    start();
+
+                    registerSigHandler();
+                }
+            });
     }
 }
 
-const policies& JsonConfig::get()
+// called when the conf file is available.
+void JsonConfig::start()
 {
-    return _policies;
-}
-
-void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
-                               const struct signalfd_siginfo* sigInfo)
-{
-    try
-    {
+    _config = std::make_unique<phosphor::fan::JsonConfig>([=]() {
         using config = fan::JsonConfig;
-
-        _reporter.reset();
 
         // Load and process the json configuration
         process(
@@ -89,13 +121,18 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
         {
             p->monitor();
         }
+
         log<level::INFO>("Configuration loaded successfully");
-    }
-    catch (const std::runtime_error& re)
-    {
-        log<level::ERR>("Error loading config, no config changes made",
-                        entry("LOAD_ERROR=%s", re.what()));
-    }
+
+        // this needs to be in the handler, not directly inside start()
+        // because start() can be called from the inv match handler itself
+        _inventoryMatch.reset();
+    });
+}
+
+const policies& JsonConfig::get()
+{
+    return _policies;
 }
 
 void JsonConfig::process(const json& jsonConf)
