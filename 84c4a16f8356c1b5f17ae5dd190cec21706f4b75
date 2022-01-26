@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "03471cd7_85fee3bd",
+        "filename": "presence/tach_detect.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-26T19:44:18Z",
+      "side": 1,
+      "message": "since this is on the stack in this function, it\u0027d just go out of scope at the end, cleaning up its match object that is waiting for entity-manager.",
+      "range": {
+        "startLine": 96,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "84c4a16f8356c1b5f17ae5dd190cec21706f4b75",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
