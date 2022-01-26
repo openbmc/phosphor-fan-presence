@@ -224,16 +224,29 @@ class AlarmTimestamps
             return;
         }
 
-        std::ifstream stream{path.c_str()};
-        cereal::JSONInputArchive iarchive{stream};
-        iarchive(times);
-
-        for (const auto& [path, shutdownType, alarmType, timestamp] : times)
+        try
         {
-            timestamps.emplace(AlarmKey{path,
-                                        static_cast<ShutdownType>(shutdownType),
-                                        static_cast<AlarmType>(alarmType)},
-                               timestamp);
+            std::ifstream stream{path.c_str()};
+            cereal::JSONInputArchive iarchive{stream};
+            iarchive(times);
+
+            for (const auto& [path, shutdownType, alarmType, timestamp] : times)
+            {
+                timestamps.emplace(
+                    AlarmKey{path, static_cast<ShutdownType>(shutdownType),
+                             static_cast<AlarmType>(alarmType)},
+                    timestamp);
+            }
+        }
+        catch (const std::exception& e)
+        {
+            // Include possible exception when removing file, otherwise ec = 0
+            std::error_code ec;
+            fs::remove(path, ec);
+            log<level::ERR>(
+                fmt::format("Unable to restore persisted times ({}, ec: {})",
+                            e.what(), ec.value())
+                    .c_str());
         }
     }
 
