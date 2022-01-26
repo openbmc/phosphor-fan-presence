@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f22d1a6_9e24274d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-26T16:12:35Z",
+      "side": 1,
+      "message": "Did you happen to get any idea how this happened?\n\nCould you see the contents of the file?",
+      "revId": "fd5aff2d53aebe7d27c159467abba7007ee8fc4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
