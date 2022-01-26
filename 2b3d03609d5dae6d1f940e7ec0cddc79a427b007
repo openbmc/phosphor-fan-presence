@@ -46,6 +46,30 @@
       },
       "revId": "2b3d03609d5dae6d1f940e7ec0cddc79a427b007",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "83c7b8d7_35c5efe7",
+        "filename": "control/config_files/p10bmc/ibm,everest/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 1991,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-01-26T19:24:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05b86c23_99400913",
+      "range": {
+        "startLine": 1991,
+        "startChar": 44,
+        "endLine": 1991,
+        "endChar": 49
+      },
+      "revId": "2b3d03609d5dae6d1f940e7ec0cddc79a427b007",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
