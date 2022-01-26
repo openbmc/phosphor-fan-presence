@@ -8,6 +8,7 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/source/signal.hpp>
+#include <stdplus/signal.hpp>
 
 #include <filesystem>
 #include <memory>
@@ -18,6 +19,8 @@ namespace phosphor
 {
 namespace fan
 {
+class JsonConfig;
+
 namespace presence
 {
 
@@ -54,8 +57,9 @@ class JsonConfig
      * Constructor
      *
      * @param[in] bus - sdbusplus bus object
+     * @param[in] event - sdeventplus event object
      */
-    explicit JsonConfig(sdbusplus::bus::bus& bus);
+    JsonConfig(sdbusplus::bus::bus& bus, sdeventplus::Event& event);
 
     /**
      * @brief Get the json config based fan presence policies
@@ -63,16 +67,6 @@ class JsonConfig
      * @return - The fan presence policies
      */
     static const policies& get();
-
-    /**
-     * @brief Callback function to handle receiving a HUP signal to
-     * reload the json configuration.
-     *
-     * @param[in] sigSrc - sd_event_source signal wrapper
-     * @param[in] sigInfo - signal info on signal fd
-     */
-    void sighupHandler(sdeventplus::source::Signal& sigSrc,
-                       const struct signalfd_siginfo* sigInfo);
 
     /**
      * @brief Parses and populates the fan presence policies from
@@ -88,8 +82,20 @@ class JsonConfig
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;
 
+    /* The sdeventplus Event object, needed to handle SIGHUP */
+    sdeventplus::Event& _event;
+
     /* List of Fan objects to have presence policies */
     std::vector<fanPolicy> _fans;
+
+    /* Main JsonConfig which monitors EntityMgr before startup */
+    std::unique_ptr<phosphor::fan::JsonConfig> _config;
+
+    /* Match object to detect Inventory service */
+    std::unique_ptr<sdbusplus::bus::match::match> _inventoryMatch;
+
+    /* Object to register the sighupHandler */
+    std::unique_ptr<sdeventplus::source::Signal> _signalObj;
 
     /* Presence methods mapping to their associated handler function */
     static const std::map<std::string, methodHandler> _methods;
