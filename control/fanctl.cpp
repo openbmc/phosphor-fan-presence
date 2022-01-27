@@ -532,10 +532,41 @@ void reload()
  */
 void dumpFanControl()
 {
+    namespace fs = std::filesystem;
+
     try
     {
+        // delete existing file
+        if (fs::exists(dumpFile))
+        {
+            std::filesystem::remove(dumpFile);
+        }
+
         SDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface,
                               "KillUnit", phosphorServiceName, "main", SIGUSR1);
+
+        bool done = false;
+
+        do
+        {
+            // wait for file to be detected
+            sleep(1);
+
+            if (fs::exists(dumpFile))
+            {
+                try
+                {
+                    auto unused{nlohmann::json::parse(std::ifstream{dumpFile})};
+                    done = true;
+                }
+                catch (...)
+                {
+                    // TODO: maybe have a max-retries counter and fail after N
+                    // tries
+                }
+            }
+        } while (!done);
+
         std::cout << "Fan control dump written to: " << dumpFile << std::endl;
     }
     catch (const phosphor::fan::util::DBusPropertyError& e)
