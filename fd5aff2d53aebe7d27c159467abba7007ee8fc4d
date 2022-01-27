@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "efc3e3ae_82aa63d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-01-27T01:17:10Z",
+      "side": 1,
+      "message": "\u003e Did you happen to get any idea how this happened?\n\u003e \n\u003e Could you see the contents of the file?\n\nSorry, Matt, I can\u0027t see the content of this file, it\u0027s just that the deserialization API of the cereal library has a chance to throw a run-time exception.\nRefer: https://github.com/ibm-openbmc/dev/issues/3423",
+      "parentUuid": "8f22d1a6_9e24274d",
+      "revId": "fd5aff2d53aebe7d27c159467abba7007ee8fc4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "30d536c7_80bc5c47",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-01-26T16:31:52Z",
       "side": 1,
       "message": "This is a bit concerning, because it could mean an EPOW wouldn\u0027t happen because the timestamps were lost.\n\nI wonder though if you hit this on file that was around that had no timestamps in it, and some point  along the way it got corrupted.\n\nMaybe in save() you could remove the file if there aren\u0027t any timestamps?",
+      "revId": "fd5aff2d53aebe7d27c159467abba7007ee8fc4d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bef950de_067e6cab",
+        "filename": "sensor-monitor/alarm_timestamps.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-01-27T01:17:10Z",
+      "side": 1,
+      "message": "\u003e This is a bit concerning, because it could mean an EPOW wouldn\u0027t happen because the timestamps were lost.\n\nIf the path doesn\u0027t exist, that also means an EPOW wouldn\u0027t happen right? This should be the same logic, we cannot guarantee that the content of the file is 100% correct when deserializing.\n\n\u003e \n\u003e I wonder though if you hit this on file that was around that had no timestamps in it, and some point  along the way it got corrupted.\n\nI don\u0027t know when this file will be corrupted, because IBM had this problem when testing serviceCfgManager(https://gerrit.openbmc-project.xyz/c/openbmc/service-config-manager/+/50132), causing the process to keep core dumping\n\n\u003e \n\u003e Maybe in save() you could remove the file if there aren\u0027t any timestamps?\n\nNo, I think delete the file when the deserialization fails.",
+      "parentUuid": "30d536c7_80bc5c47",
       "revId": "fd5aff2d53aebe7d27c159467abba7007ee8fc4d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
