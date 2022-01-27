@@ -90,6 +90,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dcdc486_30f51103",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-01-27T18:47:02Z",
+      "side": 1,
+      "message": "Correct. For example this is what\u0027s given in CI for a wspoon that\u0027s yaml based still:\n```\nERROR output:\nA subcommand is required\nRun with --help for more information.\nOutput:\ncat: can\u0027t open \u0027/tmp/fan_control_dump.json\u0027: No such file or directory\ncat: can\u0027t open \u0027/tmp/fan_control_dump.json\u0027: No such file or directory\n```",
+      "parentUuid": "75bdf169_5ad0820a",
+      "revId": "6d165046a3f779faf93d3f5a7d60faa001a40223",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ee56c1b_4f9b8302",
