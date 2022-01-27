@@ -16,6 +16,24 @@
       "message": "Ideally, I\u0027d reset() the match object here. However since it\u0027s done in a lambda, C++ prohibits resetting itself. The consequence is that the callback is called when Inventory is stopped. However, due to the check on line 62, the service doesn\u0027t restart, so I believe this side effect is harmless.",
       "revId": "2ffd9776d1b3450f50286d579f3e9164c440d1b9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09da58e6_638abfa1",
+        "filename": "presence/tach_detect.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-01-27T19:41:38Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b91ee51a_41a53437",
+      "revId": "2ffd9776d1b3450f50286d579f3e9164c440d1b9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
