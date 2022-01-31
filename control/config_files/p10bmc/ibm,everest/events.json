@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10700
+         "target": 11300
        }
      ]
    },
@@ -68,7 +68,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10700
+         "target": 11300
        }
      ]
    },
@@ -175,7 +175,7 @@
                  "property": { "name": "Value" }
                }
              ],
-             "target": 10700
+             "target": 11300
            }
          ]
        }
@@ -212,7 +212,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10700
+        "floor": 11300
       }
     ]
   },
@@ -376,7 +376,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10700
+        "floor": 11300
       }
     ]
   },
