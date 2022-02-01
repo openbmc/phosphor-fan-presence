@@ -310,6 +310,32 @@ bool Manager::hasOwner(const std::string& path, const std::string& intf)
     return false;
 }
 
+void Manager::setOwner(const std::string& serv, bool hasOwner)
+{
+    // Update owner state on all entries of `serv`
+    for (auto& itPath : _servTree)
+    {
+        for (auto& itServ : itPath.second)
+        {
+            if (itServ.first != serv)
+            {
+                continue;
+            }
+            itServ.second.first = hasOwner;
+
+            // Remove associated interfaces from object cache when service no
+            // longer has an owner
+            if (!hasOwner)
+            {
+                for (auto& intf : itServ.second.second)
+                {
+                    _objects[itPath.first].erase(intf);
+                }
+            }
+        }
+    }
+}
+
 void Manager::setOwner(const std::string& path, const std::string& serv,
                        const std::string& intf, bool isOwned)
 {
