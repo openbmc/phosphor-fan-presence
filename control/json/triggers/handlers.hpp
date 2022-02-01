@@ -1,6 +1,9 @@
 #pragma once
 
 #include "../manager.hpp"
+#include "../utils/flight_recorder.hpp"
+
+#include <fmt/format.h>
 
 #include <sdbusplus/message.hpp>
 
@@ -127,13 +130,12 @@ struct Handlers
 
     /**
      * @brief Processes a name owner changed signal and updates the service's
-     * owner state
+     * owner state for all objects/interfaces associated in the cache
      *
      * @param[in] msg - The sdbusplus signal message
-     * @param[in] obj - Object data associated with the signal
      * @param[in] mgr - Manager that stores the service's owner state
      */
-    static bool nameOwnerChanged(message& msg, const SignalObject& obj,
+    static bool nameOwnerChanged(message& msg, const SignalObject&,
                                  Manager& mgr)
     {
         bool hasOwner = false;
@@ -150,8 +152,10 @@ struct Handlers
         {
             hasOwner = true;
         }
-
-        mgr.setOwner(std::get<Path>(obj), serv, std::get<Intf>(obj), hasOwner);
+        FlightRecorder::instance().log(
+            "nameOwnerChanged", fmt::format("Service: {}, Owned: {}", serv,
+                                            hasOwner ? "true" : "false"));
+        mgr.setOwner(serv, hasOwner);
         return true;
     }
 

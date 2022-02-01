@@ -270,6 +270,15 @@ class Manager
     static bool hasOwner(const std::string& path, const std::string& intf);
 
     /**
+     * @brief Sets the dbus service owner state for all entries in the _servTree
+     * cache and removes associated objects from the _objects cache
+     *
+     * @param[in] serv - Dbus service name
+     * @param[in] hasOwner - Dbus service owner state
+     */
+    void setOwner(const std::string& serv, bool hasOwner);
+
+    /**
      * @brief Sets the dbus service owner state of a given object
      *
      * @param[in] path - Dbus object path
