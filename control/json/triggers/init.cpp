@@ -66,6 +66,7 @@ void getProperties(Manager* mgr, const Group& group)
 
 void nameHasOwner(Manager* mgr, const Group& group)
 {
+    bool hasOwner = false;
     std::string lastName = "";
     for (const auto& member : group.getMembers())
     {
@@ -78,18 +79,26 @@ void nameHasOwner(Manager* mgr, const Group& group)
             {
                 servName = mgr->getService(member, intf);
             }
-            if (!servName.empty() && lastName != servName)
+            if (!servName.empty())
             {
-                // Member not provided by same service as last group member
-                lastName = servName;
-                auto hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
-                    mgr->getBus(), "org.freedesktop.DBus",
-                    "/org/freedesktop/DBus", "org.freedesktop.DBus",
-                    "NameHasOwner", servName);
-                // Update service name owner state of group object
-                mgr->setOwner(member, servName, intf, hasOwner);
+                if (lastName == servName)
+                {
+                    // Update service name owner state of group object
+                    mgr->setOwner(member, servName, intf, hasOwner);
+                }
+                else
+                {
+                    // Member not provided by same service as last group member
+                    lastName = servName;
+                    hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                        mgr->getBus(), "org.freedesktop.DBus",
+                        "/org/freedesktop/DBus", "org.freedesktop.DBus",
+                        "NameHasOwner", servName);
+                    // Update service name owner state of group object
+                    mgr->setOwner(member, servName, intf, hasOwner);
+                }
             }
-            if (servName.empty())
+            else
             {
                 // Path and/or interface configured does not exist on dbus?
                 // TODO How to handle this? Create timer to keep checking for
@@ -113,11 +122,10 @@ void nameHasOwner(Manager* mgr, const Group& group)
                 // Path and/or interface configured does not exist on dbus?
                 // TODO How to handle this? Create timer to keep checking for
                 // object/service to appear? When to stop checking?
-                log<level::ERR>(
-                    fmt::format(
-                        "Unable to get service name for path {}, interface {}",
-                        member, intf)
-                        .c_str());
+                log<level::ERR>(fmt::format("Unable to get service({}) owner "
+                                            "state for path {}, interface {}",
+                                            servName, member, intf)
+                                    .c_str());
                 throw dme;
             }
         }
