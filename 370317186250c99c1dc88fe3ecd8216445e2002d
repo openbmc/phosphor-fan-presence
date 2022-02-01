@@ -34,6 +34,24 @@
       "parentUuid": "77d89508_51059444",
       "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24a52162_7c2bfc3b",
+        "filename": "control/config_files/p10bmc/ibm,rainier-4u/pcie_cards.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1001035
+      },
+      "writtenOn": "2022-02-01T18:17:01Z",
+      "side": 1,
+      "message": "that fell under my NVME part in THERM.\nand they had a PCI Slot index.\nmy testing list\n  0x144D 0xA808 0x1014 0x0637     Poseidon 1  800\n  0x144D 0xA808 0x1014 0x0638     Poseidon 1  1600\n  0x144D 0xA808 0x1014 0x0639     Poseidon 1  3200. \u003c-----\n  0x144D 0xA80A 0x1014 0x068E     Poseidon 2  800GB",
+      "parentUuid": "849e55f7_959df743",
+      "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
