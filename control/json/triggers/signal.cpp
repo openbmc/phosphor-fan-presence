@@ -188,12 +188,8 @@ void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
                 // Setup name owner changed signal handler on the group
                 // member's service
                 const auto match = rules::nameOwnerChanged(serv);
-                SignalPkg signalPkg = {
-                    Handlers::nameOwnerChanged,
-                    SignalObject(std::cref(member),
-                                 std::cref(group.getInterface()),
-                                 std::cref(group.getProperty())),
-                    actions};
+                SignalPkg signalPkg = {Handlers::nameOwnerChanged,
+                                       SignalObject(), actions};
                 // If signal match already exists, then the service will be the
                 // same so add action to be run
                 auto isSameSig = [](SignalPkg& pkg) { return true; };
