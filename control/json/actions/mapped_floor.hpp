@@ -37,6 +37,7 @@ using json = nlohmann::json;
  *    "fan_floors": [
  *        {
  *        "key": 27,
+ *        "floor_offset_parameter": "floor_27_offset",
  *        "floors": [
  *          {
  *            "group": "altitude",
@@ -83,8 +84,10 @@ using json = nlohmann::json;
  *     another group to check.  In this case, 'power_mode'.  Repeat the above
  *     step.
  *   - After all the group compares are done, choose the largest floor value
- *     to set the fan floor to.  If any group check results doesn't end in
- *     a match being found, then the default floor will be set.
+ *     to set the fan floor to, but first apply the floor offset provided
+ *     by the parameter in the 'floor_offset_parameter' field, if it present.
+ *   - If any group check results doesn't end in a match being found, then
+ *     the default floor will be set.
  *
  * Cases where the default floor will be set:
  *  - A table entry can't be found based on a key group's value.
@@ -150,6 +153,23 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     void setFloorTable(const json& jsonObj);
 
     /**
+     * @brief Applies the offset in offsetParameter to the
+     *        value passed in.
+     *
+     * If offsetParameter is empty then no offset will be
+     * applied.
+     *
+     * Note: The offset may be negative.
+     *
+     * @param[in] floor - The floor to apply offset to
+     * @param[in] offsetParameter - The floor offset parameter
+     *
+     * @return uint64_t - The new floor value
+     */
+    uint64_t applyFloorOffset(uint64_t floor,
+                              const std::string& offsetParameter) const;
+
+    /**
      * @brief Determines the maximum value of the property specified
      *        for the group of all members in the group.
      *
@@ -192,6 +212,7 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     struct FanFloors
     {
         PropertyVariantType keyValue;
+        std::string offsetParameter;
         std::vector<FloorGroup> floorGroups;
     };
 

@@ -31,6 +31,26 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 
+template <typename T>
+uint64_t addFloorOffset(uint64_t floor, T offset)
+{
+    if constexpr (!std::is_arithmetic_v<T>)
+    {
+        throw std::runtime_error("Invalid variant type in addFloorOffset");
+    }
+
+    auto newFloor = static_cast<T>(floor) + offset;
+    if (newFloor < 0)
+    {
+        log<level::ERR>(
+            fmt::format("Floor offset of {} resulted in negative floor", offset)
+                .c_str());
+        return floor;
+    }
+
+    return static_cast<uint64_t>(newFloor);
+}
+
 MappedFloor::MappedFloor(const json& jsonObj,
                          const std::vector<Group>& groups) :
     ActionBase(jsonObj, groups)
@@ -86,6 +106,12 @@ void MappedFloor::setFloorTable(const json& jsonObj)
 
         FanFloors ff;
         ff.keyValue = getJsonValue(floors["key"]);
+
+        if (floors.contains("floor_offset_parameter"))
+        {
+            ff.offsetParameter =
+                floors["floor_offset_parameter"].get<std::string>();
+        }
 
         for (const auto& groupEntry : floors["floors"])
         {
@@ -321,6 +347,11 @@ void MappedFloor::run(Zone& zone)
             }
         }
 
+        if (newFloor)
+        {
+            *newFloor = applyFloorOffset(*newFloor, floorTable.offsetParameter);
+        }
+
         // Valid key value for this entry, so done
         break;
     }
@@ -333,6 +364,37 @@ void MappedFloor::run(Zone& zone)
     {
         zone.setFloorHold(getUniqueName(), zone.getDefaultFloor(), true);
     }
+}
+
+uint64_t MappedFloor::applyFloorOffset(uint64_t floor,
+                                       const std::string& offsetParameter) const
+{
+    if (!offsetParameter.empty())
+    {
+        auto offset = Manager::getParameter(offsetParameter);
+        if (offset)
+        {
+            if (std::holds_alternative<int32_t>(*offset))
+            {
+                return addFloorOffset(floor, std::get<int32_t>(*offset));
+            }
+            else if (std::holds_alternative<int64_t>(*offset))
+            {
+                return addFloorOffset(floor, std::get<int64_t>(*offset));
+            }
+            else if (std::holds_alternative<double>(*offset))
+            {
+                return addFloorOffset(floor, std::get<double>(*offset));
+            }
+            else
+            {
+                throw std::runtime_error(
+                    "Invalid data type in floor offset parameter ");
+            }
+        }
+    }
+
+    return floor;
 }
 
 } // namespace phosphor::fan::control::json
