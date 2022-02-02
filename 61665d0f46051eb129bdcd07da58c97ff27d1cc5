@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb4e9120_a9182b43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-02T20:47:33Z",
+      "side": 1,
+      "message": "Why have \"ranges\" on this modifier? seems like its just doing a straight less_than check.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "61665d0f46051eb129bdcd07da58c97ff27d1cc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0f37fc5_97705236",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-02T20:47:33Z",
+      "side": 1,
+      "message": "less than the lowest of arg_values given right?",
+      "range": {
+        "startLine": 125,
+        "startChar": 37,
+        "endLine": 125,
+        "endChar": 59
+      },
+      "revId": "61665d0f46051eb129bdcd07da58c97ff27d1cc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57e44b47_53941157",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-02T20:47:33Z",
+      "side": 1,
+      "message": "How about setting the parameter to NaN for numbers, false for bools, and empty string for strings? (Of course this means that all `parameter_value` entries must be of the same type).",
+      "range": {
+        "startLine": 140,
+        "startChar": 39,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "61665d0f46051eb129bdcd07da58c97ff27d1cc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
