@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ff5c15c_e7658132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-02T22:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa46f392_13f2dd59",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "61665d0f46051eb129bdcd07da58c97ff27d1cc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c0f37fc5_97705236",
@@ -95,6 +119,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b38d2bc7_16dc3723",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-02T22:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cdb61e6_2d263ebf",
+      "range": {
+        "startLine": 125,
+        "startChar": 37,
+        "endLine": 125,
+        "endChar": 59
+      },
+      "revId": "61665d0f46051eb129bdcd07da58c97ff27d1cc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "57e44b47_53941157",
@@ -132,6 +180,30 @@
       "side": 1,
       "message": "good idea.",
       "parentUuid": "57e44b47_53941157",
+      "range": {
+        "startLine": 140,
+        "startChar": 39,
+        "endLine": 141,
+        "endChar": 18
+      },
+      "revId": "61665d0f46051eb129bdcd07da58c97ff27d1cc5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1dc5d811_956a93d5",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-02T22:31:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20512219_c109edc3",
       "range": {
         "startLine": 140,
         "startChar": 39,
