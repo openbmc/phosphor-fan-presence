@@ -33,6 +33,24 @@
       "message": "I dont think lastName is actually used anywhere, is it?",
       "revId": "443a1d38ef0235c8cc14f4bbcbaa9d9454262255",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0100f249_5b593136",
+        "filename": "control/json/triggers/init.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-02T22:17:40Z",
+      "side": 1,
+      "message": "Nevermind, I see its declared outside the loop. my mistake",
+      "parentUuid": "bfbc4e04_9a7668fc",
+      "revId": "443a1d38ef0235c8cc14f4bbcbaa9d9454262255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
