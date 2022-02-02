@@ -42,6 +42,7 @@ using json = nlohmann::json;
  *
  * The valid operators are:
  *  - "minus"
+ *  - "less_than"
  *
  * To add a new operator, derive a new class from BaseOperator and
  * then create it accordingly in setOperator.
@@ -102,13 +103,6 @@ class Modifier
      * @param[in] jsonObj - The JSON config object
      */
     void setOperator(const json& jsonObj);
-
-    /**
-     * @brief Subtracts _value from value
-     *
-     * @param[in] value - The value to subtract from
-     */
-    PropertyVariantType minus(const PropertyVariantType& value);
 
     /** @brief The value used by the operator */
     PropertyVariantType _value;
