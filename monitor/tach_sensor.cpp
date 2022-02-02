@@ -295,7 +295,7 @@ void TachSensor::startTimer(TimerMode mode)
     {
         log<level::DEBUG>(
             fmt::format("Start timer({}) on tach sensor {}. [delay = {}s]",
-                        mode, _name,
+                        static_cast<int>(mode), _name,
                         duration_cast<seconds>(getDelay(mode)).count())
                 .c_str());
         _timer.restartOnce(getDelay(mode));
