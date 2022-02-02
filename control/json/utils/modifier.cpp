@@ -53,6 +53,35 @@ struct ToTypeVisitor
  */
 struct MinusOperator : public Modifier::BaseOperator
 {
+    MinusOperator(const json& valueObj)
+    {
+        if (auto boolPtr = valueObj.get_ptr<const bool*>())
+        {
+            arg = *boolPtr;
+        }
+        else if (auto intPtr = valueObj.get_ptr<const int64_t*>())
+        {
+            arg = *intPtr;
+        }
+        else if (auto doublePtr = valueObj.get_ptr<const double*>())
+        {
+            arg = *doublePtr;
+        }
+        else if (auto stringPtr = valueObj.get_ptr<const std::string*>())
+        {
+            arg = *stringPtr;
+        }
+        else
+        {
+            log<level::ERR>(
+                fmt::format(
+                    "Invalid JSON type for value property in modifier json: {}",
+                    valueObj.dump())
+                    .c_str());
+            throw std::invalid_argument("Invalid modifier JSON");
+        }
+    }
+
     PropertyVariantType operator()(double val) override
     {
         return val - std::visit(ToTypeVisitor<double>(), arg);
@@ -88,64 +117,214 @@ struct MinusOperator : public Modifier::BaseOperator
             "Bool not allowed as a 'minus' modifier value"};
     }
 
-    MinusOperator(PropertyVariantType& arg) : arg(arg)
-    {}
-
     PropertyVariantType arg;
+};
+
+/**
+ * @brief Implements an operator to return values from the JSON
+ *        config when a key value is within a certain range.
+ *
+ *       "modifier": {
+ *        "operator": "less_than_ranges",
+ *        "value": [
+ *          {
+ *            "arg_value": 30, // arg val must be less than this
+ *            "parameter_value": 300
+ *          },
+ *          {
+ *            "arg_value": 40,
+ *            "parameter_value": 400
+ *          },
+ *        ]
+ *        }
+ * If a arg_value is out of the range, it just returns the last
+ * parameter value.
+ */
+struct LessThanRangesOperator : public Modifier::BaseOperator
+{
+    LessThanRangesOperator(const json& valueArray)
+    {
+        if (!valueArray.is_array())
+        {
+            log<level::ERR>(
+                fmt::format("Invalid JSON data for less_than_ranges config: {}",
+                            valueArray.dump())
+                    .c_str());
+            throw std::invalid_argument("Invalid modifier JSON");
+        }
+
+        for (const auto& valueEntry : valueArray)
+        {
+            if (!valueEntry.contains("arg_value") ||
+                !valueEntry.contains("parameter_value"))
+            {
+                log<level::ERR>(
+                    fmt::format("Missing arg_value or parameter_value keys "
+                                "in less_than_ranges config: {}",
+                                valueArray.dump())
+                        .c_str());
+                throw std::invalid_argument("Invalid modifier JSON");
+            }
+
+            const auto& argValObj = valueEntry.at("arg_value");
+            const auto& paramValObj = valueEntry.at("parameter_value");
+            PropertyVariantType argVal;
+            PropertyVariantType paramVal;
+
+            if (auto intPtr = argValObj.get_ptr<const int64_t*>())
+            {
+                argVal = *intPtr;
+            }
+            else if (auto doublePtr = argValObj.get_ptr<const double*>())
+            {
+                argVal = *doublePtr;
+            }
+            else if (auto stringPtr = argValObj.get_ptr<const std::string*>())
+            {
+                argVal = *stringPtr;
+            }
+            else
+            {
+                log<level::ERR>(
+                    fmt::format(
+                        "Invalid data type in arg_value key in modifier JSON "
+                        "config: {}",
+                        valueArray.dump())
+                        .c_str());
+                throw std::invalid_argument("Invalid modifier JSON");
+            }
+
+            if (auto boolPtr = paramValObj.get_ptr<const bool*>())
+            {
+                paramVal = *boolPtr;
+            }
+            else if (auto intPtr = paramValObj.get_ptr<const int64_t*>())
+            {
+                paramVal = *intPtr;
+            }
+            else if (auto doublePtr = paramValObj.get_ptr<const double*>())
+            {
+                paramVal = *doublePtr;
+            }
+            else if (auto stringPtr = paramValObj.get_ptr<const std::string*>())
+            {
+                paramVal = *stringPtr;
+            }
+            else
+            {
+                log<level::ERR>(
+                    fmt::format(
+                        "Invalid data type in param_value key in modifier JSON "
+                        "config: {}",
+                        valueArray.dump())
+                        .c_str());
+                throw std::invalid_argument("Invalid modifier JSON");
+            }
+
+            rangeValues.emplace_back(argVal, paramVal);
+        }
+
+        if (rangeValues.empty())
+        {
+            log<level::ERR>(fmt::format("No valid range values found in "
+                                        "modifier json: {}",
+                                        valueArray.dump())
+                                .c_str());
+            throw std::invalid_argument("Invalid modifier JSON");
+        }
+    }
+
+    PropertyVariantType operator()(double val) override
+    {
+        for (const auto& rangeValue : rangeValues)
+        {
+            if (val < std::visit(ToTypeVisitor<double>(), rangeValue.first))
+            {
+                return rangeValue.second;
+            }
+        }
+        log<level::DEBUG>(
+            fmt::format("Value {} out of range in 'less_than_ranges' modifier",
+                        val)
+                .c_str());
+
+        // Return the value from the last entry
+        return rangeValues.back().second;
+    }
+
+    PropertyVariantType operator()(int32_t val) override
+    {
+        for (const auto& rangeValue : rangeValues)
+        {
+            if (val < std::visit(ToTypeVisitor<int32_t>(), rangeValue.first))
+            {
+                return rangeValue.second;
+            }
+        }
+
+        log<level::DEBUG>(
+            fmt::format("Value {} out of range in 'less_than_ranges' modifier",
+                        val)
+                .c_str());
+        return rangeValues.back().second;
+    }
+
+    PropertyVariantType operator()(int64_t val) override
+    {
+        for (const auto& rangeValue : rangeValues)
+        {
+            if (val < std::visit(ToTypeVisitor<int64_t>(), rangeValue.first))
+            {
+                return rangeValue.second;
+            }
+        }
+        log<level::DEBUG>(
+            fmt::format("Value {} out of range in 'less_than_ranges' modifier",
+                        val)
+                .c_str());
+        return rangeValues.back().second;
+    }
+
+    PropertyVariantType operator()(const std::string& val) override
+    {
+        for (const auto& rangeValue : rangeValues)
+        {
+            if (val <
+                std::visit(ToTypeVisitor<std::string>(), rangeValue.first))
+            {
+                return rangeValue.second;
+            }
+        }
+        log<level::DEBUG>(
+            fmt::format("Value {} out of range in 'less_than_ranges' modifier",
+                        val)
+                .c_str());
+        return rangeValues.back().second;
+    }
+
+    PropertyVariantType operator()(bool val) override
+    {
+        throw std::runtime_error{
+            "Bool not allowed as a 'less_than_ranges' modifier value"};
+    }
+
+    std::vector<std::pair<PropertyVariantType, PropertyVariantType>>
+        rangeValues;
 };
 
 Modifier::Modifier(const json& jsonObj)
 {
-    setValue(jsonObj);
     setOperator(jsonObj);
-}
-
-void Modifier::setValue(const json& jsonObj)
-{
-    if (!jsonObj.contains("value"))
-    {
-        log<level::ERR>(
-            fmt::format("Modifier entry in JSON missing 'value': {}",
-                        jsonObj.dump())
-                .c_str());
-        throw std::invalid_argument("Invalid modifier JSON");
-    }
-
-    const auto& object = jsonObj.at("value");
-    if (auto boolPtr = object.get_ptr<const bool*>())
-    {
-        _value = *boolPtr;
-    }
-    else if (auto intPtr = object.get_ptr<const int64_t*>())
-    {
-        _value = *intPtr;
-    }
-    else if (auto doublePtr = object.get_ptr<const double*>())
-    {
-        _value = *doublePtr;
-    }
-    else if (auto stringPtr = object.get_ptr<const std::string*>())
-    {
-        _value = *stringPtr;
-    }
-    else
-    {
-        log<level::ERR>(
-            fmt::format(
-                "Invalid JSON type for value property in modifer json: {}",
-                jsonObj.dump())
-                .c_str());
-        throw std::invalid_argument("Invalid modifier JSON");
-    }
 }
 
 void Modifier::setOperator(const json& jsonObj)
 {
-    if (!jsonObj.contains("operator"))
+    if (!jsonObj.contains("operator") || !jsonObj.contains("value"))
     {
         log<level::ERR>(
-            fmt::format("Modifier entry in JSON missing 'operator': {}",
-                        jsonObj.dump())
+            fmt::format(
+                "Modifier entry in JSON missing 'operator' or 'value': {}",
+                jsonObj.dump())
                 .c_str());
         throw std::invalid_argument("Invalid modifier JSON");
     }
@@ -154,7 +333,11 @@ void Modifier::setOperator(const json& jsonObj)
 
     if (op == "minus")
     {
-        _operator = std::make_unique<MinusOperator>(_value);
+        _operator = std::make_unique<MinusOperator>(jsonObj["value"]);
+    }
+    else if (op == "less_than_ranges")
+    {
+        _operator = std::make_unique<LessThanRangesOperator>(jsonObj["value"]);
     }
     else
     {
