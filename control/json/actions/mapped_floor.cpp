@@ -37,6 +37,7 @@ MappedFloor::MappedFloor(const json& jsonObj,
 {
     setKeyGroup(jsonObj);
     setFloorTable(jsonObj);
+    setOffset(jsonObj);
 }
 
 const Group* MappedFloor::getGroup(const std::string& name)
@@ -134,6 +135,14 @@ void MappedFloor::setFloorTable(const json& jsonObj)
         }
 
         _fanFloors.push_back(std::move(ff));
+    }
+}
+
+void MappedFloor::setOffset(const json& jsonObj)
+{
+    if (jsonObj.contains("floor_offset_parameter"))
+    {
+        _offsetParameter = jsonObj["floor_offset_parameter"].get<std::string>();
     }
 }
 
@@ -327,12 +336,49 @@ void MappedFloor::run(Zone& zone)
 
     if (newFloor && !missingGroupProperty)
     {
+        *newFloor = applyFloorOffset(*newFloor);
         zone.setFloorHold(getUniqueName(), *newFloor, true);
     }
     else
     {
         zone.setFloorHold(getUniqueName(), zone.getDefaultFloor(), true);
     }
+}
+
+uint64_t MappedFloor::applyFloorOffset(uint64_t floor) const
+{
+    if (!_offsetParameter.empty())
+    {
+        auto offset = Manager::getParameter(_offsetParameter);
+        if (offset)
+        {
+            if (std::holds_alternative<int32_t>(*offset))
+            {
+                auto newFloor = static_cast<int32_t>(floor);
+                newFloor += std::get<int32_t>(*offset);
+                return static_cast<uint64_t>(newFloor);
+            }
+            else if (std::holds_alternative<int64_t>(*offset))
+            {
+                auto newFloor = static_cast<int64_t>(floor);
+                newFloor += std::get<int64_t>(*offset);
+                return static_cast<uint64_t>(newFloor);
+            }
+            else if (std::holds_alternative<double>(*offset))
+            {
+                auto newFloor = static_cast<double>(floor);
+                newFloor += std::get<double>(*offset);
+                return static_cast<uint64_t>(newFloor);
+            }
+            else
+            {
+                throw std::runtime_error(
+                    "Invalid data type in floor offset parameter ");
+            }
+        }
+    }
+
+    return floor;
 }
 
 } // namespace phosphor::fan::control::json
