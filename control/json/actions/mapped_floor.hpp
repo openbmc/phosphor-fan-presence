@@ -104,6 +104,10 @@ using json = nlohmann::json;
  *            "group": "altitude",
  *    it can be:
  *            "parameter": "some_parameter"
+ *
+ *  - There is an optional 'floor_offset_parameter' config that can be used
+ *    to add an offset to the calculated floor value from a parameter.
+ *       "floor_offset_parameter": "floor_altitude_offset"
  */
 
 class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
@@ -148,6 +152,13 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      * @param[in] jsonObj - JSON object for the action
      */
     void setFloorTable(const json& jsonObj);
+
+    /**
+     * @brief Sets the optional offset parameter name
+     *
+     * @param[in] jsonObj - JSON object for the action
+     */
+    void setOffset(const json& jsonObj);
 
     /**
      * @brief Determines the maximum value of the property specified
@@ -197,6 +208,9 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
 
     /* The fan floors action data, loaded from JSON */
     std::vector<FanFloors> _fanFloors;
+
+    /* The offset parameter name */
+    std::string _offsetParameter;
 };
 
 } // namespace phosphor::fan::control::json
