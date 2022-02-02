@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "633959d9_ac1997e7",
+        "filename": "control/json/triggers/init.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-02T22:16:25Z",
+      "side": 1,
+      "message": "I think this line as well as 98 can be factored out, and added after 99.",
+      "revId": "443a1d38ef0235c8cc14f4bbcbaa9d9454262255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfbc4e04_9a7668fc",
+        "filename": "control/json/triggers/init.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-02T22:16:25Z",
+      "side": 1,
+      "message": "I dont think lastName is actually used anywhere, is it?",
+      "revId": "443a1d38ef0235c8cc14f4bbcbaa9d9454262255",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
