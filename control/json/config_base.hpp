@@ -102,7 +102,6 @@ class ConfigBase
         return _profiles;
     }
 
-  protected:
     /**
      * @brief Determines the data type of a JSON configured parameter that is
      * used as a variant within the fan control application and returns the
@@ -143,6 +142,7 @@ class ConfigBase
             "Unsupported data type for JSON object's value");
     }
 
+  protected:
     /* Name of the configuration object */
     std::string _name;
 
