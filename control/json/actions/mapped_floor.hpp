@@ -34,9 +34,11 @@ using json = nlohmann::json;
  *    {
  *    "name": "mapped_floor",
  *    "key_group": "ambient_temp",
+ *    "default_floor": 2000,
  *    "fan_floors": [
  *        {
  *        "key": 27,
+ *        "default_floor": 3000,
  *        "floors": [
  *          {
  *            "group": "altitude",
@@ -83,15 +85,17 @@ using json = nlohmann::json;
  *     another group to check.  In this case, 'power_mode'.  Repeat the above
  *     step.
  *   - After all the group compares are done, choose the largest floor value
- *     to set the fan floor to.  If any group check results doesn't end in
- *     a match being found, then the default floor will be set.
+ *     to set the fan floor to.
  *
- * Cases where the default floor will be set:
- *  - A table entry can't be found based on a key group's value.
- *  - A table entry can't be found based on a group's value.
- *  - A value can't be obtained for the 'key_group' D-Bus property group.
- *  - A value can't be obtained for any of the 'group' property groups.
- *  - A value is NaN, as no <, <=, or == checks would succeed.
+ * There are up to 3 default value values that may be used when a regular
+ * floor value can't be calculated:
+ *   1. Optional default floor at the key group level
+ *     - Chosen when a floor wasn't found in any floor groups
+ *   2. Optional default floor at the action level
+ *     - Chosen when there isn't a key table found for the key value,
+ *       or 1. above occurred but that default floor wasn't supplied.
+ *   3. The default floor in the zone config
+ *     - Chosen when when 2. would be used, but it wasn't supplied
  *
  * Other notes:
  *  - If a group has multiple members, they must be numeric or else
@@ -107,6 +111,7 @@ using json = nlohmann::json;
  *
  *  - There is an optional 'floor_offset_parameter' config that can be used
  *    to add an offset to the calculated floor value from a parameter.
+ *    This is also applied to any default floor values.
  *       "floor_offset_parameter": "floor_altitude_offset"
  */
 
@@ -145,6 +150,13 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      * @param[in] jsonObj - JSON object for the action
      */
     void setKeyGroup(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the default floor value
+     *
+     * @param[in] jsonObj - JSON object for the action
+     */
+    void setDefaultFloor(const json& jsonObj);
 
     /**
      * @brief Parses and sets the floor group data members
@@ -203,6 +215,9 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     /* Key group pointer */
     const Group* _keyGroup;
 
+    /* Optional default floor value for the action */
+    std::optional<uint64_t> _defaultFloor;
+
     using FloorEntry = std::tuple<PropertyVariantType, uint64_t>;
 
     struct FloorGroup
@@ -214,6 +229,7 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     struct FanFloors
     {
         PropertyVariantType keyValue;
+        std::optional<uint64_t> defaultFloor;
         std::vector<FloorGroup> floorGroups;
     };
 
