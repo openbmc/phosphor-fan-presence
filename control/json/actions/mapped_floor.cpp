@@ -88,6 +88,11 @@ void MappedFloor::setFloorTable(const json& jsonObj)
         FanFloors ff;
         ff.keyValue = getJsonValue(floors["key"]);
 
+        if (floors.contains("default_floor"))
+        {
+            ff.defaultFloor = floors["default_floor"].get<uint64_t>();
+        }
+
         for (const auto& groupEntry : floors["floors"])
         {
             if ((!groupEntry.contains("group") &&
@@ -328,6 +333,14 @@ void MappedFloor::run(Zone& zone)
                 // Results in default floor.
                 missingGroupProperty = true;
             }
+        }
+
+        // No floor yet but no missing properties, so must have been
+        // a removed parameter or no floor value tables.
+        // Use the default floor from the JSON.
+        if (!newFloor && !missingGroupProperty && floorTable.defaultFloor)
+        {
+            newFloor = floorTable.defaultFloor.value();
         }
 
         // Valid key value for this entry, so done
