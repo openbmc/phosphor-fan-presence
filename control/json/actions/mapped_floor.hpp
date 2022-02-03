@@ -34,10 +34,12 @@ using json = nlohmann::json;
  *    {
  *    "name": "mapped_floor",
  *    "key_group": "ambient_temp",
+ *    "default_floor": 2000,
  *    "fan_floors": [
  *        {
  *        "key": 27,
  *        "floor_offset_parameter": "floor_27_offset",
+ *        "default_floor": 3000,
  *        "floors": [
  *          {
  *            "group": "altitude",
@@ -89,12 +91,15 @@ using json = nlohmann::json;
  *   - If any group check results doesn't end in a match being found, then
  *     the default floor will be set.
  *
- * Cases where the default floor will be set:
- *  - A table entry can't be found based on a key group's value.
- *  - A table entry can't be found based on a group's value.
- *  - A value can't be obtained for the 'key_group' D-Bus property group.
- *  - A value can't be obtained for any of the 'group' property groups.
- *  - A value is NaN, as no <, <=, or == checks would succeed.
+ * There are up to 3 default value values that may be used when a regular
+ * floor value can't be calculated:
+ *   1. Optional default floor at the key group level
+ *     - Chosen when a floor wasn't found in any floor groups
+ *   2. Optional default floor at the action level
+ *     - Chosen when there isn't a key table found for the key value,
+ *       or 1. above occurred but that default floor wasn't supplied.
+ *   3. The default floor in the zone config
+ *     - Chosen when when 2. would be used, but it wasn't supplied
  *
  * Other notes:
  *  - If a group has multiple members, they must be numeric or else
@@ -144,6 +149,13 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      * @param[in] jsonObj - JSON object for the action
      */
     void setKeyGroup(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the default floor value
+     *
+     * @param[in] jsonObj - JSON object for the action
+     */
+    void setDefaultFloor(const json& jsonObj);
 
     /**
      * @brief Parses and sets the floor group data members
@@ -201,6 +213,9 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     /* Key group pointer */
     const Group* _keyGroup;
 
+    /* Optional default floor value for the action */
+    std::optional<uint64_t> _defaultFloor;
+
     using FloorEntry = std::tuple<PropertyVariantType, uint64_t>;
 
     struct FloorGroup
@@ -213,6 +228,7 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     {
         PropertyVariantType keyValue;
         std::string offsetParameter;
+        std::optional<uint64_t> defaultFloor;
         std::vector<FloorGroup> floorGroups;
     };
 

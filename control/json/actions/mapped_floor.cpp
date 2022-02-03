@@ -58,6 +58,7 @@ MappedFloor::MappedFloor(const json& jsonObj,
 {
     setKeyGroup(jsonObj);
     setFloorTable(jsonObj);
+    setDefaultFloor(jsonObj);
 }
 
 const Group* MappedFloor::getGroup(const std::string& name)
@@ -86,6 +87,14 @@ void MappedFloor::setKeyGroup(const json& jsonObj)
     _keyGroup = getGroup(jsonObj["key_group"].get<std::string>());
 }
 
+void MappedFloor::setDefaultFloor(const json& jsonObj)
+{
+    if (jsonObj.contains("default_floor"))
+    {
+        _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
+    }
+}
+
 void MappedFloor::setFloorTable(const json& jsonObj)
 {
     if (!jsonObj.contains("fan_floors"))
@@ -112,6 +121,11 @@ void MappedFloor::setFloorTable(const json& jsonObj)
         {
             ff.offsetParameter =
                 floors["floor_offset_parameter"].get<std::string>();
+        }
+
+        if (floors.contains("default_floor"))
+        {
+            ff.defaultFloor = floors["default_floor"].get<uint64_t>();
         }
 
         for (const auto& groupEntry : floors["floors"])
@@ -196,7 +210,8 @@ std::optional<PropertyVariantType>
                 member, group.getInterface(), group.getProperty());
 
             // Only allow a group to have multiple members if it's numeric.
-            // Unlike std::is_arithmetic, bools are not considered numeric here.
+            // Unlike std::is_arithmetic, bools are not considered numeric
+            // here.
             if (!checked && (group.getMembers().size() > 1))
             {
                 std::visit(
@@ -242,13 +257,13 @@ std::optional<PropertyVariantType>
 void MappedFloor::run(Zone& zone)
 {
     std::optional<uint64_t> newFloor;
-    bool missingGroupProperty = false;
     auto& manager = *zone.getManager();
 
     auto keyValue = getMaxGroupValue(*_keyGroup, manager);
     if (!keyValue)
     {
-        zone.setFloor(zone.getDefaultFloor());
+        auto floor = _defaultFloor ? *_defaultFloor : zone.getDefaultFloor();
+        zone.setFloorHold(getUniqueName(), floor, true);
         return;
     }
 
@@ -301,51 +316,63 @@ void MappedFloor::run(Zone& zone)
                     *std::get<const Group*>(groupOrParameter), manager);
             }
 
-            if (!propertyValue)
-            {
-                // Couldn't successfully get a value.  Results in default floor.
-                missingGroupProperty = true;
-                break;
-            }
-
-            // Do either a <= or an == check depending on the data type to get
-            // the floor value based on this group.
             std::optional<uint64_t> floor;
-            for (const auto& [tableValue, tableFloor] : floorGroups)
+            if (propertyValue)
             {
-                PropertyVariantType value{tableValue};
-                tryConvertToDouble(value);
-
-                if (std::holds_alternative<double>(*propertyValue))
+                // Do either a <= or an == check depending on the data type
+                // to get the floor value based on this group.
+                for (const auto& [tableValue, tableFloor] : floorGroups)
                 {
-                    if (*propertyValue <= value)
+                    PropertyVariantType value{tableValue};
+                    tryConvertToDouble(value);
+
+                    if (std::holds_alternative<double>(*propertyValue))
+                    {
+                        if (*propertyValue <= value)
+                        {
+                            floor = tableFloor;
+                            break;
+                        }
+                    }
+                    else if (*propertyValue == value)
                     {
                         floor = tableFloor;
                         break;
                     }
                 }
-                else if (*propertyValue == value)
+            }
+
+            // No floor found in this group, use a default floor for now but
+            // let keep going in case it finds a higher one.
+            if (!floor)
+            {
+                if (floorTable.defaultFloor)
                 {
-                    floor = tableFloor;
-                    break;
+                    floor = *floorTable.defaultFloor;
+                }
+                else if (_defaultFloor)
+                {
+                    floor = *_defaultFloor;
+                }
+                else
+                {
+                    floor = zone.getDefaultFloor();
                 }
             }
 
             // Keep track of the highest floor value found across all
             // entries/groups
-            if (floor)
+            if ((newFloor && (floor > *newFloor)) || !newFloor)
             {
-                if ((newFloor && (floor > *newFloor)) || !newFloor)
-                {
-                    newFloor = floor;
-                }
+                newFloor = floor;
             }
-            else
-            {
-                // No match found in this group's table.
-                // Results in default floor.
-                missingGroupProperty = true;
-            }
+        }
+
+        // if still no floor, use the default one from the floor table if
+        // there
+        if (!newFloor && floorTable.defaultFloor)
+        {
+            newFloor = floorTable.defaultFloor.value();
         }
 
         if (newFloor)
@@ -357,14 +384,12 @@ void MappedFloor::run(Zone& zone)
         break;
     }
 
-    if (newFloor && !missingGroupProperty)
+    if (!newFloor)
     {
-        zone.setFloorHold(getUniqueName(), *newFloor, true);
+        newFloor = _defaultFloor ? *_defaultFloor : zone.getDefaultFloor();
     }
-    else
-    {
-        zone.setFloorHold(getUniqueName(), zone.getDefaultFloor(), true);
-    }
+
+    zone.setFloorHold(getUniqueName(), *newFloor, true);
 }
 
 uint64_t MappedFloor::applyFloorOffset(uint64_t floor,
