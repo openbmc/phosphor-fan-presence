@@ -37,6 +37,7 @@ using json = nlohmann::json;
  *    "fan_floors": [
  *        {
  *        "key": 27,
+ *        "default_floor": 3000,
  *        "floors": [
  *          {
  *            "group": "altitude",
@@ -85,6 +86,9 @@ using json = nlohmann::json;
  *   - After all the group compares are done, choose the largest floor value
  *     to set the fan floor to.  If any group check results doesn't end in
  *     a match being found, then the default floor will be set.
+ *   - If the only floor groups for the selected key are parameters, and they
+ *     don't exist, then the default_floor value for that key entry will be
+ *     used.
  *
  * Cases where the default floor will be set:
  *  - A table entry can't be found based on a key group's value.
@@ -214,6 +218,7 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     struct FanFloors
     {
         PropertyVariantType keyValue;
+        std::optional<uint64_t> defaultFloor;
         std::vector<FloorGroup> floorGroups;
     };
 
