@@ -376,8 +376,11 @@ void TachSensor::updateInventory(bool functional)
     auto objectMap =
         util::getObjMap<bool>(_invName, util::OPERATIONAL_STATUS_INTF,
                               util::FUNCTIONAL_PROPERTY, functional);
-    auto response = util::SDBusPlus::lookupAndCallMethod(
-        _bus, util::INVENTORY_PATH, util::INVENTORY_INTF, "Notify", objectMap);
+
+    auto response = util::SDBusPlus::callMethod(
+        _bus, util::INVENTORY_SVC, util::INVENTORY_PATH, util::INVENTORY_INTF,
+        "Notify", objectMap);
+
     if (response.is_method_error())
     {
         log<level::ERR>("Error in notify update of tach sensor inventory");

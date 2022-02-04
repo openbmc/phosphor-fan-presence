@@ -432,9 +432,9 @@ bool Fan::updateInventory(bool functional)
             util::getObjMap<bool>(_name, util::OPERATIONAL_STATUS_INTF,
                                   util::FUNCTIONAL_PROPERTY, functional);
 
-        auto response = util::SDBusPlus::lookupAndCallMethod(
-            _bus, util::INVENTORY_PATH, util::INVENTORY_INTF, "Notify",
-            objectMap);
+        auto response = util::SDBusPlus::callMethod(
+            _bus, util::INVENTORY_SVC, util::INVENTORY_PATH,
+            util::INVENTORY_INTF, "Notify", objectMap);
 
         if (response.is_method_error())
         {
