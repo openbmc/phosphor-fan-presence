@@ -34,6 +34,24 @@
       "parentUuid": "bd023ec0_267dc90b",
       "revId": "1c4742647eddaab916c23844200d6de6167c8010",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12e0c0cb_c9cff25e",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-04T15:11:47Z",
+      "side": 1,
+      "message": "Done, it\u0027s actually empty(), without the negation.",
+      "parentUuid": "8dfc298f_afa5b4f3",
+      "revId": "1c4742647eddaab916c23844200d6de6167c8010",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
