@@ -1,6 +1,5 @@
 [Unit]
 Description=Phosphor Fan Presence Tach Daemon
-After=mapper-wait@-xyz-openbmc_project-inventory.service
 
 [Service]
 Restart=on-failure
