@@ -393,29 +393,27 @@ void get()
         // print just the sensor name
         auto shortPath = pathMap["tach"][fan][0];
         shortPath = justFanName(shortPath);
-        cout << shortPath << setw(18);
+        cout << setw(13) << std::left << shortPath << std::right << setw(15);
 
         // print its target RPM/PWM
         property = "Target";
         cout << SDBusPlus::getProperty<uint64_t>(
-                    pathMap["tach"][fan][0],
-                    interfaces[ifaceTypeFromMethod(method)], property)
-             << setw(12) << " ";
+            pathMap["tach"][fan][0], interfaces[ifaceTypeFromMethod(method)],
+            property);
 
         // print readings for each rotor
         property = "Value";
 
-        auto indent = 0U;
+        auto indent = 0;
         for (auto& path : pathMap["tach"][fan])
         {
-            cout << setw(indent);
-            cout << justFanName(path) << setw(16)
+            cout << setw(18 + indent) << justFanName(path) << setw(17)
                  << SDBusPlus::getProperty<double>(
                         path, interfaces["SensorValue"], property)
                  << endl;
 
             if (0 == indent)
-                indent = 42;
+                indent = 28;
         }
     }
 }
