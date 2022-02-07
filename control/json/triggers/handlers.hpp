@@ -1,9 +1,6 @@
 #pragma once
 
 #include "../manager.hpp"
-#include "../utils/flight_recorder.hpp"
-
-#include <fmt/format.h>
 
 #include <sdbusplus/message.hpp>
 
@@ -152,9 +149,7 @@ struct Handlers
         {
             hasOwner = true;
         }
-        FlightRecorder::instance().log(
-            "nameOwnerChanged", fmt::format("Service: {}, Owned: {}", serv,
-                                            hasOwner ? "true" : "false"));
+
         mgr.setOwner(serv, hasOwner);
         return true;
     }
