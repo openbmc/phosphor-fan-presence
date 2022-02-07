@@ -17,7 +17,6 @@
 
 #include "manager.hpp"
 
-#include "../utils/flight_recorder.hpp"
 #include "action.hpp"
 #include "event.hpp"
 #include "fan.hpp"
@@ -26,6 +25,7 @@
 #include "power_state.hpp"
 #include "profile.hpp"
 #include "sdbusplus.hpp"
+#include "utils/flight_recorder.hpp"
 #include "zone.hpp"
 
 #include <systemd/sd-bus.h>
@@ -75,6 +75,7 @@ Manager::Manager(const sdeventplus::Event& event) :
 void Manager::sighupHandler(sdeventplus::source::Signal&,
                             const struct signalfd_siginfo*)
 {
+    FlightRecorder::instance().log("main", "SIGHUP received");
     // Save current set of available and active profiles
     std::map<configKey, std::unique_ptr<Profile>> profiles;
     profiles.swap(_profiles);
@@ -94,6 +95,9 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
         _activeProfiles.swap(activeProfiles);
         log<level::ERR>("Error reloading configs, no changes made",
                         entry("LOAD_ERROR=%s", re.what()));
+        FlightRecorder::instance().log(
+            "main", fmt::format("Error reloading configs, no changes made: {}",
+                                re.what()));
     }
 }
 

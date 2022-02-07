@@ -23,6 +23,7 @@
 #include "power_state.hpp"
 #include "profile.hpp"
 #include "sdbusplus.hpp"
+#include "utils/flight_recorder.hpp"
 #include "zone.hpp"
 
 #include <fmt/format.h>
@@ -208,6 +209,9 @@ class Manager
                                          T::confFileName, isOptional);
         if (!confFile.empty())
         {
+            FlightRecorder::instance().log(
+                "main", fmt::format("Loading configuration from {}",
+                                    confFile.string()));
             for (const auto& entry : fan::JsonConfig::load(confFile))
             {
                 if (entry.contains("profiles"))
@@ -243,6 +247,9 @@ class Manager
                 fmt::format("Configuration({}) loaded successfully",
                             T::confFileName)
                     .c_str());
+            FlightRecorder::instance().log(
+                "main", fmt::format("Configuration({}) loaded successfully",
+                                    T::confFileName));
         }
         return config;
     }
