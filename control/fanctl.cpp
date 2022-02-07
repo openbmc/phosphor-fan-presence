@@ -270,9 +270,9 @@ void status()
     cout << "CurrentPowerState   : " << states[4] << endl;
     cout << "CurrentHostState    : " << states[5] << endl;
     cout << endl;
-    cout << " FAN        "
-         << "TARGET(" << method << ")  FEEDBACK(RPM)   PRESENT"
-         << "     FUNCTIONAL" << endl;
+    cout << " FAN      "
+         << "TARGET(" << method << ")     FEEDBACKS(RPM)   PRESENT"
+         << "   FUNCTIONAL" << endl;
     cout << "==============================================================="
          << endl;
 
@@ -282,14 +282,14 @@ void status()
 
     for (auto& fan : fanNames)
     {
-        cout << " " << fan << setw(14);
+        cout << setw(5) << fan << setw(16);
 
         // get the target RPM
         property = "Target";
         cout << SDBusPlus::getProperty<uint64_t>(
                     pathMap["tach"][fan][0],
                     interfaces[ifaceTypeFromMethod(method)], property)
-             << setw(12);
+             << setw(19);
 
         // get the sensor RPM
         property = "Value";
@@ -306,55 +306,56 @@ void status()
             if (--numRotors)
                 output << "/";
         }
-        cout << setw(18) << output.str() << setw(10);
+        cout << output.str() << setw(10);
 
         // print the Present property
         property = "Present";
-        std::string val;
-        for (auto& path : pathMap["inventory"][fan])
+        auto itFan = pathMap["inventory"].find(fan);
+        if (itFan != pathMap["inventory"].end())
         {
-            try
+            for (auto& path : itFan->second)
             {
-                if (SDBusPlus::getProperty<bool>(path, interfaces["Item"],
-                                                 property))
+                try
                 {
-                    val = "true";
+                    cout << std::boolalpha
+                         << SDBusPlus::getProperty<bool>(
+                                path, interfaces["Item"], property);
                 }
-                else
+                catch (const phosphor::fan::util::DBusError&)
                 {
-                    val = "false";
+                    cout << "Unknown";
                 }
             }
-            catch (const phosphor::fan::util::DBusPropertyError&)
-            {
-                val = "Unknown";
-            }
-            cout << val;
+        }
+        else
+        {
+            cout << "Unknown";
         }
 
         cout << setw(13);
 
         // and the functional property
         property = "Functional";
-        for (auto& path : pathMap["opstatus"][fan])
+        itFan = pathMap["opstatus"].find(fan);
+        if (itFan != pathMap["opstatus"].end())
         {
-            try
+            for (auto& path : itFan->second)
             {
-                if (SDBusPlus::getProperty<bool>(path, interfaces["OpStatus"],
-                                                 property))
+                try
                 {
-                    val = "true";
+                    cout << std::boolalpha
+                         << SDBusPlus::getProperty<bool>(
+                                path, interfaces["OpStatus"], property);
                 }
-                else
+                catch (const phosphor::fan::util::DBusError&)
                 {
-                    val = "false";
+                    cout << "Unknown";
                 }
             }
-            catch (const phosphor::fan::util::DBusPropertyError&)
-            {
-                val = "Unknown";
-            }
-            cout << val;
+        }
+        else
+        {
+            cout << "Unknown";
         }
 
         cout << endl;
