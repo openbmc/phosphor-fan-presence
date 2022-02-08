@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84ec56e7_a03bb15c",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:06:56Z",
+      "side": 1,
+      "message": "Missing `int64_t` type, should that be added or this updated to int64_t instead of int32_t?",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0191f5a_85023892",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:06:56Z",
+      "side": 1,
+      "message": "This should probably just assert since it\u0027s for an unsupported variant in fan control.",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 53
+      },
+      "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d35d7be_293c75ef",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:06:56Z",
+      "side": 1,
+      "message": "Could this be replaced by including config_base.hpp and calling ConfigBase::getJsonValue(valueObj); ?",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 9
+      },
+      "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
