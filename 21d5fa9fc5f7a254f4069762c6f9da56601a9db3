@@ -49,6 +49,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "16039f56_3942caf7",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:16:26Z",
+      "side": 1,
+      "message": "I suppose this could also throw a runtime exception to noting an unsupported variant type. Either seems sufficient to do.",
+      "parentUuid": "a0191f5a_85023892",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 53
+      },
+      "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0d35d7be_293c75ef",
         "filename": "control/json/utils/modifier.cpp",
         "patchSetId": 2
