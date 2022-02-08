@@ -92,6 +92,30 @@
       },
       "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f047add_70baaf2e",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:12:25Z",
+      "side": 1,
+      "message": "Yeah, I think so. I dont think that will have any negative impacts on the objects extending that class",
+      "parentUuid": "da956d99_4bbe8fe9",
+      "range": {
+        "startLine": 84,
+        "startChar": 8,
+        "endLine": 108,
+        "endChar": 9
+      },
+      "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
