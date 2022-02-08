@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb857e83_f910767a",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:19:18Z",
+      "side": 1,
+      "message": "Probably should record that the offset resulted in a negative floor, so offset was not applied to floor for each of these.",
+      "range": {
+        "startLine": 360,
+        "startChar": 41,
+        "endLine": 360,
+        "endChar": 46
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
