@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d593208_07f60957",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-08T21:43:42Z",
+      "side": 1,
+      "message": "per mapped_floor event. like\n         \"name\": \"mapped_floor\",\n         \"key_group\": \"ambient temp\",\n         \"floor_offset_parameter\": \"floor_altitude_offset\",",
+      "parentUuid": "3ed596ee_d7734d37",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-08T20:19:18Z",
       "side": 1,
       "message": "Probably should record that the offset resulted in a negative floor, so offset was not applied to floor for each of these.",
+      "range": {
+        "startLine": 360,
+        "startChar": 41,
+        "endLine": 360,
+        "endChar": 46
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d551f6_3cc3c23e",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 360,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-08T21:43:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb857e83_f910767a",
       "range": {
         "startLine": 360,
         "startChar": 41,
