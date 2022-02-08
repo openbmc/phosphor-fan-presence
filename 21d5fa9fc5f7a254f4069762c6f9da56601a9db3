@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad5075ea_20c2d34d",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-08T20:21:53Z",
+      "side": 1,
+      "message": "Ack\n\nI just noticed that with my updated comment on doing a runtime exception or assert at that point.",
+      "parentUuid": "17d050e3_7181d4d3",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 50
+      },
+      "revId": "21d5fa9fc5f7a254f4069762c6f9da56601a9db3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0191f5a_85023892",
