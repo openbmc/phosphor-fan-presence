@@ -74,6 +74,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "50550c81_a271621c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-08T22:56:47Z",
+      "side": 1,
+      "message": "So like:\n\n       {\n         \"name\": \"mapped_floor\",\n         \"key_group\": \"ambient temp\",\n         \"fan_floors\": [\n          {\n            // Entry valid for temps \u003c 20\n            \"key\": 20,\n            \"floors\": [\n              {\n                \"parameter\": \"pcie_floor_index\",\n                \"floors\": [\n                  { \"value\": 1,\n                    \"floor\": 6000,\n                    \"floor_offset_parameter\" : \"floor_alt_off_1\"\n                  },\n                  { \"value\": 2,\n                    \"floor\": 9300\n                    \"floor_offset_parameter\" : \"floor_alt_off_2\"\n                  }\n                }\n                ]\n              },\n\nI suppose that could work for cases when there are pcie cards plugged, which I guess means we\u0027d also have to keep it at the top in the case there are no hot PCIe cards plugged.",
+      "parentUuid": "94e91b19_f327ad18",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
