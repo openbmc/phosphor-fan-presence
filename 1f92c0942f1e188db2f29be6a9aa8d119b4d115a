@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2088632_dbe2f909",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-09T21:38:26Z",
+      "side": 1,
+      "message": "Looks like all this could use ConfigBase::getJsonValue().",
+      "range": {
+        "startLine": 185,
+        "startChar": 12,
+        "endLine": 233,
+        "endChar": 13
+      },
+      "revId": "1f92c0942f1e188db2f29be6a9aa8d119b4d115a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "233a4e26_80b5882e",
+        "filename": "control/json/utils/modifier.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-09T21:38:26Z",
+      "side": 1,
+      "message": "There a reason why each type was done separately instead of a templated operator() function?",
+      "range": {
+        "startLine": 248,
+        "startChar": 3,
+        "endLine": 259,
+        "endChar": 5
+      },
+      "revId": "1f92c0942f1e188db2f29be6a9aa8d119b4d115a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
