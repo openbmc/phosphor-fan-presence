@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "266d7df7_5afd48cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-09T22:00:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be optional so the `default_floor` defined in the zones.json is used when this is not given?",
+      "range": {
+        "startLine": 9,
+        "startChar": 18,
+        "endLine": 9,
+        "endChar": 26
+      },
+      "revId": "8944f22edb532f2fbea93d56e42150e3413ba549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2252c9d9_e2583667",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-09T22:00:35Z",
+      "side": 1,
+      "message": "So it does appear default_floor is optional on this action\u0027s json, so we should set newFloor \u003d zone.getDefaultFloor() when floorTable.defaultFloor is nullopt, right?",
+      "revId": "8944f22edb532f2fbea93d56e42150e3413ba549",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
