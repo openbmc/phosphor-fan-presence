@@ -619,15 +619,18 @@ void Manager::addTimer(const TimerType type,
 
 void Manager::addGroup(const Group& group)
 {
-    std::set<std::string> services;
+    std::string service = "";
+    std::set<std::string> grpServices;
     for (const auto& member : group.getMembers())
     {
         try
         {
-            const auto& service =
-                util::SDBusPlus::getService(member, group.getInterface());
+            service = group.getService();
+            if (service.empty())
+            {
+                service = getService(member, group.getInterface());
+            }
 
-            // TODO - Optimize to only retrieve the paths on this service
             auto objMgrPaths =
                 getPaths(service, "org.freedesktop.DBus.ObjectManager");
 
@@ -652,9 +655,9 @@ void Manager::addGroup(const Group& group)
                 continue;
             }
 
-            if (services.find(service) == services.end())
+            if (grpServices.find(service) == grpServices.end())
             {
-                services.insert(service);
+                grpServices.insert(service);
                 for (const auto& objMgrPath : objMgrPaths)
                 {
                     // Get all managed objects from the service
@@ -667,10 +670,10 @@ void Manager::addGroup(const Group& group)
                 }
             }
         }
-        catch (const util::DBusServiceError&)
+        catch (const util::DBusError&)
         {
-            // No service found for group member containing the group's
-            // configured interface
+            // No service or property found for group member with the
+            // group's configured interface
             continue;
         }
     }
