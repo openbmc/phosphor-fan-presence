@@ -98,6 +98,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1c6d7239_5a040ac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-09T19:06:22Z",
+      "side": 1,
+      "message": "What about if it was defined along with the `parameter`? It seems to me that the same offset would be applied per floor configured and not necessary to have the possibility of having different offsets per floor but maybe?\n\nObviously having it per floor gives us the most flexibility so I\u0027m fine with this, but yes we\u0027d need it available for applying against the default floor used as well.",
+      "parentUuid": "50550c81_a271621c",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
