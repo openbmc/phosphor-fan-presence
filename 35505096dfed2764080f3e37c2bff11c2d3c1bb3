@@ -105,6 +105,24 @@
       "parentUuid": "b0c37c1d_bb3b7336",
       "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cbc17e58_dd4799a5",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-10T20:52:15Z",
+      "side": 1,
+      "message": "From looking at where the getSubTreeRaw call is to where these hwmon matches are created, I dont see why this couldnt be moved up within the getSubTreeRaw loop instead of pushing service names on a list and then loop that list here to register the matches. If the hwmon match subscriptions can be moved up to replace lines 174-177 then there\u0027s no need to check nameHasOwner.\n\nPlease point out the reason for not having this just included in the getSubTreeRaw loop above on line 154 and we can re-address this comment.",
+      "parentUuid": "643be3e2_82448947",
+      "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
