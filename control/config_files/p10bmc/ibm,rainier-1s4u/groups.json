@@ -190,6 +190,7 @@
    ]
  },
  {
+   // Repurposed as DRAM temperature sensors for 4U DDIMMs
    "name": "dram and external memory buffer temps",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_dram_extmb_temp",
@@ -211,6 +212,7 @@
    ]
  },
  {
+   // Repurposed as PMIC temperature sensors for 4U DDIMMs
    "name": "external memory buffer temps",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_extmb_temp",
