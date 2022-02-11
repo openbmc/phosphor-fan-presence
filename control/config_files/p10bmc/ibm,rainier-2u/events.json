@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 17250
+         "target": 18500
        }
      ]
    },
@@ -78,7 +78,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 17250
+         "target": 18500
        }
      ]
    },
@@ -185,7 +185,7 @@
                  "property": { "name": "Value" }
                }
              ],
-             "target": 17250
+             "target": 18500
            }
          ]
        }
@@ -222,7 +222,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 17250
+        "floor": 18500
       }
     ]
   },
@@ -351,7 +351,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 17250
+        "floor": 18500
       }
     ]
   },
@@ -900,8 +900,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 66.0,
-         "delta": 200
+         "state": 69.0,
+         "delta": 100
        },
        {
          "name": "set_net_increase_target",
@@ -912,8 +912,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 62.0,
-         "delta": 200
+         "state": 69.0,
+         "delta": 100
        },
        {
          "name": "set_net_increase_target",
@@ -924,8 +924,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 72.0,
-         "delta": 200
+         "state": 74.0,
+         "delta": 100
        },
        {
          "name": "set_net_increase_target",
@@ -996,8 +996,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 70.0,
-         "delta": 255
+         "state": 80.0,
+         "delta": 200
        },
        {
          "name": "set_net_increase_target",
@@ -1021,7 +1021,7 @@
            }
          ],
          "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1033,7 +1033,7 @@
            }
          ],
          "state_parameter_name": "proc_1_core_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1045,7 +1045,7 @@
            }
          ],
          "state_parameter_name": "proc_2_core_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1057,7 +1057,7 @@
            }
          ],
          "state_parameter_name": "proc_3_core_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1069,7 +1069,7 @@
            }
          ],
          "state_parameter_name": "proc_0_ioring_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1081,7 +1081,7 @@
            }
          ],
          "state_parameter_name": "proc_1_ioring_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1093,7 +1093,7 @@
            }
          ],
          "state_parameter_name": "proc_2_ioring_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1105,7 +1105,7 @@
            }
          ],
          "state_parameter_name": "proc_3_ioring_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -1116,7 +1116,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 63.0,
+         "state": 66.0,
          "delta": 40
        },
        {
@@ -1128,7 +1128,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 59.0,
+         "state": 66.0,
          "delta": 40
        },
        {
@@ -1140,7 +1140,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 69.0,
+         "state": 71.0,
          "delta": 40
        },
        {
@@ -1201,7 +1201,7 @@
            }
          ],
          "state": 60.0,
-         "delta": 80
+         "delta": 255
        },
        {
          "name": "set_net_decrease_target",
@@ -1212,8 +1212,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 65.0,
-         "delta": 80
+         "state": 75.0,
+         "delta": 200
        },
        {
          "name": "set_net_decrease_target",
@@ -1225,7 +1225,7 @@
            }
          ],
          "state": 65.0,
-         "delta": 80
+         "delta": 255
        }
      ]
    },
@@ -1358,9 +1358,9 @@
               {
                 "group": "altitude",
                 "floors": [
-                  { "value": 915, "floor": 6400 },
-                  { "value": 1829, "floor": 11050 },
-                  { "value": 3048, "floor": 17250 }
+                  { "value": 900, "floor": 6200 },
+                  { "value": 1800, "floor": 8500 },
+                  { "value": 3050, "floor": 10500 }
                 ]
               }
             ]
@@ -1382,9 +1382,9 @@
               {
                 "group": "altitude",
                 "floors": [
-                  { "value": 915, "floor": 7500 },
-                  { "value": 1829, "floor": 11679 },
-                  { "value": 3048, "floor": 17250 }
+                  { "value": 900, "floor": 7500 },
+                  { "value": 1800, "floor": 10000 },
+                  { "value": 3050, "floor": 12500 }
                 ]
               }
             ]
@@ -1406,9 +1406,9 @@
               {
                 "group": "altitude",
                 "floors": [
-                  { "value": 915, "floor": 13011 },
-                  { "value": 1829, "floor": 14828 },
-                  { "value": 3048, "floor": 17250 }
+                  { "value": 900, "floor": 10000 },
+                  { "value": 1800, "floor": 12500 },
+                  { "value": 3050, "floor": 15000 }
                 ]
               }
             ]
@@ -1430,7 +1430,33 @@
               {
                 "group": "altitude",
                 "floors": [
-                  { "value": 3048, "floor": 17250 }
+                  { "value": 900, "floor": 12000 },
+                  { "value": 1800, "floor": 15000 },
+                  { "value": 3050, "floor": 17500 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps < 40
+            "key": 40,
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 16200 },
+                  { "value": 2, "floor": 16300 },
+                  { "value": 3, "floor": 18500 },
+                  { "value": 4, "floor": 18500 },
+                  { "value": 5, "floor": 18500 }
+                ]
+              },
+              {
+                "group": "altitude",
+                "floors": [
+                  { "value": 900, "floor": 15000 },
+                  { "value": 1800, "floor": 18500 },
+                  { "value": 3050, "floor": 18500 }
                 ]
               }
             ]
