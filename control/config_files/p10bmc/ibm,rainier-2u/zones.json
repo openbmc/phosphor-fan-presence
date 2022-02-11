@@ -1,8 +1,8 @@
 [
     {
         "name": "0",
-        "poweron_target": 17250,
-        "default_floor": 17250,
+        "poweron_target": 18000,
+        "default_floor": 18000,
         "increase_delay": 5,
         "decrease_interval": 30
     }
