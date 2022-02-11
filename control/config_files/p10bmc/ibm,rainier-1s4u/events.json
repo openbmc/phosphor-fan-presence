@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10000
+         "target": 10400
        }
      ]
    },
@@ -68,7 +68,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10000
+         "target": 10400
        }
      ]
    },
@@ -170,7 +170,7 @@
                  "property": { "name": "Value" }
                }
              ],
-             "target": 10000
+             "target": 10400
            }
          ]
        }
@@ -207,7 +207,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10000
+        "floor": 10400
       }
     ]
   },
@@ -310,7 +310,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10000
+        "floor": 10400
       }
     ]
   },
@@ -623,7 +623,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 66.0,
+         "state": 63.0,
          "delta": 200
        },
        {
@@ -635,7 +635,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
+         "state": 65.0,
          "delta": 200
        },
        {
@@ -647,7 +647,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 72.0,
+         "state": 74.0,
          "delta": 200
        },
        {
@@ -659,7 +659,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 55.0,
+         "state": 66.0,
          "delta": 200
        },
        {
@@ -671,7 +671,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 55.0,
+         "state": 57.0,
          "delta": 200
        },
        {
@@ -744,7 +744,7 @@
            }
          ],
          "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -756,7 +756,7 @@
            }
          ],
          "state_parameter_name": "proc_1_core_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -768,7 +768,7 @@
            }
          ],
          "state_parameter_name": "proc_0_ioring_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -780,7 +780,7 @@
            }
          ],
          "state_parameter_name": "proc_1_ioring_dvfs_decrease_temp",
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -791,8 +791,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 63.0,
-         "delta": 40
+         "state": 60.0,
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -803,8 +803,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 49.0,
-         "delta": 40
+         "state": 62.0,
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -815,8 +815,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 69.0,
-         "delta": 40
+         "state": 71.0,
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -827,8 +827,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
-         "delta": 40
+         "state": 63.0,
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -839,8 +839,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
-         "delta": 40
+         "state": 54.0,
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -852,7 +852,7 @@
            }
          ],
          "state": 79.0,
-         "delta": 30
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -864,7 +864,7 @@
            }
          ],
          "state": 55.0,
-         "delta": 40
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -876,7 +876,7 @@
            }
          ],
          "state": 60.0,
-         "delta": 80
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -888,7 +888,7 @@
            }
          ],
          "state": 65.0,
-         "delta": 80
+         "delta": 50
        },
        {
          "name": "set_net_decrease_target",
@@ -900,7 +900,7 @@
            }
          ],
          "state": 65.0,
-         "delta": 80
+         "delta": 50
        }
      ]
    },
@@ -1046,7 +1046,8 @@
                 "parameter": "pcie_floor_index",
                 "floors": [
                   { "value": 1, "floor": 7000 },
-                  { "value": 2, "floor": 9000 }
+                  { "value": 2, "floor": 8000 },
+                  { "value": 3, "floor": 9000 }
                 ]
               }
             ]
@@ -1060,20 +1061,20 @@
                 "floors": [
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 5500
+                    "floor": 6000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 5500
+                    "floor": 6000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 5900
+                    "floor": 6000
                   },
                   {
                     // OEM == MaximumPerformance
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 5900
+                    "floor": 6000
                   }
                 ]
               },
@@ -1081,7 +1082,8 @@
                 "parameter": "pcie_floor_index",
                 "floors": [
                   { "value": 1, "floor": 8000 },
-                  { "value": 2, "floor": 9000 }
+                  { "value": 2, "floor": 9000 },
+                  { "value": 3, "floor": 9500 }
                 ]
               }
             ]
@@ -1095,28 +1097,29 @@
                 "floors": [
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 6900
+                    "floor": 7000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 6900
+                    "floor": 7000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 7900
+                    "floor": 7000
                   },
                   {
                     // OEM == MaximumPerformance
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 7900
+                    "floor": 7000
                   }
                 ]
               },
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 8900 },
-                  { "value": 2, "floor": 9000 }
+                  { "value": 1, "floor": 9000 },
+                  { "value": 2, "floor": 9500 },
+                  { "value": 3, "floor": 10400 }
                 ]
               }
             ]
@@ -1130,28 +1133,29 @@
                 "floors": [
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 8800
+                    "floor": 8000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 8800
+                    "floor": 8000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 8800
+                    "floor": 8000
                   },
                   {
                     // OEM == MaximumPerformance
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 8800
+                    "floor": 8000
                   }
                 ]
               },
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 8900 },
-                  { "value": 2, "floor": 9000 }
+                  { "value": 1, "floor": 9500 },
+                  { "value": 2, "floor": 10400 },
+                  { "value": 3, "floor": 10400 }
                 ]
               }
             ]
