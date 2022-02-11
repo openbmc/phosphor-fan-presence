@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10000
+         "target": 11000
        }
      ]
    },
@@ -68,7 +68,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10000
+         "target": 11000
        }
      ]
    },
@@ -170,7 +170,7 @@
                  "property": { "name": "Value" }
                }
              ],
-             "target": 10000
+             "target": 11000
            }
          ]
        }
@@ -207,7 +207,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10000
+        "floor": 11000
       }
     ]
   },
@@ -310,7 +310,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10000
+        "floor": 11000
       }
     ]
   },
@@ -623,7 +623,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 66.0,
+         "state": 63.0,
          "delta": 200
        },
        {
@@ -635,7 +635,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
+         "state": 65.0,
          "delta": 200
        },
        {
@@ -647,7 +647,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 72.0,
+         "state": 74.0,
          "delta": 200
        },
        {
@@ -659,7 +659,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 55.0,
+         "state": 66.0,
          "delta": 200
        },
        {
@@ -671,7 +671,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 55.0,
+         "state": 57.0,
          "delta": 200
        },
        {
@@ -791,7 +791,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 63.0,
+         "state": 60.0,
          "delta": 40
        },
        {
@@ -803,7 +803,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 49.0,
+         "state": 62.0,
          "delta": 40
        },
        {
@@ -815,7 +815,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 69.0,
+         "state": 71.0,
          "delta": 40
        },
        {
@@ -827,7 +827,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
+         "state": 63.0,
          "delta": 40
        },
        {
@@ -839,7 +839,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
+         "state": 54.0,
          "delta": 40
        },
        {
