@@ -623,54 +623,61 @@ void Manager::addTimer(const TimerType type,
 
 void Manager::addGroup(const Group& group)
 {
-    std::string service = "";
+    std::string lastServ;
+    std::vector<std::string> objMgrPaths;
     std::set<std::string> grpServices;
     for (const auto& member : group.getMembers())
     {
         try
         {
-            service = group.getService();
+            auto service = group.getService();
             if (service.empty())
             {
                 service = getService(member, group.getInterface());
             }
 
-            auto objMgrPaths =
-                getPaths(service, "org.freedesktop.DBus.ObjectManager");
-
-            // Look for the ObjectManager as an ancestor from the member.
-            auto hasObjMgr =
-                std::any_of(objMgrPaths.begin(), objMgrPaths.end(),
-                            [&member](const auto& path) {
-                                return member.find(path) != std::string::npos;
-                            });
-
-            if (!hasObjMgr)
+            if (!service.empty())
             {
-                // No object manager interface provided for group member
-                // Attempt to retrieve group member property directly
-                auto value =
-                    util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
-                        _bus, service, member, group.getInterface(),
-                        group.getProperty());
-
-                setProperty(member, group.getInterface(), group.getProperty(),
-                            value);
-                continue;
-            }
-
-            if (grpServices.find(service) == grpServices.end())
-            {
-                grpServices.insert(service);
-                for (const auto& objMgrPath : objMgrPaths)
+                if (lastServ != service)
                 {
-                    // Get all managed objects from the service
-                    auto objects =
-                        util::SDBusPlus::getManagedObjects<PropertyVariantType>(
-                            _bus, service, objMgrPath);
+                    objMgrPaths =
+                        getPaths(service, "org.freedesktop.DBus.ObjectManager");
+                    lastServ = service;
+                }
 
-                    // Insert objects into cache
-                    insertFilteredObjects(objects);
+                // Look for the ObjectManager as an ancestor from the member.
+                auto hasObjMgr = std::any_of(
+                    objMgrPaths.begin(), objMgrPaths.end(),
+                    [&member](const auto& path) {
+                        return member.find(path) != std::string::npos;
+                    });
+
+                if (!hasObjMgr)
+                {
+                    // No object manager interface provided for group member
+                    // Attempt to retrieve group member property directly
+                    auto value = util::SDBusPlus::getPropertyVariant<
+                        PropertyVariantType>(_bus, service, member,
+                                             group.getInterface(),
+                                             group.getProperty());
+
+                    setProperty(member, group.getInterface(),
+                                group.getProperty(), value);
+                    continue;
+                }
+
+                if (grpServices.find(service) == grpServices.end())
+                {
+                    grpServices.insert(service);
+                    for (const auto& objMgrPath : objMgrPaths)
+                    {
+                        // Get all managed objects from the service
+                        auto objects = util::SDBusPlus::getManagedObjects<
+                            PropertyVariantType>(_bus, service, objMgrPath);
+
+                        // Insert objects into cache
+                        insertFilteredObjects(objects);
+                    }
                 }
             }
         }
