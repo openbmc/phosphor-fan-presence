@@ -33,6 +33,24 @@
       "message": "Interestingly, I\u0027m not able to reproduce this problem running CI locally with the latest from openbmc-build-scripts master",
       "revId": "cf8847e3d39ee45e167897d6581383c4ff7dd9d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8d78c5e_2885cc98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000153
+      },
+      "writtenOn": "2022-02-14T15:30:54Z",
+      "side": 1,
+      "message": "This change is what fixed exactly the error that CI message is seeing, and this patch passed ci at some point, or this would\u0027ve never merged.  Are you sure 37186 was rebased on this change?  If it wasn\u0027t, it would be seeing this issue.\n\nGiven that this is what fixed the subtree update, to revert this would require reverting the subtree as well, which seems more difficult than simply finding the issue, but it\u0027s up to you if you think that\u0027s best.",
+      "parentUuid": "0b588734_f661f657",
+      "revId": "cf8847e3d39ee45e167897d6581383c4ff7dd9d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
