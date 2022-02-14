@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4af93944_d4f227f0",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 626,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-14T22:32:22Z",
+      "side": 1,
+      "message": "This is unnecessary, not that you added it here.",
+      "range": {
+        "startLine": 626,
+        "startChar": 25,
+        "endLine": 626,
+        "endChar": 29
+      },
+      "revId": "c5189ecdf9408e990ed21b1de2b9d6a8f40dc73e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b355d56_4a3ab72c",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 669,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-14T22:32:22Z",
+      "side": 1,
+      "message": "could leave this out since you have the continue up above if it\u0027s false.",
+      "range": {
+        "startLine": 669,
+        "startChar": 20,
+        "endLine": 669,
+        "endChar": 33
+      },
+      "revId": "c5189ecdf9408e990ed21b1de2b9d6a8f40dc73e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
