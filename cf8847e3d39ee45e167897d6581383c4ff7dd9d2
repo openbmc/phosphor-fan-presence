@@ -16,6 +16,23 @@
       "message": "This change was merged and is now breaking in CI: https://jenkins.openbmc.org/job/ci-repository/37186/console\n\nAre there dependencies that have not been merged yet? otherwise I\u0027ll be reverting this change.",
       "revId": "cf8847e3d39ee45e167897d6581383c4ff7dd9d2",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8435ef3_a8e15d8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-14T15:29:47Z",
+      "side": 1,
+      "message": "Interestingly, I\u0027m not able to reproduce this problem running CI locally with the latest from openbmc-build-scripts master",
+      "revId": "cf8847e3d39ee45e167897d6581383c4ff7dd9d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
