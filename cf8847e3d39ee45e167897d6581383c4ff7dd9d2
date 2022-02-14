@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0b588734_f661f657",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-14T14:47:08Z",
+      "side": 1,
+      "message": "This change was merged and is now breaking in CI: https://jenkins.openbmc.org/job/ci-repository/37186/console\n\nAre there dependencies that have not been merged yet? otherwise I\u0027ll be reverting this change.",
+      "revId": "cf8847e3d39ee45e167897d6581383c4ff7dd9d2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
