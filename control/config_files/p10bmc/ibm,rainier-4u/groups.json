@@ -58,6 +58,7 @@
  },
  {
    "name": "proc0 core temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc0_core0_0_temp",
      "/xyz/openbmc_project/sensors/temperature/proc0_core0_1_temp",
@@ -95,6 +96,7 @@
  },
  {
    "name": "proc1 core temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc1_core0_0_temp",
      "/xyz/openbmc_project/sensors/temperature/proc1_core0_1_temp",
@@ -132,6 +134,7 @@
  },
  {
    "name": "proc2 core temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc2_core0_0_temp",
      "/xyz/openbmc_project/sensors/temperature/proc2_core0_1_temp",
@@ -169,6 +172,7 @@
  },
  {
    "name": "proc3 core temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc3_core0_0_temp",
      "/xyz/openbmc_project/sensors/temperature/proc3_core0_1_temp",
@@ -206,30 +210,35 @@
  },
  {
    "name": "proc0 ioring temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc0_ioring_temp"
    ]
  },
  {
    "name": "proc1 ioring temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc1_ioring_temp"
    ]
  },
  {
    "name": "proc2 ioring temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc2_ioring_temp"
    ]
  },
  {
    "name": "proc3 ioring temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/proc3_ioring_temp"
    ]
  },
  {
    "name": "dram temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_dram_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm1_dram_temp",
@@ -267,6 +276,7 @@
  },
  {
    "name": "pmic temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_pmic_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm1_pmic_temp",
@@ -304,6 +314,7 @@
  },
  {
    "name": "internal memory buffer temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_intmb_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm1_intmb_temp",
@@ -342,6 +353,7 @@
  {
    // Repurposed as DRAM temperature sensors for 4U DDIMMs
    "name": "dram and external memory buffer temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_dram_extmb_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm1_dram_extmb_temp",
@@ -380,6 +392,7 @@
  {
    // Repurposed as PMIC temperature sensors for 4U DDIMMs
    "name": "external memory buffer temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/dimm0_extmb_temp",
      "/xyz/openbmc_project/sensors/temperature/dimm1_extmb_temp",
@@ -417,6 +430,7 @@
  },
  {
    "name": "vdd vrm temps",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/vrm_vdd0_temp",
      "/xyz/openbmc_project/sensors/temperature/vrm_vdd1_temp",
@@ -426,48 +440,56 @@
  },
  {
    "name": "proc 0 core dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc0_core_dvfs_temp"
     ]
  },
  {
    "name": "proc 1 core dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc1_core_dvfs_temp"
     ]
  },
  {
    "name": "proc 2 core dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc2_core_dvfs_temp"
     ]
  },
  {
    "name": "proc 3 core dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc3_core_dvfs_temp"
     ]
  },
  {
    "name": "proc 0 ioring dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc0_ioring_dvfs_temp"
     ]
  },
  {
    "name": "proc 1 ioring dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc1_ioring_dvfs_temp"
     ]
  },
  {
    "name": "proc 2 ioring dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc2_ioring_dvfs_temp"
     ]
  },
  {
    "name": "proc 3 ioring dvfs temp",
+   "service": "org.open_power.OCC.Control",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/proc3_ioring_dvfs_temp"
     ]
