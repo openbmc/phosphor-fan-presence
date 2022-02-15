@@ -474,8 +474,6 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
         getLogger().log(
             fmt::format("Fan {} presence state change to {}", _name, _present));
 
-        _system.fanStatusChange(*this);
-
         if (_present && _setFuncOnPresent)
         {
             updateInventory(true);
@@ -484,6 +482,8 @@ void Fan::presenceChanged(sdbusplus::message::message& msg)
                 sensor->resetMethod();
             });
         }
+
+        _system.fanStatusChange(*this);
 
         if (_fanMissingErrorDelay)
         {
