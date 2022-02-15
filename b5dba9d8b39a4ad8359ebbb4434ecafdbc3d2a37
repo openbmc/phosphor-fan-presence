@@ -218,6 +218,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0c7dd5f9_d963d1f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-15T19:26:20Z",
+      "side": 1,
+      "message": "I looked into doing this, and get makes things pretty messy, since  the code has to remember which table entry the highest floor value came from.\n\nI think a single offset value would still be doable since the floors can just be adjusted accordingly in the JSON.  Or maybe an offset per ambient table.",
+      "parentUuid": "7454f98b_14e2887e",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
