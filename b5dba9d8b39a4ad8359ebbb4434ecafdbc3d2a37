@@ -194,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7454f98b_14e2887e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-15T17:46:30Z",
+      "side": 1,
+      "message": "It allows 1 floor_offset per action. I guess I lost track of this discussion here.  You\u0027d still like the floor offset to be at the level of the parameter instead?",
+      "parentUuid": "6377f0b0_5ddfc6c6",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
