@@ -621,71 +621,75 @@ void Manager::addTimer(const TimerType type,
     _timers.emplace_back(std::move(dataPtr), std::move(timer));
 }
 
-void Manager::addGroup(const Group& group)
+void Manager::addGroups(const std::vector<Group>& groups)
 {
     std::string lastServ;
     std::vector<std::string> objMgrPaths;
-    std::set<std::string> grpServices;
-    for (const auto& member : group.getMembers())
+    std::set<std::string> services;
+    for (const auto& group : groups)
     {
-        try
+        for (const auto& member : group.getMembers())
         {
-            auto service = group.getService();
-            if (service.empty())
+            try
             {
-                service = getService(member, group.getInterface());
-            }
-
-            if (!service.empty())
-            {
-                if (lastServ != service)
+                auto service = group.getService();
+                if (service.empty())
                 {
-                    objMgrPaths =
-                        getPaths(service, "org.freedesktop.DBus.ObjectManager");
-                    lastServ = service;
+                    service = getService(member, group.getInterface());
                 }
 
-                // Look for the ObjectManager as an ancestor from the member.
-                auto hasObjMgr = std::any_of(
-                    objMgrPaths.begin(), objMgrPaths.end(),
-                    [&member](const auto& path) {
-                        return member.find(path) != std::string::npos;
-                    });
-
-                if (!hasObjMgr)
+                if (!service.empty())
                 {
-                    // No object manager interface provided for group member
-                    // Attempt to retrieve group member property directly
-                    auto value = util::SDBusPlus::getPropertyVariant<
-                        PropertyVariantType>(_bus, service, member,
-                                             group.getInterface(),
-                                             group.getProperty());
-
-                    setProperty(member, group.getInterface(),
-                                group.getProperty(), value);
-                    continue;
-                }
-
-                if (grpServices.find(service) == grpServices.end())
-                {
-                    grpServices.insert(service);
-                    for (const auto& objMgrPath : objMgrPaths)
+                    if (lastServ != service)
                     {
-                        // Get all managed objects from the service
-                        auto objects = util::SDBusPlus::getManagedObjects<
-                            PropertyVariantType>(_bus, service, objMgrPath);
+                        objMgrPaths = getPaths(
+                            service, "org.freedesktop.DBus.ObjectManager");
+                        lastServ = service;
+                    }
 
-                        // Insert objects into cache
-                        insertFilteredObjects(objects);
+                    // Look for the ObjectManager as an ancestor from the
+                    // member.
+                    auto hasObjMgr = std::any_of(
+                        objMgrPaths.begin(), objMgrPaths.end(),
+                        [&member](const auto& path) {
+                            return member.find(path) != std::string::npos;
+                        });
+
+                    if (!hasObjMgr)
+                    {
+                        // No object manager interface provided for group member
+                        // Attempt to retrieve group member property directly
+                        auto value = util::SDBusPlus::getPropertyVariant<
+                            PropertyVariantType>(_bus, service, member,
+                                                 group.getInterface(),
+                                                 group.getProperty());
+
+                        setProperty(member, group.getInterface(),
+                                    group.getProperty(), value);
+                        continue;
+                    }
+
+                    if (services.find(service) == services.end())
+                    {
+                        services.insert(service);
+                        for (const auto& objMgrPath : objMgrPaths)
+                        {
+                            // Get all managed objects from the service
+                            auto objects = util::SDBusPlus::getManagedObjects<
+                                PropertyVariantType>(_bus, service, objMgrPath);
+
+                            // Insert objects into cache
+                            insertFilteredObjects(objects);
+                        }
                     }
                 }
             }
-        }
-        catch (const util::DBusError&)
-        {
-            // No service or property found for group member with the
-            // group's configured interface
-            continue;
+            catch (const util::DBusError&)
+            {
+                // No service or property found for group member with the
+                // group's configured interface
+                continue;
+            }
         }
     }
 }
@@ -694,9 +698,7 @@ void Manager::timerExpired(TimerData& data)
 {
     if (std::get<bool>(data.second))
     {
-        const auto& groups = std::get<const std::vector<Group>&>(data.second);
-        std::for_each(groups.begin(), groups.end(),
-                      [this](const auto& group) { addGroup(group); });
+        addGroups(std::get<const std::vector<Group>&>(data.second));
     }
 
     auto& actions =

@@ -690,11 +690,11 @@ class Manager
     void dumpCache(json& data);
 
     /**
-     * @brief Add a group to the cache dataset.
+     * @brief Add a list of groups to the cache dataset.
      *
-     * @param[in] group - The group to add
+     * @param[in] groups - The groups to add
      */
-    void addGroup(const Group& group);
+    void addGroups(const std::vector<Group>& groups);
 };
 
 } // namespace phosphor::fan::control::json
