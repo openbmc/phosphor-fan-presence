@@ -170,6 +170,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6377f0b0_5ddfc6c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-15T16:21:33Z",
+      "side": 1,
+      "message": "There\u0027s been changes made in source around areas discussed here but the commit message has not been updated. Are all these concerns with where the offset is supported in the config done now in the latest changes?",
+      "parentUuid": "6d4ab1fa_3ee526a0",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
