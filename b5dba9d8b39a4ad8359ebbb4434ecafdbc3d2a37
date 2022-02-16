@@ -242,6 +242,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cf8c0e59_5676444d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-16T13:37:20Z",
+      "side": 1,
+      "message": "After meeting with thermal yesterday, the solution they are looking for is to have an offset per key (ambient) that can be applied to the floor chosen from all tables contained beneath that key, which includes if the results are a `default_floor`.",
+      "parentUuid": "0c7dd5f9_d963d1f6",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 54
+      },
+      "revId": "b5dba9d8b39a4ad8359ebbb4434ecafdbc3d2a37",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "cb857e83_f910767a",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 4
