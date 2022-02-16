@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de9d1c93_ceba7247",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-16T19:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f59fa6b_b7fbc1d2",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "f155c7949675700dedb2eda3a57127087e814e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4f8d0fe_992b68b2",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89b738e7_127b17a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-16T19:47:22Z",
+      "side": 1,
+      "message": "yea, will fixup.",
+      "parentUuid": "d4f8d0fe_992b68b2",
+      "range": {
+        "startLine": 38,
+        "startChar": 50,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "f155c7949675700dedb2eda3a57127087e814e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "dfc3240f_12a45ef0",
         "filename": "control/json/actions/mapped_floor.cpp",
         "patchSetId": 7
@@ -60,6 +108,30 @@
       "writtenOn": "2022-02-16T01:12:59Z",
       "side": 1,
       "message": "Shouldn\u0027t this be a floor hold when its set to a default floor given at the action level?",
+      "range": {
+        "startLine": 268,
+        "startChar": 8,
+        "endLine": 268,
+        "endChar": 29
+      },
+      "revId": "f155c7949675700dedb2eda3a57127087e814e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cb618f58_3837df86",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-16T19:47:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfc3240f_12a45ef0",
       "range": {
         "startLine": 268,
         "startChar": 8,
