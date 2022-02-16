@@ -52,6 +52,24 @@
       "parentUuid": "849e55f7_959df743",
       "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "757ea2cb_e934d0c6",
+        "filename": "control/config_files/p10bmc/ibm,rainier-4u/pcie_cards.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-16T18:11:12Z",
+      "side": 1,
+      "message": "Done\n\nGot confirmation from thermal that Poseidon cards were used to know when nvmes were plugged, which is unnecessary as long as we use nvme drives that support nvme MI which is currently the Samsung nvmes and another that will be added/supported in the future.\n\nRemoved in: https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/51186",
+      "parentUuid": "24a52162_7c2bfc3b",
+      "revId": "370317186250c99c1dc88fe3ecd8216445e2002d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
