@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f59fa6b_b7fbc1d2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-16T01:12:59Z",
+      "side": 1,
+      "message": "second",
+      "range": {
+        "startLine": 10,
+        "startChar": 43,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "f155c7949675700dedb2eda3a57127087e814e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4f8d0fe_992b68b2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-16T01:12:59Z",
+      "side": 1,
+      "message": "no other default floor is provided at the key level or action level.\n\ncorrect?",
+      "range": {
+        "startLine": 38,
+        "startChar": 50,
+        "endLine": 39,
+        "endChar": 59
+      },
+      "revId": "f155c7949675700dedb2eda3a57127087e814e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc3240f_12a45ef0",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-16T01:12:59Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be a floor hold when its set to a default floor given at the action level?",
+      "range": {
+        "startLine": 268,
+        "startChar": 8,
+        "endLine": 268,
+        "endChar": 29
+      },
+      "revId": "f155c7949675700dedb2eda3a57127087e814e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
