@@ -1334,6 +1334,10 @@
        {
          "class": "signal",
          "signal": "interfaces_added"
+       },
+       {
+         "class": "parameter",
+         "parameter": "pcie_floor_index"
        }
      ],
      "actions": [
