@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "759dc605_e751efc3",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 77
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "db5b1180_1d22f93a",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 77
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "1c0e6105_58a6599b",
         "filename": "control/example/fans.yaml",
@@ -67,10 +68,10 @@
         "endChar": 58
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "f8e132fd_dbec56e9",
         "filename": "control/example/fans.yaml",
@@ -91,10 +92,10 @@
         "endChar": 58
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "ec47402e_bd992f41",
         "filename": "control/fan.cpp",
@@ -114,10 +115,10 @@
         "endChar": 9
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8d05d50e_5dbbdf50",
         "filename": "control/fan.cpp",
@@ -138,10 +139,10 @@
         "endChar": 9
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "dceb78f8_be1075da",
         "filename": "control/fan.cpp",
@@ -162,10 +163,34 @@
         "endChar": 9
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc01fdfc_cc251d9c",
+        "filename": "control/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-02-21T07:35:17Z",
+      "side": 1,
+      "message": "Hi Matthew,\n\nBelow is Fan Sensor paths which are created by D-Bus sensors:\nroot@mtjade:~# busctl tree xyz.openbmc_project.FanSensor\n`-/xyz\n  `-/xyz/openbmc_project\n    |-/xyz/openbmc_project/control\n    | `-/xyz/openbmc_project/control/fanpwm\n    |   |-/xyz/openbmc_project/control/fanpwm/PWM3\n    |   |-/xyz/openbmc_project/control/fanpwm/PWM4\n    |   |-/xyz/openbmc_project/control/fanpwm/PWM5\n    |   |-/xyz/openbmc_project/control/fanpwm/PWM6\n    |   |-/xyz/openbmc_project/control/fanpwm/PWM7\n    |   `-/xyz/openbmc_project/control/fanpwm/PWM8\n    `-/xyz/openbmc_project/sensors\n      |-/xyz/openbmc_project/sensors/fan_pwm\n      | |-/xyz/openbmc_project/sensors/fan_pwm/PWM3\n      | |-/xyz/openbmc_project/sensors/fan_pwm/PWM4\n      | |-/xyz/openbmc_project/sensors/fan_pwm/PWM5\n      | |-/xyz/openbmc_project/sensors/fan_pwm/PWM6\n      | |-/xyz/openbmc_project/sensors/fan_pwm/PWM7\n      | `-/xyz/openbmc_project/sensors/fan_pwm/PWM8\n      `-/xyz/openbmc_project/sensors/fan_tach\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN3_1\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN3_2\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN4_1\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN4_2\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN5_1\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN5_2\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN6_1\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN6_2\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN7_1\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN7_2\n        |-/xyz/openbmc_project/sensors/fan_tach/FAN8_1\n        `-/xyz/openbmc_project/sensors/fan_tach/FAN8_2\n\n1. PWM is controlled thru path /xyz/openbmc_project/control/fanpwm/PWM3\nbusctl introspect xyz.openbmc_project.FanSensor /xyz/openbmc_project/control/fanpwm/PWM3\nNAME                                TYPE      SIGNATURE RESULT/VALUE FLAGS\norg.freedesktop.DBus.Introspectable interface -         -            -\n.Introspect                         method    -         s            -\norg.freedesktop.DBus.Peer           interface -         -            -\n.GetMachineId                       method    -         s            -\n.Ping                               method    -         -            -\norg.freedesktop.DBus.Properties     interface -         -            -\n.Get                                method    ss        v            -\n.GetAll                             method    s         a{sv}        -\n.Set                                method    ssv       -            -\n.PropertiesChanged                  signal    sa{sv}as  -            -\nxyz.openbmc_project.Control.FanPwm  interface -         -            -\n.Target                             property  t         82           emits-change writable\n2. PWM is read by path: /xyz/openbmc_project/sensors/fan_pwm/PWM3\nbusctl introspect xyz.openbmc_project.FanSensor /xyz/openbmc_project/sensors/fan_pwm/PWM3\nNAME                                        TYPE      SIGNATURE RESULT/VALUE                             FLAGS\norg.freedesktop.DBus.Introspectable         interface -         -                                        -\n.Introspect                                 method    -         s                                        -\norg.freedesktop.DBus.Peer                   interface -         -                                        -\n.GetMachineId                               method    -         s                                        -\n.Ping                                       method    -         -                                        -\norg.freedesktop.DBus.Properties             interface -         -                                        -\n.Get                                        method    ss        v                                        -\n.GetAll                                     method    s         a{sv}                                    -\n.Set                                        method    ssv       -                                        -\n.PropertiesChanged                          signal    sa{sv}as  -                                        -\nxyz.openbmc_project.Association.Definitions interface -         -                                        -\n.Associations                               property  a(sss)    1 \"chassis\" \"all_sensors\" \"/xyz/openbmc… emits-change\nxyz.openbmc_project.Sensor.Value            interface -         -                                        -\n.MaxValue                                   property  x         100                                      emits-change\n.MinValue                                   property  x         0                                        emits-change\n.Unit                                       property  s         \"xyz.openbmc_project.Sensor.Value.Unit.… emits-change\n.Value                                      property  d         32.1569                                  emits-change writable\n\n3. Fan speed in RPM can ready thru path: /xyz/openbmc_project/sensors/fan_tach/FAN3_1\n\nbusctl introspect xyz.openbmc_project.FanSensor /xyz/openbmc_project/sensors/fan_tach/FAN3_1\nNAME                                                  TYPE      SIGNATURE RESULT/VALUE                             FLAGS\norg.freedesktop.DBus.Introspectable                   interface -         -                                        -\n.Introspect                                           method    -         s                                        -\norg.freedesktop.DBus.Peer                             interface -         -                                        -\n.GetMachineId                                         method    -         s                                        -\n.Ping                                                 method    -         -                                        -\norg.freedesktop.DBus.Properties                       interface -         -                                        -\n.Get                                                  method    ss        v                                        -\n.GetAll                                               method    s         a{sv}                                    -\n.Set                                                  method    ssv       -                                        -\n.PropertiesChanged                                    signal    sa{sv}as  -                                        -\nxyz.openbmc_project.Association.Definitions           interface -         -                                        -\n.Associations                                         property  a(sss)    1 \"chassis\" \"all_sensors\" \"/xyz/openbmc… emits-change\nxyz.openbmc_project.Sensor.Threshold.Critical         interface -         -                                        -\n.CriticalAlarmHigh                                    property  b         false                                    emits-change\n.CriticalAlarmLow                                     property  b         false                                    emits-change\n.CriticalHigh                                         property  d         23100                                    emits-change writable\n.CriticalLow                                          property  d         500                                      emits-change writable\nxyz.openbmc_project.Sensor.Value                      interface -         -                                        -\n.MaxValue                                             property  d         23100                                    emits-change\n.MinValue                                             property  d         0                                        emits-change\n.Unit                                                 property  s         \"xyz.openbmc_project.Sensor.Value.Unit.… emits-change\n.Value                                                property  d         6316                                     emits-change writable\nxyz.openbmc_project.State.Decorator.Availability      interface -         -                                        -\n.Available                                            property  b         true                                     emits-change writable\nxyz.openbmc_project.State.Decorator.OperationalStatus interface -         -                                        -\n.Functional",
+      "parentUuid": "dceb78f8_be1075da",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 54,
+        "endChar": 9
+      },
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "783f0e38_f4474f1e",
         "filename": "control/gen-fan-zone-defs.py",
@@ -185,10 +210,10 @@
         "endChar": 14
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "8bf8ecb9_9c336483",
         "filename": "control/gen-fan-zone-defs.py",
@@ -209,10 +234,10 @@
         "endChar": 14
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "47f27fb8_56354ada",
         "filename": "control/json/fan.cpp",
@@ -232,10 +257,10 @@
         "endChar": 60
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "86eb69ef_ad78d58d",
         "filename": "control/json/fan.cpp",
@@ -256,8 +281,7 @@
         "endChar": 60
       },
       "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
-      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4",
-      "unresolved": true
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
