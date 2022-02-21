@@ -123,6 +123,24 @@
       "parentUuid": "643be3e2_82448947",
       "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de9808ca_36308c65",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-21T18:11:55Z",
+      "side": 1,
+      "message": "I was able to refactor it into the original loop. To address Spinler\u0027s comment, the time between when the Fan obj is created (and thus where its service(s) are stored) vs when this startup code is called can be arbitrarily long, so it makes sense to check that the service is actually running.",
+      "parentUuid": "cbc17e58_dd4799a5",
+      "revId": "35505096dfed2764080f3e37c2bff11c2d3c1bb3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
