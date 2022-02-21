@@ -93,14 +93,14 @@ ShutdownAlarmMonitor::ShutdownAlarmMonitor(
                       "type='signal',member='PropertiesChanged',"
                       "path_namespace='/xyz/openbmc_project/sensors',"
                       "arg0='" +
-                          shutdownInterfaces.at(ShutdownType::soft) + "'",
+                          shutdownInterfaces.at(ShutdownType::hard) + "'",
                       std::bind(&ShutdownAlarmMonitor::propertiesChanged, this,
                                 std::placeholders::_1)),
     softShutdownMatch(bus,
                       "type='signal',member='PropertiesChanged',"
                       "path_namespace='/xyz/openbmc_project/sensors',"
                       "arg0='" +
-                          shutdownInterfaces.at(ShutdownType::hard) + "'",
+                          shutdownInterfaces.at(ShutdownType::soft) + "'",
                       std::bind(&ShutdownAlarmMonitor::propertiesChanged, this,
                                 std::placeholders::_1))
 {
