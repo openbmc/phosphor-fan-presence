@@ -39,6 +39,30 @@
       },
       "revId": "9d257c6bae7f532becfdbcd1d81c37cc1cca30fc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3cc1306_c99be3ca",
+        "filename": "control/json/actions/mapped_floor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-02-22T22:20:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02dedf17_8387e648",
+      "range": {
+        "startLine": 45,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 26
+      },
+      "revId": "9d257c6bae7f532becfdbcd1d81c37cc1cca30fc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
