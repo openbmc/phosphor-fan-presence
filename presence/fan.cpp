@@ -16,9 +16,11 @@
 #include "fan.hpp"
 
 #include "sdbusplus.hpp"
+#include "utility.hpp"
 
 #include <sdbusplus/message.hpp>
 
+#include <iostream>
 #include <map>
 #include <string>
 
@@ -31,8 +33,6 @@ namespace presence
 
 using namespace std::literals::string_literals;
 
-static const auto itemIface = "xyz.openbmc_project.Inventory.Item"s;
-static const auto invMgrIface = "xyz.openbmc_project.Inventory.Manager"s;
 static const auto fanIface = "xyz.openbmc_project.Inventory.Item.Fan"s;
 
 void setPresence(const Fan& fan, bool newState)
@@ -44,7 +44,7 @@ void setPresence(const Fan& fan, bool newState)
 
     std::map<object_path, Interfaces> obj = {{
         std::get<1>(fan),
-        {{itemIface,
+        {{util::INV_ITEM_IFACE,
           {
               {"Present"s, newState},
               {"PrettyName"s, std::get<0>(fan)},
@@ -52,14 +52,15 @@ void setPresence(const Fan& fan, bool newState)
          {fanIface, {}}},
     }};
 
-    util::SDBusPlus::lookupAndCallMethod(invNamespace, invMgrIface, "Notify"s,
-                                         obj);
+    util::SDBusPlus::callMethod(util::INVENTORY_SVC, util::INVENTORY_PATH,
+                                util::INVENTORY_INTF, "Notify"s, obj);
+    std::cout << "hello from fan::setPresence " << std::endl;
 }
 
 bool getPresence(const Fan& fan)
 {
     return util::SDBusPlus::getProperty<bool>(invNamespace + std::get<1>(fan),
-                                              itemIface, "Present"s);
+                                              util::INV_ITEM_IFACE, "Present"s);
 }
 
 } // namespace presence

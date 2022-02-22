@@ -31,6 +31,7 @@
 #include <filesystem>
 #include <fstream>
 #include <string>
+#include <iostream>
 
 namespace phosphor
 {
@@ -57,12 +58,17 @@ JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
 
 void JsonConfig::start()
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     using config = fan::JsonConfig;
 
+    std::cout << "config filename: " << confFileName << std::endl;
+    std::cout << "config filename: " << confAppName << std::endl;
     process(config::load(config::getConfFile(_bus, confAppName, confFileName)));
 
+    std::cout << "load tracer; " << __LINE__ << std::endl;
     for (auto& p : _policies)
     {
+        std::cout << "config tracer: " << __LINE__ << std::endl;
         p->monitor();
     }
 }
@@ -75,6 +81,7 @@ const policies& JsonConfig::get()
 void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
                                const struct signalfd_siginfo* sigInfo)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     try
     {
         using config = fan::JsonConfig;
@@ -100,6 +107,7 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
 
 void JsonConfig::process(const json& jsonConf)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     policies policies;
     std::vector<fanPolicy> fans;
     // Set the expected number of fan entries
@@ -197,6 +205,7 @@ void JsonConfig::process(const json& jsonConf)
 std::unique_ptr<RedundancyPolicy>
     JsonConfig::getPolicy(const json& rpolicy, const fanPolicy& fpolicy)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     if (!rpolicy.contains("type"))
     {
         log<level::ERR>(
@@ -236,6 +245,7 @@ namespace method
 // Get a constructed presence sensor for fan presence detection by tach
 std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     if (!method.contains("sensors") || method["sensors"].size() == 0)
     {
         log<level::ERR>("Missing required tach method properties",
@@ -257,6 +267,7 @@ std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
 // Get a constructed presence sensor for fan presence detection by gpio
 std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     if (!method.contains("physpath") || !method.contains("devpath") ||
         !method.contains("key"))
     {
@@ -324,6 +335,7 @@ namespace rpolicy
 // Get an `Anyof` redundancy policy for the fan
 std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
     for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
     {
@@ -336,6 +348,7 @@ std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
 // Get a `Fallback` redundancy policy for the fan
 std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
 {
+    std::cout << "config tracer: " << __LINE__ << std::endl;
     std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
     for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
     {

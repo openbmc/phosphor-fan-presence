@@ -22,6 +22,7 @@
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <iostream>
 
 namespace phosphor
 {
@@ -60,6 +61,7 @@ AnyOf::AnyOf(const Fan& fan,
 
 void AnyOf::stateChanged(bool present, PresenceSensor& sensor)
 {
+    std::cout << "Setpresence via anyof 1" << std::endl;
     // Find the sensor that changed state.
     auto sit =
         std::find_if(state.begin(), state.end(), [&sensor](const auto& s) {
@@ -67,6 +69,7 @@ void AnyOf::stateChanged(bool present, PresenceSensor& sensor)
         });
     if (sit != state.end())
     {
+    std::cout << "Setpresence via anyof 1" << std::endl;
         auto origState =
             std::any_of(state.begin(), state.end(),
                         [](const auto& s) { return std::get<presentPos>(s); });
@@ -107,6 +110,7 @@ void AnyOf::monitor()
     auto present = std::any_of(state.begin(), state.end(), [](const auto& s) {
         return std::get<presentPos>(s);
     });
+    std::cout << "Setpresence via anyof 2" << std::endl;
     setPresence(fan, present);
 
     // At least one of the contained methods indicated present,

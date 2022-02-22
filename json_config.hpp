@@ -26,6 +26,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <iostream>
 
 namespace phosphor::fan
 {
@@ -107,6 +108,7 @@ class JsonConfig
     {
         std::vector<std::string> compatObjPaths;
 
+        std::cout << "This registers the compatible intf" << std::endl;
         _match = std::make_unique<sdbusplus::bus::match_t>(
             util::SDBusPlus::getBus(),
             sdbusplus::bus::match::rules::interfacesAdded() +
@@ -176,6 +178,7 @@ class JsonConfig
      */
     void compatIntfAdded(sdbusplus::message::message& msg)
     {
+        std::cout << "the compatible interface was added" << std::endl;
         sdbusplus::message::object_path op;
         std::map<std::string,
                  std::map<std::string, std::variant<std::vector<std::string>>>>
@@ -192,6 +195,7 @@ class JsonConfig
         // Only one dbus object with the compatible interface is used at a time
         _confCompatValues =
             std::get<std::vector<std::string>>(props.at(confCompatProp));
+        std::cout << "calling loadfunc " << std::endl;
         _loadFunc();
     }
 

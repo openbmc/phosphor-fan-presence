@@ -23,6 +23,7 @@
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <iostream>
 
 namespace phosphor
 {
@@ -61,6 +62,7 @@ void Fallback::stateChanged(bool present, PresenceSensor& sensor)
         }
     }
 
+    std::cout << "Setpresence via fallback 1" << std::endl;
     setPresence(fan, present);
 }
 
@@ -94,6 +96,7 @@ void Fallback::monitor()
     }
 
     // Start the active sensor and set the initial state.
+    std::cout << "Setpresence via fallback 2" << std::endl;
     setPresence(fan, activeSensor->get().start());
 }
 
