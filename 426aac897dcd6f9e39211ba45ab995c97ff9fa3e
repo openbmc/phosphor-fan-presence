@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1c27502_818b5a4c",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-23T15:51:55Z",
+      "side": 1,
+      "message": "Probably should re-word this since there could be other locks already in place by other actions.\n\n\"Adding fan target lock of \" + std::to_string(_target) + \"on zone \" + zone.getName()",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38645ea2_23f4f952",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-23T15:51:55Z",
+      "side": 1,
+      "message": "... \"... on zone \" zone.getName());\n\n`getUniqueName()` is the action\u0027s name, not the zone\u0027s name.",
+      "range": {
+        "startLine": 86,
+        "startChar": 16,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1515cf9c_559914c2",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-23T15:51:55Z",
+      "side": 1,
+      "message": "Similarly re-word as suggested above",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 39
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f544e55_64f57023",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-23T15:51:55Z",
+      "side": 1,
+      "message": "Same here as above comment",
+      "range": {
+        "startLine": 100,
+        "startChar": 11,
+        "endLine": 100,
+        "endChar": 44
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

@@ -166,6 +166,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "75af7022_287a2e26",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-02-23T15:51:55Z",
+      "side": 1,
+      "message": "Ok, its fine to use the zone name.",
+      "parentUuid": "a57d4971_eef760a4",
+      "range": {
+        "startLine": 83,
+        "startChar": 11,
+        "endLine": 83,
+        "endChar": 30
+      },
+      "revId": "12b488d37b591d9cf951a897dea3bc786dd04df8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "14395b70_30ff2a8c",
