@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89080883_63f67eb4",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-23T23:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1c27502_818b5a4c",
+      "range": {
+        "startLine": 85,
+        "startChar": 16,
+        "endLine": 85,
+        "endChar": 42
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "38645ea2_23f4f952",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-02-23T15:51:55Z",
       "side": 1,
       "message": "... \"... on zone \" zone.getName());\n\n`getUniqueName()` is the action\u0027s name, not the zone\u0027s name.",
+      "range": {
+        "startLine": 86,
+        "startChar": 16,
+        "endLine": 86,
+        "endChar": 48
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "316b4bba_7dec6fce",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-23T23:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38645ea2_23f4f952",
       "range": {
         "startLine": 86,
         "startChar": 16,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c344859c_86ca3ade",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-23T23:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1515cf9c_559914c2",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 39
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f544e55_64f57023",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-02-23T15:51:55Z",
       "side": 1,
       "message": "Same here as above comment",
+      "range": {
+        "startLine": 100,
+        "startChar": 11,
+        "endLine": 100,
+        "endChar": 44
+      },
+      "revId": "426aac897dcd6f9e39211ba45ab995c97ff9fa3e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "19647233_0209793c",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 19
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-02-23T23:13:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f544e55_64f57023",
       "range": {
         "startLine": 100,
         "startChar": 11,
