@@ -97,6 +97,9 @@ class JsonConfig
     /* Object to register the sighupHandler */
     std::unique_ptr<sdeventplus::source::Signal> _signalObj;
 
+    /* The object to watch the power state */
+    std::unique_ptr<PowerState> _powerState;
+
     /* Presence methods mapping to their associated handler function */
     static const std::map<std::string, methodHandler> _methods;
 
@@ -134,6 +137,12 @@ class JsonConfig
      */
     std::unique_ptr<RedundancyPolicy> getPolicy(const json& rpolicy,
                                                 const fanPolicy& fpolicy);
+    /**
+     * @brief The function that runs when the power state changes
+     *
+     * @param[in] powerStateOn - New state of system power
+     */
+    void powerStateChanged(bool powerStateOn);
 };
 
 /**
