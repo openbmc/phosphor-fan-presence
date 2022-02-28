@@ -29,8 +29,6 @@
 #include <xyz/openbmc_project/Logging/Create/server.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
-#include <filesystem>
-#include <fstream>
 #include <string>
 
 namespace phosphor
@@ -41,8 +39,11 @@ namespace presence
 {
 
 using json = nlohmann::json;
-namespace fs = std::filesystem;
 using namespace phosphor::logging;
+
+constexpr auto systemdService = "org.freedesktop.systemd1";
+constexpr auto systemdPath = "/org/freedesktop/systemd1";
+constexpr auto systemdMgrIface = "org.freedesktop.systemd1.Manager";
 
 policies JsonConfig::_policies;
 const std::map<std::string, methodHandler> JsonConfig::_methods = {
@@ -54,7 +55,9 @@ const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 JsonConfig::JsonConfig(sdbusplus::bus::bus& bus, sdeventplus::Event& event) :
-    _bus(bus), _event(event)
+    _bus(bus), _event(event), _powerState(std::make_unique<PGoodState>(
+                                  bus, std::bind(&JsonConfig::powerStateChanged,
+                                                 this, std::placeholders::_1)))
 {
     bool invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
         _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
@@ -262,6 +265,20 @@ std::unique_ptr<RedundancyPolicy>
                   std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
             entry("RPOLICY_TYPE=%s", type.c_str()));
         throw std::runtime_error("Invalid fan presence methods policy type");
+    }
+}
+
+void JsonConfig::powerStateChanged(bool powerStateOn)
+{
+    if (powerStateOn)
+    {
+        if (!_config)
+        {
+            log<level::ERR>("No config file found at power on");
+            util::SDBusPlus::callMethod(
+                systemdService, systemdPath, systemdMgrIface, "StartUnit",
+                "obmc-chassis-hard-poweroff@0.target", "replace");
+        }
     }
 }
 
