@@ -54,7 +54,9 @@ const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 JsonConfig::JsonConfig(sdbusplus::bus::bus& bus, sdeventplus::Event& event) :
-    _bus(bus), _event(event)
+    _bus(bus), _event(event), _powerState(std::make_unique<PGoodState>(
+                                  bus, std::bind(&JsonConfig::powerStateChanged,
+                                                 this, std::placeholders::_1)))
 {
     bool invServiceRunning = util::SDBusPlus::callMethodAndRead<bool>(
         _bus, "org.freedesktop.DBus", "/org/freedesktop/DBus",
@@ -262,6 +264,18 @@ std::unique_ptr<RedundancyPolicy>
                   std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
             entry("RPOLICY_TYPE=%s", type.c_str()));
         throw std::runtime_error("Invalid fan presence methods policy type");
+    }
+}
+
+void JsonConfig::powerStateChanged(bool powerStateOn)
+{
+    if (powerStateOn)
+    {
+        if (!_config)
+        {
+            log<level::ERR>("No conf file found at power on");
+            throw std::runtime_error("No conf file found at power on");
+        }
     }
 }
 
