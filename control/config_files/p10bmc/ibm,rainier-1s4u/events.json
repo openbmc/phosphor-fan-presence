@@ -719,8 +719,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 70.0,
-         "delta": 255
+         "state": 80.0,
+         "delta": 200
        },
        {
          "name": "set_net_increase_target",
@@ -887,8 +887,8 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 65.0,
-         "delta": 50
+         "state": 75.0,
+         "delta": 40
        },
        {
          "name": "set_net_decrease_target",
