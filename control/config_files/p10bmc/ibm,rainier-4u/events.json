@@ -986,7 +986,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 70.0,
+         "state": 80.0,
          "delta": 255
        },
        {
@@ -1202,7 +1202,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 65.0,
+         "state": 75.0,
          "delta": 50
        },
        {
