@@ -921,7 +921,18 @@
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_5_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_6_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_7_Temp",
-       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_8_Temp"
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_8_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C1_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C2_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C3_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C4_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C5_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C6_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C7_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C8_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C9_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C10_Temp",
+       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C11_Temp"
    ]
  },
  {
