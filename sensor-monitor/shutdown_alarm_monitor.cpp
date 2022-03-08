@@ -438,7 +438,6 @@ void ShutdownAlarmMonitor::createEventLog(
     // implementations for service reasons.
     if (isPowerOffError)
     {
-        ad.emplace("POWER_THERMAL_CRITICAL_FAULT", "TRUE");
         ad.emplace("SEVERITY_DETAIL", "SYSTEM_TERM");
     }
 
