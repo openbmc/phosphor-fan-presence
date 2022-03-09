@@ -135,6 +135,46 @@
       "subsystem_vendor_id": "0x1014",
       "subsystem_id": "0x0684",
       "floor_index": 4
+    },
+    {
+      "name": "Puntfish",
+      "vendor_id": "0x1077",
+      "device_id": "0x2271",
+      "subsystem_vendor_id": "0x1014",
+      "subsystem_id": "0x069E",
+      "floor_index": 1
+    },
+    {
+      "name": "Flavafish",
+      "vendor_id": "0x1077",
+      "device_id": "0x2281",
+      "subsystem_vendor_id": "0x1014",
+      "subsystem_id": "0x0651",
+      "floor_index": 1
+    },
+    {
+      "name": "Haleakala EN 2Port 100Gb",
+      "vendor_id": "0x15B3",
+      "device_id": "0x1019",
+      "subsystem_vendor_id": "0x1014",
+      "subsystem_id": "0x0635",
+      "floor_index": 5
+    },
+    {
+      "name": "Crater Lake Crypto 200G 2Port",
+      "vendor_id": "0x15B3",
+      "device_id": "0x101D",
+      "subsystem_vendor_id": "0x1014",
+      "subsystem_id": "0x06A3",
+      "floor_index": 5
+    },
+    {
+      "name": "Crater Lake 200G 2Port",
+      "vendor_id": "0x15B3",
+      "device_id": "0x101D",
+      "subsystem_vendor_id": "0x1014",
+      "subsystem_id": "0x06A4",
+      "floor_index": 5
     }
   ]
 }
