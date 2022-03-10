@@ -1,0 +1,9 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+1: Matt Spinler <spinler@us.ibm.com>
+Code-Review+1: Ruby Zgabay
+Code-Review+2: Matthew Barth <msbarth@linux.ibm.com>
+Submitted-by: Matthew Barth <msbarth@linux.ibm.com>
+Submitted-at: Thu, 10 Mar 2022 22:26:01 +0000
+Reviewed-on: https://gerrit.openbmc-project.xyz/c/openbmc/phosphor-fan-presence/+/51872
+Project: openbmc/phosphor-fan-presence
+Branch: refs/heads/master
