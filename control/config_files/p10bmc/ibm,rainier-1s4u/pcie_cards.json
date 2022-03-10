@@ -49,46 +49,6 @@
       "floor_index": 2
     },
     {
-      "name": "Glacier Park EDR 2Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x1013",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x04F1",
-      "floor_index": 1
-    },
-    {
-      "name": "Glacier Park EDR 1Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x1013",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x04F4",
-      "floor_index": 1
-    },
-    {
-      "name": "Glacier Park EN 2Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x1013",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x04F7",
-      "floor_index": 1
-    },
-    {
-      "name": "Lassen Dual Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x1019",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x0617",
-      "floor_index": 2
-    },
-    {
-      "name": "Lassen Single Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x1017",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x0616",
-      "floor_index": 2
-    },
-    {
       "name": "Bolt PCIe3 NVMe Flash Adapter II x8 1.6TB",
       "vendor_id": "0x144D",
       "device_id": "0xA822",
@@ -145,44 +105,12 @@
       "floor_index": 2
     },
     {
-      "name": "Y4 Crypto",
-      "vendor_id": "0x1014",
-      "device_id": "0x037A",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x037A",
-      "floor_index": 2
-    },
-    {
       "name": "Haleakala EN 2Port 100Gb",
       "vendor_id": "0x15B3",
       "device_id": "0x1019",
       "subsystem_vendor_id": "0x1014",
       "subsystem_id": "0x0635",
       "floor_index": 1
-    },
-    {
-      "name": "Bono HMS",
-      "vendor_id": "0x1014",
-      "device_id": "0x04F2",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x0005",
-      "floor_index": 3
-    },
-    {
-      "name": "Palmita IB 1Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x101B",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x0672",
-      "floor_index": 2
-    },
-    {
-      "name": "Palmita IB 2Port",
-      "vendor_id": "0x15B3",
-      "device_id": "0x101B",
-      "subsystem_vendor_id": "0x1014",
-      "subsystem_id": "0x0673",
-      "floor_index": 2
     },
     {
       "name": "Cedar Lake 100G 2port",
