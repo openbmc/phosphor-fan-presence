@@ -50,8 +50,16 @@ struct ToTypeVisitor
  * @brief Return a default value to use when the argument passed
  *        to LessThanOperator is out of range.
  */
-PropertyVariantType getDefaultValue(const PropertyVariantType& val)
+PropertyVariantType
+    getDefaultValue(const PropertyVariantType& val,
+                    const std::optional<PropertyVariantType>& defaultValue)
 {
+    // When a default value is given, return that
+    if (defaultValue)
+    {
+        return *defaultValue;
+    }
+
     if (std::holds_alternative<bool>(val))
     {
         return false;
@@ -85,8 +93,8 @@ PropertyVariantType getDefaultValue(const PropertyVariantType& val)
  */
 struct MinusOperator : public Modifier::BaseOperator
 {
-    MinusOperator(const json& valueObj) :
-        arg(ConfigBase::getJsonValue(valueObj))
+    MinusOperator(const json& jsonObj) :
+        arg(ConfigBase::getJsonValue(jsonObj["value"]))
     {}
 
     PropertyVariantType operator()(double val) override
@@ -128,13 +136,14 @@ struct MinusOperator : public Modifier::BaseOperator
 };
 
 /**
- * @brief Implements an operator to return a value specified in
- *        the JSON that is chosen based on if the value passed
- *        into the operator is less than the lowest arg_value it
- *        is true for.
+ * @brief Implements an operator to return a value specified in the JSON that is
+ * chosen based on if the value passed into the operator is less than the lowest
+ * arg_value it is true for or the given `default_value` if not found to be less
+ * than any entries.
  *
  * "modifier": {
  *  "operator": "less_than",
+ *  "default_value": 1000, // OPTIONAL
  *  "value": [
  *    {
  *      "arg_value": 30, // if value is less than 30
@@ -147,14 +156,15 @@ struct MinusOperator : public Modifier::BaseOperator
  *   ]
  *  }
  *
- * If the value passed in is higher than the highest arg_value,
- * it returns a default value this is chosen based on the
- * data type of parameter_value.
+ * If the value passed in is higher than the highest arg_value, it returns a
+ * default value this is the `default_value` given or based on the data type of
+ * parameter_value.
  */
 struct LessThanOperator : public Modifier::BaseOperator
 {
-    LessThanOperator(const json& valueArray)
+    LessThanOperator(const json& jsonObj)
     {
+        const auto& valueArray = jsonObj["value"];
         if (!valueArray.is_array())
         {
             log<level::ERR>(
@@ -204,6 +214,11 @@ struct LessThanOperator : public Modifier::BaseOperator
                                 .c_str());
             throw std::invalid_argument("Invalid modifier JSON");
         }
+
+        if (jsonObj.contains("default_value"))
+        {
+            defaultValue = ConfigBase::getJsonValue(jsonObj["default_value"]);
+        }
     }
 
     PropertyVariantType operator()(double val) override
@@ -216,7 +231,7 @@ struct LessThanOperator : public Modifier::BaseOperator
             }
         }
         // Return a default value based on last entry type
-        return getDefaultValue(rangeValues.back().second);
+        return getDefaultValue(rangeValues.back().second, defaultValue);
     }
 
     PropertyVariantType operator()(int32_t val) override
@@ -228,7 +243,7 @@ struct LessThanOperator : public Modifier::BaseOperator
                 return rangeValue.second;
             }
         }
-        return getDefaultValue(rangeValues.back().second);
+        return getDefaultValue(rangeValues.back().second, defaultValue);
     }
 
     PropertyVariantType operator()(int64_t val) override
@@ -240,7 +255,7 @@ struct LessThanOperator : public Modifier::BaseOperator
                 return rangeValue.second;
             }
         }
-        return getDefaultValue(rangeValues.back().second);
+        return getDefaultValue(rangeValues.back().second, defaultValue);
     }
 
     PropertyVariantType operator()(const std::string& val) override
@@ -253,7 +268,7 @@ struct LessThanOperator : public Modifier::BaseOperator
                 return rangeValue.second;
             }
         }
-        return getDefaultValue(rangeValues.back().second);
+        return getDefaultValue(rangeValues.back().second, defaultValue);
     }
 
     PropertyVariantType operator()(bool val) override
@@ -264,6 +279,7 @@ struct LessThanOperator : public Modifier::BaseOperator
 
     std::vector<std::pair<PropertyVariantType, PropertyVariantType>>
         rangeValues;
+    std::optional<PropertyVariantType> defaultValue;
 };
 
 Modifier::Modifier(const json& jsonObj)
@@ -287,11 +303,11 @@ void Modifier::setOperator(const json& jsonObj)
 
     if (op == "minus")
     {
-        _operator = std::make_unique<MinusOperator>(jsonObj["value"]);
+        _operator = std::make_unique<MinusOperator>(jsonObj);
     }
     else if (op == "less_than")
     {
-        _operator = std::make_unique<LessThanOperator>(jsonObj["value"]);
+        _operator = std::make_unique<LessThanOperator>(jsonObj);
     }
     else
     {
