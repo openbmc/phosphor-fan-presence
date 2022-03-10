@@ -1299,6 +1299,48 @@
      ]
    },
    {
+     "name": "Set altitude offset parameter",
+     "groups": [
+       {
+         "name": "altitude",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         // Refresh altitude every 24hrs
+         "class": "timer",
+         "type": "repeating",
+         "interval": 86400000000,
+         "preload_groups": true
+       }
+     ],
+     "actions": [
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "altitude_offset",
+         "modifier": {
+           "operator": "less_than",
+           "default_value": 3000,
+           "value": [
+             { "arg_value": 1000, "parameter_value": 0 },
+             { "arg_value": 1900, "parameter_value": 1000 },
+             { "arg_value": 2800, "parameter_value": 2000 }
+           ]
+         }
+       }
+     ]
+   },
+   {
      "name": "Fan floors",
      "groups": [
       {
@@ -1328,6 +1370,10 @@
        {
          "class": "parameter",
          "parameter": "pcie_floor_index"
+       },
+       {
+         "class": "parameter",
+         "parameter": "altitude_offset"
        }
      ],
      "actions": [
@@ -1338,6 +1384,8 @@
           {
             // Entry valid for ambient temp < 27
             "key": 27,
+            "default_floor": 5000,
+            "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
                 "group": "power mode",
@@ -1374,6 +1422,8 @@
           {
             // Entry valid for ambient temp < 32
             "key": 32,
+            "default_floor": 6000,
+            "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
                 "group": "power mode",
@@ -1410,6 +1460,8 @@
           {
             // Entry valid for ambient temp < 37
             "key": 37,
+            "default_floor": 7000,
+            "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
                 "group": "power mode",
@@ -1446,6 +1498,8 @@
           {
             // Entry valid for ambient temp < 42
             "key": 42,
+            "default_floor": 8000,
+            "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
                 "group": "power mode",
