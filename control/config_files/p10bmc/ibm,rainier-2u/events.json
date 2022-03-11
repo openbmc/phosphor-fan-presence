@@ -1340,13 +1340,14 @@
          "parameter_name": "ambient_20_altitude_offset",
          "modifier": {
            "operator": "less_than",
+           "default_value": 10000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
-             { "arg_value": 1000, "parameter_value": 800 },
+             { "arg_value": 1000, "parameter_value": 700 },
              { "arg_value": 1500, "parameter_value": 1600 },
-             { "arg_value": 2000, "parameter_value": 2400 },
+             { "arg_value": 2000, "parameter_value": 2300 },
              { "arg_value": 2500, "parameter_value": 3200 },
-             { "arg_value": 3000, "parameter_value": 4000 }
+             { "arg_value": 3300, "parameter_value": 4000 }
            ]
          }
        },
@@ -1355,13 +1356,14 @@
          "parameter_name": "ambient_25_altitude_offset",
          "modifier": {
            "operator": "less_than",
+           "default_value": 10000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
-             { "arg_value": 1000, "parameter_value": 900 },
-             { "arg_value": 1500, "parameter_value": 1800 },
-             { "arg_value": 2000, "parameter_value": 2700 },
-             { "arg_value": 2500, "parameter_value": 3600 },
-             { "arg_value": 3000, "parameter_value": 4400 }
+             { "arg_value": 1000, "parameter_value": 1000 },
+             { "arg_value": 1500, "parameter_value": 2100 },
+             { "arg_value": 2000, "parameter_value": 3100 },
+             { "arg_value": 2500, "parameter_value": 4100 },
+             { "arg_value": 3300, "parameter_value": 4900 }
            ]
          }
        },
@@ -1370,13 +1372,14 @@
          "parameter_name": "ambient_30_altitude_offset",
          "modifier": {
            "operator": "less_than",
+           "default_value": 10000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
-             { "arg_value": 1000, "parameter_value": 800 },
-             { "arg_value": 1500, "parameter_value": 1600 },
-             { "arg_value": 2000, "parameter_value": 2400 },
-             { "arg_value": 2500, "parameter_value": 3200 },
-             { "arg_value": 3000, "parameter_value": 4000 }
+             { "arg_value": 1000, "parameter_value": 1000 },
+             { "arg_value": 1500, "parameter_value": 2100 },
+             { "arg_value": 2000, "parameter_value": 3200 },
+             { "arg_value": 2500, "parameter_value": 4000 },
+             { "arg_value": 3300, "parameter_value": 4800 }
            ]
          }
        },
@@ -1385,13 +1388,14 @@
          "parameter_name": "ambient_35_altitude_offset",
          "modifier": {
            "operator": "less_than",
+           "default_value": 10000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
              { "arg_value": 1000, "parameter_value": 900 },
-             { "arg_value": 1500, "parameter_value": 1800 },
-             { "arg_value": 2000, "parameter_value": 2700 },
-             { "arg_value": 2500, "parameter_value": 3600 },
-             { "arg_value": 3000, "parameter_value": 4400 }
+             { "arg_value": 1500, "parameter_value": 1700 },
+             { "arg_value": 2000, "parameter_value": 2500 },
+             { "arg_value": 2500, "parameter_value": 3400 },
+             { "arg_value": 3300, "parameter_value": 4200 }
            ]
          }
        },
@@ -1400,13 +1404,14 @@
          "parameter_name": "ambient_40_altitude_offset",
          "modifier": {
            "operator": "less_than",
+           "default_value": 10000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
-             { "arg_value": 1000, "parameter_value": 900 },
-             { "arg_value": 1500, "parameter_value": 1800 },
-             { "arg_value": 2000, "parameter_value": 2700 },
-             { "arg_value": 2500, "parameter_value": 3600 },
-             { "arg_value": 3000, "parameter_value": 4400 }
+             { "arg_value": 1000, "parameter_value": 1000 },
+             { "arg_value": 1500, "parameter_value": 1900 },
+             { "arg_value": 2000, "parameter_value": 2800 },
+             { "arg_value": 2500, "parameter_value": 3700 },
+             { "arg_value": 3300, "parameter_value": 4500 }
            ]
          }
        }
@@ -1467,17 +1472,17 @@
           {
             // Entry valid for temps < 20
             "key": 20,
-            "default_floor": 6200,
+            "default_floor": 5400,
             "floor_offset_parameter": "ambient_20_altitude_offset",
             "floors": [
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 6700 },
-                  { "value": 2, "floor": 8000 },
-                  { "value": 3, "floor": 9300 },
-                  { "value": 4, "floor": 9800 },
-                  { "value": 5, "floor": 11300 }
+                  { "value": 1, "floor": 5600 },
+                  { "value": 2, "floor": 9000 },
+                  { "value": 3, "floor": 9000 },
+                  { "value": 4, "floor": 9200 },
+                  { "value": 5, "floor": 10600 }
                 ]
               }
             ]
@@ -1485,17 +1490,17 @@
           {
             // Entry valid for temps < 25
             "key": 25,
-            "default_floor": 7500,
+            "default_floor": 7300,
             "floor_offset_parameter": "ambient_25_altitude_offset",
             "floors": [
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 8400 },
-                  { "value": 2, "floor": 9500 },
-                  { "value": 3, "floor": 10600 },
-                  { "value": 4, "floor": 13500 },
-                  { "value": 5, "floor": 14900 }
+                  { "value": 1, "floor": 7800 },
+                  { "value": 2, "floor": 10700 },
+                  { "value": 3, "floor": 11300 },
+                  { "value": 4, "floor": 12700 },
+                  { "value": 5, "floor": 13900 }
                 ]
               }
             ]
@@ -1503,17 +1508,17 @@
           {
             // Entry valid for temps < 30
             "key": 30,
-            "default_floor": 10000,
+            "default_floor": 9100,
             "floor_offset_parameter": "ambient_30_altitude_offset",
             "floors": [
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 10800 },
-                  { "value": 2, "floor": 11400 },
-                  { "value": 3, "floor": 12000 },
-                  { "value": 4, "floor": 17300 },
-                  { "value": 5, "floor": 18000 }
+                  { "value": 1, "floor": 10300 },
+                  { "value": 2, "floor": 12100 },
+                  { "value": 3, "floor": 14400 },
+                  { "value": 4, "floor": 16300 },
+                  { "value": 5, "floor": 17200 }
                 ]
               }
             ]
@@ -1521,15 +1526,15 @@
           {
             // Entry valid for temps < 35
             "key": 35,
-            "default_floor": 12500,
+            "default_floor": 10800,
             "floor_offset_parameter": "ambient_35_altitude_offset",
             "floors": [
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 13200 },
-                  { "value": 2, "floor": 13400 },
-                  { "value": 3, "floor": 13600 },
+                  { "value": 1, "floor": 12700 },
+                  { "value": 2, "floor": 13500 },
+                  { "value": 3, "floor": 17400 },
                   { "value": 4, "floor": 18000 },
                   { "value": 5, "floor": 18000 }
                 ]
@@ -1539,14 +1544,14 @@
           {
             // Entry valid for temps < 40
             "key": 40,
-            "default_floor": 15000,
+            "default_floor": 12600,
             "floor_offset_parameter": "ambient_40_altitude_offset",
             "floors": [
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
-                  { "value": 1, "floor": 18000 },
-                  { "value": 2, "floor": 18000 },
+                  { "value": 1, "floor": 15000 },
+                  { "value": 2, "floor": 15500 },
                   { "value": 3, "floor": 18000 },
                   { "value": 4, "floor": 18000 },
                   { "value": 5, "floor": 18000 }
