@@ -671,7 +671,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 57.0,
+         "state": 60.0,
          "delta": 200
        },
        {
@@ -839,7 +839,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 54.0,
+         "state": 57.0,
          "delta": 50
        },
        {
@@ -1029,6 +1029,42 @@
                 "floors": [
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
+                    "floor": 4000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
+                    "floor": 4000
+                  },
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
+                    "floor": 4000
+                  },
+                  {
+                    // OEM == MaximumPerformance
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
+                    "floor": 4000
+                  }
+                ]
+              },
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 6000 },
+                  { "value": 2, "floor": 7000 },
+                  { "value": 3, "floor": 8000 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for ambient temp < 32
+            "key": 32,
+            "floors": [
+              {
+                "group": "power mode",
+                "floors": [
+                  {
+                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
                     "floor": 5000
                   },
                   {
@@ -1050,42 +1086,6 @@
                 "parameter": "pcie_floor_index",
                 "floors": [
                   { "value": 1, "floor": 7000 },
-                  { "value": 2, "floor": 8000 },
-                  { "value": 3, "floor": 9000 }
-                ]
-              }
-            ]
-          },
-          {
-            // Entry valid for ambient temp < 32
-            "key": 32,
-            "floors": [
-              {
-                "group": "power mode",
-                "floors": [
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 6000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 6000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 6000
-                  },
-                  {
-                    // OEM == MaximumPerformance
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 6000
-                  }
-                ]
-              },
-              {
-                "parameter": "pcie_floor_index",
-                "floors": [
-                  { "value": 1, "floor": 8000 },
                   { "value": 2, "floor": 9000 },
                   { "value": 3, "floor": 9500 }
                 ]
@@ -1101,20 +1101,20 @@
                 "floors": [
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 7000
+                    "floor": 6000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 7000
+                    "floor": 6000
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 7000
+                    "floor": 6000
                   },
                   {
                     // OEM == MaximumPerformance
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 7000
+                    "floor": 6000
                   }
                 ]
               },
@@ -1129,8 +1129,8 @@
             ]
           },
           {
-            // Entry valid for ambient temp < 43
-            "key": 43,
+            // Entry valid for ambient temp < 42
+            "key": 42,
             "floors": [
               {
                 "group": "power mode",
