@@ -124,6 +124,12 @@ void TimerBasedActions::stopTimer()
     {
         _timer.setEnabled(false);
     }
+    else
+    {
+        // Perform the actions in case state changed after the configured time
+        std::for_each(_actions.begin(), _actions.end(),
+                      [](auto& action) { action->run(); });
+    }
 }
 
 void TimerBasedActions::timerExpired()
