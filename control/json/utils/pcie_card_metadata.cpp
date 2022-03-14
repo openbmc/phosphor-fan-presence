@@ -17,6 +17,9 @@
 #include "pcie_card_metadata.hpp"
 
 #include "json_config.hpp"
+#include "utils/flight_recorder.hpp"
+
+#include <fmt/format.h>
 
 #include <iostream>
 
@@ -47,11 +50,13 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
 
     if (fs::exists(confFile))
     {
-        log<level::DEBUG>(
-            fmt::format("Loading PCIe card file {}", confFile.native())
-                .c_str());
-        auto json = JsonConfig::load(confFile);
-        load(json);
+        FlightRecorder::instance().log(
+            "main",
+            fmt::format("Loading configuration from {}", confFile.string()));
+        load(JsonConfig::load(confFile));
+        log<level::INFO>(fmt::format("Configuration({}) loaded successfully",
+                                     confFile.string())
+                             .c_str());
     }
 
     // Go from least specific to most specific in the system names so files in
@@ -71,12 +76,14 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
 
         if (fs::exists(confFile))
         {
-            log<level::DEBUG>(
-                fmt::format("Loading PCIe card file {}", confFile.native())
+            FlightRecorder::instance().log(
+                "main", fmt::format("Loading configuration from {}",
+                                    confFile.string()));
+            load(JsonConfig::load(confFile));
+            log<level::INFO>(
+                fmt::format("Configuration({}) loaded successfully",
+                            confFile.string())
                     .c_str());
-
-            auto json = JsonConfig::load(confFile);
-            load(json);
         }
     }
 
