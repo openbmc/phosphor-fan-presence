@@ -22,6 +22,30 @@
       },
       "revId": "4360cde2a1482e382b6c7cb4990cec813c4264dc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "903336a6_d54ead6d",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T15:36:49Z",
+      "side": 1,
+      "message": "This should directly halt the poweron by doing this:\n```\nlog\u003clevel::ERR\u003e(\"No config file found at power on\");\nSDBusPlus::callMethod(systemdService, systemdPath, systemdMgrIface, \"StartUnit\", \"obmc-chassis-hard-poweroff@0.target\", \"replace\");\n```\n\nAlso, it appears that a BMC reboot at runtime would not trigger this callback... but best to easily test that by powering on (likely need to do a `poweron`, not a `chassison`) and then issuing a `reboot` to the BMC and make sure the BMC does not bring the system down to standby after coming back up and seeing this error message to the journal.",
+      "parentUuid": "b0e152a9_e8af87b4",
+      "range": {
+        "startLine": 276,
+        "startChar": 12,
+        "endLine": 277,
+        "endChar": 71
+      },
+      "revId": "4360cde2a1482e382b6c7cb4990cec813c4264dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
