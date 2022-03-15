@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f824bb27_95d31e9a",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "What\u0027s the need for this by-copy capture?\n\nShould capture only what\u0027s needed and by reference instead.",
+      "range": {
+        "startLine": 64,
+        "startChar": 31,
+        "endLine": 64,
+        "endChar": 32
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21702200_34bad66e",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 68,
+        "startChar": 29,
+        "endLine": 68,
+        "endChar": 30
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac1405ca_e870b620",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "Looks like `start()` is being called twice, first in `registerSigHandler()` and then again here?",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "195b7e70_27b03862",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "Same here, shouldnt capture all that\u0027s needed by-copy",
+      "range": {
+        "startLine": 87,
+        "startChar": 13,
+        "endLine": 87,
+        "endChar": 14
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f006c08b_aa35f816",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "Similarly, looks like `start()` is called twice.. what\u0027s the reason for this?",
+      "range": {
+        "startLine": 102,
+        "startChar": 19,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37ee3ab4_4da01294",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "Same here, shouldnt capture all by-copy",
+      "range": {
+        "startLine": 113,
+        "startChar": 59,
+        "endLine": 113,
+        "endChar": 60
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a7dbdf1_ff857849",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "I\u0027m confused by this comment... certainly seems its within `start()` and being called each time `start()` is where `_config` is replaced with a unique instance of JsonConfig.",
+      "range": {
+        "startLine": 127,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 74
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7a5e056_d9f37ed0",
+        "filename": "presence/json_parser.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "Looks like this include should have been in the .cpp and not here.",
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc2f45f7_60aea778",
+        "filename": "presence/tach_detect.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "No longer needed here",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 29
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4290cfb_28c47718",
+        "filename": "presence/tach_detect.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-15T16:15:40Z",
+      "side": 1,
+      "message": "These are still needed for YAML based fan presence so should not have been moved into here",
+      "range": {
+        "startLine": 36,
+        "startChar": 3,
+        "endLine": 37,
+        "endChar": 60
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
