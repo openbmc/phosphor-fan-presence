@@ -535,8 +535,6 @@
    "name": "flett temps",
    "service": "xyz.openbmc_project.HwmonTempSensor",
    "members": [
-       "/xyz/openbmc_project/sensors/temperature/NVMe_JBOF_Card_1_Temp",
-       "/xyz/openbmc_project/sensors/temperature/NVMe_JBOF_Card_2_Temp",
        "/xyz/openbmc_project/sensors/temperature/NVMe_JBOF_Card_C8_Temp",
        "/xyz/openbmc_project/sensors/temperature/NVMe_JBOF_Card_C10_Temp",
        "/xyz/openbmc_project/sensors/temperature/NVMe_JBOF_Card_C11_Temp"
@@ -547,10 +545,6 @@
    "name": "pcie cable card temps",
    "service": "xyz.openbmc_project.HwmonTempSensor",
    "members": [
-       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_1_Temp",
-       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_2_Temp",
-       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_3_Temp",
-       "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_4_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C0_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C2_Temp",
        "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C3_Temp",
