@@ -78,6 +78,15 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
     if (jsonObj.contains("default_floor"))
     {
         _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
+        if (_defaultFloor > _ceiling)
+        {
+            log<level::ERR>(
+                fmt::format("Configured default_floor({}) above ceiling({}), "
+                            "setting default floor to ceiling",
+                            _defaultFloor, _ceiling)
+                    .c_str());
+            _defaultFloor = _ceiling;
+        }
         // Start with the current floor set as the default
         _floor = _defaultFloor;
     }
@@ -245,6 +254,11 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
 {
     using namespace std::string_literals;
 
+    if (target > _ceiling)
+    {
+        target = _ceiling;
+    }
+
     if (!hold)
     {
         size_t removed = _floorHolds.erase(ident);
@@ -312,7 +326,7 @@ void Zone::setFloor(uint64_t target)
     auto pred = [](const auto& entry) { return entry.second; };
     if (std::all_of(_floorChange.begin(), _floorChange.end(), pred))
     {
-        _floor = target;
+        _floor = (target > _ceiling) ? _ceiling : target;
         // Floor above target, update target to floor
         if (_target < _floor)
         {
