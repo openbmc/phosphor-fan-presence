@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c1a3901_8b9d200f",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/events.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 1333,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-03-17T18:32:26Z",
+      "side": 1,
+      "message": "Just had to confirm, not quite up to speed.\nhttps://github.com/openbmc/phosphor-fan-presence/blob/7072237b9a2bbea7d800c81a09f376a57cb17413/control/json/triggers/timer.hpp#L47\nYep, this is in microseconds.",
+      "range": {
+        "startLine": 1333,
+        "startChar": 21,
+        "endLine": 1333,
+        "endChar": 32
+      },
+      "revId": "8b93d3425d9cebd111030faa0e18f28197d56118",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
