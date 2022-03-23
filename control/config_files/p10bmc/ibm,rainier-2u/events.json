@@ -83,6 +83,183 @@
      ]
    },
    {
+     // (for the following 6 rules)
+     // if a dual-rotor fan becomes non-functional, lock its speed to
+     // poweron_target to lock the other rotor to full_speed
+     "name": "nonfunc rotor override-0",
+     "groups": [
+      {
+         "name": "fan0 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "override_fan_target",
+         "count": 1,
+         "state": false,
+         "fans": [ "fan0" ],
+         "target": 18000
+       }
+    ]
+  },
+  {
+     "name": "nonfunc rotor override-1",
+     "groups": [
+      {
+         "name": "fan1 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "override_fan_target",
+         "count": 1,
+         "state": false,
+         "fans": [ "fan1" ],
+         "target": 18000
+       }
+    ]
+  },
+  {
+     "name": "nonfunc rotor override-2",
+     "groups": [
+      {
+         "name": "fan2 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "override_fan_target",
+         "count": 1,
+         "state": false,
+         "fans": [ "fan2" ],
+         "target": 18000
+       }
+    ]
+  },
+  {
+     "name": "nonfunc rotor override-3",
+     "groups": [
+      {
+         "name": "fan3 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "override_fan_target",
+         "count": 1,
+         "state": false,
+         "fans": [ "fan3" ],
+         "target": 18000
+       }
+    ]
+  },
+  {
+     "name": "nonfunc rotor override-4",
+     "groups": [
+      {
+         "name": "fan4 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "override_fan_target",
+         "count": 1,
+         "state": false,
+         "fans": [ "fan4" ],
+         "target": 18000
+       }
+    ]
+  },
+  {
+     "name": "nonfunc rotor override-5",
+     "groups": [
+      {
+         "name": "fan5 rotor inventory",
+         "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+         "property": { "name": "Functional" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       }
+     ],
+     "actions": [
+       {
+         "name": "override_fan_target",
+         "count": 1,
+         "state": false,
+         "fans": [ "fan5" ],
+         "target": 18000
+       }
+    ]
+  },
+  {
      // Hold fans at the given target when any critical service
      // is not running for 5 seconds.
      "name": "service(s) missing",
