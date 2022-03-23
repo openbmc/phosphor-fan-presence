@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52107349_8e4b926f",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1000029
+      },
+      "writtenOn": "2022-03-23T19:54:57Z",
+      "side": 1,
+      "message": "This looks great!\n\nAfter mentioning to Spinler, think we want to add creating a PEL here as well.",
+      "range": {
+        "startLine": 277,
+        "startChar": 12,
+        "endLine": 280,
+        "endChar": 66
+      },
+      "revId": "7314167d67f675e629e6d67a1b6d5360589aa23f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
