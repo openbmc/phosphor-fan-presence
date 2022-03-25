@@ -32,7 +32,6 @@
 # data within them will be kept sorted.
 
 owners:
-- msbarth@linux.ibm.com
 - spinler@us.ibm.com
 
 reviewers:
@@ -45,9 +44,6 @@ openbmc:
 - name: B.J. Wyman
   email: bjwyman@gmail.com
   discord: bjwyman
-- name: Matthew Barth
-  email: msbarth@linux.ibm.com
-  discord: msbarth
 - name: Matt Spinler
   email: spinler@us.ibm.com
   discord: mspinler
