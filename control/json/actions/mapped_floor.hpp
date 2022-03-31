@@ -210,6 +210,27 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      */
     const Group* getGroup(const std::string& name);
 
+    /**
+     * @brief Gets the floor table index and cutoff value using the key
+     *
+     * @param[in] keyValue - The key value used to find the table index
+     *
+     * @return std::optional - The index and cutoff value of the table entry
+     *                         found.  std::nullopt if the key was out
+     *                         of range.
+     */
+    std::optional<std::tuple<size_t, PropertyVariantType>>
+        getFloorTableIndexAndCutoff(const PropertyVariantType& keyValue);
+
+    /**
+     * @brief Calculate and set the floor using the floor index passed in
+     *
+     * @param[in] floorTableIndex - the index of the table to use
+     *
+     * @param[in] zone - The zone
+     */
+    void calculateFloor(size_t floorTableIndex, Zone& zone);
+
     /* Key group pointer */
     const Group* _keyGroup;
 

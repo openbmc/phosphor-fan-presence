@@ -52,6 +52,24 @@ uint64_t addFloorOffset(uint64_t floor, T offset, const std::string& actionName)
     return static_cast<uint64_t>(newFloor);
 }
 
+/**
+ * @brief Converts the variant to a double if it's a
+ *        int32_t or int64_t.
+ */
+void tryConvertToDouble(PropertyVariantType& value)
+{
+    std::visit(
+        [&value](auto&& val) {
+            using V = std::decay_t<decltype(val)>;
+            if constexpr (std::is_same_v<int32_t, V> ||
+                          std::is_same_v<int64_t, V>)
+            {
+                value = static_cast<double>(val);
+            }
+        },
+        value);
+}
+
 MappedFloor::MappedFloor(const json& jsonObj,
                          const std::vector<Group>& groups) :
     ActionBase(jsonObj, groups)
@@ -116,6 +134,7 @@ void MappedFloor::setFloorTable(const json& jsonObj)
 
         FanFloors ff;
         ff.keyValue = getJsonValue(floors["key"]);
+        tryConvertToDouble(ff.keyValue);
 
         if (floors.contains("floor_offset_parameter"))
         {
@@ -178,24 +197,6 @@ void MappedFloor::setFloorTable(const json& jsonObj)
     }
 }
 
-/**
- * @brief Converts the variant to a double if it's a
- *        int32_t or int64_t.
- */
-void tryConvertToDouble(PropertyVariantType& value)
-{
-    std::visit(
-        [&value](auto&& val) {
-            using V = std::decay_t<decltype(val)>;
-            if constexpr (std::is_same_v<int32_t, V> ||
-                          std::is_same_v<int64_t, V>)
-            {
-                value = static_cast<double>(val);
-            }
-        },
-        value);
-}
-
 std::optional<PropertyVariantType>
     MappedFloor::getMaxGroupValue(const Group& group, const Manager& manager)
 {
@@ -256,7 +257,6 @@ std::optional<PropertyVariantType>
 
 void MappedFloor::run(Zone& zone)
 {
-    std::optional<uint64_t> newFloor;
     auto& manager = *zone.getManager();
 
     auto keyValue = getMaxGroupValue(*_keyGroup, manager);
@@ -267,121 +267,137 @@ void MappedFloor::run(Zone& zone)
         return;
     }
 
-    for (const auto& floorTable : _fanFloors)
+    // Cutoff will be used in next commit
+    auto indexAndCutoff = getFloorTableIndexAndCutoff(*keyValue);
+
+    // Out of range of the table
+    if (!indexAndCutoff)
     {
-        // First, find the floorTable entry to use based on the key value.
-        auto tableKeyValue = floorTable.keyValue;
+        auto floor = _defaultFloor ? *_defaultFloor : zone.getDefaultFloor();
+        zone.setFloorHold(getUniqueName(), floor, true);
+        return;
+    }
 
-        // Convert numeric values from the JSON to doubles so they can
-        // be compared to values coming from D-Bus.
-        tryConvertToDouble(tableKeyValue);
+    auto floorTableIndex = std::get<size_t>(*indexAndCutoff);
 
+    calculateFloor(floorTableIndex, zone);
+}
+
+std::optional<std::tuple<size_t, PropertyVariantType>>
+    MappedFloor::getFloorTableIndexAndCutoff(
+        const PropertyVariantType& keyValue)
+{
+    for (size_t i = 0; i < _fanFloors.size(); i++)
+    {
         // The key value from D-Bus must be less than the value
         // in the table for this entry to be valid.
-        if (*keyValue >= tableKeyValue)
+        if (keyValue < _fanFloors[i].keyValue)
         {
-            continue;
+            return std::make_tuple(i, _fanFloors[i].keyValue);
         }
+    }
 
-        // Now check each group in the tables
-        for (const auto& [groupOrParameter, floorGroups] :
-             floorTable.floorGroups)
+    return std::nullopt;
+}
+
+void MappedFloor::calculateFloor(size_t floorTableIndex, Zone& zone)
+{
+    auto& manager = *zone.getManager();
+    std::optional<uint64_t> newFloor;
+    const auto& floorTable = _fanFloors[floorTableIndex];
+
+    // Now check each group in the tables
+    for (const auto& [groupOrParameter, floorGroups] : floorTable.floorGroups)
+    {
+        std::optional<PropertyVariantType> propertyValue;
+
+        if (std::holds_alternative<std::string>(groupOrParameter))
         {
-            std::optional<PropertyVariantType> propertyValue;
-
-            if (std::holds_alternative<std::string>(groupOrParameter))
+            propertyValue =
+                Manager::getParameter(std::get<std::string>(groupOrParameter));
+            if (propertyValue)
             {
-                propertyValue = Manager::getParameter(
-                    std::get<std::string>(groupOrParameter));
-                if (propertyValue)
-                {
-                    tryConvertToDouble(*propertyValue);
-                }
-                else
-                {
-                    // If the parameter isn't there, then don't use
-                    // this floor table
-                    log<level::DEBUG>(
-                        fmt::format("{}: Parameter {} specified in the JSON "
-                                    "could not be found",
-                                    ActionBase::getName(),
-                                    std::get<std::string>(groupOrParameter))
-                            .c_str());
-                    continue;
-                }
+                tryConvertToDouble(*propertyValue);
             }
             else
             {
-                propertyValue = getMaxGroupValue(
-                    *std::get<const Group*>(groupOrParameter), manager);
+                // If the parameter isn't there, then don't use
+                // this floor table
+                log<level::DEBUG>(
+                    fmt::format("{}: Parameter {} specified in the JSON "
+                                "could not be found",
+                                ActionBase::getName(),
+                                std::get<std::string>(groupOrParameter))
+                        .c_str());
+                continue;
             }
+        }
+        else
+        {
+            propertyValue = getMaxGroupValue(
+                *std::get<const Group*>(groupOrParameter), manager);
+        }
 
-            std::optional<uint64_t> floor;
-            if (propertyValue)
+        std::optional<uint64_t> floor;
+        if (propertyValue)
+        {
+            // Do either a <= or an == check depending on the data type to
+            // get the floor value based on this group.
+            for (const auto& [tableValue, tableFloor] : floorGroups)
             {
-                // Do either a <= or an == check depending on the data type
-                // to get the floor value based on this group.
-                for (const auto& [tableValue, tableFloor] : floorGroups)
-                {
-                    PropertyVariantType value{tableValue};
-                    tryConvertToDouble(value);
+                PropertyVariantType value{tableValue};
+                tryConvertToDouble(value);
 
-                    if (std::holds_alternative<double>(*propertyValue))
-                    {
-                        if (*propertyValue <= value)
-                        {
-                            floor = tableFloor;
-                            break;
-                        }
-                    }
-                    else if (*propertyValue == value)
+                if (std::holds_alternative<double>(*propertyValue))
+                {
+                    if (*propertyValue <= value)
                     {
                         floor = tableFloor;
                         break;
                     }
                 }
-            }
-
-            // No floor found in this group, use a default floor for now but
-            // let keep going in case it finds a higher one.
-            if (!floor)
-            {
-                if (floorTable.defaultFloor)
+                else if (*propertyValue == value)
                 {
-                    floor = *floorTable.defaultFloor;
+                    floor = tableFloor;
+                    break;
                 }
-                else if (_defaultFloor)
-                {
-                    floor = *_defaultFloor;
-                }
-                else
-                {
-                    floor = zone.getDefaultFloor();
-                }
-            }
-
-            // Keep track of the highest floor value found across all
-            // entries/groups
-            if ((newFloor && (floor > *newFloor)) || !newFloor)
-            {
-                newFloor = floor;
             }
         }
 
-        // if still no floor, use the default one from the floor table if
-        // there
-        if (!newFloor && floorTable.defaultFloor)
+        // No floor found in this group, use a default floor for now but
+        // let keep going in case it finds a higher one.
+        if (!floor)
         {
-            newFloor = floorTable.defaultFloor.value();
+            if (floorTable.defaultFloor)
+            {
+                floor = *floorTable.defaultFloor;
+            }
+            else if (_defaultFloor)
+            {
+                floor = *_defaultFloor;
+            }
         }
 
-        if (newFloor)
+        // Keep track of the highest floor value found across all
+        // entries/groups
+        if ((newFloor && (floor > *newFloor)) || !newFloor)
         {
-            *newFloor = applyFloorOffset(*newFloor, floorTable.offsetParameter);
+            newFloor = floor;
         }
+    }
 
-        // Valid key value for this entry, so done
-        break;
+    // If still no floor, then use default floor from
+    // the floor table if supplied.
+    if (!newFloor && floorTable.defaultFloor)
+    {
+        newFloor = floorTable.defaultFloor.value();
+    }
+
+    // Apply the floor offset if came from the floor table,
+    // including the default floor.
+    if (newFloor)
+    {
+        newFloor = applyFloorOffset(*newFloor, floorTable.offsetParameter);
     }
 
     if (!newFloor)
