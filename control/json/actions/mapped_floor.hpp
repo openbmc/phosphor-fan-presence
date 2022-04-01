@@ -15,6 +15,7 @@
  */
 #pragma once
 
+#include "../utils/table_hysteresis.hpp"
 #include "../zone.hpp"
 #include "action.hpp"
 #include "group.hpp"
@@ -35,6 +36,8 @@ using json = nlohmann::json;
  *    "name": "mapped_floor",
  *    "key_group": "ambient_temp",
  *    "default_floor": 2000,
+ *    "key_hysteresis": 1.0,
+ *    "key_hysteresis_timeout": 30,
  *    "fan_floors": [
  *        {
  *        "key": 27,
@@ -112,6 +115,18 @@ using json = nlohmann::json;
  *            "group": "altitude",
  *    it can be:
  *            "parameter": "some_parameter"
+ *
+ *  - "key_hysteresis" is an optional value that when present indicates the
+ *    amount a key value must be below the floor table cutoff when decreasing
+ *    to actually change to that new table.  The default is no hysteresis.
+ *    There is never hysteresis on increases.
+ *
+ *  - "key_hysteresis_timeout": is an optional value in seconds that when
+ *    used with key_hysteresis can allow a table change even if still under
+ *    the hysteresis delta after this amount of time has passed since the
+ *    hysteresis blocking started.  The expiration of the timeout does not
+ *    call run(), a normal trigger is still required.  Defaults to infinity,
+ *    i.e. hysteresis check can infinitely block a table change.
  */
 
 class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
@@ -149,6 +164,13 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      * @param[in] jsonObj - JSON object for the action
      */
     void setKeyGroup(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the floor table hysteresis
+     *
+     * @param[in] jsonObj - JSON object for the action
+     */
+    void setKeyHysteresis(const json& jsonObj);
 
     /**
      * @brief Parse and set the default floor value
@@ -255,6 +277,9 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
 
     /* The fan floors action data, loaded from JSON */
     std::vector<FanFloors> _fanFloors;
+
+    /* Manages hysteresis when selecting floor tables based on the key */
+    std::unique_ptr<TableHysteresis> _floorTableHysteresis;
 };
 
 } // namespace phosphor::fan::control::json

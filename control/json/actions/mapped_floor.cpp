@@ -75,6 +75,7 @@ MappedFloor::MappedFloor(const json& jsonObj,
     ActionBase(jsonObj, groups)
 {
     setKeyGroup(jsonObj);
+    setKeyHysteresis(jsonObj);
     setFloorTable(jsonObj);
     setDefaultFloor(jsonObj);
 }
@@ -103,6 +104,23 @@ void MappedFloor::setKeyGroup(const json& jsonObj)
                                "Missing required 'key_group' entry"};
     }
     _keyGroup = getGroup(jsonObj["key_group"].get<std::string>());
+}
+
+void MappedFloor::setKeyHysteresis(const json& jsonObj)
+{
+    if (jsonObj.contains("key_hysteresis"))
+    {
+        auto hysteresis = jsonObj["key_hysteresis"].get<double>();
+
+        std::optional<size_t> timeout;
+        if (jsonObj.contains("key_hysteresis_timeout"))
+        {
+            timeout = jsonObj["key_hysteresis_timeout"].get<size_t>();
+        }
+
+        _floorTableHysteresis =
+            std::make_unique<TableHysteresis>(hysteresis, timeout);
+    }
 }
 
 void MappedFloor::setDefaultFloor(const json& jsonObj)
@@ -267,7 +285,6 @@ void MappedFloor::run(Zone& zone)
         return;
     }
 
-    // Cutoff will be used in next commit
     auto indexAndCutoff = getFloorTableIndexAndCutoff(*keyValue);
 
     // Out of range of the table
@@ -279,6 +296,13 @@ void MappedFloor::run(Zone& zone)
     }
 
     auto floorTableIndex = std::get<size_t>(*indexAndCutoff);
+
+    // Check hysteresis before using the new index
+    if (_floorTableHysteresis)
+    {
+        floorTableIndex =
+            _floorTableHysteresis->chooseIndex(*keyValue, *indexAndCutoff);
+    }
 
     calculateFloor(floorTableIndex, zone);
 }
