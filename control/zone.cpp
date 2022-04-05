@@ -49,7 +49,7 @@ using InternalFailure =
 
 Zone::Zone(Mode mode, sdbusplus::bus::bus& bus, const std::string& path,
            const sdeventplus::Event& event, const ZoneDefinition& def) :
-    ThermalObject(bus, path.c_str(), true),
+    ThermalObject(bus, path.c_str(), ThermalObject::action::defer_emit),
     _bus(bus), _path(path),
     _ifaces({"xyz.openbmc_project.Control.ThermalMode"}),
     _fullSpeed(std::get<fullSpeedPos>(def)),
