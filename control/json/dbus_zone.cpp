@@ -39,7 +39,7 @@ namespace fs = std::filesystem;
 DBusZone::DBusZone(const Zone& zone) :
     ThermalModeIntf(util::SDBusPlus::getBus(),
                     (fs::path{CONTROL_OBJPATH} /= zone.getName()).c_str(),
-                    true),
+                    ThermalModeIntf::action::defer_emit),
     _zone(zone)
 {}
 
