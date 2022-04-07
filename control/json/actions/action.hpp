@@ -197,6 +197,22 @@ class ActionBase : public ConfigBase
         return _uniqueName;
     }
 
+    /**
+     * @brief Set the name of the owning Event.
+     *
+     * Adds it to the unique name in parentheses. If desired,
+     * the action child classes can do something else with it.
+     *
+     * @param[in] name - The event name
+     */
+    virtual void setEventName(const std::string& name)
+    {
+        if (!name.empty())
+        {
+            _uniqueName += '(' + name + ')';
+        }
+    }
+
   protected:
     /**
      * @brief Logs a message to the flight recorder using
@@ -218,7 +234,7 @@ class ActionBase : public ConfigBase
 
     /* Unique name of the action.
      * It's just the name plus _actionCount at the time of action creation. */
-    const std::string _uniqueName;
+    std::string _uniqueName;
 
     /* Running count of all actions */
     static inline size_t _actionCount = 0;
