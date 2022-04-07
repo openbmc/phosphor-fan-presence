@@ -417,16 +417,12 @@ void Manager::addServices(const std::string& intf, int32_t depth)
                 auto servIter = pathIter->second.find(itServ.first);
                 if (servIter != pathIter->second.end())
                 {
-                    // Service found in cache
-                    for (auto& itIntf : itServ.second)
+                    if (std::find(servIter->second.second.begin(),
+                                  servIter->second.second.end(),
+                                  intf) == servIter->second.second.end())
                     {
-                        if (std::find(servIter->second.second.begin(),
-                                      servIter->second.second.end(),
-                                      itIntf) == servIter->second.second.end())
-                        {
-                            // Add interface to cache
-                            servIter->second.second.emplace_back(itIntf);
-                        }
+                        // Add interface to cache
+                        servIter->second.second.emplace_back(intf);
                     }
                 }
                 else
