@@ -565,7 +565,8 @@ class Manager
 
     /**
      * @brief Insert managed objects into cache, but filter out properties
-     * containing unwanted NaN (not-a-number) values.
+     * containing unwanted NaN (not-a-number) values and properties that
+     * are on D-Bus paths that aren't in an existing Group object.
      *
      * @param[in] ref - The map of ManagedObjects to insert into cache
      */

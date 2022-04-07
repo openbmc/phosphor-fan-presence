@@ -501,6 +501,22 @@ std::vector<std::string> Manager::getPaths(const std::string& serv,
 
 void Manager::insertFilteredObjects(ManagedObjects& ref)
 {
+    // Filter out objects that aren't part of a group
+    const auto& allGroupMembers = Group::getAllMembers();
+    auto it = ref.begin();
+
+    while (it != ref.end())
+    {
+        if (allGroupMembers.find(it->first) == allGroupMembers.end())
+        {
+            it = ref.erase(it);
+        }
+        else
+        {
+            it++;
+        }
+    }
+
     for (auto& [path, pathMap] : ref)
     {
         for (auto& [intf, intfMap] : pathMap)
@@ -543,11 +559,10 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     for (const auto& objMgrPath : objMgrPaths)
     {
         // Get all managed objects of service
-        // want to filter here...
         auto objects = util::SDBusPlus::getManagedObjects<PropertyVariantType>(
             _bus, service, objMgrPath);
 
-        // insert all objects but remove any NaN values
+        // insert all objects that are in groups but remove any NaN values
         insertFilteredObjects(objects);
     }
 }
