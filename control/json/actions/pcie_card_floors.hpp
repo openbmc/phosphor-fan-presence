@@ -98,6 +98,17 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
      */
     void run(Zone& zone) override;
 
+    /**
+     * @brief Set the name of the owning Event.
+     *
+     * In the base class it's appending it to the action's unique name.  Don't
+     * do it for this action since there's only one instance of it so no need
+     * to distinguish it from ones under different events and also it just
+     * makes it uglier in the flight recorder.
+     */
+    void setEventName(const std::string& name) override
+    {}
+
   private:
     /**
      * @brief Runs the contents of the action when the settle timer expires.

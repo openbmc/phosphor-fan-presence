@@ -243,6 +243,7 @@ void Event::setActions(const json& jsonObj)
                 std::move(actionGroups), std::move(actionZones));
             if (actObj)
             {
+                actObj->setEventName(_name);
                 _actions.emplace_back(std::move(actObj));
             }
         }
@@ -254,6 +255,7 @@ void Event::setActions(const json& jsonObj)
                 std::move(actionZones));
             if (actObj)
             {
+                actObj->setEventName(_name);
                 _actions.emplace_back(std::move(actObj));
             }
         }
