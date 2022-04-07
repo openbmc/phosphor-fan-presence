@@ -24,6 +24,8 @@ namespace phosphor::fan::control::json
 using json = nlohmann::json;
 using namespace phosphor::logging;
 
+std::set<std::string> Group::_allMembers{};
+
 Group::Group(const json& jsonObj) : ConfigBase(jsonObj), _service("")
 {
     setMembers(jsonObj);
@@ -57,6 +59,7 @@ void Group::setMembers(const json& jsonObj)
     {
         _members.emplace_back(member.get<std::string>());
     }
+    _allMembers.insert(_members.begin(), _members.end());
 }
 
 void Group::setService(const json& jsonObj)

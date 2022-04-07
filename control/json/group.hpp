@@ -16,6 +16,7 @@
 #pragma once
 
 #include "config_base.hpp"
+#include <set>
 
 #include <nlohmann/json.hpp>
 
@@ -150,6 +151,14 @@ class Group : public ConfigBase
         return _value;
     }
 
+    /**
+     * @brief Get the set of all configured group members
+     */
+    static const std::set<std::string>& getAllMembers()
+    {
+        return _allMembers;
+    }
+
   private:
     /* Members of the group */
     std::vector<std::string> _members;
@@ -168,6 +177,9 @@ class Group : public ConfigBase
 
     /* Optional property value for all the members */
     std::optional<PropertyVariantType> _value;
+
+    /* Single set of all group members across all groups */
+    static std::set<std::string> _allMembers;
 
     /**
      * @brief Parse and set the members list
