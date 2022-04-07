@@ -53,6 +53,16 @@ void getProperties(Manager* mgr, const Group& group)
                 // Property not in cache, attempt to add it
                 mgr->addObjects(member, group.getInterface(),
                                 group.getProperty());
+
+                // If the service was predefined for the group, then we know
+                // all members are in the same service so the above addObjects
+                // call would have already added every present member in the
+                // group (assuming the service has an ObjectManager iface
+                // which it should). So no need to continue.
+                if (!group.getService().empty())
+                {
+                    break;
+                }
             }
         }
         catch (const util::DBusMethodError& dme)
