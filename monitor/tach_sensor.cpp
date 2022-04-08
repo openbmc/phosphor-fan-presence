@@ -24,7 +24,7 @@
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/log.hpp>
 
-#include <experimental/filesystem>
+#include <filesystem>
 #include <functional>
 #include <optional>
 #include <utility>
@@ -39,7 +39,7 @@ namespace monitor
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 constexpr auto FAN_VALUE_PROPERTY = "Value";
 
-using namespace std::experimental::filesystem;
+namespace fs = std::filesystem;
 using InternalFailure =
     sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
@@ -76,9 +76,10 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
                        const std::optional<size_t>& errorDelay,
                        size_t countInterval, const sdeventplus::Event& event) :
     _bus(bus),
-    _fan(fan), _name(FAN_SENSOR_PATH + id), _invName(path(fan.getName()) / id),
-    _hasTarget(hasTarget), _funcDelay(funcDelay), _interface(interface),
-    _factor(factor), _offset(offset), _method(method), _threshold(threshold),
+    _fan(fan), _name(FAN_SENSOR_PATH + id),
+    _invName(fs::path(fan.getName()) / id), _hasTarget(hasTarget),
+    _funcDelay(funcDelay), _interface(interface), _factor(factor),
+    _offset(offset), _method(method), _threshold(threshold),
     _ignoreAboveMax(ignoreAboveMax), _timeout(timeout),
     _timerMode(TimerMode::func),
     _timer(event, std::bind(&Fan::updateState, &fan, std::ref(*this))),

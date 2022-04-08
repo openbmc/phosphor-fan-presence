@@ -28,7 +28,7 @@
 #include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
-#include <experimental/filesystem>
+#include <filesystem>
 #include <fstream>
 #include <functional>
 #include <stdexcept>
@@ -43,7 +43,7 @@ namespace control
 using namespace std::chrono;
 using namespace phosphor::fan;
 using namespace phosphor::logging;
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 using InternalFailure =
     sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
