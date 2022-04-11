@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10700
+         "target": 11300
        }
      ]
    },
@@ -68,7 +68,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 10700
+         "target": 11300
        }
      ]
    },
@@ -175,7 +175,7 @@
                  "property": { "name": "Value" }
                }
              ],
-             "target": 10700
+             "target": 11300
            }
          ]
        }
@@ -212,7 +212,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10700
+        "floor": 11300
       }
     ]
   },
@@ -376,7 +376,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 10700
+        "floor": 11300
       }
     ]
   },
@@ -1808,6 +1808,312 @@
        {
          "class": "signal",
          "signal": "interfaces_removed"
+       }
+     ]
+   },
+   {
+     "name": "set pcie floor index",
+     "groups": [
+       {
+         "name": "pcie slots",
+         "interface": "xyz.openbmc_project.State.Decorator.PowerState",
+         "property": {
+           "name": "PowerState"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0DeviceId"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0VendorId"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0SubsystemId"
+         }
+       },
+       {
+         "name": "pcie cards",
+         "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+         "property": {
+           "name": "Function0SubsystemVendorId"
+         }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       }
+     ],
+     "actions": [
+       {
+         "name": "pcie_card_floors",
+         "use_config_specific_files": true,
+         "settle_time": 2
+       }
+     ]
+   },
+   {
+     "name": "Set altitude offset parameter",
+     "groups": [
+       {
+         "name": "altitude",
+         "interface": "xyz.openbmc_project.Sensor.Value",
+         "property": { "name": "Value" }
+       }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         // Refresh altitude every 24hrs
+         "class": "timer",
+         "type": "repeating",
+         "interval": 86400000000,
+         "preload_groups": true
+       }
+     ],
+     "actions": [
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "ambient_20_altitude_offset",
+         "modifier": {
+           "operator": "less_than",
+           "default_value": 5000,
+           "value": [
+             { "arg_value": 500, "parameter_value": 0 },
+             { "arg_value": 1000, "parameter_value": 375 },
+             { "arg_value": 1500, "parameter_value": 550 },
+             { "arg_value": 2000, "parameter_value": 775 },
+             { "arg_value": 2500, "parameter_value": 1000 },
+             { "arg_value": 3050, "parameter_value": 1275 }
+           ]
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "ambient_25_altitude_offset",
+         "modifier": {
+           "operator": "less_than",
+           "default_value": 5000,
+           "value": [
+             { "arg_value": 500, "parameter_value": 0 },
+             { "arg_value": 1000, "parameter_value": 450 },
+             { "arg_value": 1500, "parameter_value": 700 },
+             { "arg_value": 2000, "parameter_value": 975 },
+             { "arg_value": 2500, "parameter_value": 1275 },
+             { "arg_value": 3050, "parameter_value": 1625 }
+           ]
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "ambient_30_altitude_offset",
+         "modifier": {
+           "operator": "less_than",
+           "default_value": 5000,
+           "value": [
+             { "arg_value": 500, "parameter_value": 0 },
+             { "arg_value": 1000, "parameter_value": 600 },
+             { "arg_value": 1500, "parameter_value": 900 },
+             { "arg_value": 2000, "parameter_value": 1275 },
+             { "arg_value": 2500, "parameter_value": 1650 },
+             { "arg_value": 3050, "parameter_value": 2100 }
+           ]
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "ambient_35_altitude_offset",
+         "modifier": {
+           "operator": "less_than",
+           "default_value": 5000,
+           "value": [
+             { "arg_value": 500, "parameter_value": 0 },
+             { "arg_value": 1000, "parameter_value": 750 },
+             { "arg_value": 1500, "parameter_value": 1175 },
+             { "arg_value": 2000, "parameter_value": 1625 },
+             { "arg_value": 2500, "parameter_value": 2125 },
+             { "arg_value": 3050, "parameter_value": 2725 }
+           ]
+         }
+       },
+       {
+         "name": "set_parameter_from_group_max",
+         "parameter_name": "ambient_40_altitude_offset",
+         "modifier": {
+           "operator": "less_than",
+           "default_value": 5000,
+           "value": [
+             { "arg_value": 500, "parameter_value": 0 },
+             { "arg_value": 1000, "parameter_value": 975 },
+             { "arg_value": 1500, "parameter_value": 1500 },
+             { "arg_value": 2000, "parameter_value": 2100 },
+             { "arg_value": 2500, "parameter_value": 2750 },
+             { "arg_value": 3050, "parameter_value": 3500 }
+           ]
+         }
+       }
+     ]
+   },
+   {
+     "name": "Fan floors",
+     "groups": [
+      {
+        "name": "ambient temp",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": { "name": "Value" }
+      }
+     ],
+     "triggers": [
+       {
+         "class": "init",
+         "method": "get_properties"
+       },
+       {
+         "class": "signal",
+         "signal": "properties_changed"
+       },
+       {
+         "class": "signal",
+         "signal": "interfaces_added"
+       },
+       {
+         "class": "parameter",
+         "parameter": "pcie_floor_index"
+       },
+       {
+         "class": "parameter",
+         "parameter": "ambient_20_altitude_offset"
+       },
+       {
+         "class": "parameter",
+         "parameter": "ambient_25_altitude_offset"
+       },
+       {
+         "class": "parameter",
+         "parameter": "ambient_30_altitude_offset"
+       },
+       {
+         "class": "parameter",
+         "parameter": "ambient_35_altitude_offset"
+       },
+       {
+         "class": "parameter",
+         "parameter": "ambient_40_altitude_offset"
+       }
+     ],
+     "actions": [
+       {
+         "name": "mapped_floor",
+         "key_group": "ambient temp",
+         "fan_floors": [
+          {
+            // Entry valid for temps < 20
+            "key": 20,
+            "default_floor": 5400,
+            "floor_offset_parameter": "ambient_20_altitude_offset",
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 3800 },
+                  { "value": 2, "floor": 4200 },
+                  { "value": 3, "floor": 4600 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps < 25
+            "key": 25,
+            "default_floor": 7300,
+            "floor_offset_parameter": "ambient_25_altitude_offset",
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 4400 },
+                  { "value": 2, "floor": 4800 },
+                  { "value": 3, "floor": 5400 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps < 30
+            "key": 30,
+            "default_floor": 9100,
+            "floor_offset_parameter": "ambient_30_altitude_offset",
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 5000 },
+                  { "value": 2, "floor": 5600 },
+                  { "value": 3, "floor": 6500 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps < 35
+            "key": 35,
+            "default_floor": 10800,
+            "floor_offset_parameter": "ambient_35_altitude_offset",
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 5800 },
+                  { "value": 2, "floor": 6700 },
+                  { "value": 3, "floor": 7700 }
+                ]
+              }
+            ]
+          },
+          {
+            // Entry valid for temps < 40
+            "key": 40,
+            "default_floor": 12600,
+            "floor_offset_parameter": "ambient_40_altitude_offset",
+            "floors": [
+              {
+                "parameter": "pcie_floor_index",
+                "floors": [
+                  { "value": 1, "floor": 6900 },
+                  { "value": 2, "floor": 7900 },
+                  { "value": 3, "floor": 9200 }
+                ]
+              }
+            ]
+          }
+        ]
        }
      ]
    }
