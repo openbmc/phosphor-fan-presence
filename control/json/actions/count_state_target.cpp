@@ -29,9 +29,6 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 
-// Instance id for setting the unique id of each instance of this action
-size_t CountStateTarget::instanceId = 0;
-
 CountStateTarget::CountStateTarget(const json& jsonObj,
                                    const std::vector<Group>& groups) :
     ActionBase(jsonObj, groups)
@@ -39,8 +36,6 @@ CountStateTarget::CountStateTarget(const json& jsonObj,
     setCount(jsonObj);
     setState(jsonObj);
     setTarget(jsonObj);
-
-    _id = instanceId++;
 }
 
 void CountStateTarget::run(Zone& zone)
@@ -74,8 +69,7 @@ void CountStateTarget::run(Zone& zone)
     }
 
     // Update zone's target hold based on action results
-    zone.setTargetHold(ActionBase::getName() + std::to_string(_id), _target,
-                       (numAtState >= _count));
+    zone.setTargetHold(getUniqueName(), _target, (numAtState >= _count));
 }
 
 void CountStateTarget::setCount(const json& jsonObj)
