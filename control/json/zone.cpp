@@ -145,6 +145,12 @@ void Zone::setTarget(uint64_t target)
 {
     if (_isActive)
     {
+        if (_target != target)
+        {
+            FlightRecorder::instance().log(
+                "zone-set-target" + getName(),
+                fmt::format("Set target {} (from {})", target, _target));
+        }
         _target = target;
         for (auto& fan : _fans)
         {
