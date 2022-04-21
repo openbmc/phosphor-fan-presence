@@ -304,7 +304,7 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
                 fmt::format(
                     "Restarting {} shutdown timer for {} for full "
                     "time because saved time {} is after current time {}",
-                    propertyName, original, now)
+                    propertyName, sensorPath, original, now)
                     .c_str());
         }
     }
