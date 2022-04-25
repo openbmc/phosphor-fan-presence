@@ -531,17 +531,33 @@ void Manager::insertFilteredObjects(ManagedObjects& ref)
 }
 
 void Manager::addObjects(const std::string& path, const std::string& intf,
-                         const std::string& prop)
+                         const std::string& prop,
+                         const std::string& serviceName)
 {
-    auto service = getService(path, intf);
+    auto service = serviceName;
     if (service.empty())
     {
-        // Log service not found for object
-        log<level::DEBUG>(
-            fmt::format("Unable to get service name for path {}, interface {}",
-                        path, intf)
-                .c_str());
-        return;
+        service = getService(path, intf);
+        if (service.empty())
+        {
+            // Log service not found for object
+            log<level::DEBUG>(
+                fmt::format(
+                    "Unable to get service name for path {}, interface {}",
+                    path, intf)
+                    .c_str());
+            return;
+        }
+    }
+    else
+    {
+        // The service is known, so the service cache can be
+        // populated even if the path itself isn't present.
+        const auto& s = findService(path, intf);
+        if (s.empty())
+        {
+            addServices(intf, 0);
+        }
     }
 
     auto objMgrPaths = getPaths(service, "org.freedesktop.DBus.ObjectManager");
