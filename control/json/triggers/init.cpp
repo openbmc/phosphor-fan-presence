@@ -52,7 +52,7 @@ void getProperties(Manager* mgr, const Group& group)
             {
                 // Property not in cache, attempt to add it
                 mgr->addObjects(member, group.getInterface(),
-                                group.getProperty());
+                                group.getProperty(), group.getService());
 
                 // If the service was predefined for the group, then we know
                 // all members are in the same service so the above addObjects
