@@ -353,7 +353,24 @@ class Manager
      * when the `getManagedObjects` method call fails
      */
     void addObjects(const std::string& path, const std::string& intf,
-                    const std::string& prop);
+                    const std::string& prop)
+    {
+        addObjects(path, intf, prop, std::string{});
+    }
+
+    /**
+     * @copydoc Manager::addObjects()
+     *
+     * If the service is known, then it can be used to add all objects
+     * in that service with the interface passed in to the cache instead of
+     * having to look it up.  This is done so objects can still be
+     * added even when the D-Bus path passed in doesn't exist so it
+     * can't be used to get a service name.
+     *
+     * @param[in] service - The service of the path/intf/prop if known
+     */
+    void addObjects(const std::string& path, const std::string& intf,
+                    const std::string& prop, const std::string& serviceName);
 
     /**
      * @brief Get an object's property value
