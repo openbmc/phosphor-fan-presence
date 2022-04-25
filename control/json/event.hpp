@@ -141,6 +141,13 @@ class Event : public ConfigBase
                           const std::vector<std::string>& profiles,
                           std::vector<Group>& groups);
 
+    /**
+     * @brief Return the contained groups and actions as JSON
+     *
+     * @return json - A JSON object of groups and actions
+     */
+    json dump() const;
+
   private:
     /* The sdbusplus bus object */
     sdbusplus::bus::bus& _bus;

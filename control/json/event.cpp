@@ -313,4 +313,25 @@ void Event::setTriggers(const json& jsonObj)
     }
 }
 
+json Event::dump() const
+{
+    json actionData;
+    std::for_each(_actions.begin(), _actions.end(),
+                  [&actionData](const auto& action) {
+                      actionData[action->getUniqueName()] = action->dump();
+                  });
+
+    std::vector<std::string> groupData;
+    std::for_each(_groups.begin(), _groups.end(),
+                  [&groupData](const auto& group) {
+                      groupData.push_back(group.getName());
+                  });
+
+    json eventData;
+    eventData["groups"] = groupData;
+    eventData["actions"] = actionData;
+
+    return eventData;
+}
+
 } // namespace phosphor::fan::control::json
