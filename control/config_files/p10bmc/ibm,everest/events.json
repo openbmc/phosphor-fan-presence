@@ -367,6 +367,10 @@
         "signal": "interfaces_added"
       },
       {
+        "class": "signal",
+        "signal": "interfaces_removed"
+      },
+      {
         "class": "init",
         "method": "get_properties"
       }
@@ -1802,6 +1806,11 @@
          "name": "nvme temps",
          "interface": "xyz.openbmc_project.Sensor.Value",
          "property": { "name": "Value" }
+       },
+       {
+        "name": "nvme temps",
+        "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+        "property": { "name": "Functional" }
        }
      ],
      "triggers": [
