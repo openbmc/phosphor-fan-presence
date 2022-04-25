@@ -213,6 +213,25 @@ class ActionBase : public ConfigBase
         }
     }
 
+    /**
+     * @brief Dump the action as JSON
+     *
+     * For now just dump its group names
+     *
+     * @return json
+     */
+    json dump() const
+    {
+        json groups = json::array();
+        std::for_each(_groups.begin(), _groups.end(),
+                      [&groups](const auto& group) {
+                          groups.push_back(group.getName());
+                      });
+        json output;
+        output["groups"] = groups;
+        return output;
+    }
+
   protected:
     /**
      * @brief Logs a message to the flight recorder using

@@ -156,6 +156,10 @@ void Manager::dumpCache(json& data)
         std::visit([&obj = parameters[name]](auto&& val) { obj = val; }, value);
     }
 
+    std::for_each(_events.begin(), _events.end(), [&data](const auto& event) {
+        data["events"][event.second->getName()] = event.second->dump();
+    });
+
     data["services"] = _servTree;
 }
 
