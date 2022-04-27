@@ -497,6 +497,8 @@ json System::captureSensorData()
 
 void System::handleOfflineFanController()
 {
+    using sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
+
     getLogger().log("The fan controller appears to be offline.  Shutting down.",
                     Logger::error);
 
@@ -507,6 +509,8 @@ void System::handleOfflineFanController()
     error.commit(ffdc, true);
 
     PowerInterface::executeHardPowerOff();
+
+    elog<InternalFailure>();
 }
 
 } // namespace phosphor::fan::monitor
