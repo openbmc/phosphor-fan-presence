@@ -2,6 +2,7 @@
 
 #include "logging.hpp"
 #include "power_interface.hpp"
+#include "sdbusplus.hpp"
 
 #include <fmt/format.h>
 
@@ -96,6 +97,18 @@ class PowerOffAction
 
   protected:
     /**
+     * @brief Create a BMC Dump
+     */
+    void createBmcDump() const
+    {
+        util::SDBusPlus::callMethod(
+            "xyz.openbmc_project.Dump.Manager", "/xyz/openbmc_project/dump/bmc",
+            "xyz.openbmc_project.Dump.Create", "CreateDump",
+            std::vector<
+                std::pair<std::string, std::variant<std::string, uint64_t>>>());
+    }
+
+    /**
      * @brief The name of the action, which is set by the
      *        derived class.
      */
@@ -185,7 +198,6 @@ class HardPowerOff : public PowerOffAction
      */
     void powerOff()
     {
-
         if (_prePowerOffFunc)
         {
             _prePowerOffFunc();
@@ -194,6 +206,8 @@ class HardPowerOff : public PowerOffAction
         getLogger().log(
             fmt::format("Action '{}' executing hard power off", name()));
         _powerIface->hardPowerOff();
+
+        createBmcDump();
     }
 
   private:
@@ -284,6 +298,8 @@ class SoftPowerOff : public PowerOffAction
         getLogger().log(
             fmt::format("Action '{}' executing soft power off", name()));
         _powerIface->softPowerOff();
+
+        createBmcDump();
     }
 
   private:
@@ -391,6 +407,7 @@ class EpowPowerOff : public PowerOffAction
         }
 
         _powerIface->hardPowerOff();
+        createBmcDump();
     }
 
     /**

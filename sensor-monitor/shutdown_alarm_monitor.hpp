@@ -162,6 +162,11 @@ class ShutdownAlarmMonitor
                         bool isPowerOffError = false);
 
     /**
+     * @brief Create a BMC Dump
+     */
+    void createBmcDump() const;
+
+    /**
      * @brief The sdbusplus bus object
      */
     sdbusplus::bus::bus& bus;
