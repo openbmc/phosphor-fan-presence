@@ -355,6 +355,20 @@ void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
     timestamps.erase(alarmKey);
 }
 
+void ShutdownAlarmMonitor::createBmcDump() const
+{
+    try
+    {
+        util::SDBusPlus::callMethod(
+            "xyz.openbmc_project.Dump.Manager", "/xyz/openbmc_project/dump/bmc",
+            "xyz.openbmc_project.Dump.Create", "CreateDump",
+            std::vector<
+                std::pair<std::string, std::variant<std::string, uint64_t>>>());
+    }
+    catch (const sdbusplus::exception::exception&)
+    {}
+}
+
 void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
 {
     const auto& [sensorPath, shutdownType, alarmType] = alarmKey;
@@ -378,6 +392,7 @@ void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
                           "replace");
 
     timestamps.erase(alarmKey);
+    createBmcDump();
 }
 
 void ShutdownAlarmMonitor::powerStateChanged(bool powerStateOn)

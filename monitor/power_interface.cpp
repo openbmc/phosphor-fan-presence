@@ -36,6 +36,17 @@ void PowerInterface::executeHardPowerOff()
     util::SDBusPlus::callMethod(
         systemdService, systemdPath, systemdMgrIface, "StartUnit",
         "obmc-chassis-hard-poweroff@0.target", "replace");
+
+    try
+    {
+        util::SDBusPlus::callMethod(
+            "xyz.openbmc_project.Dump.Manager", "/xyz/openbmc_project/dump/bmc",
+            "xyz.openbmc_project.Dump.Create", "CreateDump",
+            std::vector<
+                std::pair<std::string, std::variant<std::string, uint64_t>>>());
+    }
+    catch (const sdbusplus::exception::exception&)
+    {}
 }
 
 void PowerInterface::hardPowerOff()
