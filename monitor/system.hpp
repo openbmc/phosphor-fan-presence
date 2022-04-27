@@ -132,6 +132,11 @@ class System
      */
     void inventoryOnlineCb(sdbusplus::message::message& msg);
 
+    /**
+     * @brief Create a BMC Dump
+     */
+    void createBmcDump() const;
+
     /* The mode of fan monitor */
     Mode _mode;
 

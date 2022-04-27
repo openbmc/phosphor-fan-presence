@@ -507,6 +507,29 @@ void System::handleOfflineFanController()
     error.commit(ffdc, true);
 
     PowerInterface::executeHardPowerOff();
+
+    createBmcDump();
+}
+
+/**
+ * @brief Create a BMC Dump
+ */
+void System::createBmcDump() const
+{
+    auto& bus{util::SDBusPlus::getBus()};
+
+    auto method = bus.new_method_call(
+        "xyz.openbmc_project.Dump.Manager", "/xyz/openbmc_project/dump/bmc",
+        "xyz.openbmc_project.Dump.Create", "CreateDump");
+    method.append(
+        std::vector<
+            std::pair<std::string, std::variant<std::string, uint64_t>>>());
+    try
+    {
+        bus.call_noreply(method);
+    }
+    catch (const sdbusplus::exception::exception&)
+    {}
 }
 
 } // namespace phosphor::fan::monitor
