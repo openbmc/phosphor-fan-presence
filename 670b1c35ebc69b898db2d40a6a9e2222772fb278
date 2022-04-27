@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b52464b6_b953f98e",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-04-27T20:53:58Z",
+      "side": 1,
+      "message": "This is an oversight, I am fixing it now.",
+      "revId": "670b1c35ebc69b898db2d40a6a9e2222772fb278",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
