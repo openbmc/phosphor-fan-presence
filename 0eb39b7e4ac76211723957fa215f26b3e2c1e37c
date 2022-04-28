@@ -16,6 +16,24 @@
       "message": "needs the other parameter labels added",
       "revId": "0eb39b7e4ac76211723957fa215f26b3e2c1e37c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fe0002e9_b6b60b42",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-04-28T16:50:42Z",
+      "side": 1,
+      "message": "in my head I was assuming @copydoc would handle those.  will add.",
+      "parentUuid": "1fe25e51_bdc6fcb1",
+      "revId": "0eb39b7e4ac76211723957fa215f26b3e2c1e37c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
