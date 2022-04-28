@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c9f4ae3_cfaa878b",
+        "filename": "monitor/power_interface.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-04-28T14:23:22Z",
+      "side": 1,
+      "message": "I think you can just use the same util::SdBusPlus::callMethod() function as above for all of the instances?  It\u0027s templated to take the method args as function parameters",
+      "revId": "4c58edd8a2a8bcd04bcb8c93009675e90bb309e0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
