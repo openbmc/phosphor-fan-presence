@@ -25,7 +25,7 @@
 #include <sstream>
 #include <vector>
 
-constexpr auto maxEntriesPerID = 20;
+constexpr auto maxEntriesPerID = 40;
 
 namespace phosphor::fan::control::json
 {
