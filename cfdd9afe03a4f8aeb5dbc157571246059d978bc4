@@ -16,6 +16,24 @@
       "message": "I might feel a little safer putting a try/catch around these so it can\u0027t affect fan monitor. In theory this shouldn\u0027t fail though... what do you think?",
       "revId": "cfdd9afe03a4f8aeb5dbc157571246059d978bc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbc87982_014f60b3",
+        "filename": "monitor/power_interface.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-04-29T14:10:06Z",
+      "side": 1,
+      "message": "It\u0027s something that can only be a benefit and no cost, so I\u0027ll add it.",
+      "parentUuid": "69d2755c_e52cf8f6",
+      "revId": "cfdd9afe03a4f8aeb5dbc157571246059d978bc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
