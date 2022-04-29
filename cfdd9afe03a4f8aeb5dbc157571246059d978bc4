@@ -34,6 +34,24 @@
       "parentUuid": "69d2755c_e52cf8f6",
       "revId": "cfdd9afe03a4f8aeb5dbc157571246059d978bc4",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eae06eb4_75a006e8",
+        "filename": "monitor/power_interface.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-04-29T15:29:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbc87982_014f60b3",
+      "revId": "cfdd9afe03a4f8aeb5dbc157571246059d978bc4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
