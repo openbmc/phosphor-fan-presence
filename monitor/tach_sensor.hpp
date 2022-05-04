@@ -10,6 +10,7 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <deque>
 #include <optional>
 #include <utility>
 
@@ -360,6 +361,22 @@ class TachSensor
      */
     void updateTachAndTarget();
 
+    /**
+     * @brief return the previous tach values
+     */
+    const std::deque<uint64_t>& getPrevTach() const
+    {
+        return _prevTachs;
+    }
+
+    /**
+     * @brief return the previous target values
+     */
+    const std::deque<uint64_t>& getPrevTarget() const
+    {
+        return _prevTargets;
+    }
+
   private:
     /**
      * @brief Returns the match string to use for matching
@@ -537,6 +554,16 @@ class TachSensor
     std::unique_ptr<
         sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
         _countTimer;
+
+    /**
+     * @brief record of previous targets
+     */
+    std::deque<uint64_t> _prevTargets;
+
+    /**
+     * @brief record of previous tach readings
+     */
+    std::deque<uint64_t> _prevTachs;
 };
 
 } // namespace monitor
