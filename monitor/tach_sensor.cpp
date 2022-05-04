@@ -38,6 +38,8 @@ namespace monitor
 
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 constexpr auto FAN_VALUE_PROPERTY = "Value";
+constexpr auto MAX_PREV_TACHS = 8;
+constexpr auto MAX_PREV_TARGETS = 8;
 
 namespace fs = std::filesystem;
 using InternalFailure =
@@ -87,6 +89,13 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 {
     // Query functional state from inventory
     // TODO - phosphor-fan-presence/issues/25
+
+    _prevTachs.resize(MAX_PREV_TACHS);
+
+    if (_hasTarget)
+    {
+        _prevTargets.resize(MAX_PREV_TARGETS);
+    }
 
     _functional = true;
 
@@ -177,7 +186,20 @@ void TachSensor::updateTachAndTarget()
     if (_hasTarget)
     {
         readProperty(_interface, FAN_TARGET_PROPERTY, _name, _bus, _tachTarget);
+
+        // record previous target value
+        if (_prevTargets.front() != _tachTarget)
+        {
+            _prevTargets.push_front(_tachTarget);
+
+            _prevTargets.pop_back();
+        }
     }
+
+    // record previous tach value
+    _prevTachs.push_front(_tachInput);
+
+    _prevTachs.pop_back();
 }
 
 std::string TachSensor::getMatchString(const std::string& interface)
