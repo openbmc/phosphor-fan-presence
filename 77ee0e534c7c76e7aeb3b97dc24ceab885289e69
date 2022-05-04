@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8720a8f1_b8dacc13",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-05-04T19:17:53Z",
+      "side": 1,
+      "message": "I think you would need to have _prevTachs/Targets on the TachSensor class because  they will have different values for in the inputs.\n\nthis function gets called for each tach class, so as it is now  the history is probably interleaving the values: fan0_0, fan0_1, fan0_0, fan0_1, etc.",
+      "revId": "77ee0e534c7c76e7aeb3b97dc24ceab885289e69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "284f4c06_1ef5d22a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-05-04T19:17:53Z",
+      "side": 1,
+      "message": "can you do this in one line?\nvalues[\"prev_tach\"] \u003d sensor-\u003egetPrevTachs()",
+      "revId": "77ee0e534c7c76e7aeb3b97dc24ceab885289e69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed0301cd_1d0dadc7",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-05-04T19:17:53Z",
+      "side": 1,
+      "message": "you can also wrap this in a hasTarget() check, since i don\u0027t think we need to display the targets for a rotor that doesn\u0027t have a target associated with it.",
+      "revId": "77ee0e534c7c76e7aeb3b97dc24ceab885289e69",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
