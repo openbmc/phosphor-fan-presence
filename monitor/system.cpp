@@ -1,5 +1,5 @@
 /**
- * Copyright © 2021 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -487,6 +487,12 @@ json System::captureSensorData()
             {
                 values["target"] = sensor->getTarget();
             }
+
+            std::string history = json(fan->getPrevTachs()).dump();
+            values["prev_tach"] = json(history);
+
+            history = json(fan->getPrevTargets()).dump();
+            values["prev_target"] = json(history);
 
             data["sensors"][sensor->name()] = values;
         }

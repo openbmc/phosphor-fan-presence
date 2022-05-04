@@ -9,6 +9,7 @@
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 
+#include <deque>
 #include <tuple>
 #include <vector>
 
@@ -193,6 +194,16 @@ class Fan
         return _numSensorsOnDBusAtPowerOn;
     }
 
+    const std::deque<uint64_t>& getPrevTachs() const
+    {
+        return _prevTachs;
+    }
+
+    const std::deque<uint64_t>& getPrevTargets() const
+    {
+        return _prevTargets;
+    }
+
   private:
     /**
      * @brief Returns true if the sensor input is not within
@@ -353,6 +364,10 @@ class Fan
      * Will be zero until the power turns on the first time.
      */
     size_t _numSensorsOnDBusAtPowerOn = 0;
+
+    std::deque<uint64_t> _prevTargets;
+
+    std::deque<uint64_t> _prevTachs;
 };
 
 } // namespace monitor

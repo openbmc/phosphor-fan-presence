@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,8 @@
 
 #include <phosphor-logging/log.hpp>
 
-#include <algorithm>
+static constexpr int MAX_PREV_TARGETS = 8;
+static constexpr int MAX_PREV_TACHS = 8;
 
 namespace phosphor
 {
@@ -64,6 +65,9 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def)),
     _setFuncOnPresent(std::get<funcOnPresentField>(def))
 {
+    _prevTargets.resize(MAX_PREV_TARGETS);
+    _prevTachs.resize(MAX_PREV_TACHS);
+
     // Setup tach sensors for monitoring
     auto& sensors = std::get<sensorListField>(def);
     for (auto& s : sensors)
@@ -330,6 +334,20 @@ void Fan::process(TachSensor& sensor)
                 }
                 break;
         }
+    }
+
+    // record previous target value
+    _prevTachs.push_front(sensor.getInput());
+
+    _prevTachs.pop_back();
+
+    auto target = sensor.getTarget();
+
+    if (_prevTargets.front() != target)
+    {
+        _prevTargets.push_front(target);
+
+        _prevTargets.pop_back();
     }
 }
 
