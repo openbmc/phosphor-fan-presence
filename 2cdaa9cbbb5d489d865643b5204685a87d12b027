@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ca85869_69c8d6c8",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-05-05T18:37:06Z",
+      "side": 1,
+      "message": "ok, so this function only gets called a few times - once at startup and once on a power on.  Instead, where you\u0027d need to put these is in handleTargetChange (for previousTargets) and handleTachChange for previousTachs\n\nin fact I tried it and only saw 2 entries in the PEL.",
+      "revId": "2cdaa9cbbb5d489d865643b5204685a87d12b027",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
