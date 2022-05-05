@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa0227a1_1dccd55c",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-05-05T18:23:48Z",
+      "side": 1,
+      "message": "how about \"prev_tachs\" to match up with the \"tach\" used above.\n\nand then below \"prev_targets\" so it\u0027s similiar to the \"target\" we have above.",
+      "range": {
+        "startLine": 493,
+        "startChar": 20,
+        "endLine": 493,
+        "endChar": 36
+      },
+      "revId": "32cc5efc6a3642e303f663d4aadcb048706d7768",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
