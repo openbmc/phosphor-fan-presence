@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50eb90bd_c2db4172",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-05-05T20:03:16Z",
+      "side": 1,
+      "message": "i was a little worried this is called after _fan.tachChanged(), but I think I\u0027ve convinced myself it doesn\u0027t matter.",
+      "revId": "ef2d996e1a8b706ca32252611bd6c98764e80232",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
