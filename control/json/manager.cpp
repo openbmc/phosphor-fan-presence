@@ -569,10 +569,16 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     {
         // No object manager interface provided by service?
         // Attempt to retrieve property directly
-        auto value = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
-            _bus, service, path, intf, prop);
+        try
+        {
+            auto value =
+                util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+                    _bus, service, path, intf, prop);
 
-        setProperty(path, intf, prop, value);
+            setProperty(path, intf, prop, value);
+        }
+        catch (const std::exception& e)
+        {}
         return;
     }
 
@@ -690,13 +696,17 @@ void Manager::addGroups(const std::vector<Group>& groups)
                     {
                         // No object manager interface provided for group member
                         // Attempt to retrieve group member property directly
-                        auto value = util::SDBusPlus::getPropertyVariant<
-                            PropertyVariantType>(_bus, service, member,
-                                                 group.getInterface(),
-                                                 group.getProperty());
-
-                        setProperty(member, group.getInterface(),
-                                    group.getProperty(), value);
+                        try
+                        {
+                            auto value = util::SDBusPlus::getPropertyVariant<
+                                PropertyVariantType>(_bus, service, member,
+                                                     group.getInterface(),
+                                                     group.getProperty());
+                            setProperty(member, group.getInterface(),
+                                        group.getProperty(), value);
+                        }
+                        catch (const std::exception& e)
+                        {}
                         continue;
                     }
 

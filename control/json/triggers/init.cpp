@@ -65,7 +65,7 @@ void getProperties(Manager* mgr, const Group& group)
                 }
             }
         }
-        catch (const util::DBusMethodError& dme)
+        catch (const std::exception& e)
         {
             // Configured dbus object does not exist on dbus yet?
             // TODO How to handle this? Create timer to keep checking for
