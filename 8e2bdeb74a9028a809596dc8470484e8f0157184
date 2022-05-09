@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70d32490_f02d1391",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-05-09T18:42:11Z",
+      "side": 1,
+      "message": "Am I missing something? I was wondering what the changes were to all it to startup without this dependency. When I went looking, I see what looks like this same change, already merged:\nhttps://github.com/openbmc/phosphor-fan-presence/commit/b798d44f4df62a8876881a6ae0fc0c3692de0727\n",
+      "revId": "8e2bdeb74a9028a809596dc8470484e8f0157184",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
