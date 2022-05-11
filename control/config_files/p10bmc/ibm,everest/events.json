@@ -66,7 +66,7 @@
      "actions": [
        {
          "name": "count_state_before_target",
-         "count": 1,
+         "count": 2,
          "state": false,
          "target": 11300
        }
@@ -94,11 +94,6 @@
        },
        {
          "name": "planar temps",
-         "interface": "xyz.openbmc_project.Sensor.Value",
-         "property": { "name": "Value" }
-       },
-       {
-         "name": "flett temps",
          "interface": "xyz.openbmc_project.Sensor.Value",
          "property": { "name": "Value" }
        },
@@ -160,11 +155,6 @@
                  "property": { "name": "Value" }
                },
                {
-                 "name": "flett temps",
-                 "interface": "xyz.openbmc_project.Sensor.Value",
-                 "property": { "name": "Value" }
-               },
-               {
                  "name": "pcie cable card temps",
                  "interface": "xyz.openbmc_project.Sensor.Value",
                  "property": { "name": "Value" }
@@ -175,7 +165,7 @@
                  "property": { "name": "Value" }
                }
              ],
-             "target": 11300
+             "target": 9700
            }
          ]
        }
@@ -413,7 +403,7 @@
          "parameter_name": "proc_0_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -421,7 +411,7 @@
          "parameter_name": "proc_0_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -455,7 +445,7 @@
          "parameter_name": "proc_1_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -463,7 +453,7 @@
          "parameter_name": "proc_1_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -497,7 +487,7 @@
          "parameter_name": "proc_2_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -505,7 +495,7 @@
          "parameter_name": "proc_2_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -539,7 +529,7 @@
          "parameter_name": "proc_3_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -547,7 +537,7 @@
          "parameter_name": "proc_3_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -581,7 +571,7 @@
          "parameter_name": "proc_4_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -589,7 +579,7 @@
          "parameter_name": "proc_4_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -623,7 +613,7 @@
          "parameter_name": "proc_5_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -631,7 +621,7 @@
          "parameter_name": "proc_5_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -665,7 +655,7 @@
          "parameter_name": "proc_6_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -673,7 +663,7 @@
          "parameter_name": "proc_6_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -707,7 +697,7 @@
          "parameter_name": "proc_7_core_dvfs_increase_temp",
          "modifier": {
              "operator": "minus",
-             "value": 10
+             "value": 7
          }
        },
        {
@@ -715,7 +705,7 @@
          "parameter_name": "proc_7_core_dvfs_decrease_temp",
          "modifier": {
              "operator": "minus",
-             "value": 13
+             "value": 9
          }
        }
      ]
@@ -1396,7 +1386,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 66.0,
+         "state": 70.0,
          "delta": 175
        },
        {
@@ -1408,7 +1398,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 52.0,
+         "state": 56.0,
          "delta": 200
        },
        {
@@ -1420,7 +1410,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 72.0,
+         "state": 76.0,
          "delta": 150
        },
        {
@@ -1480,7 +1470,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 65.0,
+         "state": 50.0,
          "delta": 255
        },
        {
@@ -1696,7 +1686,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 63.0,
+         "state": 68.0,
          "delta": 40
        },
        {
@@ -1708,7 +1698,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 49.0,
+         "state": 54.0,
          "delta": 40
        },
        {
@@ -1720,7 +1710,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 69.0,
+         "state": 74.0,
          "delta": 40
        },
        {
@@ -1780,7 +1770,7 @@
              "property": { "name": "Value" }
            }
          ],
-         "state": 63.0,
+         "state": 48.0,
          "delta": 80
        },
        {
@@ -1913,7 +1903,7 @@
          "parameter_name": "ambient_20_altitude_offset",
          "modifier": {
            "operator": "less_than",
-           "default_value": 5000,
+           "default_value": 1500,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
              { "arg_value": 1000, "parameter_value": 375 },
@@ -1929,7 +1919,7 @@
          "parameter_name": "ambient_25_altitude_offset",
          "modifier": {
            "operator": "less_than",
-           "default_value": 5000,
+           "default_value": 2000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
              { "arg_value": 1000, "parameter_value": 450 },
@@ -1945,7 +1935,7 @@
          "parameter_name": "ambient_30_altitude_offset",
          "modifier": {
            "operator": "less_than",
-           "default_value": 5000,
+           "default_value": 2500,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
              { "arg_value": 1000, "parameter_value": 600 },
@@ -1961,7 +1951,7 @@
          "parameter_name": "ambient_35_altitude_offset",
          "modifier": {
            "operator": "less_than",
-           "default_value": 5000,
+           "default_value": 3000,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
              { "arg_value": 1000, "parameter_value": 750 },
@@ -1977,7 +1967,7 @@
          "parameter_name": "ambient_40_altitude_offset",
          "modifier": {
            "operator": "less_than",
-           "default_value": 5000,
+           "default_value": 3500,
            "value": [
              { "arg_value": 500, "parameter_value": 0 },
              { "arg_value": 1000, "parameter_value": 975 },
@@ -2045,7 +2035,7 @@
           {
             // Entry valid for temps < 20
             "key": 20,
-            "default_floor": 5400,
+            "default_floor": 3800,
             "floor_offset_parameter": "ambient_20_altitude_offset",
             "floors": [
               {
@@ -2061,7 +2051,7 @@
           {
             // Entry valid for temps < 25
             "key": 25,
-            "default_floor": 7300,
+            "default_floor": 4400,
             "floor_offset_parameter": "ambient_25_altitude_offset",
             "floors": [
               {
@@ -2077,7 +2067,7 @@
           {
             // Entry valid for temps < 30
             "key": 30,
-            "default_floor": 9100,
+            "default_floor": 5000,
             "floor_offset_parameter": "ambient_30_altitude_offset",
             "floors": [
               {
@@ -2093,7 +2083,7 @@
           {
             // Entry valid for temps < 35
             "key": 35,
-            "default_floor": 10800,
+            "default_floor": 5800,
             "floor_offset_parameter": "ambient_35_altitude_offset",
             "floors": [
               {
@@ -2109,7 +2099,7 @@
           {
             // Entry valid for temps < 40
             "key": 40,
-            "default_floor": 12600,
+            "default_floor": 6900,
             "floor_offset_parameter": "ambient_40_altitude_offset",
             "floors": [
               {
