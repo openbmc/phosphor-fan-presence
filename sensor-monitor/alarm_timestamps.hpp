@@ -18,10 +18,13 @@
 
 #include "types.hpp"
 
+#include <fmt/format.h>
+
 #include <cereal/archives/json.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/tuple.hpp>
 #include <cereal/types/vector.hpp>
+#include <phosphor-logging/log.hpp>
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
@@ -241,8 +244,9 @@ class AlarmTimestamps
         catch (const std::exception& e)
         {
             // Include possible exception when removing file, otherwise ec = 0
+            using namespace phosphor::logging;
             std::error_code ec;
-            fs::remove(path, ec);
+            std::filesystem::remove(path, ec);
             log<level::ERR>(
                 fmt::format("Unable to restore persisted times ({}, ec: {})",
                             e.what(), ec.value())
