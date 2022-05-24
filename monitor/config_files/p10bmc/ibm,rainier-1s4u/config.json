@@ -90,8 +90,8 @@
                 "type": "epow",
                 "cause": "nonfunc_fan_rotors",
                 "count": 2,
-                "service_mode_delay": 300,
-                "meltdown_delay": 300
+                "service_mode_delay": 60,
+                "meltdown_delay": 60
             }
        ]
    }
