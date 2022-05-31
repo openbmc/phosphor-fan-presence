@@ -25,11 +25,6 @@ Notation)](https://www.json.org/) data format and can be created using a text
 editor.
 
 
-## Example
-
-TBD
-
-
 ## System Config Location
 
 The config file names are:
@@ -80,8 +75,11 @@ The `phosphor-fan-control` application then traverses the supported
 directory, appending each compatible system type entry as a sub-directory from
 most specific to most general on each config file until it is found.
 
-Example: TBD
-
+Example:
+1. `/usr/share/phosphor-fan-presence/control/ibm,rainier-2u/`
+   * (directory/config file does not exist)
+2. `/usr/share/phosphor-fan-presence/control/ibm,rainier/events.json`
+   * (config file found)
 
 If any required config file is not found and the machine is powered on,
 an error is logged and `phosphor-fan-control` application terminates preventing
@@ -116,15 +114,123 @@ the directory locations in the following order:
 
 ### Structure
 
-TBD
+#### fans.json
+This file consists of an array of fan objects representing the fan FRUs
+in the system.
 
-### Syntax
+```
+[
+    {
+        "name": "fan0",
+        "zone": "0",
+        "sensors": ["fan0_0"],
+        "target_interface": "xyz.openbmc_project.Control.FanSpeed"
+    }
+    ...
+]
+```
 
-TBD
+[Syntax](fans.md)
+
+#### zones.json
+This file contains parameters specific to the zone.
+
+```
+[
+    {
+        "name": "0",
+        "poweron_target": 18000,
+        "default_floor": 18000,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    ...
+]
+```
+
+[Syntax](zones.md)
+
+#### groups.json
+This file defines the groups that events.json will use in its actions.  Groups
+consist of one or more D-Bus object paths and a name.
+
+```
+[
+   {
+     "name": "fan inventory",
+     "members": [
+       "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan0",
+       "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan1",
+       "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan2",
+       "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3",
+       "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan4",
+       "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan5"
+     ]
+   }
+ ...
+]
+```
+
+[Syntax](groups.md)
+
+#### events.json
+This file contains the fan control events, where each event can contain groups,
+trigger, and actions.
+
+```
+{
+  [
+    {
+      "name": ...
+      "groups": [
+        {
+           ...
+        },
+        ...
+      ],
+
+      "triggers": [
+        {
+            ...
+        },
+        ...
+      ],
+
+      "actions": [
+        {
+          ...
+        },
+        ...
+      ],
+      ...
+    },
+    ...
+  ]
+}
+```
+
+[Syntax](events.md)
 
 ### Comments
 
-TBD
+The JSON data format does not support comments. However, the library used by
+code to parse the JSON does support '//'  as a comment:
+
+```
+// This is a comment.
+{
+   ...
+}
+```
+
+Alternatively, a comment attribute can be used:
+
+```
+{
+  "comment": "This is a comment."
+  ...
+}
+```
 
 Fans can be queried and controlled manually using the fanctl utility. Full
 documentation can be found at https://github.com/openbmc/phosphor-fan-presence/blob/master/docs/control/fanctl/README.md
