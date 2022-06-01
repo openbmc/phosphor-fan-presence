@@ -574,3 +574,91 @@ expression.
 The above config will first find the max of its groups property values,
 subtract 4, and then store the resulting value in the `proc_0_throttle_temp`
 parameter.
+
+### call_actions_based_on_timer
+This action starts and stops a timer that runs a list of actions whenever the
+timer expires.  A timer can be either `oneshot` or `repeating`.
+
+When all groups have a configured value to compare against, that will
+be compared against all members within each group to start/stop the
+timer. When all group members have a given value and it matches what's
+in the cache, the timer is started and if any do not match, the timer is
+stopped.
+
+When any group does not have a configured value to be compared against,
+the groups' service owned state is used to start/stop the timer. When
+any service providing a group member is not owned, the timer is started
+and if all members' services are owned, the timer is stopped.
+
+Consider the following action config:
+```
+{
+    "name": "call_actions_based_on_timer",
+    "timer": {
+        "interval": 5000000,
+        "type": "oneshot"
+    },
+    "actions": [{
+        "name": "test"
+    }]
+}
+
+```
+If its group configuration has a property value listed, like:
+
+```
+{
+    "name": "fan inventory",
+    "interface": "xyz.openbmc_project.Inventory.Item",
+    "property": { "name": "Present", "value": true }
+}
+```
+Then a oneshot timer of 5000000us will be started when every member of the fan
+inventory group has a value of true.  Otherwise, the timer will be stopped if
+it's running.
+
+If the group configuration has no property value listed, like:
+
+```
+{
+    "name": "fan inventory",
+    "interface": "xyz.openbmc_project.Inventory.Item",
+    "property": { "name": "Present" }
+}
+```
+Then the timer will be started when any service providing a group member isn't
+owned (on D-Bus).  Otherwise, it will stop the timer if it's running.
+
+### get_managed_objects
+This action adds the members of its groups to the object cache by using the
+GetManagedObjects D-Bus method to find and add the results.  When that is done,
+it then runs any actions listed in the JSON.
+
+This allows an action to run with the latest values in the cache without having
+to subscribe to propertiesChanged for them all.
+
+```
+{
+   "name": "get_managed_objects",
+   "groups": [
+     {
+       "name": "proc temps",
+       "interface": "xyz.openbmc_project.Sensor.Value",
+       "property": { "name": "Value" }
+     }
+   ],
+   "actions": [
+     {
+       "name": "set_net_increase_target",
+       "state": 30,
+       "delta": 100
+     }
+   ]
+}
+```
+
+The above config will make the GetManagedObjects call on all services that own
+the configured groups and then add all resulting property values to the object
+cache.  After that, it will call the `set_net_increase_target` action using the
+same groups.
+
