@@ -358,3 +358,48 @@ The above config uses a parameter as the state value:
    - Multiplies that difference by the 'delta' value of 50.
 2. Requests a decrease of the smallest calculated delta value, if there is
    one.
+
+### count_state_floor
+ Sets the fans to a configured floor when a number of members within the
+ group are at a configured state. Once the number of members at the given
+ state falls below the configured count, the floor hold is released.
+
+```
+{
+    "name": "count_state_floor",
+    "count": 2,
+    "state": false,
+    "floor": 18000
+}
+```
+
+The above config reads the configured D-Bus property on each group member
+configured for the action.  If two or more members have a property value of
+false, a floor hold will be requested with a value of 18000.  Otherwise, the
+floor hold will be released (if it was previously requested).
+
+### count_state_before_target
+Sets the fans to a configured target when a number of members within the group
+are at a configured state. Once the number of members at the given state falls
+below the configured count, active fan target changes are allowed.
+
+```
+{
+    "name": "count_state_before_target",
+    "count": 1,
+    "state": false,
+    "target": 18000
+}
+```
+
+The above config reads the configured D-Bus property on each group member
+configured for the action.  If one or more members have a property value of
+false, a target hold will be requested with a value of 18000.  Otherwise, the
+hold will be released (if it was previously requested).
+
+### default_floor_on_missing_owner
+Sets the fan floor to the defined zone's default fan floor when a service
+associated to a given group has terminated. Once all services are functional
+and providing the sensors, the fan floor is allowed to be set normally again.
+
+There is no additional JSON config for this action.
