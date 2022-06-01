@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c2136a3_38dc17f6",
+        "filename": "configure.ac",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-01T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac48f87f_bb7a8790",
+      "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e1e50a21_dd112ec2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-01T16:15:22Z",
       "side": 1,
       "message": "typo: ssystemd",
+      "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49e67938_4fba2e38",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-01T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1e50a21_dd112ec2",
       "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +94,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88843550_44a5c016",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-01T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "947664ce_d5340711",
+      "range": {
+        "startLine": 104,
+        "startChar": 59,
+        "endLine": 104,
+        "endChar": 62
+      },
+      "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cfa6a3f0_9dbf2930",
@@ -71,6 +131,30 @@
       "writtenOn": "2022-06-01T18:28:56Z",
       "side": 1,
       "message": "you probably don\u0027t need the newline since it\u0027s JSON.",
+      "range": {
+        "startLine": 261,
+        "startChar": 48,
+        "endLine": 261,
+        "endChar": 52
+      },
+      "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d7bd963_c4350014",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-01T19:34:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cfa6a3f0_9dbf2930",
       "range": {
         "startLine": 261,
         "startChar": 48,
