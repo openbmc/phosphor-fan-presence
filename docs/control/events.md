@@ -662,3 +662,38 @@ the configured groups and then add all resulting property values to the object
 cache.  After that, it will call the `set_net_increase_target` action using the
 same groups.
 
+## Modifiers
+Modifiers are used by some actions to help calculate values.
+
+### minus
+Subtract the `value` field from the passed in value.
+
+```
+"modifier": {
+    "expression": "minus",
+    "value": 4
+}
+```
+
+The above config subtracts 4 from what is passed to it.
+
+### less_than
+Returns a value from a data table that is selected when the argument passed in
+is less than the `arg_value` entry in the table row.  If there is a
+`default_value` field supplied, then that will be returned if the argument is
+greater than the `arg_value` of the last row.
+
+```
+"modifier": {
+  "operator": "less_than",
+  "default_value": 10000,
+  "value": [
+      { "arg_value": 500, "parameter_value": 1 },
+      { "arg_value": 1000, "parameter_value": 2 },
+      { "arg_value": 1500, "parameter_value": 3 }
+  ]
+}
+```
+
+The above config returns 1 if the arg passed is less than 500, 2 if less than
+1000, and 3 if less than 1500.  Otherwise returns 10000, the default value.
