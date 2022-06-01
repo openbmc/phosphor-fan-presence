@@ -65,3 +65,29 @@ The `count_state_before_target` action will look at the object cache value of
 the Present property on each member of the group and set the fan target hold to
 15000 when one or more of them is false.  Otherwise, it will clear its fan
 target hold.
+
+## Groups
+
+```
+"groups": [
+    {
+        "name": "<name>",
+        "interface": "<interface>",
+        "property": { "name": "<name>" }
+    }
+    ...
+]
+```
+
+### name
+The name of a group that must be also be defined in
+[groups.json](groups.md).
+
+### interface
+The actions and triggers defined with this group will look at this D-Bus
+interface on the members of this group.
+
+### property: name
+The actions and triggers defined with this group will look at this D-Bus
+property on the members of this group.
+
