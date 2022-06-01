@@ -403,3 +403,100 @@ associated to a given group has terminated. Once all services are functional
 and providing the sensors, the fan floor is allowed to be set normally again.
 
 There is no additional JSON config for this action.
+
+### mapped_floor
+This action can be used to set a floor value based on 2 or more groups
+having values within certain ranges, where the key group chooses the set
+of tables in which to check the remaining group values.
+
+```
+{
+  "name": "mapped_floor",
+  "key_group": "ambient temp",
+  "default_floor": 5555,
+  "fan_floors": [
+   {
+     "key": 25,
+     "default_floor": 4444,
+     "floor_offset_parameter": "ambient_25_altitude_offset",
+     "floors": [
+       {
+         "parameter": "pcie_floor_index",
+         "floors": [
+           { "value": 1, "floor": 2000 },
+           { "value": 2, "floor": 3000 },
+           { "value": 3, "floor": 4000 },
+           { "value": 4, "floor": 5000 },
+           { "value": 5, "floor": 6000 }
+         ]
+       },
+       {
+         "group": "power save",
+         "floors": [
+            { "value": true, "floor": 1000 }
+         ]
+       }
+     ]
+   }
+}
+```
+
+The above config will use the maximum value of the 'ambient temp' group as the
+key into the 'fan_floors' tables.  There is one of those tables listed, and it
+will be used when the key group has a max value of less than 25.
+
+It will then traverse the contained floors arrays, keeping track of the highest
+valid floor value it finds.  If it doesn't find any valid floor values, it will
+use the `default_floor` value of 4444, though that value is optional.
+
+If no valid tables were found given the key value, the `default_floor` value of
+5555 would be used, though that is optional and if not supplied the code would
+default to the default floor of the zone.
+
+At the end of the analysis, a floor hold will be set with the final floor
+value.
+
+### set_target_on_missing_owner
+Sets the fans to a configured target when any service owner associated to the
+group is missing. Once all services are functional and providing all the
+group data again, active fan target changes are allowed.
+
+```
+{
+    "name": "set_target_on_missing_owner",
+    "groups": [{
+        "name": "fan inventory",
+        "interface": "xyz.openbmc_project.Inventory.Item",
+        "property": { "name": "Present" }
+      }],
+    "target": 18000
+}
+```
+
+The above config will set a target hold of 18000 when the service associated
+with the 'fan inventory' group is lost.
+
+### override_fan_target
+This action locks fans at configured targets when the configured `count` amount
+of fans meet criterion for the particular condition. A locked fan maintains its
+override target until unlocked (or locked at a higher target). Upon unlocking,
+it will either revert to temperature control or activate the next-highest
+target remaining in its list of locks.
+
+```
+{
+    "name": "override_fan_target",
+    "count": 1,
+    "state": false,
+    "fans": [ "fan0", "fan1", "fan2", "fan3" ],
+    "target": 10000
+}
+```
+
+The above config will lock all fans in the fans array at a target of 10000 when
+one or more members in its configured group have a group property value of
+false.
+
+This could be used for example, to lock the rotors of a multirotor fan to a
+high target when one of its rotors has a functional property equal to false.
+
