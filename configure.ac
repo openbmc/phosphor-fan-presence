@@ -22,7 +22,7 @@ AM_PATH_PYTHON([3], [AC_SUBST([PYTHON], [echo "$PYTHON"])],
 [AC_MSG_ERROR([Minimum python version(3) not found])])
 
 # Checks for typedefs, structures, and compiler characteristics.
-AX_CXX_COMPILE_STDCXX([20],[noext])
+AX_CXX_COMPILE_STDCXX([17],[noext])
 AX_APPEND_COMPILE_FLAGS([-Wall -Werror], [CXXFLAGS])
 
 # Checks for libraries.
