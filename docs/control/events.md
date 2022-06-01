@@ -500,3 +500,77 @@ false.
 This could be used for example, to lock the rotors of a multirotor fan to a
 high target when one of its rotors has a functional property equal to false.
 
+### pcie_card_floors
+Sets the `pcie_floor_index` parameter based on the current configuration of
+plugged and powered on PCIe cards, using data from the `pcie_cards.json` file.
+
+It chooses the highest index from the active PCIe cards to set in the
+parameter.
+
+It must be configured with the following groups and properties:
+- The PCIe slots with the PowerState property
+- The PCIe cards with the following properties: Function0DeviceId,
+  Function0VendorId, Function0SubsystemId, Function0SubsystemVendorId
+
+```
+{
+    "name": "pcie_card_floors",
+    "use_config_specific_files": true,
+    "settle_time": 2
+}
+```
+
+The `use_config_specific_files` field tells the code to look for the
+'pcie_cards.json' files in the same system specific directories as
+'events.json'.  If missing or false, looks in the base fan control directory.
+
+The `settle_time` field is the amount of time in seconds that needs to pass
+without a call to run() from a group property value changing.  As the
+PCIeDevice attributes are written close together by the host, this allows the
+action to wait until the writes are done before selecting the index.
+
+Additional details are in the [header
+file](../../control/json/actions/pcie_card_floors.hpp)
+
+### set_request_target_base_with_max
+Determines the maximum value from the properties of the group of D-Bus objects
+and sets the requested target base to this value. Only positive integer or
+floating point types are supported as these are the only valid types for a fan
+target to be based off of.
+
+The `requested target base` value is the base value to apply a target delta
+to.  By default, it's the current zone target unless modified by this action.
+
+```
+{
+    "name": "set_request_target_base_with_max",
+    "groups": [{
+        "name": "fan targets",
+        "interface": "xyz.openbmc_project.Fan.Target",
+        "property": { "name": "Target" }
+      }]
+}
+```
+
+The above config will set the requested target base to the maximum Target
+property value of all members of the 'fan targets' group.
+
+### set_parameter_from_group_max
+Sets a parameter value based on the maximum group property value.  The property
+value can be modified before storing it if the JSON specifies a valid modifier
+expression.
+
+ ```
+{
+    "name": "set_parameter_from_group_max",
+    "parameter_name": "proc_0_throttle_temp",
+    "modifier": {
+      "expression": "minus",
+      "value": 4
+    }
+}
+ ```
+
+The above config will first find the max of its groups property values,
+subtract 4, and then store the resulting value in the `proc_0_throttle_temp`
+parameter.
