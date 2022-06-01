@@ -16,6 +16,52 @@
       "message": "typo: ssystemd",
       "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947664ce_d5340711",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T18:28:56Z",
+      "side": 1,
+      "message": "So you\u0027re never closing this?  Then we\u0027d be leaking file descriptors which would cause us to fail to create new ones after we hit some number of open ones.",
+      "range": {
+        "startLine": 104,
+        "startChar": 59,
+        "endLine": 104,
+        "endChar": 62
+      },
+      "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfa6a3f0_9dbf2930",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T18:28:56Z",
+      "side": 1,
+      "message": "you probably don\u0027t need the newline since it\u0027s JSON.",
+      "range": {
+        "startLine": 261,
+        "startChar": 48,
+        "endLine": 261,
+        "endChar": 52
+      },
+      "revId": "4a8b8fc67eeca172460ce0df730db117d73d81a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
