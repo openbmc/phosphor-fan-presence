@@ -9,6 +9,7 @@
 * [Validation](#validation)
 * [Firmware Updates](#firmware-updates)
 * [Loading and Reloading](#loading-and-reloading)
+* [Debug](#debug)
 
 
 ## Overview
@@ -264,3 +265,7 @@ on the BMC:
 To confirm which config files were loaded, use the following command on the BMC:
 
 `journalctl -u phosphor-fan-control@0.service | grep Loading`
+
+## Debug
+Fan control maintains internal data structures that can be be dumped at
+runtime.  Details [here](debug.md).
