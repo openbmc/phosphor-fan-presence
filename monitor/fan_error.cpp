@@ -18,6 +18,8 @@
 #include "logging.hpp"
 #include "sdbusplus.hpp"
 
+#include <systemd/sd-journal.h>
+
 #include <nlohmann/json.hpp>
 #include <xyz/openbmc_project/Logging/Create/server.hpp>
 
@@ -38,6 +40,33 @@ const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 namespace fs = std::filesystem;
 using namespace phosphor::fan::util;
+
+/**
+ * @class JournalCloser
+ *
+ * Automatically closes the journal when the object goes out of scope.
+ */
+class JournalCloser
+{
+  public:
+    // Specify which compiler-generated methods we want
+    JournalCloser() = delete;
+    JournalCloser(const JournalCloser&) = delete;
+    JournalCloser(JournalCloser&&) = delete;
+    JournalCloser& operator=(const JournalCloser&) = delete;
+    JournalCloser& operator=(JournalCloser&&) = delete;
+
+    JournalCloser(sd_journal* journal) : journal{journal}
+    {}
+
+    ~JournalCloser()
+    {
+        sd_journal_close(journal);
+    }
+
+  private:
+    sd_journal* journal{nullptr};
+};
 
 FFDCFile::FFDCFile(const fs::path& name) :
     _fd(open(name.c_str(), O_RDONLY)), _name(name)
@@ -62,6 +91,20 @@ void FanError::commit(const json& jsonFFDC, bool isPowerOffError)
         ffdc.emplace_back(FFDCFormat::Text, 0x01, 0x01, logFile->fd());
     }
 
+    // add the previous systemd journal entries as FFDC
+    char tmpFile[] = "/tmp/fanffdc.XXXXXX";
+    auto service_fd = mkstemp(tmpFile);
+    if (service_fd != -1)
+    {
+        auto ffdcData = getJournalEntries(25);
+        const auto& jsonString = ffdcData.dump();
+        auto rc = write(service_fd, jsonString.data(), jsonString.size());
+        if (rc != -1)
+        {
+            ffdc.emplace_back(FFDCFormat::JSON, 0x01, 0x01, service_fd);
+        }
+    }
+
     // Add the passed in JSON as FFDC
     auto ffdcFile = makeJsonFFDCFile(jsonFFDC);
     if (ffdcFile && (ffdcFile->fd() != -1))
@@ -81,6 +124,8 @@ void FanError::commit(const json& jsonFFDC, bool isPowerOffError)
         }
         SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
                               "CreateWithFFDCFiles", _errorName, sev, ad, ffdc);
+
+        close(service_fd);
     }
     catch (const DBusError& e)
     {
@@ -163,6 +208,139 @@ std::unique_ptr<FFDCFile> FanError::makeJsonFFDCFile(const json& ffdcData)
                         Logger::error);
     }
     return nullptr;
+}
+
+nlohmann::json FanError::getJournalEntries(int numLines) const
+{
+    // Sleep 100ms; otherwise recent journal entries sometimes not available
+    using namespace std::chrono_literals;
+    std::this_thread::sleep_for(100ms);
+
+    // Open the journal
+    sd_journal* journal;
+    int rc = sd_journal_open(&journal, SD_JOURNAL_LOCAL_ONLY);
+    if (rc < 0)
+    {
+        throw std::runtime_error{std::string{"Failed to open journal: "} +
+                                 strerror(-rc)};
+    }
+
+    // Create object to automatically close journal
+    JournalCloser closer{journal};
+
+    std::string field{"SYSLOG_IDENTIFIER"};
+    std::vector<std::string> executables{"systemd"};
+
+    std::vector<std::string> entries;
+    entries.reserve(2 * numLines);
+
+    for (const auto& executable : executables)
+    {
+        // Add match so we only loop over entries with specified field value
+        std::string match{field + '=' + executable};
+        rc = sd_journal_add_match(journal, match.c_str(), 0);
+        if (rc < 0)
+        {
+            throw std::runtime_error{
+                std::string{"Failed to add journal match: "} + strerror(-rc)};
+        }
+
+        int count{1};
+
+        std::string syslogID, pid, message, timeStamp;
+
+        // Loop through journal entries from newest to oldest
+        SD_JOURNAL_FOREACH_BACKWARDS(journal)
+        {
+            // Get relevant journal entry fields
+            timeStamp = getTimeStamp(journal);
+            syslogID = getFieldValue(journal, "SYSLOG_IDENTIFIER");
+            pid = getFieldValue(journal, "_PID");
+            message = getFieldValue(journal, "MESSAGE");
+
+            // Build one line string containing field values
+            entries.push_back(timeStamp + " " + syslogID + "[" + pid +
+                              "]: " + message);
+
+            // Stop after number of lines was read
+            if (count++ >= numLines)
+            {
+                break;
+            }
+        }
+    }
+
+    // put the journal entries in chronological order
+    std::reverse(entries.begin(), entries.end());
+
+    return json(entries);
+}
+
+std::string FanError::getTimeStamp(sd_journal* journal) const
+{
+    // Get realtime (wallclock) timestamp of current journal entry.  The
+    // timestamp is in microseconds since the epoch.
+    uint64_t usec{0};
+    int rc = sd_journal_get_realtime_usec(journal, &usec);
+    if (rc < 0)
+    {
+        throw std::runtime_error{
+            std::string{"Failed to get journal entry timestamp: "} +
+            strerror(-rc)};
+    }
+
+    // Convert to number of seconds since the epoch
+    time_t secs = usec / 1000000;
+
+    // Convert seconds to tm struct required by strftime()
+    struct tm* timeStruct = localtime(&secs);
+    if (timeStruct == nullptr)
+    {
+        throw std::runtime_error{
+            std::string{"Invalid journal entry timestamp: "} + strerror(errno)};
+    }
+
+    // Convert tm struct into a date/time string
+    char timeStamp[80];
+    strftime(timeStamp, sizeof(timeStamp), "%b %d %H:%M:%S", timeStruct);
+
+    return timeStamp;
+}
+
+std::string FanError::getFieldValue(sd_journal* journal,
+                                    const std::string& field) const
+{
+    std::string value{};
+
+    // Get field data from current journal entry
+    const void* data{nullptr};
+    size_t length{0};
+    int rc = sd_journal_get_data(journal, field.c_str(), &data, &length);
+    if (rc < 0)
+    {
+        if (-rc == ENOENT)
+        {
+            // Current entry does not include this field; return empty value
+            return value;
+        }
+        else
+        {
+            throw std::runtime_error{
+                std::string{"Failed to read journal entry field: "} +
+                strerror(-rc)};
+        }
+    }
+
+    // Get value from field data.  Field data in format "FIELD=value".
+    std::string dataString{static_cast<const char*>(data), length};
+    std::string::size_type pos = dataString.find('=');
+    if ((pos != std::string::npos) && ((pos + 1) < dataString.size()))
+    {
+        // Value is substring after the '='
+        value = dataString.substr(pos + 1);
+    }
+
+    return value;
 }
 
 } // namespace phosphor::fan::monitor
