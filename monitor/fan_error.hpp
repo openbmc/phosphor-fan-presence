@@ -138,6 +138,35 @@ class FanError
 
   private:
     /**
+     * @brief returns a JSON structure containing the previous N journal
+     * entries.
+     *
+     * @param[in] numLines - Number of lines of journal to retrieve
+     */
+    nlohmann::json getJournalEntries(int numLines) const;
+
+    /**
+     * Gets the realtime (wallclock) timestamp for the current journal entry.
+     *
+     * @param journal current journal entry
+     * @return timestamp as a date/time string
+     */
+    std::string getTimeStamp(sd_journal* journal) const;
+
+    /**
+     * Gets the value of the specified field for the current journal entry.
+     *
+     * Returns an empty string if the current journal entry does not have the
+     * specified field.
+     *
+     * @param journal current journal entry
+     * @param field journal field name
+     * @return field value
+     */
+    std::string getFieldValue(sd_journal* journal,
+                              const std::string& field) const;
+
+    /**
      * @brief Returns an FFDCFile holding the Logger contents
      *
      * @return std::unique_ptr<FFDCFile> - The file object
