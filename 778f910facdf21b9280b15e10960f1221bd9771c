@@ -102,6 +102,30 @@
       },
       "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41348f3a_84f124f3",
+        "filename": "monitor/fan_error.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T22:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b53414f_dacb01d7",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 39
+      },
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
