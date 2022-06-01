@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf6daf4b_bffecfea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T20:50:46Z",
+      "side": 1,
+      "message": "it doesn\u0027t add them to temperature PELs, just fan ones.  (which is fine)",
+      "range": {
+        "startLine": 7,
+        "startChar": 35,
+        "endLine": 7,
+        "endChar": 47
+      },
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04c00db9_7ca99fba",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T20:50:46Z",
+      "side": 1,
+      "message": "instead of throwing an exception that could crash the app, or adding an exception handler, how about just write the error message as JSON somehow and return that, so that it\u0027ll get added to the error log in place of the journal.  Same with the exception down below.",
+      "range": {
+        "startLine": 235,
+        "startChar": 12,
+        "endLine": 235,
+        "endChar": 37
+      },
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3f9eee9_e03a203b",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T20:50:46Z",
+      "side": 1,
+      "message": "Also with these exceptions they should probably get caught or just not thrown in the first place. maybe just write to the journal with log\u003clevel::ERR\u003e() and and return an empty string.",
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "478febda_efcef663",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T20:50:46Z",
+      "side": 1,
+      "message": "could do the same as above here, use log\u003clevel::ERR\u003e() and return an empty string.",
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0b53414f_dacb01d7",
+        "filename": "monitor/fan_error.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-01T20:50:46Z",
+      "side": 1,
+      "message": "now it returns a JSON array",
+      "range": {
+        "startLine": 141,
+        "startChar": 14,
+        "endLine": 141,
+        "endChar": 39
+      },
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
