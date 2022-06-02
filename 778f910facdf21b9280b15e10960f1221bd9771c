@@ -47,6 +47,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc96da5e_dd7b17c1",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-02T13:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04c00db9_7ca99fba",
+      "range": {
+        "startLine": 235,
+        "startChar": 12,
+        "endLine": 235,
+        "endChar": 37
+      },
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a3f9eee9_e03a203b",
@@ -64,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "89de6fb7_038581ba",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-02T13:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3f9eee9_e03a203b",
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "478febda_efcef663",
@@ -77,6 +119,24 @@
       "writtenOn": "2022-06-01T20:50:46Z",
       "side": 1,
       "message": "could do the same as above here, use log\u003clevel::ERR\u003e() and return an empty string.",
+      "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6fb37fd8_1175ae12",
+        "filename": "monitor/fan_error.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-02T13:23:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "478febda_efcef663",
       "revId": "778f910facdf21b9280b15e10960f1221bd9771c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
