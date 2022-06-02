@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e26e18e_168e47ad",
+        "filename": "docs/control/debug.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-02T15:46:13Z",
+      "side": 1,
+      "message": "properties",
+      "revId": "548e4111cfa77fb8d5b1b3e913de9bf75c8f7013",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
