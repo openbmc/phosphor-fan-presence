@@ -24,7 +24,7 @@
          "name": "count_state_before_target",
          "count": 1,
          "state": false,
-         "target": 11300
+         "target": 11000
        }
      ]
    },
@@ -68,7 +68,7 @@
          "name": "count_state_before_target",
          "count": 2,
          "state": false,
-         "target": 11300
+         "target": 11000
        }
      ]
    },
@@ -202,7 +202,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 11300
+        "floor": 11000
       }
     ]
   },
@@ -370,7 +370,7 @@
         "name": "count_state_floor",
         "count": 1,
         "state": false,
-        "floor": 11300
+        "floor": 11000
       }
     ]
   },
