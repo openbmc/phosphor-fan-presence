@@ -13,12 +13,12 @@
          "sensors": [
             {
                "name": "fan0_0",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": true
             },
             {
                "name": "fan0_1",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": false
             }
          ]
@@ -36,12 +36,12 @@
          "sensors": [
             {
                "name": "fan1_0",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": true
             },
             {
                "name": "fan1_1",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": false
             }
          ]
@@ -59,12 +59,12 @@
          "sensors": [
             {
                "name": "fan2_0",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": true
             },
             {
                "name": "fan2_1",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": false
             }
          ]
@@ -82,12 +82,12 @@
          "sensors": [
             {
                "name": "fan3_0",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": true
             },
             {
                "name": "fan3_1",
-               "threshold": 30,
+               "threshold": 45,
                "has_target": false
             }
          ]
