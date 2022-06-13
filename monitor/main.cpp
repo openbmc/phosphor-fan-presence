@@ -33,7 +33,7 @@
 
 using namespace phosphor::fan::monitor;
 
-int main(int argc, char* argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();

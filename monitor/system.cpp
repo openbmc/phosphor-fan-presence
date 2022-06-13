@@ -231,7 +231,7 @@ void System::sighupHandler(sdeventplus::source::Signal&,
 }
 
 const std::vector<CreateGroupFunction>
-    System::getTrustGroups(const json& jsonObj)
+    System::getTrustGroups([[maybe_unused]] const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
     return getTrustGrps(jsonObj);
@@ -245,7 +245,8 @@ void System::setTrustMgr(const std::vector<CreateGroupFunction>& groupFuncs)
     _trust = std::make_unique<trust::Manager>(groupFuncs);
 }
 
-const std::vector<FanDefinition> System::getFanDefinitions(const json& jsonObj)
+const std::vector<FanDefinition>
+    System::getFanDefinitions([[maybe_unused]] const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
     return getFanDefs(jsonObj);
@@ -334,7 +335,7 @@ void System::fanStatusChange(const Fan& fan, bool skipRulesCheck)
     }
 }
 
-void System::setFaultConfig(const json& jsonObj)
+void System::setFaultConfig([[maybe_unused]] const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
     std::shared_ptr<PowerInterfaceBase> powerInterface =
