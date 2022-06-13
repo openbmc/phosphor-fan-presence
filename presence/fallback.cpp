@@ -31,7 +31,7 @@ namespace fan
 namespace presence
 {
 
-void Fallback::stateChanged(bool present, PresenceSensor& sensor)
+void Fallback::stateChanged(bool present, PresenceSensor& /*sensor*/)
 {
     if (!present)
     {

@@ -59,7 +59,7 @@ void JsonConfig::start()
 {
     using config = fan::JsonConfig;
 
-    process(config::load(config::getConfFile(_bus, confAppName, confFileName)));
+    process(config::load(config::getConfFile(confAppName, confFileName)));
 
     for (auto& p : _policies)
     {
@@ -72,8 +72,8 @@ const policies& JsonConfig::get()
     return _policies;
 }
 
-void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
-                               const struct signalfd_siginfo* sigInfo)
+void JsonConfig::sighupHandler(sdeventplus::source::Signal& /*sigSrc*/,
+                               const struct signalfd_siginfo* /*sigInfo*/)
 {
     try
     {
@@ -82,8 +82,7 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
         _reporter.reset();
 
         // Load and process the json configuration
-        process(
-            config::load(config::getConfFile(_bus, confAppName, confFileName)));
+        process(config::load(config::getConfFile(confAppName, confFileName)));
 
         for (auto& p : _policies)
         {

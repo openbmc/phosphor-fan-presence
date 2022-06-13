@@ -204,9 +204,9 @@ class Manager
     {
         std::map<configKey, std::unique_ptr<T>> config;
 
-        auto confFile =
-            fan::JsonConfig::getConfFile(util::SDBusPlus::getBus(), confAppName,
-                                         T::confFileName, isOptional);
+        auto confFile = fan::JsonConfig::getConfFile(
+            confAppName, T::confFileName, isOptional);
+
         if (!confFile.empty())
         {
             FlightRecorder::instance().log(
