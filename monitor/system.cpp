@@ -250,6 +250,7 @@ const std::vector<FanDefinition> System::getFanDefinitions(const json& jsonObj)
 #ifdef MONITOR_USE_JSON
     return getFanDefs(jsonObj);
 #else
+    (void)jsonObj;
     return fanDefinitions;
 #endif
 }
@@ -346,6 +347,8 @@ void System::setFaultConfig(const json& jsonObj)
     _powerOffRules = getPowerOffRules(jsonObj, powerInterface, func);
 
     _numNonfuncSensorsBeforeError = getNumNonfuncRotorsBeforeError(jsonObj);
+#else
+    (void)jsonObj;
 #endif
 }
 

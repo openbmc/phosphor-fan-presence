@@ -132,6 +132,8 @@ TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
 #ifndef MONITOR_USE_JSON
     if (mode != Mode::init)
     {
+#else
+        (void)mode;
 #endif
         try
         {

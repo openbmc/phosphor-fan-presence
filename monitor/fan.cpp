@@ -599,6 +599,8 @@ void Fan::powerStateChanged(bool powerStateOn)
             sensor->stopCountTimer();
         });
     }
+#else
+    (void)powerStateOn;
 #endif
 }
 
