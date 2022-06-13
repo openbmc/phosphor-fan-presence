@@ -55,7 +55,7 @@ void PCIeCardFloors::run(Zone& zone)
     _settleTimer->restartOnce(_settleTime);
 }
 
-void PCIeCardFloors::execute(Zone& zone)
+void PCIeCardFloors::execute(Zone& /*zone*/)
 {
     size_t hotCards = 0;
     size_t numTempSensorCards = 0;
