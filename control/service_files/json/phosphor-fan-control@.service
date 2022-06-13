@@ -1,0 +1,6 @@
+[Unit]
+Description=Phosphor Fan Control Daemon
+
+[Service]
+Restart=on-failure
+ExecStart=@BINDIR@/phosphor-fan-control
