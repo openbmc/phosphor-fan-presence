@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,6 +22,8 @@
 #else
 #include "json/manager.hpp"
 #endif
+
+#include "event.hpp"
 #include "sdbusplus.hpp"
 #include "sdeventplus.hpp"
 
@@ -46,7 +48,7 @@ void dumpFlightRecorder()
 }
 #endif
 
-int main(int argc, char* argv[])
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     auto event = phosphor::fan::util::SDEventPlus::getEvent();
 

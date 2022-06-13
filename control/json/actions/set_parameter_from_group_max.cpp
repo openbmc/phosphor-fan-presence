@@ -33,7 +33,7 @@ SetParameterFromGroupMax::SetParameterFromGroupMax(
     setModifier(jsonObj);
 }
 
-void SetParameterFromGroupMax::run(Zone& zone)
+void SetParameterFromGroupMax::run(Zone& /*zone*/)
 {
     std::optional<PropertyVariantType> max;
 

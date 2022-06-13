@@ -1,5 +1,5 @@
 /**
- * Copyright © 2021 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -192,12 +192,9 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      *
      * @param[in] group - The group to get the max value of
      *
-     * @param[in] manager - The Manager object
-     *
      * @return optional<PropertyVariantType> - The value, or std::nullopt
      */
-    std::optional<PropertyVariantType> getMaxGroupValue(const Group& group,
-                                                        const Manager& manager);
+    std::optional<PropertyVariantType> getMaxGroupValue(const Group& group);
 
     /**
      * @brief Returns a pointer to the group object specified
