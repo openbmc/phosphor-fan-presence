@@ -1,0 +1,7 @@
+[Unit]
+Description=Phosphor Fan Monitor Daemon
+After=mapper-wait@-xyz-openbmc_project-inventory.service
+
+[Service]
+Restart=on-failure
+ExecStart=/usr/bin/phosphor-fan-monitor
