@@ -222,6 +222,8 @@ class JsonConfig
                                       const std::string& fileName,
                                       bool isOptional = false)
     {
+        (void)bus;
+
         // Check override location
         fs::path confFile = fs::path{confOverridePath} / appName / fileName;
         if (fs::exists(confFile))

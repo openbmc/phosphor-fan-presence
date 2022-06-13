@@ -159,7 +159,7 @@ class NullGpio : public PresenceSensor
      *
      * @param[in] fanInventoryPath - The fan inventory D-Bus object path.
      */
-    void logConflict(const std::string& fanInventoryPath) const override
+    void logConflict(const std::string& /*fanInventoryPath*/ ) const override
     {}
 
   private:

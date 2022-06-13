@@ -61,6 +61,9 @@ int main(int argc, char* argv[])
         args.usage(argv);
         return 1;
     }
+#else
+    (void)argc;
+    (void)argv;
 #endif
 
     // Attach the event object to the bus object so we can
