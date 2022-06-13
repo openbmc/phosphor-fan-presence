@@ -126,7 +126,7 @@ struct MinusOperator : public Modifier::BaseOperator
         return value;
     }
 
-    PropertyVariantType operator()(bool val) override
+    PropertyVariantType operator()(bool) override
     {
         throw std::runtime_error{
             "Bool not allowed as a 'minus' modifier value"};
@@ -271,7 +271,7 @@ struct LessThanOperator : public Modifier::BaseOperator
         return getDefaultValue(rangeValues.back().second, defaultValue);
     }
 
-    PropertyVariantType operator()(bool val) override
+    PropertyVariantType operator()(bool) override
     {
         throw std::runtime_error{
             "Bool not allowed as a 'less_than' modifier value"};

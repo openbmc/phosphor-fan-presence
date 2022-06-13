@@ -90,7 +90,7 @@ void NetTargetIncrease::run(Zone& zone)
                                 auto deltaFactor =
                                     std::max((std::get<int64_t>(value) -
                                               std::get<int64_t>(_state)),
-                                             1ll);
+                                             int64_t(1));
                                 incDelta =
                                     static_cast<uint64_t>(deltaFactor * _delta);
                             }
