@@ -81,8 +81,9 @@ bool getPreload(const json& jsonObj)
     return false;
 }
 
-enableTrigger triggerTimer(const json& jsonObj, const std::string& eventName,
-                           std::vector<std::unique_ptr<ActionBase>>& actions)
+enableTrigger
+    triggerTimer(const json& jsonObj, const std::string& /*eventName*/,
+                 std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
 {
     // Get the type and interval of this timer from the JSON
     auto type = getType(jsonObj);

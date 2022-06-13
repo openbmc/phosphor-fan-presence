@@ -22,7 +22,7 @@
 
 using namespace sensor::monitor;
 
-int main(int argc, char* argv[])
+int main(int, char*[])
 {
     auto event = sdeventplus::Event::get_default();
     auto bus = sdbusplus::bus::new_default();

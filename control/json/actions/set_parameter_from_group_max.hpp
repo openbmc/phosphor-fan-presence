@@ -66,7 +66,7 @@ class SetParameterFromGroupMax :
     SetParameterFromGroupMax&
         operator=(const SetParameterFromGroupMax&) = delete;
     SetParameterFromGroupMax& operator=(SetParameterFromGroupMax&&) = delete;
-    ~SetParameterFromGroupMax() = default;
+    virtual ~SetParameterFromGroupMax() = default;
 
     /**
      * @brief Constructor

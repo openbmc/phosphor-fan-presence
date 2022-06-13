@@ -1,5 +1,5 @@
 /**
- * Copyright © 2021 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -661,7 +661,7 @@ void queryDumpFile(const DumpQuery& dq)
  * @function setup the CLI object to accept all options
  */
 void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
-             DumpQuery& dq)
+             [[maybe_unused]] DumpQuery& dq)
 {
     app.set_help_flag("-h,--help", "Print this help page and exit.");
 
