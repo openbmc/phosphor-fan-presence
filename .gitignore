@@ -32,3 +32,6 @@ test-driver
 *_test
 libtool
 *.service
+build*/
+subprojects/*
+!subprojects/*.wrap

@@ -15,7 +15,7 @@ namespace fan
 {
 namespace presence
 {
-void setPresence(const Fan& fan, bool newState)
+void setPresence(const Fan&, bool newState)
 {
     if (newState)
     {
@@ -68,7 +68,7 @@ TEST(FallbackTest, TestOne)
     // Validate a single sensor.
     // Validate on->off->on.
     pstate = -1;
-    Fan fan{"/path", "name"};
+    Fan fan{"/path", "name", 0};
     TestSensor ts;
     ts._present = true;
     std::vector<std::reference_wrapper<PresenceSensor>> sensors{ts};
@@ -99,7 +99,7 @@ TEST(FallbackTest, TestTwoA)
     // Validate both sensors on->off->on
 
     pstate = -1;
-    Fan fan{"/path", "name"};
+    Fan fan{"/path", "name", 0};
     TestSensor ts1, ts2;
     ts1._present = true;
     ts2._present = true;

@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/freedesktop/libevdev
+revision = HEAD
+
+[provide]
+libevdev =  dep_libevdev
