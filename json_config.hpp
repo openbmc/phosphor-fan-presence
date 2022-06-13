@@ -217,7 +217,7 @@ class JsonConfig
      * @return filesystem path
      *     The filesystem path to the configuration file to use
      */
-    static const fs::path getConfFile(sdbusplus::bus::bus& bus,
+    static const fs::path getConfFile([[maybe_unused]]sdbusplus::bus::bus& bus,
                                       const std::string& appName,
                                       const std::string& fileName,
                                       bool isOptional = false)

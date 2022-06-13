@@ -70,11 +70,11 @@ static void
     }
 }
 
-TachSensor::TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
-                       const std::string& id, bool hasTarget, size_t funcDelay,
-                       const std::string& interface, double factor,
-                       int64_t offset, size_t method, size_t threshold,
-                       bool ignoreAboveMax, size_t timeout,
+TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus::bus& bus,
+                       Fan& fan, const std::string& id, bool hasTarget,
+                       size_t funcDelay, const std::string& interface,
+                       double factor, int64_t offset, size_t method,
+                       size_t threshold, bool ignoreAboveMax, size_t timeout,
                        const std::optional<size_t>& errorDelay,
                        size_t countInterval, const sdeventplus::Event& event) :
     _bus(bus),
