@@ -50,6 +50,7 @@ class ConfigBase
     ConfigBase(ConfigBase&&) = delete;
     ConfigBase& operator=(const ConfigBase&) = delete;
     ConfigBase& operator=(ConfigBase&&) = delete;
+
     virtual ~ConfigBase() = default;
 
     explicit ConfigBase(const json& jsonObj)

@@ -1,5 +1,5 @@
 /**
- * Copyright © 2021 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -50,12 +50,12 @@ void PCIeCardFloors::run(Zone& zone)
     {
         _settleTimer =
             std::make_unique<Timer>(util::SDEventPlus::getEvent(),
-                                    [&zone, this](Timer&) { execute(zone); });
+                                    [&zone, this](Timer&) { execute(); });
     }
     _settleTimer->restartOnce(_settleTime);
 }
 
-void PCIeCardFloors::execute(Zone& zone)
+void PCIeCardFloors::execute()
 {
     size_t hotCards = 0;
     size_t numTempSensorCards = 0;
