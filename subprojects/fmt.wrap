@@ -1,0 +1,6 @@
+[wrap-git]
+url = https://github.com/fmtlib/fmt
+revision = HEAD
+
+[provide]
+fmt = fmt_dep
