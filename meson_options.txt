@@ -1,0 +1,49 @@
+option(
+    'input-history-sensor-root', type: 'string',
+    value: '/org/open_power/sensors/aggregation/per_30s',
+    description: 'The D-Bus power sensors namespace root.',
+)
+option(
+    'tests', type: 'feature', description: 'Build tests.',
+)
+option(
+    'long-tests', type: 'feature',
+    description: 'Build long-running tests that are excluded from CI.',
+)
+
+option(
+    'use-json', type: 'boolean', value: true,
+    description: 'Use JSON configuration files.',
+)
+
+option(
+    'ucd90160-yaml', type: 'string', value: 'example/ucd90160.yaml',
+    description: 'The sequencer definition file to use.',
+)
+option(
+    'oe-sdk', type: 'feature', description: 'Enable OE SDK'
+)
+option(
+    'cold-redundancy', type: 'boolean',
+    description: 'Enable support for cold redundancy'
+)
+option(
+    'supply-monitor', type: 'boolean',
+    description: 'Enable support for power supply monitoring'
+)
+option(
+    'supply-monitor-ng', type: 'boolean',
+    description: 'Enable support for power supply monitoring'
+)
+option(
+    'regulators', type: 'boolean',
+    description: 'Enable support for voltage regulator control'
+)
+option(
+    'sequencer-monitor', type: 'boolean',
+    description: 'Enable support for power sequencer control'
+)
+option(
+    'sequencer-monitor-ng', type: 'boolean',
+    description: 'Enable support for power sequencer control utilizing JSON configuration and supporting multiple systems in a single build image'
+)
