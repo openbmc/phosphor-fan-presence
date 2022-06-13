@@ -65,8 +65,8 @@ Trigger signal(const std::string& match, SignalHandler&& handler)
 Trigger init(MethodHandler&& handler)
 {
     return [handler = std::move(handler)](
-               control::Zone& zone, const std::string& name, const Group& group,
-               const std::vector<Action>& actions) {
+               control::Zone& zone, const std::string& /*name*/,
+               const Group& group, const std::vector<Action>& actions) {
         // A handler function is optional
         if (handler)
         {
