@@ -506,7 +506,7 @@ void Fan::sensorErrorTimerExpired(const TachSensor& sensor)
     }
 }
 
-void Fan::powerStateChanged(bool powerStateOn)
+void Fan::powerStateChanged([[maybe_unused]] bool powerStateOn)
 {
 #ifdef MONITOR_USE_JSON
     if (powerStateOn)
