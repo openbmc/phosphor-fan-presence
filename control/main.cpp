@@ -16,14 +16,14 @@
 #include "config.h"
 
 #ifndef CONTROL_USE_JSON
-#include "../utils/flight_recorder.hpp"
 #include "argument.hpp"
 #include "manager.hpp"
 #else
+#include "../utils/flight_recorder.hpp"
 #include "json/manager.hpp"
 #endif
 
-#include "event.hpp"
+#include "dbus_paths.hpp"
 #include "sdbusplus.hpp"
 #include "sdeventplus.hpp"
 
