@@ -164,7 +164,7 @@ class Zone : public ThermalObject
                           const char* property, T value)
     {
         _properties[object][interface][property] = value;
-    };
+    }
 
     /**
      * @brief Sets a given object's property value
@@ -180,7 +180,7 @@ class Zone : public ThermalObject
                           const std::string& property, T value)
     {
         _properties[object][interface][property] = value;
-    };
+    }
 
     /**
      * @brief Get the value of an object's property
@@ -197,7 +197,7 @@ class Zone : public ThermalObject
                                  const std::string& property)
     {
         return std::get<T>(_properties.at(object).at(interface).at(property));
-    };
+    }
 
     /**
      * @brief Get the object's property variant
@@ -213,7 +213,7 @@ class Zone : public ThermalObject
                                     const std::string& property)
     {
         return _properties.at(object).at(interface).at(property);
-    };
+    }
 
     /**
      * @brief Get a property's value after applying a set of visitors
@@ -271,7 +271,7 @@ class Zone : public ThermalObject
         // Default to return the property's value by the data type
         // configured, applying no visitors to the variant.
         return std::get<T>(variant);
-    };
+    }
 
     /**
      * @brief Remove an object's interface
@@ -347,7 +347,7 @@ class Zone : public ThermalObject
     inline auto getDefFloor()
     {
         return _defFloorSpeed;
-    };
+    }
 
     /**
      * @brief Set the default floor
@@ -357,7 +357,7 @@ class Zone : public ThermalObject
     inline void setDefFloor(uint64_t speed)
     {
         _defFloorSpeed = speed;
-    };
+    }
 
     /**
      * @brief Get the ceiling speed
@@ -367,7 +367,7 @@ class Zone : public ThermalObject
     inline auto& getCeiling() const
     {
         return _ceilingSpeed;
-    };
+    }
 
     /**
      * @brief Set the ceiling speed to the given speed
@@ -377,7 +377,7 @@ class Zone : public ThermalObject
     inline void setCeiling(uint64_t speed)
     {
         _ceilingSpeed = speed;
-    };
+    }
 
     /**
      * @brief Swaps the ceiling key value with what's given and
@@ -391,7 +391,7 @@ class Zone : public ThermalObject
     {
         std::swap(_ceilingKeyValue, keyValue);
         return keyValue;
-    };
+    }
 
     /**
      * @brief Get the increase speed delta
@@ -401,7 +401,7 @@ class Zone : public ThermalObject
     inline auto& getIncSpeedDelta() const
     {
         return _incSpeedDelta;
-    };
+    }
 
     /**
      * @brief Get the decrease speed delta
@@ -411,7 +411,7 @@ class Zone : public ThermalObject
     inline auto& getDecSpeedDelta() const
     {
         return _decSpeedDelta;
-    };
+    }
 
     /**
      * @brief Set the floor speed to the given speed and increase target
@@ -431,7 +431,7 @@ class Zone : public ThermalObject
     inline void setRequestSpeedBase(uint64_t speedBase)
     {
         _requestSpeedBase = speedBase;
-    };
+    }
 
     /**
      * @brief Calculate the requested target speed from the given delta
@@ -649,7 +649,7 @@ class Zone : public ThermalObject
         value = getPropertyValueVisitor<T>(intf.c_str(), prop.c_str(), variant);
 
         return value;
-    };
+    }
 
     /**
      * @brief Overridden thermal object's set 'Current' property function
@@ -843,7 +843,7 @@ class Zone : public ThermalObject
     inline auto getRequestSpeedBase() const
     {
         return (_requestSpeedBase != 0) ? _requestSpeedBase : _targetSpeed;
-    };
+    }
 };
 
 } // namespace control
