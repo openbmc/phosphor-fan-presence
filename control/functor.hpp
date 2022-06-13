@@ -102,7 +102,7 @@ struct Properties
      * Extract the property from the PropertiesChanged
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus_t& bus, sdbusplus::message_t& msg,
+    void operator()(sdbusplus::bus_t&, sdbusplus::message_t& msg,
                     Zone& zone) const
     {
         if (msg)
@@ -403,7 +403,7 @@ struct NameOwner
      * Extract the name owner from the NameOwnerChanged
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus_t& bus, sdbusplus::message_t& msg,
+    void operator()(sdbusplus::bus_t&, sdbusplus::message_t& msg,
                     Zone& zone) const
     {
         if (msg)
