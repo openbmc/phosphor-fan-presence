@@ -1,0 +1,126 @@
+
+option(
+    'tests', type: 'feature', value: 'enabled', description: 'Build tests.',
+)
+
+option(
+    'json-config', type: 'feature', value: 'enabled',
+    description: 'Use json at runtime to configure fan packages.'
+)
+
+# Control
+
+option(
+    'control-service', type: 'feature', value: 'enabled',
+    description: 'Build fan control service.'
+)
+
+option(
+    'control-busname', type: 'string', value: 'xyz.openbmc_project.Control.Thermal',
+    description: 'Application\'s D-Bus busname to own.'
+)
+
+option(
+    'control-objpath', type: 'string', value: '/xyz/openbmc_project/control/thermal',
+    description: 'Application\'s root D-Bus object path.'
+)
+
+option(
+    'control-persist-root-path', type: 'string', value: '/var/lib/phosphor-fan-presence/control',
+    description: 'Base location to persist zone property states'
+)
+
+option(
+    'fan-def-yaml-file', type: 'string', value: 'example/fans.yaml',
+    description: 'Build time fan configuration file'
+)
+option(
+    'fan-zone-yaml-file', type: 'string', value: 'example/zones.yaml',
+    description: 'Build time fan configuration file'
+)
+option(
+    'zone-events-yaml-file', type: 'string', value: 'example/events.yaml',
+    description: 'Build time fan configuration file'
+)
+option(
+    'zone-conditions-yaml-file', type: 'string', value: 'example/zone_conditions.yaml',
+    description: 'Build time fan configuration file'
+)
+
+# Monitor
+
+option(
+    'monitor-service', type: 'feature', value: 'enabled',
+    description: 'Build fan monitor service'
+)
+
+option(
+    'fan-monitor-yaml-file', type: 'string', value: 'example/monitor.yaml',
+    description: 'Location of the config file'
+)
+
+option(
+    'num-monitor-log-entries', type: 'integer', value: 75,
+    description: 'Maximum number of entries in the monitor log.'
+)
+
+option(
+    'thermal-alert-busname', type: 'string', value: 'xyz.openbmc_project.Thermal.Alert',
+    description: 'Application\'s D-Bus busname to own.'
+)
+
+option(
+    'thermal-alert-objpath', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
+    description: 'Application\'s root D-Bus object path.'
+)
+
+# Presence
+
+option(
+    'presence-service', type: 'feature', value: 'enabled',
+    description: 'Build fan presence service.'
+)
+
+option(
+    'presence-config', type: 'string', value: 'example/example.yaml',
+    description: 'Location of the config file'
+)
+
+option(
+    'num-presence-log-entries', type: 'integer', value: 50,
+    description: 'Maximum number of entries in the presence log.'
+)
+
+# Sensor Monitor
+
+option(
+    'sensor-monitor-service', type: 'feature', value: 'enabled',
+    description: 'Build sensor monitor.'
+)
+
+option(
+    'sensor-monitor-root-path', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
+    description: 'Application\'s root D-Bus object path.'
+)
+
+option(
+    'sensor-monitor-hard-shutdown-delay', type: 'integer', value: 23000,
+    description: 'Milliseconds to delay the alarm before hard shutdown.'
+)
+
+option(
+    'sensor-monitor-soft-shutdown-delay', type: 'integer', value: 900000,
+    description: 'Milliseconds to delay the alarm before soft shutdown.'
+)
+
+# Other
+
+option(
+    'cooling-type-service', type: 'feature', value: 'disabled',
+    description: 'Build cooling-type package.'
+)
+
+option(
+    'enable-host-state', type: 'feature', value: 'disabled',
+    description: 'Enable host state.'
+)
