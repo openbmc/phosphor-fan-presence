@@ -1,0 +1,13 @@
+[Unit]
+Description=Sensor Monitor
+Wants=xyz.openbmc_project.Logging.service
+After=xyz.openbmc_project.Logging.service
+Wants=obmc-mapper.target
+After=obmc-mapper.target
+
+[Service]
+Restart=always
+ExecStart=@BINDIR@/sensor-monitor
+
+[Install]
+WantedBy=multi-user.target
