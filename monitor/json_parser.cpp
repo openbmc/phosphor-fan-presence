@@ -198,7 +198,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         }
         // Valid deviation range is 0 - 100%
         auto deviation = fan["deviation"].get<size_t>();
-        if (deviation < 0 || 100 < deviation)
+        if (100 < deviation)
         {
             auto msg =
                 fmt::format(
