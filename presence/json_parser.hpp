@@ -71,8 +71,8 @@ class JsonConfig
      * @param[in] sigSrc - sd_event_source signal wrapper
      * @param[in] sigInfo - signal info on signal fd
      */
-    void sighupHandler(sdeventplus::source::Signal& sigSrc,
-                       const struct signalfd_siginfo* sigInfo);
+    void sighupHandler(sdeventplus::source::Signal& /*sigSrc*/,
+                       const struct signalfd_siginfo* /*sigInfo*/);
 
     /**
      * @brief Parses and populates the fan presence policies from

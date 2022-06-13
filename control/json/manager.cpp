@@ -794,8 +794,8 @@ void Manager::handleSignal(sdbusplus::message::message& msg,
 void Manager::setProfiles()
 {
     // Profiles JSON config file is optional
-    auto confFile = fan::JsonConfig::getConfFile(_bus, confAppName,
-                                                 Profile::confFileName, true);
+    auto confFile =
+        fan::JsonConfig::getConfFile(confAppName, Profile::confFileName, true);
 
     _profiles.clear();
     if (!confFile.empty())

@@ -209,7 +209,6 @@ class JsonConfig
      *
      * @brief Get the configuration file to be used
      *
-     * @param[in] bus - The dbus bus object
      * @param[in] appName - The phosphor-fan-presence application name
      * @param[in] fileName - Application's configuration file's name
      * @param[in] isOptional - Config file is optional, default to 'false'
@@ -217,8 +216,7 @@ class JsonConfig
      * @return filesystem path
      *     The filesystem path to the configuration file to use
      */
-    static const fs::path getConfFile(sdbusplus::bus::bus& bus,
-                                      const std::string& appName,
+    static const fs::path getConfFile(const std::string& appName,
                                       const std::string& fileName,
                                       bool isOptional = false)
     {
