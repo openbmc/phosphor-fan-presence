@@ -43,15 +43,13 @@ using condHandler = std::function<Condition(const json&)>;
 /**
  * @brief Get the JSON object
  *
- * @param[in] bus - The dbus bus object
- *
  * @return JSON object
  *     A JSON object created after loading the JSON configuration file
  */
-inline const json getJsonObj(sdbusplus::bus::bus& bus)
+inline const json getJsonObj()
 {
     return fan::JsonConfig::load(
-        fan::JsonConfig::getConfFile(bus, confAppName, confFileName));
+        fan::JsonConfig::getConfFile(confAppName, confFileName));
 }
 
 /**

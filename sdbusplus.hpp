@@ -401,6 +401,22 @@ class SDBusPlus
         return getPropertyVariant<Variant>(getBus(), path, interface, property);
     }
 
+    /** @brief Invoke a method and return without checking for error. */
+    template <typename... Args>
+    static auto callMethodAndReturn(sdbusplus::bus::bus& bus,
+                                    const std::string& busName,
+                                    const std::string& path,
+                                    const std::string& interface,
+                                    const std::string& method, Args&&... args)
+    {
+        auto reqMsg = bus.new_method_call(busName.c_str(), path.c_str(),
+                                          interface.c_str(), method.c_str());
+        reqMsg.append(std::forward<Args>(args)...);
+        auto respMsg = bus.call(reqMsg);
+
+        return respMsg;
+    }
+
     /** @brief Get a property without mapper lookup. */
     template <typename Property>
     static auto getProperty(sdbusplus::bus::bus& bus,
@@ -572,22 +588,6 @@ class SDBusPlus
     {
         return lookupCallMethodAndRead<Ret>(getBus(), path, interface, method,
                                             std::forward<Args>(args)...);
-    }
-
-    /** @brief Invoke a method and return without checking for error. */
-    template <typename... Args>
-    static auto callMethodAndReturn(sdbusplus::bus::bus& bus,
-                                    const std::string& busName,
-                                    const std::string& path,
-                                    const std::string& interface,
-                                    const std::string& method, Args&&... args)
-    {
-        auto reqMsg = bus.new_method_call(busName.c_str(), path.c_str(),
-                                          interface.c_str(), method.c_str());
-        reqMsg.append(std::forward<Args>(args)...);
-        auto respMsg = bus.call(reqMsg);
-
-        return respMsg;
     }
 };
 
