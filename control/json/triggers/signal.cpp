@@ -192,7 +192,7 @@ void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
                                        SignalObject(), actions};
                 // If signal match already exists, then the service will be the
                 // same so add action to be run
-                auto isSameSig = [](SignalPkg& pkg) { return true; };
+                auto isSameSig = [](SignalPkg&) { return true; };
 
                 subscribe(match, std::move(signalPkg), isSameSig, mgr);
                 grpServices.emplace_back(serv);
@@ -220,7 +220,7 @@ void member(Manager* mgr, const Group& group, TriggerActions& actions,
     SignalPkg signalPkg = {Handlers::member, SignalObject(), actions};
     // If signal match already exists, then the member signal will be the
     // same so add action to be run
-    auto isSameSig = [](SignalPkg& pkg) { return true; };
+    auto isSameSig = [](SignalPkg&) { return true; };
 
     // Groups are optional, but a signal triggered event with no groups
     // will do nothing since signals require a group
@@ -236,7 +236,7 @@ void member(Manager* mgr, const Group& group, TriggerActions& actions,
 }
 
 enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
-                            std::vector<std::unique_ptr<ActionBase>>& actions)
+                            std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
 {
     auto subscriber = signals.end();
     if (jsonObj.contains("signal"))
@@ -262,7 +262,7 @@ enableTrigger triggerSignal(const json& jsonObj, const std::string& eventName,
     }
 
     return [subscriber = std::move(subscriber),
-            jsonObj](const std::string& eventName, Manager* mgr,
+            jsonObj](const std::string& /*eventName*/ , Manager* mgr,
                      const std::vector<Group>& groups,
                      std::vector<std::unique_ptr<ActionBase>>& actions) {
         TriggerActions signalActions;

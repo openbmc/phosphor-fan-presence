@@ -46,10 +46,12 @@ using configKey = std::pair<std::string, std::vector<std::string>>;
 class ConfigBase
 {
   public:
-    ConfigBase() = delete;
+      // mcapps undu
+    ConfigBase() = default; /*delete;
     ConfigBase(ConfigBase&&) = delete;
     ConfigBase& operator=(const ConfigBase&) = delete;
     ConfigBase& operator=(ConfigBase&&) = delete;
+    */
     virtual ~ConfigBase() = default;
 
     explicit ConfigBase(const json& jsonObj)
