@@ -1,5 +1,5 @@
 /**
- * Copyright © 2020 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,8 +16,6 @@
 #pragma once
 
 #include "action.hpp"
-#include "config_base.hpp"
-#include "event.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
 #include "power_state.hpp"
@@ -46,6 +44,8 @@
 
 namespace phosphor::fan::control::json
 {
+/* JSON Event type */
+class Event;
 
 using json = nlohmann::json;
 using namespace phosphor::logging;
@@ -59,6 +59,7 @@ enum class TimerType
     oneshot,
     repeating,
 };
+
 /**
  * Package of data required when a timer expires
  * Tuple constructed of:

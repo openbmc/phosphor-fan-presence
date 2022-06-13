@@ -26,7 +26,7 @@ using json = nlohmann::json;
 
 enableTrigger
     triggerParameter(const json& jsonObj, const std::string& eventName,
-                     std::vector<std::unique_ptr<ActionBase>>& actions)
+                     std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
 {
     if (!jsonObj.contains("parameter"))
     {
@@ -38,8 +38,8 @@ enableTrigger
 
     auto name = jsonObj["parameter"].get<std::string>();
 
-    return [name](const std::string& eventName, Manager* mgr,
-                  const std::vector<Group>& groups,
+    return [name](const std::string& /*eventName*/, Manager* /*mgr*/,
+                  const std::vector<Group>& /*groups*/,
                   std::vector<std::unique_ptr<ActionBase>>& actions) {
         Manager::addParameterTrigger(name, actions);
     };
