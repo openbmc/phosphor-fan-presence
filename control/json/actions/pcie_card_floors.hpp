@@ -106,16 +106,14 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
      * to distinguish it from ones under different events and also it just
      * makes it uglier in the flight recorder.
      */
-    void setEventName(const std::string& name) override
+    void setEventName(const std::string& /*name*/) override
     {}
 
   private:
     /**
      * @brief Runs the contents of the action when the settle timer expires.
-     *
-     * @param[in] zone - Zone to run the action on
      */
-    void execute(Zone& zone);
+    void execute();
 
     /**
      * @brief Constructs the PCIeCardMetadata object to load the PCIe card

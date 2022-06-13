@@ -197,7 +197,7 @@ void tryConvertToDouble(PropertyVariantType& value)
 }
 
 std::optional<PropertyVariantType>
-    MappedFloor::getMaxGroupValue(const Group& group, const Manager& manager)
+    MappedFloor::getMaxGroupValue(const Group& group)
 {
     std::optional<PropertyVariantType> max;
     bool checked = false;
@@ -257,9 +257,8 @@ std::optional<PropertyVariantType>
 void MappedFloor::run(Zone& zone)
 {
     std::optional<uint64_t> newFloor;
-    auto& manager = *zone.getManager();
 
-    auto keyValue = getMaxGroupValue(*_keyGroup, manager);
+    auto keyValue = getMaxGroupValue(*_keyGroup);
     if (!keyValue)
     {
         auto floor = _defaultFloor ? *_defaultFloor : zone.getDefaultFloor();
@@ -312,8 +311,8 @@ void MappedFloor::run(Zone& zone)
             }
             else
             {
-                propertyValue = getMaxGroupValue(
-                    *std::get<const Group*>(groupOrParameter), manager);
+                propertyValue =
+                    getMaxGroupValue(*std::get<const Group*>(groupOrParameter));
             }
 
             std::optional<uint64_t> floor;

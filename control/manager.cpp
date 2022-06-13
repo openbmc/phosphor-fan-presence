@@ -121,7 +121,7 @@ Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     }
 }
 
-void Manager::doInit(const sdeventplus::Event& event)
+void Manager::doInit(const sdeventplus::Event& /*event*/)
 {
     for (auto& z : _zones)
     {
