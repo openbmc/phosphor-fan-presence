@@ -27,25 +27,25 @@ The following applications are built by default:
   * To disable from building, provide the `--disable-control` flag at
   *configure* time:
   ```
-  ./configure ${CONFIGURE_FLAGS} --disable-control
+  meson build -Ddisable-control
   ```
 * [Fan Presence Detection](#fan-presence-detection)
-  * To disable from building, provide the `--disable-presence` flag at
+  * To disable from building, provide the `-Ddisable-presence` flag at
   *configure* time:
   ```
-  ./configure ${CONFIGURE_FLAGS} --disable-presence
+  meson build -Ddisable-presence
   ```
 * [Fan Monitoring](#fan-monitoring)
-  * To disable from building, provide the `--disable-monitor` flag at
+  * To disable from building, provide the `-Ddisable-monitor` flag at
   *configure* time:
   ```
-  ./configure ${CONFIGURE_FLAGS} --disable-monitor
+  meson build -Ddisable-monitor
   ```
 * [Cooling Type](#cooling-type)
-  * To disable from building, provide the `--disable-cooling-type` flag at
+  * To disable from building, provide the `-Ddisable-cooling-type` flag at
   *configure* time:
   ```
-  ./configure ${CONFIGURE_FLAGS} --disable-cooling-type
+  meson build -Ddisable-cooling-type
   ```
 
 The following applications must be enabled at *configure* time to be built:
@@ -53,7 +53,7 @@ The following applications must be enabled at *configure* time to be built:
   * To enable building this, provide the `--enable-sensor-monitor` flag at
   *configure* time:
   ```
-  ./configure ${CONFIGURE_FLAGS} --enable-sensor-monitor
+  meson build -Denable-sensor-monitor
   ```
 
 To clean the repository run `./bootstrap.sh clean`.
