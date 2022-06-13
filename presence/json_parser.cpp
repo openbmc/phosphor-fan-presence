@@ -72,8 +72,8 @@ const policies& JsonConfig::get()
     return _policies;
 }
 
-void JsonConfig::sighupHandler(sdeventplus::source::Signal& sigSrc,
-                               const struct signalfd_siginfo* sigInfo)
+void JsonConfig::sighupHandler(sdeventplus::source::Signal& /*sigSrc*/,
+                               const struct signalfd_siginfo* /*sigInfo*/)
 {
     try
     {
