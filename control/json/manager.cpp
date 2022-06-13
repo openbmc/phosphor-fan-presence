@@ -19,6 +19,7 @@
 
 #include "action.hpp"
 #include "event.hpp"
+#include "action.hpp"
 #include "fan.hpp"
 #include "group.hpp"
 #include "json_config.hpp"

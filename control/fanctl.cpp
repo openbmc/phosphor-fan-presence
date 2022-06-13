@@ -1,5 +1,5 @@
 /**
- * Copyright © 2021 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -732,6 +732,8 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
                              "Optional dump file entry name (or substring)");
     cmdDumpQuery->add_option("-p, --properties", dq.properties,
                              "Optional list of dump file property names");
+#else
+    (void)dq;
 #endif
 }
 

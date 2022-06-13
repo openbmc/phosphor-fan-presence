@@ -1,5 +1,5 @@
 /**
- * Copyright © 2017 IBM Corporation
+ * Copyright © 2022 IBM Corporation
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,8 +18,10 @@
 #ifndef CONTROL_USE_JSON
 #include "../utils/flight_recorder.hpp"
 #include "argument.hpp"
+#include "event.hpp"
 #include "manager.hpp"
 #else
+#include "event.hpp"
 #include "json/manager.hpp"
 #endif
 #include "sdbusplus.hpp"
@@ -73,6 +75,9 @@ int main(int argc, char* argv[])
         args.usage(argv);
         return 1;
     }
+#else
+    (void)argc;
+    (void)argv;
 #endif
 
     // Attach the event object to the bus object so we can

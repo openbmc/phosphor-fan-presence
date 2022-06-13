@@ -106,7 +106,7 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
      * to distinguish it from ones under different events and also it just
      * makes it uglier in the flight recorder.
      */
-    void setEventName(const std::string& name) override
+    void setEventName(const std::string& /*name*/) override
     {}
 
   private:
