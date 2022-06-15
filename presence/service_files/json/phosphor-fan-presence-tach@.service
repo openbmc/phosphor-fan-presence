@@ -4,4 +4,4 @@ After=mapper-wait@-xyz-openbmc_project-inventory.service
 
 [Service]
 Restart=on-failure
-ExecStart=@BINDIR@/phosphor-fan-presence-tach
+ExecStart=/usr/bin/phosphor-fan-presence-tach
