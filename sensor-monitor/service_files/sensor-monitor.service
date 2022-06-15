@@ -7,7 +7,7 @@ After=obmc-mapper.target
 
 [Service]
 Restart=always
-ExecStart=@BINDIR@/sensor-monitor
+ExecStart=/usr/bin/sensor-monitor
 
 [Install]
 WantedBy=multi-user.target
