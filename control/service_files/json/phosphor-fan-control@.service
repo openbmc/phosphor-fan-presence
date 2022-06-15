@@ -3,4 +3,4 @@ Description=Phosphor Fan Control Daemon
 
 [Service]
 Restart=on-failure
-ExecStart=@BINDIR@/phosphor-fan-control
+ExecStart=/usr/bin/phosphor-fan-control
