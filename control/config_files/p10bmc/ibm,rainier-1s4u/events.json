@@ -1078,7 +1078,7 @@
           {
             // Entry valid for ambient temp < 27
             "key": 27,
-            "default_floor": 4000,
+            "default_floor": 3700,
             "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
@@ -1086,20 +1086,20 @@
                 "floors": [
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 4000
+                    "floor": 3700
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 4000
+                    "floor": 3700
                   },
                   {
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 4000
+                    "floor": 3700
                   },
                   {
                     // OEM == MaximumPerformance
                     "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 4000
+                    "floor": 3700
                   }
                 ]
               },
