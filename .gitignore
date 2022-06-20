@@ -1,20 +1,10 @@
 .deps*
 .libs*
-Makefile
-Makefile.in
-aclocal.m4
-ar-lib
-*-libtool
-autom4te.cache*
-compile
-config.*
 !config.json
-configure
 depcomp
 install-sh
 ltmain.sh
 missing
-stamp-h1
 *.la
 *.lo
 *.o
@@ -30,5 +20,4 @@ test-driver
 *.log
 *.trs
 *_test
-libtool
 *.service
