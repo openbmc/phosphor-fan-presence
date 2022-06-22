@@ -106,6 +106,11 @@ class JsonConfig
     std::unique_ptr<ErrorReporter> _reporter;
 
     /**
+     * Tracks if the config has already been loaded.
+     */
+    bool _loaded = false;
+
+    /**
      * @brief Process the json config to extract the defined fan presence
      * policies.
      *

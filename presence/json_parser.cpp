@@ -59,11 +59,17 @@ void JsonConfig::start()
 {
     using config = fan::JsonConfig;
 
-    process(config::load(config::getConfFile(_bus, confAppName, confFileName)));
-
-    for (auto& p : _policies)
+    if (!_loaded)
     {
-        p->monitor();
+        process(
+            config::load(config::getConfFile(_bus, confAppName, confFileName)));
+
+        _loaded = true;
+
+        for (auto& p : _policies)
+        {
+            p->monitor();
+        }
     }
 }
 
