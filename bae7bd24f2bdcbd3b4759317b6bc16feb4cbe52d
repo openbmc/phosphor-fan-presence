@@ -142,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92d5ee79_db46e38f",
+        "filename": "control/json/config_base.hpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-23T19:41:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "927d5acd_acae7c49",
+      "range": {
+        "startLine": 49,
+        "startChar": 3,
+        "endLine": 49,
+        "endChar": 27
+      },
+      "revId": "bae7bd24f2bdcbd3b4759317b6bc16feb4cbe52d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dc52d064_6c1a61f5",
@@ -173,6 +197,24 @@
       "side": 1,
       "message": "done",
       "parentUuid": "dc52d064_6c1a61f5",
+      "revId": "bae7bd24f2bdcbd3b4759317b6bc16feb4cbe52d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80565616_2f6bd47c",
+        "filename": "control/main.cpp",
+        "patchSetId": 11
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-23T19:41:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d43d4507_fcc2987c",
       "revId": "bae7bd24f2bdcbd3b4759317b6bc16feb4cbe52d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
