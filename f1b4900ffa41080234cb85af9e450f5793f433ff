@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "79b306ce_27feca20",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-23T19:30:40Z",
+      "side": 1,
+      "message": "This may need to be merged with autoconf removal. Once these svc files are renamed, autoconf breaks.",
+      "revId": "f1b4900ffa41080234cb85af9e450f5793f433ff",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
