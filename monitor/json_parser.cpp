@@ -200,13 +200,12 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         auto deviation = fan["deviation"].get<size_t>();
         if (deviation < 0 || 100 < deviation)
         {
-            auto msg =
-                fmt::format(
-                    "Invalid deviation of {} found, must be between 0 and 100",
-                    deviation)
-                    .c_str();
-            log<level::ERR>(msg);
-            throw std::runtime_error(msg);
+            auto msg = fmt::format(
+                "Invalid deviation of {} found, must be between 0 and 100",
+                deviation);
+
+            log<level::ERR>(msg.c_str());
+            throw std::runtime_error(msg.c_str());
         }
 
         // Construct the sensor definitions for this fan
