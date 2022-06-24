@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6573dd27_571af8fe",
+        "filename": ".gitignore",
+        "patchSetId": 15
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T21:57:29Z",
+      "side": 1,
+      "message": "Keep deleting.  Nothing should be left except the first 3 lines, right?  These things are all artifacts of autotools not doing out-of-tree builds (but meson does).",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 9
+      },
+      "revId": "ee447fd3fbdf5b6031f2674d074edde032c26dc0",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
