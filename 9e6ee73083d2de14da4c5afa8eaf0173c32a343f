@@ -20,6 +20,87 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bcd3b7fc_ad27c648",
+        "filename": ".gitignore",
+        "patchSetId": 16
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Please remove all the autotools stuff too.  Just the 3 lines George mentioned is sufficient.",
+      "parentUuid": "d01623f2_efc541b9",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c5d31ce_0906ae34",
+        "filename": "control/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Suggest adding this in the root directory\u0027s meson.build.",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fa146a1a_5ae06a10",
+        "filename": "control/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Does `file(\u0027control/gen-fan-zone-defs.py\u0027)` do this for you?\n\nIdeally all of these would be added to \u0027depfiles\u0027 in the custom_target also so that the dependency is known.",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 70
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "844653d0_f1cc1e35",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "None of this should be necessary.  Very few of our projects include this verbiage and I\u0027m not sure why any of them do.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ffe1623c_4b8c5e9d",
         "filename": "meson.build",
         "patchSetId": 16
@@ -36,6 +117,53 @@
         "startChar": 40,
         "endLine": 36,
         "endChar": 41
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f74d63f3_d2386f0f",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "More specifically, you should just have `dependency(\u0027fmt\u0027)` and let the subproject find it if it doesn\u0027t exist in the environment.",
+      "parentUuid": "ffe1623c_4b8c5e9d",
+      "range": {
+        "startLine": 36,
+        "startChar": 40,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "56590aeb_b3d9b554",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "This should not be necessary.  Will leave comments in subproject as the right fix.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 5
       },
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -66,6 +194,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7c682b2c_22cca52b",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "I think as long as it has a disabler, I\u0027m indifferent as to where it goes.  Most of our projects have it in the test/meson.build though.",
+      "parentUuid": "7f334462_99474adc",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "62743baf_c6a7104a",
         "filename": "meson.build",
         "patchSetId": 16
@@ -82,6 +234,53 @@
         "startChar": 0,
         "endLine": 48,
         "endChar": 9
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c3f5404_268cf38e",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "The convention in meson is that all dependency variables are named foo_dep.  You might revise this in the whole file.",
+      "parentUuid": "62743baf_c6a7104a",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5b2803b_f47e2255",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Should not be required.  The \u0027provide\u0027 in the subproject wrap file should take care of this.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 5
       },
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -135,6 +334,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d705d68c_5292dada",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Why is this here but line 62 also sets this variable?  This seems error prone.  Please refactor.",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c0eced9_d5bc98e6",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Why\u0027d we rename the files and remove the @BINDIR@ support in an earlier commit if we\u0027re still using the configure_file directive on them?",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "779a6884_a05cffcd",
         "filename": "meson_options.txt",
         "patchSetId": 16
@@ -146,6 +379,30 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "please enable by default",
+      "range": {
+        "startLine": 3,
+        "startChar": 5,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4e46040_d8ec8177",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "👍",
+      "parentUuid": "779a6884_a05cffcd",
       "range": {
         "startLine": 3,
         "startChar": 5,
@@ -174,6 +431,121 @@
         "startChar": 26,
         "endLine": 7,
         "endChar": 33
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70edef4b_508b6056",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Yes.  Please use features on all of this and then simplify the meson.build accordingly.  I think you have excess comparisons with \u0027false\u0027 as a result of picking boolean.",
+      "parentUuid": "8254fde5_db067048",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d3da7ccf_513692a2",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "How many of these options are actually useful to have as options?  Does anyone ever change any of them?  If not, I\u0027d suggest using this as an opportunity to change them to static values (direct in meson.build? direct in headers?).",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "823fef7c_3a0a357d",
+        "filename": "monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Also look at `file` simplification here too.  And add depfiles.",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f14818a_eb033df2",
+        "filename": "presence/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Might boost this up to the parent directory.  Makes it easier to track the dependencies, I think.",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cad7157_f90102a2",
+        "filename": "presence/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "simplify files / add depfiles.",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98aad195_5d5f3914",
+        "filename": "presence/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "stray whitespace",
+      "range": {
+        "startLine": 44,
+        "startChar": 18,
+        "endLine": 44,
+        "endChar": 19
       },
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
@@ -284,6 +656,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea79b141_24aec3c7",
+        "filename": "subprojects/evdev.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "Probably:\n\n```\n[provide]\nlibevdev \u003d dep_libevdev\n```\n\nBased on https://github.com/freedesktop/libevdev/blob/master/meson.build#L87",
+      "parentUuid": "72a56670_cf106d70",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "87784a77_571273d2",
         "filename": "subprojects/fmt.wrap",
         "patchSetId": 16
@@ -295,6 +685,24 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "add [provide]",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a242bd8_d5278267",
+        "filename": "subprojects/fmt.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "More specifically, run `meson wrap install fmt` and it will give you an upstream maintained wrapfile with all the appropriate dependency pieces added.",
+      "parentUuid": "87784a77_571273d2",
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -335,6 +743,24 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "add [provide]",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d983fb8_897fd68d",
+        "filename": "subprojects/sdbusplus.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:50:21Z",
+      "side": 1,
+      "message": "```\n[provide]\nsdbusplus \u003d sdbusplus_dep\n```",
+      "parentUuid": "16181903_4460f9d2",
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
