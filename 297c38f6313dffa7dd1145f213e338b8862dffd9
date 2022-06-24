@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a492a497_f49d3d1f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:25:13Z",
+      "side": 1,
+      "message": "Can we please rebase this so the \u0027create meson.build files\u0027 is before removing the autotools support?",
+      "revId": "297c38f6313dffa7dd1145f213e338b8862dffd9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
