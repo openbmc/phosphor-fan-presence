@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce136af5_39c2238a",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:30:31Z",
+      "side": 1,
+      "message": "Why\u0027d we remove the header only to forward declare?",
+      "revId": "927d2d1f96eb4b4a170af62e9d0762e64525224e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c600618_d9a923d2",
+        "filename": "control/main.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-24T11:30:31Z",
+      "side": 1,
+      "message": "Do we need the event in both sides of the if-def?  Why not put it outside the if-def?\n\nIf there is some include order problem then we should get a fix in manager.hpp (or json/manager.hpp).",
+      "revId": "927d2d1f96eb4b4a170af62e9d0762e64525224e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
