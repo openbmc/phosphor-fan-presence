@@ -1,0 +1,342 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d01623f2_efc541b9",
+        "filename": ".gitignore",
+        "patchSetId": 16
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "build*/\nsubprojects/*\n!subprojects/*.wrap",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ffe1623c_4b8c5e9d",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 36,
+        "startChar": 40,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f334462_99474adc",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "move to the test file",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 78
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62743baf_c6a7104a",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "sdbusplus_dep \u003d dependency(\u0027sdbusplus\u0027)",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06b44841_eb4d7b16",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "sdeventplus_dep \u003d dependency(\u0027sdeventplus\u0027)",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be164749_a5164f46",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 4
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "779a6884_a05cffcd",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "please enable by default",
+      "range": {
+        "startLine": 3,
+        "startChar": 5,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8254fde5_db067048",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "feature?\n\nsame as the below",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa567eee_8c759732",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "Could you add a sources variable to include them?\n\nsource \u003d [\n    \u0027main.cpp\u0027,\n    \u0027shutdown_alarm_monitor.cpp\u0027,\n    \u0027threshold_alarm_logger.cpp\u0027,\n]",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4c17e0f_91120150",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "add a deps variable to include them\n\ndeps \u003d [\n    phosphor_logging_dep,\n    sdeventplus_dep,\n]",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "320c85b8_5a998983",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "I prefer to do this:\n include_directories: [\u0027..\u0027]",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98880edd_b7de0f3a",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "add install_dir?",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72a56670_cf106d70",
+        "filename": "subprojects/evdev.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "add [provide]",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87784a77_571273d2",
+        "filename": "subprojects/fmt.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "add [provide]",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cffa6a3d_9aa43ccf",
+        "filename": "subprojects/sdbusplus.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "HEAD",
+      "range": {
+        "startLine": 3,
+        "startChar": 11,
+        "endLine": 3,
+        "endChar": 15
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16181903_4460f9d2",
+        "filename": "subprojects/sdbusplus.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-06-24T00:52:30Z",
+      "side": 1,
+      "message": "add [provide]",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
