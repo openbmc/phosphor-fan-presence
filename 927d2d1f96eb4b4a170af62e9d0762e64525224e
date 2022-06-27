@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e7330e9_43f9d836",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce136af5_39c2238a",
+      "revId": "927d2d1f96eb4b4a170af62e9d0762e64525224e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c600618_d9a923d2",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-24T11:30:31Z",
       "side": 1,
       "message": "Do we need the event in both sides of the if-def?  Why not put it outside the if-def?\n\nIf there is some include order problem then we should get a fix in manager.hpp (or json/manager.hpp).",
+      "revId": "927d2d1f96eb4b4a170af62e9d0762e64525224e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0742c405_4133f2b1",
+        "filename": "control/main.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:44:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c600618_d9a923d2",
       "revId": "927d2d1f96eb4b4a170af62e9d0762e64525224e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
