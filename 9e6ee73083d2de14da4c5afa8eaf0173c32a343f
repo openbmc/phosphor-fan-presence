@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "67301424_44906f8f",
+        "filename": ".gitignore",
+        "patchSetId": 16
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "autotools removal is done in a separate commit",
+      "parentUuid": "bcd3b7fc_ad27c648",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "5c5d31ce_0906ae34",
         "filename": "control/meson.build",
         "patchSetId": 16
@@ -49,6 +67,24 @@
       "writtenOn": "2022-06-24T11:50:21Z",
       "side": 1,
       "message": "Suggest adding this in the root directory\u0027s meson.build.",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "01cde465_e52cf972",
+        "filename": "control/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c5d31ce_0906ae34",
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -89,6 +125,30 @@
       "writtenOn": "2022-06-24T11:50:21Z",
       "side": 1,
       "message": "None of this should be necessary.  Very few of our projects include this verbiage and I\u0027m not sure why any of them do.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 5
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0dff58_8bed5a00",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "844653d0_f1cc1e35",
       "range": {
         "startLine": 22,
         "startChar": 0,
@@ -146,6 +206,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a878eca1_23f71f77",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f74d63f3_d2386f0f",
+      "range": {
+        "startLine": 36,
+        "startChar": 40,
+        "endLine": 36,
+        "endChar": 41
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "56590aeb_b3d9b554",
@@ -159,6 +243,30 @@
       "writtenOn": "2022-06-24T11:50:21Z",
       "side": 1,
       "message": "This should not be necessary.  Will leave comments in subproject as the right fix.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 5
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a5e8fda_1f2830ff",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56590aeb_b3d9b554",
       "range": {
         "startLine": 37,
         "startChar": 0,
@@ -263,6 +371,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a4f4e83_c3f02624",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c3f5404_268cf38e",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 9
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c5b2803b_f47e2255",
@@ -286,6 +418,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b310f4e9_229cc9ed",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5b2803b_f47e2255",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 5
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06b44841_eb4d7b16",
@@ -299,6 +455,30 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "sdeventplus_dep \u003d dependency(\u0027sdeventplus\u0027)",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 39
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67510094_a212e654",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06b44841_eb4d7b16",
       "range": {
         "startLine": 55,
         "startChar": 0,
@@ -413,6 +593,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "230980d1_b9745907",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4e46040_d8ec8177",
+      "range": {
+        "startLine": 3,
+        "startChar": 5,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8254fde5_db067048",
@@ -450,6 +654,30 @@
       "side": 1,
       "message": "Yes.  Please use features on all of this and then simplify the meson.build accordingly.  I think you have excess comparisons with \u0027false\u0027 as a result of picking boolean.",
       "parentUuid": "8254fde5_db067048",
+      "range": {
+        "startLine": 7,
+        "startChar": 26,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e273e3bf_6e41b365",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70edef4b_508b6056",
       "range": {
         "startLine": 7,
         "startChar": 26,
@@ -511,6 +739,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfbfa243_bb0e8259",
+        "filename": "presence/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f14818a_eb033df2",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4cad7157_f90102a2",
@@ -551,6 +797,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28636d1_a3c9c8b4",
+        "filename": "presence/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98aad195_5d5f3914",
+      "range": {
+        "startLine": 44,
+        "startChar": 18,
+        "endLine": 44,
+        "endChar": 19
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa567eee_8c759732",
@@ -564,6 +834,30 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "Could you add a sources variable to include them?\n\nsource \u003d [\n    \u0027main.cpp\u0027,\n    \u0027shutdown_alarm_monitor.cpp\u0027,\n    \u0027threshold_alarm_logger.cpp\u0027,\n]",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 10,
+        "endChar": 33
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1c2532a_83dde76b",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa567eee_8c759732",
       "range": {
         "startLine": 8,
         "startChar": 4,
@@ -597,6 +891,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bd329f5_37a88b76",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4c17e0f_91120150",
+      "range": {
+        "startLine": 11,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "320c85b8_5a998983",
@@ -610,6 +928,30 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "I prefer to do this:\n include_directories: [\u0027..\u0027]",
+      "range": {
+        "startLine": 16,
+        "startChar": 25,
+        "endLine": 16,
+        "endChar": 72
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61bd26c9_a2260bc8",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "320c85b8_5a998983",
       "range": {
         "startLine": 16,
         "startChar": 25,
@@ -672,6 +1014,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e67fbbd_0ac70f69",
+        "filename": "subprojects/evdev.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea79b141_24aec3c7",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "87784a77_571273d2",
@@ -707,6 +1067,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d65afbe2_d354c33c",
+        "filename": "subprojects/fmt.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a242bd8_d5278267",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cffa6a3d_9aa43ccf",
@@ -720,6 +1098,30 @@
       "writtenOn": "2022-06-24T00:52:30Z",
       "side": 1,
       "message": "HEAD",
+      "range": {
+        "startLine": 3,
+        "startChar": 11,
+        "endLine": 3,
+        "endChar": 15
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "861c5136_6bc9627d",
+        "filename": "subprojects/sdbusplus.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cffa6a3d_9aa43ccf",
       "range": {
         "startLine": 3,
         "startChar": 11,
@@ -761,6 +1163,24 @@
       "side": 1,
       "message": "```\n[provide]\nsdbusplus \u003d sdbusplus_dep\n```",
       "parentUuid": "16181903_4460f9d2",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6ea6e8b9_c3391271",
+        "filename": "subprojects/sdbusplus.wrap",
+        "patchSetId": 16
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:35:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d983fb8_897fd68d",
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
