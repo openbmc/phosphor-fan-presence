@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d6d4ab96_378ef508",
+        "filename": "control/meson.build",
+        "patchSetId": 20
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-27T22:20:13Z",
+      "side": 1,
+      "message": "this only runs if in yaml mode, right?",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0750203e_677d3653",
         "filename": "meson_options.txt",
         "patchSetId": 20
