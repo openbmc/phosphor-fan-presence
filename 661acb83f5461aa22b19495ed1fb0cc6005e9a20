@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0750203e_677d3653",
+        "filename": "meson_options.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-27T20:46:55Z",
+      "side": 1,
+      "message": "I think you removed the code in meson.build that was looking at this, so you can remove it from here.",
+      "range": {
+        "startLine": 134,
+        "startChar": 2,
+        "endLine": 134,
+        "endChar": 12
+      },
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ecba2eb5_65d56b82",
+        "filename": "monitor/meson.build",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-27T20:46:55Z",
+      "side": 1,
+      "message": "where was this defined?",
+      "range": {
+        "startLine": 32,
+        "startChar": 63,
+        "endLine": 32,
+        "endChar": 84
+      },
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

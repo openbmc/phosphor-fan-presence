@@ -749,6 +749,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fa625fc1_28690687",
+        "filename": "meson_options.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-27T20:46:55Z",
+      "side": 1,
+      "message": "the ones that are dbus related could be moved out with no issues, like the busname and objpath ones.\n\nI think the yaml filenames are all used during the build to specify which config files to use so should stay in here.",
+      "parentUuid": "d3da7ccf_513692a2",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "823fef7c_3a0a357d",
         "filename": "monitor/meson.build",
         "patchSetId": 16
