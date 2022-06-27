@@ -512,6 +512,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e77eac86_e44817f2",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:38:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be164749_a5164f46",
+      "range": {
+        "startLine": 104,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 4
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d705d68c_5292dada",
@@ -542,6 +566,24 @@
       "writtenOn": "2022-06-24T11:50:21Z",
       "side": 1,
       "message": "Why\u0027d we rename the files and remove the @BINDIR@ support in an earlier commit if we\u0027re still using the configure_file directive on them?",
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0792f506_55c3fb62",
+        "filename": "meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-27T13:38:23Z",
+      "side": 1,
+      "message": "it\u0027s still a config file, but BINDIR is required for autoconf. so the renaming is done after autoconf removal, else it will not pass CI",
+      "parentUuid": "9c0eced9_d5bc98e6",
       "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
