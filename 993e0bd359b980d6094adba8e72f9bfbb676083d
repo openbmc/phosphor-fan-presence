@@ -33,6 +33,24 @@
       "message": "In our system, when I try to restart xyz.openbmc_project.EntityManager.service, the JsonConfig::start() is not called again.\nHow can I reproduce the loading when restart the entity manager?",
       "revId": "993e0bd359b980d6094adba8e72f9bfbb676083d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "34238a37_ae277613",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-28T13:11:33Z",
+      "side": 1,
+      "message": "We support multiple configs per flash image so we have to use entity-manager to tell us which one to use.  Maybe your platform isn\u0027t using that functionality?",
+      "parentUuid": "473636e6_55532ac9",
+      "revId": "993e0bd359b980d6094adba8e72f9bfbb676083d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
