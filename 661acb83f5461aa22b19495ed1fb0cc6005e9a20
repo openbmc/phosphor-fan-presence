@@ -53,6 +53,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44a425ab_6e89916f",
+        "filename": "control/meson.build",
+        "patchSetId": 20
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T21:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46b1c109_adac0e41",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e3fac4f3_7a45c7c3",
@@ -119,6 +137,24 @@
       "side": 1,
       "message": "Don\u0027t we need them to pass in the paths during bitbake?",
       "parentUuid": "beb77fd2_9a61c12f",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35596f67_449b9270",
+        "filename": "meson_options.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T21:33:31Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5cccdbf0_61191550",
       "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -242,6 +278,30 @@
       "side": 1,
       "message": "top-level meson.build",
       "parentUuid": "ecba2eb5_65d56b82",
+      "range": {
+        "startLine": 32,
+        "startChar": 63,
+        "endLine": 32,
+        "endChar": 84
+      },
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf4675dd_1c740824",
+        "filename": "monitor/meson.build",
+        "patchSetId": 20
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T21:33:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee565cc9_0b0c5492",
       "range": {
         "startLine": 32,
         "startChar": 63,

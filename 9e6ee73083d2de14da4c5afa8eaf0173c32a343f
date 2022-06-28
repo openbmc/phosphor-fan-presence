@@ -154,6 +154,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "458ed3b7_b6412f9d",
+        "filename": "control/meson.build",
+        "patchSetId": 16
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T21:33:31Z",
+      "side": 1,
+      "message": "after some searching I found the files() function, hopefully this will do. If you could elaborate a bit more about the depfile keyword or point me to an example I\u0027d appreciate it.",
+      "parentUuid": "819ac334_a15df6f2",
+      "range": {
+        "startLine": 53,
+        "startChar": 8,
+        "endLine": 53,
+        "endChar": 70
+      },
+      "revId": "9e6ee73083d2de14da4c5afa8eaf0173c32a343f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "844653d0_f1cc1e35",
