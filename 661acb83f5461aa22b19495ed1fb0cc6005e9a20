@@ -54,6 +54,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "beb77fd2_9a61c12f",
+        "filename": "meson_options.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T04:04:54Z",
+      "side": 1,
+      "message": "Do we really need these kind of options? I think the configuration name files should not be changed.",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c639081_af95a175",
+        "filename": "meson_options.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T04:04:54Z",
+      "side": 1,
+      "message": "Should we include min, max option for integer build options?",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0750203e_677d3653",
         "filename": "meson_options.txt",
         "patchSetId": 20
