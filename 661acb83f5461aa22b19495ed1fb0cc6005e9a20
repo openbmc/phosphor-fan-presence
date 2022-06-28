@@ -37,6 +37,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e3fac4f3_7a45c7c3",
+        "filename": "meson.build",
+        "patchSetId": 20
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T03:47:00Z",
+      "side": 1,
+      "message": "This line is the same as conf_data.set(PRESENCE_USE_JSON, 1).\nAnd will create \"#define PRESENCE_USE_JSON 1\" in config.h.\nI think we just need #define PRESENCE_USE_JSON and does not care value of PRESENCE_USE_JSON.\nPreference:\nhttps://mesonbuild.com/Configuration.html#configuring-without-an-input-file",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0750203e_677d3653",
         "filename": "meson_options.txt",
         "patchSetId": 20
