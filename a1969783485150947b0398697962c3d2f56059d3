@@ -37,6 +37,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d2c497c8_a5a09ddc",
+        "filename": "control/json/config_base.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T14:06:06Z",
+      "side": 1,
+      "message": "There is no change on this line.",
+      "parentUuid": "9d119b54_405d4473",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "811bf898_9e058aa7",
         "filename": "control/json/utils/modifier.hpp",
         "patchSetId": 13
@@ -54,6 +72,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "10d47c0a_8f95f98a",
+        "filename": "control/json/utils/modifier.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T14:06:06Z",
+      "side": 1,
+      "message": "yes, \"has virtual functions and accessible non-virtual destructor\" is the warning.",
+      "parentUuid": "811bf898_9e058aa7",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "85db6789_fe8b289c",
         "filename": "control/zone.hpp",
         "patchSetId": 13
@@ -65,6 +101,24 @@
       "writtenOn": "2022-06-28T01:13:37Z",
       "side": 1,
       "message": "Is it better to apply this change for all functions with in *.hpp file?\nSuch as control/json/manager.hpp; control/json/zone.hpp.",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dfc2d32a_d98a45eb",
+        "filename": "control/zone.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-06-28T14:06:06Z",
+      "side": 1,
+      "message": "I just removed lines that the compiler found warnings.",
+      "parentUuid": "85db6789_fe8b289c",
       "revId": "a1969783485150947b0398697962c3d2f56059d3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
