@@ -16,6 +16,23 @@
       "message": "I could have sworn I +1\u0027ed this last night.\nI ran the test I was running earlier when I hit what I think this is fixing.\nLooks good to me.\n",
       "revId": "993e0bd359b980d6094adba8e72f9bfbb676083d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "473636e6_55532ac9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T00:09:43Z",
+      "side": 1,
+      "message": "In our system, when I try to restart xyz.openbmc_project.EntityManager.service, the JsonConfig::start() is not called again.\nHow can I reproduce the loading when restart the entity manager?",
+      "revId": "993e0bd359b980d6094adba8e72f9bfbb676083d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
