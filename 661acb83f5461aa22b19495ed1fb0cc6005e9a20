@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5cccdbf0_61191550",
+        "filename": "meson_options.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-06-28T13:58:08Z",
+      "side": 1,
+      "message": "Don\u0027t we need them to pass in the paths during bitbake?",
+      "parentUuid": "beb77fd2_9a61c12f",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4c639081_af95a175",
         "filename": "meson_options.txt",
         "patchSetId": 20
