@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e71c8af6_62219971",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T01:13:37Z",
+      "side": 1,
+      "message": "Should we remove the changing in copyright year \"Copyright © 2022 IBM Corporation\" to others commits?",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d119b54_405d4473",
+        "filename": "control/json/config_base.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T01:13:37Z",
+      "side": 1,
+      "message": "Do we really need this change? In other classes, I don\u0027t see this changing.",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "811bf898_9e058aa7",
+        "filename": "control/json/utils/modifier.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T01:13:37Z",
+      "side": 1,
+      "message": "Do we remove this de-construct function to fix the warning?",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85db6789_fe8b289c",
+        "filename": "control/zone.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-06-28T01:13:37Z",
+      "side": 1,
+      "message": "Is it better to apply this change for all functions with in *.hpp file?\nSuch as control/json/manager.hpp; control/json/zone.hpp.",
+      "revId": "a1969783485150947b0398697962c3d2f56059d3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
