@@ -26,16 +26,6 @@ option(
 )
 
 option(
-    'control-busname', type: 'string', value: 'xyz.openbmc_project.Control.Thermal',
-    description: 'Application\'s D-Bus busname to own.'
-)
-
-option(
-    'control-objpath', type: 'string', value: '/xyz/openbmc_project/control/thermal',
-    description: 'Application\'s root D-Bus object path.'
-)
-
-option(
     'control-persist-root-path', type: 'string', value: '/var/lib/phosphor-fan-presence/control',
     description: 'Base location to persist zone property states'
 )
@@ -74,16 +64,6 @@ option(
     description: 'Maximum number of entries in the monitor log.'
 )
 
-option(
-    'thermal-alert-busname', type: 'string', value: 'xyz.openbmc_project.Thermal.Alert',
-    description: 'Application\'s D-Bus busname to own.'
-)
-
-option(
-    'thermal-alert-objpath', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
-    description: 'Application\'s root D-Bus object path.'
-)
-
 # Presence
 
 option(
@@ -109,8 +89,9 @@ option(
 )
 
 option(
-    'sensor-monitor-root-path', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
-    description: 'Application\'s root D-Bus object path.'
+    'sensor-monitor-persist-root-path', type: 'string',
+    value: '/var/lib/phosphor-fan-presence/sensor-monitor',
+    description: 'Root path for persisting sensor monitor data.'
 )
 
 option(
