@@ -18,6 +18,7 @@
 #include "manager.hpp"
 
 #include "action.hpp"
+#include "dbus_paths.hpp"
 #include "event.hpp"
 #include "fan.hpp"
 #include "group.hpp"

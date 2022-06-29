@@ -150,19 +150,6 @@ AS_IF([test "x$enable_presence" != "xno"], [
 ])
 
 AS_IF([test "x$enable_control" != "xno"], [
-    # Add fan control Dbus attributes
-    AC_ARG_VAR(CONTROL_BUSNAME, [The fan control busname to own])
-    AS_IF([test "x$CONTROL_BUSNAME" == "x"],
-          [CONTROL_BUSNAME="xyz.openbmc_project.Control.Thermal"])
-    AC_DEFINE_UNQUOTED([CONTROL_BUSNAME], ["$CONTROL_BUSNAME"],
-                       [The fan control busname to own])
-
-    AC_ARG_VAR(CONTROL_OBJPATH, [The fan control root object path])
-    AS_IF([test "x$CONTROL_OBJPATH" == "x"],
-          [CONTROL_OBJPATH="/xyz/openbmc_project/control/thermal"])
-    AC_DEFINE_UNQUOTED([CONTROL_OBJPATH], ["$CONTROL_OBJPATH"],
-                       [The fan control root object path])
-
     AC_ARG_VAR(CONTROL_PERSIST_ROOT_PATH, [Root path for persisting zone property states])
     AS_IF([test "x$CONTROL_PERSIST_ROOT_PATH" == "x"],
           [CONTROL_PERSIST_ROOT_PATH="/var/lib/phosphor-fan-presence/control"])
@@ -261,18 +248,6 @@ AS_IF([test "x$enable_monitor" != "xno"], [
     AS_IF([test "x$NUM_MONITOR_LOG_ENTRIES" == "x"], [NUM_MONITOR_LOG_ENTRIES=75])
     AC_DEFINE_UNQUOTED([NUM_MONITOR_LOG_ENTRIES], [$NUM_MONITOR_LOG_ENTRIES],
                        [Maximum number of entries in the message log])
-
-    AC_ARG_VAR(THERMAL_ALERT_BUSNAME, [The thermal alert busname to own])
-    AS_IF([test "x$THERMAL_ALERT_BUSNAME" == "x"],
-          [THERMAL_ALERT_BUSNAME="xyz.openbmc_project.Thermal.Alert"])
-    AC_DEFINE_UNQUOTED([THERMAL_ALERT_BUSNAME], ["$THERMAL_ALERT_BUSNAME"],
-                       [The thermal alert busname to own])
-
-    AC_ARG_VAR(THERMAL_ALERT_OBJPATH, [The thermal alert D-Bus object path])
-    AS_IF([test "x$THERMAL_ALERT_OBJPATH" == "x"],
-          [THERMAL_ALERT_OBJPATH="/xyz/openbmc_project/alerts/thermal_fault_alert"])
-    AC_DEFINE_UNQUOTED([THERMAL_ALERT_OBJPATH], ["$THERMAL_ALERT_OBJPATH"],
-                       [The thermal alert D-Bus object path])
 
     AC_CONFIG_FILES([monitor/Makefile])
 ])
