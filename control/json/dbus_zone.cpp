@@ -17,6 +17,7 @@
 
 #include "dbus_zone.hpp"
 
+#include "dbus_paths.hpp"
 #include "sdbusplus.hpp"
 #include "zone.hpp"
 

@@ -74,16 +74,6 @@ option(
     description: 'Maximum number of entries in the monitor log.'
 )
 
-option(
-    'thermal-alert-busname', type: 'string', value: 'xyz.openbmc_project.Thermal.Alert',
-    description: 'Application\'s D-Bus busname to own.'
-)
-
-option(
-    'thermal-alert-objpath', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
-    description: 'Application\'s root D-Bus object path.'
-)
-
 # Presence
 
 option(
