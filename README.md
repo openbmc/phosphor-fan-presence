@@ -24,36 +24,36 @@ getting their configuration from JSON file(s) at runtime.
 
 The following applications are built by default:
 * [Fan Control](#fan-control)
-  * To disable from building, provide the `--disable-control` flag at
-  *configure* time:
+  * To disable from building, set the `-Dcontrol-service` flag to disabled
+  at *configure* time:
   ```
-  meson build -Ddisable-control
+  meson build -Dcontrol-service=disabled
   ```
 * [Fan Presence Detection](#fan-presence-detection)
-  * To disable from building, provide the `-Ddisable-presence` flag at
-  *configure* time:
+  * To disable from building, set the `-Dpresence-service` flag to disabled
+  at *configure* time:
   ```
-  meson build -Ddisable-presence
+  meson build -Dpresence-service=disabled
   ```
 * [Fan Monitoring](#fan-monitoring)
-  * To disable from building, provide the `-Ddisable-monitor` flag at
-  *configure* time:
+  * To disable from building, set the `-Dmonitor-service` flag to disabled
+  at *configure* time:
   ```
-  meson build -Ddisable-monitor
+  meson build -Dmonitor-service=disabled
   ```
 * [Cooling Type](#cooling-type)
-  * To disable from building, provide the `-Ddisable-cooling-type` flag at
+  * To enable it, set the `-Dcooling-type-service` flag to enabled at
   *configure* time:
   ```
-  meson build -Ddisable-cooling-type
+  meson build -cooling-type-service=enabled
   ```
 
 The following applications must be enabled at *configure* time to be built:
 * [Sensor Monitoring](#sensor-monitoring)
-  * To enable building this, provide the `--enable-sensor-monitor` flag at
+  * To enable building this, set the `--sensor-monitor-service` flag to enabled
   *configure* time:
   ```
-  meson build -Denable-sensor-monitor
+  meson build -Dsensor-monitor-service=enabled
   ```
 
 To clean the repository run `./bootstrap.sh clean`.

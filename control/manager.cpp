@@ -17,6 +17,7 @@
 
 #include "manager.hpp"
 
+#include "dbus_paths.hpp"
 #include "sdbusplus.hpp"
 #include "utility.hpp"
 
