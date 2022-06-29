@@ -16,6 +16,7 @@
 #pragma once
 #include "config.h"
 
+#include "dbus_paths.hpp"
 #include "types.hpp"
 
 #include <fmt/format.h>

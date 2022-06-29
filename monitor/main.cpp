@@ -20,6 +20,7 @@
 #endif
 #include "fan.hpp"
 #ifdef MONITOR_USE_JSON
+#include "dbus_paths.hpp"
 #include "json_config.hpp"
 #include "json_parser.hpp"
 #endif
