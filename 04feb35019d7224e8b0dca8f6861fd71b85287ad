@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e63b14e_b20efbf5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-06-29T15:53:33Z",
+      "side": 1,
+      "message": "Why wouldn\u0027t you create meson build files, then remove autoconf?",
+      "revId": "04feb35019d7224e8b0dca8f6861fd71b85287ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02523e93_5d0fd73e",
+        "filename": "meson.build",
+        "patchSetId": 23
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-06-29T15:53:33Z",
+      "side": 1,
+      "message": "Trailing whitespace?",
+      "range": {
+        "startLine": 20,
+        "startChar": 27,
+        "endLine": 20,
+        "endChar": 28
+      },
+      "revId": "04feb35019d7224e8b0dca8f6861fd71b85287ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "984f09fa_eb1f54f6",
+        "filename": "meson.build",
+        "patchSetId": 23
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-06-29T15:53:33Z",
+      "side": 1,
+      "message": "Why is this dependency unique? The others have that _dep on the end.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 9
+      },
+      "revId": "04feb35019d7224e8b0dca8f6861fd71b85287ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
