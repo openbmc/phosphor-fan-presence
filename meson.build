@@ -74,12 +74,7 @@ conf = configuration_data()
 conf.set_quoted(
     'CONTROL_PERSIST_ROOT_PATH', get_option('control-persist-root-path'))
 conf.set_quoted(
-    'CONTROL_BUSNAME', get_option('control-busname'))
-conf.set_quoted(
-    'CONTROL_OBJPATH', get_option('control-objpath'))
-conf.set_quoted(
     'CONTROL_PERSIST_ROOT_PATH', get_option('control-persist-root-path'))
-
 conf.set_quoted(
     'FAN_DEF_YAML_FILE', get_option('fan-def-yaml-file'))
 conf.set_quoted(
@@ -89,21 +84,17 @@ conf.set_quoted(
 conf.set_quoted(
     'ZONE_CONDITIONS_YAML_FILE', get_option('zone-conditions-yaml-file'))
 
-# Monitor
-conf.set(
-    'NUM_MONITOR_LOG_ENTRIES', get_option('num-monitor-log-entries'))
-conf.set_quoted(
-    'THERMAL_ALERT_BUSNAME', get_option('thermal-alert-busname'))
-conf.set_quoted(
-    'THERMAL_ALERT_OBJPATH', get_option('thermal-alert-objpath'))
-conf.set_quoted(
-    'FAN_MONITOR_YAML_FILE', get_option('fan-monitor-yaml-file'))
-
 # Fan control can be in YAML mode when everything else is in JSON mode
 control_conf_type = 'yaml'
 if get_option('json-config').enabled() and get_option('json-control').enabled()
     control_conf_type = 'json'
 endif
+
+# Monitor
+conf.set(
+    'NUM_MONITOR_LOG_ENTRIES', get_option('num-monitor-log-entries'))
+conf.set_quoted(
+    'FAN_MONITOR_YAML_FILE', get_option('fan-monitor-yaml-file'))
 
 # JSON-or-YAML (all programs)
 if get_option('json-config').enabled()
@@ -121,22 +112,24 @@ else
     conf_type = 'yaml'
 endif
 
-conf.set(
-    'NUM_PRESENCE_LOG_ENTRIES', get_option('num-presence-log-entries'))
-conf.set_quoted(
-    'PRESENCE_YAML_FILE', get_option('presence-config'))
+# Sensor Monitor
+conf.set_quoted('SENSOR_MONITOR_PERSIST_ROOT_PATH',
+                get_option('sensor-monitor-persist-root-path'))
 
-# Sensor
 if get_option('enable-host-state').enabled()
     conf.set('ENABLE_HOST_STATE', '')
 endif
 
-conf.set_quoted(
-    'SENSOR_MONITOR_PERSIST_ROOT_PATH', get_option('sensor-monitor-root-path'))
 conf.set(
     'SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS', get_option('sensor-monitor-hard-shutdown-delay'))
 conf.set(
     'SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS', get_option('sensor-monitor-soft-shutdown-delay'))
+
+# Presence
+conf.set(
+    'NUM_PRESENCE_LOG_ENTRIES', get_option('num-presence-log-entries'))
+conf.set_quoted(
+    'PRESENCE_YAML_FILE', get_option('presence-config'))
 
 configure_file(output: 'config.h', configuration: conf)
 
