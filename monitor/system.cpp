@@ -15,6 +15,7 @@
  */
 #include "system.hpp"
 
+#include "dbus_paths.hpp"
 #include "fan.hpp"
 #include "fan_defs.hpp"
 #include "tach_sensor.hpp"
