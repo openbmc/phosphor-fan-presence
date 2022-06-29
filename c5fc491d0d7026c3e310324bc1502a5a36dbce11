@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "282c0047_2901c867",
+        "filename": "control/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "Prefer consistent indentation (4 steps?).",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f070f75f_96f3150e",
+        "filename": "control/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "Isn\u0027t this the default install_dir?  I think there is a preference to put systemd-loaded services into `/var/libexec` (see anti-patterns document in the docs repo for more details), but this can be tackled with another commit since it is not changing from the existing autotools support",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f71d118a_03905071",
+        "filename": "meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "I think you misunderstood my earlier comment.\n\nYou are using \u0027configure_file\u0027, which typically operates on foo.in files and modifies them with the values of your configuration variables.  \n\n1. Why are we still using configure_file instead of simply installing the service directory?\n2. If we need to configure_file, why remove the BINDIR (or meson equivalent support) rather than hard-coding the path in the service.",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f8bdab9_bd33fe8c",
+        "filename": "monitor/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "consistent indentation please.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "230a05dd_c503d1c4",
+        "filename": "monitor/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "Also surprised this isn\u0027t the default here (and should move to libexec at some point).",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5cc28c33_65ae84fc",
+        "filename": "presence/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "indentation.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b7c47bef_37054906",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "consistent indentation.",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b924bf2f_7225063a",
+        "filename": "subprojects/fmt.wrap",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "Pretty sure this still isn\u0027t right.  Earlier I said:\n\n\u003e More specifically, run `meson wrap install fmt` and it will give you an upstream maintained wrapfile with all the appropriate dependency pieces added.\n\nThe upstream fmt doesn\u0027t support meson by default.  The wrapdb has patches to enable it.",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "241de071_49711e11",
+        "filename": "test/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2022-06-29T20:21:12Z",
+      "side": 1,
+      "message": "We don\u0027t have any tests?  Why\u0027d we do so much work to enable google test without any tests defined?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 1
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
