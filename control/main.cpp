@@ -23,6 +23,7 @@
 #include "json/manager.hpp"
 #endif
 
+#include "dbus_paths.hpp"
 #include "event.hpp"
 #include "sdbusplus.hpp"
 #include "sdeventplus.hpp"
