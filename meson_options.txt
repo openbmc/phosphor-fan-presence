@@ -1,15 +1,14 @@
-
 option(
     'tests', type: 'feature', value: 'enabled', description: 'Build tests.',
 )
 
+# JSON
 option(
     'enable-json', type: 'feature', value: 'enabled',
     description: 'Use json at runtime to configure fan packages.',
 )
 
 # Control
-
 option(
     'disable-control', type: 'feature', value: 'disabled',
     description: 'Disable fan control package.',
@@ -18,16 +17,6 @@ option(
 option(
     'disable-json-control', type: 'feature', value: 'disabled',
     description: 'Disable the use of JSON to configure fan control in favor of YAML.',
-)
-
-option(
-    'control-busname', type: 'string', value: 'xyz.openbmc_project.Control.Thermal',
-    description: 'Application\'s D-Bus busname to own.',
-)
-
-option(
-    'control-objpath', type: 'string', value: '/xyz/openbmc_project/control/thermal',
-    description: 'Application\'s root D-Bus object path.',
 )
 
 option(
@@ -53,7 +42,6 @@ option(
 )
 
 # Monitor
-
 option(
     'disable-monitor', type: 'feature', value: 'disabled',
     description: 'Disable monitor.',
@@ -69,18 +57,7 @@ option(
     description: 'Maximum number of entries in the monitor log.',
 )
 
-option(
-    'thermal-alert-busname', type: 'string', value: 'xyz.openbmc_project.Thermal.Alert',
-    description: 'Application\'s D-Bus busname to own.',
-)
-
-option(
-    'thermal-alert-objpath', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
-    description: 'Application\'s root D-Bus object path.',
-)
-
 # Presence
-
 option(
     'disable-presence', type: 'feature', value: 'disabled',
     description: 'Disable fan presence package.',
@@ -97,15 +74,9 @@ option(
 )
 
 # Sensor Monitor
-
 option(
     'enable-sensor-monitor', type: 'feature', value: 'enabled',
     description: 'Enable sensor monitor.',
-)
-
-option(
-    'sensor-monitor-root-path', type: 'string', value: '/xyz/openbmc_project/alerts/thermal_fault_alert',
-    description: 'Application\'s root D-Bus object path.',
 )
 
 option(
@@ -119,7 +90,6 @@ option(
 )
 
 # Other
-
 option(
     'disable-cooling-type', type: 'feature', value: 'enabled',
     description: 'Disable cooling-type package.',
