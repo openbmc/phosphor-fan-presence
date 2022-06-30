@@ -1082,28 +1082,6 @@
             "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
-                "group": "power mode",
-                "floors": [
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 3700
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 3700
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 3700
-                  },
-                  {
-                    // OEM == MaximumPerformance
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 3700
-                  }
-                ]
-              },
-              {
                 "parameter": "pcie_floor_index",
                 "floors": [
                   { "value": 1, "floor": 6000 },
@@ -1119,28 +1097,6 @@
             "default_floor": 5000,
             "floor_offset_parameter": "altitude_offset",
             "floors": [
-              {
-                "group": "power mode",
-                "floors": [
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 5000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 5000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 5000
-                  },
-                  {
-                    // OEM == MaximumPerformance
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 5000
-                  }
-                ]
-              },
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
@@ -1158,28 +1114,6 @@
             "floor_offset_parameter": "altitude_offset",
             "floors": [
               {
-                "group": "power mode",
-                "floors": [
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 6000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 6000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 6000
-                  },
-                  {
-                    // OEM == MaximumPerformance
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 6000
-                  }
-                ]
-              },
-              {
                 "parameter": "pcie_floor_index",
                 "floors": [
                   { "value": 1, "floor": 9000 },
@@ -1195,28 +1129,6 @@
             "default_floor": 8000,
             "floor_offset_parameter": "altitude_offset",
             "floors": [
-              {
-                "group": "power mode",
-                "floors": [
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.Static",
-                    "floor": 8000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.PowerSaving",
-                    "floor": 8000
-                  },
-                  {
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.MaximumPerformance",
-                    "floor": 8000
-                  },
-                  {
-                    // OEM == MaximumPerformance
-                    "value": "xyz.openbmc_project.Control.Power.Mode.PowerMode.OEM",
-                    "floor": 8000
-                  }
-                ]
-              },
               {
                 "parameter": "pcie_floor_index",
                 "floors": [
