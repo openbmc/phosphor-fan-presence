@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5048df5_7db1cdfc",
+        "filename": "control/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "282c0047_2901c867",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f070f75f_96f3150e",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-06-29T20:21:12Z",
       "side": 1,
       "message": "Isn\u0027t this the default install_dir?  I think there is a preference to put systemd-loaded services into `/var/libexec` (see anti-patterns document in the docs repo for more details), but this can be tackled with another commit since it is not changing from the existing autotools support",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4d0c4cc_4ae4b314",
+        "filename": "control/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f070f75f_96f3150e",
       "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -75,6 +111,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1bcd74a_50dfb04f",
+        "filename": "monitor/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f8bdab9_bd33fe8c",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 1
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "230a05dd_c503d1c4",
@@ -92,6 +152,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "abd4093a_2be291f5",
+        "filename": "monitor/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "230a05dd_c503d1c4",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5cc28c33_65ae84fc",
@@ -105,6 +183,30 @@
       "writtenOn": "2022-06-29T20:21:12Z",
       "side": 1,
       "message": "indentation.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "99742401_eb9c299d",
+        "filename": "presence/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cc28c33_65ae84fc",
       "range": {
         "startLine": 21,
         "startChar": 0,
@@ -138,6 +240,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de76a35b_22359b0f",
+        "filename": "sensor-monitor/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7c47bef_37054906",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 1
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b924bf2f_7225063a",
@@ -155,6 +281,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d002325b_8ef6767c",
+        "filename": "subprojects/fmt.wrap",
+        "patchSetId": 24
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "I tried that initially but the command failed with the version of meson I was using. I tried another version and now it works.",
+      "parentUuid": "b924bf2f_7225063a",
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "241de071_49711e11",
@@ -168,6 +312,30 @@
       "writtenOn": "2022-06-29T20:21:12Z",
       "side": 1,
       "message": "We don\u0027t have any tests?  Why\u0027d we do so much work to enable google test without any tests defined?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 1
+      },
+      "revId": "c5fc491d0d7026c3e310324bc1502a5a36dbce11",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b7ea9de2_f4b9cb5a",
+        "filename": "test/meson.build",
+        "patchSetId": 24
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-01T14:40:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "241de071_49711e11",
       "range": {
         "startLine": 24,
         "startChar": 0,
