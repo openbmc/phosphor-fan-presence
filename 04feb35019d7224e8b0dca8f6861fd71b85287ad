@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "5dd0b903_824ac410",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 23
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-05T14:24:53Z",
+      "side": 1,
+      "message": "This should be fixed by copying the service files, and removing the extra ones when autoconf is removed.",
+      "parentUuid": "0ffd5e24_078ac31e",
+      "revId": "04feb35019d7224e8b0dca8f6861fd71b85287ad",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "02523e93_5d0fd73e",
         "filename": "meson.build",
         "patchSetId": 23
