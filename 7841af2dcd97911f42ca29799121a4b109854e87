@@ -41,6 +41,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "babde3c8_26ea2bff",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-05T18:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bee8ded0_bda4c4d4",
+      "range": {
+        "startLine": 194,
+        "startChar": 23,
+        "endLine": 197,
+        "endChar": 69
+      },
+      "revId": "7841af2dcd97911f42ca29799121a4b109854e87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f0f62939_920215cf",
@@ -54,6 +78,30 @@
       "writtenOn": "2022-03-15T19:00:01Z",
       "side": 1,
       "message": "? There\u0027s no reason to have this method.",
+      "range": {
+        "startLine": 361,
+        "startChar": 0,
+        "endLine": 363,
+        "endChar": 2
+      },
+      "revId": "7841af2dcd97911f42ca29799121a4b109854e87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e45f3a31_7607905b",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-05T18:52:46Z",
+      "side": 1,
+      "message": "used in the next commit. this commit just establishes that callbacks work properly. It was tested with debug code to prove it is called at the right time.",
+      "parentUuid": "f0f62939_920215cf",
       "range": {
         "startLine": 361,
         "startChar": 0,
@@ -87,6 +135,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4fbc6ccf_e56fc60a",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-05T18:52:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1e0e26d_fb0ab0c0",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 45,
+        "endChar": 16
+      },
+      "revId": "7841af2dcd97911f42ca29799121a4b109854e87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a7db053f_c649d4f6",
@@ -110,6 +182,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5a3c1f3_0443ae91",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-05T18:52:46Z",
+      "side": 1,
+      "message": "it\u0027s used in a the subsequent commit.",
+      "parentUuid": "a7db053f_c649d4f6",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 147,
+        "endChar": 48
+      },
+      "revId": "7841af2dcd97911f42ca29799121a4b109854e87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfa04e71_1082237d",
@@ -123,6 +219,30 @@
       "writtenOn": "2022-03-15T19:00:01Z",
       "side": 1,
       "message": "I dont believe this bool is necessary on setting up the match objects since those are setup based on the service name found and if no service name was found for a sensor, it should fail then to subscribe the callback.",
+      "range": {
+        "startLine": 152,
+        "startChar": 7,
+        "endLine": 153,
+        "endChar": 19
+      },
+      "revId": "7841af2dcd97911f42ca29799121a4b109854e87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1ac2201_834adb7f",
+        "filename": "monitor/system.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-05T18:52:46Z",
+      "side": 1,
+      "message": "the return value is used in the next commit to activate re-triggering.",
+      "parentUuid": "dfa04e71_1082237d",
       "range": {
         "startLine": 152,
         "startChar": 7,
