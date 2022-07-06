@@ -254,8 +254,12 @@ class TachSensor
 
     /**
      * Set the functional status and update inventory to match
+     *
+     * @param[in] functional - The new state
+     * @param[in] skipErrorTimer - If setting the sensor to
+     *            nonfunctional, don't start the error timer.
      */
-    void setFunctional(bool functional);
+    void setFunctional(bool functional, bool skipErrorTimer = false);
 
     /**
      * @brief Says if the timer is running or not
@@ -435,7 +439,7 @@ class TachSensor
      * @brief If functional (not too slow).  The parent
      *        fan object sets this.
      */
-    bool _functional;
+    bool _functional = true;
 
     /**
      * @brief If the sensor has a Target property (can set speed)

@@ -238,7 +238,7 @@ void TachSensor::resetMethod()
     }
 }
 
-void TachSensor::setFunctional(bool functional)
+void TachSensor::setFunctional(bool functional, bool skipErrorTimer)
 {
     _functional = functional;
     updateInventory(_functional);
@@ -250,7 +250,7 @@ void TachSensor::setFunctional(bool functional)
 
     if (!_functional)
     {
-        if (_fan.present())
+        if (_fan.present() && !skipErrorTimer)
         {
             _errorTimer->restartOnce(std::chrono::seconds(*_errorDelay));
         }
