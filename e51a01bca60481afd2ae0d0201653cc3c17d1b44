@@ -34,6 +34,24 @@
       "parentUuid": "e9d92eff_20f4861d",
       "revId": "e51a01bca60481afd2ae0d0201653cc3c17d1b44",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca8fd6d_416a1c7a",
+        "filename": "dbus_paths.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-06T21:53:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4a69910_cccc4cdb",
+      "revId": "e51a01bca60481afd2ae0d0201653cc3c17d1b44",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
