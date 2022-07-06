@@ -87,9 +87,6 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus::bus& bus,
     _timer(event, std::bind(&Fan::updateState, &fan, std::ref(*this))),
     _errorDelay(errorDelay), _countInterval(countInterval)
 {
-    // Query functional state from inventory
-    // TODO - phosphor-fan-presence/issues/25
-
     _prevTachs.resize(MAX_PREV_TACHS);
 
     if (_hasTarget)
@@ -97,36 +94,7 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus::bus& bus,
         _prevTargets.resize(MAX_PREV_TARGETS);
     }
 
-    _functional = true;
-
-    try
-    {
-        // see if any object paths in the inventory have the
-        // OperationalStatus interface.
-        auto subtree = util::SDBusPlus::getSubTreeRaw(
-            _bus, util::INVENTORY_PATH, util::OPERATIONAL_STATUS_INTF, 0);
-
-        // if the tach sensor's entry already exists, we for sure can
-        // read its functional state from the inventory
-        if (subtree.end() != subtree.find(util::INVENTORY_PATH + _invName))
-        {
-            _functional = util::SDBusPlus::getProperty<bool>(
-                _bus, util::INVENTORY_PATH + _invName,
-                util::OPERATIONAL_STATUS_INTF, util::FUNCTIONAL_PROPERTY);
-        }
-    }
-    catch (const util::DBusError& e)
-    {
-        log<level::DEBUG>(e.what());
-    }
-
     updateInventory(_functional);
-
-    if (!_functional && MethodMode::count == _method)
-    {
-        // force continual nonfunctional state
-        _counter = _threshold;
-    }
 
     // Load in current Target and Input values when entering monitor mode
 #ifndef MONITOR_USE_JSON

@@ -107,6 +107,9 @@ void System::load()
 
     if (_powerState->isPowerOn())
     {
+        // Fans could be missing on startup, so check the power off rules.
+        // Tach sensors default to functional, so they wouldn't cause a power
+        // off here.
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
                           rule->check(PowerRuleState::runtime, _fanHealth);
