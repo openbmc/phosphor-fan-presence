@@ -142,6 +142,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e301d5f9_714c9752",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-06T20:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60f6cac4_1e73a7f7",
+      "range": {
+        "startLine": 77,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "195b7e70_27b03862",
@@ -236,6 +260,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4ece4d3_eac99aec",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-06T20:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24fcb54a_bda3a66b",
+      "range": {
+        "startLine": 102,
+        "startChar": 19,
+        "endLine": 104,
+        "endChar": 41
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37ee3ab4_4da01294",
@@ -283,6 +331,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aaf0a3c9_7803ade7",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-06T20:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f559338_d305d9cc",
+      "range": {
+        "startLine": 113,
+        "startChar": 59,
+        "endLine": 113,
+        "endChar": 60
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5a7dbdf1_ff857849",
@@ -320,6 +392,30 @@
       "side": 1,
       "message": "this is not called in the same activation record as start(). the function initializes a member variable that contains a lambda. this will be called by the async logic that detects whether the config file is there.",
       "parentUuid": "5a7dbdf1_ff857849",
+      "range": {
+        "startLine": 127,
+        "startChar": 8,
+        "endLine": 128,
+        "endChar": 74
+      },
+      "revId": "a37e66b99c88235bcbf97313317b9c89841db157",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ab03bce_e280ddca",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-06T20:46:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64c85e50_2f932f1a",
       "range": {
         "startLine": 127,
         "startChar": 8,
