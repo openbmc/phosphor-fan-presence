@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab3c6571_29820db0",
+        "filename": "control/service_files/json/phosphor-fan-control@.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-06T20:30:21Z",
+      "side": 1,
+      "message": "i think you meant to just hardcode the paths here?",
+      "range": {
+        "startLine": 6,
+        "startChar": 9,
+        "endLine": 6,
+        "endChar": 19
+      },
+      "revId": "27946504b6f2a498739b7dada101d3f51dfa8762",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
