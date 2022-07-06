@@ -16,6 +16,24 @@
       "message": "Remove the forward declare?",
       "revId": "ae1df028f5224bad85a2444680850cf60b870c8d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd837cca_53ad2ef8",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-06T20:29:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39c10455_bac503ff",
+      "revId": "ae1df028f5224bad85a2444680850cf60b870c8d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
