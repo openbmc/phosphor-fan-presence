@@ -197,13 +197,14 @@ void Fan::startMonitor()
             }
             catch (const util::DBusServiceError& e)
             {
-                // The tach property still isn't on D-Bus, ensure
-                // sensor is nonfunctional.
+                // The tach property still isn't on D-Bus. Ensure
+                // sensor is nonfunctional, but skip creating an
+                // error for it since it isn't a fan problem.
                 getLogger().log(fmt::format(
                     "Monitoring starting but {} sensor value not on D-Bus",
                     sensor->name()));
 
-                sensor->setFunctional(false);
+                sensor->setFunctional(false, true);
 
                 if (_numSensorFailsForNonFunc)
                 {
@@ -214,7 +215,10 @@ void Fan::startMonitor()
                     }
                 }
 
-                _system.fanStatusChange(*this);
+                // At this point, don't start any power off actions due
+                // to missing sensors.  Let something else handle that
+                // policy.
+                _system.fanStatusChange(*this, true);
             }
         }
     });
@@ -381,12 +385,16 @@ void Fan::updateState(TachSensor& sensor)
         rangeMax = std::to_string(range.second.value());
     }
 
-    sensor.setFunctional(!sensor.functional());
-    getLogger().log(
-        fmt::format("Setting tach sensor {} functional state to {}. "
-                    "[target = {}, input = {}, allowed range = ({} - {})]",
-                    sensor.name(), sensor.functional(), sensor.getTarget(),
-                    sensor.getInput(), range.first, rangeMax));
+    // Skip starting the error timer if the sensor
+    // isn't on D-Bus as this isn't a fan hardware problem.
+    sensor.setFunctional(!sensor.functional(), !sensor.hasOwner());
+
+    getLogger().log(fmt::format(
+        "Setting tach sensor {} functional state to {}. "
+        "[target = {}, input = {}, allowed range = ({} - {}) "
+        "owned = {}]",
+        sensor.name(), sensor.functional(), sensor.getTarget(),
+        sensor.getInput(), range.first, rangeMax, sensor.hasOwner()));
 
     // A zero value for _numSensorFailsForNonFunc means we aren't dealing
     // with fan FRU functional status, only sensor functional status.
@@ -417,7 +425,9 @@ void Fan::updateState(TachSensor& sensor)
         }
     }
 
-    _system.fanStatusChange(*this);
+    // Skip the power off rule checks if the sensor isn't
+    // on D-Bus so a running system isn't shutdown.
+    _system.fanStatusChange(*this, !sensor.hasOwner());
 }
 
 bool Fan::updateInventory(bool functional)
