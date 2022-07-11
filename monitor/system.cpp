@@ -537,8 +537,13 @@ void System::createBmcDump() const
             std::vector<
                 std::pair<std::string, std::variant<std::string, uint64_t>>>());
     }
-    catch (const sdbusplus::exception::exception&)
-    {}
+    catch (const std::exception& e)
+    {
+        getLogger().log(
+            fmt::format("Caught exception while creating BMC dump: {}",
+                        e.what()),
+            Logger::error);
+    }
 }
 
 } // namespace phosphor::fan::monitor
