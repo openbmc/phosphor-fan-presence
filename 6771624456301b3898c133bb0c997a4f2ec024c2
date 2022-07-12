@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7fb5c9d_63753f0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-07-12T20:10:55Z",
+      "side": 1,
+      "message": "???\n\nSome kind of squash due to requesting create meson, then remove autoconf?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "6771624456301b3898c133bb0c997a4f2ec024c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49bcfde9_59a989b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-07-12T20:10:55Z",
+      "side": 1,
+      "message": "Assuming you had a bit of a mess trying to re-arrange things, so compared this against https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/54519 and https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/54615/19.",
+      "revId": "6771624456301b3898c133bb0c997a4f2ec024c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdb627cc_f1cd2063",
+        "filename": "README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-07-12T20:10:55Z",
+      "side": 1,
+      "message": "Well, I suppose, technically, you did not remove autoconf yet, so ideally you would include instructions for both... moving along.",
+      "revId": "6771624456301b3898c133bb0c997a4f2ec024c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30a04c04_acda1764",
+        "filename": "meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-07-12T20:10:55Z",
+      "side": 1,
+      "message": "Possibly nit-picky, but eventually I notice that some of these meson* files have 2 blank lines at the end, others have one blank line, ... not even sure if it should have a single blank line, but possibly nice to be consistent.",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 150,
+        "endChar": 0
+      },
+      "revId": "6771624456301b3898c133bb0c997a4f2ec024c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd30be0f_a94b23b2",
+        "filename": "subprojects/fmt.wrap",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-07-12T20:10:55Z",
+      "side": 1,
+      "message": "Realizing that phosphor-power does not do something like this, as far as I know, and then I wonder how you make sure you keep up with the best version.",
+      "revId": "6771624456301b3898c133bb0c997a4f2ec024c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
