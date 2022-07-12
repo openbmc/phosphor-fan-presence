@@ -212,6 +212,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9289064_6fec8aec",
+        "filename": "meson_options.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000945
+      },
+      "writtenOn": "2022-07-12T05:58:58Z",
+      "side": 1,
+      "message": "Usually, the min, max value as it meaning is used to define the limitation of on configuration option. If this option does not have the limitation then we don\u0027t need it.",
+      "parentUuid": "23d4a6be_6d487680",
+      "revId": "661acb83f5461aa22b19495ed1fb0cc6005e9a20",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0750203e_677d3653",
