@@ -34,6 +34,24 @@
       "parentUuid": "70d32490_f02d1391",
       "revId": "8e2bdeb74a9028a809596dc8470484e8f0157184",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5648b58f_6496aade",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000085
+      },
+      "writtenOn": "2022-07-13T22:28:03Z",
+      "side": 1,
+      "message": "Ah! Nope, this is apparently not in gerrit/master. I did a test cherry-pick to see it apply to my local repository with a branch updated/rebased to latest gerrit/master.",
+      "parentUuid": "5ec88052_60561a2f",
+      "revId": "8e2bdeb74a9028a809596dc8470484e8f0157184",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
