@@ -148,8 +148,9 @@ void interfacesRemoved(Manager* mgr, const Group& group,
     // will do nothing since signals require a group
     for (const auto& member : group.getMembers())
     {
-        // Setup interfaces added signal handler on the group member
-        const auto match = rules::interfacesRemoved(member);
+        // Setup interfaces removed signal handler on the group member
+        const auto match =
+            rules::interfacesRemoved() + rules::argNpath(0, member);
         SignalPkg signalPkg = {Handlers::interfacesRemoved,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
