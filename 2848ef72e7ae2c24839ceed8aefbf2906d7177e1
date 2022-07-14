@@ -16,6 +16,24 @@
       "message": "I think the merge conflict is pointing out some kind of re-arrange/squash. https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/55105\n\nIs this no longer a change worth reviewing? Abandon, and go look at 55105?",
       "revId": "2848ef72e7ae2c24839ceed8aefbf2906d7177e1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc10b256_7ffb8de1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-07-14T00:33:55Z",
+      "side": 1,
+      "message": "+1\nThese two commits are confusing me",
+      "parentUuid": "a7322f58_70018e32",
+      "revId": "2848ef72e7ae2c24839ceed8aefbf2906d7177e1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
