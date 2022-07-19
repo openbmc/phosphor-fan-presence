@@ -17,6 +17,8 @@
 
 #include "shutdown_alarm_monitor.hpp"
 
+#include "logger.hpp"
+
 #include <fmt/format.h>
 #include <unistd.h>
 
@@ -29,6 +31,8 @@ using namespace phosphor::logging;
 using namespace phosphor::fan::util;
 using namespace phosphor::fan;
 namespace fs = std::filesystem;
+
+Logger& getLogger();
 
 const std::map<ShutdownType, std::string> shutdownInterfaces{
     {ShutdownType::hard, "xyz.openbmc_project.Sensor.Threshold.HardShutdown"},
@@ -481,6 +485,13 @@ std::optional<ShutdownType>
     }
 
     return it->first;
+}
+
+Logger& getLogger()
+{
+    static Logger logger{NUM_MONITOR_LOG_ENTRIES};
+
+    return logger;
 }
 
 } // namespace sensor::monitor
