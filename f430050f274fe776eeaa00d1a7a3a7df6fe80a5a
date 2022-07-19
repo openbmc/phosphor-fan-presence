@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa622aee_0aff6d5a",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T20:08:33Z",
+      "side": 1,
+      "message": "since these are all feature flags I think they need to be -Ddisable-control\u003denabled, etc?",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "19e3f75f_eb6c84b2",
+        "filename": "control/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T20:08:33Z",
+      "side": 1,
+      "message": "these would just need to get added if JSON is enabled",
+      "range": {
+        "startLine": 4,
+        "startChar": 1,
+        "endLine": 6,
+        "endChar": 21
+      },
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "92d0b7a9_9151224a",
+        "filename": "control/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T20:08:33Z",
+      "side": 1,
+      "message": "you may as well follow what control/Makefile.am did here for which files to include.  So all the json/* files only if JSON is enabled, and \n\n\targument.cpp \\\n\tfan.cpp \\\n\tmanager.cpp \\\n\tutility.cpp \\\n\tpreconditions.cpp \\\n\tactions.cpp \\\n\ttriggers.cpp \\\n\tzone.cpp\n\n\nelse",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3c89261a_343c9717",
+        "filename": "control/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T20:08:33Z",
+      "side": 1,
+      "message": "control",
+      "range": {
+        "startLine": 79,
+        "startChar": 13,
+        "endLine": 79,
+        "endChar": 20
+      },
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
