@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "17a590c0_32658897",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T19:18:07Z",
+      "side": 1,
+      "message": "technically it\u0027s just sensor-monitor, not monitor and sensor-monitor",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 7
+      },
+      "revId": "97ddc25fd2f23f9dc1dc79e341d15d12a02407ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3aa04beb_0c8fdbf4",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T19:18:07Z",
+      "side": 1,
+      "message": "there\u0027s a \"using namespace phosphor-logging\" at the top of this file, so you can leave out the phosphor::logging here.",
+      "revId": "97ddc25fd2f23f9dc1dc79e341d15d12a02407ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
