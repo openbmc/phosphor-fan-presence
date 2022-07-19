@@ -262,6 +262,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1e2553ae_3480f7ac",
+        "filename": "meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T22:09:19Z",
+      "side": 1,
+      "message": "if doing a standalone build and tests are enabled, this will always fail because it never got a chance to look up the subproject on line 33+ and required is true, so how about like:\n\nif build_tests.enabled()\n  gmock_dep \u003d dependency(\u0027gmock\u0027, disabler: true, required: false)\n  gtest_dep \u003d dependency(\u0027gtest\u0027, main: true, disabler: true, required: false)\n  if not gtest_dep.found() or not gmock_dep.found()\n  ...",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7471f8ef_9e506888",
         "filename": "meson.build",
         "patchSetId": 6
