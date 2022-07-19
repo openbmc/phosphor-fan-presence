@@ -71,6 +71,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d5c27b3_acddeb74",
+        "filename": "README.md",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-19T21:48:51Z",
+      "side": 1,
+      "message": "How about we use an ergonomic design and rename the flag to use-json ? enabled by default, so if someone wants to use the deprecated path, they\u0027d have to write -Duse-json\u003ddisabled.",
+      "parentUuid": "aa622aee_0aff6d5a",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "19e3f75f_eb6c84b2",
         "filename": "control/meson.build",
         "patchSetId": 6
