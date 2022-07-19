@@ -39,6 +39,24 @@
       "message": "there\u0027s a \"using namespace phosphor-logging\" at the top of this file, so you can leave out the phosphor::logging here.",
       "revId": "97ddc25fd2f23f9dc1dc79e341d15d12a02407ac",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4724cd2f_9f090951",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T20:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aa04beb_0c8fdbf4",
+      "revId": "97ddc25fd2f23f9dc1dc79e341d15d12a02407ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
