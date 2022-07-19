@@ -370,10 +370,10 @@ void ShutdownAlarmMonitor::createBmcDump() const
     }
     catch (const std::exception& e)
     {
-        getLogger().log(
-            fmt::format("Caught exception while creating BMC dump: {}",
-                        e.what()),
-            Logger::error);
+        auto message = fmt::format(
+            "Caught exception while creating BMC dump: {}", e.what());
+
+        phosphor::logging::log<phosphor::logging::level::ERR>(message.c_str());
     }
 }
 
