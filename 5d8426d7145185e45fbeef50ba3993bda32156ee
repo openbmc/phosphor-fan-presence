@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a3593dbd_144ac203",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T14:46:30Z",
+      "side": 1,
+      "message": "this doesn\u0027t match your changes?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "5d8426d7145185e45fbeef50ba3993bda32156ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "171f5182_77b746d3",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T14:46:30Z",
+      "side": 1,
+      "message": "I kinda missed this before, but the only reason to use Logger is for when we want to put some traces into PELs.  sensor-monitor doesn\u0027t do that, so there is no need to use the class at all.\n\nYou can just do the normal log\u003clevel::ERR\u003e(..)",
+      "revId": "5d8426d7145185e45fbeef50ba3993bda32156ee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
