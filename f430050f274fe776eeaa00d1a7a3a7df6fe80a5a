@@ -313,6 +313,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bf60c3c8_c5e4882b",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T22:22:09Z",
+      "side": 1,
+      "message": "need fmt, phosphor_logging, nlohmann_json, and sdeventplus deps",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e7e59092_f62129c4",
         "filename": "sensor-monitor/meson.build",
         "patchSetId": 6
@@ -330,6 +347,23 @@
         "endLine": 18,
         "endChar": 25
       },
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89c03dbe_439c20df",
+        "filename": "test/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T22:22:09Z",
+      "side": 1,
+      "message": "missing phosphor_logging and nlohmann_json deps",
       "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
