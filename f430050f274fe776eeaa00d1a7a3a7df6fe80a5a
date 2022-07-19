@@ -35,6 +35,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9c05f0a1_4b85ab18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T21:42:41Z",
+      "side": 1,
+      "message": "I see:\n\nWARNING: Project specifies a minimum meson_version \u0027\u003e\u003d0.57.0\u0027 but uses features which were added in newer versions:\n * 0.58.0: {\u0027Positional argument to dependency.get_variable()\u0027}\n",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa622aee_0aff6d5a",
