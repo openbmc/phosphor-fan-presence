@@ -147,6 +147,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3fc5e86c_a1b185f2",
+        "filename": "control/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T21:54:16Z",
+      "side": 1,
+      "message": "need nlohmann_json_dep if json enabled",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "3c89261a_343c9717",
         "filename": "control/meson.build",
         "patchSetId": 6
@@ -170,6 +187,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f90db7e_293d28cb",
+        "filename": "control/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T21:54:16Z",
+      "side": 1,
+      "message": "needs nlohmann_json_dep, cli11, phosphor_logging as deps",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "495ab36c_672a2f42",
         "filename": "meson.build",
         "patchSetId": 6
@@ -187,6 +221,57 @@
         "endLine": 21,
         "endChar": 37
       },
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "77b547b7_2b30cb3e",
+        "filename": "meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T21:54:16Z",
+      "side": 1,
+      "message": "other dependencies missing are CLI11 for fanctl and nlohmann-json if json is enabled. Also phosphor-dbus-interfaces. They would need wrapfiles too. phosphor-inventory would be a good reference for that.",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7471f8ef_9e506888",
+        "filename": "meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T21:54:16Z",
+      "side": 1,
+      "message": "looks like the \u0027if get_option(\u0027disable-cooling-type\u0027).disabled()\u0027 check is missing.\n\nI guess that dir also needs a meson.build",
+      "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e4859d6_a833b25a",
+        "filename": "monitor/meson.build",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-19T21:54:16Z",
+      "side": 1,
+      "message": "probably needs nlohmann-json (if json enabled) added as a dep",
       "revId": "f430050f274fe776eeaa00d1a7a3a7df6fe80a5a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
