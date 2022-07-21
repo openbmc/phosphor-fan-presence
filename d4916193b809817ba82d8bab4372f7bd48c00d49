@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a692d3d_1d1415fe",
+        "filename": "control/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-21T16:38:05Z",
+      "side": 1,
+      "message": "i think only fanctl uses cli11?",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69935f18_2615c599",
+        "filename": "control/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-21T16:38:05Z",
+      "side": 1,
+      "message": "these aren\u0027t needed when JSON is enabled.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 14
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b7f6680_463b58b8",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-07-21T16:38:05Z",
+      "side": 1,
+      "message": "this is always true since its in the build_tests.enabled(), so may as well just hardcode it and remove line 45.",
+      "range": {
+        "startLine": 46,
+        "startChar": 62,
+        "endLine": 46,
+        "endChar": 73
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
