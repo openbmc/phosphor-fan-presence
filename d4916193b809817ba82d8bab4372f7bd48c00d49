@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6bc483e2_2ff78358",
+        "filename": "control/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-21T22:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a692d3d_1d1415fe",
+      "range": {
+        "startLine": 8,
+        "startChar": 4,
+        "endLine": 8,
+        "endChar": 14
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "69935f18_2615c599",
@@ -37,6 +61,30 @@
       "writtenOn": "2022-07-21T16:38:05Z",
       "side": 1,
       "message": "these aren\u0027t needed when JSON is enabled.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 14
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3678bb2b_1712ad3a",
+        "filename": "control/meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-21T22:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69935f18_2615c599",
       "range": {
         "startLine": 16,
         "startChar": 0,
@@ -70,6 +118,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e5d55e_32819d31",
+        "filename": "meson.build",
+        "patchSetId": 8
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-21T22:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b7f6680_463b58b8",
+      "range": {
+        "startLine": 46,
+        "startChar": 62,
+        "endLine": 46,
+        "endChar": 73
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b43e3851_798da3f1",
@@ -83,6 +155,30 @@
       "writtenOn": "2022-07-21T17:49:48Z",
       "side": 1,
       "message": "looks like this needs to be \u0027phosphor-dbus-interfaces\u0027",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 24
+      },
+      "revId": "d4916193b809817ba82d8bab4372f7bd48c00d49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed619f16_d7938f32",
+        "filename": "subprojects/phosphor-dbus-interfaces.wrap",
+        "patchSetId": 8
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1001082
+      },
+      "writtenOn": "2022-07-21T22:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b43e3851_798da3f1",
       "range": {
         "startLine": 6,
         "startChar": 0,
