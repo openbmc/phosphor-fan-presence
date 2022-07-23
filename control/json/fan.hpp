@@ -128,7 +128,7 @@ class Fan : public ConfigBase
     void unlockTarget(uint64_t target);
 
     /* The sdbusplus bus object */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * Interface containing the `Target` property

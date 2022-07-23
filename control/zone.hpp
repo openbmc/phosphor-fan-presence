@@ -21,7 +21,7 @@ namespace fan
 namespace control
 {
 
-using ThermalObject = sdbusplus::server::object::object<
+using ThermalObject = sdbusplus::server::object_t<
     sdbusplus::xyz::openbmc_project::Control::server::ThermalMode>;
 
 /**
@@ -60,7 +60,7 @@ class Zone : public ThermalObject
      * @param[in] event - Event loop reference
      * @param[in] def - the fan zone definition data
      */
-    Zone(Mode mode, sdbusplus::bus::bus& bus, const std::string& path,
+    Zone(Mode mode, sdbusplus::bus_t& bus, const std::string& path,
          const sdeventplus::Event& event, const ZoneDefinition& def);
 
     /**
@@ -563,8 +563,7 @@ class Zone : public ThermalObject
      * @param[in] msg - Expanded sdbusplus message data
      * @param[in] eventData - The single event's data
      */
-    void handleEvent(sdbusplus::message::message& msg,
-                     const EventData* eventData);
+    void handleEvent(sdbusplus::message_t& msg, const EventData* eventData);
 
     /**
      * @brief Add a signal to the list of signal based events
@@ -664,7 +663,7 @@ class Zone : public ThermalObject
     /**
      * The dbus object
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * Zone object path

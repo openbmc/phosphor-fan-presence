@@ -103,7 +103,7 @@ void Fan::setTarget(uint64_t target)
                 _bus, sensor.second, sensor.first, _interface,
                 FAN_TARGET_PROPERTY, std::move(value));
         }
-        catch (const sdbusplus::exception::exception&)
+        catch (const sdbusplus::exception_t&)
         {
             throw util::DBusPropertyError{
                 fmt::format("Failed to set target for fan {}", _name).c_str(),

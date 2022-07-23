@@ -57,7 +57,7 @@ using InternalFailure =
 template <typename T>
 static void
     readProperty(const std::string& interface, const std::string& propertyName,
-                 const std::string& path, sdbusplus::bus::bus& bus, T& value)
+                 const std::string& path, sdbusplus::bus_t& bus, T& value)
 {
     try
     {
@@ -70,7 +70,7 @@ static void
     }
 }
 
-TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus::bus& bus,
+TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
                        Fan& fan, const std::string& id, bool hasTarget,
                        size_t funcDelay, const std::string& interface,
                        double factor, int64_t offset, size_t method,
@@ -261,7 +261,7 @@ void TachSensor::setFunctional(bool functional, bool skipErrorTimer)
     }
 }
 
-void TachSensor::handleTargetChange(sdbusplus::message::message& msg)
+void TachSensor::handleTargetChange(sdbusplus::message_t& msg)
 {
     readPropertyFromMessage(msg, _interface, FAN_TARGET_PROPERTY, _tachTarget);
 
@@ -277,7 +277,7 @@ void TachSensor::handleTargetChange(sdbusplus::message::message& msg)
     }
 }
 
-void TachSensor::handleTachChange(sdbusplus::message::message& msg)
+void TachSensor::handleTachChange(sdbusplus::message_t& msg)
 {
     readPropertyFromMessage(msg, util::FAN_SENSOR_VALUE_INTF,
                             FAN_VALUE_PROPERTY, _tachInput);

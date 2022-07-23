@@ -40,8 +40,7 @@ class Manager
      * @param[in] event - The event loop
      * @param[in] mode - The control mode
      */
-    Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
-            Mode mode);
+    Manager(sdbusplus::bus_t& bus, const sdeventplus::Event& event, Mode mode);
 
     /**
      * Does the fan control inititialization, which is
@@ -54,12 +53,12 @@ class Manager
     /**
      * The dbus object
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * The sdbusplus object manager
      */
-    sdbusplus::server::manager::manager _objMgr;
+    sdbusplus::server::manager_t _objMgr;
 
     /**
      * The fan zones in the system

@@ -66,7 +66,7 @@ class ThresholdAlarmLogger
      * @param[in] event - The sdeventplus event object
      * @param[in] powerState - The PowerState object
      */
-    ThresholdAlarmLogger(sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+    ThresholdAlarmLogger(sdbusplus::bus_t& bus, sdeventplus::Event& event,
                          std::shared_ptr<phosphor::fan::PowerState> powerState);
 
   private:
@@ -78,7 +78,7 @@ class ThresholdAlarmLogger
      *
      * @param[in] msg - The signal message payload.
      */
-    void propertiesChanged(sdbusplus::message::message& msg);
+    void propertiesChanged(sdbusplus::message_t& msg);
 
     /**
      * @brief The interfacesRemoved removed handler for the threshold
@@ -88,7 +88,7 @@ class ThresholdAlarmLogger
      *
      * @param[in] msg - The signal message payload.
      */
-    void interfacesRemoved(sdbusplus::message::message& msg);
+    void interfacesRemoved(sdbusplus::message_t& msg);
 
     /**
      * @brief Checks for active alarms on the path and threshold interface
@@ -169,7 +169,7 @@ class ThresholdAlarmLogger
     /**
      * @brief The sdbusplus bus object
      */
-    sdbusplus::bus::bus& bus;
+    sdbusplus::bus_t& bus;
 
     /**
      * @brief The sdeventplus Event object
@@ -184,22 +184,22 @@ class ThresholdAlarmLogger
     /**
      * @brief The Warning interface match object
      */
-    sdbusplus::bus::match::match warningMatch;
+    sdbusplus::bus::match_t warningMatch;
 
     /**
      * @brief The Critical interface match object
      */
-    sdbusplus::bus::match::match criticalMatch;
+    sdbusplus::bus::match_t criticalMatch;
 
     /**
      * @brief The PerformanceLoss interface match object
      */
-    sdbusplus::bus::match::match perfLossMatch;
+    sdbusplus::bus::match_t perfLossMatch;
 
     /**
      * @brief The InterfacesRemoved match object
      */
-    sdbusplus::bus::match::match ifacesRemovedMatch;
+    sdbusplus::bus::match_t ifacesRemovedMatch;
 
     /**
      * @brief The current alarm values
