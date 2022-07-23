@@ -83,7 +83,7 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
              ErrorData{"PerfLossLowClear", Entry::Level::Informational}}}}}}};
 
 ThresholdAlarmLogger::ThresholdAlarmLogger(
-    sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+    sdbusplus::bus_t& bus, sdeventplus::Event& event,
     std::shared_ptr<PowerState> powerState) :
     bus(bus),
     event(event), _powerState(std::move(powerState)),
@@ -135,7 +135,7 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(
         });
 }
 
-void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message::message& msg)
+void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message_t& msg)
 {
     std::map<std::string, std::variant<bool>> properties;
     std::string sensorPath = msg.get_path();
@@ -180,7 +180,7 @@ void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message::message& msg)
     }
 }
 
-void ThresholdAlarmLogger::interfacesRemoved(sdbusplus::message::message& msg)
+void ThresholdAlarmLogger::interfacesRemoved(sdbusplus::message_t& msg)
 {
     static const std::vector<std::string> thresholdNames{
         warningInterface, criticalInterface, perfLossInterface};
@@ -224,7 +224,7 @@ void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
                 createEventLog(sensorPath, interface, property, alarmValue);
             }
         }
-        catch (const sdbusplus::exception::exception& e)
+        catch (const sdbusplus::exception_t& e)
         {
             // Sensor daemons that get their direction from entity manager
             // may only be putting either the high alarm or low alarm on

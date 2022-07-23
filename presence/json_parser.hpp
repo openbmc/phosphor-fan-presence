@@ -55,7 +55,7 @@ class JsonConfig
      *
      * @param[in] bus - sdbusplus bus object
      */
-    explicit JsonConfig(sdbusplus::bus::bus& bus);
+    explicit JsonConfig(sdbusplus::bus_t& bus);
 
     /**
      * @brief Get the json config based fan presence policies
@@ -86,7 +86,7 @@ class JsonConfig
     static policies _policies;
 
     /* The sdbusplus bus object */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /* List of Fan objects to have presence policies */
     std::vector<fanPolicy> _fans;

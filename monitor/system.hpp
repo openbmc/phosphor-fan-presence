@@ -58,8 +58,7 @@ class System
      * @param[in] bus - sdbusplus bus object
      * @param[in] event - event loop reference
      */
-    System(Mode mode, sdbusplus::bus::bus& bus,
-           const sdeventplus::Event& event);
+    System(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event);
 
     /**
      * @brief Callback function to handle receiving a HUP signal to reload the
@@ -130,7 +129,7 @@ class System
      *
      * @param[in] msg - Service details.
      */
-    void inventoryOnlineCb(sdbusplus::message::message& msg);
+    void inventoryOnlineCb(sdbusplus::message_t& msg);
 
     /**
      * @brief Create a BMC Dump
@@ -141,7 +140,7 @@ class System
     Mode _mode;
 
     /* The sdbusplus bus object */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /* The event loop reference */
     const sdeventplus::Event& _event;
@@ -150,7 +149,7 @@ class System
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
 
     /* match object to detect Inventory service */
-    std::unique_ptr<sdbusplus::bus::match::match> _inventoryMatch;
+    std::unique_ptr<sdbusplus::bus::match_t> _inventoryMatch;
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
@@ -192,7 +191,7 @@ class System
     /**
      * @brief The tach sensors D-Bus match objects
      */
-    std::vector<std::unique_ptr<sdbusplus::bus::match::match>> _sensorMatch;
+    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> _sensorMatch;
 
     /**
      * @brief true if config files have been loaded
@@ -260,7 +259,7 @@ class System
      *
      * @param[in] sensorMap - map providing sensor access for each service
      */
-    void tachSignalOffline(sdbusplus::message::message& msg,
+    void tachSignalOffline(sdbusplus::message_t& msg,
                            const SensorMapType& sensorMap);
 
     /**

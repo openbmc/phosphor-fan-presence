@@ -36,7 +36,7 @@ class Fan
      * @param[in] bus - the dbus object
      * @param[in] def - the fan definition data
      */
-    Fan(sdbusplus::bus::bus& bus, const FanDefinition& def);
+    Fan(sdbusplus::bus_t& bus, const FanDefinition& def);
 
     /**
      * Sets the speed value on all contained sensors
@@ -59,7 +59,7 @@ class Fan
     /**
      * The dbus object
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * The inventory name of the fan

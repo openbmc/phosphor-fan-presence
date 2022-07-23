@@ -43,7 +43,7 @@ const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 ErrorReporter::ErrorReporter(
-    sdbusplus::bus::bus& bus,
+    sdbusplus::bus_t& bus,
     const std::vector<
         std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>& fans) :
     _bus(bus),
@@ -93,7 +93,7 @@ ErrorReporter::ErrorReporter(
     }
 }
 
-void ErrorReporter::presenceChanged(sdbusplus::message::message& msg)
+void ErrorReporter::presenceChanged(sdbusplus::message_t& msg)
 {
     bool present;
     auto fanPath = msg.get_path();

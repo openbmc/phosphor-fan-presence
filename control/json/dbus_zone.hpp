@@ -18,7 +18,7 @@
 #include "xyz/openbmc_project/Control/ThermalMode/server.hpp"
 
 /* Extend the Control::ThermalMode interface */
-using ThermalModeIntf = sdbusplus::server::object::object<
+using ThermalModeIntf = sdbusplus::server::object_t<
     sdbusplus::xyz::openbmc_project::Control::server::ThermalMode>;
 
 namespace phosphor::fan::control::json

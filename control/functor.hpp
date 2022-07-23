@@ -102,7 +102,7 @@ struct Properties
      * Extract the property from the PropertiesChanged
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus& bus, sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus_t& bus, sdbusplus::message_t& msg,
                     Zone& zone) const
     {
         if (msg)
@@ -137,7 +137,7 @@ struct Properties
                 auto val = zone.getPropertyByName<T>(_path, _intf, _prop);
                 _handler(zone, _path, _intf, _prop, std::forward<T>(val));
             }
-            catch (const sdbusplus::exception::exception&)
+            catch (const sdbusplus::exception_t&)
             {
                 // Property will not be used unless a property changed
                 // signal message is received for this property.
@@ -168,7 +168,7 @@ struct Properties
                     auto val = zone.getPropertyByName<T>(path, intf, prop);
                     handler(zone, path, intf, prop, std::forward<T>(val));
                 }
-                catch (const sdbusplus::exception::exception&)
+                catch (const sdbusplus::exception_t&)
                 {
                     // Property value not sent to handler
                 }
@@ -245,7 +245,7 @@ struct InterfacesAdded
      * Extract the property from the InterfacesAdded
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus&, sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus_t&, sdbusplus::message_t& msg,
                     Zone& zone) const
     {
         if (msg)
@@ -332,7 +332,7 @@ struct InterfacesRemoved
      * Extract the interfaces from the InterfacesRemoved
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus&, sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus_t&, sdbusplus::message_t& msg,
                     Zone& zone) const
     {
         if (msg)
@@ -403,7 +403,7 @@ struct NameOwner
      * Extract the name owner from the NameOwnerChanged
      * message and run the handler function.
      */
-    void operator()(sdbusplus::bus::bus& bus, sdbusplus::message::message& msg,
+    void operator()(sdbusplus::bus_t& bus, sdbusplus::message_t& msg,
                     Zone& zone) const
     {
         if (msg)

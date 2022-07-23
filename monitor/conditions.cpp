@@ -22,7 +22,7 @@ using namespace phosphor::logging;
 
 Condition propertiesMatch(std::vector<PropertyState>&& propStates)
 {
-    return [pStates = std::move(propStates)](sdbusplus::bus::bus& bus) {
+    return [pStates = std::move(propStates)](sdbusplus::bus_t& bus) {
         return std::all_of(
             pStates.begin(), pStates.end(), [&bus](const auto& p) {
                 return util::SDBusPlus::getPropertyVariant<PropertyValue>(

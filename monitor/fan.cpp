@@ -35,7 +35,7 @@ namespace monitor
 using namespace phosphor::logging;
 using namespace sdbusplus::bus::match;
 
-Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
+Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
          System& system) :
     _bus(bus),
@@ -143,7 +143,7 @@ Fan::Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
     }
 }
 
-void Fan::presenceIfaceAdded(sdbusplus::message::message& msg)
+void Fan::presenceIfaceAdded(sdbusplus::message_t& msg)
 {
     sdbusplus::message::object_path path;
     std::map<std::string, std::map<std::string, std::variant<bool>>> interfaces;
@@ -467,7 +467,7 @@ bool Fan::updateInventory(bool functional)
     return dbusError;
 }
 
-void Fan::presenceChanged(sdbusplus::message::message& msg)
+void Fan::presenceChanged(sdbusplus::message_t& msg)
 {
     std::string interface;
     std::map<std::string, std::variant<bool>> properties;

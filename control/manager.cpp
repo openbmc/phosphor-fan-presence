@@ -54,7 +54,7 @@ constexpr auto FAN_CONTROL_READY_TARGET = "obmc-fan-control-ready@0.target";
  * @param[in] condition - The condition to check if true
  * @return result       - True if the condition is true
  */
-bool checkCondition(sdbusplus::bus::bus& bus, const Condition& c)
+bool checkCondition(sdbusplus::bus_t& bus, const Condition& c)
 {
     auto& type = std::get<conditionTypePos>(c);
     auto& properties = std::get<conditionPropertyListPos>(c);
@@ -81,7 +81,7 @@ bool checkCondition(sdbusplus::bus::bus& bus, const Condition& c)
 }
 
 // Note: Future code will check 'mode' before starting control algorithm
-Manager::Manager(sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
+Manager::Manager(sdbusplus::bus_t& bus, const sdeventplus::Event& event,
                  Mode mode) :
     _bus(bus),
     _objMgr(bus, CONTROL_OBJPATH)
