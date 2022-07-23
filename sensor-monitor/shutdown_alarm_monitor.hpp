@@ -70,7 +70,7 @@ class ShutdownAlarmMonitor
      * @param[in] event - The sdeventplus event object
      * @param[in] powerState - The PowerState object
      */
-    ShutdownAlarmMonitor(sdbusplus::bus::bus& bus, sdeventplus::Event& event,
+    ShutdownAlarmMonitor(sdbusplus::bus_t& bus, sdeventplus::Event& event,
                          std::shared_ptr<phosphor::fan::PowerState> powerState);
 
   private:
@@ -80,7 +80,7 @@ class ShutdownAlarmMonitor
      * If the power is on, the new alarm values will be checked to see
      * if the shutdown timer needs to be started or stopped.
      */
-    void propertiesChanged(sdbusplus::message::message& message);
+    void propertiesChanged(sdbusplus::message_t& message);
 
     /**
      * @brief Checks an alarm value to see if a shutdown timer needs
@@ -169,7 +169,7 @@ class ShutdownAlarmMonitor
     /**
      * @brief The sdbusplus bus object
      */
-    sdbusplus::bus::bus& bus;
+    sdbusplus::bus_t& bus;
 
     /**
      * @brief The sdeventplus Event object
@@ -185,13 +185,13 @@ class ShutdownAlarmMonitor
      * @brief The match for properties changing on the HardShutdown
      *        interface.
      */
-    sdbusplus::bus::match::match hardShutdownMatch;
+    sdbusplus::bus::match_t hardShutdownMatch;
 
     /**
      * @brief The match for properties changing on the SoftShutdown
      *        interface.
      */
-    sdbusplus::bus::match::match softShutdownMatch;
+    sdbusplus::bus::match_t softShutdownMatch;
 
     /**
      * @brief The map of alarms.

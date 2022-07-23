@@ -105,7 +105,7 @@ class TachSensor
      *
      * @param[in] event - Event loop reference
      */
-    TachSensor(Mode mode, sdbusplus::bus::bus& bus, Fan& fan,
+    TachSensor(Mode mode, sdbusplus::bus_t& bus, Fan& fan,
                const std::string& id, bool hasTarget, size_t funcDelay,
                const std::string& interface, double factor, int64_t offset,
                size_t method, size_t threshold, bool ignoreAboveMax,
@@ -124,7 +124,7 @@ class TachSensor
      * @param[out] value - the value to store the property value in
      */
     template <typename T>
-    static void readPropertyFromMessage(sdbusplus::message::message& msg,
+    static void readPropertyFromMessage(sdbusplus::message_t& msg,
                                         const std::string& interface,
                                         const std::string& propertyName,
                                         T& value)
@@ -394,7 +394,7 @@ class TachSensor
      *
      * @param[in] msg - the dbus message
      */
-    void handleTargetChange(sdbusplus::message::message& msg);
+    void handleTargetChange(sdbusplus::message_t& msg);
 
     /**
      * @brief Reads the Value property and stores in _tachInput.
@@ -402,7 +402,7 @@ class TachSensor
      *
      * @param[in] msg - the dbus message
      */
-    void handleTachChange(sdbusplus::message::message& msg);
+    void handleTachChange(sdbusplus::message_t& msg);
 
     /**
      * @brief Updates the Functional property in the inventory
@@ -416,7 +416,7 @@ class TachSensor
     /**
      * @brief the dbus object
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * @brief Reference to the parent Fan object

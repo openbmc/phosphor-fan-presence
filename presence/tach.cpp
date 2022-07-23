@@ -57,7 +57,7 @@ bool Tach::start()
         auto tachPath = tachNamespace + std::get<std::string>(s);
 
         // Register for signal callbacks.
-        std::get<1>(s) = std::make_unique<sdbusplus::bus::match::match>(
+        std::get<1>(s) = std::make_unique<sdbusplus::bus::match_t>(
             util::SDBusPlus::getBus(),
             sdbusplus::bus::match::rules::propertiesChanged(tachPath,
                                                             tachIface),
@@ -111,7 +111,7 @@ bool Tach::present()
                        [](const auto& v) { return v != 0; });
 }
 
-void Tach::propertiesChanged(size_t sensor, sdbusplus::message::message& msg)
+void Tach::propertiesChanged(size_t sensor, sdbusplus::message_t& msg)
 {
     std::string iface;
     util::Properties<double> properties;

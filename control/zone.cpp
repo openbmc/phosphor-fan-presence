@@ -47,7 +47,7 @@ namespace fs = std::filesystem;
 using InternalFailure =
     sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
-Zone::Zone(Mode mode, sdbusplus::bus::bus& bus, const std::string& path,
+Zone::Zone(Mode mode, sdbusplus::bus_t& bus, const std::string& path,
            const sdeventplus::Event& event, const ZoneDefinition& def) :
     ThermalObject(bus, path.c_str(), ThermalObject::action::defer_emit),
     _bus(bus), _path(path),
@@ -415,8 +415,7 @@ void Zone::timerExpired(const Group& eventGroup,
         [this, &eventGroup](auto const& action) { action(*this, eventGroup); });
 }
 
-void Zone::handleEvent(sdbusplus::message::message& msg,
-                       const EventData* eventData)
+void Zone::handleEvent(sdbusplus::message_t& msg, const EventData* eventData)
 {
     // Handle the callback
     std::get<eventHandlerPos> (*eventData)(_bus, msg, *this);
@@ -553,7 +552,7 @@ std::string Zone::current(std::string value)
                              ["Current"];
         if (eData != nullptr)
         {
-            sdbusplus::message::message nullMsg{nullptr};
+            sdbusplus::message_t nullMsg{nullptr};
             handleEvent(nullMsg, eData);
         }
     }

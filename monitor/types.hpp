@@ -21,7 +21,7 @@ namespace monitor
 {
 
 template <typename... T>
-using ServerObject = typename sdbusplus::server::object::object<T...>;
+using ServerObject = typename sdbusplus::server::object_t<T...>;
 
 using ObjectEnableInterface =
     sdbusplus::xyz::openbmc_project::Object::server::Enable;
@@ -98,7 +98,7 @@ constexpr auto propIdentity = 0;
 constexpr auto propValue = 1;
 using PropertyState = std::pair<PropertyIdentity, PropertyValue>;
 
-using Condition = std::function<bool(sdbusplus::bus::bus&)>;
+using Condition = std::function<bool(sdbusplus::bus_t&)>;
 
 using CreateGroupFunction = std::function<std::unique_ptr<trust::Group>()>;
 

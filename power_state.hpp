@@ -47,7 +47,7 @@ class PowerState
      * @param[in] callback - The function that should be run when
      *                       the power state changes
      */
-    PowerState(sdbusplus::bus::bus& bus, StateChangeFunc callback) : _bus(bus)
+    PowerState(sdbusplus::bus_t& bus, StateChangeFunc callback) : _bus(bus)
     {
         _callbacks.emplace("default", std::move(callback));
     }
@@ -116,7 +116,7 @@ class PowerState
     /**
      * @brief Reference to the D-Bus connection object.
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * @brief The power state value
@@ -161,7 +161,7 @@ class PGoodState : public PowerState
      * @param[in] callback - The function that should be run when
      *                       the power state changes
      */
-    PGoodState(sdbusplus::bus::bus& bus, StateChangeFunc func) :
+    PGoodState(sdbusplus::bus_t& bus, StateChangeFunc func) :
         PowerState(bus, func),
         _match(_bus,
                sdbusplus::bus::match::rules::propertiesChanged(_pgoodPath,
@@ -178,7 +178,7 @@ class PGoodState : public PowerState
      *
      * @param[in] msg - The payload of the propertiesChanged signal
      */
-    void pgoodChanged(sdbusplus::message::message& msg)
+    void pgoodChanged(sdbusplus::message_t& msg)
     {
         std::string interface;
         std::map<std::string, std::variant<int32_t>> properties;
@@ -222,7 +222,7 @@ class PGoodState : public PowerState
     const std::string _pgoodProperty{"pgood"};
 
     /** @brief The propertiesChanged match */
-    sdbusplus::bus::match::match _match;
+    sdbusplus::bus::match_t _match;
 };
 
 /**
@@ -257,7 +257,7 @@ class HostPowerState : public PowerState
      * @param[in] callback - The function that should be run when
      *                       the power state changes
      */
-    HostPowerState(sdbusplus::bus::bus& bus, StateChangeFunc func) :
+    HostPowerState(sdbusplus::bus_t& bus, StateChangeFunc func) :
         PowerState(bus, func),
         _match(_bus,
                sdbusplus::bus::match::rules::propertiesChangedNamespace(
@@ -274,7 +274,7 @@ class HostPowerState : public PowerState
      *
      * @param[in] msg - The payload of the propertiesChanged signal
      */
-    void hostStateChanged(sdbusplus::message::message& msg)
+    void hostStateChanged(sdbusplus::message_t& msg)
     {
         std::string interface;
         std::map<std::string, std::variant<std::string>> properties;
@@ -367,7 +367,7 @@ class HostPowerState : public PowerState
     const std::string _hostStateProperty{"CurrentHostState"};
 
     /** @brief The propertiesChanged match */
-    sdbusplus::bus::match::match _match;
+    sdbusplus::bus::match_t _match;
 };
 
 } // namespace phosphor::fan

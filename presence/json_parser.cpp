@@ -52,7 +52,7 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
 const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
-JsonConfig::JsonConfig(sdbusplus::bus::bus& bus) : _bus(bus)
+JsonConfig::JsonConfig(sdbusplus::bus_t& bus) : _bus(bus)
 {}
 
 void JsonConfig::start()

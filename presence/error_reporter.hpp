@@ -42,7 +42,7 @@ class ErrorReporter
      * @param[in] fans - The fans for this configuration
      */
     ErrorReporter(
-        sdbusplus::bus::bus& bus,
+        sdbusplus::bus_t& bus,
         const std::vector<
             std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>&
             fans);
@@ -56,7 +56,7 @@ class ErrorReporter
      *
      * @param[in] msg - The payload of the propertiesChanged signal
      */
-    void presenceChanged(sdbusplus::message::message& msg);
+    void presenceChanged(sdbusplus::message_t& msg);
 
     /**
      * @brief The callback function called by the PowerState class
@@ -89,7 +89,7 @@ class ErrorReporter
     /**
      * @brief Reference to the D-Bus connection object.
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * @brief The connection to the event loop for the timer.
@@ -99,7 +99,7 @@ class ErrorReporter
     /**
      * @brief The propertiesChanged match objects.
      */
-    std::vector<sdbusplus::bus::match::match> _matches;
+    std::vector<sdbusplus::bus::match_t> _matches;
 
     /**
      * @brief Base class pointer to the power state implementation.

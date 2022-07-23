@@ -764,7 +764,7 @@ void Manager::timerExpired(TimerData& data)
     }
 }
 
-void Manager::handleSignal(sdbusplus::message::message& msg,
+void Manager::handleSignal(sdbusplus::message_t& msg,
                            const std::vector<SignalPkg>* pkgs)
 {
     for (auto& pkg : *pkgs)

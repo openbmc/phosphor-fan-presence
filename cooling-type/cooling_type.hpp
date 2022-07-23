@@ -44,7 +44,7 @@ class CoolingType
      *
      * @param[in] bus - Dbus bus object
      */
-    explicit CoolingType(sdbusplus::bus::bus& bus) : bus(bus), gpioFd(-1)
+    explicit CoolingType(sdbusplus::bus_t& bus) : bus(bus), gpioFd(-1)
     {
         // TODO: Issue openbmc/openbmc#1531 - means to default properties.
     }
@@ -73,7 +73,7 @@ class CoolingType
 
   private:
     /** @brief Connection for sdbusplus bus */
-    sdbusplus::bus::bus& bus;
+    sdbusplus::bus_t& bus;
     // File descriptor for the GPIO file we are going to read.
     phosphor::fan::util::FileDescriptor gpioFd;
     bool airCooled = false;

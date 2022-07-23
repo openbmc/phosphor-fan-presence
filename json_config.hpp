@@ -174,7 +174,7 @@ class JsonConfig
      * attempting to get a configuration file. Once the list of compatible
      * values has been updated, it calls the load function.
      */
-    void compatIntfAdded(sdbusplus::message::message& msg)
+    void compatIntfAdded(sdbusplus::message_t& msg)
     {
         sdbusplus::message::object_path op;
         std::map<std::string,

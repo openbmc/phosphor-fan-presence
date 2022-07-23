@@ -44,7 +44,7 @@ using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
 
 using namespace phosphor::logging;
 
-System::System(Mode mode, sdbusplus::bus::bus& bus,
+System::System(Mode mode, sdbusplus::bus_t& bus,
                const sdeventplus::Event& event) :
     _mode(mode),
     _bus(bus), _event(event),
@@ -59,7 +59,7 @@ void System::start()
     namespace match = sdbusplus::bus::match;
 
     // must be done before service detection
-    _inventoryMatch = std::make_unique<match::match>(
+    _inventoryMatch = std::make_unique<match_t>(
         _bus, match::rules::nameOwnerChanged(util::INVENTORY_SVC),
         std::bind(&System::inventoryOnlineCb, this, std::placeholders::_1));
 
@@ -177,7 +177,7 @@ void System::subscribeSensorsToServices()
         for (const auto& [serviceName, unused] : sensorMap)
         {
             // map its service name to the sensor
-            _sensorMatch.emplace_back(std::make_unique<match::match>(
+            _sensorMatch.emplace_back(std::make_unique<match_t>(
                 _bus, match::rules::nameOwnerChanged(serviceName),
                 std::bind(&System::tachSignalOffline, this,
                           std::placeholders::_1, sensorMap)));
@@ -190,7 +190,7 @@ void System::subscribeSensorsToServices()
     }
 }
 
-void System::inventoryOnlineCb(sdbusplus::message::message& msg)
+void System::inventoryOnlineCb(sdbusplus::message_t& msg)
 {
     namespace match = sdbusplus::bus::match;
 
@@ -283,7 +283,7 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
 // Determine on/offline status, set all sensors for that service
 // to new state
 //
-void System::tachSignalOffline(sdbusplus::message::message& msg,
+void System::tachSignalOffline(sdbusplus::message_t& msg,
                                SensorMapType const& sensorMap)
 {
     std::string serviceName, oldOwner, newOwner;

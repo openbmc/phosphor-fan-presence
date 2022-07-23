@@ -150,7 +150,7 @@ class Event : public ConfigBase
 
   private:
     /* The sdbusplus bus object */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /* The event's manager */
     Manager* _manager;

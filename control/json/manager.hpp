@@ -93,8 +93,8 @@ using TriggerActions =
  * Signal handler function that handles parsing a signal's message for a
  * particular signal object and stores the results in the manager
  */
-using SignalHandler = std::function<bool(sdbusplus::message::message&,
-                                         const SignalObject&, Manager&)>;
+using SignalHandler =
+    std::function<bool(sdbusplus::message_t&, const SignalObject&, Manager&)>;
 /**
  * Package of data required when a signal is received
  * Tuple constructed of:
@@ -465,7 +465,7 @@ class Manager
      * @param[in] msg - Signal message containing the signal's data
      * @param[in] pkgs - Signal packages associated to the signal being handled
      */
-    void handleSignal(sdbusplus::message::message& msg,
+    void handleSignal(sdbusplus::message_t& msg,
                       const std::vector<SignalPkg>* pkgs);
 
     /**
@@ -593,13 +593,13 @@ class Manager
     void insertFilteredObjects(ManagedObjects& ref);
 
     /* The sdbusplus bus object to use */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /* The sdeventplus even loop to use */
     sdeventplus::Event _event;
 
     /* The sdbusplus manager object to set the ObjectManager interface */
-    sdbusplus::server::manager::manager _mgr;
+    sdbusplus::server::manager_t _mgr;
 
     /* Whether loading the config files is allowed or not */
     bool _loadAllowed;

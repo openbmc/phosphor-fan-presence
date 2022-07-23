@@ -80,7 +80,7 @@ class Fan
      * @param def - the fan definition structure
      * @param system - Reference to the system object
      */
-    Fan(Mode mode, sdbusplus::bus::bus& bus, const sdeventplus::Event& event,
+    Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
         System& system);
 
@@ -229,7 +229,7 @@ class Fan
      *
      * @param[in] msg - The message from the propertiesChanged signal
      */
-    void presenceChanged(sdbusplus::message::message& msg);
+    void presenceChanged(sdbusplus::message_t& msg);
 
     /**
      * @brief Called when there is an interfacesAdded signal on the
@@ -238,12 +238,12 @@ class Fan
      *
      * @param[in] msg - The message from the interfacesAdded signal
      */
-    void presenceIfaceAdded(sdbusplus::message::message& msg);
+    void presenceIfaceAdded(sdbusplus::message_t& msg);
 
     /**
      * @brief the dbus object
      */
-    sdbusplus::bus::bus& _bus;
+    sdbusplus::bus_t& _bus;
 
     /**
      * @brief The inventory name of the fan
@@ -312,13 +312,13 @@ class Fan
      *        for the inventory item interface to track the
      *        Present property.
      */
-    sdbusplus::bus::match::match _presenceMatch;
+    sdbusplus::bus::match_t _presenceMatch;
 
     /**
      * @brief The match object for the interfacesAdded signal
      *        for the interface that has the Present property.
      */
-    sdbusplus::bus::match::match _presenceIfaceAddedMatch;
+    sdbusplus::bus::match_t _presenceIfaceAddedMatch;
 
     /**
      * @brief The current presence state

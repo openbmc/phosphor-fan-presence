@@ -32,7 +32,7 @@ using namespace phosphor::logging;
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 
-Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def) :
+Fan::Fan(sdbusplus::bus_t& bus, const FanDefinition& def) :
     _bus(bus), _name(std::get<fanNamePos>(def)),
     _interface(std::get<targetInterfacePos>(def))
 {
@@ -66,7 +66,7 @@ void Fan::setSpeed(uint64_t speed)
                 _bus, sensor.second, sensor.first, _interface,
                 FAN_TARGET_PROPERTY, std::move(value));
         }
-        catch (const sdbusplus::exception::exception&)
+        catch (const sdbusplus::exception_t&)
         {
             throw util::DBusPropertyError{"DBus set property failed",
                                           sensor.second, sensor.first,

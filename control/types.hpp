@@ -43,8 +43,8 @@ constexpr auto intfPos = 1;
 constexpr auto propPos = 2;
 using Group = std::vector<std::tuple<std::string, std::string, std::string>>;
 using ZoneHandler = std::function<void(Zone&)>;
-using SignalHandler = std::function<void(sdbusplus::bus::bus&,
-                                         sdbusplus::message::message&, Zone&)>;
+using SignalHandler =
+    std::function<void(sdbusplus::bus_t&, sdbusplus::message_t&, Zone&)>;
 using MethodHandler = std::function<void(Zone&, const Group&)>;
 using Action = std::function<void(Zone&, const Group&)>;
 using Trigger = std::function<void(Zone&, const std::string&, const Group&,
