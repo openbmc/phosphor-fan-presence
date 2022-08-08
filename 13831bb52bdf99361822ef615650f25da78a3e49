@@ -16,6 +16,29 @@
       "message": "Looks good.  Could you rebase it on master so it can go in without the other two?\n\n",
       "revId": "13831bb52bdf99361822ef615650f25da78a3e49",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b221ed51_de53eb9c",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-08T18:22:01Z",
+      "side": 1,
+      "message": "oh, one minor thing, can you change this to Critical?",
+      "range": {
+        "startLine": 292,
+        "startChar": 70,
+        "endLine": 292,
+        "endChar": 76
+      },
+      "revId": "13831bb52bdf99361822ef615650f25da78a3e49",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
