@@ -243,6 +243,7 @@ The available actions are:
 - [pcie_card_floors](#pcie_card_floors)
 - [set_request_target_base_with_max](#set_request_target_base_with_max)
 - [set_parameter_from_group_max](#set_parameter_from_group_max)
+- [target_from_group_max](#target_from_group_max)
 - [call_actions_based_on_timer](#call_actions_based_on_timer)
 - [get_managed_objects](#get_managed_objects)
 
@@ -574,6 +575,41 @@ expression.
 The above config will first find the max of its groups property values,
 subtract 4, and then store the resulting value in the `proc_0_throttle_temp`
 parameter.
+
+### target_from_group_max
+
+The action sets target of Zone to a value corresponding to the maximum
+value from maximum group property value. The mapping is based on a provided
+table. If there are more than one event using this action, the
+maximum speed derived from the mapping of all groups will be set
+to the zone's target.
+
+...
+{
+    "name": "target_from_group_max",
+    "groups": [
+        {
+          "name": "zone0_ambient",
+          "interface": "xyz.openbmc_project.Sensor.Value",
+          "property": { "name": "Value" }
+        }
+    ],
+    "neg_hysteresis": 1,
+    "pos_hysteresis": 0,
+    "map": [
+        { "value": 10.0, "target": 38.0 },
+        ...
+    ]
+}
+
+The above JSON will cause the action to read the property specified in the 
+group "zone0_ambient" from all members of the group, the change in the group's 
+members value will be checked against "neg_hysteresis" and "pos_hysteresis" 
+to decide if it worths taking action, "neg_hysteresis" is for the increasing case
+and "pos_hysteresis" is for the decreasing case. The maximum property value in 
+a group will be mapped to the "map" to get the output "target". The updated
+"target" value of each group will be stored in a static map with a key.
+The maximum value from the static map will be used to set to the Zone's target.
 
 ### call_actions_based_on_timer
 This action starts and stops a timer that runs a list of actions whenever the
