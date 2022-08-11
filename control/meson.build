@@ -40,6 +40,7 @@ if conf.has('CONTROL_USE_JSON')
         'json/actions/pcie_card_floors.cpp',
         'json/actions/request_target_base.cpp',
         'json/actions/set_parameter_from_group_max.cpp',
+        'json/actions/target_from_group_max.cpp',
         'json/actions/timer_based_actions.cpp',
         'json/utils/flight_recorder.cpp',
         'json/utils/modifier.cpp',
