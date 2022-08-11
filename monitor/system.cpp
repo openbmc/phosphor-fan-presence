@@ -502,6 +502,10 @@ json System::captureSensorData()
                 values["prev_targets"] = json(sensor->getPrevTarget()).dump();
             }
 
+            if (sensor->getMethod() == MethodMode::count)
+            {
+                values["ticks"] = sensor->getCounter();
+            }
             data["sensors"][sensor->name()] = values;
         }
     }
