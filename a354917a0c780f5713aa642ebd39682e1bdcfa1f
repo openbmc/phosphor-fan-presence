@@ -65,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5168731_2b35af8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-11T03:47:54Z",
+      "side": 1,
+      "message": "Hi, yes we still need advice on this patch. As the flow of those comments, are we deciding on whether to specify the full target path for the target_path config, or a relative path which will be concatenated with the sensor name to form the path?",
+      "parentUuid": "acf210cf_1f2e784e",
+      "revId": "a354917a0c780f5713aa642ebd39682e1bdcfa1f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c0e6105_58a6599b",
