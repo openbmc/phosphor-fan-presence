@@ -102,6 +102,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4c5f0d9c_132797bc",
+        "filename": "control/json/actions/target_from_group_max.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-12T13:48:40Z",
+      "side": 1,
+      "message": "What if you just increased a static index counter during the construction of the action instance?\n\nThat way if you have two instances of this action configured, you\u0027ll automatically get indices 0 and 1?",
+      "parentUuid": "6814b91b_96f1fd1f",
+      "range": {
+        "startLine": 149,
+        "startChar": 35,
+        "endLine": 149,
+        "endChar": 48
+      },
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "09b71b92_28c7f98f",
         "filename": "control/json/actions/target_from_group_max.cpp",
         "patchSetId": 1
