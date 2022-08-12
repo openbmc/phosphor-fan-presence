@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e0f1fa4_3bbc0648",
+        "filename": "control/json/actions/target_from_group_max.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-12T11:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d93238b8_0dce507a",
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "dfc68a92_e6618614",
@@ -48,6 +66,30 @@
       "writtenOn": "2022-08-11T20:10:50Z",
       "side": 1,
       "message": "what if you just used the group\u0027s name as the key?  then you wouldn\u0027t have to worry about putting the right index into the config file.",
+      "range": {
+        "startLine": 149,
+        "startChar": 35,
+        "endLine": 149,
+        "endChar": 48
+      },
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6814b91b_96f1fd1f",
+        "filename": "control/json/actions/target_from_group_max.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-12T11:56:14Z",
+      "side": 1,
+      "message": "Hi, this action allows more than one group to be configured but uses only one maximum value of all for further processing. In case more than one group is configured, I wonder if we should use the name of the first group to be the key, or separate each group with their name and use their own maximum value for their own processing (the groups still share the same table in \"map\", and the result from the two ways will be the same though). I think we should still use \"index\".",
+      "parentUuid": "dfc68a92_e6618614",
       "range": {
         "startLine": 149,
         "startChar": 35,
@@ -77,6 +119,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75a0b727_9620ec07",
+        "filename": "control/json/actions/target_from_group_max.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-12T11:56:14Z",
+      "side": 1,
+      "message": "This only does setTarget() when the group value changes and passes the hysteresis check, and the algorithm covers all cases of the mapping table I think. Moreover, if the group value exceeds the lower border in the table, it will use the corresponding lower border target value for groupSpeed (which might not be zero). So I think it won\u0027t end up setting zero to _speedFromGroupsMap. Please help point out if I really made a mistake here. \nBtw, I forgot to set _prevGroupValue to new groupValue, which makes _prevGroupValue stay 0, but it still runs mistakenly properly, I will correct this.",
+      "parentUuid": "09b71b92_28c7f98f",
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2d753fc_2c508351",
         "filename": "control/json/actions/target_from_group_max.hpp",
         "patchSetId": 1
@@ -88,6 +148,30 @@
       "writtenOn": "2022-08-11T20:10:50Z",
       "side": 1,
       "message": "you can add your own company name here (and may as well update the year too)",
+      "range": {
+        "startLine": 2,
+        "startChar": 15,
+        "endLine": 2,
+        "endChar": 24
+      },
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b1c08f6_33345d76",
+        "filename": "control/json/actions/target_from_group_max.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-12T11:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2d753fc_2c508351",
       "range": {
         "startLine": 2,
         "startChar": 15,
@@ -115,6 +199,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2e2e7a65_42180e0b",
+        "filename": "control/json/actions/target_from_group_max.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-12T11:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eefa7a14_236d1d3b",
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddcc3095_8e785bbb",
@@ -128,6 +230,30 @@
       "writtenOn": "2022-08-11T20:10:50Z",
       "side": 1,
       "message": "these member variables can all be private.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 50
+      },
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f33820_d75c3466",
+        "filename": "control/json/actions/target_from_group_max.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-12T11:56:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddcc3095_8e785bbb",
       "range": {
         "startLine": 80,
         "startChar": 0,
