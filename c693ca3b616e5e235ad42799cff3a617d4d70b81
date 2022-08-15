@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f514e359_854e37c4",
+        "filename": "control/json/actions/target_from_group_max.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-15T20:50:24Z",
+      "side": 1,
+      "message": "you can just use size_t for this, there isn\u0027t really a reason to limit it to a uint16.  In fact, maybe change groupIndex also to a size_t below.",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6bf26269_abdf5cb5",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-15T20:50:24Z",
+      "side": 1,
+      "message": "nit: a few trailing spaces on a few of the lines here.",
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e298d208_aa35c476",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-15T20:50:24Z",
+      "side": 1,
+      "message": "nit:  is worth",
+      "range": {
+        "startLine": 608,
+        "startChar": 16,
+        "endLine": 608,
+        "endChar": 23
+      },
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5b02536_d983eebf",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-15T20:50:24Z",
+      "side": 1,
+      "message": "period instead a comma I think would be better here.",
+      "range": {
+        "startLine": 608,
+        "startChar": 36,
+        "endLine": 608,
+        "endChar": 37
+      },
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b79247d6_8a82eeb5",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-15T20:50:24Z",
+      "side": 1,
+      "message": "maybe just had a blurb here to say how that the static map will be shared across different instances of the action?  Just to make it obvious on how the action could be configured.",
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
