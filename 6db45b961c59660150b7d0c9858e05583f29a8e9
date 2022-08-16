@@ -16,6 +16,24 @@
       "message": "Could you add the \"Tested\" phase in the commit message?",
       "revId": "6db45b961c59660150b7d0c9858e05583f29a8e9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1bd2727_347b759b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T13:43:06Z",
+      "side": 1,
+      "message": "I think the commit message describes kinda well what the zone is about, also in the document. So adding \"Tested\" will make it too long.",
+      "parentUuid": "8fff9780_3cde04c6",
+      "revId": "6db45b961c59660150b7d0c9858e05583f29a8e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

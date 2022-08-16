@@ -228,6 +228,24 @@
       "parentUuid": "470159ff_e7bd3c3a",
       "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6089eaf4_1b6e9dc8",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T13:43:06Z",
+      "side": 1,
+      "message": "Thank you a lot for your kind review.",
+      "parentUuid": "c768f1d4_d60b19cd",
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
