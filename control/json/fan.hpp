@@ -110,6 +110,16 @@ class Fan : public ConfigBase
      */
     void setTarget(uint64_t target);
 
+    /**
+     * @brief Returns the fan's locked targets.
+     *
+     * @return - vector of locked targets
+     */
+    const std::vector<uint64_t>& getLockedTargets() const
+    {
+        return _lockedTargets;
+    }
+
   private:
     /**
      * Forces all contained sensors to the target (if this target is the
