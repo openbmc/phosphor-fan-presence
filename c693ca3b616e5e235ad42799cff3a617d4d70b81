@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e44635a_ace582b7",
+        "filename": "control/json/actions/target_from_group_max.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T05:36:42Z",
+      "side": 1,
+      "message": "yeah I agree with you, I wasn\u0027t aware",
+      "parentUuid": "f514e359_854e37c4",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 19
+      },
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6bf26269_abdf5cb5",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-08-15T20:50:24Z",
       "side": 1,
       "message": "nit: a few trailing spaces on a few of the lines here.",
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a3f8f0dc_9cc8d533",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 605,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T05:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6bf26269_abdf5cb5",
       "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -87,6 +129,54 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d7c1420c_fa1c42c1",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T05:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e298d208_aa35c476",
+      "range": {
+        "startLine": 608,
+        "startChar": 16,
+        "endLine": 608,
+        "endChar": 23
+      },
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "33d60e75_58b1d156",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T05:36:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5b02536_d983eebf",
+      "range": {
+        "startLine": 608,
+        "startChar": 36,
+        "endLine": 608,
+        "endChar": 37
+      },
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b79247d6_8a82eeb5",
@@ -100,6 +190,24 @@
       "writtenOn": "2022-08-15T20:50:24Z",
       "side": 1,
       "message": "maybe just had a blurb here to say how that the static map will be shared across different instances of the action?  Just to make it obvious on how the action could be configured.",
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "470159ff_e7bd3c3a",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-16T05:36:42Z",
+      "side": 1,
+      "message": "I don\u0027t get this one much, please confirm if what you mean is that I should not clarify how the static map is implemented, and should just focus on depicting how this action can be configured?",
+      "parentUuid": "b79247d6_8a82eeb5",
       "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
