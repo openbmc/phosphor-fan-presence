@@ -210,6 +210,24 @@
       "parentUuid": "b79247d6_8a82eeb5",
       "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c768f1d4_d60b19cd",
+        "filename": "docs/control/events.md",
+        "patchSetId": 5
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-16T13:35:13Z",
+      "side": 1,
+      "message": "Was just suggesting it mentions that the map is shared across instances, which is what you added, so I\u0027m good.",
+      "parentUuid": "470159ff_e7bd3c3a",
+      "revId": "c693ca3b616e5e235ad42799cff3a617d4d70b81",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
