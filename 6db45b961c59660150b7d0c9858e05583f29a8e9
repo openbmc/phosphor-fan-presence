@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6dce75a6_25e501bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-17T04:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "39eed4b4_6e234586",
+      "revId": "6db45b961c59660150b7d0c9858e05583f29a8e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "74c70dae_9296cb72",
@@ -31,6 +49,24 @@
       "writtenOn": "2022-08-16T21:20:14Z",
       "side": 1,
       "message": "nit: this paragraph has strange wrapping",
+      "revId": "6db45b961c59660150b7d0c9858e05583f29a8e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1593560e_b627e863",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-17T04:03:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "74c70dae_9296cb72",
       "revId": "6db45b961c59660150b7d0c9858e05583f29a8e9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -83,6 +119,30 @@
       "writtenOn": "2022-08-16T21:20:14Z",
       "side": 1,
       "message": "nit: no need for the semicolon here",
+      "range": {
+        "startLine": 283,
+        "startChar": 1,
+        "endLine": 283,
+        "endChar": 2
+      },
+      "revId": "6db45b961c59660150b7d0c9858e05583f29a8e9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a1da4cb_a22f9a92",
+        "filename": "control/json/actions/target_from_group_max.cpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-17T04:03:26Z",
+      "side": 1,
+      "message": "I referred the one from set_parameter_from_group_max.cpp. Done",
+      "parentUuid": "49d44bba_f8e25586",
       "range": {
         "startLine": 283,
         "startChar": 1,
