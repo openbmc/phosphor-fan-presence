@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e61d548_ebce3393",
+        "filename": "cooling-type/meson.build",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-18T14:03:37Z",
+      "side": 1,
+      "message": "needs to be phosphor-cooling-type.",
+      "revId": "99c2d755cafa4cddaeddf5c0f49a33560f8936c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
