@@ -16,6 +16,24 @@
       "message": "Could you add this for Everest as well?\n\nIn everest\u0027s case, the equivalent action as lines 78-81 in this file has a count of 2, so a single nonfunctional fan rotor won\u0027t already cause the fans to go to high speed as is already happening in this config.\n\nSo I guess technically this action isn\u0027t required with the 2u\u0027s current config, though probably a good idea to have still in case line 79 changes from a 1 to a 2.",
       "revId": "d9eaf91b33257128ab4961651d72ad7cf5e24d06",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "df813424_de42e942",
+        "filename": "control/config_files/p10bmc/ibm,rainier-2u/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-18T16:17:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0e3ff862_18137485",
+      "revId": "d9eaf91b33257128ab4961651d72ad7cf5e24d06",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
