@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5b9f1f0_cb880ae6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 42
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000397
+      },
+      "writtenOn": "2022-08-19T00:44:37Z",
+      "side": 1,
+      "message": "@Matt, Could you please address `Merge Conflict` and then merge it?",
+      "revId": "cc1d3e3387272c17c99df7e5153625d485f79396",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
