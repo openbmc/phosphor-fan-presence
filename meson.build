@@ -116,7 +116,7 @@ endif
 conf.set_quoted('SENSOR_MONITOR_PERSIST_ROOT_PATH',
                 get_option('sensor-monitor-persist-root-path'))
 
-if get_option('enable-host-state').enabled()
+if get_option('use-host-power-state').enabled()
     conf.set('ENABLE_HOST_STATE', '')
 endif
 
