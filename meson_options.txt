@@ -22,7 +22,7 @@ option(
 
 option(
     'json-control', type: 'feature', value: 'enabled',
-    description: 'Disable JSON based fan control even if json-config is enabled.'
+    description: 'This can only be used to disable JSON based fan control (i.e. json-control=disabled) when json-config is enabled.  If json-control=enabled and json-config=disabled it will not do anything.'
 )
 
 option(
