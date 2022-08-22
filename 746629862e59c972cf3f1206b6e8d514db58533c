@@ -245,6 +245,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f15c1f58_36c6505c",
+        "filename": "control/json/actions/target_from_group_max.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2022-08-22T09:19:53Z",
+      "side": 1,
+      "message": "Hi, it is the case when both current and prev value of the group reside between level A and level B in the mapping table, but the step between A and B is larger than the hysteresis param so it still passes the hysteresis check.\n\nExample:\nhysteresis \u003d 2\n\nvalue:           target:\n-------------------------------\n10            |  50\n15            |  55\n16            |  60 \n...           |  ...\n-------------------------------\n\nprev group value: 11, current group value: 14\n\nMy code has not covered this, so groupSpeed stays zero. The reason I did this is it\u0027s rare when any step between levels is larger than the hysteresis, when we already specify hysteresis as the minimum difference to process further. Technically, groupSpeed can only be 0 at the end because of this case. \nAs \"target\" should stay unchanged in this case, following the table, I will initialize groupSpeed with _speedFromGroupsMap[_groupIndex], instead of 0. That way, it will take the old speed value when it does not fall to any condition check (groupSpeed is not updated). Or do you think I should check if(groupSpeed!\u003d0) to asign _speedFromGroupsMap[_groupIndex] \u003d groupSpeed at the end?",
+      "parentUuid": "e3cda08f_f95e66d9",
+      "revId": "746629862e59c972cf3f1206b6e8d514db58533c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b2d753fc_2c508351",
         "filename": "control/json/actions/target_from_group_max.hpp",
         "patchSetId": 1
