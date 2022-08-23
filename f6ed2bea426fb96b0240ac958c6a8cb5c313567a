@@ -51,6 +51,24 @@
       "parentUuid": "2b897add_b93f6f22",
       "revId": "f6ed2bea426fb96b0240ac958c6a8cb5c313567a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25d1639a_2d83fa31",
+        "filename": "control/meson.build",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-08-23T15:47:50Z",
+      "side": 1,
+      "message": "looks good now.",
+      "parentUuid": "f78cf593_6c29557e",
+      "revId": "f6ed2bea426fb96b0240ac958c6a8cb5c313567a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
