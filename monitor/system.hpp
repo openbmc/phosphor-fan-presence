@@ -26,6 +26,7 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
+#include <sdeventplus/source/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
 #include <memory>
@@ -123,6 +124,13 @@ class System
      */
     void load();
 
+    /**
+     * @brief Callback function to handle receiving a USR1 signal to dump
+     * debug data to a file.
+     */
+    void sigUsr1Handler(sdeventplus::source::Signal&,
+                        const struct signalfd_siginfo*);
+
   private:
     /**
      * @brief Callback from D-Bus when Inventory service comes online
@@ -135,6 +143,11 @@ class System
      * @brief Create a BMC Dump
      */
     void createBmcDump() const;
+
+    /**
+     * @brief Callback from debugDumpEventSource to dump debug data
+     */
+    void dumpDebugData(sdeventplus::source::EventBase&);
 
     /* The mode of fan monitor */
     Mode _mode;
@@ -197,6 +210,17 @@ class System
      * @brief true if config files have been loaded
      */
     bool _loaded = false;
+
+    /**
+     * @brief The sdeventplus wrapper around sd_event_add_defer to dump debug
+     * data from the event loop after the USR1 signal.
+     */
+    std::unique_ptr<sdeventplus::source::Defer> _debugDumpEventSource;
+
+    /**
+     * @brief The name of the dump file
+     */
+    static const std::string dumpFile;
 
     /**
      * @brief Captures tach sensor data as JSON for use in

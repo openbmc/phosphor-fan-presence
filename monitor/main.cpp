@@ -80,6 +80,14 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
                                        std::bind(&System::sighupHandler,
                                                  &system, std::placeholders::_1,
                                                  std::placeholders::_2));
+
+    // Enable SIGUSR1 handling to dump debug data
+    stdplus::signal::block(SIGUSR1);
+    sdeventplus::source::Signal sigUsr1(
+        event, SIGUSR1,
+        std::bind(&System::sigUsr1Handler, &system, std::placeholders::_1,
+                  std::placeholders::_2));
+
     bus.request_name(THERMAL_ALERT_BUSNAME);
 #else
     system.start();

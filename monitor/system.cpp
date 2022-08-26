@@ -46,6 +46,8 @@ using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
 
 using namespace phosphor::logging;
 
+const std::string System::dumpFile = "/tmp/fan_monitor_dump.json";
+
 System::System(Mode mode, sdbusplus::bus_t& bus,
                const sdeventplus::Event& event) :
     _mode(mode),
@@ -551,6 +553,41 @@ void System::createBmcDump() const
                         e.what()),
             Logger::error);
     }
+}
+
+void System::sigUsr1Handler(sdeventplus::source::Signal&,
+                            const struct signalfd_siginfo*)
+{
+    _debugDumpEventSource = std::make_unique<sdeventplus::source::Defer>(
+        _event, std::bind(std::mem_fn(&System::dumpDebugData), this,
+                          std::placeholders::_1));
+}
+
+void System::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
+{
+    json output;
+
+    if (_loaded)
+    {
+        output["logs"] = getLogger().getLogs();
+        output["sensors"] = captureSensorData();
+    }
+    else
+    {
+        output["error"] = "Fan monitor not loaded yet.  Try again later.";
+    }
+
+    std::ofstream file{System::dumpFile};
+    if (!file)
+    {
+        log<level::ERR>("Could not open file for fan monitor dump");
+    }
+    else
+    {
+        file << std::setw(4) << output;
+    }
+
+    _debugDumpEventSource.reset();
 }
 
 } // namespace phosphor::fan::monitor
