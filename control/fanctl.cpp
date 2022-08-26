@@ -545,6 +545,8 @@ void dumpFanControl()
                               "KillUnit", phosphorServiceName, "main", SIGUSR1);
 
         bool done = false;
+        size_t tries = 0;
+        const size_t maxTries = 30;
 
         do
         {
@@ -559,10 +561,13 @@ void dumpFanControl()
                     done = true;
                 }
                 catch (...)
-                {
-                    // TODO: maybe have a max-retries counter and fail after N
-                    // tries
-                }
+                {}
+            }
+
+            if (++tries > maxTries)
+            {
+                std::cerr << "Timed out waiting for fan control dump.\n";
+                return;
             }
         } while (!done);
 
