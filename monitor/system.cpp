@@ -488,6 +488,7 @@ json System::captureSensorData()
             json values;
             values["present"] = fan->present();
             values["functional"] = sensor->functional();
+            values["in_range"] = !fan->outOfRange(*sensor);
             values["tach"] = sensor->getInput();
 
             if (sensor->hasTarget())
