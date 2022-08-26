@@ -193,7 +193,6 @@ class Fan
         return _numSensorsOnDBusAtPowerOn;
     }
 
-  private:
     /**
      * @brief Returns true if the sensor input is not within
      * some deviation of the target.
@@ -202,6 +201,7 @@ class Fan
      */
     bool outOfRange(const TachSensor& sensor);
 
+  private:
     /**
      * @brief Returns the number sensors that are nonfunctional
      */
