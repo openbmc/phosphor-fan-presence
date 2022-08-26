@@ -91,18 +91,18 @@ void FanError::commit(const json& jsonFFDC, bool isPowerOffError)
         ffdc.emplace_back(FFDCFormat::Text, 0x01, 0x01, logFile->fd());
     }
 
-    // add the previous systemd journal entries as FFDC
-    auto serviceFFDC = makeJsonFFDCFile(getJournalEntries(25));
-    if (serviceFFDC && serviceFFDC->fd() != -1)
-    {
-        ffdc.emplace_back(FFDCFormat::JSON, 0x01, 0x01, serviceFFDC->fd());
-    }
-
     // Add the passed in JSON as FFDC
     auto ffdcFile = makeJsonFFDCFile(jsonFFDC);
     if (ffdcFile && (ffdcFile->fd() != -1))
     {
         ffdc.emplace_back(FFDCFormat::JSON, 0x01, 0x01, ffdcFile->fd());
+    }
+
+    // add the previous systemd journal entries as FFDC
+    auto serviceFFDC = makeJsonFFDCFile(getJournalEntries(25));
+    if (serviceFFDC && serviceFFDC->fd() != -1)
+    {
+        ffdc.emplace_back(FFDCFormat::JSON, 0x01, 0x01, serviceFFDC->fd());
     }
 
     try
