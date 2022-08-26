@@ -16,47 +16,44 @@ a user's machine.
 
 
 ## Building
-By default, build time YAML configuration file(s) are used for each
-application. The use of YAML configuration file(s) has been deprecated in favor
-of using runtime JSON configuration file(s). Support for the use of YAML based
-configuration files will be removed once all applications completely support
-getting their configuration from JSON file(s) at runtime.
+By default, runtime JSON configuration file(s) are used for each application.
+The use of YAML configuration file(s) has been deprecated in favor of the JSON
+method.  Support for the use of YAML based configuration files may be removed
+once all applications completely support getting their configuration from JSON
+file(s) at runtime.
 
 The following applications are built by default:
 * [Fan Control](#fan-control)
-  * To disable from building, set the `-Dcontrol-service` flag to disabled
-  at *configure* time:
+  * To disable from building, use the `-Dcontrol-service=disabled` meson option:
   ```
   meson build -Dcontrol-service=disabled
   ```
 * [Fan Presence Detection](#fan-presence-detection)
-  * To disable from building, set the `-Dpresence-service` flag to disabled
-  at *configure* time:
+  * To disable from building, use the `-Dpresence-service=disabled` meson
+    option:
   ```
   meson build -Dpresence-service=disabled
   ```
 * [Fan Monitoring](#fan-monitoring)
-  * To disable from building, set the `-Dmonitor-service` flag to disabled
-  at *configure* time:
+  * To disable from building, use the `-Dmonitor-service=disabled` meson
+    option:
   ```
   meson build -Dmonitor-service=disabled
   ```
-* [Cooling Type](#cooling-type)
-  * To enable it, set the `-Dcooling-type-service` flag to enabled at
-  *configure* time:
+* [Sensor Monitoring](#sensor-monitoring)
+  * To disable from building, use the `-Dsensor-monitor-service=disabled` meson
+    option:
   ```
-  meson build -cooling-type-service=enabled
+  meson build -Dsensor-monitor-service=disabled
   ```
 
 The following applications must be enabled at *configure* time to be built:
-* [Sensor Monitoring](#sensor-monitoring)
-  * To enable building this, set the `--sensor-monitor-service` flag to enabled
-  *configure* time:
+* [Cooling Type](#cooling-type)
+  * To enable building this, set the `-Dcooling-type-service=enable` meson
+    option:
   ```
-  meson build -Dsensor-monitor-service=enabled
+  meson build -Dcooling-type-service=enabled
   ```
-
-To clean the repository run `./bootstrap.sh clean`.
 
 ### YAML (Deprecated)
 The location of the YAML configuration file(s) are provided at
@@ -67,12 +64,11 @@ application's example directory. See each application below
 *configure* time options, including the location of the YAML configuration
 file(s).
 
-To simply build this package to use YAML, without changing the configurations
-of each application for a specific system, do the following steps:
+Meson defaults to JSON based runtime configuration, so to select the YAML
+configuration use the '-Djson-config=disabled' option when building:
 ```
-    1. ./bootstrap.sh
-    2. ./configure ${CONFIGURE_FLAGS}
-    3. make
+    1. meson build -Djson-config=disabled
+    2. ninja -C build
 ```
 
 ### JSON
@@ -80,13 +76,11 @@ See each application below ([Contents](#contents)) for more information on how
 to set their specific *configure* time options and details on how to configure
 each using JSON.
 
-To build this package to use JSON based runtime configuration for all
-applications, follow these steps and provide the `--enable-json` flag at
-*configure* time:
+As JSON based runtime configuration is the default option, no extra options
+are required to build:
 ```
-    1. ./bootstrap.sh
-    2. ./configure ${CONFIGURE_FLAGS} --enable-json
-    3. make
+    1. meson build
+    2. ninja -C build
 ```
 **Note: Features/Restrictions of applications in this package that are only
 supported using the JSON based configuration are listed below:**
@@ -97,13 +91,6 @@ supported using the JSON based configuration are listed below:**
   * Error logging for nonfunctional fans
   * System power off due to missing or nonfunctional fans
 * [Sensor Monitoring](#sensor-monitoring) - Only supports JSON
-
-#### Restrictions
-* [Fan Control](#fan-control)
-  * Currently only supports setting fans to the configured `full_speed`.
-  If you require more than just setting fans to the configured `full_speed`, it
-  is recommended to continue using YAML based configurations by providing the
-  `--disable-json-control` flag at *configure* time.
 
 
 ## Contents
@@ -116,24 +103,20 @@ the fans within a system. Fans are added to zones that then have events
 configured against the zone to control the fans based on the state of any sized
 group of D-Bus objects.
 
-* *Configure* time environment variables:
-  * `CONTROL_BUSNAME` - Application's D-Bus busname to own
-    * Default = 'xyz.openbmc_project.Control.Thermal'
-  * `CONTROL_OBJPATH` - Application's root D-Bus object path
-    * Default = '/xyz/openbmc_project/control/thermal'
-  * `CONTROL_PERSIST_ROOT_PATH` - Base location to persist zone property states
+* Available meson options:
+  * `control-persist-root-path` - Base location to persist zone property states
   on the BMC
     * Default = '/var/lib/phosphor-fan-presence/control'
 
 #### YAML (Deprecated)
-* *Configure* time environment variables:
-  * `FAN_DEF_YAML_FILE` - Build time fan configuration file
+* Available meson options:
+  * `fan-def-yaml-file` - Build time fan configuration file
     * Default = ['control/example/fans.yaml'](control/example/fans.yaml)
-  * `FAN_ZONE_YAML_FILE` - Build time zone configuration file
+  * `fan-zone-yaml-file` - Build time zone configuration file
     * Default = ['control/example/zones.yaml'](control/example/zones.yaml)
-  * `ZONE_EVENTS_YAML_FILE` - Build time events configuration file
+  * `fan-events-yaml-file` - Build time events configuration file
     * Default = ['control/example/events.yaml'](control/example/events.yaml)
-  * `ZONE_CONDITIONS_YAML_FILE` Build time zone conditions configuration file
+  * `zone-conditions-yaml-file` Build time zone conditions configuration file
     * Default = ['control/example/zone_conditions.yaml'](control/example/zone_conditions.yaml)
 
 [Example](control/example/)
@@ -149,13 +132,13 @@ combination of both. This updates a configured location of a fan D-Bus object's
 `Present` property according to the state of the methods used to detect the
 fan's presence.
 
-* *Configure* time environment variables:
-  * `NUM_PRESENCE_LOG_ENTRIES` - Maximum number of entries in the message log
+* Available meson options:
+  * `num-presence-log-entries` - Maximum number of entries in the message log
     * Default = 50
 
 #### YAML (Deprecated)
-* *Configure* time environment variables:
-  * `PRESENCE_CONFIG` - Location of the config file
+* Available meson options:
+  * `presence-config` - Location of the config file
     * Default = ['presence/example/example.yaml'](presence/example/example.yaml)
 
 Example: [example.yaml](presence/example/example.yaml)
@@ -180,17 +163,13 @@ hardware and/or controller used.
 **Actions to be taken based on the state of fans is only available using a JSON
  based configuration*
 
-* *Configure* time environment variables:
-  * `NUM_MONITOR_LOG_ENTRIES` - Maximum number of entries in the message log
+* Available meson options:
+  * `num-monitor-log-entries` - Maximum number of entries in the message log
     * Default = 75
-  * `THERMAL_ALERT_BUSNAME` - Application's D-Bus busname to own
-    * Default = 'xyz.openbmc_project.Thermal.Alert'
-  * `THERMAL_ALERT_OBJPATH` - Application's root D-Bus object path
-    * Default = '/xyz/openbmc_project/alerts/thermal_fault_alert'
 
 #### YAML (Deprecated)
-* *Configure* time environment variables:
-  * `FAN_MONITOR_YAML_FILE` - Location of the config file
+* Available meson options:
+  * `fan-monitor-yaml-file` - Location of the config file
     * Default = ['monitor/example/monitor.yaml'](monitor/example/monitor.yaml)
 
 Example: [monitor.yaml](monitor/example/monitor.yaml)
@@ -212,16 +191,18 @@ it is command line driven.
 Takes actions, such as powering off the system, based on sensor thresholds and
 values.
 
-* *Configure* time environment variables:
-  * `SENSOR_MONITOR_PERSIST_ROOT_PATH` - Base location to persist sensor
+* Available meson options:
+  * `sensor-monitor-persist-root-path` - Base location to persist sensor
   monitoring data
     * Default = '/var/lib/phosphor-fan-presence/sensor-monitor'
-  * `SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS` - Milliseconds to delay the alarm
+  * `sensor-monitor-hard-shutdown-delay` - Milliseconds to delay the alarm
   hard shutdown
     * Default = 23000
-  * `SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS` - Milliseconds to delay the alarm
+  * `sensor-monitor-soft-shutdown-delay` - Milliseconds to delay the alarm
   soft shutdown
     * Default = 900000
+  * `use-host-power-state` - Use the host state for the power state as
+  opposed to the PGOOD state.
 
 [README](docs/sensor-monitor/README.md)
 
