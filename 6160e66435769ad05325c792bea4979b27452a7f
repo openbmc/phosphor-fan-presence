@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43d4866a_4a01762a",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-08-29T13:44:31Z",
+      "side": 1,
+      "message": "I thought that the signal handler would already be called as part of the event loop since you created a sdeventplus::source::Signal and associated it with an sdeventplus::Event.  Is that not right?\n\nI\u0027m asking since I have similar code in the phosphor-regulators app.  I thought when I discussed this with Brad he said the sdeventplus code made the signal happen within the event loop vs. as a interrupt stack frame.  I may be misremembering though.",
+      "revId": "6160e66435769ad05325c792bea4979b27452a7f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
