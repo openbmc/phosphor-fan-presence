@@ -102,15 +102,8 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
     }
 }
 
-void Manager::sigUsr1Handler(sdeventplus::source::Signal&,
-                             const struct signalfd_siginfo*)
-{
-    debugDumpEventSource = std::make_unique<sdeventplus::source::Defer>(
-        _event, std::bind(std::mem_fn(&Manager::dumpDebugData), this,
-                          std::placeholders::_1));
-}
-
-void Manager::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
+void Manager::dumpDebugData(sdeventplus::source::Signal&,
+                            const struct signalfd_siginfo*)
 {
     json data;
     FlightRecorder::instance().dump(data);
@@ -128,8 +121,6 @@ void Manager::dumpDebugData(sdeventplus::source::EventBase& /*source*/)
     }
 
     file << std::setw(4) << data;
-
-    debugDumpEventSource.reset();
 }
 
 void Manager::dumpCache(json& data)
