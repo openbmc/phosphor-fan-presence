@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f64d0b9_b50c96ba",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-09-01T19:03:03Z",
+      "side": 1,
+      "message": "good catch, not true anymore.",
+      "parentUuid": "d2ad02d2_bf79a543",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 12
+      },
+      "revId": "8339105ec78e0b38939b0f9825c014d2a813e092",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "928e900c_eb395f35",
         "filename": "README.md",
         "patchSetId": 1
@@ -37,6 +61,30 @@
       "writtenOn": "2022-08-29T14:49:34Z",
       "side": 1,
       "message": "This seems to be saying the fan control app can only set fans to full speed when using JSON.\n\nIs this out of date, or am I misunderstanding it?",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 72
+      },
+      "revId": "8339105ec78e0b38939b0f9825c014d2a813e092",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b40958b1_8321563f",
+        "filename": "README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-09-01T19:03:03Z",
+      "side": 1,
+      "message": "It\u0027s out of date now, will fix.  Good catch.",
+      "parentUuid": "928e900c_eb395f35",
       "range": {
         "startLine": 97,
         "startChar": 2,
