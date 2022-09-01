@@ -175,8 +175,8 @@ class Manager
      * @brief Callback function to handle receiving a USR1 signal to dump
      * the flight recorder.
      */
-    void sigUsr1Handler(sdeventplus::source::Signal&,
-                        const struct signalfd_siginfo*);
+    void dumpDebugData(sdeventplus::source::Signal&,
+                       const struct signalfd_siginfo*);
 
     /**
      * @brief Get the active profiles of the system where an empty list
@@ -637,10 +637,6 @@ class Manager
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
 
-    /* The sdeventplus wrapper around sd_event_add_defer to dump debug
-     * data from the event loop after the USR1 signal.  */
-    std::unique_ptr<sdeventplus::source::Defer> debugDumpEventSource;
-
     /**
      * @brief A map of parameter names and values that are something
      *        other than just D-Bus property values that other actions
@@ -697,11 +693,6 @@ class Manager
      * entries within the other configuration files.
      */
     void setProfiles();
-
-    /**
-     * @brief Callback from debugDumpEventSource to dump debug data
-     */
-    void dumpDebugData(sdeventplus::source::EventBase&);
 
     /**
      * @brief Dump the _objects, _servTree, and _parameters maps to JSON

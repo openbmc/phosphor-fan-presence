@@ -104,7 +104,7 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         stdplus::signal::block(SIGUSR1);
         sdeventplus::source::Signal sigUsr1(
             event, SIGUSR1,
-            std::bind(&json::Manager::sigUsr1Handler, &manager,
+            std::bind(&json::Manager::dumpDebugData, &manager,
                       std::placeholders::_1, std::placeholders::_2));
 
         phosphor::fan::util::SDBusPlus::getBus().request_name(CONTROL_BUSNAME);
