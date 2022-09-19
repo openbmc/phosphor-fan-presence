@@ -67,7 +67,7 @@ class Fan
     std::string _name;
 
     /**
-     * Map of hwmon target sensors to the service providing them
+     * Map of target sensors to the service providing them
      */
     std::map<std::string, std::string> _sensors;
 

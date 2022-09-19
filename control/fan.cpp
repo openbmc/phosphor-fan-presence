@@ -40,7 +40,7 @@ Fan::Fan(sdbusplus::bus::bus& bus, const FanDefinition& def) :
     auto sensors = std::get<sensorListPos>(def);
     for (auto& s : sensors)
     {
-        path = FAN_SENSOR_PATH + s;
+        path = std::get<targetControlPathPos>(def) + s;
         auto service = util::SDBusPlus::getService(bus, path, _interface);
         _sensors[path] = service;
     }
