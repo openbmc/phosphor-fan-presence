@@ -35,8 +35,9 @@ using PropertyVariantType =
 constexpr auto fanNamePos = 0;
 constexpr auto sensorListPos = 1;
 constexpr auto targetInterfacePos = 2;
+constexpr auto targetControlPathPos = 3;
 using FanDefinition =
-    std::tuple<std::string, std::vector<std::string>, std::string>;
+    std::tuple<std::string, std::vector<std::string>, std::string, std::string>;
 
 constexpr auto pathPos = 0;
 constexpr auto intfPos = 1;
