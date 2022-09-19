@@ -697,6 +697,9 @@ def getFansInZone(zone_num, profiles, fan_data):
         fan['target_interface'] = f.get(
             'target_interface',
             'xyz.openbmc_project.Control.FanSpeed')
+        fan['target_path'] = f.get(
+            'target_path',
+            '/xyz/openbmc_project/sensors/fan_tach/')
         fans.append(fan)
 
     return fans

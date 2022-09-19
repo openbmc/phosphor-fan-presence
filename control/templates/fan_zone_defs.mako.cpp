@@ -90,7 +90,8 @@ const std::vector<ZoneGroup> Manager::_zoneLayouts
                             "${sensor}",
                         %endfor
                         },
-                        "${fan['target_interface']}"
+                        "${fan['target_interface']}",
+                        "${fan['target_path']}"
                     },
                 %endfor
                 },
