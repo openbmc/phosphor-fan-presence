@@ -105,47 +105,44 @@ void TargetFromGroupMax::run(Zone& zone)
             }
             // Value is increasing from previous && greater than negative
             // hysteresis
-            else
+            else if ((groupValue > _prevGroupValue) &&
+                     (groupValue - _prevGroupValue > _negHysteresis))
             {
-                if (groupValue - _prevGroupValue > _negHysteresis)
+                for (auto it = _valueToSpeedMap.begin();
+                     it != _valueToSpeedMap.end(); ++it)
                 {
-                    for (auto it = _valueToSpeedMap.begin();
-                         it != _valueToSpeedMap.end(); ++it)
+                    // Value is at/below the first map key, set speed to the
+                    // first map key's value
+                    if (it == _valueToSpeedMap.begin() &&
+                        groupValue <= it->first)
                     {
-                        // Value is at/below the first map key, set speed to the
-                        // first map key's value
-                        if (it == _valueToSpeedMap.begin() &&
-                            groupValue <= it->first)
-                        {
-                            groupSpeed = it->second;
-                            break;
-                        }
-                        // Value is at/above last map key, set speed to the last
-                        // map key's value
-                        else if (std::next(it, 1) == _valueToSpeedMap.end() &&
-                                 groupValue >= it->first)
-                        {
-                            groupSpeed = it->second;
-                            break;
-                        }
-                        // Value increased & transitioned across a map key,
-                        // update speed to the next map key's value when new
-                        // value is above map's key and the key is at/above the
-                        // previous value
-                        if (groupValue > it->first &&
-                            it->first >= _prevGroupValue)
-                        {
-                            groupSpeed = std::next(it, 1)->second;
-                        }
-                        // Value increased & transitioned across a map key,
-                        // update speed to the map key's value when new value is
-                        // at the map's key and the key is above the previous
-                        // value
-                        else if (groupValue == it->first &&
-                                 it->first > _prevGroupValue)
-                        {
-                            groupSpeed = it->second;
-                        }
+                        groupSpeed = it->second;
+                        break;
+                    }
+                    // Value is at/above last map key, set speed to the last
+                    // map key's value
+                    else if (std::next(it, 1) == _valueToSpeedMap.end() &&
+                             groupValue >= it->first)
+                    {
+                        groupSpeed = it->second;
+                        break;
+                    }
+                    // Value increased & transitioned across a map key,
+                    // update speed to the next map key's value when new
+                    // value is above map's key and the key is at/above the
+                    // previous value
+                    if (groupValue > it->first && it->first >= _prevGroupValue)
+                    {
+                        groupSpeed = std::next(it, 1)->second;
+                    }
+                    // Value increased & transitioned across a map key,
+                    // update speed to the map key's value when new value is
+                    // at the map's key and the key is above the previous
+                    // value
+                    else if (groupValue == it->first &&
+                             it->first > _prevGroupValue)
+                    {
+                        groupSpeed = it->second;
                     }
                 }
                 _prevGroupValue = groupValue;
@@ -165,8 +162,8 @@ void TargetFromGroupMax::run(Zone& zone)
     }
     else
     {
-        std::cerr << "Failed to process groups for " << ActionBase::getName()
-                  << ": Further processing will be skipped \n";
+        // std::cerr << "Failed to process groups for " << ActionBase::getName()
+        //           << ": Further processing will be skipped \n";
     }
 }
 
