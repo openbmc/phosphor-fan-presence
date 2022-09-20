@@ -146,6 +146,12 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
         {
             targetIntf = sensor["target_interface"].get<std::string>();
         }
+        // Target path is optional
+        std::string targetPath = "";
+        if (sensor.contains("target_path"))
+        {
+            targetPath = sensor["target_path"].get<std::string>();
+        }
         // Factor is optional and defaults to 1
         auto factor = 1.0;
         if (sensor.contains("factor"))
@@ -173,7 +179,7 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
 
         sensorDefs.emplace_back(std::tuple(
             sensor["name"].get<std::string>(), sensor["has_target"].get<bool>(),
-            targetIntf, factor, offset, threshold, ignoreAboveMax));
+            targetIntf, targetPath, factor, offset, threshold, ignoreAboveMax));
     }
 
     return sensorDefs;

@@ -67,6 +67,9 @@ const std::vector<FanDefinition> fanDefinitions
                       target_interface = sensor.get(
                           'target_interface',
                           'xyz.openbmc_project.Control.FanSpeed')
+                      target_path = sensor.get(
+                          'target_path',
+                          '')
                       factor = sensor.get('factor', 1)
                       offset = sensor.get('offset', 0)
                       threshold = sensor.get('threshold', 1)
@@ -76,6 +79,7 @@ const std::vector<FanDefinition> fanDefinitions
                       SensorDefinition{"${sensor['name']}",
                                        ${has_target},
                                        "${target_interface}",
+                                       "${target_path}",
                                        ${factor},
                                        ${offset},
                                        ${threshold},
