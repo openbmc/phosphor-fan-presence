@@ -28,6 +28,10 @@
 #                  setting a fan speed (otherwise just for reads)]
 #      target_interface [The fan target interface used by the sensor.
 #                        Default is "xyz.openbmc_project.Control.FanSpeed"]
+#      target_path [The full target path, which implements
+#                   xyz.openbmc_project.Control.FanSpeed or
+#                   xyz.openbmc_project.Control.FanPwm interface.
+#                   Default is /xyz/openbmc_project/sensors/fan_tach/*"]
 #      factor [The factor to multiply with target to calculate the expected
 #              fan speed. Default is 1 for fan speed target;
 #              Customized value for pwm target]
