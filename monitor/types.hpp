@@ -105,13 +105,14 @@ using CreateGroupFunction = std::function<std::unique_ptr<trust::Group>()>;
 constexpr auto sensorNameField = 0;
 constexpr auto hasTargetField = 1;
 constexpr auto targetInterfaceField = 2;
-constexpr auto factorField = 3;
-constexpr auto offsetField = 4;
-constexpr auto thresholdField = 5;
-constexpr auto ignoreAboveMaxField = 6;
+constexpr auto targetPathField = 3;
+constexpr auto factorField = 4;
+constexpr auto offsetField = 5;
+constexpr auto thresholdField = 6;
+constexpr auto ignoreAboveMaxField = 7;
 
-using SensorDefinition =
-    std::tuple<std::string, bool, std::string, double, int64_t, size_t, bool>;
+using SensorDefinition = std::tuple<std::string, bool, std::string, std::string,
+                                    double, int64_t, size_t, bool>;
 
 constexpr auto fanNameField = 0;
 constexpr auto methodField = 1;

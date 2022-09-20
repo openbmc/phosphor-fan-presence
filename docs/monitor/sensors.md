@@ -17,6 +17,8 @@ Therefore, a fan sensor must be above the minimum and less than the maximum to b
   * Whether this sensor D-Bus object contains the `Target` property or not.
 * `target_interface` - string (Optional)
   * The D-Bus interface containing the `Target` property. This defaults to `xyz.openbmc_project.Control.FanSpeed` for RPM controlled fans or can be set to `xyz.openbmc_project.Control.FanPwm` for PWM controlled fans.
+* `target_path` - string (Optional)
+  * The D-Bus full object path containing the `Target` property. This defaults to `/xyz/openbmc_project/sensors/fan_tach`+`name`.
 * `factor` - double (Optional)
   * A value to multiply the current target by to adjust the monitoring of this sensor due to how the hardware works. This sensor attribute is optional and defaults to 1.0.
 * `offset` - integer (Optional)
@@ -39,7 +41,8 @@ Therefore, a fan sensor must be above the minimum and less than the maximum to b
         {
           "name": "fan0_0",
           "has_target": true,
-          "target_interface": "xyz.openbmc_project.Control.FanPwm"
+          "target_interface": "xyz.openbmc_project.Control.FanPwm",
+          "target_path": "/xyz/openbmc_project/control/fanpwm/PWM0"
         },
         {
           "name": "fan0_1",

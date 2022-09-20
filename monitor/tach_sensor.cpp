@@ -73,14 +73,14 @@ static void
 TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
                        Fan& fan, const std::string& id, bool hasTarget,
                        size_t funcDelay, const std::string& interface,
-                       double factor, int64_t offset, size_t method,
-                       size_t threshold, bool ignoreAboveMax, size_t timeout,
-                       const std::optional<size_t>& errorDelay,
+                       const std::string& path, double factor, int64_t offset,
+                       size_t method, size_t threshold, bool ignoreAboveMax,
+                       size_t timeout, const std::optional<size_t>& errorDelay,
                        size_t countInterval, const sdeventplus::Event& event) :
     _bus(bus),
     _fan(fan), _name(FAN_SENSOR_PATH + id),
     _invName(fs::path(fan.getName()) / id), _hasTarget(hasTarget),
-    _funcDelay(funcDelay), _interface(interface), _factor(factor),
+    _funcDelay(funcDelay), _interface(interface), _path(path), _factor(factor),
     _offset(offset), _method(method), _threshold(threshold),
     _ignoreAboveMax(ignoreAboveMax), _timeout(timeout),
     _timerMode(TimerMode::func),
@@ -111,7 +111,7 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
             // object can be functional with a missing D-bus sensor.
         }
 
-        auto match = getMatchString(util::FAN_SENSOR_VALUE_INTF);
+        auto match = getMatchString(std::nullopt, util::FAN_SENSOR_VALUE_INTF);
 
         tachSignal = std::make_unique<sdbusplus::bus::match_t>(
             _bus, match.c_str(),
@@ -119,8 +119,14 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
 
         if (_hasTarget)
         {
-            match = getMatchString(_interface);
-
+            if (_path.empty())
+            {
+                match = getMatchString(std::nullopt, _interface);
+            }
+            else
+            {
+                match = getMatchString(_path, _interface);
+            }
             targetSignal = std::make_unique<sdbusplus::bus::match_t>(
                 _bus, match.c_str(),
                 [this](auto& msg) { this->handleTargetChange(msg); });
@@ -153,7 +159,17 @@ void TachSensor::updateTachAndTarget()
 
     if (_hasTarget)
     {
-        readProperty(_interface, FAN_TARGET_PROPERTY, _name, _bus, _tachTarget);
+        if (_path.empty())
+        {
+            // Target path is optional
+            readProperty(_interface, FAN_TARGET_PROPERTY, _name, _bus,
+                         _tachTarget);
+        }
+        else
+        {
+            readProperty(_interface, FAN_TARGET_PROPERTY, _path, _bus,
+                         _tachTarget);
+        }
 
         // record previous target value
         if (_prevTargets.front() != _tachTarget)
@@ -170,8 +186,14 @@ void TachSensor::updateTachAndTarget()
     _prevTachs.pop_back();
 }
 
-std::string TachSensor::getMatchString(const std::string& interface)
+std::string TachSensor::getMatchString(const std::optional<std::string> path,
+                                       const std::string& interface)
 {
+    if (path)
+    {
+        return sdbusplus::bus::match::rules::propertiesChanged(path.value(),
+                                                               interface);
+    }
     return sdbusplus::bus::match::rules::propertiesChanged(_name, interface);
 }
 

@@ -69,10 +69,10 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         _sensors.emplace_back(std::make_shared<TachSensor>(
             mode, bus, *this, std::get<sensorNameField>(s),
             std::get<hasTargetField>(s), std::get<funcDelay>(def),
-            std::get<targetInterfaceField>(s), std::get<factorField>(s),
-            std::get<offsetField>(s), std::get<methodField>(def),
-            std::get<thresholdField>(s), std::get<ignoreAboveMaxField>(s),
-            std::get<timeoutField>(def),
+            std::get<targetInterfaceField>(s), std::get<targetPathField>(s),
+            std::get<factorField>(s), std::get<offsetField>(s),
+            std::get<methodField>(def), std::get<thresholdField>(s),
+            std::get<ignoreAboveMaxField>(s), std::get<timeoutField>(def),
             std::get<nonfuncRotorErrDelayField>(def),
             std::get<countIntervalField>(def), event));
 

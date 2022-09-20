@@ -93,6 +93,7 @@ class TachSensor
      *                        setting the speed
      * @param[in] funcDelay - Delay to mark functional
      * @param[in] interface - the interface of the target
+     * @param[in] path - the object path of the sensor target
      * @param[in] factor - the factor of the sensor target
      * @param[in] offset - the offset of the sensor target
      * @param[in] method - the method of out of range
@@ -107,10 +108,11 @@ class TachSensor
      */
     TachSensor(Mode mode, sdbusplus::bus_t& bus, Fan& fan,
                const std::string& id, bool hasTarget, size_t funcDelay,
-               const std::string& interface, double factor, int64_t offset,
-               size_t method, size_t threshold, bool ignoreAboveMax,
-               size_t timeout, const std::optional<size_t>& errorDelay,
-               size_t countInterval, const sdeventplus::Event& event);
+               const std::string& interface, const std::string& path,
+               double factor, int64_t offset, size_t method, size_t threshold,
+               bool ignoreAboveMax, size_t timeout,
+               const std::optional<size_t>& errorDelay, size_t countInterval,
+               const sdeventplus::Event& event);
 
     /**
      * @brief Reads a property from the input message and stores it in value.
@@ -386,7 +388,8 @@ class TachSensor
      * @brief Returns the match string to use for matching
      *        on a properties changed signal.
      */
-    std::string getMatchString(const std::string& interface);
+    std::string getMatchString(const std::optional<std::string> path,
+                               const std::string& interface);
 
     /**
      * @brief Reads the Target property and stores in _tachTarget.
@@ -460,6 +463,11 @@ class TachSensor
      * @brief The interface that the target implements
      */
     const std::string _interface;
+
+    /**
+     * @brief The object path to set sensor's target
+     */
+    const std::string _path;
 
     /**
      * @brief The factor of target to get fan rpm
