@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fc14833d_443627b6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-09-21T13:21:30Z",
+      "side": 1,
+      "message": "Could you also update https://github.com/openbmc/phosphor-fan-presence/blob/master/docs/control/fans.md with the new JSON entry?\n\nOtherwise, no further commends, looks good.",
+      "revId": "c054bcbd6728419528e4715466bba239c20992da",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
