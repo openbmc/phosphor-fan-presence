@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f24f54ca_c61d51e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000940
+      },
+      "writtenOn": "2022-09-23T02:07:45Z",
+      "side": 1,
+      "message": "sorry, do you need to update docs/monitor/sensors.md for target_path?",
+      "revId": "e64e3e3142a47b2fd330ad5bcab65f766f1cea18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
