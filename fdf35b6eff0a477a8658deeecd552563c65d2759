@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e47b3b0a_e3e91d3e",
+        "filename": "presence/eeprom_device.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-10-04T23:35:58Z",
+      "side": 1,
+      "message": "Does this immediately trigger if bindDelay is 0?  The doxygen for Timer::restartOnce() doesn\u0027t specify.  In the JSON file documentation it mentions specifying 0 if no delay is required.",
+      "revId": "fdf35b6eff0a477a8658deeecd552563c65d2759",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16797d4b_eb29dfdf",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-10-04T23:35:58Z",
+      "side": 1,
+      "message": "what happens if the key exists but the value is not a string?",
+      "revId": "fdf35b6eff0a477a8658deeecd552563c65d2759",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
