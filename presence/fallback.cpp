@@ -62,6 +62,18 @@ void Fallback::stateChanged(bool present, PresenceSensor& /*sensor*/)
     }
 
     setPresence(fan, present);
+
+    if (eepromDevice)
+    {
+        if (present)
+        {
+            eepromDevice->bind();
+        }
+        else
+        {
+            eepromDevice->unbind();
+        }
+    }
 }
 
 void Fallback::monitor()

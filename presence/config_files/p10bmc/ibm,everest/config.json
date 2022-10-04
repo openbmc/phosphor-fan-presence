@@ -19,6 +19,11 @@
       ],
       "rpolicy": {
          "type": "anyof"
+      },
+      "eeprom": {
+          "bus_address": "31-0050",
+          "driver_name": "at24",
+          "bind_delay_ms": 1000
       }
    },
    {
@@ -41,6 +46,11 @@
       ],
       "rpolicy": {
          "type": "anyof"
+      },
+      "eeprom": {
+          "bus_address": "32-0050",
+          "driver_name": "at24",
+          "bind_delay_ms": 1000
       }
    },
    {
@@ -63,6 +73,11 @@
       ],
       "rpolicy": {
          "type": "anyof"
+      },
+      "eeprom": {
+          "bus_address": "33-0050",
+          "driver_name": "at24",
+          "bind_delay_ms": 1000
       }
    },
    {
@@ -85,6 +100,11 @@
       ],
       "rpolicy": {
          "type": "anyof"
+      },
+      "eeprom": {
+          "bus_address": "34-0050",
+          "driver_name": "at24",
+          "bind_delay_ms": 1000
       }
    }
 ]

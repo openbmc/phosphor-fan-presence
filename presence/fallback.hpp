@@ -39,10 +39,12 @@ class Fallback : public RedundancyPolicy
      *
      * @param[in] fan - The fan associated with the policy.
      * @param[in] s - The set of sensors associated with the policy.
+     * @param[in] e - EEPROM device instance
      */
     Fallback(const Fan& fan,
-             const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
-        RedundancyPolicy(fan),
+             const std::vector<std::reference_wrapper<PresenceSensor>>& s,
+             std::unique_ptr<EEPROMDevice> e) :
+        RedundancyPolicy(fan, std::move(e)),
         sensors(s)
     {
         activeSensor = sensors.begin();

@@ -37,8 +37,8 @@ using fanPolicy = std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>;
 using methodHandler =
     std::function<std::unique_ptr<PresenceSensor>(size_t, const json&)>;
 // Presence redundancy policy handler function
-using rpolicyHandler =
-    std::function<std::unique_ptr<RedundancyPolicy>(const fanPolicy&)>;
+using rpolicyHandler = std::function<std::unique_ptr<RedundancyPolicy>(
+    const fanPolicy&, std::unique_ptr<EEPROMDevice>)>;
 
 class JsonConfig
 {
@@ -123,11 +123,13 @@ class JsonConfig
      *
      * @param[in] rpolicy - policy type to construct
      * @param[in] fpolicy - fan policy object
+     * @param[in] eepromDevice - EEPROM device object
      *
      * @return - The constructed redundancy policy type for the fan
      */
-    std::unique_ptr<RedundancyPolicy> getPolicy(const json& rpolicy,
-                                                const fanPolicy& fpolicy);
+    std::unique_ptr<RedundancyPolicy>
+        getPolicy(const json& rpolicy, const fanPolicy& fpolicy,
+                  std::unique_ptr<EEPROMDevice> eepromDevice);
 };
 
 /**
@@ -167,20 +169,25 @@ namespace rpolicy
  * sensors for a fan
  *
  * @param[in] fan - fan policy object with the presence sensors for the fan
+ * @param[in] eepromDevice - EEPROM device object
  *
  * @return - An `Anyof` redundancy policy
  */
-std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan);
+std::unique_ptr<RedundancyPolicy>
+    getAnyof(const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice);
 
 /**
  * @brief Create a `Fallback` redundancy policy on the created presence
  * sensors for a fan
  *
  * @param[in] fan - fan policy object with the presence sensors for the fan
+ * @param[in] eepromDevice - EEPROM device object
  *
  * @return - A `Fallback` redundancy policy
  */
-std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan);
+std::unique_ptr<RedundancyPolicy>
+    getFallback(const fanPolicy& fan,
+                std::unique_ptr<EEPROMDevice> eepromDevice);
 
 } // namespace rpolicy
 
