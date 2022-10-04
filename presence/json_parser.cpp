@@ -168,13 +168,37 @@ void JsonConfig::process(const json& jsonConf)
             timeUntilError = member["fan_missing_error_time"].get<size_t>();
         }
 
+        std::unique_ptr<EEPROMDevice> eepromDevice;
+        if (member.contains("eeprom"))
+        {
+            const auto& eeprom = member.at("eeprom");
+            if (!eeprom.contains("bus_address") ||
+                !eeprom.contains("driver_name") ||
+                !eeprom.contains("bind_delay_ms"))
+            {
+                log<level::ERR>(
+                    "Missing address, driver_name, or bind_delay_ms in eeprom "
+                    "section",
+                    entry("FAN_NAME=%s",
+                          member["name"].get<std::string>().c_str()));
+
+                throw std::runtime_error("Missing address, driver_name, or "
+                                         "bind_delay_ms in eeprom section");
+            }
+            eepromDevice = std::make_unique<EEPROMDevice>(
+                eeprom["bus_address"].get<std::string>(),
+                eeprom["driver_name"].get<std::string>(),
+                eeprom["bind_delay_ms"].get<size_t>());
+        }
+
         auto fan =
             std::make_tuple(member["name"], member["path"], timeUntilError);
         // Create a fan object
         fans.emplace_back(std::make_tuple(fan, std::move(sensors)));
 
         // Add fan presence policy
-        auto policy = getPolicy(member["rpolicy"], fans.back());
+        auto policy =
+            getPolicy(member["rpolicy"], fans.back(), std::move(eepromDevice));
         if (policy)
         {
             policies.emplace_back(std::move(policy));
@@ -199,7 +223,8 @@ void JsonConfig::process(const json& jsonConf)
 }
 
 std::unique_ptr<RedundancyPolicy>
-    JsonConfig::getPolicy(const json& rpolicy, const fanPolicy& fpolicy)
+    JsonConfig::getPolicy(const json& rpolicy, const fanPolicy& fpolicy,
+                          std::unique_ptr<EEPROMDevice> eepromDevice)
 {
     if (!rpolicy.contains("type"))
     {
@@ -219,7 +244,7 @@ std::unique_ptr<RedundancyPolicy>
     if (func != _rpolicies.end())
     {
         // Call function for redundancy policy type and return the policy
-        return func->second(fpolicy);
+        return func->second(fpolicy, std::move(eepromDevice));
     }
     else
     {
@@ -326,7 +351,8 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
 namespace rpolicy
 {
 // Get an `Anyof` redundancy policy for the fan
-std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
+std::unique_ptr<RedundancyPolicy>
+    getAnyof(const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice)
 {
     std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
     for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
@@ -334,11 +360,14 @@ std::unique_ptr<RedundancyPolicy> getAnyof(const fanPolicy& fan)
         pSensors.emplace_back(*fanSensor);
     }
 
-    return std::make_unique<AnyOf>(std::get<fanPolicyFanPos>(fan), pSensors);
+    return std::make_unique<AnyOf>(std::get<fanPolicyFanPos>(fan), pSensors,
+                                   std::move(eepromDevice));
 }
 
 // Get a `Fallback` redundancy policy for the fan
-std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
+std::unique_ptr<RedundancyPolicy>
+    getFallback(const fanPolicy& fan,
+                std::unique_ptr<EEPROMDevice> eepromDevice)
 {
     std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
     for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))
@@ -347,7 +376,8 @@ std::unique_ptr<RedundancyPolicy> getFallback(const fanPolicy& fan)
         pSensors.emplace_back(*fanSensor);
     }
 
-    return std::make_unique<Fallback>(std::get<fanPolicyFanPos>(fan), pSensors);
+    return std::make_unique<Fallback>(std::get<fanPolicyFanPos>(fan), pSensors,
+                                      std::move(eepromDevice));
 }
 
 } // namespace rpolicy

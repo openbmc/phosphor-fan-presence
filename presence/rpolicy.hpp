@@ -1,5 +1,6 @@
 #pragma once
 
+#include "eeprom_device.hpp"
 #include "fan.hpp"
 
 namespace phosphor
@@ -35,8 +36,12 @@ class RedundancyPolicy
      * @brief Construct a new Redundancy Policy.
      *
      * @param[in] fan - The fan associated with this policy.
+     * @param[in] eeprom - EEPROM device instance
      */
-    explicit RedundancyPolicy(const Fan& f) : fan(f)
+    explicit RedundancyPolicy(const Fan& f,
+                              std::unique_ptr<EEPROMDevice> eeprom) :
+        fan(f),
+        eepromDevice(std::move(eeprom))
     {}
 
     /**
@@ -62,6 +67,12 @@ class RedundancyPolicy
   protected:
     /** @brief Fan name and inventory path. */
     const Fan& fan;
+
+    /**
+     * @brief Handles binding the EEPROM driver on fan plug
+     *        if configured to do so.
+     */
+    std::unique_ptr<EEPROMDevice> eepromDevice;
 };
 
 /**

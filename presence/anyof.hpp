@@ -41,9 +41,11 @@ class AnyOf : public RedundancyPolicy
      *
      * @param[in] fan - The fan associated with the policy.
      * @param[in] s - The set of sensors associated with the policy.
+     * @param[in] e - EEPROM device instance
      */
     AnyOf(const Fan& fan,
-          const std::vector<std::reference_wrapper<PresenceSensor>>& s);
+          const std::vector<std::reference_wrapper<PresenceSensor>>& s,
+          std::unique_ptr<EEPROMDevice> e);
 
     /**
      * @brief stateChanged

@@ -140,6 +140,7 @@ Fan object attributes: **(Required unless otherwise noted)**
 * [path](path.md)
 * [methods](methods.md)
 * [rpolicy](rpolicy.md)
+* [eeprom](eeprom.md) *optional*
 
 ### Comments
 

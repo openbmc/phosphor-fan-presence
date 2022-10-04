@@ -34,8 +34,9 @@ using namespace std::chrono_literals;
 static const auto powerOnDelayTime = 5s;
 
 AnyOf::AnyOf(const Fan& fan,
-             const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
-    RedundancyPolicy(fan),
+             const std::vector<std::reference_wrapper<PresenceSensor>>& s,
+             std::unique_ptr<EEPROMDevice> e) :
+    RedundancyPolicy(fan, std::move(e)),
     state(), _powerState(getPowerStateObject()),
     _powerOnDelayTimer(sdeventplus::Event::get_default(),
                        std::bind(&AnyOf::delayedAfterPowerOn, this)),
@@ -77,6 +78,18 @@ void AnyOf::stateChanged(bool present, PresenceSensor& sensor)
             std::any_of(state.begin(), state.end(),
                         [](const auto& s) { return std::get<presentPos>(s); });
         setPresence(fan, newState);
+
+        if (eepromDevice && (newState != origState))
+        {
+            if (newState)
+            {
+                eepromDevice->bind();
+            }
+            else
+            {
+                eepromDevice->unbind();
+            }
+        }
 
         // At least 1 sensor said a fan was present, check if any disagree.
         if (newState)
