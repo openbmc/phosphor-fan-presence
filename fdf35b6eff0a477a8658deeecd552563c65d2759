@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "715be266_1af4a885",
+        "filename": "presence/eeprom_device.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-06T18:07:24Z",
+      "side": 1,
+      "message": "Yea, it does. I tested it to be sure.",
+      "parentUuid": "e47b3b0a_e3e91d3e",
+      "revId": "fdf35b6eff0a477a8658deeecd552563c65d2759",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "16797d4b_eb29dfdf",
         "filename": "presence/json_parser.cpp",
         "patchSetId": 1
@@ -31,6 +49,24 @@
       "writtenOn": "2022-10-04T23:35:58Z",
       "side": 1,
       "message": "what happens if the key exists but the value is not a string?",
+      "revId": "fdf35b6eff0a477a8658deeecd552563c65d2759",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4c10f0c_0014dc52",
+        "filename": "presence/json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-06T18:07:24Z",
+      "side": 1,
+      "message": "It\u0027ll crash.\nIn general the fan JSON parsers don\u0027t spend a lot (any?) of time checking for the correct types, as it would show up right when someone is testing a their JSON change so shouldn\u0027t be hard to figure out.",
+      "parentUuid": "16797d4b_eb29dfdf",
       "revId": "fdf35b6eff0a477a8658deeecd552563c65d2759",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
