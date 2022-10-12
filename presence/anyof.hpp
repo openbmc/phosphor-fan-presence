@@ -48,6 +48,17 @@ class AnyOf : public RedundancyPolicy
           std::unique_ptr<EEPROMDevice> e);
 
     /**
+     * @brief Construct an any of bitwise policy.
+     *
+     * @param[in] fan - The fan associated with the policy.
+     * @param[in] s - The set of sensors associated with the policy.
+     */
+    AnyOf(const Fan& fan,
+          const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
+        AnyOf(fan, s, nullptr)
+    {}
+
+    /**
      * @brief stateChanged
      *
      * Update the inventory and execute the fallback

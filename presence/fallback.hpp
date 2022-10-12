@@ -51,6 +51,17 @@ class Fallback : public RedundancyPolicy
     }
 
     /**
+     * @brief Construct a fallback policy.
+     *
+     * @param[in] fan - The fan associated with the policy.
+     * @param[in] s - The set of sensors associated with the policy.
+     */
+    Fallback(const Fan& fan,
+             const std::vector<std::reference_wrapper<PresenceSensor>>& s) :
+        Fallback(fan, s, nullptr)
+    {}
+
+    /**
      * @brief stateChanged
      *
      * Update the inventory and execute the fallback
