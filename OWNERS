@@ -35,15 +35,11 @@ owners:
 - spinler@us.ibm.com
 
 reviewers:
-- bjwyman@gmail.com
 - shawnmm@us.ibm.com
 
 matchers:
 
 openbmc:
-- name: B.J. Wyman
-  email: bjwyman@gmail.com
-  discord: bjwyman
 - name: Matt Spinler
   email: spinler@us.ibm.com
   discord: mspinler
