@@ -310,6 +310,7 @@
  },
  {
    "name": "planar temps",
+   "service": "xyz.openbmc_project.HwmonTempSensor",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/PCIE_0_Temp",
      "/xyz/openbmc_project/sensors/temperature/PCIE_1_Temp"
@@ -337,6 +338,7 @@
  },
  {
    "name": "ambient temp",
+   "service": "xyz.openbmc_project.VirtualSensor",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
    ]
@@ -365,6 +367,7 @@
  },
  {
    "name": "power mode",
+   "service": "org.open_power.OCC.Control",
    "members": [
      "/xyz/openbmc_project/control/host0/power_mode"
    ]

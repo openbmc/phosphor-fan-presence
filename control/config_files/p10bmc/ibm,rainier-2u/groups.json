@@ -514,6 +514,7 @@
  },
  {
    "name": "planar temps",
+   "service": "xyz.openbmc_project.HwmonTempSensor",
    "members": [
      "/xyz/openbmc_project/sensors/temperature/PCIE_0_Temp",
      "/xyz/openbmc_project/sensors/temperature/PCIE_1_Temp"
@@ -545,12 +546,14 @@
  },
  {
    "name": "ambient temp",
+   "service": "xyz.openbmc_project.VirtualSensor",
    "members": [
       "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
    ]
  },
  {
    "name": "altitude",
+   "service": "xyz.openbmc_project.VirtualSensor",
    "members": [
       "/xyz/openbmc_project/sensors/altitude/Altitude"
    ]
