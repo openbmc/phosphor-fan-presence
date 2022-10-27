@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c28af812_814b2f13",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-27T21:07:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41f31218_d9c066c2",
+      "range": {
+        "startLine": 12,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 56
+      },
+      "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8ebc636b_36904f64",
@@ -49,6 +73,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "0f4d3fbe_4d0a04c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-27T21:07:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ebc636b_36904f64",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "a5c17bbc_a7786f15",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -60,6 +108,24 @@
       "writtenOn": "2022-10-27T15:20:11Z",
       "side": 1,
       "message": "Should the Bonnell groups file be updated too?",
+      "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c11ba32e_e0d5b9e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-10-27T21:07:10Z",
+      "side": 1,
+      "message": "I just have an empty groups file so far for bonnell.",
+      "parentUuid": "a5c17bbc_a7786f15",
       "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
