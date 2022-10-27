@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41f31218_d9c066c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-10-27T15:20:11Z",
+      "side": 1,
+      "message": "Nit: extra \u0027changed\u0027?",
+      "range": {
+        "startLine": 12,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 56
+      },
+      "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8ebc636b_36904f64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-10-27T15:20:11Z",
+      "side": 1,
+      "message": "Nit: may be",
+      "range": {
+        "startLine": 25,
+        "startChar": 15,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5c17bbc_a7786f15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-10-27T15:20:11Z",
+      "side": 1,
+      "message": "Should the Bonnell groups file be updated too?",
+      "revId": "3ff91082fa5e1f7a6bce6ad39dc143484ef2bb68",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
