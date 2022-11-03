@@ -404,6 +404,8 @@ void ThresholdAlarmLogger::powerStateChanged(bool powerStateOn)
 
 void ThresholdAlarmLogger::checkThresholds()
 {
+    std::vector<InterfaceKey> toErase;
+
     for (const auto& [interfaceKey, alarmMap] : alarms)
     {
         for (const auto& [propertyName, alarmValue] : alarmMap)
@@ -412,10 +414,35 @@ void ThresholdAlarmLogger::checkThresholds()
             {
                 const auto& sensorPath = std::get<0>(interfaceKey);
                 const auto& interface = std::get<1>(interfaceKey);
+                std::string service;
 
-                createEventLog(sensorPath, interface, propertyName, alarmValue);
+                try
+                {
+                    // Check that the service that provides the alarm is still
+                    // running, because if it died when the alarm was active
+                    // there would be no indication of it unless we listened
+                    // for NameOwnerChanged and tracked services, and this is
+                    // easier.
+                    service = SDBusPlus::getService(bus, sensorPath, interface);
+                }
+                catch (const DBusServiceError& e)
+                {
+                    // No longer on D-Bus delete the alarm entry
+                    toErase.emplace_back(sensorPath, interface);
+                }
+
+                if (!service.empty())
+                {
+                    createEventLog(sensorPath, interface, propertyName,
+                                   alarmValue);
+                }
             }
         }
+    }
+
+    for (const auto& e : toErase)
+    {
+        alarms.erase(e);
     }
 }
 
