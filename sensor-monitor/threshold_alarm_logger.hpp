@@ -91,6 +91,28 @@ class ThresholdAlarmLogger
     void interfacesRemoved(sdbusplus::message_t& msg);
 
     /**
+     * @brief The interfacesAdded handler for the threshold
+     *        interfaces.
+     *
+     * Checks the alarm when it shows up on D-Bus.
+     *
+     * @param[in] msg - The signal message payload.
+     */
+    void interfacesAdded(sdbusplus::message_t& msg);
+
+    /**
+     * @brief Checks for alarms in the D-Bus data passed in,
+     *        and creates an event log if necessary.
+     *
+     * @param[in] sensorPath - D-Bus path of the sensor
+     * @param[in] interface - The threshold interface name
+     * @param[in] properties - The map of property values on the interface
+     */
+    void checkProperties(
+        const std::string& sensorPath, const std::string& interface,
+        const std::map<std::string, std::variant<bool>>& properties);
+
+    /**
      * @brief Checks for active alarms on the path and threshold interface
      *        passed in and creates event logs if necessary.
      *
@@ -200,6 +222,11 @@ class ThresholdAlarmLogger
      * @brief The InterfacesRemoved match object
      */
     sdbusplus::bus::match_t ifacesRemovedMatch;
+
+    /**
+     * @brief The InterfacesAdded match object
+     */
+    sdbusplus::bus::match_t ifacesAddedMatch;
 
     /**
      * @brief The current alarm values
