@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c153ec77_8868a96f",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-11-04T22:01:40Z",
+      "side": 1,
+      "message": "Two comments here.  Both are just suggestions/things to think about vs. a bug.\n\nComment #1: You could use sdbusplus::bus::match::rules::interfacesAdded() and sdbusplus::bus::match::rules::argNpath() here instead of hardcoding the match properties.  Not a big deal, but might buy you a little abstraction in case the D-Bus match property names ever changed.\n\nComment #2: argNpath has kind of unexpected (to me) behavior.  From https://dbus.freedesktop.org/doc/dbus-specification.html\n\n\"... there is also a match when either the string given in the match rule or the appropriate message argument ends with \u0027/\u0027 and is a prefix of the other. An example argument path match is arg0path\u003d\u0027/aa/bb/\u0027. This would match messages with first arguments of \u0027/\u0027, \u0027/aa/\u0027, \u0027/aa/bb/\u0027, \u0027/aa/bb/cc/\u0027 and \u0027/aa/bb/cc\u0027.\"\n\nThat might be what you want, but I find it a little strange.  e.g. your rule would match if arg 0 is \u0027/\u0027.",
+      "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
