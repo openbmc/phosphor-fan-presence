@@ -70,6 +70,24 @@
       "parentUuid": "ed3b3c99_a37cce4d",
       "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22490c36_1a889dca",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-07T19:09:44Z",
+      "side": 1,
+      "message": "I agree it is a strange behavior of D-Bus, but it won\u0027t affect my code because we still look for the interface.",
+      "parentUuid": "ec0d3540_cc9726d4",
+      "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
