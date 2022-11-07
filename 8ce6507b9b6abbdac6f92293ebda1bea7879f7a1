@@ -34,6 +34,24 @@
       "parentUuid": "c153ec77_8868a96f",
       "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ed3b3c99_a37cce4d",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-11-07T17:07:25Z",
+      "side": 1,
+      "message": "Oh, actually, it has to end with a \u0027/\u0027 so that it doesn\u0027t have to be an exact match as we want to catch every InterfacesAdded in the sensors namespace, such as /xyz/openbmc_project/sensors/voltage/Battery_Voltage",
+      "parentUuid": "fb503c5a_867a9b76",
+      "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
