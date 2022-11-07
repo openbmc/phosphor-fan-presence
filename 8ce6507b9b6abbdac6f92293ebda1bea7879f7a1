@@ -52,6 +52,24 @@
       "parentUuid": "fb503c5a_867a9b76",
       "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec0d3540_cc9726d4",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2022-11-07T18:42:32Z",
+      "side": 1,
+      "message": "I understand.  What I was saying is that it will match \u0027parent directories\u0027 of the sensors path as well, such as \u0027/xyz\u0027 or \u0027/xyz/openbmc_project/\u0027.\n\nNot sure if that is a problem.  It is just kind of surprising to me.",
+      "parentUuid": "ed3b3c99_a37cce4d",
+      "revId": "8ce6507b9b6abbdac6f92293ebda1bea7879f7a1",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
