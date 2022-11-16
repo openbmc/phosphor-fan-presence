@@ -54,111 +54,53 @@ void TargetFromGroupMax::run(Zone& zone)
         // Only check if previous and new values differ
         if (groupValue != _prevGroupValue)
         {
-            /*The speed derived from mapping*/
-            uint64_t groupSpeed = _speedFromGroupsMap[_groupIndex];
-
-            // Value is decreasing from previous  && greater than positive
-            // hysteresis
-            if ((groupValue < _prevGroupValue) &&
-                (_prevGroupValue - groupValue > _posHysteresis))
+            // Value is decreasing and the change is greater than the
+            // positive hysteresis; or value is increasing and the change
+            // is greater than the positive hysteresis
+            if (((groupValue < _prevGroupValue) &&
+                 (_prevGroupValue - groupValue > _posHysteresis)) ||
+                ((groupValue > _prevGroupValue) &&
+                 (groupValue - _prevGroupValue > _negHysteresis)))
             {
-                for (auto it = _valueToSpeedMap.rbegin();
-                     it != _valueToSpeedMap.rend(); ++it)
-                {
-                    // Value is at/above last map key, set speed to the last map
-                    // key's value
-                    if (it == _valueToSpeedMap.rbegin() &&
-                        groupValue >= it->first)
-                    {
-                        groupSpeed = it->second;
-                        break;
-                    }
-                    // Value is at/below first map key, set speed to the first
-                    // map key's value
-                    else if (std::next(it, 1) == _valueToSpeedMap.rend() &&
-                             groupValue <= it->first)
-                    {
-                        groupSpeed = it->second;
-                        break;
-                    }
-                    // Value decreased & transitioned across a map key, update
-                    // speed to this map key's value when new value is at or
-                    // below map's key and the key is at/below the previous
-                    // value
-                    if (groupValue <= it->first && it->first <= _prevGroupValue)
-                    {
-                        groupSpeed = it->second;
-                    }
-                }
-                _prevGroupValue = groupValue;
-                _speedFromGroupsMap[_groupIndex] = groupSpeed;
+                /*The speed derived from mapping*/
+                uint64_t groupSpeed = _speedFromGroupsMap[_groupIndex];
 
-                // Get the maximum speed derived from all groups, and set target
-                // for the Zone
-                auto maxSpeedFromGroupsIter = std::max_element(
-                    _speedFromGroupsMap.begin(), _speedFromGroupsMap.end(),
-                    [](const auto& x, const auto& y) {
-                        return x.second < y.second;
-                    });
-
-                zone.setTarget(maxSpeedFromGroupsIter->second);
-            }
-            // Value is increasing from previous && greater than negative
-            // hysteresis
-            else if ((groupValue > _prevGroupValue) &&
-                     (groupValue - _prevGroupValue > _negHysteresis))
-            {
+                // Looping through the mapping table
                 for (auto it = _valueToSpeedMap.begin();
                      it != _valueToSpeedMap.end(); ++it)
                 {
-                    // Value is at/below the first map key, set speed to the
-                    // first map key's value
-                    if (it == _valueToSpeedMap.begin() &&
-                        groupValue <= it->first)
+                    // Value is at/below the first map key, or at/above the
+                    // last map key, set speed to the first or the last map
+                    // key's value respectively
+                    if (((it == _valueToSpeedMap.begin()) &&
+                         (groupValue <= it->first)) ||
+                        ((std::next(it, 1) == _valueToSpeedMap.end()) &&
+                         (groupValue >= it->first)))
                     {
                         groupSpeed = it->second;
                         break;
                     }
-                    // Value is at/above last map key, set speed to the last
-                    // map key's value
-                    else if (std::next(it, 1) == _valueToSpeedMap.end() &&
-                             groupValue >= it->first)
+                    // Value transitioned across a map key, update the speed
+                    // to this map key's value when the new group value is at
+                    // or above the map's key and below the next key
+                    if (groupValue >= it->first &&
+                        groupValue < std::next(it, 1)->first)
                     {
                         groupSpeed = it->second;
                         break;
-                    }
-                    // Value increased & transitioned across a map key,
-                    // update speed to the next map key's value when new
-                    // value is above map's key and the key is at/above the
-                    // previous value
-                    if (groupValue > it->first && it->first >= _prevGroupValue)
-                    {
-                        groupSpeed = std::next(it, 1)->second;
-                    }
-                    // Value increased & transitioned across a map key,
-                    // update speed to the map key's value when new value is
-                    // at the map's key and the key is above the previous
-                    // value
-                    else if (groupValue == it->first &&
-                             it->first > _prevGroupValue)
-                    {
-                        groupSpeed = it->second;
                     }
                 }
                 _prevGroupValue = groupValue;
                 _speedFromGroupsMap[_groupIndex] = groupSpeed;
-
-                // Get the maximum speed derived from all groups, and set target
-                // for the Zone
-                auto maxSpeedFromGroupsIter = std::max_element(
-                    _speedFromGroupsMap.begin(), _speedFromGroupsMap.end(),
-                    [](const auto& x, const auto& y) {
-                        return x.second < y.second;
-                    });
-
-                zone.setTarget(maxSpeedFromGroupsIter->second);
             }
         }
+        // Get the maximum speed derived from all groups, and set target
+        // for the Zone
+        auto maxSpeedFromGroupsIter = std::max_element(
+            _speedFromGroupsMap.begin(), _speedFromGroupsMap.end(),
+            [](const auto& x, const auto& y) { return x.second < y.second; });
+
+        zone.setTarget(maxSpeedFromGroupsIter->second);
     }
     else
     {
