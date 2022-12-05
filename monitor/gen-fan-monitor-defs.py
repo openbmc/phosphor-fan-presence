@@ -2,8 +2,9 @@
 
 import os
 import sys
-import yaml
 from argparse import ArgumentParser
+
+import yaml
 from mako.template import Template
 
 """
@@ -16,7 +17,7 @@ from the MRW.
 """
 
 
-tmpl = '''\
+tmpl = """\
 <%!
 def indent(str, depth):
     return ''.join(4*' '*depth+line for line in str.splitlines(True))
@@ -124,33 +125,42 @@ ${get_lambda_contents(group)}\
     },
 %endfor
 };
-'''
+"""
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     parser = ArgumentParser(
-        description="Phosphor fan monitor definition parser")
+        description="Phosphor fan monitor definition parser"
+    )
 
-    parser.add_argument('-m', '--monitor_yaml', dest='monitor_yaml',
-                        default="example/monitor.yaml",
-                        help='fan monitor definitional yaml')
-    parser.add_argument('-o', '--output_dir', dest='output_dir',
-                        default=".",
-                        help='output directory')
+    parser.add_argument(
+        "-m",
+        "--monitor_yaml",
+        dest="monitor_yaml",
+        default="example/monitor.yaml",
+        help="fan monitor definitional yaml",
+    )
+    parser.add_argument(
+        "-o",
+        "--output_dir",
+        dest="output_dir",
+        default=".",
+        help="output directory",
+    )
     args = parser.parse_args()
 
     if not args.monitor_yaml:
         parser.print_usage()
         sys.exit(1)
 
-    with open(args.monitor_yaml, 'r') as monitor_input:
+    with open(args.monitor_yaml, "r") as monitor_input:
         monitor_data = yaml.safe_load(monitor_input) or {}
 
-    #Do some minor input validation
-    for fan in monitor_data.get('fans', {}):
-        if ((fan['deviation'] < 0) or (fan['deviation'] > 100)):
-            sys.exit("Invalid deviation value " + str(fan['deviation']))
+    # Do some minor input validation
+    for fan in monitor_data.get("fans", {}):
+        if (fan["deviation"] < 0) or (fan["deviation"] > 100):
+            sys.exit("Invalid deviation value " + str(fan["deviation"]))
 
     output_file = os.path.join(args.output_dir, "fan_monitor_defs.cpp")
-    with open(output_file, 'w') as output:
+    with open(output_file, "w") as output:
         output.write(Template(tmpl).render(data=monitor_data))
