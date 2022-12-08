@@ -42,37 +42,45 @@ void GetManagedObjects::run(Zone& zone)
     {
         for (const auto& member : group.getMembers())
         {
-            std::vector<std::string> objMgrPaths;
-
-            const auto& service =
-                zone.getManager()->getService(member, group.getInterface());
-
-            if (!service.empty())
+            try
             {
-                objMgrPaths = zone.getManager()->getPaths(
-                    service, "org.freedesktop.DBus.ObjectManager");
-            }
-            else
-            {
-                continue;
-            }
+                std::vector<std::string> objMgrPaths;
 
-            // Look for the ObjectManager as an ancestor of the path.
-            auto hasObjMgr =
-                std::any_of(objMgrPaths.begin(), objMgrPaths.end(),
-                            [member](const auto& path) {
-                                return member.find(path) != std::string::npos;
-                            });
+                const auto& service =
+                    zone.getManager()->getService(member, group.getInterface());
 
-            if (!hasObjMgr || services.find(service) == services.end())
-            {
-                if (hasObjMgr)
+                if (!service.empty())
                 {
-                    services.insert(service);
+                    objMgrPaths = zone.getManager()->getPaths(
+                        service, "org.freedesktop.DBus.ObjectManager");
+                }
+                else
+                {
+                    continue;
                 }
 
-                zone.getManager()->addObjects(member, group.getInterface(),
-                                              group.getProperty());
+                // Look for the ObjectManager as an ancestor of the path.
+                auto hasObjMgr = std::any_of(
+                    objMgrPaths.begin(), objMgrPaths.end(),
+                    [member](const auto& path) {
+                        return member.find(path) != std::string::npos;
+                    });
+
+                if (!hasObjMgr || services.find(service) == services.end())
+                {
+                    if (hasObjMgr)
+                    {
+                        services.insert(service);
+                    }
+
+                    zone.getManager()->addObjects(member, group.getInterface(),
+                                                  group.getProperty());
+                }
+            }
+            catch (const std::exception& e)
+            {
+                // May have been called from a name_owner_changed trigger
+                // and the service may have been lost.
             }
         }
     }
