@@ -1,6 +1,7 @@
 # num_nonfunc_rotors_before_error
 
 ## Description
+
 The number of fan rotors (also known as [`sensors`](sensors.md)) that must be
 deemed nonfunctional for an error event log to be created. When the number of
 nonfunctional fan rotors are below this value, informational event logs are
@@ -9,9 +10,11 @@ defaults to 1, meaning an error event log should be created when any one of the
 fan rotors([`sensors`](sensors.md)) being monitored is nonfunctional.
 
 ## Attribute Value(s)
+
 integer (default = 1)
 
 ## Example
+
 <pre><code>
 {
   "fault_handling": [

@@ -1,165 +1,163 @@
 // MAX31785revB w/ latest fan hardware
 // *Note: Sensor trust groups are removed with revB
 {
-   "fans": [
-      {
-         "inventory": "/system/chassis/motherboard/fan0",
-         "method": "count",
-         "count_interval": 1,
-         "deviation": 18,
-         "num_sensors_nonfunc_for_fan_nonfunc": 0,
-         "monitor_start_delay": 30,
-         "fan_missing_error_delay": 20,
-         "nonfunc_rotor_error_delay": 0,
-         "set_func_on_present": true,
-         "sensors": [
-            {
-               "name": "fan0_0",
-               "threshold": 30,
-               "has_target": true
-            },
-            {
-               "name": "fan0_1",
-               "threshold": 30,
-               "has_target": false,
-               "factor": 0.625,
-               "offset": 1100
-            }
-         ]
-      },
-      {
-         "inventory": "/system/chassis/motherboard/fan1",
-         "method": "count",
-         "count_interval": 1,
-         "deviation": 18,
-         "num_sensors_nonfunc_for_fan_nonfunc": 0,
-         "monitor_start_delay": 30,
-         "fan_missing_error_delay": 20,
-         "nonfunc_rotor_error_delay": 0,
-         "set_func_on_present": true,
-         "sensors": [
-            {
-               "name": "fan1_0",
-               "threshold": 30,
-               "has_target": true
-            },
-            {
-               "name": "fan1_1",
-               "threshold": 30,
-               "has_target": false,
-               "factor": 0.625,
-               "offset": 1100
-            }
-         ]
-      },
-      {
-         "inventory": "/system/chassis/motherboard/fan2",
-         "method": "count",
-         "count_interval": 1,
-         "deviation": 18,
-         "num_sensors_nonfunc_for_fan_nonfunc": 0,
-         "monitor_start_delay": 30,
-         "fan_missing_error_delay": 20,
-         "nonfunc_rotor_error_delay": 0,
-         "set_func_on_present": true,
-         "sensors": [
-            {
-               "name": "fan2_0",
-               "threshold": 30,
-               "has_target": true
-            },
-            {
-               "name": "fan2_1",
-               "threshold": 30,
-               "has_target": false,
-               "factor": 0.625,
-               "offset": 1100
-            }
-         ]
-      },
-      {
-         "inventory": "/system/chassis/motherboard/fan3",
-         "method": "count",
-         "count_interval": 1,
-         "deviation": 18,
-         "num_sensors_nonfunc_for_fan_nonfunc": 0,
-         "monitor_start_delay": 30,
-         "fan_missing_error_delay": 20,
-         "nonfunc_rotor_error_delay": 0,
-         "set_func_on_present": true,
-         "sensors": [
-            {
-               "name": "fan3_0",
-               "threshold": 30,
-               "has_target": true
-            },
-            {
-               "name": "fan3_1",
-               "threshold": 30,
-               "has_target": false,
-               "factor": 0.625,
-               "offset": 1100
-            }
-         ]
-      },
-      {
-         "inventory": "/system/chassis/motherboard/fan4",
-         "method": "count",
-         "count_interval": 1,
-         "deviation": 18,
-         "num_sensors_nonfunc_for_fan_nonfunc": 0,
-         "monitor_start_delay": 30,
-         "fan_missing_error_delay": 20,
-         "nonfunc_rotor_error_delay": 0,
-         "set_func_on_present": true,
-         "sensors": [
-            {
-               "name": "fan4_0",
-               "threshold": 30,
-               "has_target": true
-            },
-            {
-               "name": "fan4_1",
-               "threshold": 30,
-               "has_target": false,
-               "factor": 0.625,
-               "offset": 1100
-            }
-         ]
-      },
-      {
-         "inventory": "/system/chassis/motherboard/fan5",
-         "method": "count",
-         "count_interval": 1,
-         "deviation": 18,
-         "num_sensors_nonfunc_for_fan_nonfunc": 0,
-         "monitor_start_delay": 30,
-         "fan_missing_error_delay": 20,
-         "nonfunc_rotor_error_delay": 0,
-         "set_func_on_present": true,
-         "sensors": [
-            {
-               "name": "fan5_0",
-               "threshold": 30,
-               "has_target": true
-            },
-            {
-               "name": "fan5_1",
-               "threshold": 30,
-               "has_target": false,
-               "factor": 0.625,
-               "offset": 1100
-            }
-         ]
-      }
-   ],
-   "fault_handling":
-   {
-       "num_nonfunc_rotors_before_error": 1,
+    "fans": [
+        {
+            "inventory": "/system/chassis/motherboard/fan0",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 18,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan0_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan0_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
+                }
+            ]
+        },
+        {
+            "inventory": "/system/chassis/motherboard/fan1",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 18,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan1_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan1_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
+                }
+            ]
+        },
+        {
+            "inventory": "/system/chassis/motherboard/fan2",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 18,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan2_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan2_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
+                }
+            ]
+        },
+        {
+            "inventory": "/system/chassis/motherboard/fan3",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 18,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan3_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan3_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
+                }
+            ]
+        },
+        {
+            "inventory": "/system/chassis/motherboard/fan4",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 18,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan4_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan4_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
+                }
+            ]
+        },
+        {
+            "inventory": "/system/chassis/motherboard/fan5",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 18,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan5_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan5_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
+                }
+            ]
+        }
+    ],
+    "fault_handling": {
+        "num_nonfunc_rotors_before_error": 1,
 
-       "power_off_config":
-       [
-           {
+        "power_off_config": [
+            {
                 "type": "hard",
                 "cause": "missing_fan_frus",
                 "count": 1,
@@ -173,6 +171,6 @@
                 "service_mode_delay": 60,
                 "meltdown_delay": 60
             }
-       ]
-   }
+        ]
+    }
 }

@@ -1,6 +1,7 @@
 # set_func_on_present
 
 ## Description
+
 Immediately set the fan FRU's contained rotors to functional when the fan's
 presence has been detected and **only** allow the fan FRU to be set to
 functional when presence is detected. Using this configuration option
@@ -15,9 +16,11 @@ will need to spin up before being set back to functional, and if it never spins
 up, there won't be additional errors.
 
 ## Attribute Value(s)
+
 bool (default = false)
 
 ## Example
+
 <pre><code>
 {
   "fans": [

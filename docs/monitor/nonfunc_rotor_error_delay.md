@@ -1,6 +1,7 @@
 # nonfunc_rotor_error_delay
 
 ## Description
+
 The amount of time(in seconds) to delay logging an error against the fan when
 any of its sensors are deemed nonfunctional. This attribute is optional and
 defaults to **no error** being logged when the attribute is not given and a
@@ -10,9 +11,11 @@ sensor is nonfunctional.
 `fault_handling` section of the configuration is given.**
 
 ## Attribute Value(s)
+
 integer (default = do not create an error log)
 
 ## Example
+
 <pre><code>
 {
   "fans": [

@@ -1,14 +1,17 @@
 # fan_missing_error_delay
 
 ## Description
+
 The amount of time(in seconds) to delay logging an error against the fan when
 its not present. This attribute is optional and defaults to **no error** being
 logged when the fan is not present when the attribute is not given.
 
 ## Attribute Value(s)
+
 integer (default = do not create an error log)
 
 ## Example
+
 <pre><code>
 {
   "fans": [

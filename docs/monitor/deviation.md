@@ -1,16 +1,19 @@
 # deviation
 
 ## Description
+
 The +/- percentage allowed for the sensors of a fan to deviate from any
-requested target before being deemed out-of-spec and not functioning as
-expected according to the target requested.
+requested target before being deemed out-of-spec and not functioning as expected
+according to the target requested.
 
 ## Attribute Value(s)
+
 integer (0 - 100)
 
 Deviation is represented as a percentage, so only 0 to 100 are valid values.
 
 ## Example
+
 <pre><code>
 {
   "fans": [

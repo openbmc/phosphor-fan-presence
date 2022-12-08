@@ -1,15 +1,18 @@
 # num_sensors_nonfunc_for_fan_nonfunc
 
 ## Description
+
 The number of `sensors` that must be deemed nonfunctional for the fan enclosure
 object to also be nonfunctional. This attribute is optional and defaults to 0,
 meaning the fan enclosure will not be set to nonfunctional based on the
 functional state of its list of `sensors`.
 
 ## Attribute Value(s)
+
 integer (default = 0)
 
 ## Example
+
 <pre><code>
 {
   "fans": [

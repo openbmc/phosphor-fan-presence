@@ -1,15 +1,18 @@
 # monitor_start_delay
 
 ## Description
+
 The amount of time(in seconds) to delay from monitoring the fan at the start of
 powering on the system. This attribute is optional and defaults to 0, meaning
 the fan will immediately be monitored according to its configuration at the
 start of power on.
 
 ## Attribute Value(s)
+
 integer (default = 0)
 
 ## Example
+
 <pre><code>
 {
   "fans": [
