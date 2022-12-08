@@ -485,6 +485,34 @@ default to the default floor of the zone.
 
 At the end of the analysis, a floor hold will be set with the final floor value.
 
+This action can also have a condition specified where a group property must
+either match or not match a given value to determine if the action should run
+or not.  This requires the following in the JSON:
+
+- "condition_group": The group name
+  - For now, this group must just have a single member.
+- "condition_op": Either "equal" or "not_equal"
+- "condition_value": The value to check against
+
+For example, the following says the single member of the 'cpu 0' group must
+have its Model property be equal to "1234" for the action to run:
+```
+    "groups": [{
+        "name": "cpu 0",
+        "interface": "xyz.openbmc_project.Inventory.Decorator.Asset",
+        "property": { "name": "Model" }
+      }
+      ...
+    ],
+    ...
+    "name": "mapped_floor",
+    "key_group": "ambient temp",
+    "condition_group": "cpu 0",
+    "condition_value": "1234",
+    "condition_op": "equal",
+    ...
+```
+
 ### set_target_on_missing_owner
 
 Sets the fans to a configured target when any service owner associated to the
