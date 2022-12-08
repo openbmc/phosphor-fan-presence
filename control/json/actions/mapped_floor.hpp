@@ -101,6 +101,17 @@ using json = nlohmann::json;
  *   3. The default floor in the zone config
  *     - Chosen when when 2. would be used, but it wasn't supplied
  *
+ * This action can also have a condition specified where a group property
+ * must either match or not match a given value to determine if the
+ * action should run or not.  This requires the following in the JSON:
+ *    "condition_group": The group name
+ *       - As of now, group must just have a single member.
+ *    "condition_op": Either "equal" or "not_equal"
+ *    "condition_value": The value to check against
+ *
+ * This allows completely separate mapped_floor actions to run based on
+ * the value of a D-bus property - i.e. it allows multiple floor tables.
+ *
  * Other notes:
  *  - If a group has multiple members, they must be numeric or else
  *    the code will throw an exception.
@@ -113,7 +124,6 @@ using json = nlohmann::json;
  *    it can be:
  *            "parameter": "some_parameter"
  */
-
 class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
 {
   public:
@@ -165,6 +175,13 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
     void setFloorTable(const json& jsonObj);
 
     /**
+     * @brief Parse and set the conditions
+     *
+     * @param jsonObj - JSON object for the action
+     */
+    void setCondition(const json& jsonObj);
+
+    /**
      * @brief Applies the offset in offsetParameter to the
      *        value passed in.
      *
@@ -207,8 +224,25 @@ class MappedFloor : public ActionBase, public ActionRegister<MappedFloor>
      */
     const Group* getGroup(const std::string& name);
 
+    /**
+     * @brief Checks if the condition is met, if there is one.
+     *
+     * @return bool - False if there is a condition and it
+     *                isn't met, true otherwise.
+     */
+    bool meetsCondition();
+
     /* Key group pointer */
     const Group* _keyGroup;
+
+    /* condition group pointer */
+    const Group* _conditionGroup = nullptr;
+
+    /* Condition value */
+    PropertyVariantType _conditionValue;
+
+    /* Condition operation */
+    std::string _conditionOp;
 
     /* Optional default floor value for the action */
     std::optional<uint64_t> _defaultFloor;

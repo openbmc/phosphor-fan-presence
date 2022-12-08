@@ -59,6 +59,7 @@ MappedFloor::MappedFloor(const json& jsonObj,
     setKeyGroup(jsonObj);
     setFloorTable(jsonObj);
     setDefaultFloor(jsonObj);
+    setCondition(jsonObj);
 }
 
 const Group* MappedFloor::getGroup(const std::string& name)
@@ -178,6 +179,53 @@ void MappedFloor::setFloorTable(const json& jsonObj)
     }
 }
 
+void MappedFloor::setCondition(const json& jsonObj)
+{
+    // condition_group, condition_value, and condition_op
+    // are optional, though they must show up together.
+    // Assume if condition_group is present then they all
+    // must be.
+    if (!jsonObj.contains("condition_group"))
+    {
+        return;
+    }
+
+    _conditionGroup = getGroup(jsonObj["condition_group"].get<std::string>());
+
+    if (_conditionGroup->getMembers().size() != 1)
+    {
+        throw ActionParseError{
+            ActionBase::getName(),
+            fmt::format("condition_group {} must only have 1 member",
+                        _conditionGroup->getName())};
+    }
+
+    if (!jsonObj.contains("condition_value"))
+    {
+        throw ActionParseError{ActionBase::getName(),
+                               "Missing required 'condition_value' entry in "
+                               "mapped_floor action"};
+    }
+
+    _conditionValue = getJsonValue(jsonObj["condition_value"]);
+
+    if (!jsonObj.contains("condition_op"))
+    {
+        throw ActionParseError{ActionBase::getName(),
+                               "Missing required 'condition_op' entry in "
+                               "mapped_floor action"};
+    }
+
+    _conditionOp = jsonObj["condition_op"].get<std::string>();
+
+    if ((_conditionOp != "equal") && (_conditionOp != "not_equal"))
+    {
+        throw ActionParseError{ActionBase::getName(),
+                               "Invalid 'condition_op' value in "
+                               "mapped_floor action"};
+    }
+}
+
 /**
  * @brief Converts the variant to a double if it's a
  *        int32_t or int64_t.
@@ -254,8 +302,65 @@ std::optional<PropertyVariantType>
     return max;
 }
 
+bool MappedFloor::meetsCondition()
+{
+    if (!_conditionGroup)
+    {
+        return true;
+    }
+
+    bool meets = false;
+
+    // setCondition() also checks these
+    assert(_conditionGroup->getMembers().size() == 1);
+    assert((_conditionOp == "equal") || (_conditionOp == "not_equal"));
+
+    const auto& member = _conditionGroup->getMembers()[0];
+
+    try
+    {
+        auto value =
+            Manager::getObjValueVariant(member, _conditionGroup->getInterface(),
+                                        _conditionGroup->getProperty());
+
+        if ((_conditionOp == "equal") && (value == _conditionValue))
+        {
+            meets = true;
+        }
+        else if ((_conditionOp == "not_equal") && (value != _conditionValue))
+        {
+            meets = true;
+        }
+    }
+    catch (const std::out_of_range& e)
+    {
+        // Property not there, so consider it failing the 'equal'
+        // condition and passing the 'not_equal' condition.
+        if (_conditionOp == "equal")
+        {
+            meets = false;
+        }
+        else // not_equal
+        {
+            meets = true;
+        }
+    }
+
+    return meets;
+}
+
 void MappedFloor::run(Zone& zone)
 {
+    if (!meetsCondition())
+    {
+        // Make sure this no longer has a floor hold
+        if (zone.hasFloorHold(getUniqueName()))
+        {
+            zone.setFloorHold(getUniqueName(), 0, false);
+        }
+        return;
+    }
+
     std::optional<uint64_t> newFloor;
 
     auto keyValue = getMaxGroupValue(*_keyGroup);
