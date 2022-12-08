@@ -7,8 +7,9 @@ files and generates a set of structures for use by the fan control code.
 
 import os
 import sys
-import yaml
 from argparse import ArgumentParser
+
+import yaml
 from mako.lookup import TemplateLookup
 
 
