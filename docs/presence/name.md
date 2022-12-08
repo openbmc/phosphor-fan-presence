@@ -1,12 +1,15 @@
 # name
 
 ## Description
+
 A unique identifying name for the fan.
 
 ## Attribute Value(s)
+
 string
 
 ## Example
+
 <pre><code>
 [
   {
