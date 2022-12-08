@@ -264,6 +264,17 @@ class Zone : public ConfigBase
     void setFloorHold(const std::string& ident, uint64_t target, bool hold);
 
     /**
+     * @brief Says if the passed in identity has a floor hold
+     *
+     * @param ident - The identity key to check
+     * @return bool - If it has a floor hold or not
+     */
+    inline bool hasFloorHold(const std::string& ident) const
+    {
+        return _floorHolds.contains(ident);
+    }
+
+    /**
      * @brief Set the default floor to the given value
      *
      * @param[in] value - Value to set the default floor to
