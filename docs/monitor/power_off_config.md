@@ -28,8 +28,8 @@ nonfunctional fans.
   - Time(in seconds) to delay performing the power off after `count` instances
     of the `cause` criteria is met.
 - `state` - ["at_pgood", "runtime"] (Optional)
-  - "at_pgood" - At system pgood, the power off rule becomes valid. A power off
-    rule of _"at_pgood"_ can halt a system power on if the conditions are met.
+  - `at_pgood` - At system pgood, the power off rule becomes valid. A power off
+    rule of `at_pgood` can halt a system power on if the conditions are met.
   - "runtime" - At system runtime, the power off rule becomes valid. A power off
     rule of _"runtime"_ only goes into affect after the system reaches runtime.
     (Default)
