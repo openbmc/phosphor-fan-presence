@@ -39,6 +39,24 @@
       "message": "Nice example.",
       "revId": "160d87a3c3ff1f9c10375ebb72c18d68f960838c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "32e45d5a_c9533cba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2022-12-15T16:27:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cd8b0de_af9aaafe",
+      "revId": "160d87a3c3ff1f9c10375ebb72c18d68f960838c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
