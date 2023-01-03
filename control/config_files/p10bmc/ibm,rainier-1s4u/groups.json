@@ -344,6 +344,11 @@
         ]
     },
     {
+        "name": "altitude",
+        "service": "xyz.openbmc_project.VirtualSensor",
+        "members": ["/xyz/openbmc_project/sensors/altitude/Altitude"]
+    },
+    {
         "name": "pcie cards",
         "members": [
             "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot6/pcie_card6",
