@@ -217,8 +217,10 @@ void Manager::load()
 
         // Enable events
         _events = std::move(events);
+        FlightRecorder::instance().log("main", "Enabling events");
         std::for_each(_events.begin(), _events.end(),
                       [](const auto& entry) { entry.second->enable(); });
+        FlightRecorder::instance().log("main", "Done enabling events");
 
         _loadAllowed = false;
     }
