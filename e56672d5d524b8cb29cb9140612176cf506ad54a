@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "55b4c302_f2395298",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2023-01-12T16:36:18Z",
+      "side": 0,
+      "message": "Is this still needed as well?  Thought the Model check might be in addition to the existing JSON?",
+      "revId": "e56672d5d524b8cb29cb9140612176cf506ad54a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
