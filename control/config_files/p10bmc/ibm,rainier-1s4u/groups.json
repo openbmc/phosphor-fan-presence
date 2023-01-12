@@ -33,6 +33,12 @@
         ]
     },
     {
+        "name": "cpu 0 inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/dcm0/cpu0"
+        ]
+    },
+    {
         "name": "occ objects",
         "service": "org.open_power.OCC.Control",
         "members": [

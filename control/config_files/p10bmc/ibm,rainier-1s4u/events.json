@@ -1043,9 +1043,9 @@
                 "property": { "name": "Value" }
             },
             {
-                "name": "power mode",
-                "interface": "xyz.openbmc_project.Control.Power.Mode",
-                "property": { "name": "PowerMode" }
+                "name": "cpu 0 inventory",
+                "interface": "xyz.openbmc_project.Inventory.Decorator.Asset",
+                "property": { "name": "Model" }
             }
         ],
         "triggers": [
@@ -1074,6 +1074,9 @@
             {
                 "name": "mapped_floor",
                 "key_group": "ambient temp",
+                "condition_group": "cpu 0 inventory",
+                "condition_value": "5CF9",
+                "condition_op": "not_equal",
                 "fan_floors": [
                     {
                         // Entry valid for ambient temp < 27
@@ -1111,6 +1114,79 @@
                         // Entry valid for ambient temp < 37
                         "key": 37,
                         "default_floor": 6000,
+                        "floor_offset_parameter": "altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 9000 },
+                                    { "value": 2, "floor": 9500 },
+                                    { "value": 3, "floor": 10400 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for ambient temp < 42
+                        "key": 42,
+                        "default_floor": 8000,
+                        "floor_offset_parameter": "altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 9500 },
+                                    { "value": 2, "floor": 10400 },
+                                    { "value": 3, "floor": 10400 }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "mapped_floor",
+                "key_group": "ambient temp",
+                "condition_group": "cpu 0 inventory",
+                "condition_value": "5CF9",
+                "condition_op": "equal",
+                "fan_floors": [
+                    {
+                        // Entry valid for ambient temp < 27
+                        "key": 27,
+                        "default_floor": 5000,
+                        "floor_offset_parameter": "altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 7000 },
+                                    { "value": 2, "floor": 8000 },
+                                    { "value": 3, "floor": 9000 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for ambient temp < 32
+                        "key": 32,
+                        "default_floor": 6000,
+                        "floor_offset_parameter": "altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 8000 },
+                                    { "value": 2, "floor": 9000 },
+                                    { "value": 3, "floor": 9500 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for ambient temp < 37
+                        "key": 37,
+                        "default_floor": 7000,
                         "floor_offset_parameter": "altitude_offset",
                         "floors": [
                             {
