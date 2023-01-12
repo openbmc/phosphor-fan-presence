@@ -33,6 +33,12 @@
         ]
     },
     {
+        "name": "cpu 0 inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/dcm0/cpu0"
+        ]
+    },
+    {
         "name": "occ objects",
         "service": "org.open_power.OCC.Control",
         "members": [
@@ -369,10 +375,5 @@
             "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot10",
             "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot11"
         ]
-    },
-    {
-        "name": "power mode",
-        "service": "org.open_power.OCC.Control",
-        "members": ["/xyz/openbmc_project/control/host0/power_mode"]
     }
 ]
