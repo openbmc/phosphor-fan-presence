@@ -52,7 +52,11 @@ System::System(Mode mode, sdbusplus::bus_t& bus,
                const sdeventplus::Event& event) :
     _mode(mode),
     _bus(bus), _event(event),
+#ifdef MONITOR_USE_HOST_STATE
+    _powerState(std::make_unique<HostPowerState>(
+#else
     _powerState(std::make_unique<PGoodState>(
+#endif
         bus, std::bind(std::mem_fn(&System::powerStateChanged), this,
                        std::placeholders::_1))),
     _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
