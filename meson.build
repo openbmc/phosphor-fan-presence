@@ -96,6 +96,9 @@ conf.set(
 conf.set_quoted(
     'FAN_MONITOR_YAML_FILE', get_option('fan-monitor-yaml-file'))
 conf.set('DELAY_HOST_CONTROL', get_option('delay-host-control'))
+if get_option('monitor-use-host-state').enabled()
+    conf.set('MONITOR_USE_HOST_STATE', '')
+endif
 
 # JSON-or-YAML (all programs)
 if get_option('json-config').enabled()

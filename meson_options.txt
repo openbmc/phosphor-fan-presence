@@ -72,6 +72,11 @@ option(
     description: 'Delay host control when the power is on and the fan sensors are offline.'
 )
 
+option(
+    'monitor-use-host-state', value : 'disabled', type: 'feature',
+    description: 'Use CurrentHostState for fan monitor to decide power state.'
+)
+
 # Presence
 
 option(
