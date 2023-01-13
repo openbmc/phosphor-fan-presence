@@ -377,8 +377,23 @@ void System::powerStateChanged(bool powerStateOn)
                 return fan->numSensorsOnDBusAtPowerOn() == 0;
             }))
         {
+#if DELAY_HOST_CONTROL > 0
+            sleep(DELAY_HOST_CONTROL);
+            std::for_each(_fans.begin(), _fans.end(),
+                          [powerStateOn](auto& fan) {
+                              fan->powerStateChanged(powerStateOn);
+                          });
+            if (std::all_of(_fans.begin(), _fans.end(), [](const auto& fan) {
+                    return fan->numSensorsOnDBusAtPowerOn() == 0;
+                }))
+            {
+                handleOfflineFanController();
+                return;
+            }
+#else
             handleOfflineFanController();
             return;
+#endif
         }
 
         if (_sensorMatch.empty())
