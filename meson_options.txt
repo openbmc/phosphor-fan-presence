@@ -67,6 +67,11 @@ option(
     description: 'Maximum number of entries in the monitor log.'
 )
 
+option(
+    'delay-host-control', value : '0', type: 'integer',
+    description: 'Delay host control when the power is on and the fan sensors are offline.'
+)
+
 # Presence
 
 option(
