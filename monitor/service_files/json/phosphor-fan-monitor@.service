@@ -1,6 +1,10 @@
 [Unit]
 Description=Phosphor Fan Monitor Daemon
 After=mapper-wait@-xyz-openbmc_project-inventory.service
+Wants=obmc-mapper.target
+After=obmc-mapper.target
+Wants=xyz.openbmc_project.Logging.service
+After=xyz.openbmc_project.Logging.service
 
 [Service]
 Restart=on-failure
