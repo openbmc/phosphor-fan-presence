@@ -34,6 +34,24 @@
       "parentUuid": "55b4c302_f2395298",
       "revId": "e56672d5d524b8cb29cb9140612176cf506ad54a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f9a41a78_ccf73982",
+        "filename": "control/config_files/p10bmc/ibm,rainier-1s4u/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1046,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-01-18T22:02:37Z",
+      "side": 0,
+      "message": "ack",
+      "parentUuid": "f2d6c0d8_a5b73f46",
+      "revId": "e56672d5d524b8cb29cb9140612176cf506ad54a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
