@@ -1,0 +1,90 @@
+#include "alarm_checker.hpp"
+
+#include <fmt/format.h>
+
+#include <phosphor-logging/log.hpp>
+
+namespace sensor::monitor
+{
+using namespace phosphor::logging;
+using namespace phosphor::fan::util;
+
+const std::map<AlarmType, std::string> alarmInterfaces{
+    {AlarmType::hardShutdown,
+     "xyz.openbmc_project.Sensor.Threshold.HardShutdown"},
+    {AlarmType::softShutdown,
+     "xyz.openbmc_project.Sensor.Threshold.SoftShutdown"},
+    {AlarmType::critical, "xyz.openbmc_project.Sensor.Threshold.Critical"},
+    {AlarmType::warning, "xyz.openbmc_project.Sensor.Threshold.Warning"}};
+
+const std::map<AlarmType, std::map<AlarmDirection, std::string>>
+    alarmProperties{{AlarmType::hardShutdown,
+                     {{AlarmDirection::low, "HardShutdownAlarmLow"},
+                      {AlarmDirection::high, "HardShutdownAlarmHigh"}}},
+                    {AlarmType::softShutdown,
+                     {{AlarmDirection::low, "SoftShutdownAlarmLow"},
+                      {AlarmDirection::high, "SoftShutdownAlarmHigh"}}},
+                    {AlarmType::critical,
+                     {{AlarmDirection::low, "CriticalAlarmLow"},
+                      {AlarmDirection::high, "CriticalAlarmHigh"}}},
+                    {AlarmType::warning,
+                     {{AlarmDirection::low, "WarningAlarmLow"},
+                      {AlarmDirection::high, "WarningAlarmHigh"}}}};
+
+void AlarmChecker::checkAlarms()
+{
+    for (auto& [alarmKey, timer] : alarms)
+    {
+        const auto& [sensorPath, alarmType, alarmDirection] = alarmKey;
+        const auto& interface = alarmInterfaces.at(alarmType);
+        auto propertyName = alarmProperties.at(alarmType).at(alarmDirection);
+        bool isTriggered;
+        try
+        {
+            isTriggered = SDBusPlus::getProperty<bool>(bus, sensorPath,
+                                                       interface, propertyName);
+        }
+        catch (const DBusServiceError& e)
+        {
+            // The sensor isn't on D-Bus anymore
+            log<level::INFO>(fmt::format("No {} interface on {} anymore.",
+                                         interface, sensorPath)
+                                 .c_str());
+            continue;
+        }
+
+        std::map<std::string, std::variant<bool>> properties;
+        properties.emplace(propertyName, isTriggered);
+
+        checkAlarm(alarmType, sensorPath, properties);
+    }
+}
+
+void AlarmChecker::checkAlarm(
+    AlarmType alarmType, const std::string& sensorPath,
+    const std::map<std::string, std::variant<bool>> properties)
+{
+    auto alarmHandler = obtainAlarmHandler(alarmType);
+    alarmHandler->checkAlarm(sensorPath, properties);
+
+    return;
+}
+
+std::shared_ptr<AlarmHandler>
+    AlarmChecker::obtainAlarmHandler(AlarmType alarmType)
+{
+    switch (alarmType)
+    {
+        case AlarmType::hardShutdown:
+        case AlarmType::softShutdown:
+            return std::make_shared<ProtectionAlarmHandler>(
+                alarms, bus, event, alarmType, _powerState);
+        case AlarmType::critical:
+        case AlarmType::warning:
+            return std::make_shared<RecoveryAlarmHandler>(alarms, bus, event,
+                                                          alarmType);
+        default:
+            throw std::runtime_error("Unsupported alarmType");
+    }
+}
+} // namespace sensor::monitor
