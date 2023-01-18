@@ -14,7 +14,10 @@
  * limitations under the License.
  */
 #pragma once
+#include "alarm_checker.hpp"
+#include "alarm_handlers.hpp"
 #include "alarm_timestamps.hpp"
+#include "dbus_alarm_monitor.hpp"
 #include "power_state.hpp"
 #include "types.hpp"
 
@@ -25,6 +28,7 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <memory>
 #include <optional>
 
 namespace sensor::monitor
@@ -37,21 +41,13 @@ namespace sensor::monitor
  *   xyz.openbmc_project.Sensor.Threshold.SoftShutdown
  *   xyz.openbmc_project.Sensor.Threshold.HardShutdown
  *
- * and then watches the high and low alarm properties.  If they trip
- * the code will start a timer, at the end of which the system will
- * be shut down.  The timer values can be modified with configure.ac
- * options.  If the alarm is cleared before the timer expires, then
- * the timer is stopped.
+ * If the power state is on at the startup of sensor-monitor
+ * the code will check both high and low alarm properties
+ * on the interfaces above with AlarmChecker.
  *
- * Event logs are also created when the alarms trip and clear.
- *
- * Note that the SoftShutdown alarm code actually implements a hard shutdown.
- * This is because in the system this is being written for, the host is
- * driving the shutdown process (i.e. doing a soft shutdown) based on an alert
- * it receives via another channel.  If the soft shutdown timer expires, it
- * means that the host didn't do a soft shutdown in the time allowed and
- * now a hard shutdown is required.  This behavior could be modified with
- * compile flags if anyone needs a different behavior in the future.
+ * Then it watches multiple alarm properties by
+ * DbusAlarmMonitor, handle the alarm changes by AlarmChecker
+ * to perform system protection or recovery actions.
  */
 class ShutdownAlarmMonitor
 {
@@ -75,58 +71,12 @@ class ShutdownAlarmMonitor
 
   private:
     /**
-     * @brief The propertiesChanged handled for the shutdown interfaces.
-     *
-     * If the power is on, the new alarm values will be checked to see
-     * if the shutdown timer needs to be started or stopped.
-     */
-    void propertiesChanged(sdbusplus::message_t& message);
-
-    /**
-     * @brief Checks an alarm value to see if a shutdown timer needs
-     *        to be started or stopped.
-     *
-     * If the alarm is on and the timer isn't running, start it.
-     * If the alarm is off and the timer is running, stop it.
-     *
-     * @param[in] value - The alarm property value
-     * @param[in] alarmKey - The alarm key
-     */
-    void checkAlarm(bool value, const AlarmKey& alarmKey);
-
-    /**
-     * @brief Checks all currently known alarm properties on D-Bus.
-     *
-     * May result in starting or stopping shutdown timers.
-     */
-    void checkAlarms();
-
-    /**
-     * @brief Finds all shutdown alarm interfaces currently on
+     * @brief Finds all alarm interfaces currently on
      *        D-Bus and adds them to the alarms map.
-     */
-    void findAlarms();
-
-    /**
-     * @brief Starts a shutdown timer.
      *
-     * @param[in] alarmKey - The alarm key
+     * @param[in] types - The type of alarms to find.
      */
-    void startTimer(const AlarmKey& alarmKey);
-
-    /**
-     * @brief Stops a shutdown timer.
-     *
-     * @param[in] alarmKey - The alarm key
-     */
-    void stopTimer(const AlarmKey& alarmKey);
-
-    /**
-     * @brief The function called when the timer expires.
-     *
-     * @param[in] alarmKey - The alarm key
-     */
-    void timerExpired(const AlarmKey& alarmKey);
+    void findAlarms(std::vector<AlarmType> types);
 
     /**
      * @brief The power state changed handler.
@@ -139,42 +89,9 @@ class ShutdownAlarmMonitor
     void powerStateChanged(bool powerStateOn);
 
     /**
-     * @brief Returns the ShutdownType for the passed in interface
-     *
-     * @param[in] interface - The D-Bus interface name
-     * @return The interface, or std::nullopt if the interface isn't one
-     *         of the shutdown interfaces.
-     */
-    std::optional<ShutdownType>
-        getShutdownType(const std::string& interface) const;
-
-    /**
-     * @brief Creates a phosphor-logging event log
-     *
-     * @param[in] alarmKey - The alarm key
-     * @param[in] alarmValue - The alarm property value
-     * @param[in] sensorValue - The sensor value behind the alarm.
-     * @param[in] isPowerOffError - If this is committed at the time of the
-     *                              power off.
-     */
-    void createEventLog(const AlarmKey& alarmKey, bool alarmValue,
-                        const std::optional<double>& sensorValue,
-                        bool isPowerOffError = false);
-
-    /**
-     * @brief Create a BMC Dump
-     */
-    void createBmcDump() const;
-
-    /**
      * @brief The sdbusplus bus object
      */
-    sdbusplus::bus_t& bus;
-
-    /**
-     * @brief The sdeventplus Event object
-     */
-    sdeventplus::Event& event;
+    sdbusplus::bus_t& _bus;
 
     /**
      * @brief The PowerState object to track power state changes.
@@ -182,28 +99,21 @@ class ShutdownAlarmMonitor
     std::shared_ptr<phosphor::fan::PowerState> _powerState;
 
     /**
-     * @brief The match for properties changing on the HardShutdown
-     *        interface.
-     */
-    sdbusplus::bus::match_t hardShutdownMatch;
-
-    /**
-     * @brief The match for properties changing on the SoftShutdown
-     *        interface.
-     */
-    sdbusplus::bus::match_t softShutdownMatch;
-
-    /**
      * @brief The map of alarms.
      */
     std::map<AlarmKey, std::unique_ptr<sdeventplus::utility::Timer<
                            sdeventplus::ClockId::Monotonic>>>
-        alarms;
+        _alarms;
 
     /**
-     * @brief The running alarm timer timestamps.
+     * @brief The AlarmChecker
      */
-    AlarmTimestamps timestamps;
+    AlarmChecker _alarmChecker;
+
+    /**
+     * @brief The DbusAlarmMonitor
+     */
+    DbusAlarmMonitor _dbusAlarmMonitor;
 };
 
 } // namespace sensor::monitor
