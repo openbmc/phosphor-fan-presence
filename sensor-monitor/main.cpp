@@ -36,7 +36,7 @@ int main(int, char*[])
         std::make_shared<phosphor::fan::PGoodState>();
 #endif
 
-    ShutdownAlarmMonitor shutdownMonitor{bus, event, powerState};
+    ShutdownAlarmMonitor shutdownMonitor{powerState};
 
     ThresholdAlarmLogger logger{bus, event, powerState};
 
