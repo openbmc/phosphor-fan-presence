@@ -54,14 +54,10 @@ class AlarmTimestamps
     AlarmTimestamps(AlarmTimestamps&&) = delete;
     AlarmTimestamps& operator=(AlarmTimestamps&&) = delete;
 
-    /**
-     * @brief Constructor
-     *
-     * Loads any saved timestamps
-     */
-    AlarmTimestamps()
+    static AlarmTimestamps& instance()
     {
-        load();
+        static AlarmTimestamps theInstance;
+        return theInstance;
     }
 
     /**
@@ -174,7 +170,7 @@ class AlarmTimestamps
     /**
      * @brief Saves the timestamps map in the filesystem using cereal.
      *
-     * Since cereal doesn't understand the AlarmType or ShutdownType
+     * Since cereal doesn't understand the AlarmDirection or AlarmType
      * enums, they are converted to ints before being written.
      */
     void save()
@@ -193,8 +189,8 @@ class AlarmTimestamps
         for (const auto& [key, time] : timestamps)
         {
             times.emplace_back(std::get<std::string>(key),
-                               static_cast<int>(std::get<ShutdownType>(key)),
                                static_cast<int>(std::get<AlarmType>(key)),
+                               static_cast<int>(std::get<AlarmDirection>(key)),
                                time);
         }
 
@@ -208,9 +204,19 @@ class AlarmTimestamps
     static constexpr auto timestampsFilename = "shutdownAlarmStartTimes";
 
     /**
+     * @brief Constructor
+     *
+     * Loads any saved timestamps
+     */
+    AlarmTimestamps()
+    {
+        load();
+    }
+
+    /**
      * @brief Loads the saved timestamps from the filesystem.
      *
-     * As with save(), cereal doesn't understand the ShutdownType or AlarmType
+     * As with save(), cereal doesn't understand the AlarmType or AlarmDirection
      * enums so they have to have been saved as ints and converted.
      */
     void load()
@@ -233,11 +239,12 @@ class AlarmTimestamps
             cereal::JSONInputArchive iarchive{stream};
             iarchive(times);
 
-            for (const auto& [path, shutdownType, alarmType, timestamp] : times)
+            for (const auto& [path, alarmType, alarmDirection, timestamp] :
+                 times)
             {
                 timestamps.emplace(
-                    AlarmKey{path, static_cast<ShutdownType>(shutdownType),
-                             static_cast<AlarmType>(alarmType)},
+                    AlarmKey{path, static_cast<AlarmType>(alarmType),
+                             static_cast<AlarmDirection>(alarmDirection)},
                     timestamp);
             }
         }

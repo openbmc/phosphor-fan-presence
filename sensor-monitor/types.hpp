@@ -12,22 +12,25 @@ namespace sensor::monitor
 {
 
 /**
- * @brief The enum to represent a hard or soft shutdown
+ * @brief The enum to represent the type of Alarm
  */
-enum class ShutdownType
+enum class AlarmType
 {
-    hard,
-    soft
+    hardShutdown,
+    softShutdown,
+    critical,
+    warning
 };
 
 /**
  * @brief The enum to represent a low or high alarm
  */
-enum class AlarmType
+enum class AlarmDirection
 {
     low,
     high
 };
 
-using AlarmKey = std::tuple<std::string, ShutdownType, AlarmType>;
+using AlarmKey = std::tuple<std::string, AlarmType, AlarmDirection>;
+
 } // namespace sensor::monitor
