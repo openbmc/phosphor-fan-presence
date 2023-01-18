@@ -120,6 +120,10 @@ if get_option('use-host-power-state').enabled()
     conf.set('ENABLE_HOST_STATE', '')
 endif
 
+if get_option('enable-recovery-detection').enabled()
+    conf.set('ENABLE_RECOVERY_DETECTION', '')
+endif
+
 conf.set(
     'SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS', get_option('sensor-monitor-hard-shutdown-delay'))
 conf.set(
