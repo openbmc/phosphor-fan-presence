@@ -1,0 +1,45 @@
+{
+	"$schema": "https://json-schema.org/draft/2020-12/schema",
+	"title": "Sensor-Monitor Recovery Action Configuration File",
+	"description": "The schema for Sensor-Monitor Recovery Action Configuration File. It decides which sensors should trigger Recovery Action, and what kind of threshold should be watched.",
+	"type": "object",
+	"properties": {
+		"target": {
+			"description": "The taget/service to be executed when a Recovery Action is triggered.",
+			"type": "string"
+		},
+		"sensors": {
+			"description": "The sensors configurations which trigger Recovery Action.",
+			"type": "array",
+			"items": {
+				"type": "object",
+				"properties": {
+					"path": {
+						"description": "The sensor's path on dbus.",
+						"type": "string"
+					},
+					"thresholds": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"alarm": {
+									"description": "The alarm's property of the sensor.",
+									"type": "string"
+								},
+								"stableCountdown": {
+									"description": "The countdown time (Milliseconds) for recovery when the sensor is back to normal, make sure that the sensor is stable.",
+									"type": "integer"
+								}
+							},
+							"required": ["alarm"]
+						}
+					}
+				},
+				"required": ["path", "thresholds"]
+			},
+			"uniqueItems": true
+		}
+	},
+	"required": ["target", "sensors"]
+}
