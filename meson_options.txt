@@ -108,6 +108,12 @@ option(
 )
 
 option(
+    'sensor-monitor-config-root-path', type: 'string',
+    value: '/usr/share/phosphor-fan-presence/sensor-monitor',
+    description: 'Root path for sensor monitor config data.'
+)
+
+option(
     'sensor-monitor-hard-shutdown-delay', type: 'integer', value: 23000,
     description: 'Milliseconds to delay the alarm before hard shutdown.'
 )
@@ -127,4 +133,9 @@ option(
 option(
     'use-host-power-state', type: 'feature', value: 'disabled',
     description: 'Enable using the host power state for power state checks.'
+)
+
+option(
+    'enable-recovery-detection', type: 'feature', value: 'disabled',
+    description: 'Enable recovery detection after a Shutdown is triggered.'
 )

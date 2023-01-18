@@ -1,0 +1,14 @@
+{
+    "target": "obmc-poweron.service",
+    "sensors": [
+        {
+            "path": "/xyz/openbmc_project/sensors/temperature/NIC_TEMP_C",
+            "thresholds": [
+                {
+                    "alarm": "CriticalAlarmHigh",
+                    "stableCountdown": 5000
+                }
+            ]
+        }
+    ]
+}

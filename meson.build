@@ -119,9 +119,16 @@ endif
 # Sensor Monitor
 conf.set_quoted('SENSOR_MONITOR_PERSIST_ROOT_PATH',
                 get_option('sensor-monitor-persist-root-path'))
+conf.set_quoted('SENSOR_MONITOR_CONFIG_ROOT_PATH',
+                get_option('sensor-monitor-config-root-path'))
+
 
 if get_option('use-host-power-state').enabled()
     conf.set('ENABLE_HOST_STATE', '')
+endif
+
+if get_option('enable-recovery-detection').enabled()
+    conf.set('ENABLE_RECOVERY_DETECTION', '')
 endif
 
 conf.set(
