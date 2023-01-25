@@ -391,7 +391,7 @@ void Fan::updateState(TachSensor& sensor)
 
     getLogger().log(fmt::format(
         "Setting tach sensor {} functional state to {}. "
-        "[target = {}, input = {}, allowed range = ({} - {}) "
+        "[target = {}, actual = {}, allowed range = ({} - {}) "
         "owned = {}]",
         sensor.name(), sensor.functional(), sensor.getTarget(),
         sensor.getInput(), range.first, rangeMax, sensor.hasOwner()));
