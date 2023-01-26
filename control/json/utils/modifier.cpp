@@ -93,7 +93,7 @@ PropertyVariantType
  */
 struct MinusOperator : public Modifier::BaseOperator
 {
-    MinusOperator(const json& jsonObj) :
+    explicit MinusOperator(const json& jsonObj) :
         arg(ConfigBase::getJsonValue(jsonObj["value"]))
     {}
 
@@ -162,7 +162,7 @@ struct MinusOperator : public Modifier::BaseOperator
  */
 struct LessThanOperator : public Modifier::BaseOperator
 {
-    LessThanOperator(const json& jsonObj)
+    explicit LessThanOperator(const json& jsonObj)
     {
         const auto& valueArray = jsonObj["value"];
         if (!valueArray.is_array())

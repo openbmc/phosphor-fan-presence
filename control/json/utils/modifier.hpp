@@ -80,7 +80,7 @@ class Modifier
      *
      * @param[in] jsonObj - The JSON config object
      */
-    Modifier(const json& jsonObj);
+    explicit Modifier(const json& jsonObj);
 
     /**
      * @brief Performs the operation

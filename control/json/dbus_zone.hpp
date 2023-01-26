@@ -47,7 +47,7 @@ class DBusZone : public ThermalModeIntf
      *
      * @param[in] zone - Zone object
      */
-    DBusZone(const Zone& zone);
+    explicit DBusZone(const Zone& zone);
 
     /**
      * @brief Overridden thermalmode interface's set 'Current' property function
