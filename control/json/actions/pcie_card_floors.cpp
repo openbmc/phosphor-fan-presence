@@ -151,7 +151,6 @@ void PCIeCardFloors::execute()
 
 void PCIeCardFloors::loadCardJSON(const json& jsonObj)
 {
-    std::string baseConfigFile;
     bool useConfigSpecificFiles = false;
 
     if (jsonObj.contains("settle_time"))
