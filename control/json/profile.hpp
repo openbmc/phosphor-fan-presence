@@ -56,7 +56,7 @@ class Profile : public ConfigBase
      * @param[in] bus - sdbusplus bus object
      * @param[in] jsonObj - JSON object
      */
-    Profile(const json& jsonObj);
+    explicit Profile(const json& jsonObj);
 
     /**
      * @brief Get the active state

@@ -162,7 +162,7 @@ class Manager
      *
      * @param[in] event - sdeventplus event loop
      */
-    Manager(const sdeventplus::Event& event);
+    explicit Manager(const sdeventplus::Event& event);
 
     /**
      * @brief Callback function to handle receiving a HUP signal to reload the

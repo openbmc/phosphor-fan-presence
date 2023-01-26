@@ -61,7 +61,7 @@ class Fan : public ConfigBase
      *
      * @param[in] jsonObj - JSON object
      */
-    Fan(const json& jsonObj);
+    explicit Fan(const json& jsonObj);
 
     /**
      * @brief Get the zone

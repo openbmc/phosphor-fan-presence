@@ -58,7 +58,7 @@ class Group : public ConfigBase
      *
      * @param[in] jsonObj - JSON object
      */
-    Group(const json& jsonObj);
+    explicit Group(const json& jsonObj);
 
     /**
      * Copy Constructor

@@ -68,7 +68,7 @@ class PCIeCardMetadata
      *
      * @param[in] systemNames - The system names values
      */
-    PCIeCardMetadata(const std::vector<std::string>& systemNames);
+    explicit PCIeCardMetadata(const std::vector<std::string>& systemNames);
 
     /**
      * @brief Look up a floor index based on a card's metadata
