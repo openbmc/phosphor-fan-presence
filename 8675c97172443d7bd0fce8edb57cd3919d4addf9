@@ -1,0 +1,490 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7238262b_728e41eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "There\u0027s a docs/sensor-monitor/README.md file that would be nice if you updated.  And maybe include an example recovery JSON file so we can get a feeling for what it looks like.",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d64ab5d5_44fe6c96",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "nit: not needed",
+      "range": {
+        "startLine": 79,
+        "startChar": 1,
+        "endLine": 79,
+        "endChar": 11
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f78d9bf9_1253505c",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "I always forget about it, but sdbusplus.hpp has a static getBus() method that can return the sdbusplus::bus object, and it provides getProperties interfaces that don\u0027t take that parameter.\n\nIt would save having to store the references to it and pass it around.\nUp to you though since the original code didn\u0027t do it.",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 25
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a58fe25_14f8a8fb",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "can\u0027t this just be a part of the class?",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "47e37a18_314f2d43",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "Looks like you removed the code from ShutdownAlarmMonitor::StartTimer() that checks for any persisted timestamps that means the BMC rebooted while the shutdown timer was running.",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57fe5bec_0c4393cd",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "not necessary",
+      "range": {
+        "startLine": 178,
+        "startChar": 3,
+        "endLine": 178,
+        "endChar": 11
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e38cb81e_adab1762",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "If you return here, where does that leave the state machine?  I think i would still at least like to get a bmc dump.",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e754f730_3f584161",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "I think would prefer this to be where it was previously, which is before the hard power off call on line 218",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "292ae0d9_0f88f903",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "can use \u0027contains()\u0027 in c++20",
+      "range": {
+        "startLine": 260,
+        "startChar": 19,
+        "endLine": 260,
+        "endChar": 24
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "550a2dfd_784fbb82",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 479,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "Why are you stopping the timer if the alarm is still triggered?",
+      "range": {
+        "startLine": 479,
+        "startChar": 8,
+        "endLine": 479,
+        "endChar": 24
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d19e1876_d8aa0d77",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "This is the writeable /var/lib path.  I think instead you\u0027ll want it to go into /usr/share somewhere which is read only.",
+      "range": {
+        "startLine": 490,
+        "startChar": 30,
+        "endLine": 490,
+        "endChar": 62
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21039fbf_5a4ed763",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "nit: doesn\u0027t",
+      "range": {
+        "startLine": 495,
+        "startChar": 65,
+        "endLine": 495,
+        "endChar": 70
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4abd269c_2fe213d2",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 571,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "can use contains() here too",
+      "range": {
+        "startLine": 571,
+        "startChar": 22,
+        "endLine": 571,
+        "endChar": 28
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2028a41_f3cd7057",
+        "filename": "sensor-monitor/alarm_handlers.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "nit: recovered",
+      "range": {
+        "startLine": 198,
+        "startChar": 47,
+        "endLine": 198,
+        "endChar": 56
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c565c81_aaec3f06",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "may as well put the alarmType in here too",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "587791c5_c0ede44a",
+        "filename": "sensor-monitor/dbus_alarm_monitor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "const std::string\u0026 would be better.",
+      "range": {
+        "startLine": 40,
+        "startChar": 26,
+        "endLine": 40,
+        "endChar": 38
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4d88caf_63aa84b6",
+        "filename": "sensor-monitor/dbus_alarm_monitor.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d896d6f_f65ac73d",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "Not sure I follow what this function is doing.\n\nWhy are new recovery matches being added after the system is already shut down? Isn\u0027t that too late for recovery?  I thought recovery was just for the warning and critical thresholds.\n\nAnd won\u0027t the warning and critical matches already exist from the DBusAlarmMonitor constructor?",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "643cdbe4_dd120a64",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "And here, why stop watching the alarm, because what if it trips again?",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f0f7851_ff94ebfc",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "I\u0027d suggest leave it as one long string and just take whatever clang-format does with it.  I\u0027ve never see it add a backslash before to split it.",
+      "range": {
+        "startLine": 61,
+        "startChar": 63,
+        "endLine": 61,
+        "endChar": 64
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c204c601_fdfc7dc0",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "this field isn\u0027t use by this class.",
+      "range": {
+        "startLine": 82,
+        "startChar": 48,
+        "endLine": 82,
+        "endChar": 65
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5db641c4_f3025149",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "It would be nice to share the code that loads the file with the other class that uses it.",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21b2f8a0_618910dc",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "usually const std::string\u0026",
+      "range": {
+        "startLine": 47,
+        "startChar": 49,
+        "endLine": 47,
+        "endChar": 60
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5aa6defa_57e5fe91",
+        "filename": "sensor-monitor/domain_events.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-02-17T21:22:26Z",
+      "side": 1,
+      "message": "shouldn\u0027t these classes either override getName() or store the name in the class and return that?",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
