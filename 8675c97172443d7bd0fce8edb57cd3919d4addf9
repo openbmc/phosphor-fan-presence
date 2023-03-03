@@ -147,6 +147,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1574a42e_72418dd1",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-03-03T14:52:20Z",
+      "side": 1,
+      "message": "It\u0027s this: https://github.com/openbmc/phosphor-fan-presence/blob/cb356d48f0ab00c4f5f774c68760d2c2afd14cd8/sdbusplus.hpp#L115\n\nthat you can use like:\n\nhttps://github.com/openbmc/phosphor-fan-presence/blob/cb356d48f0ab00c4f5f774c68760d2c2afd14cd8/presence/tach.cpp#L61",
+      "parentUuid": "ea723473_9497453f",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 25
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a58fe25_14f8a8fb",
@@ -182,6 +206,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b58ced45_416dfe43",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-03-03T14:52:20Z",
+      "side": 1,
+      "message": "Hmmm, not sure I follow. Which object is deleted before the timer expires?",
+      "parentUuid": "ce20f8ec_068da4b0",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e37a18_314f2d43",
@@ -213,6 +255,24 @@
       "side": 1,
       "message": "Yes, I\u0027ve traced the code of checking the persisted timestamps, there are two scenarios that could trigger the persisted timestamps detection:\n1. A timestamp didn\u0027t been deleted since any asynchronous error, e.g., property changed rapidly.\n2. BMC reboot during the timer is running, BMC load the config and find there is a persisted timestamps (just like you mentioned).\n\n\nFor 1., I\u0027ve conducted a stress test, which toggling the alarm rapidly and see if there is any timestamp not been deleted, since the timestamps are stored in the momory for sensor-monitor, and the corresponding timestamp should be deleted when stopTimer() and expired() are called. The result is pass.\n\nFor 2., the code in alarm_timestamps shows that after conduct any manipulation like add(), erase(), the json file \"shutdownAlarmStartTimes\" should be updated, I further checked the json file, it turns out that the file has no record for the timestamps, there was no error message to hint.\n\nI do missed 2., thought there is no possible a persisted timestamps exist, I can add it back if my conslusion above is not wrong.",
       "parentUuid": "47e37a18_314f2d43",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6e44971_26dc7d1a",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-03-03T14:52:20Z",
+      "side": 1,
+      "message": "That is only there so that if there is a countdown running and the BMC gets rebooted, when sensor monitor comes back online it will pick up the countdown where it left off if there is still a threshold hit, otherwise reboots may prevent the system from shutting down in time.\n\nWhile that is unlikely to occur, it is one of our requirements.",
+      "parentUuid": "65c1b319_4e3e1a97",
       "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
