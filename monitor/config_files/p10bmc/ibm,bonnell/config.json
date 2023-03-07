@@ -15,6 +15,13 @@
                     "name": "fan0_0",
                     "threshold": 30,
                     "has_target": true
+                },
+                {
+                    "name": "fan0_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
                 }
             ]
         },
@@ -33,8 +40,35 @@
                     "name": "fan1_0",
                     "threshold": 30,
                     "has_target": true
+                },
+                {
+                    "name": "fan1_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.625,
+                    "offset": 1100
                 }
             ]
         }
-    ]
+    ],
+    "fault_handling": {
+        "num_nonfunc_rotors_before_error": 1,
+
+        "power_off_config": [
+            {
+                "type": "hard",
+                "cause": "missing_fan_frus",
+                "count": 1,
+                "delay": 25,
+                "state": "at_pgood"
+            },
+            {
+                "type": "epow",
+                "cause": "nonfunc_fan_rotors",
+                "count": 2,
+                "service_mode_delay": 60,
+                "meltdown_delay": 60
+            }
+        ]
+    }
 }
