@@ -171,6 +171,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0dc10413_c54a264f",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-03-10T08:54:54Z",
+      "side": 1,
+      "message": "Done, thanks for the hints.\nI\u0027ve removed the references of sdbusplus::dbus and sdeventplus::event in DbusAlarmMonitor, AlarmChecker, and AlarmHandlers, and use the static methods to obtain the objects.",
+      "parentUuid": "1574a42e_72418dd1",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 80,
+        "endChar": 25
+      },
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a58fe25_14f8a8fb",
@@ -224,6 +248,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5f3597f_337df423",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-03-10T08:54:54Z",
+      "side": 1,
+      "message": "I mean the instance of RecoveryAlarmHandlerwhich assigned the string \"target\" might be deleted right after the function RecoveryAlarmHandler::startTimer is successfully executed.\n\nAs a result, when the Timer expired, the timer will create another instance of RecoveryAlarmHandler and execute the function ProtectionAlarmHandler::triggerProtection, whose the string \"target\" is empty.",
+      "parentUuid": "b58ced45_416dfe43",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "47e37a18_314f2d43",
@@ -273,6 +315,24 @@
       "side": 1,
       "message": "That is only there so that if there is a countdown running and the BMC gets rebooted, when sensor monitor comes back online it will pick up the countdown where it left off if there is still a threshold hit, otherwise reboots may prevent the system from shutting down in time.\n\nWhile that is unlikely to occur, it is one of our requirements.",
       "parentUuid": "65c1b319_4e3e1a97",
+      "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "de3315e8_feae1ae0",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 10
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-03-10T08:54:54Z",
+      "side": 1,
+      "message": "Sure, I\u0027ve added it back (Can refer to startTimer() in ProtectionAlarmHandler).",
+      "parentUuid": "f6e44971_26dc7d1a",
       "revId": "8675c97172443d7bd0fce8edb57cd3919d4addf9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
