@@ -22,6 +22,30 @@
       },
       "revId": "9a1854d60e84f82999b9ded07c5191bbe4cf641e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "726ecffd_75f00b79",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 12
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-03-24T01:33:24Z",
+      "side": 1,
+      "message": "I think the ERR level log in the catch block is enough for debug purpose, and the code has printed the sensor value at the end of the method (around line 147), so I\u0027m going to just delete this. If you want to keep it for debug purpose, please let me know, thanks.",
+      "parentUuid": "7d345695_a54d04ae",
+      "range": {
+        "startLine": 91,
+        "startChar": 1,
+        "endLine": 91,
+        "endChar": 61
+      },
+      "revId": "9a1854d60e84f82999b9ded07c5191bbe4cf641e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
