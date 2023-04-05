@@ -191,6 +191,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x0614",
             "floor_index": 1
+        },
+        {
+            "name": "Dragonhead",
+            "vendor_id": "0x1077",
+            "device_id": "0x2089",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06C6",
+            "floor_index": 3
         }
     ]
 }
