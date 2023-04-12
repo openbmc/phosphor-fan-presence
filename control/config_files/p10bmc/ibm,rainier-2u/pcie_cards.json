@@ -175,6 +175,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06A4",
             "floor_index": 5
+        },
+        {
+            "name": "Lassen 2 Port IB",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1019",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0616",
+            "floor_index": 5
         }
     ]
 }
