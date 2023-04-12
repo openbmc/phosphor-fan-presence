@@ -34,6 +34,24 @@
       "parentUuid": "3191e88c_c96f182a",
       "revId": "1f8fa9e0e5e23f0e4948bab8b883b6022da7fee5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a1b2119_1173704e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-04-12T15:39:59Z",
+      "side": 1,
+      "message": "```\n$ git ls-files -z \"meson.build\" \"**/meson.build\" | xargs -0 grep \"get_.*variable\"\nmeson.build:    cli11_dep \u003d cli11_proj.get_variable(\u0027CLI11_dep\u0027)\nmeson.build:servicedir \u003d systemd_dep.get_variable(\u0027systemdsystemunitdir\u0027)\n```\n\nThere were already some _correct_ invocations that my grep wasn\u0027t intelligent enough to identify.",
+      "parentUuid": "8cbbc63c_13a9e673",
+      "revId": "1f8fa9e0e5e23f0e4948bab8b883b6022da7fee5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
