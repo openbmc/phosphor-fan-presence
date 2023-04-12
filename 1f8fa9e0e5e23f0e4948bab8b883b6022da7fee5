@@ -52,6 +52,24 @@
       "parentUuid": "8cbbc63c_13a9e673",
       "revId": "1f8fa9e0e5e23f0e4948bab8b883b6022da7fee5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e98f73b7_9c79ad90",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-04-12T15:43:01Z",
+      "side": 1,
+      "message": "Actually, we do need the version updated on this.  The code _is_ correct except that it is using a function variant that was only introduced in 0.58.  I guess I\u0027ll manually update the commit message on this one.",
+      "parentUuid": "2a1b2119_1173704e",
+      "revId": "1f8fa9e0e5e23f0e4948bab8b883b6022da7fee5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ],
   "submitRequirementResults": []
