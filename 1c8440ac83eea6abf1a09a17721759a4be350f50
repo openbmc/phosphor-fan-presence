@@ -16,6 +16,967 @@
       "message": "This is looking pretty good to me.  Could you find someone from your team to review it to make sure it does what it needs to?",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "33345b26_a1f2b5ce",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Any reason this isn\u0027t \u0027const\u0027?",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "687c271a_83cd1364",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "nit: I think _ is often used for a structured-binding name that is unused to make it more obvious.",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "683fc09f_7ceb2644",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "The only time we\u0027re using alarmInterface and alarmProperties is here.  Why keep them as two different maps?  We\u0027ve doubled the lookup time.  We could use a light-weight struct and/or tuple to store both of these in one map and cut the amount of lookup work in half.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 77
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d02d73e_38e06aa2",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "ideally we\u0027d use lg2 on a new file like this.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4667df14_afcff967",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "const\u0026 or const\u0026\u0026\n\nIt isn\u0027t obvious why we need the heavy weight of a map here when we seem to always create this with one entry on line 64.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a00e5288_4ec9d726",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Why shared_ptr?  Isn\u0027t unique_ptr sufficient here?\n\nIt isn\u0027t obvious why we\u0027re even bothering with dynamic memory here.  Couldn\u0027t checkAlarm pass in the sensorPath + properties and we call the instance directly?",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2c7ff376_16842c9a",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "nit: You may want:\n\n```\nAlarmChecker() \u003d delete;\n```",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bf5b02b7_cd38fa3f",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "I\u0027m not especially keen on this passing all the way down here as a reference.  Isn\u0027t this constructed from some JSON at some point?  Seems like we\u0027re asking for trouble to keep it as a reference.\n\nI\u0027d suggest the constructor take an r-value reference that we std::move into the class property, unless you have a strong reason for passing it (and storing it) as a reference into this class.  I think this behavior should be clearly documented in the constructor parameter.",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 62
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "70a98819_70654837",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "nit: any idea why this is prefixed with underscore?  Generally we don\u0027t use prefix/suffix like this.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "865e8a72_431c143b",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "I think you should split this into two files (at least).  One for \"ProtectionAlarmHandler\" behavior and one for \"RecoveryAlarmHandler\" behavior.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ff9a3e9_39e22d0f",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Why are we using this header?  I don\u0027t see any RTTI being used here.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "849cdcab_b227d657",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Please define these in phosphor-dbus-interfaces.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "640d608c_ffac3f57",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Why do we have an error for clear?  Shouldn\u0027t this be a Resolved setting on the existing log?  An alarm clearing isn\u0027t an error.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b989fb19_a5a2a1fb",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Prefer use of sdbusplus::client::xyz::openbmc_project::logging::Create::interface and sdbusplus::client::xyz::openbmc_project::sensor::Value::interface constants.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f9f5d2_85a28e90",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Move below at least line 87.  None of these are used prior to that.  You don\u0027t need to forward declare variables like in C.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 32
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1af69cf_7b4912f8",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Use lg2 throughout.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38940e1b_feca8c2a",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "nit: spelling",
+      "range": {
+        "startLine": 98,
+        "startChar": 42,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "606cdda6_ed9a8748",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "I\u0027m 98% sure `system_clock` is not what you want here.  I suspect you want `steady_clock`?\n\n`system_clock` is subject to adjustments based on NTP, leap seconds, etc.\n\nIt appears that shutdown_alarm_monitor.cpp is also using `system_clock` and you likely copy/pasted that code here.  It should also be fixed (in a separate commit).",
+      "range": {
+        "startLine": 105,
+        "startChar": 36,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c3ec1d9_05210314",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Please do not create a singleton type like this.  There are already other uses of this type for other purposes (the shutdown_alarm_monitor).  Find somewhere to put the instance at associated specifically to what you\u0027re trying to accomplish here.  Maybe it belongs in the AlarmChecker?",
+      "range": {
+        "startLine": 111,
+        "startChar": 29,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8c4acc8e_d244aab8",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "This is really irritating that AlarmTimestamps uses a uint64_t instead of a std::chrono type.  I have no idea without digging into other uses what time units they intend to store.  Can we refactor this?\n\nIt looks like shutdown_alarm_monitor.hpp uses milliseconds so at least you are consistent.",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 111,
+        "endChar": 78
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfb5bbd3_bbe21a0b",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Why is this a reference?  This makes me think something fishy is going on here.\n\n\n`auto original \u003d previousStartTime-\u003esecond` appears sufficient?",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7836363d_e4f567b6",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Don\u0027t use `const` for POD function parameters.",
+      "range": {
+        "startLine": 191,
+        "startChar": 44,
+        "endLine": 191,
+        "endChar": 49
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc02a384_0a1c29d9",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "nit: `auto`.  At a minimum the `const` here is extra noise.",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 14
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bbd3a539_aa6229d6",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "`else if` ?",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 6
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54f33cfc_fe6405e8",
+        "filename": "sensor-monitor/alarm_handlers.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "It isn\u0027t obvious what dynamic inheritance is doing for you.  It seems like you\u0027ve added this just because the `obtainAlarmHandler` function returns an instance and you want some common sub-type, but I don\u0027t really see a need for that.\n\nThis seems like a whole lot of object-oriented complexity to effectively create 2 function pointers in `obtainAlarmHandler` ... are you anticipating a lot more of these types in the future?",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f61f7557_127d904f",
+        "filename": "sensor-monitor/alarm_handlers.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "I\u0027ve seen this same type passed around way too many times now.  Create a `using` alias for this.",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d72a7ee_80a89212",
+        "filename": "sensor-monitor/alarm_timestamps.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Please don\u0027t add a singleton in the class itself.  Find the domain where you are trying to use this and place it there.  Otherwise, as this code is maintained you\u0027re going to end up with different uses for different purposes unknowingly colliding with each other.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1d438b9_0bb95769",
+        "filename": "sensor-monitor/alarm_timestamps.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Changing the on-disk file format without a cereal struct version change??  This seems broken.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f2e398d_4850e3ce",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "This seems a little strange to have a map above but then 2 specific members for 2 specific types and then use the `at` to get specific type-\u003einterface maps.",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 22
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca680b82_78f3076e",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Please use `sdbusRule::propertiesChangedNamespace`",
+      "range": {
+        "startLine": 25,
+        "startChar": 1,
+        "endLine": 27,
+        "endChar": 76
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1362bb71_0ee1a5e5",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "```\nauto [interface, properties] \u003d message.unpack\u003cstd::string, std::map\u003cstd::string, std::variant\u003cbool\u003e\u003e\u003e();\n```",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d53a49c_02f1acf3",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Use lg2 throughout.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "816702ef_1f4c3265",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "All this extra code seems kind of heavy considering we\u0027ve only set up the matches in the constructor of our own class.  How likely is this to not be found?  Just make the getAlarmType throw (and crash the program) if the reverse-lookup doesn\u0027t work.  This is a critical bug and not worth hiding in a log message that nobody will ever see.",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9feb6d69_74cc099f",
+        "filename": "sensor-monitor/dbus_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Can you just be explicit?  `alarmInterfaces.at(alarmType)`",
+      "range": {
+        "startLine": 66,
+        "startChar": 31,
+        "endLine": 66,
+        "endChar": 63
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9648aeb8_c258a6c8",
+        "filename": "sensor-monitor/dbus_alarm_monitor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "explicit\n\nAdd delete of default constructor.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce487055_e93482d3",
+        "filename": "sensor-monitor/dbus_alarm_monitor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Please remove all underscore prefixes on members.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d977c8d_9ae88ae6",
+        "filename": "sensor-monitor/domain_event_publisher.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Avoid singletons.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 5
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "165cbf66_d8256d9d",
+        "filename": "sensor-monitor/domain_event_publisher.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "This is quite perplexing.  We have gone through the effort of making this thing a shared-pointer, but then we are passing it by constant reference?  That implies that we know that the caller won\u0027t destruct the subscriber, but then I guess we\u0027re storing it in a vector non-reference in 59.\n\n\n```\nvoid subscribe(std::shared_ptr\u003cDomainEventSubscriber\u003e subscriber)\n{\n    subscribers.emplace_back(std::move(subscriber));\n}\n```",
+      "range": {
+        "startLine": 37,
+        "startChar": 19,
+        "endLine": 37,
+        "endChar": 64
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2993756e_b50eae78",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Please don\u0027t use RTTI.  You need to refactor the SystemProtectionTriggered and SystemRecoveryTriggered classes to encapsulate their \u0027handle\u0027 behavior in their own classes.  Pushing it into this RecoverySubscriber class is not maintainable and RTTI is generally really bad performing (both in code space and code size).",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a417c40_0ff05a2f",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "This should be moved into these classes directly.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 1
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3eaf3db6_7ab83c2d",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Can we generate these as a `map\u003cstring, std::vector\u003cAlarmType\u003e` in the `parse` function?  It seems kind of expensive to regenerate this vector on each PropertiesChanged event.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 76
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2542b839_907bb742",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Do we generally just log and continue on bad-json loading?  Feels like we might want this to crash?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 91,
+        "endChar": 9
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "54215692_4c5c6c85",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "Since SENSOR_MONITOR_CONFIG_ROOT_PATH is a #define in config.h, we really could construct the full path as a constexpr path in the header file here.  You can do string concatenation in preprocessor/constexpr expressions.",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 27
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d6bb9ca5_5ae5f4cf",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "You don\u0027t need explicit closes.  The destructor will close on its own.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1b7759e_ce49fb1a",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "explicit",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "250b6bfe_aff3be50",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "`static constexpr` ?",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 76,
+        "endChar": 9
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d06e89bd_5801a6ee",
+        "filename": "sensor-monitor/shutdown_alarm_monitor.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-07T23:01:12Z",
+      "side": 1,
+      "message": "I swear I\u0027ve seen this map 3-4 times in this commit.  Please put it in a single place.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 43,
+        "endChar": 74
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
