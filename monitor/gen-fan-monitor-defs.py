@@ -91,11 +91,11 @@ const std::vector<FanDefinition> fanDefinitions
                   (fan_data['condition'] is not None):
                   make_condition(condition::${fan_data['condition']['name']}(\
                       ${indent(getCondParams(cond=fan_data['condition']), 5)}\
-                  ))
+                  )),
                   %else:
                   {},
-                  false // set_func_on_present. Hardcoded to false.
                   %endif
+                  false // set_func_on_present. Hardcoded to false.
     },
 %endfor
 };
