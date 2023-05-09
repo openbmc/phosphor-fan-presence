@@ -271,7 +271,7 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
     for (const auto& fanDef : fanDefs)
     {
         // Check if a condition exists on the fan
-        auto condition = std::get<conditionField>(fanDef);
+        auto condition = fanDef.condition;
         if (condition)
         {
             // Condition exists, skip adding fan if it fails

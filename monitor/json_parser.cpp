@@ -153,19 +153,19 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
             targetPath = sensor["target_path"].get<std::string>();
         }
         // Factor is optional and defaults to 1
-        auto factor = 1.0;
+        double factor = 1.0;
         if (sensor.contains("factor"))
         {
             factor = sensor["factor"].get<double>();
         }
         // Offset is optional and defaults to 0
-        auto offset = 0;
+        int64_t offset = 0;
         if (sensor.contains("offset"))
         {
             offset = sensor["offset"].get<int64_t>();
         }
         // Threshold is optional and defaults to 1
-        auto threshold = 1;
+        size_t threshold = 1;
         if (sensor.contains("threshold"))
         {
             threshold = sensor["threshold"].get<size_t>();
@@ -177,9 +177,16 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
             ignoreAboveMax = sensor["ignore_above_max"].get<bool>();
         }
 
-        sensorDefs.emplace_back(std::tuple(
-            sensor["name"].get<std::string>(), sensor["has_target"].get<bool>(),
-            targetIntf, targetPath, factor, offset, threshold, ignoreAboveMax));
+        SensorDefinition def{.name = sensor["name"].get<std::string>(),
+                             .hasTarget = sensor["has_target"].get<bool>(),
+                             .targetInterface = targetIntf,
+                             .targetPath = targetPath,
+                             .factor = factor,
+                             .offset = offset,
+                             .threshold = threshold,
+                             .ignoreAboveMax = ignoreAboveMax};
+
+        sensorDefs.push_back(std::move(def));
     }
 
     return sensorDefs;
@@ -349,11 +356,21 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             setFuncOnPresent = fan["set_func_on_present"].get<bool>();
         }
 
-        fanDefs.emplace_back(std::tuple(
-            fan["inventory"].get<std::string>(), method, funcDelay, timeout,
-            deviation, nonfuncSensorsCount, monitorDelay, countInterval,
-            nonfuncRotorErrorDelay, fanMissingErrorDelay, sensorDefs, cond,
-            setFuncOnPresent));
+        FanDefinition def{.name = fan["inventory"].get<std::string>(),
+                          .method = method,
+                          .funcDelay = funcDelay,
+                          .timeout = timeout,
+                          .deviation = deviation,
+                          .numSensorFailsForNonfunc = nonfuncSensorsCount,
+                          .monitorStartDelay = monitorDelay,
+                          .countInterval = countInterval,
+                          .nonfuncRotorErrDelay = nonfuncRotorErrorDelay,
+                          .fanMissingErrDelay = fanMissingErrorDelay,
+                          .sensorList = std::move(sensorDefs),
+                          .condition = cond,
+                          .funcOnPresent = setFuncOnPresent};
+
+        fanDefs.push_back(std::move(def));
     }
 
     return fanDefs;

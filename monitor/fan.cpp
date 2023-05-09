@@ -39,12 +39,11 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
          System& system) :
     _bus(bus),
-    _name(std::get<fanNameField>(def)),
-    _deviation(std::get<fanDeviationField>(def)),
-    _numSensorFailsForNonFunc(std::get<numSensorFailsForNonfuncField>(def)),
+    _name(def.name), _deviation(def.deviation),
+    _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
     _trustManager(trust),
 #ifdef MONITOR_USE_JSON
-    _monitorDelay(std::get<monitorStartDelayField>(def)),
+    _monitorDelay(def.monitorStartDelay),
     _monitorTimer(event, std::bind(std::mem_fn(&Fan::startMonitor), this)),
 #endif
     _system(system),
@@ -59,22 +58,17 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
             rules::argNpath(0, util::INVENTORY_PATH + _name),
         std::bind(std::mem_fn(&Fan::presenceIfaceAdded), this,
                   std::placeholders::_1)),
-    _fanMissingErrorDelay(std::get<fanMissingErrDelayField>(def)),
-    _setFuncOnPresent(std::get<funcOnPresentField>(def))
+    _fanMissingErrorDelay(def.fanMissingErrDelay),
+    _setFuncOnPresent(def.funcOnPresent)
 {
     // Setup tach sensors for monitoring
-    auto& sensors = std::get<sensorListField>(def);
-    for (auto& s : sensors)
+    for (const auto& s : def.sensorList)
     {
         _sensors.emplace_back(std::make_shared<TachSensor>(
-            mode, bus, *this, std::get<sensorNameField>(s),
-            std::get<hasTargetField>(s), std::get<funcDelay>(def),
-            std::get<targetInterfaceField>(s), std::get<targetPathField>(s),
-            std::get<factorField>(s), std::get<offsetField>(s),
-            std::get<methodField>(def), std::get<thresholdField>(s),
-            std::get<ignoreAboveMaxField>(s), std::get<timeoutField>(def),
-            std::get<nonfuncRotorErrDelayField>(def),
-            std::get<countIntervalField>(def), event));
+            mode, bus, *this, s.name, s.hasTarget, def.funcDelay,
+            s.targetInterface, s.targetPath, s.factor, s.offset, def.method,
+            s.threshold, s.ignoreAboveMax, def.timeout,
+            def.nonfuncRotorErrDelay, def.countInterval, event));
 
         _trustManager->registerSensor(_sensors.back());
     }
