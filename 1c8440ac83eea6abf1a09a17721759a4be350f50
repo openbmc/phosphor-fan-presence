@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0bfb9c7_5cfc726b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll design some test cases.",
+      "parentUuid": "48bda183_109bd312",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33345b26_a1f2b5ce",
@@ -81,6 +99,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ec790e8_6a459a26",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll follow it. Just a mention, I originally prefer _ is used for private members to highlight data members (after my survey, I think it\u0027s no longer needed), I wonder know if there is a standard claims the style you said or it is just a convention, could you kindly provide some information so that I can do some research?",
+      "parentUuid": "687c271a_83cd1364",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683fc09f_7ceb2644",
@@ -94,6 +136,30 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "The only time we\u0027re using alarmInterface and alarmProperties is here.  Why keep them as two different maps?  We\u0027ve doubled the lookup time.  We could use a light-weight struct and/or tuple to store both of these in one map and cut the amount of lookup work in half.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 77
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "05ebaf0a_8a2ffa1d",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "Ack. There are some data structures are moved from the original implementation, I\u0027ll design an more effective way to search them.",
+      "parentUuid": "683fc09f_7ceb2644",
       "range": {
         "startLine": 47,
         "startChar": 0,
@@ -123,6 +189,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f8dcc15_e1a25524",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll refactor to lg2.",
+      "parentUuid": "7d02d73e_38e06aa2",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "4667df14_afcff967",
         "filename": "sensor-monitor/alarm_checker.cpp",
         "patchSetId": 13
@@ -134,6 +218,30 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "const\u0026 or const\u0026\u0026\n\nIt isn\u0027t obvious why we need the heavy weight of a map here when we seem to always create this with one entry on line 64.",
+      "range": {
+        "startLine": 73,
+        "startChar": 4,
+        "endLine": 73,
+        "endChar": 51
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc715919_929cc881",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "In these 2 scenarios, AlarmChecker.checkAlarm() will be called:\n\n1. When any host is powered on, ShutdownAlarmMonitor will check all alarms.\n   - ShutdownAlarmMonitor --\u003e AlarmChecker --\u003e AlarmHandler\n\n2. When a watched alarm property is changed. (propertiesChanged() in DbusAlarmMonitor)\n   - DbusAlarmMonitor --\u003e AlarmChecker --\u003e AlarmHandler\n\nThe map \"properties\" is created by sdbusplus::message_t\u0027s member\n```\nvoid DbusAlarmMonitor::propertiesChanged(sdbusplus::message_t\u0026 message)\n{\n    std::map\u003cstd::string, std::variant\u003cbool\u003e\u003e properties;\n    std::string interface;\n\n    message.read(interface, properties);\n    .\n    .\n    .\n```\n\nIn (2), since DbusAlarmMonitor should not know what alarm property to read (SRP: It should only watches dbus alarms), I pass the whole map down to AlarmHanlder.\n\nResponsibility of each classes:\n- DbusAlarmMonitor: Watch/Stop watching Dbus alarms.\n- AlarmChecker: Distribute which AlarmHandler should handle the alarm.\n- AlarmHandler: Handle specific alarm changing.\n\nLine 64 belongs to (1), since \"Host is powered on\" is the trigger instead of alarm changing, the property need to be queried manually, to unify the interface of checkAlarm(), It create the same map and insert the value.",
+      "parentUuid": "4667df14_afcff967",
       "range": {
         "startLine": 73,
         "startChar": 4,
@@ -157,6 +265,24 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "Why shared_ptr?  Isn\u0027t unique_ptr sufficient here?\n\nIt isn\u0027t obvious why we\u0027re even bothering with dynamic memory here.  Couldn\u0027t checkAlarm pass in the sensorPath + properties and we call the instance directly?",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d8c6315_aaa5bbb7",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "Ack. unique_ptr is sufficient here, thanks for reminding.\n\nSince it is not possible to return a refernce to a temporary object on the stack, in my knowledge, I have three options:\n\n(1) Return it by value\n(2) Return by reference via a pointer.\n(3) Return by reference what you received by reference as an argument.\n\nFor (1), there might be unecessary copy operation, depends on compiler\u0027s algorithm, and I think (3) is too C-like. I chose std::shared_ptr (2) as a result, it will be great for disscussion if you have another option.",
+      "parentUuid": "a00e5288_4ec9d726",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -430,6 +556,30 @@
         "startChar": 4,
         "endLine": 111,
         "endChar": 78
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "22398d53_0866625f",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-10T10:33:01Z",
+      "side": 1,
+      "message": "The ProtectionAlarmHandler is actually refactored from shutdown_alarm_monitor\u0027s checkAlarm() and startTimer(), it performs exactly the same behavior as the original functions, so the access of AlarmTimestamps is for the same purpose.\n\nWhen any AlarmKey is manipulated at runtime (created, deleted, etc.), the code needs to record it into AlarmTimestamps, it was not a singleton type because the original shoutdown_alarm_monitor acts like a god class, it manages everything like monitor dbus\u0027s interface, check the alarms and handle it. It just need to call the same instance at any place since AlarmTimestamps is its private member.\n\nNow I split the behavior of checkAlarm() into ProtectionAlarmHandler, for the purpose of refactoring, I want to make sure that it acts like before, to let different classes be able to access the same instance of AlarmTimestamps, I have two choices:\n\n1. Make the AlarmTimestamps into a singleton type.\n2. Pass the instance of AlarmTimestamps around.\n\nI finally chose (1) because I personally don\u0027t want to pass this kind of record-type objects around, since that is not a necessary part for the classes to work.\n\nIf the options above are still not good enough, I think I have option (3)\n\n3. Bring the conecpt of DomainEvent into AlarmTimestamps, that is, create a new DomainEventSubscriber which stores the instance of AlarmTimestamps, if any object want to record a timestamp, it only needs to publish a DomainEvent, the new subscriber will catch and record it.",
+      "parentUuid": "0c3ec1d9_05210314",
+      "range": {
+        "startLine": 111,
+        "startChar": 29,
+        "endLine": 111,
+        "endChar": 62
       },
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
