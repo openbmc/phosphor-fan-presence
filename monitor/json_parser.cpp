@@ -221,6 +221,24 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             throw std::runtime_error(msg.c_str());
         }
 
+        // Upper deviation defaults to the deviation value and
+        // can also be separately specified.
+        size_t upperDeviation = deviation;
+        if (fan.contains("upper_deviation"))
+        {
+            upperDeviation = fan["upper_deviation"].get<size_t>();
+            if (100 < upperDeviation)
+            {
+                auto msg =
+                    fmt::format("Invalid upper_deviation of {} found, must "
+                                "be between 0 and 100",
+                                upperDeviation);
+
+                log<level::ERR>(msg.c_str());
+                throw std::runtime_error(msg.c_str());
+            }
+        }
+
         // Construct the sensor definitions for this fan
         auto sensorDefs = getSensorDefs(fan["sensors"]);
 
@@ -361,6 +379,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
                           .funcDelay = funcDelay,
                           .timeout = timeout,
                           .deviation = deviation,
+                          .upperDeviation = upperDeviation,
                           .numSensorFailsForNonfunc = nonfuncSensorsCount,
                           .monitorStartDelay = monitorDelay,
                           .countInterval = countInterval,

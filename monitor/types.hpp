@@ -121,6 +121,7 @@ struct FanDefinition
     size_t funcDelay;
     size_t timeout;
     size_t deviation;
+    size_t upperDeviation;
     size_t numSensorFailsForNonfunc;
     size_t monitorStartDelay;
     size_t countInterval;
