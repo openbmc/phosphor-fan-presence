@@ -154,11 +154,10 @@ class ActionBase : public ConfigBase
      */
     virtual void addZone(Zone& zone)
     {
-        auto itZone =
-            std::find_if(_zones.begin(), _zones.end(),
-                         [&zone](std::reference_wrapper<Zone>& z) {
-                             return z.get().getName() == zone.getName();
-                         });
+        auto itZone = std::find_if(_zones.begin(), _zones.end(),
+                                   [&zone](std::reference_wrapper<Zone>& z) {
+            return z.get().getName() == zone.getName();
+        });
         if (itZone == _zones.end())
         {
             _zones.emplace_back(std::reference_wrapper<Zone>(zone));
@@ -225,8 +224,8 @@ class ActionBase : public ConfigBase
         json groups = json::array();
         std::for_each(_groups.begin(), _groups.end(),
                       [&groups](const auto& group) {
-                          groups.push_back(group.getName());
-                      });
+            groups.push_back(group.getName());
+        });
         json output;
         output["groups"] = groups;
         return output;
@@ -333,11 +332,11 @@ class ActionFactory
         else
         {
             // Construct list of available actions
-            auto acts = std::accumulate(
-                std::next(actions.begin()), actions.end(),
-                actions.begin()->first, [](auto list, auto act) {
-                    return std::move(list) + ", " + act.first;
-                });
+            auto acts = std::accumulate(std::next(actions.begin()),
+                                        actions.end(), actions.begin()->first,
+                                        [](auto list, auto act) {
+                return std::move(list) + ", " + act.first;
+            });
             log<level::ERR>(
                 fmt::format("Action '{}' is not registered", name).c_str(),
                 entry("AVAILABLE_ACTIONS=%s", acts.c_str()));

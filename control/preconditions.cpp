@@ -23,22 +23,21 @@ Action property_states_match(std::vector<PrecondGroup>&& pg,
 {
     return [pg = std::move(pg), sse = std::move(sse)](auto& zone, auto& group) {
         // Compare given precondition entries
-        auto precondState =
-            std::all_of(pg.begin(), pg.end(), [&zone](auto const& entry) {
-                try
-                {
-                    return zone.getPropValueVariant(
-                               std::get<pcPathPos>(entry),
-                               std::get<pcIntfPos>(entry),
-                               std::get<pcPropPos>(entry)) ==
-                           std::get<pcValuePos>(entry);
-                }
-                catch (const std::out_of_range& oore)
-                {
-                    // Default to property variants not equal when not found
-                    return false;
-                }
-            });
+        auto precondState = std::all_of(pg.begin(), pg.end(),
+                                        [&zone](auto const& entry) {
+            try
+            {
+                return zone.getPropValueVariant(std::get<pcPathPos>(entry),
+                                                std::get<pcIntfPos>(entry),
+                                                std::get<pcPropPos>(entry)) ==
+                       std::get<pcValuePos>(entry);
+            }
+            catch (const std::out_of_range& oore)
+            {
+                // Default to property variants not equal when not found
+                return false;
+            }
+        });
 
         if (precondState)
         {
@@ -72,10 +71,10 @@ Action services_missing_owner(std::vector<SetSpeedEvent>&& sse)
         // Set/update the services of the group
         zone.setServices(&group);
         const auto& services = zone.getGroupServices(&group);
-        auto precondState =
-            std::any_of(services.begin(), services.end(), [](const auto& s) {
-                return !std::get<hasOwnerPos>(s);
-            });
+        auto precondState = std::any_of(services.begin(), services.end(),
+                                        [](const auto& s) {
+            return !std::get<hasOwnerPos>(s);
+        });
 
         if (precondState)
         {

@@ -132,14 +132,13 @@ void ShutdownAlarmMonitor::findAlarms()
 
         auto shutdownType2 = shutdownType;
 
-        std::for_each(
-            paths.begin(), paths.end(),
-            [this, shutdownType2](const auto& path) {
-                alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::high},
-                               nullptr);
-                alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::low},
-                               nullptr);
-            });
+        std::for_each(paths.begin(), paths.end(),
+                      [this, shutdownType2](const auto& path) {
+            alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::high},
+                           nullptr);
+            alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::low},
+                           nullptr);
+        });
     }
 }
 
@@ -294,8 +293,8 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
 
             if (elapsedTime < static_cast<uint64_t>(shutdownDelay.count()))
             {
-                remainingTime =
-                    static_cast<uint64_t>(shutdownDelay.count()) - elapsedTime;
+                remainingTime = static_cast<uint64_t>(shutdownDelay.count()) -
+                                elapsedTime;
             }
 
             shutdownDelay = std::chrono::milliseconds{remainingTime};
@@ -470,9 +469,10 @@ void ShutdownAlarmMonitor::createEventLog(
 std::optional<ShutdownType>
     ShutdownAlarmMonitor::getShutdownType(const std::string& interface) const
 {
-    auto it = std::find_if(
-        shutdownInterfaces.begin(), shutdownInterfaces.end(),
-        [interface](const auto& a) { return a.second == interface; });
+    auto it = std::find_if(shutdownInterfaces.begin(), shutdownInterfaces.end(),
+                           [interface](const auto& a) {
+        return a.second == interface;
+    });
 
     if (it == shutdownInterfaces.end())
     {

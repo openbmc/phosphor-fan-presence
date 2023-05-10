@@ -127,20 +127,17 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(
                                        this, std::placeholders::_1));
 
     // check for any currently asserted threshold alarms
-    std::for_each(
-        thresholdData.begin(), thresholdData.end(),
-        [this](const auto& thresholdInterface) {
-            const auto& interface = thresholdInterface.first;
-            auto objects =
-                SDBusPlus::getSubTreeRaw(this->bus, "/", interface, 0);
-            std::for_each(objects.begin(), objects.end(),
-                          [interface, this](const auto& object) {
-                              const auto& path = object.first;
-                              const auto& service =
-                                  object.second.begin()->first;
-                              checkThresholds(interface, path, service);
-                          });
+    std::for_each(thresholdData.begin(), thresholdData.end(),
+                  [this](const auto& thresholdInterface) {
+        const auto& interface = thresholdInterface.first;
+        auto objects = SDBusPlus::getSubTreeRaw(this->bus, "/", interface, 0);
+        std::for_each(objects.begin(), objects.end(),
+                      [interface, this](const auto& object) {
+            const auto& path = object.first;
+            const auto& service = object.second.begin()->first;
+            checkThresholds(interface, path, service);
         });
+    });
 }
 
 void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message_t& msg)

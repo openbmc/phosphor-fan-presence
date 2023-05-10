@@ -73,10 +73,10 @@ Action set_speed_on_missing_owner(uint64_t speed)
         // Set/update the services of the group
         zone.setServices(&group);
         auto services = zone.getGroupServices(&group);
-        auto missingOwner =
-            std::any_of(services.begin(), services.end(), [](const auto& s) {
-                return !std::get<hasOwnerPos>(s);
-            });
+        auto missingOwner = std::any_of(services.begin(), services.end(),
+                                        [](const auto& s) {
+            return !std::get<hasOwnerPos>(s);
+        });
         if (missingOwner)
         {
             zone.setSpeed(speed);
@@ -89,20 +89,20 @@ Action set_speed_on_missing_owner(uint64_t speed)
 void set_request_speed_base_with_max(control::Zone& zone, const Group& group)
 {
     int64_t base = 0;
-    std::for_each(
-        group.begin(), group.end(), [&zone, &base](auto const& entry) {
-            try
-            {
-                auto value = zone.template getPropertyValue<int64_t>(
-                    std::get<pathPos>(entry), std::get<intfPos>(entry),
-                    std::get<propPos>(entry));
-                base = std::max(base, value);
-            }
-            catch (const std::out_of_range& oore)
-            {
-                // Property value not found, base request speed unchanged
-            }
-        });
+    std::for_each(group.begin(), group.end(),
+                  [&zone, &base](const auto& entry) {
+        try
+        {
+            auto value = zone.template getPropertyValue<int64_t>(
+                std::get<pathPos>(entry), std::get<intfPos>(entry),
+                std::get<propPos>(entry));
+            base = std::max(base, value);
+        }
+        catch (const std::out_of_range& oore)
+        {
+            // Property value not found, base request speed unchanged
+        }
+    });
     // A request speed base of 0 defaults to the current target speed
     zone.setRequestSpeedBase(base);
 }

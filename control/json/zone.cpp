@@ -161,10 +161,10 @@ void Zone::setTarget(uint64_t target)
 
 void Zone::lockFanTarget(const std::string& fname, uint64_t target)
 {
-    auto fanItr =
-        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
-            return fan->getName() == fname;
-        });
+    auto fanItr = std::find_if(_fans.begin(), _fans.end(),
+                               [&fname](const auto& fan) {
+        return fan->getName() == fname;
+    });
 
     if (_fans.end() != fanItr)
     {
@@ -181,10 +181,10 @@ void Zone::lockFanTarget(const std::string& fname, uint64_t target)
 
 void Zone::unlockFanTarget(const std::string& fname, uint64_t target)
 {
-    auto fanItr =
-        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
-            return fan->getName() == fname;
-        });
+    auto fanItr = std::find_if(_fans.begin(), _fans.end(),
+                               [&fname](const auto& fan) {
+        return fan->getName() == fname;
+    });
 
     if (_fans.end() != fanItr)
     {
@@ -232,8 +232,8 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
 
     auto itHoldMax = std::max_element(_targetHolds.begin(), _targetHolds.end(),
                                       [](const auto& aHold, const auto& bHold) {
-                                          return aHold.second < bHold.second;
-                                      });
+        return aHold.second < bHold.second;
+    });
     if (itHoldMax == _targetHolds.end())
     {
         _isActive = true;
@@ -295,8 +295,8 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
 
     auto itHoldMax = std::max_element(_floorHolds.begin(), _floorHolds.end(),
                                       [](const auto& aHold, const auto& bHold) {
-                                          return aHold.second < bHold.second;
-                                      });
+        return aHold.second < bHold.second;
+    });
     if (itHoldMax == _floorHolds.end())
     {
         if (_floor != _defaultFloor)
@@ -380,7 +380,7 @@ void Zone::requestDecrease(uint64_t targetDelta)
 void Zone::decTimerExpired()
 {
     // Check all entries are set to allow a decrease
-    auto pred = [](auto const& entry) { return entry.second; };
+    auto pred = [](const auto& entry) { return entry.second; };
     auto decAllowed = std::all_of(_decAllowed.begin(), _decAllowed.end(), pred);
 
     // Only decrease targets when allowed, a requested decrease target delta
@@ -460,11 +460,12 @@ void Zone::setInterfaces(const json& jsonObj)
         if (propFuncs == _intfPropHandlers.end())
         {
             // Construct list of available configurable interfaces
-            auto intfs = std::accumulate(
-                std::next(_intfPropHandlers.begin()), _intfPropHandlers.end(),
-                _intfPropHandlers.begin()->first, [](auto list, auto intf) {
-                    return std::move(list) + ", " + intf.first;
-                });
+            auto intfs = std::accumulate(std::next(_intfPropHandlers.begin()),
+                                         _intfPropHandlers.end(),
+                                         _intfPropHandlers.begin()->first,
+                                         [](auto list, auto intf) {
+                return std::move(list) + ", " + intf.first;
+            });
             log<level::ERR>("Configured interface not available",
                             entry("JSON=%s", interface.dump().c_str()),
                             entry("AVAILABLE_INTFS=%s", intfs.c_str()));
@@ -498,7 +499,7 @@ void Zone::setInterfaces(const json& jsonObj)
                     std::next(propFuncs->second.begin()),
                     propFuncs->second.end(), propFuncs->second.begin()->first,
                     [](auto list, auto prop) {
-                        return std::move(list) + ", " + prop.first;
+                    return std::move(list) + ", " + prop.first;
                     });
                 log<level::ERR>("Configured property not available",
                                 entry("JSON=%s", property.dump().c_str()),

@@ -125,8 +125,8 @@ struct Properties
             }
 
             // Retrieve the property's value applying any visitors necessary
-            auto value =
-                zone.getPropertyValueVisitor<T>(_intf, _prop, it->second);
+            auto value = zone.getPropertyValueVisitor<T>(_intf, _prop,
+                                                         it->second);
 
             _handler(zone, _path, _intf, _prop, std::forward<T>(value));
         }
@@ -159,23 +159,23 @@ struct Properties
     {
         std::for_each(
             group.begin(), group.end(),
-            [&zone, handler = std::move(_handler)](auto const& member) {
-                auto path = std::get<pathPos>(member);
-                auto intf = std::get<intfPos>(member);
-                auto prop = std::get<propPos>(member);
-                try
-                {
-                    auto val = zone.getPropertyByName<T>(path, intf, prop);
-                    handler(zone, path, intf, prop, std::forward<T>(val));
-                }
-                catch (const sdbusplus::exception_t&)
-                {
-                    // Property value not sent to handler
-                }
-                catch (const util::DBusError&)
-                {
-                    // Property value not sent to handler
-                }
+            [&zone, handler = std::move(_handler)](const auto& member) {
+            auto path = std::get<pathPos>(member);
+            auto intf = std::get<intfPos>(member);
+            auto prop = std::get<propPos>(member);
+            try
+            {
+                auto val = zone.getPropertyByName<T>(path, intf, prop);
+                handler(zone, path, intf, prop, std::forward<T>(val));
+            }
+            catch (const sdbusplus::exception_t&)
+            {
+                // Property value not sent to handler
+            }
+            catch (const util::DBusError&)
+            {
+                // Property value not sent to handler
+            }
             });
     }
 
@@ -276,8 +276,8 @@ struct InterfacesAdded
             }
 
             // Retrieve the property's value applying any visitors necessary
-            auto value =
-                zone.getPropertyValueVisitor<T>(_intf, _prop, itProp->second);
+            auto value = zone.getPropertyValueVisitor<T>(_intf, _prop,
+                                                         itProp->second);
 
             _handler(zone, _path, _intf, _prop, std::forward<T>(value));
         }
@@ -395,8 +395,7 @@ struct NameOwner
     NameOwner& operator=(const NameOwner&) = default;
     NameOwner(NameOwner&&) = default;
     NameOwner& operator=(NameOwner&&) = default;
-    explicit NameOwner(U&& handler) : _handler(std::forward<U>(handler))
-    {}
+    explicit NameOwner(U&& handler) : _handler(std::forward<U>(handler)) {}
 
     /** @brief Run signal handler function
      *
@@ -431,33 +430,32 @@ struct NameOwner
     {
         std::string name = "";
         bool hasOwner = false;
-        std::for_each(
-            group.begin(), group.end(),
-            [&zone, &group, &name, &hasOwner,
-             handler = std::move(_handler)](auto const& member) {
-                auto path = std::get<pathPos>(member);
-                auto intf = std::get<intfPos>(member);
-                try
+        std::for_each(group.begin(), group.end(),
+                      [&zone, &group, &name, &hasOwner,
+                       handler = std::move(_handler)](const auto& member) {
+            auto path = std::get<pathPos>(member);
+            auto intf = std::get<intfPos>(member);
+            try
+            {
+                auto servName = zone.getService(path, intf);
+                if (name != servName)
                 {
-                    auto servName = zone.getService(path, intf);
-                    if (name != servName)
-                    {
-                        name = servName;
-                        hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
-                            zone.getBus(), "org.freedesktop.DBus",
-                            "/org/freedesktop/DBus", "org.freedesktop.DBus",
-                            "NameHasOwner", name);
-                        // Update service name owner state list of a group
-                        handler(zone, name, hasOwner);
-                    }
+                    name = servName;
+                    hasOwner = util::SDBusPlus::callMethodAndRead<bool>(
+                        zone.getBus(), "org.freedesktop.DBus",
+                        "/org/freedesktop/DBus", "org.freedesktop.DBus",
+                        "NameHasOwner", name);
+                    // Update service name owner state list of a group
+                    handler(zone, name, hasOwner);
                 }
-                catch (const util::DBusMethodError& e)
-                {
-                    // Failed to get service name owner state
-                    name = "";
-                    hasOwner = false;
-                }
-            });
+            }
+            catch (const util::DBusMethodError& e)
+            {
+                // Failed to get service name owner state
+                name = "";
+                hasOwner = false;
+            }
+        });
     }
 
   private:

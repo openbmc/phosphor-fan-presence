@@ -56,8 +56,7 @@ class JournalCloser
     JournalCloser& operator=(const JournalCloser&) = delete;
     JournalCloser& operator=(JournalCloser&&) = delete;
 
-    explicit JournalCloser(sd_journal* journal) : journal{journal}
-    {}
+    explicit JournalCloser(sd_journal* journal) : journal{journal} {}
 
     ~JournalCloser()
     {

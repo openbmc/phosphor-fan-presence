@@ -71,8 +71,8 @@ void FlightRecorder::dump(json& data)
 
     std::sort(output.begin(), output.end(),
               [](const auto& left, const auto& right) {
-                  return std::get<Timepoint>(left) < std::get<Timepoint>(right);
-              });
+        return std::get<Timepoint>(left) < std::get<Timepoint>(right);
+    });
 
     auto formatTime = [](const Timepoint& tp) {
         std::stringstream ss;

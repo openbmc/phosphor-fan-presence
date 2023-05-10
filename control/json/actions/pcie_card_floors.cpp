@@ -221,8 +221,8 @@ std::optional<std::variant<int32_t, bool>>
         auto deviceID = getPCIeDeviceProperty(card, deviceIDProp);
         auto vendorID = getPCIeDeviceProperty(card, vendorIDProp);
         auto subsystemID = getPCIeDeviceProperty(card, subsystemIDProp);
-        auto subsystemVendorID =
-            getPCIeDeviceProperty(card, subsystemVendorIDProp);
+        auto subsystemVendorID = getPCIeDeviceProperty(card,
+                                                       subsystemVendorIDProp);
 
         return _cardMetadata->lookup(deviceID, vendorID, subsystemID,
                                      subsystemVendorID);
@@ -251,10 +251,10 @@ const std::string& PCIeCardFloors::getCardFromSlot(const std::string& slotPath)
 
     // Find the card that plugs in this slot based on if the
     // slot is part of the path, like slotA/cardA
-    auto it = std::find_if(
-        _pcieDevices.begin(), _pcieDevices.end(), [slotPath](const auto& path) {
-            return path.find(slotPath + '/') != std::string::npos;
-        });
+    auto it = std::find_if(_pcieDevices.begin(), _pcieDevices.end(),
+                           [slotPath](const auto& path) {
+        return path.find(slotPath + '/') != std::string::npos;
+    });
 
     if (it == _pcieDevices.end())
     {

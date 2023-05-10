@@ -227,18 +227,16 @@ class Manager
                     if (!profiles.empty() &&
                         !std::any_of(profiles.begin(), profiles.end(),
                                      [](const auto& name) {
-                                         return std::find(
-                                                    getActiveProfiles().begin(),
-                                                    getActiveProfiles().end(),
-                                                    name) !=
-                                                getActiveProfiles().end();
-                                     }))
+                        return std::find(getActiveProfiles().begin(),
+                                         getActiveProfiles().end(),
+                                         name) != getActiveProfiles().end();
+                        }))
                     {
                         continue;
                     }
                 }
-                auto obj =
-                    std::make_unique<T>(entry, std::forward<Args>(args)...);
+                auto obj = std::make_unique<T>(entry,
+                                               std::forward<Args>(args)...);
                 config.emplace(
                     std::make_pair(obj->getName(), obj->getProfiles()),
                     std::move(obj));

@@ -52,8 +52,7 @@ const std::map<std::string, rpolicyHandler> JsonConfig::_rpolicies = {
 const auto loggingPath = "/xyz/openbmc_project/logging";
 const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
-JsonConfig::JsonConfig(sdbusplus::bus_t& bus) : _bus(bus)
-{}
+JsonConfig::JsonConfig(sdbusplus::bus_t& bus) : _bus(bus) {}
 
 void JsonConfig::start()
 {
@@ -191,14 +190,14 @@ void JsonConfig::process(const json& jsonConf)
                 eeprom["bind_delay_ms"].get<size_t>());
         }
 
-        auto fan =
-            std::make_tuple(member["name"], member["path"], timeUntilError);
+        auto fan = std::make_tuple(member["name"], member["path"],
+                                   timeUntilError);
         // Create a fan object
         fans.emplace_back(std::make_tuple(fan, std::move(sensors)));
 
         // Add fan presence policy
-        auto policy =
-            getPolicy(member["rpolicy"], fans.back(), std::move(eepromDevice));
+        auto policy = getPolicy(member["rpolicy"], fans.back(),
+                                std::move(eepromDevice));
         if (policy)
         {
             policies.emplace_back(std::move(policy));
@@ -325,7 +324,6 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
 
         try
         {
-
             util::SDBusPlus::lookupAndCallMethod(
                 loggingPath, loggingCreateIface, "Create",
                 "xyz.openbmc_project.Fan.Presence.Error.GPIODeviceUnavailable",

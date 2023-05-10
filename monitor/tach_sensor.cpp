@@ -61,8 +61,8 @@ static void
 {
     try
     {
-        value =
-            util::SDBusPlus::getProperty<T>(bus, path, interface, propertyName);
+        value = util::SDBusPlus::getProperty<T>(bus, path, interface,
+                                                propertyName);
     }
     catch (const std::exception& e)
     {

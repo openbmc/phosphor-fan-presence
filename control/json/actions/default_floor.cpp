@@ -43,8 +43,8 @@ void DefaultFloor::run(Zone& zone)
         auto isMissingOwner =
             std::any_of(members.begin(), members.end(),
                         [&intf = group.getInterface()](const auto& member) {
-                            return !Manager::hasOwner(member, intf);
-                        });
+            return !Manager::hasOwner(member, intf);
+            });
         if (isMissingOwner)
         {
             zone.setFloor(zone.getDefaultFloor());

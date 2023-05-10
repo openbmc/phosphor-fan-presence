@@ -200,9 +200,10 @@ void ErrorReporter::powerStateChanged(bool powerState)
     if (powerState)
     {
         // If there are fans already missing, log it.
-        auto missing = std::count_if(
-            _fanStates.begin(), _fanStates.end(),
-            [](const auto& fanState) { return fanState.second == false; });
+        auto missing = std::count_if(_fanStates.begin(), _fanStates.end(),
+                                     [](const auto& fanState) {
+            return fanState.second == false;
+        });
 
         if (missing)
         {
@@ -211,9 +212,10 @@ void ErrorReporter::powerStateChanged(bool powerState)
         }
     }
 
-    std::for_each(
-        _fanStates.begin(), _fanStates.end(),
-        [this](const auto& fanState) { this->checkFan(fanState.first); });
+    std::for_each(_fanStates.begin(), _fanStates.end(),
+                  [this](const auto& fanState) {
+        this->checkFan(fanState.first);
+    });
 }
 
 } // namespace phosphor::fan::presence

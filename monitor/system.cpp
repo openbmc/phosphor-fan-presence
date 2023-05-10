@@ -120,8 +120,8 @@ void System::load()
         // off here.
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
-                          rule->check(PowerRuleState::runtime, _fanHealth);
-                      });
+            rule->check(PowerRuleState::runtime, _fanHealth);
+        });
     }
 
     subscribeSensorsToServices();
@@ -292,7 +292,7 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
 // to new state
 //
 void System::tachSignalOffline(sdbusplus::message_t& msg,
-                               SensorMapType const& sensorMap)
+                               const SensorMapType& sensorMap)
 {
     std::string serviceName, oldOwner, newOwner;
 
@@ -329,8 +329,8 @@ void System::updateFanHealth(const Fan& fan)
         sensorStatus.push_back(sensor->functional());
     }
 
-    _fanHealth[fan.getName()] =
-        std::make_tuple(fan.present(), std::move(sensorStatus));
+    _fanHealth[fan.getName()] = std::make_tuple(fan.present(),
+                                                std::move(sensorStatus));
 }
 
 void System::fanStatusChange(const Fan& fan, bool skipRulesCheck)
@@ -341,8 +341,8 @@ void System::fanStatusChange(const Fan& fan, bool skipRulesCheck)
     {
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
-                          rule->check(PowerRuleState::runtime, _fanHealth);
-                      });
+            rule->check(PowerRuleState::runtime, _fanHealth);
+        });
     }
 }
 
@@ -385,8 +385,8 @@ void System::powerStateChanged(bool powerStateOn)
             sleep(DELAY_HOST_CONTROL);
             std::for_each(_fans.begin(), _fans.end(),
                           [powerStateOn](auto& fan) {
-                              fan->powerStateChanged(powerStateOn);
-                          });
+                fan->powerStateChanged(powerStateOn);
+            });
             if (std::all_of(_fans.begin(), _fans.end(), [](const auto& fan) {
                     return fan->numSensorsOnDBusAtPowerOn() == 0;
                 }))
@@ -407,12 +407,12 @@ void System::powerStateChanged(bool powerStateOn)
 
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
-                          rule->check(PowerRuleState::atPgood, _fanHealth);
-                      });
+            rule->check(PowerRuleState::atPgood, _fanHealth);
+        });
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) {
-                          rule->check(PowerRuleState::runtime, _fanHealth);
-                      });
+            rule->check(PowerRuleState::runtime, _fanHealth);
+        });
     }
     else
     {

@@ -158,9 +158,8 @@ void Event::setGroups(const json& jsonObj,
                 std::make_pair(jsonGrp["name"].get<std::string>(), profiles);
             auto grpEntry = std::find_if(availGroups.begin(), availGroups.end(),
                                          [&eventProfile](const auto& grp) {
-                                             return Manager::inConfig(
-                                                 grp.first, eventProfile);
-                                         });
+                return Manager::inConfig(grp.first, eventProfile);
+            });
             if (grpEntry != availGroups.end())
             {
                 auto group = Group(*grpEntry->second);
@@ -190,13 +189,12 @@ void Event::setActions(const json& jsonObj)
             // against all zones matching the event's active profiles
             for (const auto& zone : _zones)
             {
-                configKey eventProfile =
-                    std::make_pair(zone.second->getName(), _profiles);
+                configKey eventProfile = std::make_pair(zone.second->getName(),
+                                                        _profiles);
                 auto zoneEntry = std::find_if(_zones.begin(), _zones.end(),
                                               [&eventProfile](const auto& z) {
-                                                  return Manager::inConfig(
-                                                      z.first, eventProfile);
-                                              });
+                    return Manager::inConfig(z.first, eventProfile);
+                });
                 if (zoneEntry != _zones.end())
                 {
                     actionZones.emplace_back(*zoneEntry->second);
@@ -213,9 +211,8 @@ void Event::setActions(const json& jsonObj)
                     std::make_pair(jsonZone.get<std::string>(), _profiles);
                 auto zoneEntry = std::find_if(_zones.begin(), _zones.end(),
                                               [&eventProfile](const auto& z) {
-                                                  return Manager::inConfig(
-                                                      z.first, eventProfile);
-                                              });
+                    return Manager::inConfig(z.first, eventProfile);
+                });
                 if (zoneEntry != _zones.end())
                 {
                     actionZones.emplace_back(*zoneEntry->second);
@@ -318,14 +315,14 @@ json Event::dump() const
     json actionData;
     std::for_each(_actions.begin(), _actions.end(),
                   [&actionData](const auto& action) {
-                      actionData[action->getUniqueName()] = action->dump();
-                  });
+        actionData[action->getUniqueName()] = action->dump();
+    });
 
     std::vector<std::string> groupData;
     std::for_each(_groups.begin(), _groups.end(),
                   [&groupData](const auto& group) {
-                      groupData.push_back(group.getName());
-                  });
+        groupData.push_back(group.getName());
+    });
 
     json eventData;
     eventData["groups"] = groupData;

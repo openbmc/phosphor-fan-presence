@@ -473,8 +473,8 @@ std::unique_ptr<PowerOffAction>
     }
     else
     {
-        auto msg =
-            fmt::format("Invalid 'type' entry {} in power off config", type);
+        auto msg = fmt::format("Invalid 'type' entry {} in power off config",
+                               type);
         log<level::ERR>(msg.c_str());
         throw std::runtime_error(msg.c_str());
     }

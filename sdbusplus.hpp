@@ -34,8 +34,7 @@ namespace errors = sdbusplus::xyz::openbmc_project::Common::Error;
 class DBusError : public std::runtime_error
 {
   public:
-    explicit DBusError(const std::string& msg) : std::runtime_error(msg)
-    {}
+    explicit DBusError(const std::string& msg) : std::runtime_error(msg) {}
 };
 
 /**
@@ -109,7 +108,6 @@ using Properties = std::map<std::string, std::variant<T...>>;
  */
 class SDBusPlus
 {
-
   public:
     /** @brief Get the bus connection. */
     static auto& getBus() __attribute__((pure))
@@ -346,9 +344,9 @@ class SDBusPlus
         using namespace std::literals::string_literals;
 
         auto service = getService(bus, path, interface);
-        auto msg =
-            callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
-                       "Get"s, interface, property);
+        auto msg = callMethod(bus, service, path,
+                              "org.freedesktop.DBus.Properties"s, "Get"s,
+                              interface, property);
         if (msg.is_method_error())
         {
             throw DBusPropertyError{"DBus get property failed", service, path,
@@ -378,9 +376,9 @@ class SDBusPlus
         using namespace std::literals::string_literals;
 
         auto service = getService(bus, path, interface);
-        auto msg =
-            callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
-                       "Get"s, interface, property);
+        auto msg = callMethod(bus, service, path,
+                              "org.freedesktop.DBus.Properties"s, "Get"s,
+                              interface, property);
         if (msg.is_method_error())
         {
             throw DBusPropertyError{"DBus get property variant failed", service,

@@ -13,11 +13,12 @@ using namespace phosphor::fan;
 
 Trigger timer(TimerConf&& tConf)
 {
-    return [tConf = std::move(tConf)](
-               control::Zone& zone, const std::string& name, const Group& group,
-               const std::vector<Action>& actions) {
+    return
+        [tConf = std::move(tConf)](control::Zone& zone, const std::string& name,
+                                   const Group& group,
+                                   const std::vector<Action>& actions) {
         zone.addTimer(name, group, actions, tConf);
-    };
+        };
 }
 
 Trigger signal(const std::string& match, SignalHandler&& handler)
@@ -74,9 +75,10 @@ Trigger init(MethodHandler&& handler)
         }
 
         // Run action functions for initial event state
-        std::for_each(
-            actions.begin(), actions.end(),
-            [&zone, &group](auto const& action) { action(zone, group); });
+        std::for_each(actions.begin(), actions.end(),
+                      [&zone, &group](auto const& action) {
+            action(zone, group);
+        });
     };
 }
 

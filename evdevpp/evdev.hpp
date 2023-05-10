@@ -65,8 +65,7 @@ class EvDev
     ~EvDev() = default;
 
     /** @brief Conversion constructor from evdev. */
-    explicit EvDev(EvDevPtr ptr) : evdev(ptr)
-    {}
+    explicit EvDev(EvDevPtr ptr) : evdev(ptr) {}
 
     /** @brief Get the current event state. */
     auto fetch(unsigned int type, unsigned int code)

@@ -158,7 +158,6 @@ void MappedFloor::setFloorTable(const json& jsonObj)
                 if (!floorEntry.contains("value") ||
                     !floorEntry.contains("floor"))
                 {
-
                     throw ActionParseError{
                         ActionBase::getName(),
                         "Missing value or floor entries in "
@@ -234,12 +233,11 @@ void tryConvertToDouble(PropertyVariantType& value)
 {
     std::visit(
         [&value](auto&& val) {
-            using V = std::decay_t<decltype(val)>;
-            if constexpr (std::is_same_v<int32_t, V> ||
-                          std::is_same_v<int64_t, V>)
-            {
-                value = static_cast<double>(val);
-            }
+        using V = std::decay_t<decltype(val)>;
+        if constexpr (std::is_same_v<int32_t, V> || std::is_same_v<int64_t, V>)
+        {
+            value = static_cast<double>(val);
+        }
         },
         value);
 }
@@ -264,16 +262,16 @@ std::optional<PropertyVariantType>
             {
                 std::visit(
                     [&group, this](auto&& val) {
-                        using V = std::decay_t<decltype(val)>;
-                        if constexpr (!std::is_same_v<double, V> &&
-                                      !std::is_same_v<int32_t, V> &&
-                                      !std::is_same_v<int64_t, V>)
-                        {
-                            throw std::runtime_error{fmt::format(
-                                "{}: Group {} has more than one member but "
-                                "isn't numeric",
-                                ActionBase::getName(), group.getName())};
-                        }
+                    using V = std::decay_t<decltype(val)>;
+                    if constexpr (!std::is_same_v<double, V> &&
+                                  !std::is_same_v<int32_t, V> &&
+                                  !std::is_same_v<int64_t, V>)
+                    {
+                        throw std::runtime_error{fmt::format(
+                            "{}: Group {} has more than one member but "
+                            "isn't numeric",
+                            ActionBase::getName(), group.getName())};
+                    }
                     },
                     value);
                 checked = true;

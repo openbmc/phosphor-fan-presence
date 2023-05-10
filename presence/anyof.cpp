@@ -62,10 +62,10 @@ AnyOf::AnyOf(const Fan& fan,
 void AnyOf::stateChanged(bool present, PresenceSensor& sensor)
 {
     // Find the sensor that changed state.
-    auto sit =
-        std::find_if(state.begin(), state.end(), [&sensor](const auto& s) {
-            return std::get<sensorPos>(s).get() == sensor;
-        });
+    auto sit = std::find_if(state.begin(), state.end(),
+                            [&sensor](const auto& s) {
+        return std::get<sensorPos>(s).get() == sensor;
+    });
     if (sit != state.end())
     {
         auto origState =

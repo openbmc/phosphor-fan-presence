@@ -119,10 +119,10 @@ void PCIeCardMetadata::load(const nlohmann::json& json)
         }
 
         Metadata data;
-        data.vendorID =
-            std::stoul(card.at("vendor_id").get<std::string>(), nullptr, 16);
-        data.deviceID =
-            std::stoul(card.at("device_id").get<std::string>(), nullptr, 16);
+        data.vendorID = std::stoul(card.at("vendor_id").get<std::string>(),
+                                   nullptr, 16);
+        data.deviceID = std::stoul(card.at("device_id").get<std::string>(),
+                                   nullptr, 16);
         data.subsystemVendorID = std::stoul(
             card.at("subsystem_vendor_id").get<std::string>(), nullptr, 16);
         data.subsystemID =
@@ -172,15 +172,13 @@ std::optional<std::variant<int32_t, bool>>
     log<level::DEBUG>(fmt::format("Lookup {:#x} ${:#x} {:#x} {:#x}", deviceID,
                                   vendorID, subsystemID, subsystemVendorID)
                           .c_str());
-    auto card =
-        std::find_if(_cards.begin(), _cards.end(),
-                     [&deviceID, &vendorID, &subsystemID,
-                      &subsystemVendorID](const auto& card) {
-                         return (deviceID == card.deviceID) &&
-                                (vendorID == card.vendorID) &&
-                                (subsystemID == card.subsystemID) &&
-                                (subsystemVendorID == card.subsystemVendorID);
-                     });
+    auto card = std::find_if(_cards.begin(), _cards.end(),
+                             [&deviceID, &vendorID, &subsystemID,
+                              &subsystemVendorID](const auto& card) {
+        return (deviceID == card.deviceID) && (vendorID == card.vendorID) &&
+               (subsystemID == card.subsystemID) &&
+               (subsystemVendorID == card.subsystemVendorID);
+    });
 
     if (card != _cards.end())
     {

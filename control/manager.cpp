@@ -97,8 +97,8 @@ Manager::Manager(sdbusplus::bus_t& bus, const sdeventplus::Event& event,
 
         if (std::all_of(conditions.begin(), conditions.end(),
                         [&bus](const auto& condition) {
-                            return checkCondition(bus, condition);
-                        }))
+            return checkCondition(bus, condition);
+            }))
         {
             // Create a Zone object for each zone in this group
             auto& zones = std::get<zoneListPos>(group);

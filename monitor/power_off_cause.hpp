@@ -109,10 +109,10 @@ class MissingFanFRUCause : public PowerOffCause
      */
     bool satisfied(const FanHealth& fanHealth) override
     {
-        size_t count = std::count_if(
-            fanHealth.begin(), fanHealth.end(), [](const auto& fan) {
-                return !std::get<presentHealthPos>(fan.second);
-            });
+        size_t count = std::count_if(fanHealth.begin(), fanHealth.end(),
+                                     [](const auto& fan) {
+            return !std::get<presentHealthPos>(fan.second);
+        });
 
         return count >= _count;
     }
@@ -152,15 +152,13 @@ class NonfuncFanRotorCause : public PowerOffCause
      */
     bool satisfied(const FanHealth& fanHealth) override
     {
-        size_t count = std::accumulate(
-            fanHealth.begin(), fanHealth.end(), 0,
-            [](int sum, const auto& fan) {
-                const auto& tachs = std::get<sensorFuncHealthPos>(fan.second);
-                auto nonFuncTachs =
-                    std::count_if(tachs.begin(), tachs.end(),
-                                  [](bool tach) { return !tach; });
-                return sum + nonFuncTachs;
-            });
+        size_t count = std::accumulate(fanHealth.begin(), fanHealth.end(), 0,
+                                       [](int sum, const auto& fan) {
+            const auto& tachs = std::get<sensorFuncHealthPos>(fan.second);
+            auto nonFuncTachs = std::count_if(tachs.begin(), tachs.end(),
+                                              [](bool tach) { return !tach; });
+            return sum + nonFuncTachs;
+        });
 
         return count >= _count;
     }

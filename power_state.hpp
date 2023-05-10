@@ -57,8 +57,7 @@ class PowerState
      *
      * Callbacks can be added with addCallback().
      */
-    PowerState() : _bus(util::SDBusPlus::getBus())
-    {}
+    PowerState() : _bus(util::SDBusPlus::getBus()) {}
 
     /**
      * @brief Adds a function to call when the power state changes
@@ -324,7 +323,6 @@ class HostPowerState : public PowerState
      */
     void readHostState()
     {
-
         std::string hostStatePath;
         std::string hostStateService;
         std::string hostService = "xyz.openbmc_project.State.Host";

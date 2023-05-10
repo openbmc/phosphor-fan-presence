@@ -74,8 +74,7 @@ class PresenceSensor
      *
      * Provide a default noop implementation.
      */
-    virtual void fail()
-    {}
+    virtual void fail() {}
 
     friend bool operator==(const PresenceSensor& l, const PresenceSensor& r);
 

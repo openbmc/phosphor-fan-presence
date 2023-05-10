@@ -215,7 +215,6 @@ class AlarmTimestamps
      */
     void load()
     {
-
         std::vector<std::tuple<std::string, int, int, uint64_t>> times;
 
         std::filesystem::path path =

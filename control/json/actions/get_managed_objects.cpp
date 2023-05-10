@@ -60,11 +60,11 @@ void GetManagedObjects::run(Zone& zone)
                 }
 
                 // Look for the ObjectManager as an ancestor of the path.
-                auto hasObjMgr = std::any_of(
-                    objMgrPaths.begin(), objMgrPaths.end(),
-                    [member](const auto& path) {
-                        return member.find(path) != std::string::npos;
-                    });
+                auto hasObjMgr = std::any_of(objMgrPaths.begin(),
+                                             objMgrPaths.end(),
+                                             [member](const auto& path) {
+                    return member.find(path) != std::string::npos;
+                });
 
                 if (!hasObjMgr || services.find(service) == services.end())
                 {
@@ -99,8 +99,8 @@ void GetManagedObjects::setZones(
         // Add zone to _actions
         std::for_each(_actions.begin(), _actions.end(),
                       [&zone](std::unique_ptr<ActionBase>& action) {
-                          action->addZone(zone);
-                      });
+            action->addZone(zone);
+        });
     }
 }
 

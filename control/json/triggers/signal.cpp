@@ -101,8 +101,8 @@ void propertiesChanged(Manager* mgr, const Group& group,
     {
         // Setup property changed signal handler on the group member's
         // property
-        const auto match =
-            rules::propertiesChanged(member, group.getInterface());
+        const auto match = rules::propertiesChanged(member,
+                                                    group.getInterface());
         SignalPkg signalPkg = {Handlers::propertiesChanged,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
@@ -125,8 +125,8 @@ void interfacesAdded(Manager* mgr, const Group& group, TriggerActions& actions,
     for (const auto& member : group.getMembers())
     {
         // Setup interfaces added signal handler on the group member
-        const auto match =
-            rules::interfacesAdded() + rules::argNpath(0, member);
+        const auto match = rules::interfacesAdded() +
+                           rules::argNpath(0, member);
         SignalPkg signalPkg = {Handlers::interfacesAdded,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
@@ -149,8 +149,8 @@ void interfacesRemoved(Manager* mgr, const Group& group,
     for (const auto& member : group.getMembers())
     {
         // Setup interfaces removed signal handler on the group member
-        const auto match =
-            rules::interfacesRemoved() + rules::argNpath(0, member);
+        const auto match = rules::interfacesRemoved() +
+                           rules::argNpath(0, member);
         SignalPkg signalPkg = {Handlers::interfacesRemoved,
                                SignalObject(std::cref(member),
                                             std::cref(group.getInterface()),
@@ -250,11 +250,11 @@ enableTrigger
     if (subscriber == signals.end())
     {
         // Construct list of available signals
-        auto availSignals =
-            std::accumulate(std::next(signals.begin()), signals.end(),
-                            signals.begin()->first, [](auto list, auto signal) {
-                                return std::move(list) + ", " + signal.first;
-                            });
+        auto availSignals = std::accumulate(
+            std::next(signals.begin()), signals.end(), signals.begin()->first,
+            [](auto list, auto signal) {
+            return std::move(list) + ", " + signal.first;
+            });
         auto msg =
             fmt::format("Event '{}' requires a supported signal given to be "
                         "triggered by signal, available signals: {}",
@@ -270,8 +270,8 @@ enableTrigger
         TriggerActions signalActions;
         std::for_each(actions.begin(), actions.end(),
                       [&signalActions](auto& action) {
-                          signalActions.emplace_back(std::ref(action));
-                      });
+            signalActions.emplace_back(std::ref(action));
+        });
         for (const auto& group : groups)
         {
             // Call signal subscriber for each group

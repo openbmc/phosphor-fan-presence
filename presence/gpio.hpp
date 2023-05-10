@@ -141,8 +141,7 @@ class NullGpio : public PresenceSensor
      *
      * Required to conform to interface
      */
-    void stop() override
-    {}
+    void stop() override {}
 
     /**
      * @brief Check the sensor.
@@ -159,8 +158,7 @@ class NullGpio : public PresenceSensor
      *
      * @param[in] fanInventoryPath - The fan inventory D-Bus object path.
      */
-    void logConflict(const std::string& /*fanInventoryPath*/) const override
-    {}
+    void logConflict(const std::string& /*fanInventoryPath*/) const override {}
 
   private:
     /**
