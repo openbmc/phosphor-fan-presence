@@ -123,6 +123,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ed17392_06edc323",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-10T11:43:41Z",
+      "side": 1,
+      "message": "https://github.com/openbmc/docs/blob/master/cpp-style-and-conventions.md#naming-conventions\n\n\u003e We generally abstain from any prefix or suffix on names.",
+      "parentUuid": "5ec790e8_6a459a26",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 31
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683fc09f_7ceb2644",
@@ -283,6 +307,24 @@
       "side": 1,
       "message": "Ack. unique_ptr is sufficient here, thanks for reminding.\n\nSince it is not possible to return a refernce to a temporary object on the stack, in my knowledge, I have three options:\n\n(1) Return it by value\n(2) Return by reference via a pointer.\n(3) Return by reference what you received by reference as an argument.\n\nFor (1), there might be unecessary copy operation, depends on compiler\u0027s algorithm, and I think (3) is too C-like. I chose std::shared_ptr (2) as a result, it will be great for disscussion if you have another option.",
       "parentUuid": "a00e5288_4ec9d726",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "83047b24_090b56b0",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-10T11:43:41Z",
+      "side": 1,
+      "message": "Considering that `obtainAlarmHandler(...)-\u003echeckAlarm(...)` is only called on line 75/76, I don\u0027t think we really need an instance passed back.  Instead of having this function do a type -\u003e AlarmHandler conversion, have it take a (type, path) and call the AlarmHandler directly.",
+      "parentUuid": "0d8c6315_aaa5bbb7",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -575,6 +617,30 @@
       "side": 1,
       "message": "The ProtectionAlarmHandler is actually refactored from shutdown_alarm_monitor\u0027s checkAlarm() and startTimer(), it performs exactly the same behavior as the original functions, so the access of AlarmTimestamps is for the same purpose.\n\nWhen any AlarmKey is manipulated at runtime (created, deleted, etc.), the code needs to record it into AlarmTimestamps, it was not a singleton type because the original shoutdown_alarm_monitor acts like a god class, it manages everything like monitor dbus\u0027s interface, check the alarms and handle it. It just need to call the same instance at any place since AlarmTimestamps is its private member.\n\nNow I split the behavior of checkAlarm() into ProtectionAlarmHandler, for the purpose of refactoring, I want to make sure that it acts like before, to let different classes be able to access the same instance of AlarmTimestamps, I have two choices:\n\n1. Make the AlarmTimestamps into a singleton type.\n2. Pass the instance of AlarmTimestamps around.\n\nI finally chose (1) because I personally don\u0027t want to pass this kind of record-type objects around, since that is not a necessary part for the classes to work.\n\nIf the options above are still not good enough, I think I have option (3)\n\n3. Bring the conecpt of DomainEvent into AlarmTimestamps, that is, create a new DomainEventSubscriber which stores the instance of AlarmTimestamps, if any object want to record a timestamp, it only needs to publish a DomainEvent, the new subscriber will catch and record it.",
       "parentUuid": "0c3ec1d9_05210314",
+      "range": {
+        "startLine": 111,
+        "startChar": 29,
+        "endLine": 111,
+        "endChar": 62
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c83f8409_a992354d",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-10T11:43:41Z",
+      "side": 1,
+      "message": "I\u0027d prefer (3) over a singleton.  Define some class which holds the state associated with alarm handling, including the timestamp-tracker, and pass that down to subscribers as necessary.",
+      "parentUuid": "22398d53_0866625f",
       "range": {
         "startLine": 111,
         "startChar": 29,
