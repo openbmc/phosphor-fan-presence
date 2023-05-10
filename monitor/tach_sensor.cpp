@@ -207,11 +207,12 @@ uint64_t TachSensor::getTarget() const
 }
 
 std::pair<uint64_t, std::optional<uint64_t>>
-    TachSensor::getRange(const size_t deviation) const
+    TachSensor::getRange(const size_t lowerDeviation,
+                         const size_t upperDeviation) const
 {
     // Determine min/max range applying the deviation
-    uint64_t min = getTarget() * (100 - deviation) / 100;
-    std::optional<uint64_t> max = getTarget() * (100 + deviation) / 100;
+    uint64_t min = getTarget() * (100 - lowerDeviation) / 100;
+    std::optional<uint64_t> max = getTarget() * (100 + upperDeviation) / 100;
 
     // Adjust the min/max range by applying the factor & offset
     min = min * _factor + _offset;

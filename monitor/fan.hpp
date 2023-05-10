@@ -258,6 +258,13 @@ class Fan
     const size_t _deviation;
 
     /**
+     * @brief The percentage that the input speed must be above
+     *        the target speed to be considered an error.
+     *        Between 0 and 100.
+     */
+    const size_t _upperDeviation;
+
+    /**
      * The number of sensors that must be nonfunctional at the
      * same time in order for the fan to be set to nonfunctional
      * in the inventory.

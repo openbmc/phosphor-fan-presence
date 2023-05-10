@@ -55,6 +55,7 @@ const std::vector<FanDefinition> fanDefinitions
                   ${fan_data.get('functional_delay', 0)},
                   ${fan_data.get('allowed_out_of_range_time', {})},
                   ${fan_data['deviation']},
+                  ${fan_data.get('upper_deviation', fan_data['deviation'])},
                   ${fan_data['num_sensors_nonfunc_for_fan_nonfunc']},
                   0, // Monitor start delay - not used in YAML configs
                   0, // Count interval - not used in YAML configs

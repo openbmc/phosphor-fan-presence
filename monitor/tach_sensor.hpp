@@ -344,12 +344,16 @@ class TachSensor
     /**
      * @brief Get the current allowed range of speeds
      *
-     * @param[in] deviation - The configured deviation(in percent) allowed
+     * @param[in] lowerDeviation - The configured lower deviation(in percent)
+     *                             allowed
+     * @param[in] upperDeviation - The configured upper deviation(in percent)
+     *                             allowed
      *
      * @return pair - Min/Max(optional) range of speeds allowed
      */
     std::pair<uint64_t, std::optional<uint64_t>>
-        getRange(const size_t deviation) const;
+        getRange(const size_t lowerDeviation,
+                 const size_t upperDeviation) const;
 
     /**
      * @brief Processes the current state of the sensor

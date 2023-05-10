@@ -40,6 +40,7 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          System& system) :
     _bus(bus),
     _name(def.name), _deviation(def.deviation),
+    _upperDeviation(def.upperDeviation),
     _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
     _trustManager(trust),
 #ifdef MONITOR_USE_JSON
@@ -359,7 +360,7 @@ bool Fan::outOfRange(const TachSensor& sensor)
     }
 
     auto actual = static_cast<uint64_t>(sensor.getInput());
-    auto range = sensor.getRange(_deviation);
+    auto range = sensor.getRange(_deviation, _upperDeviation);
 
     return ((actual < range.first) ||
             (range.second && actual > range.second.value()));
@@ -372,7 +373,7 @@ void Fan::updateState(TachSensor& sensor)
         return;
     }
 
-    auto range = sensor.getRange(_deviation);
+    auto range = sensor.getRange(_deviation, _upperDeviation);
     std::string rangeMax = "NoMax";
     if (range.second)
     {
