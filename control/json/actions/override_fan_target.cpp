@@ -21,6 +21,7 @@
 #include "group.hpp"
 
 #include <fmt/format.h>
+#include <fmt/ranges.h>
 
 #include <nlohmann/json.hpp>
 
@@ -82,8 +83,8 @@ void OverrideFanTarget::lockFans(Zone& zone)
 {
     if (!_locked)
     {
-        record("Adding fan target lock of " + std::to_string(_target) +
-               " on zone " + zone.getName());
+        record(fmt::format("Adding fan target lock of {} on fans {} zone {}",
+                           _target, _fans, zone.getName()));
 
         for (auto& fan : _fans)
         {
@@ -96,8 +97,8 @@ void OverrideFanTarget::lockFans(Zone& zone)
 
 void OverrideFanTarget::unlockFans(Zone& zone)
 {
-    record("Un-locking fan target " + std::to_string(_target) + " on zone " +
-           zone.getName());
+    record(fmt::format("Un-locking fan target {} on fans {} zone {}", _target,
+                       _fans, zone.getName()));
 
     // unlock all fans in this instance
     for (auto& fan : _fans)
