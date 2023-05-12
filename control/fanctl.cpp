@@ -48,6 +48,7 @@ struct DumpQuery
     std::string section;
     std::string name;
     std::vector<std::string> properties;
+    bool dump{false};
 };
 
 /**
@@ -735,6 +736,8 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
                              "Optional dump file entry name (or substring)");
     cmdDumpQuery->add_option("-p, --properties", dq.properties,
                              "Optional list of dump file property names");
+    cmdDumpQuery->add_flag("-d, --dump", dq.dump,
+                           "Force a dump before the query");
 #endif
 }
 
@@ -795,6 +798,10 @@ int main(int argc, char* argv[])
 #ifdef CONTROL_USE_JSON
         else if (app.got_subcommand("query_dump"))
         {
+            if (dq.dump)
+            {
+                dumpFanControl();
+            }
             queryDumpFile(dq);
         }
 #endif
