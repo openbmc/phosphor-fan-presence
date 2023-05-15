@@ -53,6 +53,23 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c25aa305_980e1237",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-15T09:34:51Z",
+      "side": 1,
+      "message": "Hi, Patrick, I\u0027ve modified some code based on the suggestions, but I encountered some side effects during my regression test: the executable file \"sensor-monitor\" was not installed to /usr/bin.\n\nThe root cause is that we\u0027ve modified the target of pkg_postinst() from sensor-monitor to ${PN}-sensor-monitor (Link: https://gerrit.openbmc.org/c/openbmc/openbmc/+/60040), but the install command in phosphor-fan_git.bb still targets to sensor-monitor, I\u0027ll push a fix to openbmc\u0027s repo, and update my new patchset into this change ASAP.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "33345b26_a1f2b5ce",
@@ -325,6 +342,24 @@
       "side": 1,
       "message": "Considering that `obtainAlarmHandler(...)-\u003echeckAlarm(...)` is only called on line 75/76, I don\u0027t think we really need an instance passed back.  Instead of having this function do a type -\u003e AlarmHandler conversion, have it take a (type, path) and call the AlarmHandler directly.",
       "parentUuid": "0d8c6315_aaa5bbb7",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80f55096_01b109b5",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-15T09:34:51Z",
+      "side": 1,
+      "message": "Sure, I think it is better, working on it.",
+      "parentUuid": "83047b24_090b56b0",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -756,6 +791,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d416de6_8fb501b6",
+        "filename": "sensor-monitor/alarm_handlers.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-15T09:34:51Z",
+      "side": 1,
+      "message": "\u003e The ProtectionAlarmHandler is actually refactored from shutdown_alarm_monitor\u0027s checkAlarm() and startTimer(), it performs exactly the same behavior as the original functions...\n\nAlarmHandler\u0027s responsiblity is handling some alarms on Dbus, the ProtectionAlarmHandler handles HardShutdown/SoftShutdown, the RecoveryAlarmHandler handles SystemRecovery, if there are any other alarm need to be handle, such as triggering power capping when CPU throttle, over current protection, it can be easily extend to support a new handler.",
+      "parentUuid": "54f33cfc_fe6405e8",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f61f7557_127d904f",
         "filename": "sensor-monitor/alarm_handlers.hpp",
         "patchSetId": 13
@@ -790,6 +843,24 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "Please don\u0027t add a singleton in the class itself.  Find the domain where you are trying to use this and place it there.  Otherwise, as this code is maintained you\u0027re going to end up with different uses for different purposes unknowingly colliding with each other.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f9c5752_332231fd",
+        "filename": "sensor-monitor/alarm_timestamps.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-15T09:34:51Z",
+      "side": 1,
+      "message": "Sure, I\u0027ll adopt option (3) that we discussed above.\n\n\u003e Bring the conecpt of DomainEvent into AlarmTimestamps, that is, create a new DomainEventSubscriber which stores the instance of AlarmTimestamps, if any object want to record a timestamp, it only needs to publish a DomainEvent, the new subscriber will catch and record it.",
+      "parentUuid": "0d72a7ee_80a89212",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
