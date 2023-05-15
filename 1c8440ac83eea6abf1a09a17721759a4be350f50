@@ -509,6 +509,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8b9992fe_6d4df9dc",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-05-15T21:36:49Z",
+      "side": 1,
+      "message": "Is that existing behavior?  It seems odd to me to have an event for the disappearance of an error condition.  Isn\u0027t that the sort of thing that the \"Resolved\" field is for?\n\nI guess this was copy/pasted from shutdown_alarm_monitor.",
+      "parentUuid": "01f364b2_c92dc3c2",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b989fb19_a5a2a1fb",
         "filename": "sensor-monitor/alarm_handlers.cpp",
         "patchSetId": 13
