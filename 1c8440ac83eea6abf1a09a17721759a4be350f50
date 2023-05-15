@@ -491,6 +491,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "01f364b2_c92dc3c2",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-05-15T17:54:58Z",
+      "side": 1,
+      "message": "We still need informational event logs for the clear.",
+      "parentUuid": "640d608c_ffac3f57",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b989fb19_a5a2a1fb",
         "filename": "sensor-monitor/alarm_handlers.cpp",
         "patchSetId": 13
