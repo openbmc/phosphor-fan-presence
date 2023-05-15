@@ -865,6 +865,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea10bf3f_9f817e8b",
+        "filename": "sensor-monitor/alarm_timestamps.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-05-15T15:59:47Z",
+      "side": 1,
+      "message": "the timestamps are that so if a shutdown countdown is in progress and the app/BMC gets reboot, the countdown is resumed.  So anywhere you move that Timestamps class to, the shutdown code needs to be able to get the values.  I\u0027m not sure that would be possible if  it were just another subscriber?\n\nAgain, this only needs to be in the Protection stuff, so maybe just make it local there?",
+      "parentUuid": "7f9c5752_332231fd",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a1d438b9_0bb95769",
