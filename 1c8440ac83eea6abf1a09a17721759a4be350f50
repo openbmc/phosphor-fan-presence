@@ -164,6 +164,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f7f2e47_f102cfa6",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done, there is no data would be updated, \u0027const\u0027 is added.",
+      "parentUuid": "33345b26_a1f2b5ce",
+      "range": {
+        "startLine": 44,
+        "startChar": 9,
+        "endLine": 44,
+        "endChar": 14
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "683fc09f_7ceb2644",
@@ -364,6 +388,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "72181596_7c73357d",
+        "filename": "sensor-monitor/alarm_checker.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "I found that it won\u0027t be able to effectively show the characteristic of polymorphism if I just call the instance, here is the modified code of AlarmChecker::checkAlarm():\n```\nswitch(alarmType)     \n{\n    case AlarmType::hardShutdown:\n    case AlarmType::softShutdown:\n        ProtectionAlarmHandler(alarms, alarmType, _powerState)\n            .checkAlarm(sensorPath, properties);\n    case AlarmType::critical:\n    case AlarmType::warning:\n        RecoveryAlarmHandler(alarms, alarmType)\n            .checkAlarm(sensorPath, properties);\n}\n```\n\nIf I keep the type convertion (i.e., keep obtainAlarmHandler() or just squash it into AlarmChecker::checkAlarm), I only need to modify the code of instance allocation when there is a new AlarmHandler is extended, and the code can clearly express that the AlarmsHandlers are sibling.\n\nSurely I will change the type from shared_ptr to unique_ptr. What do you think about this?\n\n*P.s. The demo code of \"squash obtainAlarmHandler() into AlarmChecker::checkAlarm\"*\n```\nstd::unique_ptr\u003cAlarmHandler\u003e alarmHandler;\n\nswitch (alarmType)\n{\n    case AlarmType::hardShutdown:\n    case AlarmType::softShutdown:\n        alarmHandler \u003d std::make_unique\u003cProtectionAlarmHandler\u003e(alarms, alarmType,\n                                                        _powerState);\n    case AlarmType::critical:\n    case AlarmType::warning:\n        alarmHandler \u003d std::make_unique\u003cRecoveryAlarmHandler\u003e(alarms, alarmType);\n    default:\n        throw std::runtime_error(\"Unsupported alarmType\");\n}\n\nalarmHandler-\u003echeckAlarm(sensorPath, properties);\n```",
+      "parentUuid": "80f55096_01b109b5",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2c7ff376_16842c9a",
@@ -377,6 +419,24 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "nit: You may want:\n\n```\nAlarmChecker() \u003d delete;\n```",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a76aea7_28732c26",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c7ff376_16842c9a",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -421,6 +481,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d48a9ef_db4cce42",
+        "filename": "sensor-monitor/alarm_checker.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done, removed.",
+      "parentUuid": "70a98819_70654837",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "865e8a72_431c143b",
@@ -451,6 +529,24 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "Why are we using this header?  I don\u0027t see any RTTI being used here.",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aee5be65_ab92f3da",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ff9a3e9_39e22d0f",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -623,6 +719,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f306151_d49a4214",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38940e1b_feca8c2a",
+      "range": {
+        "startLine": 98,
+        "startChar": 42,
+        "endLine": 98,
+        "endChar": 49
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "606cdda6_ed9a8748",
@@ -636,6 +756,30 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "I\u0027m 98% sure `system_clock` is not what you want here.  I suspect you want `steady_clock`?\n\n`system_clock` is subject to adjustments based on NTP, leap seconds, etc.\n\nIt appears that shutdown_alarm_monitor.cpp is also using `system_clock` and you likely copy/pasted that code here.  It should also be fixed (in a separate commit).",
+      "range": {
+        "startLine": 105,
+        "startChar": 36,
+        "endLine": 105,
+        "endChar": 48
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc57cd08_7e16b76e",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Since it is existing behavior, I actually don\u0027t know the reason of taking use of ```system_clock```, @Matt could you kindly explain for us?",
+      "parentUuid": "606cdda6_ed9a8748",
       "range": {
         "startLine": 105,
         "startChar": 36,
@@ -757,6 +901,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "74731302_32fbbbfa",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done, it is copy/pasted from shutdown_alarm_monitor, ```auto``` is sufficient here.",
+      "parentUuid": "bfb5bbd3_bbe21a0b",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7836363d_e4f567b6",
@@ -770,6 +932,30 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "Don\u0027t use `const` for POD function parameters.",
+      "range": {
+        "startLine": 191,
+        "startChar": 44,
+        "endLine": 191,
+        "endChar": 49
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f670d485_cf156406",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7836363d_e4f567b6",
       "range": {
         "startLine": 191,
         "startChar": 44,
@@ -803,6 +989,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ddf8b14_5cab6361",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc02a384_0a1c29d9",
+      "range": {
+        "startLine": 206,
+        "startChar": 4,
+        "endLine": 206,
+        "endChar": 14
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bbd3a539_aa6229d6",
@@ -816,6 +1026,30 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "`else if` ?",
+      "range": {
+        "startLine": 210,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 6
+      },
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07f71fca_03542982",
+        "filename": "sensor-monitor/alarm_handlers.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbd3a539_aa6229d6",
       "range": {
         "startLine": 210,
         "startChar": 4,
@@ -1120,6 +1354,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c327606f_95b1827f",
+        "filename": "sensor-monitor/dbus_alarm_monitor.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce487055_e93482d3",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5d977c8d_9ae88ae6",
@@ -1292,6 +1544,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0be44198_b751094d",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6bb9ca5_5ae5f4cf",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1b7759e_ce49fb1a",
@@ -1305,6 +1575,24 @@
       "writtenOn": "2023-05-07T23:01:12Z",
       "side": 1,
       "message": "explicit",
+      "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8712559_d8e23fac",
+        "filename": "sensor-monitor/domain_event_subscribers/recovery_subscriber.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2023-05-16T10:14:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1b7759e_ce49fb1a",
       "revId": "1c8440ac83eea6abf1a09a17721759a4be350f50",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
