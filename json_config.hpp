@@ -17,14 +17,13 @@
 
 #include "sdbusplus.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/source/signal.hpp>
 
 #include <filesystem>
+#include <format>
 #include <fstream>
 
 namespace phosphor::fan
@@ -69,7 +68,7 @@ class NoConfigFound : public std::runtime_error
      * @param[in] details - Additional details
      */
     NoConfigFound(const std::string& appName, const std::string& fileName) :
-        std::runtime_error(fmt::format("JSON configuration not found [Could "
+        std::runtime_error(std::format("JSON configuration not found [Could "
                                        "not find fan {} conf file {}]",
                                        appName, fileName)
                                .c_str())
@@ -271,7 +270,7 @@ class JsonConfig
         if (!confFile.empty() && fs::exists(confFile))
         {
             log<level::INFO>(
-                fmt::format("Loading configuration from {}", confFile.string())
+                std::format("Loading configuration from {}", confFile.string())
                     .c_str());
             file.open(confFile);
             try
@@ -282,12 +281,12 @@ class JsonConfig
             catch (const std::exception& e)
             {
                 log<level::ERR>(
-                    fmt::format(
+                    std::format(
                         "Failed to parse JSON config file: {}, error: {}",
                         confFile.string(), e.what())
                         .c_str());
                 throw std::runtime_error(
-                    fmt::format(
+                    std::format(
                         "Failed to parse JSON config file: {}, error: {}",
                         confFile.string(), e.what())
                         .c_str());
@@ -295,11 +294,11 @@ class JsonConfig
         }
         else
         {
-            log<level::ERR>(fmt::format("Unable to open JSON config file: {}",
+            log<level::ERR>(std::format("Unable to open JSON config file: {}",
                                         confFile.string())
                                 .c_str());
             throw std::runtime_error(
-                fmt::format("Unable to open JSON config file: {}",
+                std::format("Unable to open JSON config file: {}",
                             confFile.string())
                     .c_str());
         }

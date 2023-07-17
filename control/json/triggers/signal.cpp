@@ -21,13 +21,12 @@
 #include "handlers.hpp"
 #include "trigger_aliases.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus/match.hpp>
 
 #include <algorithm>
+#include <format>
 #include <functional>
 #include <iterator>
 #include <memory>
@@ -206,7 +205,7 @@ void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
             // TODO How to handle this? Create timer to keep checking for
             // service to appear? When to stop checking?
             log<level::ERR>(
-                fmt::format("Events will not be triggered by name owner changed"
+                std::format("Events will not be triggered by name owner changed"
                             "signals from service of path {}, interface {}",
                             member, group.getInterface())
                     .c_str());
@@ -256,7 +255,7 @@ enableTrigger
             return std::move(list) + ", " + signal.first;
             });
         auto msg =
-            fmt::format("Event '{}' requires a supported signal given to be "
+            std::format("Event '{}' requires a supported signal given to be "
                         "triggered by signal, available signals: {}",
                         eventName, availSignals);
         log<level::ERR>(msg.c_str());

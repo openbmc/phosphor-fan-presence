@@ -309,7 +309,7 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
         namespace sdlogging = sdbusplus::xyz::openbmc_project::Logging::server;
 
         log<level::ERR>(
-            fmt::format(
+            std::format(
                 "Error creating Gpio device bridge, hardware not detected: {}",
                 e.what())
                 .c_str());
@@ -331,7 +331,7 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
         }
         catch (const util::DBusError& e)
         {
-            log<level::ERR>(fmt::format("Call to create an error log for "
+            log<level::ERR>(std::format("Call to create an error log for "
                                         "presence-sensor failure failed: {}",
                                         e.what())
                                 .c_str());

@@ -17,11 +17,12 @@
 
 #include "shutdown_alarm_monitor.hpp"
 
-#include <fmt/format.h>
 #include <unistd.h>
 
 #include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
+
+#include <format>
 
 namespace sensor::monitor
 {
@@ -159,7 +160,7 @@ void ShutdownAlarmMonitor::checkAlarms()
         catch (const DBusServiceError& e)
         {
             // The sensor isn't on D-Bus anymore
-            log<level::INFO>(fmt::format("No {} interface on {} anymore.",
+            log<level::INFO>(std::format("No {} interface on {} anymore.",
                                          interface, sensorPath)
                                  .c_str());
             continue;
@@ -280,7 +281,7 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
     {
         const uint64_t& original = previousStartTime->second;
 
-        log<level::INFO>(fmt::format("Found previously running {} timer "
+        log<level::INFO>(std::format("Found previously running {} timer "
                                      "for {} with start time {}",
                                      propertyName, sensorPath, original)
                              .c_str());
@@ -302,7 +303,7 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
         else
         {
             log<level::WARNING>(
-                fmt::format(
+                std::format(
                     "Restarting {} shutdown timer for {} for full "
                     "time because saved time {} is after current time {}",
                     propertyName, sensorPath, original, now)
@@ -311,7 +312,7 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
     }
 
     log<level::INFO>(
-        fmt::format("Starting {}ms {} shutdown timer due to sensor {} value {}",
+        std::format("Starting {}ms {} shutdown timer due to sensor {} value {}",
                     shutdownDelay.count(), propertyName, sensorPath, *value)
             .c_str());
 
@@ -345,7 +346,7 @@ void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
     createEventLog(alarmKey, false, value);
 
     log<level::INFO>(
-        fmt::format("Stopping {} shutdown timer due to sensor {} value {}",
+        std::format("Stopping {} shutdown timer due to sensor {} value {}",
                     propertyName, sensorPath, value)
             .c_str());
 
@@ -368,7 +369,7 @@ void ShutdownAlarmMonitor::createBmcDump() const
     }
     catch (const std::exception& e)
     {
-        auto message = fmt::format(
+        auto message = std::format(
             "Caught exception while creating BMC dump: {}", e.what());
 
         log<level::ERR>(message.c_str());
@@ -384,7 +385,7 @@ void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
                                                 valueProperty);
 
     log<level::ERR>(
-        fmt::format(
+        std::format(
             "The {} shutdown timer expired for sensor {}, shutting down",
             propertyName, sensorPath)
             .c_str());

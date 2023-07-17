@@ -15,12 +15,11 @@
  */
 #include "flight_recorder.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
 #include <ctime>
+#include <format>
 #include <iomanip>
 #include <sstream>
 #include <vector>

@@ -20,12 +20,11 @@
 #include "action.hpp"
 #include "group.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 #include <variant>
 
 namespace phosphor::fan::control::json
@@ -117,7 +116,7 @@ void NetTargetIncrease::run(Zone& zone)
                 {
                     // Unsupported group member type for this action
                     log<level::ERR>(
-                        fmt::format("Action {}: Unsupported group member type "
+                        std::format("Action {}: Unsupported group member type "
                                     "given. [object = {} : {} : {}]",
                                     ActionBase::getName(), member,
                                     group.getInterface(), group.getProperty())

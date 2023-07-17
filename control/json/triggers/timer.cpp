@@ -19,12 +19,11 @@
 #include "group.hpp"
 #include "trigger_aliases.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <chrono>
+#include <format>
 
 namespace phosphor::fan::control::json::trigger::timer
 {
@@ -52,7 +51,7 @@ TimerType getType(const json& jsonObj)
     else
     {
         log<level::ERR>(
-            fmt::format("Timer trigger type '{}' is not supported", type)
+            std::format("Timer trigger type '{}' is not supported", type)
                 .c_str(),
             entry("AVAILABLE_TYPES={oneshot, repeating}"));
         throw std::runtime_error("Unsupported timer trigger type given");

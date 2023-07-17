@@ -18,10 +18,9 @@
 #include "logging.hpp"
 #include "rpolicy.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
 
+#include <format>
 #include <string>
 #include <tuple>
 #include <vector>
@@ -75,7 +74,7 @@ bool Tach::start()
 
             std::get<double>(s) = 0;
             log<level::INFO>(
-                fmt::format("Unable to read fan tach sensor {}", tachPath)
+                std::format("Unable to read fan tach sensor {}", tachPath)
                     .c_str());
         }
     }
@@ -144,7 +143,7 @@ void Tach::propertiesChanged(size_t sensor,
 
 void Tach::logConflict(const std::string& fanInventoryPath) const
 {
-    getLogger().log(fmt::format(
+    getLogger().log(std::format(
         "Tach sensor presence detect for fan {} said not present but "
         "other methods indicated present",
         fanInventoryPath));

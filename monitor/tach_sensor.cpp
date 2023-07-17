@@ -19,12 +19,11 @@
 #include "sdbusplus.hpp"
 #include "utility.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/elog.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <filesystem>
+#include <format>
 #include <functional>
 #include <optional>
 #include <utility>
@@ -321,7 +320,7 @@ void TachSensor::startTimer(TimerMode mode)
     if (!timerRunning() || mode != _timerMode)
     {
         log<level::DEBUG>(
-            fmt::format("Start timer({}) on tach sensor {}. [delay = {}s]",
+            std::format("Start timer({}) on tach sensor {}. [delay = {}s]",
                         static_cast<int>(mode), _name,
                         duration_cast<seconds>(getDelay(mode)).count())
                 .c_str());
@@ -357,7 +356,7 @@ void TachSensor::setCounter(bool count)
         {
             ++_counter;
             log<level::DEBUG>(
-                fmt::format(
+                std::format(
                     "Incremented error counter on {} to {} (threshold {})",
                     _name, _counter, _threshold)
                     .c_str());
@@ -369,7 +368,7 @@ void TachSensor::setCounter(bool count)
         {
             --_counter;
             log<level::DEBUG>(
-                fmt::format(
+                std::format(
                     "Decremented error counter on {} to {} (threshold {})",
                     _name, _counter, _threshold)
                     .c_str());
@@ -382,7 +381,7 @@ void TachSensor::startCountTimer()
     if (_countTimer)
     {
         log<level::DEBUG>(
-            fmt::format("Starting count timer on sensor {}", _name).c_str());
+            std::format("Starting count timer on sensor {}", _name).c_str());
         _countTimer->restart(std::chrono::seconds(_countInterval));
     }
 }
@@ -392,7 +391,7 @@ void TachSensor::stopCountTimer()
     if (_countTimer && _countTimer->isEnabled())
     {
         log<level::DEBUG>(
-            fmt::format("Stopping count timer on tach sensor {}.", _name)
+            std::format("Stopping count timer on tach sensor {}.", _name)
                 .c_str());
         _countTimer->setEnabled(false);
     }

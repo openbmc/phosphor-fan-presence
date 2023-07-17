@@ -21,12 +21,11 @@
 #include "sdbusplus.hpp"
 #include "trigger_aliases.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 #include <iterator>
 #include <memory>
 #include <numeric>
@@ -109,7 +108,7 @@ void nameHasOwner(Manager* mgr, const Group& group)
                 // TODO How to handle this? Create timer to keep checking for
                 // object/service to appear? When to stop checking?
                 log<level::ERR>(
-                    fmt::format(
+                    std::format(
                         "Unable to get service name for path {}, interface {}",
                         member, intf)
                         .c_str());
@@ -128,7 +127,7 @@ void nameHasOwner(Manager* mgr, const Group& group)
                 // Path and/or interface configured does not exist on dbus?
                 // TODO How to handle this? Create timer to keep checking for
                 // object/service to appear? When to stop checking?
-                log<level::ERR>(fmt::format("Unable to get service({}) owner "
+                log<level::ERR>(std::format("Unable to get service({}) owner "
                                             "state for path {}, interface {}",
                                             servName, member, intf)
                                     .c_str());
@@ -167,7 +166,7 @@ enableTrigger triggerInit(const json& jsonObj, const std::string& /*eventName*/,
                 return std::move(list) + ", " + method.first;
             });
             auto msg =
-                fmt::format("Event '{}' requires a supported method given to "
+                std::format("Event '{}' requires a supported method given to "
                             "be init driven, available methods: {}",
                             eventName, availMethods);
             log<level::ERR>(msg.c_str());

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <fcntl.h>
-#include <fmt/format.h>
 #include <unistd.h>
 
 #include <phosphor-logging/elog-errors.hpp>
@@ -9,6 +8,8 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+
+#include <format>
 
 using namespace phosphor::logging;
 using InternalFailure =
@@ -66,7 +67,7 @@ class FileDescriptor
         if (-1 == fd)
         {
             log<level::ERR>(
-                fmt::format("Failed to open file device path {}", pathname)
+                std::format("Failed to open file device path {}", pathname)
                     .c_str());
             elog<InternalFailure>();
         }

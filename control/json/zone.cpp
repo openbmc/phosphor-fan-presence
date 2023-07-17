@@ -81,7 +81,7 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
         if (_defaultFloor > _ceiling)
         {
             log<level::ERR>(
-                fmt::format("Configured default_floor({}) above ceiling({}), "
+                std::format("Configured default_floor({}) above ceiling({}), "
                             "setting default floor to ceiling",
                             _defaultFloor, _ceiling)
                     .c_str());
@@ -149,7 +149,7 @@ void Zone::setTarget(uint64_t target)
         {
             FlightRecorder::instance().log(
                 "zone-set-target" + getName(),
-                fmt::format("Set target {} (from {})", target, _target));
+                std::format("Set target {} (from {})", target, _target));
         }
         _target = target;
         for (auto& fan : _fans)
@@ -173,7 +173,7 @@ void Zone::lockFanTarget(const std::string& fname, uint64_t target)
     else
     {
         log<level::DEBUG>(
-            fmt::format("Configured fan {} not found in zone {} to lock target",
+            std::format("Configured fan {} not found in zone {} to lock target",
                         fname, getName())
                 .c_str());
     }
@@ -196,7 +196,7 @@ void Zone::unlockFanTarget(const std::string& fname, uint64_t target)
     else
     {
         log<level::DEBUG>(
-            fmt::format(
+            std::format(
                 "Configured fan {} not found in zone {} to unlock target",
                 fname, getName())
                 .c_str());
@@ -214,7 +214,7 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-target"s + getName(),
-                fmt::format("{} is removing target hold", ident));
+                std::format("{} is removing target hold", ident));
         }
     }
     else
@@ -224,7 +224,7 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-target"s + getName(),
-                fmt::format("{} is setting target hold to {}", ident, target));
+                std::format("{} is setting target hold to {}", ident, target));
         }
         _targetHolds[ident] = target;
         _isActive = false;
@@ -244,7 +244,7 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-target"s + getName(),
-                fmt::format("Settings fans to target hold of {}",
+                std::format("Settings fans to target hold of {}",
                             itHoldMax->second));
         }
 
@@ -272,7 +272,7 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-floor"s + getName(),
-                fmt::format("{} is removing floor hold", ident));
+                std::format("{} is removing floor hold", ident));
         }
     }
     else
@@ -282,7 +282,7 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-floor"s + getName(),
-                fmt::format("{} is setting floor hold to {}", ident, target));
+                std::format("{} is setting floor hold to {}", ident, target));
         }
         _floorHolds[ident] = target;
     }
@@ -303,7 +303,7 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-floor"s + getName(),
-                fmt::format("No set floor exists, using default floor",
+                std::format("No set floor exists, using default floor",
                             _defaultFloor));
         }
         _floor = _defaultFloor;
@@ -314,7 +314,7 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
         {
             FlightRecorder::instance().log(
                 "zone-floor"s + getName(),
-                fmt::format("Setting new floor to {}", itHoldMax->second));
+                std::format("Setting new floor to {}", itHoldMax->second));
         }
         _floor = itHoldMax->second;
     }

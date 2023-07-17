@@ -17,11 +17,12 @@
 
 #include "sdbusplus.hpp"
 
-#include <fmt/format.h>
 #include <unistd.h>
 
 #include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
+
+#include <format>
 
 namespace sensor::monitor
 {
@@ -284,7 +285,7 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
     if (properties == it->second.end())
     {
         log<level::INFO>(
-            fmt::format("Could not find {} in threshold alarms map",
+            std::format("Could not find {} in threshold alarms map",
                         alarmProperty)
                 .c_str());
         return;
@@ -301,7 +302,7 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
         ad.emplace("SENSOR_VALUE", std::to_string(sensorValue));
 
         log<level::INFO>(
-            fmt::format("Threshold Event {} {} = {} (sensor value {})",
+            std::format("Threshold Event {} {} = {} (sensor value {})",
                         sensorPath, alarmProperty, alarmValue, sensorValue)
                 .c_str());
     }
@@ -311,7 +312,7 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
         // not be in the mapper yet.  This could only happen if the sensor
         // application was started up after this one and the value exceeded the
         // threshold immediately.
-        log<level::INFO>(fmt::format("Threshold Event {} {} = {}", sensorPath,
+        log<level::INFO>(std::format("Threshold Event {} {} = {}", sensorPath,
                                      alarmProperty, alarmValue)
                              .c_str());
     }
@@ -341,7 +342,7 @@ std::string ThresholdAlarmLogger::getSensorType(std::string sensorPath)
     if ((sensorPath.back() == '/') || (pos == std::string::npos))
     {
         log<level::ERR>(
-            fmt::format("Cannot get sensor type from sensor path {}",
+            std::format("Cannot get sensor type from sensor path {}",
                         sensorPath)
                 .c_str());
         throw std::runtime_error("Invalid sensor path");

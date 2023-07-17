@@ -2,8 +2,6 @@
 
 #include "sdbusplus.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/State/Host/server.hpp>
 

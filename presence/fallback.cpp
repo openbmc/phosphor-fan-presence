@@ -18,11 +18,10 @@
 #include "fan.hpp"
 #include "psensor.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 
 namespace phosphor
 {
@@ -54,7 +53,7 @@ void Fallback::stateChanged(bool present, PresenceSensor& /*sensor*/)
                 ++activeSensor;
             }
             phosphor::logging::log<phosphor::logging::level::INFO>(
-                fmt::format("Using backup presence sensor for fan {}",
+                std::format("Using backup presence sensor for fan {}",
                             std::get<1>(fan))
                     .c_str());
             activeSensor = it;
@@ -92,7 +91,7 @@ void Fallback::monitor()
     if (activeSensor != sensors.begin())
     {
         phosphor::logging::log<phosphor::logging::level::INFO>(
-            fmt::format("Using backup presence sensor for fan {}",
+            std::format("Using backup presence sensor for fan {}",
                         std::get<1>(fan))
                 .c_str());
     }

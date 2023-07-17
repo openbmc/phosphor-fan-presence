@@ -17,7 +17,7 @@
 
 #include "../manager.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 namespace phosphor::fan::control::json
 {
@@ -69,7 +69,7 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
                                   !std::is_same_v<int32_t, V> &&
                                   !std::is_same_v<int64_t, V>)
                     {
-                        log<level::ERR>(fmt::format("{}: Group {} has more "
+                        log<level::ERR>(std::format("{}: Group {} has more "
                                                     "than one member but "
                                                     "isn't numeric",
                                                     ActionBase::getName(),
@@ -105,7 +105,7 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
         catch (const std::exception& e)
         {
             log<level::ERR>(
-                fmt::format("{}: Could not perform modifier operation: {}",
+                std::format("{}: Could not perform modifier operation: {}",
                             ActionBase::getName(), e.what())
                     .c_str());
             return;

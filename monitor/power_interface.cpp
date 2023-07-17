@@ -49,7 +49,7 @@ void PowerInterface::executeHardPowerOff()
     catch (const std::exception& e)
     {
         getLogger().log(
-            fmt::format("Caught exception while creating BMC dump: {}",
+            std::format("Caught exception while creating BMC dump: {}",
                         e.what()),
             Logger::error);
     }

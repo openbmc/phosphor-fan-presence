@@ -22,13 +22,12 @@
 #include "sdbusplus.hpp"
 #include "trigger.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 
 #include <algorithm>
+#include <format>
 #include <optional>
 
 namespace phosphor::fan::control::json
@@ -148,7 +147,7 @@ void Event::setGroups(const json& jsonObj,
         {
             if (!jsonGrp.contains("name"))
             {
-                auto msg = fmt::format("Missing required group name attribute");
+                auto msg = std::format("Missing required group name attribute");
                 log<level::ERR>(msg.c_str(),
                                 entry("JSON=%s", jsonGrp.dump().c_str()));
                 throw std::runtime_error(msg.c_str());
@@ -222,7 +221,7 @@ void Event::setActions(const json& jsonObj)
         if (actionZones.empty())
         {
             log<level::DEBUG>(
-                fmt::format("No zones configured for event {}'s action {} "
+                std::format("No zones configured for event {}'s action {} "
                             "based on the active profile(s)",
                             getName(), jsonAct["name"].get<std::string>())
                     .c_str());
@@ -260,7 +259,7 @@ void Event::setActions(const json& jsonObj)
         if (actionGroups.empty() && _groups.empty())
         {
             log<level::DEBUG>(
-                fmt::format("No groups configured for event {}'s action {} "
+                std::format("No groups configured for event {}'s action {} "
                             "based on the active profile(s)",
                             getName(), jsonAct["name"].get<std::string>())
                     .c_str());
@@ -303,7 +302,7 @@ void Event::setTriggers(const json& jsonObj)
                     return std::move(list) + ", " + trig.first;
                 });
             log<level::ERR>(
-                fmt::format("Trigger '{}' is not recognized", tClass).c_str(),
+                std::format("Trigger '{}' is not recognized", tClass).c_str(),
                 entry("AVAILABLE_TRIGGERS=%s", availTrigs.c_str()));
             throw std::runtime_error("Unsupported trigger class name given");
         }

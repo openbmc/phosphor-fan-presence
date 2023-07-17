@@ -18,8 +18,6 @@
 
 #include "types.hpp"
 
-#include <fmt/format.h>
-
 #include <cereal/archives/json.hpp>
 #include <cereal/types/string.hpp>
 #include <cereal/types/tuple.hpp>
@@ -29,6 +27,7 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <map>
 #include <tuple>
@@ -247,7 +246,7 @@ class AlarmTimestamps
             std::error_code ec;
             std::filesystem::remove(path, ec);
             log<level::ERR>(
-                fmt::format("Unable to restore persisted times ({}, ec: {})",
+                std::format("Unable to restore persisted times ({}, ec: {})",
                             e.what(), ec.value())
                     .c_str());
         }

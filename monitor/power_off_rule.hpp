@@ -84,7 +84,7 @@ class PowerOffRule
         {
             // Start the action
             getLogger().log(
-                fmt::format("Starting shutdown action '{}' due to cause '{}'",
+                std::format("Starting shutdown action '{}' due to cause '{}'",
                             _action->name(), _cause->name()));
 
             _active = true;
@@ -95,13 +95,13 @@ class PowerOffRule
             // Attempt to cancel the action, but don't force it
             if (_action->cancel(false))
             {
-                getLogger().log(fmt::format("Stopped shutdown action '{}'",
+                getLogger().log(std::format("Stopped shutdown action '{}'",
                                             _action->name()));
                 _active = false;
             }
             else
             {
-                getLogger().log(fmt::format(
+                getLogger().log(std::format(
                     "Could not stop shutdown action '{}'", _action->name()));
             }
         }

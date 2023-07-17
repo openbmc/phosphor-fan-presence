@@ -167,7 +167,7 @@ void System::subscribeSensorsToServices()
                 if (serviceObjects.end() == itServ || itServ->second.empty())
                 {
                     getLogger().log(
-                        fmt::format("Fan sensor entry {} not found in D-Bus",
+                        std::format("Fan sensor entry {} not found in D-Bus",
                                     sensor->name()),
                         Logger::error);
                     continue;
@@ -304,7 +304,7 @@ void System::tachSignalOffline(sdbusplus::message_t& msg,
     bool hasOwner = !newOwner.empty() && oldOwner.empty();
 
     std::string stateStr(hasOwner ? "online" : "offline");
-    getLogger().log(fmt::format("Changing sensors for service {} to {}",
+    getLogger().log(std::format("Changing sensors for service {} to {}",
                                 serviceName, stateStr),
                     Logger::info);
 
@@ -429,7 +429,7 @@ void System::sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor)
     std::string fanPath{util::INVENTORY_PATH + fan.getName()};
 
     getLogger().log(
-        fmt::format("Creating event log for faulted fan {} sensor {}", fanPath,
+        std::format("Creating event log for faulted fan {} sensor {}", fanPath,
                     sensor.name()),
         Logger::error);
 
@@ -473,7 +473,7 @@ void System::fanMissingErrorTimerExpired(const Fan& fan)
     std::string fanPath{util::INVENTORY_PATH + fan.getName()};
 
     getLogger().log(
-        fmt::format("Creating event log for missing fan {}", fanPath),
+        std::format("Creating event log for missing fan {}", fanPath),
         Logger::error);
 
     auto error = std::make_unique<FanError>(
@@ -568,7 +568,7 @@ void System::createBmcDump() const
     catch (const std::exception& e)
     {
         getLogger().log(
-            fmt::format("Caught exception while creating BMC dump: {}",
+            std::format("Caught exception while creating BMC dump: {}",
                         e.what()),
             Logger::error);
     }

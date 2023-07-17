@@ -73,7 +73,7 @@ FFDCFile::FFDCFile(const fs::path& name) :
     if (_fd() == -1)
     {
         auto e = errno;
-        getLogger().log(fmt::format("Could not open FFDC file {}. errno {}",
+        getLogger().log(std::format("Could not open FFDC file {}. errno {}",
                                     _name.string(), e));
     }
 }
@@ -120,7 +120,7 @@ void FanError::commit(const json& jsonFFDC, bool isPowerOffError)
     catch (const DBusError& e)
     {
         getLogger().log(
-            fmt::format("Call to create a {} error for fan {} failed: {}",
+            std::format("Call to create a {} error for fan {} failed: {}",
                         _errorName, _fanName, e.what()),
             Logger::error);
     }
@@ -164,7 +164,7 @@ std::unique_ptr<FFDCFile> FanError::makeLogFFDCFile()
     catch (const std::exception& e)
     {
         log<level::ERR>(
-            fmt::format("Could not save log contents in FFDC. Error msg: {}",
+            std::format("Could not save log contents in FFDC. Error msg: {}",
                         e.what())
                 .c_str());
     }
@@ -194,7 +194,7 @@ std::unique_ptr<FFDCFile> FanError::makeJsonFFDCFile(const json& ffdcData)
     else
     {
         auto e = errno;
-        getLogger().log(fmt::format("Failed called to mkstemp, errno = {}", e),
+        getLogger().log(std::format("Failed called to mkstemp, errno = {}", e),
                         Logger::error);
     }
     return nullptr;
