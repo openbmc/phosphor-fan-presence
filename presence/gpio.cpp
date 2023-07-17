@@ -109,7 +109,7 @@ void Gpio::logConflict(const std::string& fanInventoryPath) const
     ad.emplace("GPIO_DEVICE_PATH", (phys.c_str()));
 
     getLogger().log(
-        fmt::format("GPIO presence detect for fan {} said not present but "
+        std::format("GPIO presence detect for fan {} said not present but "
                     "other methods indicated present",
                     fanInventoryPath));
     try
@@ -121,7 +121,7 @@ void Gpio::logConflict(const std::string& fanInventoryPath) const
     catch (const util::DBusError& e)
     {
         getLogger().log(
-            fmt::format("Call to create a {} error for fan {} failed: {}",
+            std::format("Call to create a {} error for fan {} failed: {}",
                         errorName, fanInventoryPath, e.what()),
             Logger::error);
     }

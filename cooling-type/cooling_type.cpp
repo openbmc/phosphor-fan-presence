@@ -4,7 +4,6 @@
 #include "utility.hpp"
 
 #include <fcntl.h>
-#include <fmt/format.h>
 #include <libevdev/libevdev.h>
 #include <unistd.h>
 
@@ -13,6 +12,8 @@
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
+
+#include <format>
 
 namespace phosphor
 {
@@ -37,7 +38,7 @@ std::unique_ptr<libevdev, FreeEvDev> evdevOpen(int fd)
     }
 
     log<level::ERR>(
-        fmt::format(
+        std::format(
             "Failed to get libevdev from file descriptor {}, return code {}",
             fd, rc)
             .c_str());
@@ -69,7 +70,7 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
     if (0 == fetch_rc)
     {
         log<level::ERR>(
-            fmt::format("Device does not support event type keycode {}",
+            std::format("Device does not support event type keycode {}",
                         keycode)
                 .c_str());
         elog<InternalFailure>();

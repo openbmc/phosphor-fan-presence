@@ -4,13 +4,12 @@
 #include "power_interface.hpp"
 #include "sdbusplus.hpp"
 
-#include <fmt/format.h>
-
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <format>
 
 namespace phosphor::fan::monitor
 {
@@ -113,7 +112,7 @@ class PowerOffAction
         catch (const std::exception& e)
         {
             getLogger().log(
-                fmt::format("Caught exception while creating BMC dump: {}",
+                std::format("Caught exception while creating BMC dump: {}",
                             e.what()),
                 Logger::error);
         }
@@ -215,7 +214,7 @@ class HardPowerOff : public PowerOffAction
         }
 
         getLogger().log(
-            fmt::format("Action '{}' executing hard power off", name()));
+            std::format("Action '{}' executing hard power off", name()));
         _powerIface->hardPowerOff();
 
         createBmcDump();
@@ -307,7 +306,7 @@ class SoftPowerOff : public PowerOffAction
         }
 
         getLogger().log(
-            fmt::format("Action '{}' executing soft power off", name()));
+            std::format("Action '{}' executing soft power off", name()));
         _powerIface->softPowerOff();
 
         createBmcDump();
@@ -380,7 +379,7 @@ class EpowPowerOff : public PowerOffAction
     void start() override
     {
         getLogger().log(
-            fmt::format("Action {}: Starting service mode timer", name()));
+            std::format("Action {}: Starting service mode timer", name()));
 
         _serviceModeTimer.restartOnce(_serviceModeDelay);
     }
@@ -393,7 +392,7 @@ class EpowPowerOff : public PowerOffAction
      */
     void serviceModeTimerExpired()
     {
-        getLogger().log(fmt::format(
+        getLogger().log(std::format(
             "Action {}: Service mode timer expired, starting meltdown timer",
             name()));
 
@@ -408,7 +407,7 @@ class EpowPowerOff : public PowerOffAction
      */
     void meltdownTimerExpired()
     {
-        getLogger().log(fmt::format(
+        getLogger().log(std::format(
             "Action {}: Meltdown timer expired, executing hard power off",
             name()));
 

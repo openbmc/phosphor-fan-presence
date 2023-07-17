@@ -20,9 +20,9 @@
 #include "action.hpp"
 #include "group.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
+
+#include <format>
 
 namespace phosphor::fan::control::json
 {

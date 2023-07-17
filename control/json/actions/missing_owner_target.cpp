@@ -19,12 +19,11 @@
 #include "../zone.hpp"
 #include "group.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 
 namespace phosphor::fan::control::json
 {

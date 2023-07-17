@@ -21,14 +21,13 @@
 #include "sdbusplus.hpp"
 #include "zone.hpp"
 
-#include <fmt/format.h>
-
 #include <cereal/archives/json.hpp>
 #include <cereal/cereal.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
 #include <filesystem>
+#include <format>
 #include <fstream>
 
 namespace phosphor::fan::control::json
@@ -92,7 +91,7 @@ void DBusZone::restoreCurrentMode()
         std::error_code ec;
         fs::remove(path, ec);
         log<level::ERR>(
-            fmt::format("Unable to restore persisted `Current` thermal mode "
+            std::format("Unable to restore persisted `Current` thermal mode "
                         "property ({}, ec: {})",
                         e.what(), ec.value())
                 .c_str());

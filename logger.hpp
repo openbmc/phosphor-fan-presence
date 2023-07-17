@@ -2,7 +2,6 @@
 
 #include "utility.hpp"
 
-#include <fmt/format.h>
 #include <unistd.h>
 
 #include <nlohmann/json.hpp>
@@ -11,6 +10,7 @@
 #include <cassert>
 #include <ctime>
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <iomanip>
 #include <sstream>
@@ -137,12 +137,12 @@ class Logger
 
         for (const auto& [time, message] : _entries)
         {
-            auto line = fmt::format("{}: {}\n", time, message);
+            auto line = std::format("{}: {}\n", time, message);
             auto rc = write(fd(), line.data(), line.size());
             if (rc == -1)
             {
                 auto e = errno;
-                auto msg = fmt::format(
+                auto msg = std::format(
                     "Could not write to temp file {} errno {}", tmpFile, e);
                 log(msg, Logger::error);
                 throw std::runtime_error{msg};

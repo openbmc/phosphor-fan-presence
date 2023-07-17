@@ -19,9 +19,9 @@
 #include "json/config_base.hpp"
 #include "json/manager.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
+
+#include <format>
 
 using namespace phosphor::logging;
 
@@ -168,7 +168,7 @@ struct LessThanOperator : public Modifier::BaseOperator
         if (!valueArray.is_array())
         {
             log<level::ERR>(
-                fmt::format("Invalid JSON data for less_than config: {}",
+                std::format("Invalid JSON data for less_than config: {}",
                             valueArray.dump())
                     .c_str());
             throw std::invalid_argument("Invalid modifier JSON");
@@ -180,7 +180,7 @@ struct LessThanOperator : public Modifier::BaseOperator
                 !valueEntry.contains("parameter_value"))
             {
                 log<level::ERR>(
-                    fmt::format("Missing arg_value or parameter_value keys "
+                    std::format("Missing arg_value or parameter_value keys "
                                 "in less_than config: {}",
                                 valueArray.dump())
                         .c_str());
@@ -192,7 +192,7 @@ struct LessThanOperator : public Modifier::BaseOperator
             if (std::holds_alternative<bool>(argVal))
             {
                 log<level::ERR>(
-                    fmt::format(
+                    std::format(
                         "Invalid data type in arg_value key in modifier JSON "
                         "config: {}",
                         valueArray.dump())
@@ -208,7 +208,7 @@ struct LessThanOperator : public Modifier::BaseOperator
 
         if (rangeValues.empty())
         {
-            log<level::ERR>(fmt::format("No valid range values found in "
+            log<level::ERR>(std::format("No valid range values found in "
                                         "modifier json: {}",
                                         valueArray.dump())
                                 .c_str());
@@ -292,7 +292,7 @@ void Modifier::setOperator(const json& jsonObj)
     if (!jsonObj.contains("operator") || !jsonObj.contains("value"))
     {
         log<level::ERR>(
-            fmt::format(
+            std::format(
                 "Modifier entry in JSON missing 'operator' or 'value': {}",
                 jsonObj.dump())
                 .c_str());
@@ -311,7 +311,7 @@ void Modifier::setOperator(const json& jsonObj)
     }
     else
     {
-        log<level::ERR>(fmt::format("Invalid operator in the modifier JSON: {}",
+        log<level::ERR>(std::format("Invalid operator in the modifier JSON: {}",
                                     jsonObj.dump())
                             .c_str());
         throw std::invalid_argument("Invalid operator in the modifier JSON");

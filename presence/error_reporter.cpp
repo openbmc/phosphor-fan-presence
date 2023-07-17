@@ -20,12 +20,13 @@
 #include "psensor.hpp"
 #include "utility.hpp"
 
-#include <fmt/format.h>
 #include <unistd.h>
 
 #include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/Logging/Create/server.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
+
+#include <format>
 
 namespace phosphor::fan::presence
 {
@@ -108,7 +109,7 @@ void ErrorReporter::presenceChanged(sdbusplus::message_t& msg)
         present = std::get<bool>(presentProp->second);
         if (_fanStates[fanPath] != present)
         {
-            getLogger().log(fmt::format("Fan {} presence state change to {}",
+            getLogger().log(std::format("Fan {} presence state change to {}",
                                         fanPath, present));
 
             _fanStates[fanPath] = present;
@@ -147,7 +148,7 @@ void ErrorReporter::checkFan(const std::string& fanPath)
 void ErrorReporter::fanMissingTimerExpired(const std::string& fanPath)
 {
     getLogger().log(
-        fmt::format("Creating event log for missing fan {}", fanPath),
+        std::format("Creating event log for missing fan {}", fanPath),
         Logger::error);
 
     std::map<std::string, std::string> additionalData;
@@ -184,7 +185,7 @@ void ErrorReporter::fanMissingTimerExpired(const std::string& fanPath)
     catch (const util::DBusError& e)
     {
         getLogger().log(
-            fmt::format(
+            std::format(
                 "Call to create an error log for missing fan {} failed: {}",
                 fanPath, e.what()),
             Logger::error);
@@ -208,7 +209,7 @@ void ErrorReporter::powerStateChanged(bool powerState)
         if (missing)
         {
             getLogger().log(
-                fmt::format("At power on, there are {} missing fans", missing));
+                std::format("At power on, there are {} missing fans", missing));
         }
     }
 
