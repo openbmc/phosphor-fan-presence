@@ -20,11 +20,10 @@
 #include "group.hpp"
 #include "sdeventplus.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
+#include <format>
 
 namespace phosphor::fan::control::json
 {
@@ -43,7 +42,7 @@ uint64_t addFloorOffset(uint64_t floor, T offset, const std::string& actionName)
     if (newFloor < 0)
     {
         log<level::ERR>(
-            fmt::format("{}: Floor offset of {} resulted in negative floor",
+            std::format("{}: Floor offset of {} resulted in negative floor",
                         actionName, offset)
                 .c_str());
         return floor;
@@ -72,7 +71,7 @@ const Group* MappedFloor::getGroup(const std::string& name)
     {
         throw ActionParseError{
             ActionBase::getName(),
-            fmt::format("Group name {} is not a valid group", name)};
+            std::format("Group name {} is not a valid group", name)};
     }
 
     return &(*groupIt);
@@ -195,7 +194,7 @@ void MappedFloor::setCondition(const json& jsonObj)
     {
         throw ActionParseError{
             ActionBase::getName(),
-            fmt::format("condition_group {} must only have 1 member",
+            std::format("condition_group {} must only have 1 member",
                         _conditionGroup->getName())};
     }
 
@@ -267,7 +266,7 @@ std::optional<PropertyVariantType>
                                   !std::is_same_v<int32_t, V> &&
                                   !std::is_same_v<int64_t, V>)
                     {
-                        throw std::runtime_error{fmt::format(
+                        throw std::runtime_error{std::format(
                             "{}: Group {} has more than one member but "
                             "isn't numeric",
                             ActionBase::getName(), group.getName())};
@@ -404,7 +403,7 @@ void MappedFloor::run(Zone& zone)
                     // If the parameter isn't there, then don't use
                     // this floor table
                     log<level::DEBUG>(
-                        fmt::format("{}: Parameter {} specified in the JSON "
+                        std::format("{}: Parameter {} specified in the JSON "
                                     "could not be found",
                                     ActionBase::getName(),
                                     std::get<std::string>(groupOrParameter))

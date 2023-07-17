@@ -17,11 +17,11 @@
 
 #include "sdbusplus.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
+
+#include <format>
 
 namespace phosphor::fan::control::json
 {
@@ -117,7 +117,7 @@ void Fan::setTarget(uint64_t target)
         catch (const sdbusplus::exception_t&)
         {
             throw util::DBusPropertyError{
-                fmt::format("Failed to set target for fan {}", _name).c_str(),
+                std::format("Failed to set target for fan {}", _name).c_str(),
                 sensor.second, sensor.first, _interface, FAN_TARGET_PROPERTY};
         }
     }

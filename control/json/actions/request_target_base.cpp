@@ -19,12 +19,11 @@
 #include "../zone.hpp"
 #include "group.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 
 namespace phosphor::fan::control::json
 {
@@ -75,7 +74,7 @@ void RequestTargetBase::run(Zone& zone)
                 {
                     // Unsupported group member type for this action
                     log<level::ERR>(
-                        fmt::format("Action {}: Unsupported group member type "
+                        std::format("Action {}: Unsupported group member type "
                                     "given. [object = {} : {} : {}]",
                                     getName(), member, group.getInterface(),
                                     group.getProperty())

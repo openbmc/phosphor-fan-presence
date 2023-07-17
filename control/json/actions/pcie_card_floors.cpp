@@ -67,7 +67,7 @@ void PCIeCardFloors::execute()
         if (group.getInterface() != powerStateIface)
         {
             log<level::DEBUG>(
-                fmt::format("Wrong interface {} in PCIe card floor group",
+                std::format("Wrong interface {} in PCIe card floor group",
                             group.getInterface())
                     .c_str());
             continue;
@@ -85,7 +85,7 @@ void PCIeCardFloors::execute()
             catch (const std::out_of_range& oore)
             {
                 log<level::ERR>(
-                    fmt::format("Could not get power state for {}", slotPath)
+                    std::format("Could not get power state for {}", slotPath)
                         .c_str());
                 continue;
             }
@@ -117,7 +117,7 @@ void PCIeCardFloors::execute()
         }
     }
 
-    auto status = fmt::format(
+    auto status = std::format(
         "Found {} hot cards, {} with temp sensors, {} uninteresting", hotCards,
         numTempSensorCards, uninterestingCards);
     if (status != _lastStatus)
@@ -137,14 +137,14 @@ void PCIeCardFloors::execute()
     {
         if (origIndex != floorIndex)
         {
-            record(fmt::format("Setting {} parameter to {}", floorIndexParam,
+            record(std::format("Setting {} parameter to {}", floorIndexParam,
                                floorIndex));
             Manager::setParameter(floorIndexParam, floorIndex);
         }
     }
     else if (origIndexVariant)
     {
-        record(fmt::format("Removing parameter {}", floorIndexParam));
+        record(std::format("Removing parameter {}", floorIndexParam));
         Manager::setParameter(floorIndexParam, std::nullopt);
     }
 }
@@ -188,7 +188,7 @@ uint16_t PCIeCardFloors::getPCIeDeviceProperty(const std::string& objectPath,
     catch (const std::out_of_range& oore)
     {
         log<level::ERR>(
-            fmt::format(
+            std::format(
                 "{}: Could not get PCIeDevice property {} {} from cache ",
                 ActionBase::getName(), objectPath, propertyName)
                 .c_str());
@@ -203,7 +203,7 @@ uint16_t PCIeCardFloors::getPCIeDeviceProperty(const std::string& objectPath,
     catch (const std::invalid_argument& e)
     {
         log<level::INFO>(
-            fmt::format("{}: {} has invalid PCIeDevice property {} value: {}",
+            std::format("{}: {} has invalid PCIeDevice property {} value: {}",
                         ActionBase::getName(), objectPath, propertyName,
                         std::get<std::string>(variantValue))
                 .c_str());
@@ -258,7 +258,7 @@ const std::string& PCIeCardFloors::getCardFromSlot(const std::string& slotPath)
 
     if (it == _pcieDevices.end())
     {
-        throw std::runtime_error(fmt::format(
+        throw std::runtime_error(std::format(
             "Could not find PCIe card object path for slot {}", slotPath));
     }
 

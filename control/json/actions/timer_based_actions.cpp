@@ -23,12 +23,11 @@
 #include "sdeventplus.hpp"
 #include "zone.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 
 #include <algorithm>
 #include <chrono>
+#include <format>
 
 namespace phosphor::fan::control::json
 {
@@ -180,7 +179,7 @@ void TimerBasedActions::setTimerConf(const json& jsonObj)
     else
     {
         throw ActionParseError{
-            getName(), fmt::format("Timer type '{}' is not supported", type)};
+            getName(), std::format("Timer type '{}' is not supported", type)};
     }
 }
 

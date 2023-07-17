@@ -17,7 +17,7 @@
 
 #include "../manager.hpp"
 
-#include <fmt/format.h>
+#include <format>
 
 namespace phosphor::fan::control::json::trigger::parameter
 {
@@ -30,7 +30,7 @@ enableTrigger
 {
     if (!jsonObj.contains("parameter"))
     {
-        auto msg = fmt::format(
+        auto msg = std::format(
             "Event '{}' parameter trigger is missing 'parameter'", eventName);
         log<level::ERR>(msg.c_str());
         throw std::runtime_error(msg);

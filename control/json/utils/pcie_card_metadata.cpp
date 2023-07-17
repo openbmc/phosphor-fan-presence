@@ -19,8 +19,7 @@
 #include "json_config.hpp"
 #include "utils/flight_recorder.hpp"
 
-#include <fmt/format.h>
-
+#include <format>
 #include <iostream>
 
 static constexpr auto cardFileName = "pcie_cards.json";
@@ -52,12 +51,12 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
     {
         FlightRecorder::instance().log(
             "main",
-            fmt::format("Loading configuration from {}", confFile.string()));
+            std::format("Loading configuration from {}", confFile.string()));
         load(JsonConfig::load(confFile));
         FlightRecorder::instance().log(
-            "main", fmt::format("Configuration({}) loaded successfully",
+            "main", std::format("Configuration({}) loaded successfully",
                                 confFile.string()));
-        log<level::INFO>(fmt::format("Configuration({}) loaded successfully",
+        log<level::INFO>(std::format("Configuration({}) loaded successfully",
                                      confFile.string())
                              .c_str());
     }
@@ -80,14 +79,14 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
         if (fs::exists(confFile))
         {
             FlightRecorder::instance().log(
-                "main", fmt::format("Loading configuration from {}",
+                "main", std::format("Loading configuration from {}",
                                     confFile.string()));
             load(JsonConfig::load(confFile));
             FlightRecorder::instance().log(
-                "main", fmt::format("Configuration({}) loaded successfully",
+                "main", std::format("Configuration({}) loaded successfully",
                                     confFile.string()));
             log<level::INFO>(
-                fmt::format("Configuration({}) loaded successfully",
+                std::format("Configuration({}) loaded successfully",
                             confFile.string())
                     .c_str());
         }
@@ -105,7 +104,7 @@ void PCIeCardMetadata::load(const nlohmann::json& json)
     if (!json.contains("cards") || !json.at("cards").is_array())
     {
         throw std::runtime_error{
-            fmt::format("Missing 'cards' array in PCIe card JSON")};
+            std::format("Missing 'cards' array in PCIe card JSON")};
     }
 
     for (const auto& card : json.at("cards"))
@@ -169,7 +168,7 @@ std::optional<std::variant<int32_t, bool>>
                              uint16_t subsystemID,
                              uint16_t subsystemVendorID) const
 {
-    log<level::DEBUG>(fmt::format("Lookup {:#x} ${:#x} {:#x} {:#x}", deviceID,
+    log<level::DEBUG>(std::format("Lookup {:#x} ${:#x} {:#x} {:#x}", deviceID,
                                   vendorID, subsystemID, subsystemVendorID)
                           .c_str());
     auto card = std::find_if(_cards.begin(), _cards.end(),

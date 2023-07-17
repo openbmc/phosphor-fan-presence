@@ -97,7 +97,7 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
         log<level::ERR>("Error reloading configs, no changes made",
                         entry("LOAD_ERROR=%s", re.what()));
         FlightRecorder::instance().log(
-            "main", fmt::format("Error reloading configs, no changes made: {}",
+            "main", std::format("Error reloading configs, no changes made: {}",
                                 re.what()));
     }
 }
@@ -539,7 +539,7 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
         {
             // Log service not found for object
             log<level::DEBUG>(
-                fmt::format(
+                std::format(
                     "Unable to get service name for path {}, interface {}",
                     path, intf)
                     .c_str());

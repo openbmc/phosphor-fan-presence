@@ -23,12 +23,11 @@
 #include "tach_sensor.hpp"
 #include "types.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 #include <map>
 #include <memory>
 #include <optional>
@@ -213,7 +212,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         auto deviation = fan["deviation"].get<size_t>();
         if (100 < deviation)
         {
-            auto msg = fmt::format(
+            auto msg = std::format(
                 "Invalid deviation of {} found, must be between 0 and 100",
                 deviation);
 
@@ -230,7 +229,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             if (100 < upperDeviation)
             {
                 auto msg =
-                    fmt::format("Invalid upper_deviation of {} found, must "
+                    std::format("Invalid upper_deviation of {} found, must "
                                 "be between 0 and 100",
                                 upperDeviation);
 
@@ -409,7 +408,7 @@ PowerRuleState getPowerOffPowerRuleState(const json& powerOffConfig)
         }
         else if (state != "runtime")
         {
-            auto msg = fmt::format("Invalid power off state entry {}", state);
+            auto msg = std::format("Invalid power off state entry {}", state);
             log<level::ERR>(msg.c_str());
             throw std::runtime_error(msg.c_str());
         }
@@ -449,7 +448,7 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
     else
     {
         auto msg =
-            fmt::format("Invalid power off cause {} in power off config JSON",
+            std::format("Invalid power off cause {} in power off config JSON",
                         powerOffCause);
         log<level::ERR>(msg.c_str());
         throw std::runtime_error(msg.c_str());
@@ -509,7 +508,7 @@ std::unique_ptr<PowerOffAction>
     }
     else
     {
-        auto msg = fmt::format("Invalid 'type' entry {} in power off config",
+        auto msg = std::format("Invalid 'type' entry {} in power off config",
                                type);
         log<level::ERR>(msg.c_str());
         throw std::runtime_error(msg.c_str());

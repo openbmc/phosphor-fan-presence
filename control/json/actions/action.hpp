@@ -20,12 +20,11 @@
 #include "config_base.hpp"
 #include "group.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 
 #include <algorithm>
+#include <format>
 #include <functional>
 #include <iterator>
 #include <map>
@@ -67,7 +66,7 @@ class ActionParseError : public std::runtime_error
      */
     ActionParseError(const std::string& name, const std::string& details) :
         std::runtime_error(
-            fmt::format("Failed to parse action {} [{}]", name, details)
+            std::format("Failed to parse action {} [{}]", name, details)
                 .c_str())
     {}
 };
@@ -299,7 +298,7 @@ class ActionFactory
         else
         {
             log<level::ERR>(
-                fmt::format("Action '{}' is already registered", name).c_str());
+                std::format("Action '{}' is already registered", name).c_str());
             throw std::runtime_error("Actions with the same name found");
         }
 
@@ -338,7 +337,7 @@ class ActionFactory
                 return std::move(list) + ", " + act.first;
             });
             log<level::ERR>(
-                fmt::format("Action '{}' is not registered", name).c_str(),
+                std::format("Action '{}' is not registered", name).c_str(),
                 entry("AVAILABLE_ACTIONS=%s", acts.c_str()));
             throw std::runtime_error("Unsupported action name given");
         }

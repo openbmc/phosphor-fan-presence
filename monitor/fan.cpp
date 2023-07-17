@@ -21,9 +21,9 @@
 #include "types.hpp"
 #include "utility.hpp"
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
+
+#include <format>
 
 namespace phosphor
 {
@@ -122,7 +122,7 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         if (!_present)
         {
             getLogger().log(
-                fmt::format("On startup, fan {} is missing", _name));
+                std::format("On startup, fan {} is missing", _name));
             if (_system.isPowerOn() && _fanMissingErrorTimer)
             {
                 _fanMissingErrorTimer->restartOnce(
@@ -161,7 +161,7 @@ void Fan::presenceIfaceAdded(sdbusplus::message_t& msg)
 
     if (!_present)
     {
-        getLogger().log(fmt::format(
+        getLogger().log(std::format(
             "New fan {} interface added and fan is not present", _name));
         if (_system.isPowerOn() && _fanMissingErrorTimer)
         {
@@ -195,7 +195,7 @@ void Fan::startMonitor()
                 // The tach property still isn't on D-Bus. Ensure
                 // sensor is nonfunctional, but skip creating an
                 // error for it since it isn't a fan problem.
-                getLogger().log(fmt::format(
+                getLogger().log(std::format(
                     "Monitoring starting but {} sensor value not on D-Bus",
                     sensor->name()));
 
@@ -384,7 +384,7 @@ void Fan::updateState(TachSensor& sensor)
     // isn't on D-Bus as this isn't a fan hardware problem.
     sensor.setFunctional(!sensor.functional(), !sensor.hasOwner());
 
-    getLogger().log(fmt::format(
+    getLogger().log(std::format(
         "Setting tach sensor {} functional state to {}. "
         "[target = {}, actual = {}, allowed range = ({} - {}) "
         "owned = {}]",
@@ -402,7 +402,7 @@ void Fan::updateState(TachSensor& sensor)
         if (!_setFuncOnPresent && !_functional &&
             !(numNonFuncSensors >= _numSensorFailsForNonFunc))
         {
-            getLogger().log(fmt::format("Setting fan {} to functional, number "
+            getLogger().log(std::format("Setting fan {} to functional, number "
                                         "of nonfunctional sensors = {}",
                                         _name, numNonFuncSensors));
             updateInventory(true);
@@ -413,7 +413,7 @@ void Fan::updateState(TachSensor& sensor)
         // the fan to nonfunctional.
         if (_functional && (numNonFuncSensors >= _numSensorFailsForNonFunc))
         {
-            getLogger().log(fmt::format("Setting fan {} to nonfunctional, "
+            getLogger().log(std::format("Setting fan {} to nonfunctional, "
                                         "number of nonfunctional sensors = {}",
                                         _name, numNonFuncSensors));
             updateInventory(false);
@@ -451,7 +451,7 @@ bool Fan::updateInventory(bool functional)
         dbusError = true;
 
         getLogger().log(
-            fmt::format("D-Bus Exception reading/updating inventory : {}",
+            std::format("D-Bus Exception reading/updating inventory : {}",
                         e.what()),
             Logger::error);
     }
@@ -475,7 +475,7 @@ void Fan::presenceChanged(sdbusplus::message_t& msg)
         _present = std::get<bool>(presentProp->second);
 
         getLogger().log(
-            fmt::format("Fan {} presence state change to {}", _name, _present));
+            std::format("Fan {} presence state change to {}", _name, _present));
 
         if (_present && _setFuncOnPresent)
         {
@@ -550,7 +550,7 @@ void Fan::powerStateChanged([[maybe_unused]] bool powerStateOn)
                 // Properties still aren't on D-Bus.  Let startMonitor()
                 // deal with it, or maybe System::powerStateChanged() if
                 // there aren't any sensors at all on D-Bus.
-                getLogger().log(fmt::format(
+                getLogger().log(std::format(
                     "At power on, tach sensor {} value not on D-Bus",
                     sensor->name()));
             }
@@ -572,7 +572,7 @@ void Fan::powerStateChanged([[maybe_unused]] bool powerStateOn)
         else
         {
             getLogger().log(
-                fmt::format("At power on, fan {} is missing", _name));
+                std::format("At power on, fan {} is missing", _name));
 
             if (_fanMissingErrorTimer)
             {

@@ -17,8 +17,7 @@
 
 #include "../manager.hpp"
 
-#include <fmt/format.h>
-
+#include <format>
 #include <iostream>
 
 namespace phosphor::fan::control::json
@@ -191,7 +190,7 @@ std::optional<PropertyVariantType> TargetFromGroupMax::processGroups()
                               !std::is_same_v<int32_t, V> &&
                               !std::is_same_v<int64_t, V>)
                 {
-                    log<level::ERR>(fmt::format("{}: Group {}'s member "
+                    log<level::ERR>(std::format("{}: Group {}'s member "
                                                 "isn't numeric",
                                                 ActionBase::getName(),
                                                 group.getName())

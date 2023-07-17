@@ -25,8 +25,6 @@
 #include "utils/flight_recorder.hpp"
 #include "zone.hpp"
 
-#include <fmt/format.h>
-
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
@@ -36,6 +34,7 @@
 #include <sdeventplus/utility/timer.hpp>
 
 #include <chrono>
+#include <format>
 #include <map>
 #include <memory>
 #include <optional>
@@ -210,7 +209,7 @@ class Manager
         if (!confFile.empty())
         {
             FlightRecorder::instance().log(
-                "main", fmt::format("Loading configuration from {}",
+                "main", std::format("Loading configuration from {}",
                                     confFile.string()));
             for (const auto& entry : fan::JsonConfig::load(confFile))
             {
@@ -242,11 +241,11 @@ class Manager
                     std::move(obj));
             }
             log<level::INFO>(
-                fmt::format("Configuration({}) loaded successfully",
+                std::format("Configuration({}) loaded successfully",
                             T::confFileName)
                     .c_str());
             FlightRecorder::instance().log(
-                "main", fmt::format("Configuration({}) loaded successfully",
+                "main", std::format("Configuration({}) loaded successfully",
                                     T::confFileName));
         }
         return config;

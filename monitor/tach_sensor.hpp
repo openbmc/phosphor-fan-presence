@@ -1,7 +1,5 @@
 #pragma once
 
-#include <fmt/format.h>
-
 #include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
@@ -11,6 +9,7 @@
 
 #include <chrono>
 #include <deque>
+#include <format>
 #include <optional>
 #include <utility>
 
@@ -287,7 +286,7 @@ class TachSensor
     inline void stopTimer()
     {
         phosphor::logging::log<phosphor::logging::level::DEBUG>(
-            fmt::format("Stop running timer on tach sensor {}.", _name)
+            std::format("Stop running timer on tach sensor {}.", _name)
                 .c_str());
         _timer.setEnabled(false);
     }

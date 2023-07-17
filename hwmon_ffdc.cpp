@@ -2,10 +2,9 @@
 
 #include "logging.hpp"
 
-#include <fmt/format.h>
-
 #include <array>
 #include <filesystem>
+#include <format>
 #include <fstream>
 #include <string>
 #include <vector>
@@ -28,7 +27,7 @@ inline std::vector<std::string> executeCommand(const std::string& command)
     if (!pipe)
     {
         getLogger().log(
-            fmt::format("popen() failed when running command: {}", command));
+            std::format("popen() failed when running command: {}", command));
         return output;
     }
     while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr)
@@ -46,7 +45,7 @@ std::vector<std::string> getHwmonNameFFDC()
 
     if (!fs::exists(hwmonBaseDir))
     {
-        getLogger().log(fmt::format("Hwmon base directory {} doesn't exist",
+        getLogger().log(std::format("Hwmon base directory {} doesn't exist",
                                     hwmonBaseDir.native()));
         return hwmonNames;
     }
@@ -76,7 +75,7 @@ std::vector<std::string> getHwmonNameFFDC()
     catch (const std::exception& e)
     {
         getLogger().log(
-            fmt::format("Error traversing hwmon directories: {}", e.what()));
+            std::format("Error traversing hwmon directories: {}", e.what()));
     }
 
     return hwmonNames;
