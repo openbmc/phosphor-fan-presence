@@ -19,11 +19,12 @@ sources=[
 ]
 
 deps=[
+    json_dep,
     libevdev_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus_dep,
-    sdeventplus_dep
+    sdeventplus_dep,
 ]
 
 # Only needed for YAML config

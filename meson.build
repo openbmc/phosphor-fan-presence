@@ -46,8 +46,13 @@ if not has_cereal
     cereal_dep = cereal_proj.dependency('cereal')
 endif
 
+if cpp.has_header('nlohmann/json.hpp')
+    json_dep = declare_dependency()
+else
+    json_dep = dependency('nlohmann_json')
+endif
+
 fmt_dep = dependency('fmt')
-json_dep = declare_dependency()
 
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 phosphor_logging_dep = dependency('phosphor-logging')
@@ -125,9 +130,6 @@ if get_option('json-config').enabled()
     endif
     conf.set('MONITOR_USE_JSON', '')
 
-    if not cpp.has_header('nlohmann/json.hpp')
-        json_dep = dependency('nlohmann_json')
-    endif
     conf_type = 'json'
 else
     conf_type = 'yaml'

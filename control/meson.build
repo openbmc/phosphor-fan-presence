@@ -102,7 +102,8 @@ fanctl = executable(
       dependencies: [
           cli11_dep,
           fmt_dep,
-          sdbusplus_dep
+          json_dep,
+          sdbusplus_dep,
       ],
   include_directories: phosphor_fan_control_include_directories,
   install: true
