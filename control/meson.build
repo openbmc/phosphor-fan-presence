@@ -103,6 +103,7 @@ fanctl = executable(
           cli11_dep,
           fmt_dep,
           json_dep,
+          phosphor_logging_dep,
           sdbusplus_dep,
       ],
   include_directories: phosphor_fan_control_include_directories,
