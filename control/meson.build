@@ -8,7 +8,8 @@ deps=[
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus_dep,
-    sdeventplus_dep
+    sdeventplus_dep,
+    cereal_dep,
 ]
 
 sources = ['main.cpp']
