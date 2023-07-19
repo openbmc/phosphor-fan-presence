@@ -54,6 +54,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "006497a3_3c781999",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-07-19T15:06:55Z",
+      "side": 1,
+      "message": "I installed evdev-devel and got by that error. It seems to have been looking at a bad github URL.",
+      "parentUuid": "e679ae74_1ea538eb",
+      "revId": "478cba64763c7e60257770c0e648da00fc79fc73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7267bd0b_33c80677",
@@ -67,6 +85,24 @@
       "writtenOn": "2023-07-19T14:58:27Z",
       "side": 1,
       "message": "I probably blindly copied this from another repository in the organization.  That commit number reference probably isn\u0027t too useful.  I can remove it if you\u0027d like.",
+      "revId": "478cba64763c7e60257770c0e648da00fc79fc73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da18e948_b25ff4f7",
+        "filename": "subprojects/cereal.wrap",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-07-19T15:06:55Z",
+      "side": 1,
+      "message": "Yea, may as well remove if you don\u0027t mind.",
+      "parentUuid": "7267bd0b_33c80677",
       "revId": "478cba64763c7e60257770c0e648da00fc79fc73",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
