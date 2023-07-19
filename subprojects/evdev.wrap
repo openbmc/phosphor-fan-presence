@@ -1,5 +1,5 @@
 [wrap-git]
-url = https://github.com/freedesktop/libevdev
+url = https://gitlab.freedesktop.org/libevdev/libevdev.git
 revision = HEAD
 
 [provide]
