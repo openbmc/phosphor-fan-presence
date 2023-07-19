@@ -52,6 +52,23 @@
       "parentUuid": "fed7ff52_7a3749b4",
       "revId": "478cba64763c7e60257770c0e648da00fc79fc73",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7267bd0b_33c80677",
+        "filename": "subprojects/cereal.wrap",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-07-19T14:58:27Z",
+      "side": 1,
+      "message": "I probably blindly copied this from another repository in the organization.  That commit number reference probably isn\u0027t too useful.  I can remove it if you\u0027d like.",
+      "revId": "478cba64763c7e60257770c0e648da00fc79fc73",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
