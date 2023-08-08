@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "270d7e32_730bf214",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-08-08T14:33:33Z",
+      "side": 1,
+      "message": "I\u0027d rather just get rid of fmt::format altogether, maybe by concatenating the vector of strings into a single string.  I can do that after this goes in.",
+      "revId": "5ec735f8f71af994e4cff95521144c9fd4f4d254",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f99ebfbb_f740f609",
@@ -14,6 +31,23 @@
       "writtenOn": "2023-08-04T17:58:58Z",
       "side": 1,
       "message": "Any feedback on this?",
+      "revId": "5ec735f8f71af994e4cff95521144c9fd4f4d254",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd0de1f5_07ca8a2c",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-08-08T14:33:33Z",
+      "side": 1,
+      "message": "Looks like we should be able to just remove this",
       "revId": "5ec735f8f71af994e4cff95521144c9fd4f4d254",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
