@@ -4,7 +4,6 @@ phosphor_fan_monitor_include_directories = include_directories(
 )
 
 sources=[
-    'argument.cpp',
     'conditions.cpp',
     'fan.cpp',
     'fan_error.cpp',
