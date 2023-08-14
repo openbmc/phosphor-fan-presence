@@ -16,7 +16,7 @@
 #include "config.h"
 
 #ifndef MONITOR_USE_JSON
-#include "argument.hpp"
+#include <CLI/CLI.hpp>
 #endif
 #include "fan.hpp"
 #ifdef MONITOR_USE_JSON
@@ -41,26 +41,30 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     Mode mode = Mode::init;
 
 #ifndef MONITOR_USE_JSON
-    phosphor::fan::util::ArgumentParser args(argc, argv);
+    CLI::App app{"Phosphor Fan Monitor"};
 
-    if (argc != 2)
+    bool init = false;
+    bool monitor = false;
+    app.add_flag("-i,--init", init, "Set fans to functional");
+    app.add_flag("-m,--monitor", monitor, "Start fan functional monitoring");
+    app.require_option();
+
+    try
     {
-        args.usage(argv);
-        return 1;
+        app.parse(argc, argv);
+    }
+    catch (const CLI::Error& e)
+    {
+        return app.exit(e);
     }
 
-    if (args["init"] == "true")
+    if (init)
     {
         mode = Mode::init;
     }
-    else if (args["monitor"] == "true")
+    else if (monitor)
     {
         mode = Mode::monitor;
-    }
-    else
-    {
-        args.usage(argv);
-        return 1;
     }
 #endif
 
