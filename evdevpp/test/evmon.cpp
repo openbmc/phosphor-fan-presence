@@ -14,8 +14,9 @@
  * limitations under the License.
  */
 
-#include "argument.hpp"
 #include "evdevpp/evdev.hpp"
+
+#include <CLI/CLI.hpp>
 // TODO https://github.com/openbmc/phosphor-fan-presence/issues/22
 // #include "sdevent/event.hpp"
 // #include "sdevent/io.hpp"
@@ -27,108 +28,32 @@
 #include <iterator>
 #include <memory>
 
-namespace phosphor
-{
-namespace fan
-{
-namespace util
-{
-
-ArgumentParser::ArgumentParser(int argc, char** argv)
-{
-    auto option = 0;
-    while (-1 != (option = getopt_long(argc, argv, optionstr, options, NULL)))
-    {
-        if ((option == '?') || (option == 'h'))
-        {
-            usage(argv);
-            exit(1);
-        }
-
-        auto i = &options[0];
-        while ((i->val != option) && (i->val != 0))
-        {
-            ++i;
-        }
-
-        if (i->val)
-        {
-            arguments[i->name] = (i->has_arg ? optarg : true_string);
-        }
-    }
-}
-
-const std::string& ArgumentParser::operator[](const std::string& opt)
-{
-    auto i = arguments.find(opt);
-    if (i == arguments.end())
-    {
-        return empty_string;
-    }
-    else
-    {
-        return i->second;
-    }
-}
-
-void ArgumentParser::usage(char** argv)
-{
-    std::cerr << "Usage: " << argv[0] << " [options]\n";
-    std::cerr << "Options:\n";
-    std::cerr << "    --path               evdev devpath\n";
-    std::cerr << "    --type               evdev type\n";
-    std::cerr << "    --code               evdev code\n";
-    std::cerr << std::flush;
-}
-
-const option ArgumentParser::options[] = {
-    {"path", required_argument, NULL, 'p'},
-    {"type", required_argument, NULL, 't'},
-    {"code", required_argument, NULL, 'c'},
-    {0, 0, 0, 0},
-};
-
-const char* ArgumentParser::optionstr = "p:t:c:";
-
-const std::string ArgumentParser::true_string = "true";
-const std::string ArgumentParser::empty_string = "";
-
-static void exit_with_error(const char* err, char** argv)
-{
-    ArgumentParser::usage(argv);
-    std::cerr << "\n";
-    std::cerr << "ERROR: " << err << "\n";
-    exit(1);
-}
-
-} // namespace util
-} // namespace fan
-} // namespace phosphor
-
 int main(int argc, char* argv[])
 {
-    using namespace phosphor::fan::util;
+    CLI::App app{"evmon utility"};
 
-    auto options = std::make_unique<ArgumentParser>(argc, argv);
-    auto path = (*options)["path"];
-    auto stype = (*options)["type"];
-    auto scode = (*options)["code"];
-    unsigned int type = EV_KEY;
+    std::string path{};
+    std::string stype{};
+    std::string scode{};
 
-    if (path == ArgumentParser::empty_string)
+    app.add_option("-p,--path", path, "evdev devpath")->required();
+    app.add_option("-t,--type", stype, "evdev type")->required();
+    app.add_option("-c,--code", scode, "evdev code")->required();
+
+    try
     {
-        exit_with_error("Path not specified or invalid.", argv);
+        app.parse(argc, argv);
     }
-    if (stype != ArgumentParser::empty_string)
+    catch (const CLI::Error& e)
+    {
+        return app.exit(e);
+    }
+
+    unsigned int type = EV_KEY;
+    if (!stype.empty())
     {
         type = stoul(stype);
     }
-
-    if (scode == ArgumentParser::empty_string)
-    {
-        exit_with_error("Keycode not specified or invalid.", argv);
-    }
-    options.reset();
 
     // TODO https://github.com/openbmc/phosphor-fan-presence/issues/22
     // auto loop = sdevent::event::newDefault();
