@@ -16,8 +16,9 @@
 #include "config.h"
 
 #ifndef CONTROL_USE_JSON
-#include "argument.hpp"
 #include "manager.hpp"
+
+#include <CLI/CLI.hpp>
 #else
 #include "../utils/flight_recorder.hpp"
 #include "json/manager.hpp"
@@ -53,27 +54,31 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     auto event = phosphor::fan::util::SDEventPlus::getEvent();
 
 #ifndef CONTROL_USE_JSON
-    phosphor::fan::util::ArgumentParser args(argc, argv);
-    if (argc != 2)
+    CLI::App app{"Phosphor Fan Control"};
+
+    bool init = false;
+    bool control = false;
+    app.add_flag("-i,--init", init, "Sets fans to full speed, delays, exits");
+    app.add_flag("-c,--control", control, "Start fan control algorithm");
+    app.require_option();
+
+    try
     {
-        args.usage(argv);
-        return 1;
+        app.parse(argc, argv);
+    }
+    catch (const CLI::Error& e)
+    {
+        return app.exit(e);
     }
 
     Mode mode;
-
-    if (args["init"] == "true")
+    if (init)
     {
         mode = Mode::init;
     }
-    else if (args["control"] == "true")
+    else if (control)
     {
         mode = Mode::control;
-    }
-    else
-    {
-        args.usage(argv);
-        return 1;
     }
 #endif
 

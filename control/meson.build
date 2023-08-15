@@ -74,7 +74,6 @@ else
 
     sources += [
         'actions.cpp',
-        'argument.cpp',
         'fan.cpp',
         fan_zone_defs_cpp_dep,
         'manager.cpp',
