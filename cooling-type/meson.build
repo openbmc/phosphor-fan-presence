@@ -4,7 +4,6 @@ phosphor_fan_sensor_monitor_include_directories = include_directories(
 )
 
 source=[
-    'argument.cpp',
     'cooling_type.cpp',
     'cooling_type.hpp',
     'main.cpp'
