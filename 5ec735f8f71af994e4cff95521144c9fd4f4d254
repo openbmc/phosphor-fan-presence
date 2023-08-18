@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "cfde017b_927b68c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-08-18T15:24:23Z",
+      "side": 1,
+      "message": "Agreed.  I suspect if we moved to lg2 much more of them could be removed also, but I didn\u0027t feel ambitious enough to handle that big of a change.",
+      "parentUuid": "270d7e32_730bf214",
+      "revId": "5ec735f8f71af994e4cff95521144c9fd4f4d254",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f99ebfbb_f740f609",
@@ -48,6 +66,24 @@
       "writtenOn": "2023-08-08T14:33:33Z",
       "side": 1,
       "message": "Looks like we should be able to just remove this",
+      "revId": "5ec735f8f71af994e4cff95521144c9fd4f4d254",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e24bc000_a754c311",
+        "filename": "power_state.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1000000
+      },
+      "writtenOn": "2023-08-18T15:24:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd0de1f5_07ca8a2c",
       "revId": "5ec735f8f71af994e4cff95521144c9fd4f4d254",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
