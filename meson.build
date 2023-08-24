@@ -62,7 +62,7 @@ stdplus_dep = dependency('stdplus')
 systemd_dep = dependency('systemd')
 
 if(get_option('tests').enabled())
-    gmock_dep = dependency('gmock', disabler: true)
+    gmock_dep = dependency('gmock', disabler: true, required: false)
     gtest_dep = dependency('gtest', main: true, disabler: true, required: false)
 
     if not gtest_dep.found() or not gmock_dep.found()
