@@ -52,8 +52,6 @@ else
     json_dep = dependency('nlohmann_json')
 endif
 
-fmt_dep = dependency('fmt')
-
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 phosphor_logging_dep = dependency('phosphor-logging')
 sdbusplus_dep = dependency('sdbusplus')

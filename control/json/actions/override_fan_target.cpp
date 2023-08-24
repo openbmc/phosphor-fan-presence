@@ -20,10 +20,9 @@
 #include "action.hpp"
 #include "group.hpp"
 
-#include <fmt/format.h>
-#include <fmt/ranges.h>
-
 #include <nlohmann/json.hpp>
+
+#include <format>
 
 namespace phosphor::fan::control::json
 {
@@ -83,8 +82,12 @@ void OverrideFanTarget::lockFans(Zone& zone)
 {
     if (!_locked)
     {
-        record(fmt::format("Adding fan target lock of {} on fans {} zone {}",
-                           _target, _fans, zone.getName()));
+        auto fanList = std::accumulate(
+            std::next(_fans.begin()), _fans.end(), _fans[0],
+            [](auto list, auto fan) { return std::move(list) + ", " + fan; });
+
+        record(std::format("Adding fan target lock of {} on fans {} zone {}",
+                           _target, fanList, zone.getName()));
 
         for (auto& fan : _fans)
         {
@@ -97,8 +100,12 @@ void OverrideFanTarget::lockFans(Zone& zone)
 
 void OverrideFanTarget::unlockFans(Zone& zone)
 {
-    record(fmt::format("Un-locking fan target {} on fans {} zone {}", _target,
-                       _fans, zone.getName()));
+    auto fanList = std::accumulate(
+        std::next(_fans.begin()), _fans.end(), _fans[0],
+        [](auto list, auto fan) { return std::move(list) + ", " + fan; });
+
+    record(std::format("Un-locking fan target {} on fans {} zone {}", _target,
+                       fanList, zone.getName()));
 
     // unlock all fans in this instance
     for (auto& fan : _fans)
