@@ -3,7 +3,6 @@ phosphor_fan_monitor_test_include_directories = include_directories(
 )
 
 test_deps=[
-    fmt_dep,
     gmock_dep,
     gtest_dep,
     json_dep,
