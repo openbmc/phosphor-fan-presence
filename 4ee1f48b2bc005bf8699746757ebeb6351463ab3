@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "79065d3f_05c4f728",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2023-08-25T14:00:36Z",
+      "side": 1,
+      "message": "Is it possible for _fans to be empty, such that _fans[0] is invalid and could throw an exception?  Same question for unlockFans().",
+      "revId": "4ee1f48b2bc005bf8699746757ebeb6351463ab3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7df5f8a0_6e1fb53a",
+        "filename": "control/json/actions/override_fan_target.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2023-08-25T14:00:36Z",
+      "side": 1,
+      "message": "When using fmt::format() with a vector, it put brackets around the values.  Do you want to do that here to make it clear it is a list?  Not a big deal, but without it the comma is a little confusing (is it a list or part of the sentence?).  Same comment in unlockFans().\n\ne.g.\n```\nAdding fan target lock of 11300 on fans fan0, fan1 zone 0\n```\n\nvs.\n```\nAdding fan target lock of 11300 on fans [fan0, fan1] zone 0\n```",
+      "revId": "4ee1f48b2bc005bf8699746757ebeb6351463ab3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
