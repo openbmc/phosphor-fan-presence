@@ -153,6 +153,17 @@ class System
     /* The event loop reference */
     const sdeventplus::Event& _event;
 
+    /**
+     * @brief true if config files have been loaded
+     */
+    bool _loaded = false;
+
+    /**
+     * @brief will be set to false when all members are
+     * constructed and it starts to load config
+     */
+    bool _falsePowerStateChange = true;
+
     /* Trust manager of trust groups */
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
 
@@ -200,11 +211,6 @@ class System
      * @brief The tach sensors D-Bus match objects
      */
     std::vector<std::unique_ptr<sdbusplus::bus::match_t>> _sensorMatch;
-
-    /**
-     * @brief true if config files have been loaded
-     */
-    bool _loaded = false;
 
     /**
      * @brief The name of the dump file

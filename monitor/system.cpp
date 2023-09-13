@@ -122,6 +122,8 @@ void System::load()
                       [this](auto& rule) {
             rule->check(PowerRuleState::runtime, _fanHealth);
         });
+        // This is to check for the presence of fan sensor object paths
+        powerStateChanged(true);
     }
 
     subscribeSensorsToServices();
@@ -374,7 +376,6 @@ void System::powerStateChanged(bool powerStateOn)
             log<level::ERR>("No conf file found at power on");
             throw std::runtime_error("No conf file found at power on");
         }
-
         // If no fan has its sensors on D-Bus, then there is a problem
         // with the fan controller.  Log an error and shut down.
         if (std::all_of(_fans.begin(), _fans.end(), [](const auto& fan) {
