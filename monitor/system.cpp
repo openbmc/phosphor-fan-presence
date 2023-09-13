@@ -122,6 +122,8 @@ void System::load()
                       [this](auto& rule) {
             rule->check(PowerRuleState::runtime, _fanHealth);
         });
+        // This is to check for the presence of fan sensor object paths
+        powerStateChanged(true);
     }
 
     subscribeSensorsToServices();
