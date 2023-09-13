@@ -293,12 +293,13 @@ class HostPowerState : public PowerState
             HostState hostState = *currentHostState;
 
             hostPowerStates.emplace_back(hostState);
-            setHostPowerState(hostPowerStates);
+            setHostPowerState(hostPowerStates, true);
         }
     }
 
   private:
-    void setHostPowerState(std::vector<HostState>& hostPowerStates)
+    void setHostPowerState(std::vector<HostState>& hostPowerStates,
+                           bool callFromStateChange)
     {
         bool powerStateflag = false;
         for (const auto& powerState : hostPowerStates)
@@ -313,7 +314,19 @@ class HostPowerState : public PowerState
                 break;
             }
         }
-        setPowerState(powerStateflag);
+        if (callFromStateChange)
+        {
+            setPowerState(powerStateflag);
+        }
+        else
+        {
+            // This won't call callbacks (if exists) during the constructor of
+            // the class when the first read for this flag is true which is
+            // different from the init value of _powerState.
+            // Daemon that wants to do anything when the initial power state
+            // is true can check isPowerOn() and do it.
+            _powerState = powerStateflag;
+        }
     }
 
     /**
@@ -351,7 +364,7 @@ class HostPowerState : public PowerState
                 }
             }
         }
-        setHostPowerState(hostPowerStates);
+        setHostPowerState(hostPowerStates, false);
     }
 
     const std::string _hostStatePath{"/xyz/openbmc_project/state"};
