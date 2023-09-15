@@ -16,6 +16,24 @@
       "message": "The only thing I can see here is in this function there is:\n\n        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),\n                      [this](auto\u0026 rule) {\n            rule-\u003echeck(PowerRuleState::atPgood, _fanHealth);\n        });\n        std::for_each(_powerOffRules.begin(), _powerOffRules.end(),\n                      [this](auto\u0026 rule) {\n            rule-\u003echeck(PowerRuleState::runtime, _fanHealth);\n        });\n        \nand we have rules defined that use atPgood that are just supposed to run when power turns on, so I need to think some if it\u0027s OK if they also run after a BMC reboot when system is already up.",
       "revId": "ad081d487acd3d81db5685070ac4ecc1fc9829a6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "325f5b8c_5971b928",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-15T04:24:30Z",
+      "side": 1,
+      "message": "Agree. How about the below part? Do you think the part should be called in the mentioned case to check if fan object paths are on Dbus? When BMC boots with host ON and no fan sensor is found, host should be turned off? (sorry for the urgly format).\n        \n        // If no fan has its sensors on D-Bus, then there is a problem\n        // with the fan controller.  Log an error and shut down.\n        if (std::all_of(_fans.begin(), _fans.end(), [](const auto\u0026 fan) {\n                return fan-\u003enumSensorsOnDBusAtPowerOn() \u003d\u003d 0;\n            }))\n        {\n\u003e    \n      #if DELAY_HOST_CONTROL \u003e 0\n            sleep(DELAY_HOST_CONTROL);\n            std::for_each(_fans.begin(), _fans.end(),\n                          [powerStateOn](auto\u0026 fan) {\n                fan-\u003epowerStateChanged(powerStateOn);\n            });\n            if (std::all_of(_fans.begin(), _fans.end(), [](const auto\u0026 fan) {\n                    return fan-\u003enumSensorsOnDBusAtPowerOn() \u003d\u003d 0;\n                }))\n            {\n                handleOfflineFanController();\n                return;\n            }\n\u003e   \n     #else\n            handleOfflineFanController();\n            return;\n\u003e   \n     #endif\n        }",
+      "parentUuid": "51a4e6db_5d586ba6",
+      "revId": "ad081d487acd3d81db5685070ac4ecc1fc9829a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
