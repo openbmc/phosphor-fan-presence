@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f2fda38_d14216c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-18T15:52:10Z",
+      "side": 1,
+      "message": "Can remove this now.",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "a9ad03e672238be1e1521b88a388958ad8958a18",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
