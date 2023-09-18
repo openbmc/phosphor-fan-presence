@@ -52,6 +52,24 @@
       "parentUuid": "325f5b8c_5971b928",
       "revId": "ad081d487acd3d81db5685070ac4ecc1fc9829a6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4011a130_f7010bd9",
+        "filename": "monitor/system.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-18T07:19:48Z",
+      "side": 1,
+      "message": "Agree also. I changed this patch to only modifying power_state.hpp.",
+      "parentUuid": "5f43b0fc_4472fda6",
+      "revId": "ad081d487acd3d81db5685070ac4ecc1fc9829a6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
