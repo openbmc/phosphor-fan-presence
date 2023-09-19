@@ -15,6 +15,8 @@
  */
 #pragma once
 
+#include "config.h"
+
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
@@ -35,10 +37,14 @@ using namespace phosphor::logging;
 
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence";
-constexpr auto confCompatServ = "xyz.openbmc_project.EntityManager";
+constexpr auto entityManagerServ = "xyz.openbmc_project.EntityManager";
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
 constexpr auto confCompatIntf =
     "xyz.openbmc_project.Configuration.IBMCompatibleSystem";
 constexpr auto confCompatProp = "Names";
+#endif
+constexpr auto invItemIntf = "xyz.openbmc_project.Inventory.Item";
+constexpr auto prettyNameProp = "PrettyName";
 
 /**
  * @class NoConfigFound - A no JSON configuration found exception
@@ -79,118 +85,169 @@ class JsonConfig
 {
   public:
     /**
-     * @brief Get the object paths with the compatible interface
+     * @brief Get the object paths with the input target interface
      *
-     * Retrieve all the object paths implementing the compatible interface for
+     * Retrieve all the object paths implementing the target interface for
      * configuration file loading.
      */
-    static auto& getCompatObjPaths() __attribute__((pure))
+    auto getTargetObjPaths(const std::string& targetInf)
     {
-        static auto paths = util::SDBusPlus::getSubTreePathsRaw(
-            util::SDBusPlus::getBus(), "/", confCompatIntf, 0);
-        return paths;
+        return util::SDBusPlus::getSubTreePathsRaw(util::SDBusPlus::getBus(),
+                                                   "/", targetInf, 0);
+    }
+
+    /**
+     * @brief Get property values with the target interface and property
+     *
+     * Retrieve all the target property values of the object paths implementing
+     * the target interface
+     */
+    template <typename T>
+    std::vector<T> getTargetProperties(const std::string& targetInf,
+                                       const std::string& targetProp)
+    {
+        std::vector<std::string> objPaths;
+        std::vector<T> output;
+        try
+        {
+            objPaths = getTargetObjPaths(targetInf);
+        }
+        catch (const util::DBusMethodError&)
+        {
+            // Target interface does not exist on any dbus object yet
+        }
+
+        if (!objPaths.empty())
+        {
+            for (auto& path : objPaths)
+            {
+                try
+                {
+                    output.emplace_back(util::SDBusPlus::getProperty<T>(
+                        util::SDBusPlus::getBus(), path, targetInf,
+                        targetProp));
+                }
+                catch (const util::DBusError&)
+                {
+                    // Target property unavailable on this dbus object
+                    // path's target interface, ignore
+                }
+            }
+        }
+        return output;
     }
 
     /**
      * @brief Constructor
      *
-     * Attempts to set the list of compatible values from the compatible
-     * interface and call the fan app's function to load its config file(s). If
-     * the compatible interface is not found, it subscribes to the
-     * interfacesAdded signal for that interface on the compatible service
+     * Attempts to set the list of values from the IBM compatible interface
+     * (if configured) and the inventory item interface
+     * and call the fan app's function to load its config file(s). If
+     * both interface are not found, it subscribes to the
+     * interfacesAdded signal for that interface on the EntityManager service
      * defined above.
      *
      * @param[in] func - Fan app function to call to load its config file(s)
      */
     JsonConfig(std::function<void()> func) : _loadFunc(func)
     {
-        std::vector<std::string> compatObjPaths;
-
         _match = std::make_unique<sdbusplus::bus::match_t>(
             util::SDBusPlus::getBus(),
             sdbusplus::bus::match::rules::interfacesAdded() +
-                sdbusplus::bus::match::rules::sender(confCompatServ),
-            std::bind(&JsonConfig::compatIntfAdded, this,
+                sdbusplus::bus::match::rules::sender(entityManagerServ),
+            std::bind(&JsonConfig::targetIntfAdded, this,
                       std::placeholders::_1));
 
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
+        auto propVals = getTargetProperties<std::vector<std::string>>(
+            confCompatIntf, confCompatProp);
+        if (!propVals.empty())
+        {
+            // last one found will be what's used if more
+            // than one dbus object implementing the compatible
+            // interface exists
+            _confCompatVals = propVals.back();
+        }
+#endif
+        // archive all the results to look for the correct one later
+        _prettyNameVals = getTargetProperties<std::string>(invItemIntf,
+                                                           prettyNameProp);
+
+        // Check if required config(s) are found, otherwise this is intended to
+        // catch the exception thrown by the getConfFile function when the
+        // required config file was not found. This would then result in waiting
+        // for the compatible interfacesAdded signal
         try
         {
-            compatObjPaths = getCompatObjPaths();
-        }
-        catch (const util::DBusMethodError&)
-        {
-            // Compatible interface does not exist on any dbus object yet
-        }
-
-        if (!compatObjPaths.empty())
-        {
-            for (auto& path : compatObjPaths)
-            {
-                try
-                {
-                    // Retrieve json config compatible relative path
-                    // locations (last one found will be what's used if more
-                    // than one dbus object implementing the comptaible
-                    // interface exists).
-                    _confCompatValues =
-                        util::SDBusPlus::getProperty<std::vector<std::string>>(
-                            util::SDBusPlus::getBus(), path, confCompatIntf,
-                            confCompatProp);
-                }
-                catch (const util::DBusError&)
-                {
-                    // Compatible property unavailable on this dbus object
-                    // path's compatible interface, ignore
-                }
-            }
             _loadFunc();
         }
-        else
+        catch (const NoConfigFound&)
         {
-            // Check if required config(s) are found not needing the
-            // compatible interface, otherwise this is intended to catch the
-            // exception thrown by the getConfFile function when the
-            // required config file was not found. This would then result in
-            // waiting for the compatible interfacesAdded signal
-            try
-            {
-                _loadFunc();
-            }
-            catch (const NoConfigFound&)
-            {
-                // Wait for compatible interfacesAdded signal
-            }
+            // Wait for compatible interfacesAdded signal
         }
     }
 
     /**
-     * @brief InterfacesAdded callback function for the compatible interface.
+     * @brief InterfacesAdded callback function for the needed interface.
      *
      * @param[in] msg - The D-Bus message contents
      *
-     * If the compatible interface is found, it uses the compatible property on
-     * the interface to set the list of compatible values to be used when
-     * attempting to get a configuration file. Once the list of compatible
-     * values has been updated, it calls the load function.
+     * If the target interface is found, it uses the target property on
+     * the interface to set the list of property values to be used when
+     * attempting to get a configuration file. Once the list of value
+     * has been updated, it calls the load function. If IBM compatible
+     * interface of IBM is configured to be used but not found, rely on
+     * the inventory item interface. If the configs have been loaded,
+     * it won't process further.
      */
-    void compatIntfAdded(sdbusplus::message_t& msg)
+    void targetIntfAdded(sdbusplus::message_t& msg)
     {
-        sdbusplus::message::object_path op;
-        std::map<std::string,
-                 std::map<std::string, std::variant<std::vector<std::string>>>>
-            intfProps;
-
-        msg.read(op, intfProps);
-
-        if (intfProps.find(confCompatIntf) == intfProps.end())
+        // Avoid processing any interface added when there's already a
+        // valid sub-directory name to look for configs. _systemName is
+        // cleared when getConfFile() fails to find configs under this
+        // folder name.
+        if (!_systemName.empty())
         {
             return;
         }
 
-        const auto& props = intfProps.at(confCompatIntf);
-        // Only one dbus object with the compatible interface is used at a time
-        _confCompatValues =
-            std::get<std::vector<std::string>>(props.at(confCompatProp));
+        sdbusplus::message::object_path op;
+        std::map<std::string,
+                 std::map<std::string,
+                          std::variant<std::vector<std::string>, std::string>>>
+            intfProps;
+
+        msg.read(op, intfProps);
+
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
+        if (intfProps.find(confCompatIntf) != intfProps.end())
+        {
+            const auto& props = intfProps.at(confCompatIntf);
+            // Only one dbus object with the compatible interface is used at a
+            // time
+            _confCompatVals =
+                std::get<std::vector<std::string>>(props.at(confCompatProp));
+            try
+            {
+                _loadFunc();
+                return;
+            }
+            catch (const NoConfigFound&)
+            {
+                // No config found - look for the inventory item interface
+            }
+        }
+#endif
+        if (intfProps.find(invItemIntf) == intfProps.end())
+        {
+            // Can't find inventory item interface;
+            return;
+        }
+        const auto& props = intfProps.at(invItemIntf);
+        std::string propVal = std::get<std::string>(props.at(prettyNameProp));
+        _prettyNameVals.emplace_back(propVal);
+
+        // Let it throw here if no config is found after many efforts
         _loadFunc();
     }
 
@@ -202,10 +259,14 @@ class JsonConfig
      * 2.) From the default confBasePath location
      * 3.) From config file found using an entry from a list obtained from an
      * interface's property as a relative path extension on the base path where:
+     * if USE_IBM_COMPATIBLE_SYSTEM is defined:
      *     interface = Interface set in confCompatIntf with the property
      *     property = Property set in confCompatProp containing a list of
      *                subdirectories in priority order to find a config
-     *
+     * else:
+     *     interface = Interface set in invItemIntf with the property
+     *     property = Property set in prettyNameProp containing a string
+     *                of subdirectory
      * @brief Get the configuration file to be used
      *
      * @param[in] appName - The phosphor-fan-presence application name
@@ -233,17 +294,39 @@ class JsonConfig
             return confFile;
         }
 
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
         // Look for a config file at each entry relative to the base
         // path and use the first one found
-        auto it =
-            std::find_if(_confCompatValues.begin(), _confCompatValues.end(),
+        auto confCompatValsIt =
+            std::find_if(_confCompatVals.begin(), _confCompatVals.end(),
                          [&confFile, &appName, &fileName](const auto& value) {
             confFile = fs::path{confBasePath} / appName / value / fileName;
+            _systemName = value;
             return fs::exists(confFile);
             });
-        if (it == _confCompatValues.end())
+        if (confCompatValsIt != _confCompatVals.end())
+        {
+            return confFile;
+        }
+        // Couldn't find configs from IBM compatible interface,
+        // rely on the inventory item interface
+        confFile.clear();
+        _systemName.clear();
+#endif
+        // Look for config path among the list of achieved inventory item pretty
+        // names
+        auto prettyNameValsIt =
+            std::find_if(_prettyNameVals.begin(), _prettyNameVals.end(),
+                         [&confFile, &appName, &fileName](const auto& value) {
+            confFile = fs::path{confBasePath} / appName / value / fileName;
+            _systemName = value;
+            return fs::exists(confFile);
+            });
+
+        if (prettyNameValsIt == _prettyNameVals.end())
         {
             confFile.clear();
+            _systemName.clear();
         }
 
         if (confFile.empty() && !isOptional)
@@ -313,7 +396,7 @@ class JsonConfig
      */
     static const std::vector<std::string>& getCompatValues()
     {
-        return _confCompatValues;
+        return _confCompatVals;
     }
 
   private:
@@ -333,7 +416,27 @@ class JsonConfig
      * object. If more than one dbus object exists with the compatible
      * interface, the last one found will be the list of compatible values used.
      */
-    inline static std::vector<std::string> _confCompatValues;
+    inline static std::vector<std::string> _confCompatVals;
+
+    /**
+     * @brief List of pretty name values from the inventory item interface
+     *
+     * If more than one dbus object exists with the inventory item interface,
+     * all will be archived to look for the correct one later (the one that
+     * contains the config files when acting as a sub-directory).
+     */
+
+    inline static std::vector<std::string> _prettyNameVals;
+
+    /**
+     * @brief The property value that is currently used as the system location
+     *
+     * The value extracted from the achieved property value list that is used
+     * as a system location to append on each config file as a sub-directory to
+     * look for the config files and really contains them.
+     */
+
+    inline static std::string _systemName;
 };
 
 } // namespace phosphor::fan

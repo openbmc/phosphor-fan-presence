@@ -128,3 +128,8 @@ option(
     'use-host-power-state', type: 'feature', value: 'disabled',
     description: 'Enable using the host power state for power state checks.'
 )
+
+option(
+    'use-ibm-compatible-system', type: 'feature', value: 'disabled',
+    description: 'Enable using IBM compatible system string.'
+)
