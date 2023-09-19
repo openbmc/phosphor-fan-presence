@@ -48,15 +48,23 @@ file can be located at the base of the supported directory.
 
 i.e.) `/usr/share/phosphor-fan-presence/presence/config.json`
 
-#### Compatible System Type Location
+#### System Type Location
 
 The config file location can also be based on a system type. This is necessary
 where more than one type of machine is supported in a single BMC firmware image
 and those system types can not share a common config file.
 
-A system type sub-directory can be obtained from the `IBMCompatibleSystem` D-Bus
-interface's `Names` property. The `Names` property contains a list of one or
-more compatible system types, ordered from most specific to the most general.
+A system type sub-directory can be obtained from the `Inventory.Item` D-Bus
+interface's `PrettyName` property. The property holds the system name in string.
+
+If more than one string is found from D-Bus, the `phosphor-fan-presence-tach`
+application then appends each system name string as a sub-directory on each
+config file to look for the one that really contains the configs.
+
+If use-ibm-compatible-system option is configured, the `IBMCompatibleSystem`
+D-Bus interface's `Names` property will be used. The `Names` property contains a
+list of one or more compatible system types, ordered from most specific to the
+most general.
 
 Example:
 
@@ -65,7 +73,7 @@ Example:
 
 The `phosphor-fan-presence-tach` application then traverses the supported
 directory, appending each compatible system type entry as a sub-directory from
-most specific to most general until the config file is found.
+most specific to most general on each config file until it is found.
 
 Example:
 
