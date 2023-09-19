@@ -192,6 +192,10 @@ if get_option('sensor-monitor-service').enabled()
         install_dir: servicedir)
 endif
 
+if get_option('use-ibm-compatible-system').enabled()
+    conf.set('USE_IBM_COMPATIBLE_SYSTEM', '')
+endif
+
 foreach service : services
     this_conf_type = conf_type
 
