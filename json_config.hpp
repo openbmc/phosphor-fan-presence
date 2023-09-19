@@ -15,6 +15,8 @@
  */
 #pragma once
 
+#include "config.h"
+
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
@@ -35,10 +37,15 @@ using namespace phosphor::logging;
 
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence";
-constexpr auto confCompatServ = "xyz.openbmc_project.EntityManager";
-constexpr auto confCompatIntf =
+constexpr auto entityManagerServ = "xyz.openbmc_project.EntityManager";
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
+constexpr auto confDBusInf =
     "xyz.openbmc_project.Configuration.IBMCompatibleSystem";
-constexpr auto confCompatProp = "Names";
+constexpr auto confDBusProp = "Names";
+#else
+constexpr auto confDBusInf = "xyz.openbmc_project.Inventory.Item";
+constexpr auto confDBusProp = "PrettyName";
+#endif
 
 /**
  * @class NoConfigFound - A no JSON configuration found exception
@@ -79,118 +86,157 @@ class JsonConfig
 {
   public:
     /**
-     * @brief Get the object paths with the compatible interface
+     * @brief Get the object paths with the config DBus interface
      *
-     * Retrieve all the object paths implementing the compatible interface for
+     * Retrieve all the object paths implementing the interface for
      * configuration file loading.
      */
-    static auto& getCompatObjPaths() __attribute__((pure))
+    static auto& getConfigObjPaths() __attribute__((pure))
     {
         static auto paths = util::SDBusPlus::getSubTreePathsRaw(
-            util::SDBusPlus::getBus(), "/", confCompatIntf, 0);
+            util::SDBusPlus::getBus(), "/", confDBusInf, 0);
         return paths;
     }
 
     /**
      * @brief Constructor
      *
-     * Attempts to set the list of compatible values from the compatible
-     * interface and call the fan app's function to load its config file(s). If
-     * the compatible interface is not found, it subscribes to the
-     * interfacesAdded signal for that interface on the compatible service
-     * defined above.
+     * Attempts to set the list of values from the IBM compatible interface
+     * (if configured) or the inventory item interface and call the fan
+     * app's function to load its config file(s). If the interface is not
+     * found, it subscribes to the interfacesAdded signal for that interface
+     * on the EntityManager service defined above.
      *
      * @param[in] func - Fan app function to call to load its config file(s)
      */
     JsonConfig(std::function<void()> func) : _loadFunc(func)
     {
-        std::vector<std::string> compatObjPaths;
+        std::vector<std::string> objPaths;
 
         _match = std::make_unique<sdbusplus::bus::match_t>(
             util::SDBusPlus::getBus(),
             sdbusplus::bus::match::rules::interfacesAdded() +
-                sdbusplus::bus::match::rules::sender(confCompatServ),
-            std::bind(&JsonConfig::compatIntfAdded, this,
-                      std::placeholders::_1));
+                sdbusplus::bus::match::rules::sender(entityManagerServ),
+            std::bind(&JsonConfig::confIntfAdded, this, std::placeholders::_1));
 
         try
         {
-            compatObjPaths = getCompatObjPaths();
+            objPaths = getConfigObjPaths();
         }
         catch (const util::DBusMethodError&)
         {
-            // Compatible interface does not exist on any dbus object yet
+            // The config D-Bus interface does not exist on any dbus object yet
         }
 
-        if (!compatObjPaths.empty())
+        if (!objPaths.empty())
         {
-            for (auto& path : compatObjPaths)
+            for (auto& path : objPaths)
             {
                 try
                 {
-                    // Retrieve json config compatible relative path
-                    // locations (last one found will be what's used if more
-                    // than one dbus object implementing the comptaible
-                    // interface exists).
-                    _confCompatValues =
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
+                    // last one found will be what's used if more
+                    // than one dbus object implementing the compatible
+                    // interface exists
+                    _confPropVals =
                         util::SDBusPlus::getProperty<std::vector<std::string>>(
-                            util::SDBusPlus::getBus(), path, confCompatIntf,
-                            confCompatProp);
+                            util::SDBusPlus::getBus(), path, confDBusInf,
+                            confDBusProp);
+#else
+                    // archive all the results to look for the correct one later
+                    std::string propValue =
+                        util::SDBusPlus::getProperty<std::string>(
+                            util::SDBusPlus::getBus(), path, confDBusInf,
+                            confDBusProp);
+                    _confPropVals.emplace_back(propValue);
+#endif
                 }
                 catch (const util::DBusError&)
                 {
-                    // Compatible property unavailable on this dbus object
-                    // path's compatible interface, ignore
+                    // The config D-Bus property unavailable on this dbus object
+                    // path's target interface, ignore
                 }
             }
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
             _loadFunc();
-        }
-        else
-        {
-            // Check if required config(s) are found not needing the
-            // compatible interface, otherwise this is intended to catch the
-            // exception thrown by the getConfFile function when the
-            // required config file was not found. This would then result in
-            // waiting for the compatible interfacesAdded signal
+#else
             try
             {
                 _loadFunc();
             }
             catch (const NoConfigFound&)
             {
-                // Wait for compatible interfacesAdded signal
+                // Wait for interfacesAdded signal
+            }
+#endif
+        }
+        // Check if required config(s) are found not needing the
+        // config interface, otherwise this is intended to catch the
+        // exception thrown by the getConfFile function when the
+        // required config file was not found. This would then result in
+        // waiting for the compatible interfacesAdded signal
+        else
+        {
+            try
+            {
+                _loadFunc();
+            }
+            catch (const NoConfigFound&)
+            {
+                // Wait for interfacesAdded signal
             }
         }
     }
 
     /**
-     * @brief InterfacesAdded callback function for the compatible interface.
+     * @brief InterfacesAdded callback function for the needed interface.
      *
      * @param[in] msg - The D-Bus message contents
      *
-     * If the compatible interface is found, it uses the compatible property on
-     * the interface to set the list of compatible values to be used when
-     * attempting to get a configuration file. Once the list of compatible
-     * values has been updated, it calls the load function.
+     * If the config interface is found, it uses the property under
+     * the interface to set the list of property values to be used when
+     * attempting to get a configuration file. Once the list of value
+     * has been updated, it calls the load function. If the configs have
+     * been loaded, it won't process further.
      */
-    void compatIntfAdded(sdbusplus::message_t& msg)
+    void confIntfAdded(sdbusplus::message_t& msg)
     {
-        sdbusplus::message::object_path op;
-        std::map<std::string,
-                 std::map<std::string, std::variant<std::vector<std::string>>>>
-            intfProps;
-
-        msg.read(op, intfProps);
-
-        if (intfProps.find(confCompatIntf) == intfProps.end())
+        // Avoid processing any interface added when there's already a
+        // valid sub-directory name to look for configs. _systemName is
+        // cleared when getConfFile() fails to find configs under this
+        // folder name.
+        if (!_systemName.empty())
         {
             return;
         }
 
-        const auto& props = intfProps.at(confCompatIntf);
-        // Only one dbus object with the compatible interface is used at a time
-        _confCompatValues =
-            std::get<std::vector<std::string>>(props.at(confCompatProp));
+        sdbusplus::message::object_path op;
+        std::map<std::string,
+                 std::map<std::string,
+                          std::variant<std::vector<std::string>, std::string>>>
+            intfProps;
+
+        msg.read(op, intfProps);
+
+        if (intfProps.find(confDBusInf) == intfProps.end())
+        {
+            // Can't find config D-Bus interface;
+            return;
+        }
+
+        const auto& props = intfProps.at(confDBusInf);
+
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
+        // Only one dbus object with the compatible interface is used at a
+        // time
+        _confPropVals =
+            std::get<std::vector<std::string>>(props.at(confDBusProp));
+#else
+        std::string propVal = std::get<std::string>(props.at(confDBusProp));
+        _confPropVals.emplace_back(propVal);
+#endif
+
+        // Let it throw here if no config is found after many efforts
         _loadFunc();
     }
 
@@ -202,9 +248,12 @@ class JsonConfig
      * 2.) From the default confBasePath location
      * 3.) From config file found using an entry from a list obtained from an
      * interface's property as a relative path extension on the base path where:
-     *     interface = Interface set in confCompatIntf with the property
-     *     property = Property set in confCompatProp containing a list of
+     *     interface = Interface set in confDBusIntf with the property
+     * if USE_IBM_COMPATIBLE_SYSTEM is defined:
+     *     property = Property set in confDBusProp containing a list of
      *                subdirectories in priority order to find a config
+     * else:
+     *     property = Property set in confDBusProp containing a string
      *
      * @brief Get the configuration file to be used
      *
@@ -235,15 +284,18 @@ class JsonConfig
 
         // Look for a config file at each entry relative to the base
         // path and use the first one found
-        auto it =
-            std::find_if(_confCompatValues.begin(), _confCompatValues.end(),
+        auto confPropValsIt =
+            std::find_if(_confPropVals.begin(), _confPropVals.end(),
                          [&confFile, &appName, &fileName](const auto& value) {
             confFile = fs::path{confBasePath} / appName / value / fileName;
+            _systemName = value;
             return fs::exists(confFile);
             });
-        if (it == _confCompatValues.end())
+
+        if (confPropValsIt == _confPropVals.end())
         {
             confFile.clear();
+            _systemName.clear();
         }
 
         if (confFile.empty() && !isOptional)
@@ -313,7 +365,7 @@ class JsonConfig
      */
     static const std::vector<std::string>& getCompatValues()
     {
-        return _confCompatValues;
+        return _confPropVals;
     }
 
   private:
@@ -327,13 +379,28 @@ class JsonConfig
     std::unique_ptr<sdbusplus::bus::match_t> _match;
 
     /**
-     * @brief List of compatible values from the compatible interface
+     * @brief List of property values from the config D-Bus interface
      *
+     * if USE_IBM_COMPATIBLE_SYSTEM is defined:
      * Only supports a single instance of the compatible interface on a dbus
      * object. If more than one dbus object exists with the compatible
      * interface, the last one found will be the list of compatible values used.
+     * else:
+     * If more than one dbus object exists with the inventory item interface,
+     * all will be archived to look for the correct one later (the one that
+     * contains the config files when acting as a sub-directory).
      */
-    inline static std::vector<std::string> _confCompatValues;
+    inline static std::vector<std::string> _confPropVals;
+
+    /**
+     * @brief The property value that is currently used as the system location
+     *
+     * The value extracted from the achieved property value list that is used
+     * as a system location to append on each config file as a sub-directory to
+     * look for the config files and really contains them.
+     */
+
+    inline static std::string _systemName;
 };
 
 } // namespace phosphor::fan
