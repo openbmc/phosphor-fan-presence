@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9f9f8128_26c3e393",
+        "filename": "json_config.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-25T15:44:38Z",
+      "side": 1,
+      "message": "Maybe leave off this comment, since if some commit ever changes it in PDI it would be outdated here.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 58
+      },
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c4e6c4e2_d6f5e9ba",
+        "filename": "json_config.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-25T15:44:38Z",
+      "side": 1,
+      "message": "could even simplify this to a one liner:  return util::SDBusPlus:: ...",
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c5c6a623_6e87733a",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-25T15:44:38Z",
+      "side": 1,
+      "message": "I tried to build with this and it failed with:\nERROR: \u0027Can not set values on configuration object that has been used.\u0027\n\nSo this block would need to go up above line 155.",
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1604dfc_f190bfb7",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-25T15:44:38Z",
+      "side": 1,
+      "message": "After I moved it up, I built and tried all 3 applications, and while fan-monitor got its config, fan-control never loaded a config file.  (not sure about fan-presence yet)",
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
