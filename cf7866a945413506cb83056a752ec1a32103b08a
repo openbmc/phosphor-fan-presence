@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "88ed54bc_c9d56cc9",
+        "filename": "json_config.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-26T10:34:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f9f8128_26c3e393",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 58
+      },
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c4e6c4e2_d6f5e9ba",
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-25T15:44:38Z",
       "side": 1,
       "message": "could even simplify this to a one liner:  return util::SDBusPlus:: ...",
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d3f1cb4e_5be0e5e0",
+        "filename": "json_config.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-26T10:34:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4e6c4e2_d6f5e9ba",
       "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb1da1a_6a25b041",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-26T10:34:27Z",
+      "side": 1,
+      "message": "Sorry, I was careless to test this by configuring #define USE_IBM_COMPATIBLE_SYSTEM directly to the file so I wasn\u0027t aware. Updated.",
+      "parentUuid": "c5c6a623_6e87733a",
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c1604dfc_f190bfb7",
@@ -71,6 +131,24 @@
       "writtenOn": "2023-09-25T15:44:38Z",
       "side": 1,
       "message": "After I moved it up, I built and tried all 3 applications, and while fan-monitor got its config, fan-control never loaded a config file.  (not sure about fan-presence yet)",
+      "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d446df88_8a474b68",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-26T10:34:27Z",
+      "side": 1,
+      "message": "I forgot to #include \"config.h\" into json_config.hpp.\n\nFan-monitor accidentally had config.h included in monitor/system.cpp where static func fan::JsonConfig::getConfFile() is called so it worked. Meanwhile, fan-control and fan-presence didn\u0027t have it, so line 301 of json_config.hpp is never reached:\n\n      auto confCompatValsIt \u003d\n              std::find_if(_confCompatVals.begin(), _confCompatVals.end(),\n                           [\u0026confFile, \u0026appName, \u0026fileName](const auto\u0026 value) {\n              confFile \u003d fs::path{confBasePath} / appName / value / fileName;\n              _systemName \u003d value;\n              return fs::exists(confFile);\n              });\n              \nUpdated. Can you please help check again?",
+      "parentUuid": "c1604dfc_f190bfb7",
       "revId": "cf7866a945413506cb83056a752ec1a32103b08a",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
