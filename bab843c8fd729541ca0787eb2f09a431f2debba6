@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f0ca5ca5_659cd24e",
+        "filename": "docs/control/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-27T03:06:54Z",
+      "side": 1,
+      "message": "Is it unlikely that the IBMCompatible interface can\u0027t be found on DBus? That\u0027s just my thought that the Inventory.Item interface is the last effort to look for the configs so I always have it prepared to be used when the former one fails. That explains why I didn\u0027t put it in an #else. I wonder if the IBM\u0027s inf was to be really not on DBus, would we wait for an InterfaceAdded signal forever? At lease we try the generic interface once?",
+      "parentUuid": "2541c1c5_995a7a79",
+      "range": {
+        "startLine": 85,
+        "startChar": 64,
+        "endLine": 86,
+        "endChar": 74
+      },
+      "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cd2c8e8_303edd85",
         "filename": "json_config.hpp",
         "patchSetId": 2
@@ -37,6 +61,24 @@
       "writtenOn": "2023-09-26T10:50:02Z",
       "side": 1,
       "message": "`both interface` -\u003e `both interfaces`",
+      "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35143b3b_14980330",
+        "filename": "json_config.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-27T03:06:54Z",
+      "side": 1,
+      "message": "Ack. I would update it in the next patch set.",
+      "parentUuid": "9cd2c8e8_303edd85",
       "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -111,6 +153,24 @@
       "writtenOn": "2023-09-26T10:50:02Z",
       "side": 1,
       "message": "Is this change really necessary?",
+      "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7b1566f_a0ca2940",
+        "filename": "json_config.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-27T03:06:54Z",
+      "side": 1,
+      "message": "It is not. But since I\u0027m adding more variables and codes, I want to make it look less cumbersome. Is it ok to place them in the same commit? I think it\u0027s small to separate.",
+      "parentUuid": "8aa73ae8_4b44861b",
       "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
