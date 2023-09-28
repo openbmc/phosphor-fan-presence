@@ -50,6 +50,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1272310c_299dffdd",
+        "filename": "docs/control/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-28T14:10:04Z",
+      "side": 1,
+      "message": "Yea, we would wait forever, well, until power on when fan monitor checks if it has a config loaded and throws if it doesn\u0027t.\n\nI don\u0027t think there\u0027s a need to try the generic one, we support 6 different configs in the flash image so far and haven\u0027t had an issue.",
+      "parentUuid": "f0ca5ca5_659cd24e",
+      "range": {
+        "startLine": 85,
+        "startChar": 64,
+        "endLine": 86,
+        "endChar": 74
+      },
+      "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9cd2c8e8_303edd85",
         "filename": "json_config.hpp",
         "patchSetId": 2
@@ -171,6 +195,24 @@
       "side": 1,
       "message": "It is not. But since I\u0027m adding more variables and codes, I want to make it look less cumbersome. Is it ok to place them in the same commit? I think it\u0027s small to separate.",
       "parentUuid": "8aa73ae8_4b44861b",
+      "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de25c39e_a392af01",
+        "filename": "json_config.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-09-28T14:10:04Z",
+      "side": 1,
+      "message": "I don\u0027t feel strongly enough to ask you to put it into a separate commit, or to reject the change, so it\u0027s fine.",
+      "parentUuid": "a7b1566f_a0ca2940",
       "revId": "bab843c8fd729541ca0787eb2f09a431f2debba6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
