@@ -16,6 +16,24 @@
       "message": "Did you change these lines on purpose? The author had a commit where this was put in place for a purpose, so I\u0027d be hesitant to change it.\n\nAlso, the loadFunc in the else leg was removed, which I think we still need.",
       "revId": "907edf099d7298df3af1d2d1cc4b1642077cb349",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98352fbd_e8748bea",
+        "filename": "json_config.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-09-29T16:15:05Z",
+      "side": 1,
+      "message": "The loadFunc was called in both cases of (objPaths.empty()?), just that when the configs are not found, it won\u0027t throw when the property value vector is empty, and will probably throw on the other hand. However, IBMCompatibleSystem inf is unique, but the Iventory.Item is not. If there\u0027s a list of obj paths implementing the Inventory.Item interface but the configs can\u0027t still be found, there\u0027s a chance the desired object path has not been up on DBus yet. So I just let it catch the throw anyway. What do you think here? I can just add an #ifdef to separate 2 interface behavior.",
+      "parentUuid": "4dfe8d14_7582afe5",
+      "revId": "907edf099d7298df3af1d2d1cc4b1642077cb349",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
