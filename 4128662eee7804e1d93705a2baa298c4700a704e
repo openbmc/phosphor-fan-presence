@@ -16,6 +16,24 @@
       "message": "Looks good to me.\nBefore merging, I\u0027d like to get a commit up in the meta-ibm layer to add the new meson option to the p10bmc machines so it still works.",
       "revId": "4128662eee7804e1d93705a2baa298c4700a704e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7ab7270d_9fa85821",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-10-09T13:47:15Z",
+      "side": 1,
+      "message": "Thanks. As Inventory.Item interface needs to be added to EM configuration to provide for the generic interface case of this patch. I just pushed a patch in EM to add the interface to the global schema and add properties to its definition in openbmc-dbus schema: https://gerrit.openbmc.org/c/openbmc/entity-manager/+/66981. I suspect the legitimation of that patch because openbmc-dbus schema only defines more definitions down the tree under Inventory/Item such as Board, Chassis,... I don\u0027t know if I can make Inventory/Item as \"type\":\"object\" and add properties to it. Can you please help check a bit.",
+      "parentUuid": "0710b04d_06aa0ac1",
+      "revId": "4128662eee7804e1d93705a2baa298c4700a704e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
