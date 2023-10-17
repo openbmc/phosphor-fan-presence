@@ -16,6 +16,24 @@
       "message": "Is this card used in Bonnell or Everest systems?",
       "revId": "785f6d681e368ffcc1da04efb25580e8bf7412f6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "23160b2e_d0b19ec1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-10-17T18:07:25Z",
+      "side": 1,
+      "message": "No, it\u0027s a 4U card but not needed in everest at this time.",
+      "parentUuid": "a6e353a1_9fc9e1d7",
+      "revId": "785f6d681e368ffcc1da04efb25580e8bf7412f6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
