@@ -144,10 +144,9 @@ void Fan::lockTarget(uint64_t target)
 void Fan::unlockTarget(uint64_t target)
 {
     // find and remove the requested lock
-    auto itr(std::find_if(_lockedTargets.begin(), _lockedTargets.end(),
-                          [target](auto lockedTarget) {
-        return target == lockedTarget;
-    }));
+    auto itr(std::find_if(
+        _lockedTargets.begin(), _lockedTargets.end(),
+        [target](auto lockedTarget) { return target == lockedTarget; }));
 
     if (_lockedTargets.end() != itr)
     {

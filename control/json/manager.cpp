@@ -339,10 +339,9 @@ void Manager::setOwner(const std::string& path, const std::string& serv,
     // Set owner state for specific object given
     auto& ownIntf = _servTree[path][serv];
     ownIntf.first = isOwned;
-    auto itIntf = std::find_if(ownIntf.second.begin(), ownIntf.second.end(),
-                               [&intf](const auto& interface) {
-        return intf == interface;
-    });
+    auto itIntf = std::find_if(
+        ownIntf.second.begin(), ownIntf.second.end(),
+        [&intf](const auto& interface) { return intf == interface; });
     if (itIntf == std::end(ownIntf.second))
     {
         ownIntf.second.emplace_back(intf);

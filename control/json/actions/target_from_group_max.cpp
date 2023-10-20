@@ -197,7 +197,7 @@ std::optional<PropertyVariantType> TargetFromGroupMax::processGroups()
                                         .c_str());
                     invalid = true;
                 }
-                },
+            },
                 value);
             if (invalid)
             {

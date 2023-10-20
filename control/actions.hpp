@@ -150,7 +150,7 @@ Action set_floor_from_average_sensor_value(std::map<T, uint64_t>&& val_to_speed)
                     count++;
                     return sum;
                 }
-                });
+            });
             if ((group.size() - count) > 0)
             {
                 auto groupSize = static_cast<int64_t>(group.size());
@@ -208,7 +208,7 @@ Action
                     count++;
                     return sum;
                 }
-                });
+            });
             if ((group.size() - count) > 0)
             {
                 auto groupSize = static_cast<int64_t>(group.size());
@@ -617,18 +617,16 @@ auto use_events_on_state(T&& state, std::vector<SetSpeedEvent>&& events)
         if (useEvents)
         {
             // Init events
-            std::for_each(events.begin(), events.end(),
-                          [&zone](auto const& entry) {
-                zone.initEvent(entry);
-            });
+            std::for_each(
+                events.begin(), events.end(),
+                [&zone](auto const& entry) { zone.initEvent(entry); });
         }
         else
         {
             // Remove events
-            std::for_each(events.begin(), events.end(),
-                          [&zone](auto const& entry) {
-                zone.removeEvent(entry);
-            });
+            std::for_each(
+                events.begin(), events.end(),
+                [&zone](auto const& entry) { zone.removeEvent(entry); });
         }
     };
 }

@@ -299,8 +299,8 @@ void Event::setTriggers(const json& jsonObj)
             auto availTrigs = std::accumulate(
                 std::next(trigger::triggers.begin()), trigger::triggers.end(),
                 trigger::triggers.begin()->first, [](auto list, auto trig) {
-                    return std::move(list) + ", " + trig.first;
-                });
+                return std::move(list) + ", " + trig.first;
+            });
             log<level::ERR>(
                 std::format("Trigger '{}' is not recognized", tClass).c_str(),
                 entry("AVAILABLE_TRIGGERS=%s", availTrigs.c_str()));

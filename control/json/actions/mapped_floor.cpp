@@ -237,7 +237,7 @@ void tryConvertToDouble(PropertyVariantType& value)
         {
             value = static_cast<double>(val);
         }
-        },
+    },
         value);
 }
 
@@ -271,7 +271,7 @@ std::optional<PropertyVariantType>
                             "isn't numeric",
                             ActionBase::getName(), group.getName())};
                     }
-                    },
+                },
                     value);
                 checked = true;
             }

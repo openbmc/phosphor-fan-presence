@@ -71,10 +71,9 @@ Action services_missing_owner(std::vector<SetSpeedEvent>&& sse)
         // Set/update the services of the group
         zone.setServices(&group);
         const auto& services = zone.getGroupServices(&group);
-        auto precondState = std::any_of(services.begin(), services.end(),
-                                        [](const auto& s) {
-            return !std::get<hasOwnerPos>(s);
-        });
+        auto precondState = std::any_of(
+            services.begin(), services.end(),
+            [](const auto& s) { return !std::get<hasOwnerPos>(s); });
 
         if (precondState)
         {

@@ -47,7 +47,7 @@ void MissingOwnerTarget::run(Zone& zone)
             std::any_of(members.begin(), members.end(),
                         [&intf = group.getInterface()](const auto& member) {
             return !Manager::hasOwner(member, intf);
-            });
+        });
         // Update zone's target hold based on action results
         zone.setTargetHold(group.getName(), _target, isMissingOwner);
     }

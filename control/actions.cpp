@@ -73,10 +73,9 @@ Action set_speed_on_missing_owner(uint64_t speed)
         // Set/update the services of the group
         zone.setServices(&group);
         auto services = zone.getGroupServices(&group);
-        auto missingOwner = std::any_of(services.begin(), services.end(),
-                                        [](const auto& s) {
-            return !std::get<hasOwnerPos>(s);
-        });
+        auto missingOwner = std::any_of(
+            services.begin(), services.end(),
+            [](const auto& s) { return !std::get<hasOwnerPos>(s); });
         if (missingOwner)
         {
             zone.setSpeed(speed);

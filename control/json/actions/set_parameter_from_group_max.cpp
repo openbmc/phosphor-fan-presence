@@ -77,7 +77,7 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
                                             .c_str());
                         invalid = true;
                     }
-                    },
+                },
                     value);
                 if (invalid)
                 {

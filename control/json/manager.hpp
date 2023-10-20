@@ -229,7 +229,7 @@ class Manager
                         return std::find(getActiveProfiles().begin(),
                                          getActiveProfiles().end(),
                                          name) != getActiveProfiles().end();
-                        }))
+                    }))
                     {
                         continue;
                     }

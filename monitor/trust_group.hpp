@@ -91,7 +91,7 @@ class Group
         return (std::find_if(_sensors.begin(), _sensors.end(),
                              [&sensor](const auto& s) {
             return sensor.name() == s.sensor->name();
-                }) != _sensors.end());
+        }) != _sensors.end());
     }
 
     /**

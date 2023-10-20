@@ -470,10 +470,9 @@ void ShutdownAlarmMonitor::createEventLog(
 std::optional<ShutdownType>
     ShutdownAlarmMonitor::getShutdownType(const std::string& interface) const
 {
-    auto it = std::find_if(shutdownInterfaces.begin(), shutdownInterfaces.end(),
-                           [interface](const auto& a) {
-        return a.second == interface;
-    });
+    auto it = std::find_if(
+        shutdownInterfaces.begin(), shutdownInterfaces.end(),
+        [interface](const auto& a) { return a.second == interface; });
 
     if (it == shutdownInterfaces.end())
     {

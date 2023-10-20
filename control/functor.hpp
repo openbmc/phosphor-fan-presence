@@ -176,7 +176,7 @@ struct Properties
             {
                 // Property value not sent to handler
             }
-            });
+        });
     }
 
   private:

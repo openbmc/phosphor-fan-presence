@@ -409,10 +409,9 @@ void Zone::timerExpired(const Group& eventGroup,
                         const std::vector<Action>& eventActions)
 {
     // Perform the actions
-    std::for_each(eventActions.begin(), eventActions.end(),
-                  [this, &eventGroup](const auto& action) {
-        action(*this, eventGroup);
-    });
+    std::for_each(
+        eventActions.begin(), eventActions.end(),
+        [this, &eventGroup](const auto& action) { action(*this, eventGroup); });
 }
 
 void Zone::handleEvent(sdbusplus::message_t& msg, const EventData* eventData)
@@ -436,10 +435,9 @@ const std::string& Zone::getService(const std::string& path,
     {
         for (auto& serv : srvIter->second)
         {
-            auto it = std::find_if(serv.second.begin(), serv.second.end(),
-                                   [&intf](const auto& interface) {
-                return intf == interface;
-            });
+            auto it = std::find_if(
+                serv.second.begin(), serv.second.end(),
+                [&intf](const auto& interface) { return intf == interface; });
             if (it != std::end(serv.second))
             {
                 // Service found

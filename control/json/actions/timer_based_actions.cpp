@@ -42,10 +42,9 @@ TimerBasedActions::TimerBasedActions(const json& jsonObj,
 {
     // If any of groups' value == nullopt(i.e. not configured), action is
     // driven by the service owned state of the group members
-    _byOwner = std::any_of(_groups.begin(), _groups.end(),
-                           [](const auto& group) {
-        return group.getValue() == std::nullopt;
-    });
+    _byOwner = std::any_of(
+        _groups.begin(), _groups.end(),
+        [](const auto& group) { return group.getValue() == std::nullopt; });
 
     setTimerConf(jsonObj);
     setActions(jsonObj);
@@ -58,12 +57,12 @@ void TimerBasedActions::run(Zone& zone)
         // If any service providing a group member is not owned, start
         // timer and if all members' services are owned, stop timer.
         if (std::any_of(_groups.begin(), _groups.end(), [](const auto& group) {
-                const auto& members = group.getMembers();
-                return std::any_of(members.begin(), members.end(),
-                                   [&group](const auto& member) {
+            const auto& members = group.getMembers();
+            return std::any_of(members.begin(), members.end(),
+                               [&group](const auto& member) {
                 return !Manager::hasOwner(member, group.getInterface());
-                });
-            }))
+            });
+        }))
         {
             startTimer();
         }
@@ -87,7 +86,7 @@ void TimerBasedActions::run(Zone& zone)
                        mgr->getProperty(member, group.getInterface(),
                                         group.getProperty());
             });
-            }))
+        }))
         {
             // Timer will be started(and never stopped) when _groups is empty
             startTimer();

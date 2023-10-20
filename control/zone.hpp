@@ -258,7 +258,7 @@ class Zone : public ThermalObject
                 {
                     value = val;
                 }
-                },
+            },
                 variant);
 
             // Unable to return Sensor Value property
@@ -633,7 +633,7 @@ class Zone : public ThermalObject
                         {
                             value = val;
                         }
-                        },
+                    },
                         var);
 
                     return value;

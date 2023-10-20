@@ -213,9 +213,9 @@ void JsonConfig::process(const json& jsonConf)
 
     // Create the error reporter class if necessary
     if (std::any_of(_fans.begin(), _fans.end(), [](const auto& fan) {
-            return std::get<std::optional<size_t>>(std::get<Fan>(fan)) !=
-                   std::nullopt;
-        }))
+        return std::get<std::optional<size_t>>(std::get<Fan>(fan)) !=
+               std::nullopt;
+    }))
     {
         _reporter = std::make_unique<ErrorReporter>(_bus, _fans);
     }

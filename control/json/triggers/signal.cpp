@@ -249,11 +249,11 @@ enableTrigger
     if (subscriber == signals.end())
     {
         // Construct list of available signals
-        auto availSignals = std::accumulate(
-            std::next(signals.begin()), signals.end(), signals.begin()->first,
-            [](auto list, auto signal) {
+        auto availSignals =
+            std::accumulate(std::next(signals.begin()), signals.end(),
+                            signals.begin()->first, [](auto list, auto signal) {
             return std::move(list) + ", " + signal.first;
-            });
+        });
         auto msg =
             std::format("Event '{}' requires a supported signal given to be "
                         "triggered by signal, available signals: {}",

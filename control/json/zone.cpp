@@ -161,10 +161,9 @@ void Zone::setTarget(uint64_t target)
 
 void Zone::lockFanTarget(const std::string& fname, uint64_t target)
 {
-    auto fanItr = std::find_if(_fans.begin(), _fans.end(),
-                               [&fname](const auto& fan) {
-        return fan->getName() == fname;
-    });
+    auto fanItr = std::find_if(
+        _fans.begin(), _fans.end(),
+        [&fname](const auto& fan) { return fan->getName() == fname; });
 
     if (_fans.end() != fanItr)
     {
@@ -181,10 +180,9 @@ void Zone::lockFanTarget(const std::string& fname, uint64_t target)
 
 void Zone::unlockFanTarget(const std::string& fname, uint64_t target)
 {
-    auto fanItr = std::find_if(_fans.begin(), _fans.end(),
-                               [&fname](const auto& fan) {
-        return fan->getName() == fname;
-    });
+    auto fanItr = std::find_if(
+        _fans.begin(), _fans.end(),
+        [&fname](const auto& fan) { return fan->getName() == fname; });
 
     if (_fans.end() != fanItr)
     {
@@ -460,10 +458,9 @@ void Zone::setInterfaces(const json& jsonObj)
         if (propFuncs == _intfPropHandlers.end())
         {
             // Construct list of available configurable interfaces
-            auto intfs = std::accumulate(std::next(_intfPropHandlers.begin()),
-                                         _intfPropHandlers.end(),
-                                         _intfPropHandlers.begin()->first,
-                                         [](auto list, auto intf) {
+            auto intfs = std::accumulate(
+                std::next(_intfPropHandlers.begin()), _intfPropHandlers.end(),
+                _intfPropHandlers.begin()->first, [](auto list, auto intf) {
                 return std::move(list) + ", " + intf.first;
             });
             log<level::ERR>("Configured interface not available",
@@ -500,7 +497,7 @@ void Zone::setInterfaces(const json& jsonObj)
                     propFuncs->second.end(), propFuncs->second.begin()->first,
                     [](auto list, auto prop) {
                     return std::move(list) + ", " + prop.first;
-                    });
+                });
                 log<level::ERR>("Configured property not available",
                                 entry("JSON=%s", property.dump().c_str()),
                                 entry("AVAILABLE_PROPS=%s", props.c_str()));

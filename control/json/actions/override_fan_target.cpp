@@ -87,8 +87,8 @@ void OverrideFanTarget::lockFans(Zone& zone)
         {
             fanList = std::accumulate(std::next(_fans.begin()), _fans.end(),
                                       _fans[0], [](auto list, auto fan) {
-                                          return std::move(list) + ", " + fan;
-                                      });
+                return std::move(list) + ", " + fan;
+            });
         }
 
         record(std::format("Adding fan target lock of {} on fans [{}] zone {}",

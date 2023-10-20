@@ -378,8 +378,8 @@ void System::powerStateChanged(bool powerStateOn)
         // If no fan has its sensors on D-Bus, then there is a problem
         // with the fan controller.  Log an error and shut down.
         if (std::all_of(_fans.begin(), _fans.end(), [](const auto& fan) {
-                return fan->numSensorsOnDBusAtPowerOn() == 0;
-            }))
+            return fan->numSensorsOnDBusAtPowerOn() == 0;
+        }))
         {
 #if DELAY_HOST_CONTROL > 0
             sleep(DELAY_HOST_CONTROL);
@@ -388,8 +388,8 @@ void System::powerStateChanged(bool powerStateOn)
                 fan->powerStateChanged(powerStateOn);
             });
             if (std::all_of(_fans.begin(), _fans.end(), [](const auto& fan) {
-                    return fan->numSensorsOnDBusAtPowerOn() == 0;
-                }))
+                return fan->numSensorsOnDBusAtPowerOn() == 0;
+            }))
             {
                 handleOfflineFanController();
                 return;

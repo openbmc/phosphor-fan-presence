@@ -240,7 +240,7 @@ class JsonConfig
                          [&confFile, &appName, &fileName](const auto& value) {
             confFile = fs::path{confBasePath} / appName / value / fileName;
             return fs::exists(confFile);
-            });
+        });
         if (it == _confCompatValues.end())
         {
             confFile.clear();
