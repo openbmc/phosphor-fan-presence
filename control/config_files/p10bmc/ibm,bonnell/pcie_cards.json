@@ -1,0 +1,188 @@
+{
+    "cards": [
+        {
+            "name": "PHYP had errors getting IDs",
+            "vendor_id": "0xFFFF",
+            "device_id": "0xFFFF",
+            "subsystem_vendor_id": "0xFFFF",
+            "subsystem_id": "0xFFFF",
+            "floor_index": 5
+        },
+        {
+            "name": "Flett",
+            "vendor_id": "0x1014",
+            "device_id": "0x04F2",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0007",
+            "has_temp_sensor": true
+        },
+        {
+            "name": "Bear Lake and Bear River",
+            "vendor_id": "0x1014",
+            "device_id": "0x04F2",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0004",
+            "has_temp_sensor": true
+        },
+        {
+            "name": "Everglades 10Gb 2Port",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1015",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x061F",
+            "floor_index": 1
+        },
+        {
+            "name": "Everglades 25Gb 2Port",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1015",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x061E",
+            "floor_index": 1
+        },
+        {
+            "name": "Cedar Lake 100G 2port",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101D",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06A6",
+            "floor_index": 5
+        },
+        {
+            "name": "Cedar Lake Crypto 100G 2port",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101D",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06A5",
+            "floor_index": 5
+        },
+        {
+            "name": "GTO",
+            "vendor_id": "0x1014",
+            "device_id": "0x034A",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x033B",
+            "floor_index": 3
+        },
+        {
+            "name": "Bolt PCIe3 NVMe Flash Adapter II x8 1.6TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA822",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0621",
+            "floor_index": 3
+        },
+        {
+            "name": "Bolt PCIe3 NVMe Flash Adapter II x8 3.2TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA822",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0622",
+            "floor_index": 4
+        },
+        {
+            "name": "Bolt PCIe3 NVMe Flash Adapter II x8 6.4TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA822",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0629",
+            "floor_index": 4
+        },
+        {
+            "name": "Bolt PCIe3 NVMe Flash Adapter III x8 1.6TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA822",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x064A",
+            "floor_index": 3
+        },
+        {
+            "name": "Bolt PCIe3 NVMe Flash Adapter III x8 3.2TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA822",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x064B",
+            "floor_index": 4
+        },
+        {
+            "name": "Bolt PCIe3 NVMe Flash Adapter III x8 6.4TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA822",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x064C",
+            "floor_index": 4
+        },
+        {
+            "name": "Kona PCIe4 NVMe U.2 Flash Adapter x8 1.6TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA824",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0682",
+            "floor_index": 4
+        },
+        {
+            "name": "Kona PCIe4 NVMe U.2 Flash Adapter x8 3.2TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA824",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0683",
+            "floor_index": 4
+        },
+        {
+            "name": "Kona PCIe4 NVMe U.2 Flash Adapter x8 6.4TB",
+            "vendor_id": "0x144D",
+            "device_id": "0xA824",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0684",
+            "floor_index": 4
+        },
+        {
+            "name": "Puntfish",
+            "vendor_id": "0x1077",
+            "device_id": "0x2271",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x069E",
+            "floor_index": 1
+        },
+        {
+            "name": "Flavafish",
+            "vendor_id": "0x1077",
+            "device_id": "0x2281",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0651",
+            "floor_index": 1
+        },
+        {
+            "name": "Haleakala EN 2Port 100Gb",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1019",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0635",
+            "floor_index": 5
+        },
+        {
+            "name": "Crater Lake Crypto 200G 2Port",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101D",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06A3",
+            "floor_index": 5
+        },
+        {
+            "name": "Crater Lake 200G 2Port",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101D",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06A4",
+            "floor_index": 5
+        },
+        {
+            "name": "Lassen 2 Port IB",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1019",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0617",
+            "floor_index": 5
+        }
+    ]
+}
