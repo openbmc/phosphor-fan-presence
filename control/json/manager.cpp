@@ -230,6 +230,7 @@ void Manager::powerStateChanged(bool powerStateOn)
 {
     if (powerStateOn)
     {
+        FlightRecorder::instance().log("power", "Power on");
         if (_zones.empty())
         {
             throw std::runtime_error("No configured zones found at poweron");
@@ -244,6 +245,7 @@ void Manager::powerStateChanged(bool powerStateOn)
     }
     else
     {
+        FlightRecorder::instance().log("power", "Power off");
         // Tell events to run their power off triggers
         std::for_each(_events.begin(), _events.end(),
                       [](const auto& entry) { entry.second->powerOff(); });
