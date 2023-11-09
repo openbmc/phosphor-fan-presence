@@ -481,6 +481,13 @@
         ]
     },
     {
+        "name": "dram dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_dram_dvfs_temp"
+        ]
+    },
+    {
         "name": "pmic temps",
         "service": "org.open_power.OCC.Control",
         "members": [
@@ -548,6 +555,13 @@
             "/xyz/openbmc_project/sensors/temperature/dimm61_pmic_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm62_pmic_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm63_pmic_temp"
+        ]
+    },
+    {
+        "name": "pmic dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_pmic_dvfs_temp"
         ]
     },
     {
@@ -621,6 +635,14 @@
         ]
     },
     {
+        "name": "internal memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_intmb_dvfs_temp"
+        ]
+    },
+    {
+        // Repurposed as DRAM temperature sensors for 4U DDIMMs
         "name": "dram and external memory buffer temps",
         "service": "org.open_power.OCC.Control",
         "members": [
@@ -691,6 +713,14 @@
         ]
     },
     {
+        "name": "dram and external memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_dram_extmb_dvfs_temp"
+        ]
+    },
+    {
+        // Repurposed as PMIC temperature sensors for 4U DDIMMs
         "name": "external memory buffer temps",
         "service": "org.open_power.OCC.Control",
         "members": [
@@ -758,6 +788,13 @@
             "/xyz/openbmc_project/sensors/temperature/dimm61_extmb_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm62_extmb_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm63_extmb_temp"
+        ]
+    },
+    {
+        "name": "external memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_extmb_dvfs_temp"
         ]
     },
     {

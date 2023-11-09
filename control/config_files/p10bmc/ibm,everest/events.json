@@ -1166,6 +1166,216 @@
         ]
     },
     {
+        "name": "Set DRAM DVFS parameter",
+        "groups": [
+            {
+                "name": "dram dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 8
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 11
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set PMIC DVFS parameter",
+        "groups": [
+            {
+                "name": "pmic dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "pmic_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "pmic_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set internal memory buffer DVFS parameter",
+        "groups": [
+            {
+                "name": "internal memory buffer dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "intmb_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "intmb_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 12
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set DRAM and external memory buffer DVFS parameter",
+        "groups": [
+            {
+                "name": "dram and external memory buffer dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_extmb_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_extmb_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set external memory buffer DVFS parameter",
+        "groups": [
+            {
+                "name": "external memory buffer dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "extmb_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "extmb_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
         // Collect group temperatures each iteration the repeating timer expires
         "name": "Fan control timer loop",
         "groups": [
@@ -1505,7 +1715,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 69.0,
+                "state_parameter_name": "dram_dvfs_increase_temp",
                 "delta": 175
             },
             {
@@ -1517,7 +1727,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 58.0,
+                "state_parameter_name": "pmic_dvfs_increase_temp",
                 "delta": 200
             },
             {
@@ -1529,7 +1739,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 75.0,
+                "state_parameter_name": "intmb_dvfs_increase_temp",
                 "delta": 150
             },
             {
@@ -1541,7 +1751,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 55.0,
+                "state_parameter_name": "dram_extmb_dvfs_increase_temp",
                 "delta": 200
             },
             {
@@ -1553,7 +1763,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 55.0,
+                "state_parameter_name": "extmb_dvfs_increase_temp",
                 "delta": 200
             },
             {
@@ -1805,7 +2015,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 66.0,
+                "state_parameter_name": "dram_dvfs_decrease_temp",
                 "delta": 40
             },
             {
@@ -1817,7 +2027,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 55.0,
+                "state_parameter_name": "pmic_dvfs_decrease_temp",
                 "delta": 40
             },
             {
@@ -1829,7 +2039,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 72.0,
+                "state_parameter_name": "intmb_dvfs_decrease_temp",
                 "delta": 40
             },
             {
@@ -1841,7 +2051,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 52.0,
+                "state_parameter_name": "dram_extmb_dvfs_decrease_temp",
                 "delta": 40
             },
             {
@@ -1853,7 +2063,7 @@
                         "property": { "name": "Value" }
                     }
                 ],
-                "state": 52.0,
+                "state_parameter_name": "extmb_dvfs_decrease_temp",
                 "delta": 40
             },
             {
