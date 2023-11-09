@@ -159,6 +159,13 @@
         ]
     },
     {
+        "name": "dram dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_dram_dvfs_temp"
+        ]
+    },
+    {
         "name": "pmic temps",
         "service": "org.open_power.OCC.Control",
         "members": [
@@ -181,6 +188,13 @@
         ]
     },
     {
+        "name": "pmic dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_pmic_dvfs_temp"
+        ]
+    },
+    {
         "name": "internal memory buffer temps",
         "service": "org.open_power.OCC.Control",
         "members": [
@@ -200,6 +214,13 @@
             "/xyz/openbmc_project/sensors/temperature/dimm13_intmb_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm14_intmb_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm15_intmb_temp"
+        ]
+    },
+    {
+        "name": "internal memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_intmb_dvfs_temp"
         ]
     },
     {
@@ -226,6 +247,13 @@
         ]
     },
     {
+        "name": "dram and external memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_dram_extmb_dvfs_temp"
+        ]
+    },
+    {
         // Repurposed as PMIC temperature sensors for 4U DDIMMs
         "name": "external memory buffer temps",
         "service": "org.open_power.OCC.Control",
@@ -246,6 +274,13 @@
             "/xyz/openbmc_project/sensors/temperature/dimm13_extmb_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm14_extmb_temp",
             "/xyz/openbmc_project/sensors/temperature/dimm15_extmb_temp"
+        ]
+    },
+    {
+        "name": "external memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_extmb_dvfs_temp"
         ]
     },
     {
