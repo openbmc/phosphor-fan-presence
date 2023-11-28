@@ -178,43 +178,40 @@ void Fan::startMonitor()
     _monitorReady = true;
 
     std::for_each(_sensors.begin(), _sensors.end(), [this](auto& sensor) {
-        if (_present)
+        try
         {
-            try
-            {
-                // Force a getProperty call to check if the tach sensor is
-                // on D-Bus.  If it isn't, now set it to nonfunctional.
-                // This isn't done earlier so that code watching for
-                // nonfunctional tach sensors doesn't take actions before
-                // those sensors show up on D-Bus.
-                sensor->updateTachAndTarget();
-                tachChanged(*sensor);
-            }
-            catch (const util::DBusServiceError& e)
-            {
-                // The tach property still isn't on D-Bus. Ensure
-                // sensor is nonfunctional, but skip creating an
-                // error for it since it isn't a fan problem.
-                getLogger().log(std::format(
-                    "Monitoring starting but {} sensor value not on D-Bus",
-                    sensor->name()));
+            // Force a getProperty call to check if the tach sensor is
+            // on D-Bus.  If it isn't, now set it to nonfunctional.
+            // This isn't done earlier so that code watching for
+            // nonfunctional tach sensors doesn't take actions before
+            // those sensors show up on D-Bus.
+            sensor->updateTachAndTarget();
+            tachChanged(*sensor);
+        }
+        catch (const util::DBusServiceError& e)
+        {
+            // The tach property still isn't on D-Bus. Ensure
+            // sensor is nonfunctional, but skip creating an
+            // error for it since it isn't a fan problem.
+            getLogger().log(std::format(
+                "Monitoring starting but {} sensor value not on D-Bus",
+                sensor->name()));
 
-                sensor->setFunctional(false, true);
+            sensor->setFunctional(false, true);
 
-                if (_numSensorFailsForNonFunc)
+            if (_numSensorFailsForNonFunc)
+            {
+                if (_functional &&
+                    (countNonFunctionalSensors() >= _numSensorFailsForNonFunc))
                 {
-                    if (_functional && (countNonFunctionalSensors() >=
-                                        _numSensorFailsForNonFunc))
-                    {
-                        updateInventory(false);
-                    }
+                    updateInventory(false);
                 }
-
-                // At this point, don't start any power off actions due
-                // to missing sensors.  Let something else handle that
-                // policy.
-                _system.fanStatusChange(*this, true);
             }
+
+            // At this point, don't start any power off actions due
+            // to missing sensors.  Let something else handle that
+            // policy.
+            _system.fanStatusChange(*this, true);
         }
     });
 }
