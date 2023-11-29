@@ -52,7 +52,7 @@ phosphor_fan_monitor = executable(
     install: true
 )
 
-if(get_option('tests').enabled())
+if(get_option('tests').allowed())
     subdir('test')
 endif
 

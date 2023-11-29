@@ -59,7 +59,7 @@ sdeventplus_dep = dependency('sdeventplus')
 stdplus_dep = dependency('stdplus')
 systemd_dep = dependency('systemd')
 
-if(get_option('tests').enabled())
+if(get_option('tests').allowed())
     gmock_dep = dependency('gmock', disabler: true, required: false)
     gtest_dep = dependency('gtest', main: true, disabler: true, required: false)
 
@@ -76,7 +76,7 @@ if(get_option('tests').enabled())
             gmock_dep = gtest_proj.dependency('gmock')
         else
             assert(
-                not get_option('tests').enabled(),
+                not get_option('tests').allowed(),
                 'Googletest is required if tests are enabled'
             )
         endif
@@ -106,7 +106,7 @@ conf.set_quoted(
 
 # Fan control can be in YAML mode when everything else is in JSON mode
 control_conf_type = 'yaml'
-if get_option('json-config').enabled() and get_option('json-control').enabled()
+if get_option('json-config').allowed() and get_option('json-control').allowed()
     control_conf_type = 'json'
 endif
 
@@ -116,12 +116,12 @@ conf.set(
 conf.set_quoted(
     'FAN_MONITOR_YAML_FILE', get_option('fan-monitor-yaml-file'))
 conf.set('DELAY_HOST_CONTROL', get_option('delay-host-control'))
-if get_option('monitor-use-host-state').enabled()
+if get_option('monitor-use-host-state').allowed()
     conf.set('MONITOR_USE_HOST_STATE', '')
 endif
 
 # JSON-or-YAML (all programs)
-if get_option('json-config').enabled()
+if get_option('json-config').allowed()
     conf.set('PRESENCE_USE_JSON', '')
     if control_conf_type == 'json'
         conf.set('CONTROL_USE_JSON', '')
@@ -137,7 +137,7 @@ endif
 conf.set_quoted('SENSOR_MONITOR_PERSIST_ROOT_PATH',
                 get_option('sensor-monitor-persist-root-path'))
 
-if get_option('use-host-power-state').enabled()
+if get_option('use-host-power-state').allowed()
     conf.set('ENABLE_HOST_STATE', '')
 endif
 
@@ -157,7 +157,7 @@ configure_file(output: 'config.h', configuration: conf)
 # Service: [name,[svcfiles]]
 services = []
 
-if get_option('control-service').enabled()
+if get_option('control-service').allowed()
     subdir('control')
     service_files = ['phosphor-fan-control@.service']
     if control_conf_type == 'yaml'
@@ -166,27 +166,27 @@ if get_option('control-service').enabled()
     services += [['control', service_files]]
 endif
 
-if get_option('monitor-service').enabled()
+if get_option('monitor-service').allowed()
     subdir('monitor')
     service_files = ['phosphor-fan-monitor@.service']
-    if not get_option('json-config').enabled()
+    if not get_option('json-config').allowed()
         service_files += 'phosphor-fan-monitor-init@.service'
     endif
     services += [['monitor', service_files]]
 endif
 
-if get_option('cooling-type-service').enabled()
+if get_option('cooling-type-service').allowed()
     libevdev_dep = dependency('libevdev')
     subdir('cooling-type')
 endif
 
-if get_option('presence-service').enabled()
+if get_option('presence-service').allowed()
     libevdev_dep = dependency('libevdev')
     subdir('presence')
     services += [['presence', ['phosphor-fan-presence-tach@.service']]]
 endif
 
-if get_option('sensor-monitor-service').enabled()
+if get_option('sensor-monitor-service').allowed()
     subdir('sensor-monitor')
     install_data('sensor-monitor/service_files/sensor-monitor.service',
         install_dir: servicedir)
