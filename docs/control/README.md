@@ -63,24 +63,24 @@ The config files location can also be based on a system type. This is necessary
 where more than one type of machine is supported in a single BMC firmware image
 and those system types can not share any one common config file.
 
-A system type sub-directory can be obtained from the `IBMCompatibleSystem` D-Bus
-interface's `Names` property. The `Names` property contains a list of one or
-more compatible system types, ordered from most specific to the most general.
+A system type sub-directory can be obtained from the
+`Inventory.Decorator.Compatible` D-Bus interface's `Names` property. The
+property holds a list of one or more compatible system types.
 
 Example:
 
-- `ibm,rainier-2u`
-- `ibm,rainier`
+- `com.ampere.Hardware.Chassis.Model.MtJade`
+- `com.ampere.Hardware.Chassis.Model.MtMitchell`
 
 The `phosphor-fan-control` application then traverses the supported directory,
-appending each compatible system type entry as a sub-directory from most
-specific to most general on each config file until it is found.
+appending each compatible system type entry as a sub-directory on each config
+file until it is found.
 
 Example:
 
-1. `/usr/share/phosphor-fan-presence/control/ibm,rainier-2u/`
+1. `/usr/share/phosphor-fan-presence/control/com.ampere.Hardware.Chassis.Model.MtJade/`
    - (directory/config file does not exist)
-2. `/usr/share/phosphor-fan-presence/control/ibm,rainier/events.json`
+2. `/usr/share/phosphor-fan-presence/control/com.ampere.Hardware.Chassis.Model.MtMitchell/events.json`
    - (config file found)
 
 If any required config file is not found and the machine is powered on, an error
