@@ -15,6 +15,8 @@
  */
 #pragma once
 
+#include "config.h"
+
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
@@ -36,8 +38,13 @@ using namespace phosphor::logging;
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence";
 constexpr auto confCompatServ = "xyz.openbmc_project.EntityManager";
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
 constexpr auto confCompatIntf =
     "xyz.openbmc_project.Configuration.IBMCompatibleSystem";
+#else
+constexpr auto confCompatIntf =
+    "xyz.openbmc_project.Inventory.Decorator.Compatible";
+#endif
 constexpr auto confCompatProp = "Names";
 
 /**
@@ -84,10 +91,23 @@ class JsonConfig
      * Retrieve all the object paths implementing the compatible interface for
      * configuration file loading.
      */
-    static auto& getCompatObjPaths() __attribute__((pure))
+    std::vector<std::string>& getCompatObjPaths()
     {
-        static auto paths = util::SDBusPlus::getSubTreePathsRaw(
+        using SubTreeMap =
+            std::map<std::string,
+                     std::map<std::string, std::vector<std::string>>>;
+        SubTreeMap subTreeObjs = util::SDBusPlus::getSubTreeRaw(
             util::SDBusPlus::getBus(), "/", confCompatIntf, 0);
+
+        static std::vector<std::string> paths;
+        for (auto& [path, serviceMap] : subTreeObjs)
+        {
+            // Only save objects under confCompatServ
+            if (serviceMap.find(confCompatServ) != serviceMap.end())
+            {
+                paths.emplace_back(path);
+            }
+        }
         return paths;
     }
 
@@ -130,7 +150,7 @@ class JsonConfig
                 {
                     // Retrieve json config compatible relative path
                     // locations (last one found will be what's used if more
-                    // than one dbus object implementing the comptaible
+                    // than one dbus object implementing the compatible
                     // interface exists).
                     _confCompatValues =
                         util::SDBusPlus::getProperty<std::vector<std::string>>(
@@ -143,7 +163,20 @@ class JsonConfig
                     // path's compatible interface, ignore
                 }
             }
+#ifdef USE_IBM_COMPATIBLE_SYSTEM
             _loadFunc();
+#else
+            try
+            {
+                _loadFunc();
+            }
+            catch (const NoConfigFound&)
+            {
+                // The Decorator.Compatible interface is not unique to one
+                // single object on DBus so this should not be treated as a
+                // failure, wait for interfacesAdded signal.
+            }
+#endif
         }
         else
         {
@@ -175,6 +208,12 @@ class JsonConfig
      */
     void compatIntfAdded(sdbusplus::message_t& msg)
     {
+        if (!_compatibleName.empty())
+        {
+            // Do not process the interfaceAdded signal if one compatible name
+            // has been successfully used to get config files
+            return;
+        }
         sdbusplus::message::object_path op;
         std::map<std::string,
                  std::map<std::string, std::variant<std::vector<std::string>>>>
@@ -239,11 +278,13 @@ class JsonConfig
             std::find_if(_confCompatValues.begin(), _confCompatValues.end(),
                          [&confFile, &appName, &fileName](const auto& value) {
             confFile = fs::path{confBasePath} / appName / value / fileName;
+            _compatibleName = value;
             return fs::exists(confFile);
         });
         if (it == _confCompatValues.end())
         {
             confFile.clear();
+            _compatibleName.clear();
         }
 
         if (confFile.empty() && !isOptional)
@@ -334,6 +375,16 @@ class JsonConfig
      * interface, the last one found will be the list of compatible values used.
      */
     inline static std::vector<std::string> _confCompatValues;
+
+    /**
+     * @brief The compatible value that is currently used to load configuration
+     *
+     * The value extracted from the achieved property value list that is used
+     * as a sub-folder to append to the configuration location and really
+     * contains the configruation files
+     */
+
+    inline static std::string _compatibleName;
 };
 
 } // namespace phosphor::fan

@@ -90,6 +90,10 @@ usr_share_dir = '/usr/share/phosphor-fan-presence'
 
 conf = configuration_data()
 
+if get_option('use-ibm-compatible-system').enabled()
+    conf.set('USE_IBM_COMPATIBLE_SYSTEM', '')
+endif
+
 # Control
 conf.set_quoted(
     'CONTROL_PERSIST_ROOT_PATH', get_option('control-persist-root-path'))
