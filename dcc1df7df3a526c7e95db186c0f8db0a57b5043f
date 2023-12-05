@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f0673d8_3f08c0a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-12-05T17:35:27Z",
+      "side": 1,
+      "message": "I tested this out using the Decorator.Compatible interface in our EM config, and it worked well.\n\nIn fact it worked well enough that that I can\u0027t think of a reason to use the IBMCompatible one at all.\n\nSo while I could do a follow up a commit to just remove the IBMCompatible stuff, it might save work if you just ripped out that support from this commit, which would just be removing the ifdefs.\n\nI would need to get the commits into EM to add the new iface on our chassis files, and also rename our config files directories to match the new com.ibm.Hardware value in the Names property.\n\nHowever, we aren\u0027t building master directly at this time so if this one went in first I don\u0027t think anyone would notice.\n\nWhat do you think?",
+      "revId": "dcc1df7df3a526c7e95db186c0f8db0a57b5043f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6241e02b_aafcf5ca",
