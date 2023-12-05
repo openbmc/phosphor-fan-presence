@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6241e02b_aafcf5ca",
+        "filename": "json_config.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-12-05T15:32:27Z",
+      "side": 1,
+      "message": "why did you change this away from getSubTreePaths?  you\u0027re passing in the interface, so the mapper will only return paths that have that interface.",
+      "range": {
+        "startLine": 99,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 63
+      },
+      "revId": "dcc1df7df3a526c7e95db186c0f8db0a57b5043f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
