@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea4e6da7_aa5cb406",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-12-06T19:51:54Z",
+      "side": 1,
+      "message": "Yep, that\u0027s right.\n\nI have two commits up so far at \nhttps://gerrit.openbmc.org/c/openbmc/entity-manager/+/68128\nhttps://gerrit.openbmc.org/c/openbmc/phosphor-dbus-interfaces/+/68125\n\nand then I just need to do one more to move the fan config files.",
+      "parentUuid": "c3b9c9d2_8fffb28e",
+      "revId": "dcc1df7df3a526c7e95db186c0f8db0a57b5043f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6241e02b_aafcf5ca",
@@ -73,6 +91,30 @@
       "side": 1,
       "message": "Because getSubTreeRaw will provide me with the service name which I need in order to know that it is from Entity-Manager. The interface Decorator.Compatible can also be exposed by bmc-code-mgmt under an image obj path with a list of compatible system strings that the image support. I don\u0027t want these to be used as they causes parsing the wrong config set.",
       "parentUuid": "6241e02b_aafcf5ca",
+      "range": {
+        "startLine": 99,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 63
+      },
+      "revId": "dcc1df7df3a526c7e95db186c0f8db0a57b5043f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "234c3233_dec54117",
+        "filename": "json_config.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-12-06T19:51:54Z",
+      "side": 1,
+      "message": "ah, missed that. Thanks.",
+      "parentUuid": "5f18c7e8_0631ba36",
       "range": {
         "startLine": 99,
         "startChar": 50,
