@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3b9c9d2_8fffb28e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-12-06T10:40:09Z",
+      "side": 1,
+      "message": "If it\u0027s clear that this one is going in the right direction, I really don\u0027t mind it being merged now or later. And I think it\u0027s better to take actions in IBM side first like you said, as it can straighten many things out (about the format of the Names value as Patrick seems to intend to change it to better fit reality,...).\n\nI will need to remove the ifdefs in the code body, the build options and the \"xyz.openbmc_project.Configuration.IBMCompatibleSystem\" interface anywhere defined, right?",
+      "parentUuid": "4f0673d8_3f08c0a5",
+      "revId": "dcc1df7df3a526c7e95db186c0f8db0a57b5043f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6241e02b_aafcf5ca",
@@ -31,6 +49,30 @@
       "writtenOn": "2023-12-05T15:32:27Z",
       "side": 1,
       "message": "why did you change this away from getSubTreePaths?  you\u0027re passing in the interface, so the mapper will only return paths that have that interface.",
+      "range": {
+        "startLine": 99,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 63
+      },
+      "revId": "dcc1df7df3a526c7e95db186c0f8db0a57b5043f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f18c7e8_0631ba36",
+        "filename": "json_config.hpp",
+        "patchSetId": 7
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2023-12-06T10:40:09Z",
+      "side": 1,
+      "message": "Because getSubTreeRaw will provide me with the service name which I need in order to know that it is from Entity-Manager. The interface Decorator.Compatible can also be exposed by bmc-code-mgmt under an image obj path with a list of compatible system strings that the image support. I don\u0027t want these to be used as they causes parsing the wrong config set.",
+      "parentUuid": "6241e02b_aafcf5ca",
       "range": {
         "startLine": 99,
         "startChar": 50,
