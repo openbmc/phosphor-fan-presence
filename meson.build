@@ -46,12 +46,7 @@ if not has_cereal
     cereal_dep = cereal_proj.dependency('cereal')
 endif
 
-if cpp.has_header('nlohmann/json.hpp')
-    json_dep = declare_dependency()
-else
-    json_dep = dependency('nlohmann_json')
-endif
-
+nlohmann_json_dep = dependency('nlohmann_json', include_type: 'system')
 phosphor_dbus_interfaces_dep = dependency('phosphor-dbus-interfaces')
 phosphor_logging_dep = dependency('phosphor-logging')
 sdbusplus_dep = dependency('sdbusplus')

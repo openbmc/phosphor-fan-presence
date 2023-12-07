@@ -15,7 +15,7 @@ deps=[
 sources = ['main.cpp']
 
 if conf.has('CONTROL_USE_JSON')
-    deps += json_dep
+    deps += nlohmann_json_dep
     include_dirs += [
         './json',
         './json/actions',
@@ -100,7 +100,7 @@ fanctl = executable(
   'fanctl.cpp',
       dependencies: [
           cli11_dep,
-          json_dep,
+          nlohmann_json_dep,
           phosphor_logging_dep,
           sdbusplus_dep,
       ],

@@ -19,8 +19,8 @@ sources=[
 ]
 
 deps=[
-    json_dep,
     libevdev_dep,
+    nlohmann_json_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus_dep,
