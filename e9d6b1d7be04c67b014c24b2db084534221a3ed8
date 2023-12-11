@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8fdab707_cc3aa8a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-12-11T15:43:21Z",
+      "side": 1,
+      "message": "I put up my corresponding change at https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/68236.  After my team reviews it these can both go.",
+      "revId": "e9d6b1d7be04c67b014c24b2db084534221a3ed8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "57c9bfb0_c71891a6",
+        "filename": "meson.options",
+        "patchSetId": 9
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2023-12-11T15:43:21Z",
+      "side": 1,
+      "message": "was this just left over from the previous change set?  may as well remove it",
+      "revId": "e9d6b1d7be04c67b014c24b2db084534221a3ed8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
