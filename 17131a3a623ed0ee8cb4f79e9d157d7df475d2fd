@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "900b4709_38b2df12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2023-12-11T15:55:31Z",
+      "side": 1,
+      "message": "It shows three files as deleted:\n* ibm,rainier-2u/pcie_cards.json\n* ibm,rainier-2u/zones.json\n* ibm,rainier-4u/zones.json\n\nIt looks like git did not detect these renames properly?  If so, and no files were \u0027lost\u0027 then this looks good to me.",
+      "revId": "17131a3a623ed0ee8cb4f79e9d157d7df475d2fd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
