@@ -532,6 +532,7 @@
                 "name": "count_state_floor",
                 "count": 1,
                 "state": false,
+                "delay": 5,
                 "floor": 18000
             }
         ]
