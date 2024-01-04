@@ -40,6 +40,9 @@ using json = nlohmann::json;
  *      "state": false,
  *      "floor": 5000
  *    }
+ *
+ * There is an optional 'delay' field that that prevents the floor from
+ * being changed until the count has been met for that amount of time.
  */
 class CountStateFloor :
     public ActionBase,
@@ -104,6 +107,20 @@ class CountStateFloor :
      */
     void setFloor(const json& jsonObj);
 
+    /**
+     * @brief Parse and set the delay
+     *
+     * @param[in] jsonObj - JSON object for the action
+     */
+    void setDelayTime(const json& jsonObj);
+
+    /**
+     * @brief Counts the number of members that are equal to the state.
+     *
+     * @return bool - If the count is reached or not.
+     */
+    bool doCount();
+
     /* Number of group members */
     size_t _count;
 
@@ -112,6 +129,12 @@ class CountStateFloor :
 
     /* Floor for this action */
     uint64_t _floor;
+
+    /* Amount of time the count has to be met */
+    std::chrono::seconds _delayTime{0};
+
+    /* Timer used for checking the delay */
+    std::unique_ptr<Timer> _timer;
 };
 
 } // namespace phosphor::fan::control::json
