@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f6c7858_96d97347",
+        "filename": "control/config_files/p10bmc/com.ibm.Hardware.Chassis.Model.Bonnell/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2024-01-05T15:43:06Z",
+      "side": 1,
+      "message": "Don\u0027t want the timer here since it is OCC vs. NVMe sensors?  Same question applies to the other JSON files.",
+      "revId": "a8c1cf5009dce03d31168b8cd17fd9b1052ead25",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
