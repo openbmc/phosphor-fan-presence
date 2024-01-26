@@ -183,6 +183,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x0617",
             "floor_index": 5
+        },
+        {
+            "name": "2-port 200GbE x16 Gen5 Narwhal",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1021",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0714",
+            "floor_index": 5
         }
     ]
 }
