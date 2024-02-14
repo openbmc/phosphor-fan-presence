@@ -53,3 +53,56 @@ TEST(PowerOffCauseTest, NonfuncRotorTest)
     health["fan2"] = {false, {true, true}};
     EXPECT_FALSE(cause.satisfied(health));
 }
+
+TEST(PowerOffCauseTest, FansWithNonFuncRotorsTest)
+{
+    {
+        FanHealth health{{"fan0", {true, {true, true}}},
+                         {"fan1", {true, {true, true}}},
+                         {"fan2", {true, {true, true}}},
+                         {"fan3", {true, {true, true}}}};
+
+        FanFRUsWithNonfuncRotorsCause cause{2};
+        EXPECT_FALSE(cause.satisfied(health));
+    }
+
+    {
+        FanHealth health{{"fan0", {true, {true, true}}},
+                         {"fan1", {true, {true, true}}},
+                         {"fan2", {true, {false, true}}},
+                         {"fan3", {true, {true, true}}}};
+
+        FanFRUsWithNonfuncRotorsCause cause{2};
+        EXPECT_FALSE(cause.satisfied(health));
+    }
+
+    {
+        FanHealth health{{"fan0", {true, {true, true}}},
+                         {"fan1", {true, {false, false}}},
+                         {"fan2", {true, {true, true}}},
+                         {"fan3", {true, {true, true}}}};
+
+        FanFRUsWithNonfuncRotorsCause cause{2};
+        EXPECT_FALSE(cause.satisfied(health));
+    }
+
+    {
+        FanHealth health{{"fan0", {true, {true, true}}},
+                         {"fan1", {true, {false, false}}},
+                         {"fan2", {true, {true, true}}},
+                         {"fan3", {true, {true, false}}}};
+
+        FanFRUsWithNonfuncRotorsCause cause{2};
+        EXPECT_TRUE(cause.satisfied(health));
+    }
+
+    {
+        FanHealth health{{"fan0", {true, {false, true}}},
+                         {"fan1", {true, {true, true}}},
+                         {"fan2", {true, {true, false}}},
+                         {"fan3", {true, {true, true}}}};
+
+        FanFRUsWithNonfuncRotorsCause cause{2};
+        EXPECT_TRUE(cause.satisfied(health));
+    }
+}

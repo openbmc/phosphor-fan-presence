@@ -138,7 +138,7 @@ class NonfuncFanRotorCause : public PowerOffCause
      * @brief Constructor
      *
      * @param[in] count - The minimum number of rotors that must be
-     *                    nonfunctional nonfunctional to need a power off.
+     *                    nonfunctional to need a power off.
      */
     explicit NonfuncFanRotorCause(size_t count) :
         PowerOffCause(count, "Nonfunctional Fan Rotors")
@@ -158,6 +158,55 @@ class NonfuncFanRotorCause : public PowerOffCause
             auto nonFuncTachs = std::count_if(tachs.begin(), tachs.end(),
                                               [](bool tach) { return !tach; });
             return sum + nonFuncTachs;
+        });
+
+        return count >= _count;
+    }
+};
+
+/**
+ * @class FanFRUsWithNonfuncRotorsCause
+ *
+ * This class provides a satisfied() method that checks for
+ * fans with nonfunctional fan rotors in the fan health map.
+ */
+class FanFRUsWithNonfuncRotorsCause : public PowerOffCause
+{
+  public:
+    FanFRUsWithNonfuncRotorsCause() = delete;
+    ~FanFRUsWithNonfuncRotorsCause() = default;
+    FanFRUsWithNonfuncRotorsCause(const FanFRUsWithNonfuncRotorsCause&) =
+        delete;
+    FanFRUsWithNonfuncRotorsCause&
+        operator=(const FanFRUsWithNonfuncRotorsCause&) = delete;
+    FanFRUsWithNonfuncRotorsCause(FanFRUsWithNonfuncRotorsCause&&) = delete;
+    FanFRUsWithNonfuncRotorsCause&
+        operator=(FanFRUsWithNonfuncRotorsCause&&) = delete;
+
+    /**
+     * @brief Constructor
+     *
+     * @param[in] count - The minimum number of fan FRUs with
+     *                    nonfunctional rotors to need a power off.
+     */
+    explicit FanFRUsWithNonfuncRotorsCause(size_t count) :
+        PowerOffCause(count, "Fans with Nonfunctional Rotors")
+    {}
+
+    /**
+     * @brief Returns true if 'count' or more fan FRUs have
+     *        nonfunctional rotors.
+     *
+     * @param[in] fanHealth - The FanHealth map
+     */
+    bool satisfied(const FanHealth& fanHealth) override
+    {
+        size_t count = std::count_if(fanHealth.begin(), fanHealth.end(),
+                                     [](const auto& fan) {
+            const auto& tachs = std::get<sensorFuncHealthPos>(fan.second);
+
+            return std::any_of(tachs.begin(), tachs.end(),
+                               [](bool func) { return !func; });
         });
 
         return count >= _count;

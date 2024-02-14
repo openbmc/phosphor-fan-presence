@@ -19,6 +19,8 @@ nonfunctional fans.
   - "missing_fan_frus" - Power off due to missing fan enclosures
   - "nonfunc_fan_rotors" - Power off due to nonfunctional fan
     rotors([`sensors`](sensors.md))
+  - "fan_frus_with_nonfunc_rotors" - Power off due to the number of fan FRUs
+    with at least one nonfunctional rotor.
 - `count` - integer
   - Number of the configured `cause` instances to begin the power off `type`
 

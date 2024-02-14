@@ -436,8 +436,12 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
         causes{
             {"missing_fan_frus",
              [count]() { return std::make_unique<MissingFanFRUCause>(count); }},
-            {"nonfunc_fan_rotors", [count]() {
+            {"nonfunc_fan_rotors",
+             [count]() {
         return std::make_unique<NonfuncFanRotorCause>(count);
+    }},
+            {"fan_frus_with_nonfunc_rotors", [count]() {
+        return std::make_unique<FanFRUsWithNonfuncRotorsCause>(count);
     }}};
 
     auto it = causes.find(powerOffCause);
