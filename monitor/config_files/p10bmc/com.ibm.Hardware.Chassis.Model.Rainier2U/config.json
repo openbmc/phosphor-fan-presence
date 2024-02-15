@@ -158,15 +158,15 @@
 
         "power_off_config": [
             {
-                "type": "hard",
+                "type": "epow",
                 "cause": "missing_fan_frus",
                 "count": 1,
-                "delay": 25,
-                "state": "at_pgood"
+                "service_mode_delay": 60,
+                "meltdown_delay": 60
             },
             {
                 "type": "epow",
-                "cause": "nonfunc_fan_rotors",
+                "cause": "fan_frus_with_nonfunc_rotors",
                 "count": 2,
                 "service_mode_delay": 60,
                 "meltdown_delay": 60
