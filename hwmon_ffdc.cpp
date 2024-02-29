@@ -22,8 +22,10 @@ inline std::vector<std::string> executeCommand(const std::string& command)
     std::vector<std::string> output;
     std::array<char, 128> buffer;
 
-    std::unique_ptr<FILE, decltype(&pclose)> pipe(popen(command.c_str(), "r"),
-                                                  pclose);
+    auto pipe_close = [](auto fd) { (void)pclose(fd); };
+
+    std::unique_ptr<FILE, decltype(pipe_close)> pipe(
+        popen(command.c_str(), "r"), pipe_close);
     if (!pipe)
     {
         getLogger().log(
