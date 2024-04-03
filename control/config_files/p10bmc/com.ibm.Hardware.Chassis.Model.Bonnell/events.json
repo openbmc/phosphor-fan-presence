@@ -24,7 +24,7 @@
                 "name": "count_state_before_target",
                 "count": 1,
                 "state": false,
-                "target": 18000
+                "target": 17000
             }
         ]
     },
@@ -58,7 +58,7 @@
                 "name": "count_state_before_target",
                 "count": 1,
                 "state": false,
-                "target": 18000
+                "target": 17000
             }
         ]
     },
@@ -140,7 +140,7 @@
                                 "property": { "name": "Value" }
                             }
                         ],
-                        "target": 18000
+                        "target": 17000
                     }
                 ]
             }
@@ -177,7 +177,7 @@
                 "name": "count_state_floor",
                 "count": 1,
                 "state": false,
-                "floor": 18000
+                "floor": 17000
             }
         ]
     },
@@ -251,7 +251,7 @@
                 "count": 1,
                 "state": false,
                 "delay": 5,
-                "floor": 18000
+                "floor": 17000
             }
         ]
     },
@@ -648,11 +648,11 @@
                     "default_value": 10000,
                     "value": [
                         { "arg_value": 500, "parameter_value": 0 },
-                        { "arg_value": 1000, "parameter_value": 700 },
-                        { "arg_value": 1500, "parameter_value": 1600 },
-                        { "arg_value": 2000, "parameter_value": 2300 },
-                        { "arg_value": 2500, "parameter_value": 3200 },
-                        { "arg_value": 3300, "parameter_value": 4000 }
+                        { "arg_value": 1000, "parameter_value": 180 },
+                        { "arg_value": 1500, "parameter_value": 320 },
+                        { "arg_value": 2000, "parameter_value": 650 },
+                        { "arg_value": 2500, "parameter_value": 1010 },
+                        { "arg_value": 3050, "parameter_value": 1370 }
                     ]
                 }
             },
@@ -664,11 +664,11 @@
                     "default_value": 10000,
                     "value": [
                         { "arg_value": 500, "parameter_value": 0 },
-                        { "arg_value": 1000, "parameter_value": 1000 },
-                        { "arg_value": 1500, "parameter_value": 2100 },
-                        { "arg_value": 2000, "parameter_value": 3100 },
-                        { "arg_value": 2500, "parameter_value": 4100 },
-                        { "arg_value": 3300, "parameter_value": 4900 }
+                        { "arg_value": 1000, "parameter_value": 200 },
+                        { "arg_value": 1500, "parameter_value": 340 },
+                        { "arg_value": 2000, "parameter_value": 580 },
+                        { "arg_value": 2500, "parameter_value": 950 },
+                        { "arg_value": 3050, "parameter_value": 1500 }
                     ]
                 }
             },
@@ -680,11 +680,11 @@
                     "default_value": 10000,
                     "value": [
                         { "arg_value": 500, "parameter_value": 0 },
-                        { "arg_value": 1000, "parameter_value": 1000 },
-                        { "arg_value": 1500, "parameter_value": 2100 },
-                        { "arg_value": 2000, "parameter_value": 3200 },
-                        { "arg_value": 2500, "parameter_value": 4000 },
-                        { "arg_value": 3300, "parameter_value": 4800 }
+                        { "arg_value": 1000, "parameter_value": 250 },
+                        { "arg_value": 1500, "parameter_value": 580 },
+                        { "arg_value": 2000, "parameter_value": 980 },
+                        { "arg_value": 2500, "parameter_value": 1430 },
+                        { "arg_value": 3050, "parameter_value": 1930 }
                     ]
                 }
             },
@@ -696,11 +696,11 @@
                     "default_value": 10000,
                     "value": [
                         { "arg_value": 500, "parameter_value": 0 },
-                        { "arg_value": 1000, "parameter_value": 900 },
-                        { "arg_value": 1500, "parameter_value": 1700 },
-                        { "arg_value": 2000, "parameter_value": 2500 },
-                        { "arg_value": 2500, "parameter_value": 3400 },
-                        { "arg_value": 3300, "parameter_value": 4200 }
+                        { "arg_value": 1000, "parameter_value": 340 },
+                        { "arg_value": 1500, "parameter_value": 720 },
+                        { "arg_value": 2000, "parameter_value": 1180 },
+                        { "arg_value": 2500, "parameter_value": 1800 },
+                        { "arg_value": 3050, "parameter_value": 2550 }
                     ]
                 }
             },
@@ -712,11 +712,11 @@
                     "default_value": 10000,
                     "value": [
                         { "arg_value": 500, "parameter_value": 0 },
-                        { "arg_value": 1000, "parameter_value": 1000 },
-                        { "arg_value": 1500, "parameter_value": 1900 },
-                        { "arg_value": 2000, "parameter_value": 2800 },
-                        { "arg_value": 2500, "parameter_value": 3700 },
-                        { "arg_value": 3300, "parameter_value": 4500 }
+                        { "arg_value": 1000, "parameter_value": 450 },
+                        { "arg_value": 1500, "parameter_value": 1050 },
+                        { "arg_value": 2000, "parameter_value": 1820 },
+                        { "arg_value": 2500, "parameter_value": 2590 },
+                        { "arg_value": 3050, "parameter_value": 3360 }
                     ]
                 }
             }
@@ -777,17 +777,17 @@
                     {
                         // Entry valid for temps < 20
                         "key": 20,
-                        "default_floor": 5400,
+                        "default_floor": 4130,
                         "floor_offset_parameter": "ambient_20_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
                                 "floors": [
-                                    { "value": 1, "floor": 5600 },
-                                    { "value": 2, "floor": 9000 },
-                                    { "value": 3, "floor": 9000 },
-                                    { "value": 4, "floor": 9200 },
-                                    { "value": 5, "floor": 10600 }
+                                    { "value": 1, "floor": 5130 },
+                                    { "value": 2, "floor": 6130 },
+                                    { "value": 3, "floor": 7130 },
+                                    { "value": 4, "floor": 8130 },
+                                    { "value": 5, "floor": 9130 }
                                 ]
                             }
                         ]
@@ -795,17 +795,17 @@
                     {
                         // Entry valid for temps < 25
                         "key": 25,
-                        "default_floor": 6500,
+                        "default_floor": 4810,
                         "floor_offset_parameter": "ambient_25_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
                                 "floors": [
-                                    { "value": 1, "floor": 7800 },
-                                    { "value": 2, "floor": 10700 },
-                                    { "value": 3, "floor": 11300 },
-                                    { "value": 4, "floor": 12700 },
-                                    { "value": 5, "floor": 13900 }
+                                    { "value": 1, "floor": 5810 },
+                                    { "value": 2, "floor": 6810 },
+                                    { "value": 3, "floor": 7810 },
+                                    { "value": 4, "floor": 8810 },
+                                    { "value": 5, "floor": 9810 }
                                 ]
                             }
                         ]
@@ -813,17 +813,17 @@
                     {
                         // Entry valid for temps < 30
                         "key": 30,
-                        "default_floor": 6500,
+                        "default_floor": 5930,
                         "floor_offset_parameter": "ambient_30_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
                                 "floors": [
-                                    { "value": 1, "floor": 10300 },
-                                    { "value": 2, "floor": 12100 },
-                                    { "value": 3, "floor": 14400 },
-                                    { "value": 4, "floor": 16300 },
-                                    { "value": 5, "floor": 17200 }
+                                    { "value": 1, "floor": 6930 },
+                                    { "value": 2, "floor": 7930 },
+                                    { "value": 3, "floor": 8930 },
+                                    { "value": 4, "floor": 9930 },
+                                    { "value": 5, "floor": 10930 }
                                 ]
                             }
                         ]
@@ -831,17 +831,17 @@
                     {
                         // Entry valid for temps < 35
                         "key": 35,
-                        "default_floor": 8500,
+                        "default_floor": 7940,
                         "floor_offset_parameter": "ambient_35_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
                                 "floors": [
-                                    { "value": 1, "floor": 12700 },
-                                    { "value": 2, "floor": 13500 },
-                                    { "value": 3, "floor": 17400 },
-                                    { "value": 4, "floor": 18000 },
-                                    { "value": 5, "floor": 18000 }
+                                    { "value": 1, "floor": 8940 },
+                                    { "value": 2, "floor": 9940 },
+                                    { "value": 3, "floor": 10940 },
+                                    { "value": 4, "floor": 11940 },
+                                    { "value": 5, "floor": 12940 }
                                 ]
                             }
                         ]
@@ -849,17 +849,17 @@
                     {
                         // Entry valid for temps < 40
                         "key": 40,
-                        "default_floor": 12600,
+                        "default_floor": 10670,
                         "floor_offset_parameter": "ambient_40_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
                                 "floors": [
-                                    { "value": 1, "floor": 15000 },
-                                    { "value": 2, "floor": 15500 },
-                                    { "value": 3, "floor": 18000 },
-                                    { "value": 4, "floor": 18000 },
-                                    { "value": 5, "floor": 18000 }
+                                    { "value": 1, "floor": 11670 },
+                                    { "value": 2, "floor": 12670 },
+                                    { "value": 3, "floor": 13670 },
+                                    { "value": 4, "floor": 14670 },
+                                    { "value": 5, "floor": 15670 }
                                 ]
                             }
                         ]
