@@ -21,8 +21,8 @@
                     "name": "fan0_1",
                     "threshold": 30,
                     "has_target": false,
-                    "factor": 0.625,
-                    "offset": 1100
+                    "factor": 0.685,
+                    "offset": 700
                 }
             ]
         },
@@ -47,8 +47,8 @@
                     "name": "fan1_1",
                     "threshold": 30,
                     "has_target": false,
-                    "factor": 0.625,
-                    "offset": 1100
+                    "factor": 0.685,
+                    "offset": 700
                 }
             ]
         }
