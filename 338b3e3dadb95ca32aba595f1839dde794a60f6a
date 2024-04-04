@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b33eea7_76225183",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000004
+      },
+      "writtenOn": "2024-04-04T15:46:55Z",
+      "side": 1,
+      "message": "Doing a quick test on gerrit permission, ignore my scores",
+      "revId": "338b3e3dadb95ca32aba595f1839dde794a60f6a",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
