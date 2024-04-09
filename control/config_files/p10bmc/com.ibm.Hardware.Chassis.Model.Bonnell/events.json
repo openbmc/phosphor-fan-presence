@@ -782,13 +782,7 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": [
-                                    { "value": 1, "floor": 5130 },
-                                    { "value": 2, "floor": 6130 },
-                                    { "value": 3, "floor": 7130 },
-                                    { "value": 4, "floor": 8130 },
-                                    { "value": 5, "floor": 9130 }
-                                ]
+                                "floors": []
                             }
                         ]
                     },
@@ -800,13 +794,7 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": [
-                                    { "value": 1, "floor": 5810 },
-                                    { "value": 2, "floor": 6810 },
-                                    { "value": 3, "floor": 7810 },
-                                    { "value": 4, "floor": 8810 },
-                                    { "value": 5, "floor": 9810 }
-                                ]
+                                "floors": []
                             }
                         ]
                     },
@@ -818,13 +806,7 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": [
-                                    { "value": 1, "floor": 6930 },
-                                    { "value": 2, "floor": 7930 },
-                                    { "value": 3, "floor": 8930 },
-                                    { "value": 4, "floor": 9930 },
-                                    { "value": 5, "floor": 10930 }
-                                ]
+                                "floors": []
                             }
                         ]
                     },
@@ -836,13 +818,7 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": [
-                                    { "value": 1, "floor": 8940 },
-                                    { "value": 2, "floor": 9940 },
-                                    { "value": 3, "floor": 10940 },
-                                    { "value": 4, "floor": 11940 },
-                                    { "value": 5, "floor": 12940 }
-                                ]
+                                "floors": []
                             }
                         ]
                     },
@@ -854,13 +830,7 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": [
-                                    { "value": 1, "floor": 11670 },
-                                    { "value": 2, "floor": 12670 },
-                                    { "value": 3, "floor": 13670 },
-                                    { "value": 4, "floor": 14670 },
-                                    { "value": 5, "floor": 15670 }
-                                ]
+                                "floors": []
                             }
                         ]
                     }

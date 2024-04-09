@@ -91,12 +91,6 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
                     .c_str());
         }
     }
-
-    if (_cards.empty())
-    {
-        throw std::runtime_error{
-            "No valid PCIe card entries found in any JSON"};
-    }
 }
 
 void PCIeCardMetadata::load(const nlohmann::json& json)
