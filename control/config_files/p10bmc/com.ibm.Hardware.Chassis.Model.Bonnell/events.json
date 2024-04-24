@@ -642,7 +642,7 @@
         "actions": [
             {
                 "name": "set_parameter_from_group_max",
-                "parameter_name": "ambient_20_altitude_offset",
+                "parameter_name": "ambient_24_5_altitude_offset",
                 "modifier": {
                     "operator": "less_than",
                     "default_value": 10000,
@@ -658,7 +658,7 @@
             },
             {
                 "name": "set_parameter_from_group_max",
-                "parameter_name": "ambient_25_altitude_offset",
+                "parameter_name": "ambient_29_5_altitude_offset",
                 "modifier": {
                     "operator": "less_than",
                     "default_value": 10000,
@@ -674,7 +674,7 @@
             },
             {
                 "name": "set_parameter_from_group_max",
-                "parameter_name": "ambient_30_altitude_offset",
+                "parameter_name": "ambient_34_5_altitude_offset",
                 "modifier": {
                     "operator": "less_than",
                     "default_value": 10000,
@@ -690,7 +690,7 @@
             },
             {
                 "name": "set_parameter_from_group_max",
-                "parameter_name": "ambient_35_altitude_offset",
+                "parameter_name": "ambient_39_5_altitude_offset",
                 "modifier": {
                     "operator": "less_than",
                     "default_value": 10000,
@@ -706,7 +706,7 @@
             },
             {
                 "name": "set_parameter_from_group_max",
-                "parameter_name": "ambient_40_altitude_offset",
+                "parameter_name": "ambient_44_5_altitude_offset",
                 "modifier": {
                     "operator": "less_than",
                     "default_value": 10000,
@@ -750,23 +750,23 @@
             },
             {
                 "class": "parameter",
-                "parameter": "ambient_20_altitude_offset"
+                "parameter": "ambient_24_5_altitude_offset"
             },
             {
                 "class": "parameter",
-                "parameter": "ambient_25_altitude_offset"
+                "parameter": "ambient_29_5_altitude_offset"
             },
             {
                 "class": "parameter",
-                "parameter": "ambient_30_altitude_offset"
+                "parameter": "ambient_34_5_altitude_offset"
             },
             {
                 "class": "parameter",
-                "parameter": "ambient_35_altitude_offset"
+                "parameter": "ambient_39_5_altitude_offset"
             },
             {
                 "class": "parameter",
-                "parameter": "ambient_40_altitude_offset"
+                "parameter": "ambient_44_5_altitude_offset"
             }
         ],
         "actions": [
@@ -775,10 +775,10 @@
                 "key_group": "ambient temp",
                 "fan_floors": [
                     {
-                        // Entry valid for temps < 20
-                        "key": 20,
+                        // Entry valid for temps < 24.5
+                        "key": 24.5,
                         "default_floor": 4130,
-                        "floor_offset_parameter": "ambient_20_altitude_offset",
+                        "floor_offset_parameter": "ambient_24_5_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
@@ -787,10 +787,10 @@
                         ]
                     },
                     {
-                        // Entry valid for temps < 25
-                        "key": 25,
+                        // Entry valid for temps < 29.5
+                        "key": 29.5,
                         "default_floor": 4810,
-                        "floor_offset_parameter": "ambient_25_altitude_offset",
+                        "floor_offset_parameter": "ambient_29_5_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
@@ -799,10 +799,10 @@
                         ]
                     },
                     {
-                        // Entry valid for temps < 30
-                        "key": 30,
+                        // Entry valid for temps < 34.5
+                        "key": 34.5,
                         "default_floor": 5930,
-                        "floor_offset_parameter": "ambient_30_altitude_offset",
+                        "floor_offset_parameter": "ambient_34_5_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
@@ -811,10 +811,10 @@
                         ]
                     },
                     {
-                        // Entry valid for temps < 35
-                        "key": 35,
+                        // Entry valid for temps < 39.5
+                        "key": 39.5,
                         "default_floor": 7940,
-                        "floor_offset_parameter": "ambient_35_altitude_offset",
+                        "floor_offset_parameter": "ambient_39_5_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
@@ -823,10 +823,10 @@
                         ]
                     },
                     {
-                        // Entry valid for temps < 40
-                        "key": 40,
+                        // Entry valid for temps < 44.5
+                        "key": 44.5,
                         "default_floor": 10670,
-                        "floor_offset_parameter": "ambient_40_altitude_offset",
+                        "floor_offset_parameter": "ambient_44_5_altitude_offset",
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
