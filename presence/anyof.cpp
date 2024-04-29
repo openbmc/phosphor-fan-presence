@@ -36,8 +36,8 @@ static const auto powerOnDelayTime = 5s;
 AnyOf::AnyOf(const Fan& fan,
              const std::vector<std::reference_wrapper<PresenceSensor>>& s,
              std::unique_ptr<EEPROMDevice> e) :
-    RedundancyPolicy(fan, std::move(e)),
-    state(), _powerState(getPowerStateObject()),
+    RedundancyPolicy(fan, std::move(e)), state(),
+    _powerState(getPowerStateObject()),
     _powerOnDelayTimer(sdeventplus::Event::get_default(),
                        std::bind(&AnyOf::delayedAfterPowerOn, this)),
     _powerOn(false)

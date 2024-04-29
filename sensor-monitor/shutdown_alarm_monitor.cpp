@@ -88,8 +88,7 @@ using namespace sdbusplus::bus::match;
 ShutdownAlarmMonitor::ShutdownAlarmMonitor(
     sdbusplus::bus_t& bus, sdeventplus::Event& event,
     std::shared_ptr<PowerState> powerState) :
-    bus(bus),
-    event(event), _powerState(std::move(powerState)),
+    bus(bus), event(event), _powerState(std::move(powerState)),
     hardShutdownMatch(bus,
                       "type='signal',member='PropertiesChanged',"
                       "path_namespace='/xyz/openbmc_project/sensors',"

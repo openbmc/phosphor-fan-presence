@@ -50,8 +50,8 @@ class PowerOffRule
     PowerOffRule(PowerRuleState validState,
                  std::unique_ptr<PowerOffCause> cause,
                  std::unique_ptr<PowerOffAction> action) :
-        _validState(validState),
-        _cause(std::move(cause)), _action(std::move(action))
+        _validState(validState), _cause(std::move(cause)),
+        _action(std::move(action))
     {}
 
     /**

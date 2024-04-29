@@ -62,8 +62,7 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
             if (members.size() > 1)
             {
                 bool invalid = false;
-                std::visit(
-                    [&group, &invalid, this](auto&& val) {
+                std::visit([&group, &invalid, this](auto&& val) {
                     using V = std::decay_t<decltype(val)>;
                     if constexpr (!std::is_same_v<double, V> &&
                                   !std::is_same_v<int32_t, V> &&
@@ -77,8 +76,7 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
                                             .c_str());
                         invalid = true;
                     }
-                },
-                    value);
+                }, value);
                 if (invalid)
                 {
                     continue;

@@ -306,7 +306,7 @@ void Zone::initEvent(const SetSpeedEvent& event)
         {
             std::for_each(std::get<actionsPos>(event).begin(),
                           std::get<actionsPos>(event).end(),
-                          [this, &trigger, &event](auto const& action) {
+                          [this, &trigger, &event](const auto& action) {
                 // Default to use group defined with action if exists
                 if (!std::get<adGroupPos>(action).empty())
                 {

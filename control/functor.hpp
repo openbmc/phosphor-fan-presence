@@ -93,8 +93,8 @@ struct Properties
     {}
     Properties(const char* path, const char* intf, const char* prop,
                U&& handler) :
-        _path(path),
-        _intf(intf), _prop(prop), _handler(std::forward<U>(handler))
+        _path(path), _intf(intf), _prop(prop),
+        _handler(std::forward<U>(handler))
     {}
 
     /** @brief Run signal handler function
@@ -236,8 +236,8 @@ struct InterfacesAdded
     InterfacesAdded& operator=(InterfacesAdded&&) = default;
     InterfacesAdded(const char* path, const char* intf, const char* prop,
                     U&& handler) :
-        _path(path),
-        _intf(intf), _prop(prop), _handler(std::forward<U>(handler))
+        _path(path), _intf(intf), _prop(prop),
+        _handler(std::forward<U>(handler))
     {}
 
     /** @brief Run signal handler function

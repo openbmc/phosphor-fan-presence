@@ -239,8 +239,7 @@ class Zone : public ThermalObject
             // is set within the visitor based on the supported types.
             // A non-supported type configured will assert.
             std::optional<T> value;
-            std::visit(
-                [&value](auto&& val) {
+            std::visit([&value](auto&& val) {
                 // If the type configured is int64, but the sensor value
                 // property's type is double, scale it by 1000 and return
                 // the value as an int64 as configured.
@@ -258,8 +257,7 @@ class Zone : public ThermalObject
                 {
                     value = val;
                 }
-            },
-                variant);
+            }, variant);
 
             // Unable to return Sensor Value property
             // as given type configured.
@@ -626,15 +624,13 @@ class Zone : public ThermalObject
                     auto var = ThermalMode::getPropertyByName(prop);
                     // Use visitor to determine if requested property
                     // type(T) is available on this interface and read it
-                    std::visit(
-                        [&value](auto&& val) {
+                    std::visit([&value](auto&& val) {
                         using V = std::decay_t<decltype(val)>;
                         if constexpr (std::is_same_v<T, V>)
                         {
                             value = val;
                         }
-                    },
-                        var);
+                    }, var);
 
                     return value;
                 }

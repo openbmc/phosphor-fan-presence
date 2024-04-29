@@ -38,8 +38,7 @@ using namespace sdbusplus::bus::match;
 Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
          System& system) :
-    _bus(bus),
-    _name(def.name), _deviation(def.deviation),
+    _bus(bus), _name(def.name), _deviation(def.deviation),
     _upperDeviation(def.upperDeviation),
     _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
     _trustManager(trust),

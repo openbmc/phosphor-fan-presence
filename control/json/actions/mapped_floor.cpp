@@ -230,15 +230,13 @@ void MappedFloor::setCondition(const json& jsonObj)
  */
 void tryConvertToDouble(PropertyVariantType& value)
 {
-    std::visit(
-        [&value](auto&& val) {
+    std::visit([&value](auto&& val) {
         using V = std::decay_t<decltype(val)>;
         if constexpr (std::is_same_v<int32_t, V> || std::is_same_v<int64_t, V>)
         {
             value = static_cast<double>(val);
         }
-    },
-        value);
+    }, value);
 }
 
 std::optional<PropertyVariantType>
@@ -259,8 +257,7 @@ std::optional<PropertyVariantType>
             // here.
             if (!checked && (group.getMembers().size() > 1))
             {
-                std::visit(
-                    [&group, this](auto&& val) {
+                std::visit([&group, this](auto&& val) {
                     using V = std::decay_t<decltype(val)>;
                     if constexpr (!std::is_same_v<double, V> &&
                                   !std::is_same_v<int32_t, V> &&
@@ -271,8 +268,7 @@ std::optional<PropertyVariantType>
                             "isn't numeric",
                             ActionBase::getName(), group.getName())};
                     }
-                },
-                    value);
+                }, value);
                 checked = true;
             }
 

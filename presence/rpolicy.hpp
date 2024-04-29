@@ -40,8 +40,7 @@ class RedundancyPolicy
      */
     explicit RedundancyPolicy(const Fan& f,
                               std::unique_ptr<EEPROMDevice> eeprom) :
-        fan(f),
-        eepromDevice(std::move(eeprom))
+        fan(f), eepromDevice(std::move(eeprom))
     {}
 
     /**

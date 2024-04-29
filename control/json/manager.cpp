@@ -135,9 +135,9 @@ void Manager::dumpCache(json& data)
             auto& propertyJSON = interfaceJSON[interface];
             for (const auto& [propName, propValue] : properties)
             {
-                std::visit(
-                    [&obj = propertyJSON[propName]](auto&& val) { obj = val; },
-                    propValue);
+                std::visit([&obj = propertyJSON[propName]](auto&& val) {
+                    obj = val;
+                }, propValue);
             }
         }
     }

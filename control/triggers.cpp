@@ -76,7 +76,7 @@ Trigger init(MethodHandler&& handler)
         // Run action functions for initial event state
         std::for_each(
             actions.begin(), actions.end(),
-            [&zone, &group](auto const& action) { action(zone, group); });
+            [&zone, &group](const auto& action) { action(zone, group); });
     };
 }
 

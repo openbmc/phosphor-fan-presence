@@ -41,8 +41,7 @@ const auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
 
 Gpio::Gpio(const std::string& physDevice, const std::string& device,
            unsigned int physPin) :
-    currentState(false),
-    evdevfd(open(device.c_str(), O_RDONLY | O_NONBLOCK)),
+    currentState(false), evdevfd(open(device.c_str(), O_RDONLY | O_NONBLOCK)),
     evdev(evdevpp::evdev::newFromFD(evdevfd())), phys(physDevice), pin(physPin)
 {}
 

@@ -97,8 +97,7 @@ class FanError
              const std::string& sensor,
              sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level
                  severity) :
-        _errorName(error),
-        _fanName(fan), _sensorName(sensor),
+        _errorName(error), _fanName(fan), _sensorName(sensor),
         _severity(
             sdbusplus::xyz::openbmc_project::Logging::server::convertForMessage(
                 severity))

@@ -271,9 +271,8 @@ void status()
     cout << "CurrentPowerState   : " << states[4] << endl;
     cout << "CurrentHostState    : " << states[5] << endl;
     cout << endl;
-    cout << "FAN       "
-         << "TARGET(" << method << ")     FEEDBACKS(RPM)   PRESENT"
-         << "   FUNCTIONAL" << endl;
+    cout << "FAN       " << "TARGET(" << method
+         << ")     FEEDBACKS(RPM)   PRESENT" << "   FUNCTIONAL" << endl;
     cout << "==============================================================="
          << endl;
 
@@ -599,8 +598,7 @@ void queryDumpFile(const DumpQuery& dq)
     if (!dumpData.contains(dq.section))
     {
         std::cerr << "Error: Dump file does not contain " << dq.section
-                  << " section"
-                  << "\n";
+                  << " section" << "\n";
         return;
     }
 

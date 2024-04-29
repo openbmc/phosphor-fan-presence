@@ -47,8 +47,7 @@ ErrorReporter::ErrorReporter(
     sdbusplus::bus_t& bus,
     const std::vector<
         std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>& fans) :
-    _bus(bus),
-    _event(sdeventplus::Event::get_default()),
+    _bus(bus), _event(sdeventplus::Event::get_default()),
     _powerState(getPowerStateObject())
 {
     _powerState->addCallback("errorReporter",

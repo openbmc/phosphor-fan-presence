@@ -50,8 +50,7 @@ const std::string System::dumpFile = "/tmp/fan_monitor_dump.json";
 
 System::System(Mode mode, sdbusplus::bus_t& bus,
                const sdeventplus::Event& event) :
-    _mode(mode),
-    _bus(bus), _event(event),
+    _mode(mode), _bus(bus), _event(event),
 #ifdef MONITOR_USE_HOST_STATE
     _powerState(std::make_unique<HostPowerState>(
 #else

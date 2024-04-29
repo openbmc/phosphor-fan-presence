@@ -83,9 +83,7 @@ bool checkCondition(sdbusplus::bus_t& bus, const Condition& c)
 
 // Note: Future code will check 'mode' before starting control algorithm
 Manager::Manager(sdbusplus::bus_t& bus, const sdeventplus::Event& event,
-                 Mode mode) :
-    _bus(bus),
-    _objMgr(bus, CONTROL_OBJPATH)
+                 Mode mode) : _bus(bus), _objMgr(bus, CONTROL_OBJPATH)
 {
     // Create the appropriate Zone objects based on the
     // actual system configuration.

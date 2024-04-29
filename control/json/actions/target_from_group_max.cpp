@@ -183,8 +183,7 @@ std::optional<PropertyVariantType> TargetFromGroupMax::processGroups()
             // Only allow a group members to be
             // numeric. Unlike with std::is_arithmetic, bools are not
             // considered numeric here.
-            std::visit(
-                [&group, &invalid, this](auto&& val) {
+            std::visit([&group, &invalid, this](auto&& val) {
                 using V = std::decay_t<decltype(val)>;
                 if constexpr (!std::is_same_v<double, V> &&
                               !std::is_same_v<int32_t, V> &&
@@ -197,8 +196,7 @@ std::optional<PropertyVariantType> TargetFromGroupMax::processGroups()
                                         .c_str());
                     invalid = true;
                 }
-            },
-                value);
+            }, value);
             if (invalid)
             {
                 break;
