@@ -27,6 +27,7 @@ namespace sensor::monitor
 using InterfaceName = std::string;
 using PropertyName = std::string;
 using ErrorName = std::string;
+using ErrorStatus = std::string;
 using ObjectPath = std::string;
 using InterfaceKey = std::tuple<ObjectPath, InterfaceName>;
 
