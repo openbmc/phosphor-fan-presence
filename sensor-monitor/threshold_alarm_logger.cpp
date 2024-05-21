@@ -48,7 +48,7 @@ constexpr auto assocInterface = "xyz.openbmc_project.Association";
 const std::vector<std::string> thresholdIfaceNames{
     warningInterface, criticalInterface, perfLossInterface};
 
-using ErrorData = std::tuple<ErrorName, Entry::Level>;
+using ErrorData = std::tuple<ErrorName, ErrorStatus, Entry::Level>;
 
 /**
  * Map of threshold interfaces and alarm properties and values to error data.
@@ -58,33 +58,33 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
 
         {warningInterface,
          {{"WarningAlarmHigh",
-           {{true, ErrorData{"WarningHigh", Entry::Level::Warning}},
+           {{true, ErrorData{"WarningHigh", "", Entry::Level::Warning}},
             {false,
-             ErrorData{"WarningHighClear", Entry::Level::Informational}}}},
+             ErrorData{"WarningHigh", "Clear", Entry::Level::Informational}}}},
           {"WarningAlarmLow",
-           {{true, ErrorData{"WarningLow", Entry::Level::Warning}},
+           {{true, ErrorData{"WarningLow", "", Entry::Level::Warning}},
             {false,
-             ErrorData{"WarningLowClear", Entry::Level::Informational}}}}}},
+             ErrorData{"WarningLow", "Clear", Entry::Level::Informational}}}}}},
 
         {criticalInterface,
          {{"CriticalAlarmHigh",
-           {{true, ErrorData{"CriticalHigh", Entry::Level::Critical}},
+           {{true, ErrorData{"CriticalHigh", "", Entry::Level::Critical}},
             {false,
-             ErrorData{"CriticalHighClear", Entry::Level::Informational}}}},
+             ErrorData{"CriticalHigh", "Clear", Entry::Level::Informational}}}},
           {"CriticalAlarmLow",
-           {{true, ErrorData{"CriticalLow", Entry::Level::Critical}},
+           {{true, ErrorData{"CriticalLow", "", Entry::Level::Critical}},
             {false,
-             ErrorData{"CriticalLowClear", Entry::Level::Informational}}}}}},
+             ErrorData{"CriticalLow", "Clear", Entry::Level::Informational}}}}}},
 
         {perfLossInterface,
          {{"PerfLossAlarmHigh",
-           {{true, ErrorData{"PerfLossHigh", Entry::Level::Warning}},
+           {{true, ErrorData{"PerformanceLossHigh", "", Entry::Level::Warning}},
             {false,
-             ErrorData{"PerfLossHighClear", Entry::Level::Informational}}}},
+             ErrorData{"PerformanceLossHigh", "Clear", Entry::Level::Informational}}}},
           {"PerfLossAlarmLow",
-           {{true, ErrorData{"PerfLossLow", Entry::Level::Warning}},
+           {{true, ErrorData{"PerformanceLossLow", "", Entry::Level::Warning}},
             {false,
-             ErrorData{"PerfLossLowClear", Entry::Level::Informational}}}}}}};
+             ErrorData{"PerformanceLossLow", "Clear", Entry::Level::Informational}}}}}}};
 
 ThresholdAlarmLogger::ThresholdAlarmLogger(
     sdbusplus::bus_t& bus, sdeventplus::Event& event,
@@ -328,9 +328,29 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
     // Add the base error name and the sensor type (like Temperature) to the
     // error name that's in the thresholdData name to get something like
     // xyz.openbmc_project.Sensor.Threshold.Error.TemperatureWarningHigh
-    const auto& [name, severity] = errorData->second;
+    const auto& [name, status, severity] = errorData->second;
+
+    try
+    {
+        auto thresholdValue = SDBusPlus::getProperty<double>(
+            bus, sensorPath, interface, name);
+
+        ad.emplace("THRESHOLD_VALUE", std::to_string(thresholdValue));
+
+        log<level::INFO>(
+            std::format("Threshold Event {} {} = {} (threshold value {})",
+                        sensorPath, alarmProperty, alarmValue, thresholdValue)
+                .c_str());
+    }
+    catch (const DBusServiceError& e)
+    {
+        log<level::INFO>(std::format("Threshold Event {} {} = {}", sensorPath,
+                                     alarmProperty, alarmValue)
+                             .c_str());
+    }
+
     type.front() = toupper(type.front());
-    std::string errorName = errorNameBase + type + name;
+    std::string errorName = errorNameBase + type + name + status;
 
     SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
                           "Create", errorName, convertForMessage(severity), ad);
