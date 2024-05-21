@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "84318738_d4cbfaf1",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-05-21T20:06:04Z",
+      "side": 1,
+      "message": "The changes related to this aren\u0027t mentioned in your commit message, and since aren\u0027t really related they\u0027d be better in a separate commit.",
+      "range": {
+        "startLine": 51,
+        "startChar": 39,
+        "endLine": 51,
+        "endChar": 52
+      },
+      "revId": "45ad09ab9dcbc352d1f968788b1a0444a9f0dbee",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
