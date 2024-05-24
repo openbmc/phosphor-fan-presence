@@ -22,6 +22,30 @@
       },
       "revId": "783dcbbc8e57bbc49229fcd494ac2446d8624738",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1816fb4c_71e4b358",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1001618
+      },
+      "writtenOn": "2024-05-24T16:27:58Z",
+      "side": 1,
+      "message": "Separate to \"name\" and \"status\" since the \"name\" string is used for getting the property of threshold value.\ne.g.\nBefore the change: name string: \"CriticalHighClear\"\nAfter the change:\nname string: \"CriticalHigh\"; Defined in Threhosld interface as shown below the REF\nstatus string: \"Clear\"\n\nREF: https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Threshold/Critical.interface.yaml\nREF: https://github.com/openbmc/phosphor-dbus-interfaces/blob/master/yaml/xyz/openbmc_project/Sensor/Threshold/Warning.interface.yaml\n\nHence, use the new name string to get the threshold value property; the status string is added back for the log event.",
+      "parentUuid": "df3a030e_ce12109b",
+      "range": {
+        "startLine": 353,
+        "startChar": 50,
+        "endLine": 353,
+        "endChar": 64
+      },
+      "revId": "783dcbbc8e57bbc49229fcd494ac2446d8624738",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
