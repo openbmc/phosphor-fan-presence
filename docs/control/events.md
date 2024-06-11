@@ -645,10 +645,10 @@ from maximum group property value. The mapping is based on a provided table. If
 there are more than one event using this action, the maximum speed derived from
 the mapping of all groups will be set to the zone's target.
 
-... { "name": "target_from_group_max", "groups": [ { "name": "zone0_ambient",
-"interface": "xyz.openbmc_project.Sensor.Value", "property": { "name": "Value" }
-} ], "neg_hysteresis": 1, "pos_hysteresis": 0, "map": [ { "value": 10.0,
-"target": 38.0 }, ... ] }
+... { "name": "target_from_group_max", "groups": [ { "name":
+"zone0_ambient", "interface": "xyz.openbmc_project.Sensor.Value", "property":
+{ "name": "Value" } } ], "neg_hysteresis": 1, "pos_hysteresis": 0, "map": [
+{ "value": 10.0, "target": 38.0 }, ... ] }
 
 The above JSON will cause the action to read the property specified in the group
 "zone0_ambient" from all members of the group. The change in the group's members

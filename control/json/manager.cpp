@@ -559,9 +559,30 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
     }
 
     auto objMgrPaths = getPaths(service, "org.freedesktop.DBus.ObjectManager");
-    if (objMgrPaths.empty())
+
+    bool useManagedObj = false;
+
+    if (!objMgrPaths.empty())
+    {
+        for (const auto& objMgrPath : objMgrPaths)
+        {
+            // Get all managed objects of service
+            auto objects =
+                util::SDBusPlus::getManagedObjects<PropertyVariantType>(
+                    _bus, service, objMgrPath);
+            if (objects.size() > 0)
+            {
+                useManagedObj = true;
+            }
+            // insert all objects that are in groups but remove any NaN values
+            insertFilteredObjects(objects);
+        }
+    }
+
+    if (!useManagedObj)
     {
         // No object manager interface provided by service?
+        // Or no object is managed?
         // Attempt to retrieve property directly
         try
         {
@@ -574,16 +595,6 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
         catch (const std::exception& e)
         {}
         return;
-    }
-
-    for (const auto& objMgrPath : objMgrPaths)
-    {
-        // Get all managed objects of service
-        auto objects = util::SDBusPlus::getManagedObjects<PropertyVariantType>(
-            _bus, service, objMgrPath);
-
-        // insert all objects that are in groups but remove any NaN values
-        insertFilteredObjects(objects);
     }
 }
 
