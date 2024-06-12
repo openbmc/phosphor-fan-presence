@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88bc2f0f_948cbf0d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-06-12T13:57:22Z",
+      "side": 1,
+      "message": "I assume you\u0027ll be updating meta-ampere/meta-jade/recipes-phosphor/fans/phosphor-fan/mtjade/events.json",
+      "revId": "6781491c18c219b39c0b2c0027b884cc8142b483",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
