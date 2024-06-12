@@ -653,8 +653,8 @@ the mapping of all groups will be set to the zone's target.
 The above JSON will cause the action to read the property specified in the group
 "zone0_ambient" from all members of the group. The change in the group's members
 value will be checked against "neg_hysteresis" and "pos_hysteresis" to decide if
-it is worth taking action. "neg_hysteresis" is for the increasing case and
-"pos_hysteresis" is for the decreasing case. The maximum property value in the
+it is worth taking action. "pos_hysteresis" is for the increasing case and
+"neg_hysteresis" is for the decreasing case. The maximum property value in the
 group will be mapped to the "map" to get the output "target". Each configured
 event using this action will be provided with a key in a static map to store its
 mapping result. The static map will be shared across the events of this action.

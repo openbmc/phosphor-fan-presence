@@ -54,12 +54,12 @@ void TargetFromGroupMax::run(Zone& zone)
         if (groupValue != _prevGroupValue)
         {
             // Value is decreasing and the change is greater than the
-            // positive hysteresis; or value is increasing and the change
+            // negative hysteresis; or value is increasing and the change
             // is greater than the positive hysteresis
             if (((groupValue < _prevGroupValue) &&
-                 (_prevGroupValue - groupValue > _posHysteresis)) ||
+                 (_prevGroupValue - groupValue > _negHysteresis)) ||
                 ((groupValue > _prevGroupValue) &&
-                 (groupValue - _prevGroupValue > _negHysteresis)))
+                 (groupValue - _prevGroupValue > _posHysteresis)))
             {
                 /*The speed derived from mapping*/
                 uint64_t groupSpeed = _speedFromGroupsMap[_groupIndex];
