@@ -16,6 +16,24 @@
       "message": "The code looks good, but why would getManagedObjects not return anything?",
       "revId": "078c0a869dcad8dae8eadb921eec1df0854992e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6340b412_26ea3668",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001526
+      },
+      "writtenOn": "2024-06-13T04:08:33Z",
+      "side": 1,
+      "message": "I don\u0027t know why they registered an object manager service for \u0027/xyz/openbmc_project/state/host0\u0027 when there\u0027s no object under it (https://github.com/openbmc/phosphor-state-manager/blob/24b25a4617cf435e1855418567dea7d84564f948/host_state_manager_main.cpp#L64). I might need to raise a question for phosphor-state-manager. \n\nThe object tree of the service:\n\n\u003eroot@mtmitchell-dcscm:~# busctl tree xyz.openbmc_project.State.Host\n- /xyz\n - /xyz/openbmc_project\n   - /xyz/openbmc_project/state\n      - /xyz/openbmc_project/state/host0",
+      "parentUuid": "37c5d864_dfcf4b70",
+      "revId": "078c0a869dcad8dae8eadb921eec1df0854992e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
