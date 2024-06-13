@@ -34,6 +34,24 @@
       "parentUuid": "37c5d864_dfcf4b70",
       "revId": "078c0a869dcad8dae8eadb921eec1df0854992e6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0356dfe9_80811b86",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-06-13T13:49:01Z",
+      "side": 1,
+      "message": "ok, yea, reading the docs for GMO, it says:\n\nThe return value of this method is a dict whose keys are object paths. All returned object paths are children of the object path implementing this interface, i.e. their object paths start with the ObjectManager\u0027s object path plus \u0027/\u0027. \n\nso even if State.Host were to change, it could happen in other places.",
+      "parentUuid": "6340b412_26ea3668",
+      "revId": "078c0a869dcad8dae8eadb921eec1df0854992e6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
