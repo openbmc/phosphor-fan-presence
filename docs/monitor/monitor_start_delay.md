@@ -13,7 +13,7 @@ integer (default = 0)
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
@@ -22,7 +22,7 @@ integer (default = 0)
       "functional_delay": 5,
       "deviation": 15,
       "num_sensors_nonfunc_for_fan_nonfunc": 1,
-      <b><i>"monitor_start_delay": 30</i></b>,
+      "monitor_start_delay": 30,
       "fan_missing_error_delay": 20,
       "nonfunc_rotor_error_delay": 0,
       "sensors": [
@@ -40,4 +40,4 @@ integer (default = 0)
     }
   ]
 }
-</code></pre>
+```
