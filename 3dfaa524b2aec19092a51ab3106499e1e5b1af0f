@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb38c7c7_17aa0981",
+        "filename": "docs/presence/rpolicy.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-08-05T18:34:20Z",
+      "side": 1,
+      "message": "I suspect these were in html so that the specified sections could be bolded and italicized, which is lost here.  I guess if that wasn\u0027t valid markdown then we can live without it.",
+      "revId": "3dfaa524b2aec19092a51ab3106499e1e5b1af0f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
