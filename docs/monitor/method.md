@@ -77,13 +77,13 @@ occurs at an interval dictated by the `count_interval` field.
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
       "inventory": "/system/chassis/motherboard/fan0",
-      <b><i>"allowed_out_of_range_time": 30,
-      "functional_delay": 5</i></b>,
+      "allowed_out_of_range_time": 30,
+      "functional_delay": 5,
       "deviation": 15,
       "num_sensors_nonfunc_for_fan_nonfunc": 1,
       "monitor_start_delay": 30,
@@ -104,8 +104,8 @@ occurs at an interval dictated by the `count_interval` field.
     },
     {
       "inventory": "/system/chassis/motherboard/fan1",
-      <b><i>"method": "count",
-      "count_interval": 1</i></b>,
+      "method": "count",
+      "count_interval": 1,
       "deviation": 15,
       "num_sensors_nonfunc_for_fan_nonfunc": 1,
       "monitor_start_delay": 30,
@@ -115,17 +115,17 @@ occurs at an interval dictated by the `count_interval` field.
         {
           "name": "fan0_0",
           "has_target": true,
-          <b><i>"threshold": 30</i></b>
+          "threshold": 30
         },
         {
           "name": "fan0_1",
           "has_target": false,
           "factor": 1.45,
           "offset": -909,
-          <b><i>"threshold": 30</i></b>
+          "threshold": 30
         }
       ]
     }
   ]
 }
-</code></pre>
+```
