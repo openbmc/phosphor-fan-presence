@@ -19,7 +19,7 @@ A policy where if any method of fan presence detection denotes the fan is
 present, results in the fan being marked present. All methods of detection must
 denote the fan as missing to have a fan be not present.
 
-```
+```text
 "type": "anyof"
 ```
 
@@ -28,7 +28,7 @@ denote the fan as missing to have a fan be not present.
 A policy to use the first method of fan presence detection and then use the next
 method only when the first method denotes the fan is missing.
 
-```
+```text
 "type": "fallback"
 ```
 
