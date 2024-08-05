@@ -7,7 +7,7 @@ zones.
 
 ## JSON Example
 
-```
+```json
 {
   "name": "0",
   "poweron_target": 18000,
