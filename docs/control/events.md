@@ -291,42 +291,42 @@ parameter value.
 
 The above config uses a hardcoded state value:
 
-1. For each member of the 'pcie temps' group:
+- For each member of the 'pcie temps' group:
 
-- Read its 'Value' D-Bus property.
-- If that property value is greater than the 'state' value of 70.0:
-- Subtracts 70.0 from the property value.
-- Multiplies that difference by the 'delta' value of 255.
+  - Read its 'Value' D-Bus property.
+  - If that property value is greater than the 'state' value of 70.0:
+  - Subtracts 70.0 from the property value.
+  - Multiplies that difference by the 'delta' value of 255.
 
-2. Requests an increase of the largest calculated delta value, if there is one.
+- Requests an increase of the largest calculated delta value, if there is one.
 
-```json
-{
-  "name": "set_net_increase_target",
-  "groups": [
-    {
-      "name": "proc0 core temps",
-      "interface": "xyz.openbmc_project.Sensor.Value",
-      "property": { "name": "Value" }
-    }
-  ],
-  "state_parameter_name": "proc_0_core_dvfs_increase_temp",
-  "delta": 300
-}
-```
+  ```json
+  {
+    "name": "set_net_increase_target",
+    "groups": [
+      {
+        "name": "proc0 core temps",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": { "name": "Value" }
+      }
+    ],
+    "state_parameter_name": "proc_0_core_dvfs_increase_temp",
+    "delta": 300
+  }
+  ```
 
 The above config uses a parameter as the state value:
 
-1. For each member of the 'proc 0 core temps' group:
+- For each member of the 'proc 0 core temps' group:
 
-- Read its 'Value' D-Bus property.
-- If that property value is greater than the value of the parameter listed in
-  the 'state_parameter_name' field, in this case
-  'proc_0_core_dvfs_increase_temp':
-- Subtracts that parameter value from the property value.
-- Multiplies that difference by the 'delta' value of 300.
+  - Read its 'Value' D-Bus property.
+  - If that property value is greater than the value of the parameter listed in
+    the 'state_parameter_name' field, in this case
+    'proc_0_core_dvfs_increase_temp':
+  - Subtracts that parameter value from the property value.
+  - Multiplies that difference by the 'delta' value of 300.
 
-2. Requests an increase of the largest calculated delta value, if there is one.
+- Requests an increase of the largest calculated delta value, if there is one.
 
 ### set_net_decrease_target
 
@@ -356,41 +356,41 @@ parameter value.
 
 The above config uses a hardcoded state value:
 
-1. For each member of the 'pcie temps' group:
+- For each member of the 'pcie temps' group:
 
-- Read its 'Value' D-Bus property.
-- If that property value is less than the 'state' value of 65.0:
-- Subtracts the property value from 65.0.
-- Multiplies that difference by the 'delta' value of 80.
+  - Read its 'Value' D-Bus property.
+  - If that property value is less than the 'state' value of 65.0:
+  - Subtracts the property value from 65.0.
+  - Multiplies that difference by the 'delta' value of 80.
 
-2. Requests a decrease of the smallest calculated delta value, if there is one.
+- Requests a decrease of the smallest calculated delta value, if there is one.
 
-```json
-{
-  "name": "set_net_decrease_target",
-  "groups": [
-    {
-      "name": "proc 0 core temps",
-      "interface": "xyz.openbmc_project.Sensor.Value",
-      "property": { "name": "Value" }
-    }
-  ],
-  "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
-  "delta": 50
-}
-```
+  ```json
+  {
+    "name": "set_net_decrease_target",
+    "groups": [
+      {
+        "name": "proc 0 core temps",
+        "interface": "xyz.openbmc_project.Sensor.Value",
+        "property": { "name": "Value" }
+      }
+    ],
+    "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
+    "delta": 50
+  }
+  ```
 
 The above config uses a parameter as the state value:
 
-1. For each member of the 'proc 0 core temps' group:
+- For each member of the 'proc 0 core temps' group:
 
-- Read its 'Value' D-Bus property.
-- If that property value is less than the value of the parameter listed the
-  'state_parameter_name' field, in this case 'proc_0_core_dvfs_decrease_temp':
-- Subtracts the property value from the parameter value.
-- Multiplies that difference by the 'delta' value of 50.
+  - Read its 'Value' D-Bus property.
+  - If that property value is less than the value of the parameter listed the
+    'state_parameter_name' field, in this case 'proc_0_core_dvfs_decrease_temp':
+  - Subtracts the property value from the parameter value.
+  - Multiplies that difference by the 'delta' value of 50.
 
-2. Requests a decrease of the smallest calculated delta value, if there is one.
+- Requests a decrease of the smallest calculated delta value, if there is one.
 
 ### count_state_floor
 
