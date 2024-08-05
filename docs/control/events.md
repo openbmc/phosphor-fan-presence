@@ -16,36 +16,36 @@ Some actions have modifiers, which help calculate a value.
 
 ## Example
 
-```
+```json
 [
-   {
-     "name": "fan(s) missing",
-     "groups": [
-       {
-         "name": "fan inventory",
-         "interface": "xyz.openbmc_project.Inventory.Item",
-         "property": { "name": "Present" }
-       }
-     ],
-     "triggers": [
-       {
-         "class": "init",
-         "method": "get_properties"
-       },
-       {
-         "class": "signal",
-         "signal": "properties_changed"
-       }
-     ],
-     "actions": [
-       {
-         "name": "count_state_before_target",
-         "count": 1,
-         "state": false,
-         "target": 15000
-       }
-     ]
-   }
+  {
+    "name": "fan(s) missing",
+    "groups": [
+      {
+        "name": "fan inventory",
+        "interface": "xyz.openbmc_project.Inventory.Item",
+        "property": { "name": "Present" }
+      }
+    ],
+    "triggers": [
+      {
+        "class": "init",
+        "method": "get_properties"
+      },
+      {
+        "class": "signal",
+        "signal": "properties_changed"
+      }
+    ],
+    "actions": [
+      {
+        "name": "count_state_before_target",
+        "count": 1,
+        "state": false,
+        "target": 15000
+      }
+    ]
+  }
 ]
 ```
 
@@ -68,7 +68,7 @@ hold.
 
 ## Groups
 
-```
+```json
 "groups": [
     {
         "name": "<name>",
@@ -104,10 +104,10 @@ Init triggers run when fan control events are enabled on fan control startup.
 After invoking the configured method, any actions configured for this trigger
 will run.
 
-```
+```json
 {
-    "class": "init",
-    "method": "<method>"
+  "class": "init",
+  "method": "<method>"
 }
 ```
 
@@ -124,10 +124,10 @@ will run.
 Signal triggers subscribe to certain D-Bus signals for each member of its
 configured group. After handling the signal, any configured actions are run.
 
-```
+```json
 {
-    "class": "signal",
-    "signal": "<signal>"
+  "class": "signal",
+  "signal": "<signal>"
 }
 ```
 
@@ -160,12 +160,12 @@ configured group. After handling the signal, any configured actions are run.
 
 Timer triggers run actions after the configured type of timer expires.
 
-```
+```json
 {
-    "class": "timer",
-    "type": "<type>",
-    "interval": "<interval>",
-    "preload_groups": "<true/false>"
+  "class": "timer",
+  "type": "<type>",
+  "interval": "<interval>",
+  "preload_groups": "<true/false>"
 }
 ```
 
@@ -188,10 +188,10 @@ groups in the object cache after the timer expires but before any actions run.
 
 Parameter triggers run actions after a parameter changes.
 
-```
+```json
 {
-    "class": "parameter",
-    "parameter": "<parameter>"
+  "class": "parameter",
+  "parameter": "<parameter>"
 }
 ```
 
@@ -204,10 +204,10 @@ The parameter value to watch.
 PowerOn triggers run when the power turns on. Functionally, they behave like an
 init trigger.
 
-```
+```json
 {
-    "class": "poweron",
-    "method": "<method>"
+  "class": "poweron",
+  "method": "<method>"
 }
 ```
 
@@ -220,10 +220,10 @@ The methods are the same as with the init trigger.
 PowerOff triggers run when the power turns off. Functionally, they behave like
 an init trigger.
 
-```
+```json
 {
-    "class": "poweroff",
-    "method": "<method>"
+  "class": "poweroff",
+  "method": "<method>"
 }
 ```
 
@@ -274,16 +274,18 @@ target of a zone.
 The group values can be compared to either a value hardcoded in the JSON, or a
 parameter value.
 
-```
+```json
 {
-    "name": "set_net_increase_target",
-    "groups": [{
-        "name": "pcie temps",
-        "interface": "xyz.openbmc_project.Sensor.Value",
-        "property": { "name": "Value" }
-      }],
-    "state": 70.0,
-    "delta": 255
+  "name": "set_net_increase_target",
+  "groups": [
+    {
+      "name": "pcie temps",
+      "interface": "xyz.openbmc_project.Sensor.Value",
+      "property": { "name": "Value" }
+    }
+  ],
+  "state": 70.0,
+  "delta": 255
 }
 ```
 
@@ -298,16 +300,18 @@ The above config uses a hardcoded state value:
 
 2. Requests an increase of the largest calculated delta value, if there is one.
 
-```
+```json
 {
-    "name": "set_net_increase_target",
-    "groups": [{
-        "name": "proc0 core temps",
-        "interface": "xyz.openbmc_project.Sensor.Value",
-        "property": { "name": "Value" }
-      }],
-    "state_parameter_name": "proc_0_core_dvfs_increase_temp",
-    "delta": 300
+  "name": "set_net_increase_target",
+  "groups": [
+    {
+      "name": "proc0 core temps",
+      "interface": "xyz.openbmc_project.Sensor.Value",
+      "property": { "name": "Value" }
+    }
+  ],
+  "state_parameter_name": "proc_0_core_dvfs_increase_temp",
+  "delta": 300
 }
 ```
 
@@ -335,18 +339,19 @@ zone.
 The group values can be compared to either a value hardcoded in the JSON, or a
 parameter value.
 
-```
+```json
 {
-    "name": "set_net_decrease_target",
-    "groups": [{
-        "name": "pcie temps",
-        "interface": "xyz.openbmc_project.Sensor.Value",
-        "property": { "name": "Value" }
-      }],
-    "state": 65.0,
-    "delta": 80
+  "name": "set_net_decrease_target",
+  "groups": [
+    {
+      "name": "pcie temps",
+      "interface": "xyz.openbmc_project.Sensor.Value",
+      "property": { "name": "Value" }
+    }
+  ],
+  "state": 65.0,
+  "delta": 80
 }
-
 ```
 
 The above config uses a hardcoded state value:
@@ -360,16 +365,18 @@ The above config uses a hardcoded state value:
 
 2. Requests a decrease of the smallest calculated delta value, if there is one.
 
-```
+```json
 {
-    "name": "set_net_decrease_target",
-    "groups": [{
-        "name": "proc 0 core temps",
-        "interface": "xyz.openbmc_project.Sensor.Value",
-        "property": { "name": "Value" }
-      }],
-    "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
-    "delta": 50
+  "name": "set_net_decrease_target",
+  "groups": [
+    {
+      "name": "proc 0 core temps",
+      "interface": "xyz.openbmc_project.Sensor.Value",
+      "property": { "name": "Value" }
+    }
+  ],
+  "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
+  "delta": 50
 }
 ```
 
@@ -391,13 +398,13 @@ Sets the fans to a configured floor when a number of members within the group
 are at a configured state. Once the number of members at the given state falls
 below the configured count, the floor hold is released.
 
-```
+```json
 {
-    "name": "count_state_floor",
-    "count": 2,
-    "state": false,
-    "floor": 18000,
-    "delay": 3
+  "name": "count_state_floor",
+  "count": 2,
+  "state": false,
+  "floor": 18000,
+  "delay": 3
 }
 ```
 
@@ -412,12 +419,12 @@ Sets the fans to a configured target when a number of members within the group
 are at a configured state. Once the number of members at the given state falls
 below the configured count, active fan target changes are allowed.
 
-```
+```json
 {
-    "name": "count_state_before_target",
-    "count": 1,
-    "state": false,
-    "target": 18000
+  "name": "count_state_before_target",
+  "count": 1,
+  "state": false,
+  "target": 18000
 }
 ```
 
@@ -440,35 +447,34 @@ This action can be used to set a floor value based on 2 or more groups having
 values within certain ranges, where the key group chooses the set of tables in
 which to check the remaining group values.
 
-```
+```json
 {
   "name": "mapped_floor",
   "key_group": "ambient temp",
   "default_floor": 5555,
   "fan_floors": [
-   {
-     "key": 25,
-     "default_floor": 4444,
-     "floor_offset_parameter": "ambient_25_altitude_offset",
-     "floors": [
-       {
-         "parameter": "pcie_floor_index",
-         "floors": [
-           { "value": 1, "floor": 2000 },
-           { "value": 2, "floor": 3000 },
-           { "value": 3, "floor": 4000 },
-           { "value": 4, "floor": 5000 },
-           { "value": 5, "floor": 6000 }
-         ]
-       },
-       {
-         "group": "power save",
-         "floors": [
-            { "value": true, "floor": 1000 }
-         ]
-       }
-     ]
-   }
+    {
+      "key": 25,
+      "default_floor": 4444,
+      "floor_offset_parameter": "ambient_25_altitude_offset",
+      "floors": [
+        {
+          "parameter": "pcie_floor_index",
+          "floors": [
+            { "value": 1, "floor": 2000 },
+            { "value": 2, "floor": 3000 },
+            { "value": 3, "floor": 4000 },
+            { "value": 4, "floor": 5000 },
+            { "value": 5, "floor": 6000 }
+          ]
+        },
+        {
+          "group": "power save",
+          "floors": [{ "value": true, "floor": 1000 }]
+        }
+      ]
+    }
+  ]
 }
 ```
 
@@ -498,7 +504,7 @@ not. This requires the following in the JSON:
 For example, the following says the single member of the 'cpu 0' group must have
 its Model property be equal to "1234" for the action to run:
 
-```
+```json
     "groups": [{
         "name": "cpu 0",
         "interface": "xyz.openbmc_project.Inventory.Decorator.Asset",
@@ -521,15 +527,17 @@ Sets the fans to a configured target when any service owner associated to the
 group is missing. Once all services are functional and providing all the group
 data again, active fan target changes are allowed.
 
-```
+```json
 {
-    "name": "set_target_on_missing_owner",
-    "groups": [{
-        "name": "fan inventory",
-        "interface": "xyz.openbmc_project.Inventory.Item",
-        "property": { "name": "Present" }
-      }],
-    "target": 18000
+  "name": "set_target_on_missing_owner",
+  "groups": [
+    {
+      "name": "fan inventory",
+      "interface": "xyz.openbmc_project.Inventory.Item",
+      "property": { "name": "Present" }
+    }
+  ],
+  "target": 18000
 }
 ```
 
@@ -544,13 +552,13 @@ override target until unlocked (or locked at a higher target). Upon unlocking,
 it will either revert to temperature control or activate the next-highest target
 remaining in its list of locks.
 
-```
+```json
 {
-    "name": "override_fan_target",
-    "count": 1,
-    "state": false,
-    "fans": [ "fan0", "fan1", "fan2", "fan3" ],
-    "target": 10000
+  "name": "override_fan_target",
+  "count": 1,
+  "state": false,
+  "fans": ["fan0", "fan1", "fan2", "fan3"],
+  "target": 10000
 }
 ```
 
@@ -574,11 +582,11 @@ It must be configured with the following groups and properties:
 - The PCIe cards with the following properties: Function0DeviceId,
   Function0VendorId, Function0SubsystemId, Function0SubsystemVendorId
 
-```
+```json
 {
-    "name": "pcie_card_floors",
-    "use_config_specific_files": true,
-    "settle_time": 2
+  "name": "pcie_card_floors",
+  "use_config_specific_files": true,
+  "settle_time": 2
 }
 ```
 
@@ -604,14 +612,16 @@ target to be based off of.
 The `requested target base` value is the base value to apply a target delta to.
 By default, it's the current zone target unless modified by this action.
 
-```
+```json
 {
-    "name": "set_request_target_base_with_max",
-    "groups": [{
-        "name": "fan targets",
-        "interface": "xyz.openbmc_project.Fan.Target",
-        "property": { "name": "Target" }
-      }]
+  "name": "set_request_target_base_with_max",
+  "groups": [
+    {
+      "name": "fan targets",
+      "interface": "xyz.openbmc_project.Fan.Target",
+      "property": { "name": "Target" }
+    }
+  ]
 }
 ```
 
@@ -624,14 +634,14 @@ Sets a parameter value based on the maximum group property value. The property
 value can be modified before storing it if the JSON specifies a valid modifier
 expression.
 
-```
+```json
 {
-   "name": "set_parameter_from_group_max",
-   "parameter_name": "proc_0_throttle_temp",
-   "modifier": {
-     "expression": "minus",
-     "value": 4
-   }
+  "name": "set_parameter_from_group_max",
+  "parameter_name": "proc_0_throttle_temp",
+  "modifier": {
+    "expression": "minus",
+    "value": 4
+  }
 }
 ```
 
@@ -680,27 +690,28 @@ services are owned, the timer is stopped.
 
 Consider the following action config:
 
-```
+```json
 {
-    "name": "call_actions_based_on_timer",
-    "timer": {
-        "interval": 5000000,
-        "type": "oneshot"
-    },
-    "actions": [{
-        "name": "test"
-    }]
+  "name": "call_actions_based_on_timer",
+  "timer": {
+    "interval": 5000000,
+    "type": "oneshot"
+  },
+  "actions": [
+    {
+      "name": "test"
+    }
+  ]
 }
-
 ```
 
 If its group configuration has a property value listed, like:
 
-```
+```json
 {
-    "name": "fan inventory",
-    "interface": "xyz.openbmc_project.Inventory.Item",
-    "property": { "name": "Present", "value": true }
+  "name": "fan inventory",
+  "interface": "xyz.openbmc_project.Inventory.Item",
+  "property": { "name": "Present", "value": true }
 }
 ```
 
@@ -710,11 +721,11 @@ it's running.
 
 If the group configuration has no property value listed, like:
 
-```
+```json
 {
-    "name": "fan inventory",
-    "interface": "xyz.openbmc_project.Inventory.Item",
-    "property": { "name": "Present" }
+  "name": "fan inventory",
+  "interface": "xyz.openbmc_project.Inventory.Item",
+  "property": { "name": "Present" }
 }
 ```
 
@@ -730,23 +741,23 @@ it then runs any actions listed in the JSON.
 This allows an action to run with the latest values in the cache without having
 to subscribe to propertiesChanged for them all.
 
-```
+```json
 {
-   "name": "get_managed_objects",
-   "groups": [
-     {
-       "name": "proc temps",
-       "interface": "xyz.openbmc_project.Sensor.Value",
-       "property": { "name": "Value" }
-     }
-   ],
-   "actions": [
-     {
-       "name": "set_net_increase_target",
-       "state": 30,
-       "delta": 100
-     }
-   ]
+  "name": "get_managed_objects",
+  "groups": [
+    {
+      "name": "proc temps",
+      "interface": "xyz.openbmc_project.Sensor.Value",
+      "property": { "name": "Value" }
+    }
+  ],
+  "actions": [
+    {
+      "name": "set_net_increase_target",
+      "state": 30,
+      "delta": 100
+    }
+  ]
 }
 ```
 
@@ -763,7 +774,7 @@ Modifiers are used by some actions to help calculate values.
 
 Subtract the `value` field from the passed in value.
 
-```
+```json
 "modifier": {
     "expression": "minus",
     "value": 4
@@ -779,7 +790,7 @@ is less than the `arg_value` entry in the table row. If there is a
 `default_value` field supplied, then that will be returned if the argument is
 greater than the `arg_value` of the last row.
 
-```
+```json
 "modifier": {
   "operator": "less_than",
   "default_value": 10000,
