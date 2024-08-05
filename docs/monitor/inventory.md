@@ -13,11 +13,11 @@ string
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
-      <b><i>"inventory": "/system/chassis/motherboard/fan0"</i></b>,
+      "inventory": "/system/chassis/motherboard/fan0",
       "allowed_out_of_range_time": 30,
       "functional_delay": 5,
       "deviation": 15,
@@ -40,4 +40,4 @@ string
     }
   ]
 }
-</code></pre>
+```

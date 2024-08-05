@@ -19,15 +19,15 @@ Deviation is represented as a percentage, so only 0 to 100 are valid values.
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
       "inventory": "/system/chassis/motherboard/fan0",
       "allowed_out_of_range_time": 30,
       "functional_delay": 5,
-      <b><i>"deviation": 15</i></b>,
-      <b><i>"upper_deviation": 30</i></b>,
+      "deviation": 15,
+      "upper_deviation": 30,
       "num_sensors_nonfunc_for_fan_nonfunc": 1,
       "monitor_start_delay": 30,
       "fan_missing_error_delay": 20,
@@ -47,4 +47,4 @@ Deviation is represented as a percentage, so only 0 to 100 are valid values.
     }
   ]
 }
-</code></pre>
+```

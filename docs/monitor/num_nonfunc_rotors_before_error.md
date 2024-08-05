@@ -15,11 +15,11 @@ integer (default = 1)
 
 ## Example
 
-<pre><code>
+```json
 {
   "fault_handling": [
     {
-      <b><i>"num_nonfunc_rotors_before_error": 1</i></b>,
+      "num_nonfunc_rotors_before_error": 1,
       "power_off_config": [
         {
           "type": "hard",
@@ -46,4 +46,4 @@ integer (default = 1)
     }
   ]
 }
-</code></pre>
+```

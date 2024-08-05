@@ -21,7 +21,7 @@ bool (default = false)
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
@@ -33,7 +33,7 @@ bool (default = false)
       "monitor_start_delay": 30,
       "fan_missing_error_delay": 20,
       "nonfunc_rotor_error_delay": 0,
-      <b><i>"set_func_on_present": true</i></b>,
+      "set_func_on_present": true,
       "sensors": [
         {
           "name": "fan0_0",
@@ -49,4 +49,4 @@ bool (default = false)
     }
   ]
 }
-</code></pre>
+```

@@ -50,12 +50,12 @@ nonfunctional fans.
 
 ## Example
 
-<pre><code>
+```json
 {
   "fault_handling": [
     {
       "num_nonfunc_rotors_before_error": 1,
-      <b><i>"power_off_config": [
+      "power_off_config": [
         {
           "type": "hard",
           "cause": "missing_fan_frus",
@@ -77,8 +77,8 @@ nonfunctional fans.
           "service_mode_delay": 300,
           "meltdown_delay": 300
         }
-      ]</i></b>
+      ]
     }
   ]
 }
-</code></pre>
+```

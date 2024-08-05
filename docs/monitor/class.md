@@ -18,11 +18,11 @@ not.
 
 ## Example
 
-<pre><code>
+```json
 {
   "sensor_trust_groups": [
     {
-      <b><i>"class": "NonzeroSpeed"</i></b>,
+      "class": "NonzeroSpeed",
       "group": [
         {
           "name": "fan0_0"
@@ -38,4 +38,4 @@ not.
     }
   ]
 }
-</code></pre>
+```
