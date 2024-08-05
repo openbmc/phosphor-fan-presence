@@ -41,22 +41,20 @@ attribute.
 
 ## Example
 
-<pre><code>
+```json
 [
   {
     "name": "fan0",
     "path": "/system/chassis/motherboard/fan0",
-    <b><i>"methods": [
+    "methods": [
       {
         "type": "tach",
-        "sensors": [
-          "fan0_0"
-        ]
+        "sensors": ["fan0_0"]
       }
-    ]</i></b>,
+    ],
     "rpolicy": {
       "type": "anyof"
-    }"
+    }
   }
 ]
-</code></pre>
+```
