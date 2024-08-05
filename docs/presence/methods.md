@@ -18,7 +18,7 @@ Requires an array of `sensors` of each fan tach D-Bus sensor name to be used to
 determine fan presence. This is the name of the fan tach sensor located under
 the `/xyz/openbmc_project/sensors/fan_tach/` D-Bus path.
 
-```
+```text
 "type": "tach",
 "sensors": [
   "fan0_0"
@@ -32,7 +32,7 @@ Detects fans with dedicated GPIOs using Linux
 device tree bindings, where the event number is provided via the `key`
 attribute.
 
-```
+```text
 "type": "gpio",
 "key": 1,
 "physpath": "/sys/bus/i2c/devices/1-0001",
