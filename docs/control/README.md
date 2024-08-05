@@ -4,7 +4,6 @@
 
 - [Overview](#overview)
 - [Data Format](#data-format)
-- [Example](#example)
 - [System Config Location](#system-config-location)
 - [Contents](#contents)
 - [Validation](#validation)
