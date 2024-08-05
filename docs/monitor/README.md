@@ -113,7 +113,7 @@ their functional state and what fault handling should occur. Fault handling
 includes creating error logs and/or powering off the system for a configured
 number of fans that are missing or nonfunctional.
 
-```
+```json
 {
   "fans": [
     {
@@ -178,7 +178,7 @@ configuration hierarchy_**
 
 Example:
 
-```
+```json
 {
   "comments": [
    "Fan monitoring configuration of X-number of fans",
