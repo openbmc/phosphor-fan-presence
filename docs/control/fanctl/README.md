@@ -57,7 +57,7 @@ help
     - Display this help and exit
 ```
 
-## Examples:
+## Examples
 
 - Set all fans to a target value (The tool determines whether the machine is
   using RPM or PWM fan speeds, and sets them to the value provided):
