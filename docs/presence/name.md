@@ -10,22 +10,20 @@ string
 
 ## Example
 
-<pre><code>
+```json
 [
   {
-    <b><i>"name": "fan0"</i></b>,
+    "name": "fan0",
     "path": "/system/chassis/motherboard/fan0",
     "methods": [
       {
         "type": "tach",
-        "sensors": [
-          "fan0_0"
-        ]
+        "sensors": ["fan0_0"]
       }
     ],
     "rpolicy": {
       "type": "anyof"
-    }"
+    }
   }
 ]
-</code></pre>
+```
