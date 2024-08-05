@@ -23,7 +23,7 @@ enabled yet, an intended safe fan target should be set prior to resuming.
 
 ## Usage
 
-```
+```text
 NAME
   fanctl - Manually control, get fan tachs, view status, reload config,
   and resume automatic control of all fans within a chassis.
@@ -76,7 +76,7 @@ help
 
   > fanctl get
 
-  ```
+  ```text
   > fanctl get
   TARGET SENSOR    TARGET(RPM)   FEEDBACK SENSOR    FEEDBACK(RPM)
   ===============================================================
@@ -98,7 +98,7 @@ help
 
   > fanctl status
 
-  ```
+  ```text
   Fan Control Service State   : loaded, inactive(dead)
 
   CurrentBMCState     : xyz.openbmc_project.State.BMC.BMCState.Ready

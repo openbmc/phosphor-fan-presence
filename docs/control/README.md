@@ -121,7 +121,7 @@ directory locations in the following order:
 This file consists of an array of fan objects representing the fan FRUs in the
 system.
 
-```
+```json
 [
     {
         "name": "fan0",
@@ -139,7 +139,7 @@ system.
 
 This file contains parameters specific to the zone.
 
-```
+```json
 [
     {
         "name": "0",
@@ -159,7 +159,7 @@ This file contains parameters specific to the zone.
 This file defines the groups that events.json will use in its actions. Groups
 consist of one or more D-Bus object paths and a name.
 
-```
+```json
 [
    {
      "name": "fan inventory",
@@ -183,7 +183,7 @@ consist of one or more D-Bus object paths and a name.
 This file contains the fan control events, where each event can contain groups,
 trigger, and actions.
 
-```
+```json
 {
   [
     {
@@ -222,7 +222,7 @@ trigger, and actions.
 The JSON data format does not support comments. However, the library used by
 code to parse the JSON does support '//' as a comment:
 
-```
+```json
 // This is a comment.
 {
    ...
@@ -231,7 +231,7 @@ code to parse the JSON does support '//' as a comment:
 
 Alternatively, a comment attribute can be used:
 
-```
+```json
 {
   "comment": "This is a comment."
   ...

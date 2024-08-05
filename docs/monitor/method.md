@@ -28,7 +28,7 @@ functional(`functional_delay`).
   - Time(in seconds) that each fan sensor must be calculated within range of a
     current target before being marked functional.
 
-```
+```text
 "method": "timebased",
 "allowed_out_of_range_time": 30,
 "functional_delay": 5
@@ -39,7 +39,8 @@ functional(`functional_delay`).
 this method being used.**
 
 - This is equivalent to above:
-  ```
+
+  ```text
   "allowed_out_of_range_time": 30,
   "functional_delay": 5
   ```
@@ -65,7 +66,7 @@ occurs at an interval dictated by the `count_interval` field.
 - `count_interval` - The interval, in seconds, to check the feedback speed and
   increment/decrement the counter. Defaults to 1s if not present.
 
-```
+```text
 "method": "count",
 "count_interval": 5,
 "sensors": [

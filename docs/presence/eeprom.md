@@ -20,7 +20,7 @@ This is optional and only required if the above behavior is desired.
 The I2C bus and address string of the form BB-AAAA that is used by the I2C
 subsystem in sysfs.
 
-```
+```text
 "bus_address": "3-0050"
 ```
 
@@ -28,7 +28,7 @@ subsystem in sysfs.
 
 The name of the eeprom driver in sysfs.
 
-```
+```text
 "driver_name": "at24"
 ```
 
@@ -38,7 +38,7 @@ The number of milliseconds to wait after a fan is detected before binding the
 driver to the device in case the device takes some time to initialize after
 being plugged into power. If no delay is required, a value of zero can be used.
 
-```
+```text
 "bind_delay_ms": 1000
 ```
 

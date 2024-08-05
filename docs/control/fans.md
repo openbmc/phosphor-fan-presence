@@ -2,7 +2,7 @@
 
 ## JSON Example
 
-```
+```json
 [
     {
         "name": "fan0",

@@ -8,16 +8,13 @@ the time of usage in events.json.
 
 ## JSON example
 
-```
+```json
 [
   {
-     "name": "occ objects",
-     "service": "org.open_power.OCC.Control",
-     "members": [
-       "/org/open_power/control/occ0",
-       "/org/open_power/control/occ1"
-     ]
-   }
+    "name": "occ objects",
+    "service": "org.open_power.OCC.Control",
+    "members": ["/org/open_power/control/occ0", "/org/open_power/control/occ1"]
+  }
 ]
 ```
 
