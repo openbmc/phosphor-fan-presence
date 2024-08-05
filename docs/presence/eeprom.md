@@ -44,7 +44,7 @@ being plugged into power. If no delay is required, a value of zero can be used.
 
 ## Example
 
-<pre><code>
+```json
 [
   {
     "name": "fan0",
@@ -52,19 +52,17 @@ being plugged into power. If no delay is required, a value of zero can be used.
     "methods": [
       {
         "type": "tach",
-        "sensors": [
-          "fan0_0"
-        ]
+        "sensors": ["fan0_0"]
       }
     ],
     "rpolicy": {
       "type": "anyof"
     },
-    <b><i>"eeprom": {
+    "eeprom": {
       "bus_address": "30-0050",
       "driver_name": "at24",
       "bind_delay_ms": 1000
-    }</i></b>
+    }
   }
 ]
-</code></pre>
+```
