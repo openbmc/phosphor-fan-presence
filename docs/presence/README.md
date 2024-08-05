@@ -110,7 +110,7 @@ The config file consists of an array of fan objects that define how their
 presence is detected and the policy used to update its present state within
 inventory.
 
-```
+```json
 [
   {
     "name": "fan0",
@@ -156,7 +156,7 @@ configuration hierarchy_**
 
 Example:
 
-```
+```json
 [
   {
     "comments": [
