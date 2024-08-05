@@ -16,7 +16,7 @@ integer (default = do not create an error log)
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
@@ -27,7 +27,7 @@ integer (default = do not create an error log)
       "num_sensors_nonfunc_for_fan_nonfunc": 1,
       "monitor_start_delay": 30,
       "fan_missing_error_delay": 20,
-      <b><i>"nonfunc_rotor_error_delay": 0</i></b>,
+      "nonfunc_rotor_error_delay": 0,
       "sensors": [
         {
           "name": "fan0_0",
@@ -43,4 +43,4 @@ integer (default = do not create an error log)
     }
   ]
 }
-</code></pre>
+```
