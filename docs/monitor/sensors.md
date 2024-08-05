@@ -41,7 +41,7 @@ be deemed functional.
 
 ## Example
 
-<pre><code>
+```json
 {
   "fans": [
     {
@@ -53,7 +53,7 @@ be deemed functional.
       "monitor_start_delay": 30,
       "fan_missing_error_delay": 20,
       "nonfunc_rotor_error_delay": 0,
-      <b><i>"sensors": [
+      "sensors": [
         {
           "name": "fan0_0",
           "has_target": true,
@@ -66,8 +66,8 @@ be deemed functional.
           "factor": 1.45,
           "offset": -909
         }
-      ]</i></b>
+      ]
     }
   ]
 }
-</code></pre>
+```
