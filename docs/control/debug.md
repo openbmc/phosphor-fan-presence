@@ -16,7 +16,7 @@ target changes.
 
 It can be printed with:
 
-```
+```text
 fanctl query_dump -s flight_recorder
 ```
 
@@ -28,7 +28,7 @@ from the groups.json files. If any of the D-Bus properties had a value of `NaN`
 
 It can be printed with:
 
-```
+```text
 fanctl query_dump -s objects
 ```
 
@@ -39,20 +39,20 @@ The `-n` option will match on substrings.
 
 Print the full entries of all temp sensors in the cache:
 
-```
+```text
 fanctl query_dump -s objects -n sensors/temperature
 ```
 
 Print just the Value properties of all temperature sensors in the cache:
 
-```
+```text
 fanctl query_dump -s objects -n sensors/temperature -p Value
 ```
 
 This allows one to do something like find all Functional property values that
 are false:
 
-```
+```text
 fanctl query_dump -s objects -p Functional | grep -B 1 false
 ```
 
@@ -63,7 +63,7 @@ and any outstanding floor or target holds.
 
 It can be printed with:
 
-```
+```text
 fanctl query_dump -s zones
 ```
 
@@ -73,7 +73,7 @@ Parameters are key/value pairs set and used by actions.
 
 They can be printed with:
 
-```
+```text
 fanctl query_dump -s parameters
 ```
 
@@ -84,7 +84,7 @@ services that own them.
 
 It can be printed with:
 
-```
+```text
 fanctl query_dump -s services
 ```
 
@@ -95,6 +95,6 @@ their group names.
 
 It can be printed with:
 
-```
+```text
 fanctl query_dump -s events
 ```
