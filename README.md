@@ -27,36 +27,39 @@ file(s) at runtime.
 The following applications are built by default:
 
 - [Fan Control](#fan-control)
+
   - To disable from building, use the `-Dcontrol-service=disabled` meson option:
-  ```
-  meson build -Dcontrol-service=disabled
-  ```
+
+    meson build -Dcontrol-service=disabled
+
 - [Fan Presence Detection](#fan-presence-detection)
+
   - To disable from building, use the `-Dpresence-service=disabled` meson
     option:
-  ```
-  meson build -Dpresence-service=disabled
-  ```
+
+    meson build -Dpresence-service=disabled
+
 - [Fan Monitoring](#fan-monitoring)
+
   - To disable from building, use the `-Dmonitor-service=disabled` meson option:
-  ```
-  meson build -Dmonitor-service=disabled
-  ```
+
+    meson build -Dmonitor-service=disabled
+
 - [Sensor Monitoring](#sensor-monitoring)
+
   - To disable from building, use the `-Dsensor-monitor-service=disabled` meson
     option:
-  ```
-  meson build -Dsensor-monitor-service=disabled
-  ```
+
+    meson build -Dsensor-monitor-service=disabled
 
 The following applications must be enabled at _configure_ time to be built:
 
 - [Cooling Type](#cooling-type)
+
   - To enable building this, set the `-Dcooling-type-service=enable` meson
     option:
-  ```
-  meson build -Dcooling-type-service=enabled
-  ```
+
+    meson build -Dcooling-type-service=enabled
 
 ### YAML (Deprecated)
 
@@ -70,10 +73,8 @@ YAML configuration file(s).
 Meson defaults to JSON based runtime configuration, so to select the YAML
 configuration use the '-Djson-config=disabled' option when building:
 
-```
-    1. meson build -Djson-config=disabled
-    2. ninja -C build
-```
+1. meson build -Djson-config=disabled
+2. ninja -C build
 
 ### JSON
 
@@ -84,10 +85,8 @@ each using JSON.
 As JSON based runtime configuration is the default option, no extra options are
 required to build:
 
-```
-    1. meson build
-    2. ninja -C build
-```
+1. meson build
+2. ninja -C build
 
 **Note: Features/Restrictions of applications in this package that are only
 supported using the JSON based configuration are listed below:**
