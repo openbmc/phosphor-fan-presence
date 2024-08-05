@@ -34,7 +34,7 @@ method only when the first method denotes the fan is missing.
 
 ## Example
 
-<pre><code>
+```json
 [
   {
     "name": "fan0",
@@ -42,14 +42,12 @@ method only when the first method denotes the fan is missing.
     "methods": [
       {
         "type": "tach",
-        "sensors": [
-          "fan0_0"
-        ]
+        "sensors": ["fan0_0"]
       }
     ],
-    <b><i>"rpolicy": {
+    "rpolicy": {
       "type": "anyof"
-    }"</i></b>
+    }
   }
 ]
-</code></pre>
+```
