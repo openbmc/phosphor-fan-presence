@@ -8,9 +8,9 @@ are what's monitored to determine the functional state of the fan.
 A sensor's functional range is determined by the following equation(where
 _[target]_ is current requested target of the fan):
 
-- Minimum = ([target] _ (100 - [`deviation`](deviation.md)) / 100) _ `factor` +
+- Minimum = ([target] _(100 - [`deviation`](deviation.md)) / 100)_ `factor` +
   `offset`
-- Maximum = ([target] _ (100 + [`deviation`](deviation.md)) / 100) _ `factor` +
+- Maximum = ([target] _(100 + [`deviation`](deviation.md)) / 100)_ `factor` +
   `offset`
 
 Therefore, a fan sensor must be above the minimum and less than the maximum to
