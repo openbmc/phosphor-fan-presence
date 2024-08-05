@@ -19,12 +19,12 @@ monitoring based on algorithm of the [`class`](class.md).
 
 ## Example
 
-<pre><code>
+```json
 {
   "sensor_trust_groups": [
     {
       "class": "NonzeroSpeed",
-      <b><i>"group": [
+      "group": [
         {
           "name": "fan0_0"
         },
@@ -35,8 +35,8 @@ monitoring based on algorithm of the [`class`](class.md).
           "name": "fan2_0",
           "in_trust": false
         }
-      ]</i></b>
+      ]
     }
   ]
 }
-</code></pre>
+```
