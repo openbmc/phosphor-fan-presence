@@ -49,11 +49,11 @@ std::string DBusZone::current(std::string value)
     std::transform(value.begin(), value.end(), value.begin(), toupper);
 
     auto supported = ThermalModeIntf::supported();
-    auto isSupported = std::any_of(supported.begin(), supported.end(),
-                                   [&value](auto& s) {
-        std::transform(s.begin(), s.end(), s.begin(), toupper);
-        return value == s;
-    });
+    auto isSupported =
+        std::any_of(supported.begin(), supported.end(), [&value](auto& s) {
+            std::transform(s.begin(), s.end(), s.begin(), toupper);
+            return value == s;
+        });
 
     if (isSupported && value != current)
     {

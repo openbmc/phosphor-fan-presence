@@ -60,11 +60,11 @@ void Profile::setActive(const json& jsonObj)
     else
     {
         // Construct list of available methods
-        auto methods = std::accumulate(std::next(_methods.begin()),
-                                       _methods.end(), _methods.begin()->first,
-                                       [](auto list, auto method) {
-            return std::move(list) + ", " + method.first;
-        });
+        auto methods = std::accumulate(
+            std::next(_methods.begin()), _methods.end(),
+            _methods.begin()->first, [](auto list, auto method) {
+                return std::move(list) + ", " + method.first;
+            });
         log<level::ERR>("Configured method not available",
                         entry("JSON=%s", jsonObj["method"].dump().c_str()),
                         entry("METHODS_AVAILABLE=%s", methods.c_str()));
@@ -81,23 +81,26 @@ bool Profile::allOf(const json& method)
             "Missing required all_of method properties list");
     }
 
-    return std::all_of(method["properties"].begin(), method["properties"].end(),
-                       [](const json& obj) {
-        if (!obj.contains("path") || !obj.contains("interface") ||
-            !obj.contains("property") || !obj.contains("value"))
-        {
-            log<level::ERR>(
-                "Missing required all_of method property parameters",
-                entry("JSON=%s", obj.dump().c_str()));
-            throw std::runtime_error(
-                "Missing required all_of method parameters");
-        }
-        auto variant = util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
-            obj["path"].get<std::string>(), obj["interface"].get<std::string>(),
-            obj["property"].get<std::string>());
+    return std::all_of(
+        method["properties"].begin(), method["properties"].end(),
+        [](const json& obj) {
+            if (!obj.contains("path") || !obj.contains("interface") ||
+                !obj.contains("property") || !obj.contains("value"))
+            {
+                log<level::ERR>(
+                    "Missing required all_of method property parameters",
+                    entry("JSON=%s", obj.dump().c_str()));
+                throw std::runtime_error(
+                    "Missing required all_of method parameters");
+            }
+            auto variant =
+                util::SDBusPlus::getPropertyVariant<PropertyVariantType>(
+                    obj["path"].get<std::string>(),
+                    obj["interface"].get<std::string>(),
+                    obj["property"].get<std::string>());
 
-        return getJsonValue(obj["value"]) == variant;
-    });
+            return getJsonValue(obj["value"]) == variant;
+        });
 }
 
 } // namespace phosphor::fan::control::json

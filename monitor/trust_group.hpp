@@ -66,11 +66,11 @@ class Group
      */
     void registerSensor(std::shared_ptr<monitor::TachSensor>& sensor)
     {
-        auto found = std::find_if(_names.begin(), _names.end(),
-                                  [&sensor](const auto& name) {
-            return monitor::FAN_SENSOR_PATH + std::get<sensorName>(name) ==
-                   sensor->name();
-        });
+        auto found = std::find_if(
+            _names.begin(), _names.end(), [&sensor](const auto& name) {
+                return monitor::FAN_SENSOR_PATH + std::get<sensorName>(name) ==
+                       sensor->name();
+            });
 
         if (found != _names.end())
         {
@@ -90,8 +90,8 @@ class Group
     {
         return (std::find_if(_sensors.begin(), _sensors.end(),
                              [&sensor](const auto& s) {
-            return sensor.name() == s.sensor->name();
-        }) != _sensors.end());
+                                 return sensor.name() == s.sensor->name();
+                             }) != _sensors.end());
     }
 
     /**

@@ -65,8 +65,8 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
     auto gpioDev = evdevOpen(gpioFd());
 
     int value = 0;
-    auto fetch_rc = libevdev_fetch_event_value(gpioDev.get(), EV_KEY, keycode,
-                                               &value);
+    auto fetch_rc =
+        libevdev_fetch_event_value(gpioDev.get(), EV_KEY, keycode, &value);
     if (0 == fetch_rc)
     {
         log<level::ERR>(

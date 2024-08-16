@@ -100,13 +100,13 @@ void propertiesChanged(Manager* mgr, const Group& group,
     {
         // Setup property changed signal handler on the group member's
         // property
-        const auto match = rules::propertiesChanged(member,
-                                                    group.getInterface());
-        SignalPkg signalPkg = {Handlers::propertiesChanged,
-                               SignalObject(std::cref(member),
-                                            std::cref(group.getInterface()),
-                                            std::cref(group.getProperty())),
-                               actions};
+        const auto match =
+            rules::propertiesChanged(member, group.getInterface());
+        SignalPkg signalPkg = {
+            Handlers::propertiesChanged,
+            SignalObject(std::cref(member), std::cref(group.getInterface()),
+                         std::cref(group.getProperty())),
+            actions};
         auto isSameSig = [&prop = group.getProperty()](SignalPkg& pkg) {
             auto& obj = std::get<SignalObject>(pkg);
             return prop == std::get<Prop>(obj);
@@ -124,13 +124,13 @@ void interfacesAdded(Manager* mgr, const Group& group, TriggerActions& actions,
     for (const auto& member : group.getMembers())
     {
         // Setup interfaces added signal handler on the group member
-        const auto match = rules::interfacesAdded() +
-                           rules::argNpath(0, member);
-        SignalPkg signalPkg = {Handlers::interfacesAdded,
-                               SignalObject(std::cref(member),
-                                            std::cref(group.getInterface()),
-                                            std::cref(group.getProperty())),
-                               actions};
+        const auto match =
+            rules::interfacesAdded() + rules::argNpath(0, member);
+        SignalPkg signalPkg = {
+            Handlers::interfacesAdded,
+            SignalObject(std::cref(member), std::cref(group.getInterface()),
+                         std::cref(group.getProperty())),
+            actions};
         auto isSameSig = [&intf = group.getInterface()](SignalPkg& pkg) {
             auto& obj = std::get<SignalObject>(pkg);
             return intf == std::get<Intf>(obj);
@@ -148,13 +148,13 @@ void interfacesRemoved(Manager* mgr, const Group& group,
     for (const auto& member : group.getMembers())
     {
         // Setup interfaces removed signal handler on the group member
-        const auto match = rules::interfacesRemoved() +
-                           rules::argNpath(0, member);
-        SignalPkg signalPkg = {Handlers::interfacesRemoved,
-                               SignalObject(std::cref(member),
-                                            std::cref(group.getInterface()),
-                                            std::cref(group.getProperty())),
-                               actions};
+        const auto match =
+            rules::interfacesRemoved() + rules::argNpath(0, member);
+        SignalPkg signalPkg = {
+            Handlers::interfacesRemoved,
+            SignalObject(std::cref(member), std::cref(group.getInterface()),
+                         std::cref(group.getProperty())),
+            actions};
         auto isSameSig = [&intf = group.getInterface()](SignalPkg& pkg) {
             auto& obj = std::get<SignalObject>(pkg);
             return intf == std::get<Intf>(obj);
@@ -252,8 +252,8 @@ enableTrigger
         auto availSignals =
             std::accumulate(std::next(signals.begin()), signals.end(),
                             signals.begin()->first, [](auto list, auto signal) {
-            return std::move(list) + ", " + signal.first;
-        });
+                                return std::move(list) + ", " + signal.first;
+                            });
         auto msg =
             std::format("Event '{}' requires a supported signal given to be "
                         "triggered by signal, available signals: {}",
@@ -269,8 +269,8 @@ enableTrigger
         TriggerActions signalActions;
         std::for_each(actions.begin(), actions.end(),
                       [&signalActions](auto& action) {
-            signalActions.emplace_back(std::ref(action));
-        });
+                          signalActions.emplace_back(std::ref(action));
+                      });
         for (const auto& group : groups)
         {
             // Call signal subscriber for each group

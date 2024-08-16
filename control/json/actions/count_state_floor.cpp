@@ -71,10 +71,10 @@ void CountStateFloor::run(Zone& zone)
 
     if (!_timer)
     {
-        _timer = std::make_unique<Timer>(util::SDEventPlus::getEvent(),
-                                         [&zone, this](Timer&) {
-            zone.setFloorHold(getUniqueName(), _floor, doCount());
-        });
+        _timer = std::make_unique<Timer>(
+            util::SDEventPlus::getEvent(), [&zone, this](Timer&) {
+                zone.setFloorHold(getUniqueName(), _floor, doCount());
+            });
     }
 
     if (!_timer->isEnabled())

@@ -90,9 +90,8 @@ class Tach : public PresenceSensor
      * @param[in] sensor - The sensor that changed.
      * @param[in] props - The properties that changed.
      */
-    void
-        propertiesChanged(size_t sensor,
-                          const phosphor::fan::util::Properties<double>& props);
+    void propertiesChanged(
+        size_t sensor, const phosphor::fan::util::Properties<double>& props);
 
     /**
      * @brief Properties changed handler for tach sensor updates.

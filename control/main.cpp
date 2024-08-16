@@ -90,8 +90,8 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     try
     {
 #ifdef CONTROL_USE_JSON
-        phosphor::fan::control::json::FlightRecorder::instance().log("main",
-                                                                     "Startup");
+        phosphor::fan::control::json::FlightRecorder::instance().log(
+            "main", "Startup");
         json::Manager manager(event);
 
         // Handle loading fan control's config file(s)

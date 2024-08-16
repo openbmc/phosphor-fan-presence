@@ -80,10 +80,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
     // Enable SIGHUP handling to reload JSON config
     stdplus::signal::block(SIGHUP);
-    sdeventplus::source::Signal signal(event, SIGHUP,
-                                       std::bind(&System::sighupHandler,
-                                                 &system, std::placeholders::_1,
-                                                 std::placeholders::_2));
+    sdeventplus::source::Signal signal(
+        event, SIGHUP,
+        std::bind(&System::sighupHandler, &system, std::placeholders::_1,
+                  std::placeholders::_2));
 
     // Enable SIGUSR1 handling to dump debug data
     stdplus::signal::block(SIGUSR1);

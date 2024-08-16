@@ -143,10 +143,11 @@ class PGoodState : public PowerState
     PGoodState& operator=(PGoodState&&) = delete;
 
     PGoodState() :
-        PowerState(), _match(_bus,
-                             sdbusplus::bus::match::rules::propertiesChanged(
-                                 _pgoodPath, _pgoodInterface),
-                             [this](auto& msg) { this->pgoodChanged(msg); })
+        PowerState(),
+        _match(_bus,
+               sdbusplus::bus::match::rules::propertiesChanged(_pgoodPath,
+                                                               _pgoodInterface),
+               [this](auto& msg) { this->pgoodChanged(msg); })
     {
         readPGood();
     }

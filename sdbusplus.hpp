@@ -167,10 +167,9 @@ class SDBusPlus
 
     /** @brief Invoke a method and read the response. */
     template <typename Ret, typename... Args>
-    static auto callMethodAndRead(const std::string& busName,
-                                  const std::string& path,
-                                  const std::string& interface,
-                                  const std::string& method, Args&&... args)
+    static auto callMethodAndRead(
+        const std::string& busName, const std::string& path,
+        const std::string& interface, const std::string& method, Args&&... args)
     {
         return callMethodAndRead<Ret>(getBus(), busName, path, interface,
                                       method, std::forward<Args>(args)...);
@@ -189,11 +188,11 @@ class SDBusPlus
         using Objects = std::map<Path, std::map<Serv, Intfs>>;
         Intfs intfs = {interface};
 
-        return callMethodAndRead<Objects>(bus,
-                                          "xyz.openbmc_project.ObjectMapper"s,
-                                          "/xyz/openbmc_project/object_mapper"s,
-                                          "xyz.openbmc_project.ObjectMapper"s,
-                                          "GetSubTree"s, path, depth, intfs);
+        return callMethodAndRead<Objects>(
+            bus, "xyz.openbmc_project.ObjectMapper"s,
+            "/xyz/openbmc_project/object_mapper"s,
+            "xyz.openbmc_project.ObjectMapper"s, "GetSubTree"s, path, depth,
+            intfs);
     }
 
     /** @brief Get subtree from the mapper without checking response,
@@ -210,11 +209,11 @@ class SDBusPlus
         using Intfs = std::vector<Intf>;
         using Objects = std::map<Path, std::map<Serv, Intfs>>;
 
-        return callMethodAndRead<Objects>(bus,
-                                          "xyz.openbmc_project.ObjectMapper"s,
-                                          "/xyz/openbmc_project/object_mapper"s,
-                                          "xyz.openbmc_project.ObjectMapper"s,
-                                          "GetSubTree"s, path, depth, intfs);
+        return callMethodAndRead<Objects>(
+            bus, "xyz.openbmc_project.ObjectMapper"s,
+            "/xyz/openbmc_project/object_mapper"s,
+            "xyz.openbmc_project.ObjectMapper"s, "GetSubTree"s, path, depth,
+            intfs);
     }
 
     /** @brief Get subtree from the mapper. */
@@ -344,9 +343,9 @@ class SDBusPlus
         using namespace std::literals::string_literals;
 
         auto service = getService(bus, path, interface);
-        auto msg = callMethod(bus, service, path,
-                              "org.freedesktop.DBus.Properties"s, "Get"s,
-                              interface, property);
+        auto msg =
+            callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
+                       "Get"s, interface, property);
         if (msg.is_method_error())
         {
             throw DBusPropertyError{"DBus get property failed", service, path,
@@ -368,17 +367,16 @@ class SDBusPlus
 
     /** @brief Get a property variant with mapper lookup. */
     template <typename Variant>
-    static auto getPropertyVariant(sdbusplus::bus_t& bus,
-                                   const std::string& path,
-                                   const std::string& interface,
-                                   const std::string& property)
+    static auto getPropertyVariant(
+        sdbusplus::bus_t& bus, const std::string& path,
+        const std::string& interface, const std::string& property)
     {
         using namespace std::literals::string_literals;
 
         auto service = getService(bus, path, interface);
-        auto msg = callMethod(bus, service, path,
-                              "org.freedesktop.DBus.Properties"s, "Get"s,
-                              interface, property);
+        auto msg =
+            callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
+                       "Get"s, interface, property);
         if (msg.is_method_error())
         {
             throw DBusPropertyError{"DBus get property variant failed", service,
@@ -400,11 +398,10 @@ class SDBusPlus
 
     /** @brief Invoke a method and return without checking for error. */
     template <typename... Args>
-    static auto callMethodAndReturn(sdbusplus::bus_t& bus,
-                                    const std::string& busName,
-                                    const std::string& path,
-                                    const std::string& interface,
-                                    const std::string& method, Args&&... args)
+    static auto callMethodAndReturn(
+        sdbusplus::bus_t& bus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, Args&&... args)
     {
         auto reqMsg = bus.new_method_call(busName.c_str(), path.c_str(),
                                           interface.c_str(), method.c_str());
@@ -448,11 +445,10 @@ class SDBusPlus
 
     /** @brief Get a property variant without mapper lookup. */
     template <typename Variant>
-    static auto getPropertyVariant(sdbusplus::bus_t& bus,
-                                   const std::string& service,
-                                   const std::string& path,
-                                   const std::string& interface,
-                                   const std::string& property)
+    static auto getPropertyVariant(
+        sdbusplus::bus_t& bus, const std::string& service,
+        const std::string& path, const std::string& interface,
+        const std::string& property)
     {
         using namespace std::literals::string_literals;
 
@@ -471,10 +467,9 @@ class SDBusPlus
 
     /** @brief Get a property variant without mapper lookup. */
     template <typename Variant>
-    static auto getPropertyVariant(const std::string& service,
-                                   const std::string& path,
-                                   const std::string& interface,
-                                   const std::string& property)
+    static auto getPropertyVariant(
+        const std::string& service, const std::string& path,
+        const std::string& interface, const std::string& property)
     {
         return getPropertyVariant<Variant>(getBus(), service, path, interface,
                                            property);
@@ -544,10 +539,9 @@ class SDBusPlus
 
     /** @brief Invoke method with mapper lookup. */
     template <typename... Args>
-    static auto lookupAndCallMethod(sdbusplus::bus_t& bus,
-                                    const std::string& path,
-                                    const std::string& interface,
-                                    const std::string& method, Args&&... args)
+    static auto lookupAndCallMethod(
+        sdbusplus::bus_t& bus, const std::string& path,
+        const std::string& interface, const std::string& method, Args&&... args)
     {
         return callMethod(bus, getService(bus, path, interface), path,
                           interface, method, std::forward<Args>(args)...);
@@ -565,10 +559,9 @@ class SDBusPlus
 
     /** @brief Invoke method and read with mapper lookup. */
     template <typename Ret, typename... Args>
-    static auto
-        lookupCallMethodAndRead(sdbusplus::bus_t& bus, const std::string& path,
-                                const std::string& interface,
-                                const std::string& method, Args&&... args)
+    static auto lookupCallMethodAndRead(
+        sdbusplus::bus_t& bus, const std::string& path,
+        const std::string& interface, const std::string& method, Args&&... args)
     {
         return callMethodAndRead(bus, getService(bus, path, interface), path,
                                  interface, method,
@@ -577,10 +570,9 @@ class SDBusPlus
 
     /** @brief Invoke method and read with mapper lookup. */
     template <typename Ret, typename... Args>
-    static auto lookupCallMethodAndRead(const std::string& path,
-                                        const std::string& interface,
-                                        const std::string& method,
-                                        Args&&... args)
+    static auto lookupCallMethodAndRead(
+        const std::string& path, const std::string& interface,
+        const std::string& method, Args&&... args)
     {
         return lookupCallMethodAndRead<Ret>(getBus(), path, interface, method,
                                             std::forward<Args>(args)...);

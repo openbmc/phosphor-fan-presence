@@ -161,9 +161,10 @@ void Zone::setTarget(uint64_t target)
 
 void Zone::lockFanTarget(const std::string& fname, uint64_t target)
 {
-    auto fanItr = std::find_if(
-        _fans.begin(), _fans.end(),
-        [&fname](const auto& fan) { return fan->getName() == fname; });
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
 
     if (_fans.end() != fanItr)
     {
@@ -180,9 +181,10 @@ void Zone::lockFanTarget(const std::string& fname, uint64_t target)
 
 void Zone::unlockFanTarget(const std::string& fname, uint64_t target)
 {
-    auto fanItr = std::find_if(
-        _fans.begin(), _fans.end(),
-        [&fname](const auto& fan) { return fan->getName() == fname; });
+    auto fanItr =
+        std::find_if(_fans.begin(), _fans.end(), [&fname](const auto& fan) {
+            return fan->getName() == fname;
+        });
 
     if (_fans.end() != fanItr)
     {
@@ -230,8 +232,8 @@ void Zone::setTargetHold(const std::string& ident, uint64_t target, bool hold)
 
     auto itHoldMax = std::max_element(_targetHolds.begin(), _targetHolds.end(),
                                       [](const auto& aHold, const auto& bHold) {
-        return aHold.second < bHold.second;
-    });
+                                          return aHold.second < bHold.second;
+                                      });
     if (itHoldMax == _targetHolds.end())
     {
         _isActive = true;
@@ -293,8 +295,8 @@ void Zone::setFloorHold(const std::string& ident, uint64_t target, bool hold)
 
     auto itHoldMax = std::max_element(_floorHolds.begin(), _floorHolds.end(),
                                       [](const auto& aHold, const auto& bHold) {
-        return aHold.second < bHold.second;
-    });
+                                          return aHold.second < bHold.second;
+                                      });
     if (itHoldMax == _floorHolds.end())
     {
         if (_floor != _defaultFloor)
@@ -461,8 +463,8 @@ void Zone::setInterfaces(const json& jsonObj)
             auto intfs = std::accumulate(
                 std::next(_intfPropHandlers.begin()), _intfPropHandlers.end(),
                 _intfPropHandlers.begin()->first, [](auto list, auto intf) {
-                return std::move(list) + ", " + intf.first;
-            });
+                    return std::move(list) + ", " + intf.first;
+                });
             log<level::ERR>("Configured interface not available",
                             entry("JSON=%s", interface.dump().c_str()),
                             entry("AVAILABLE_INTFS=%s", intfs.c_str()));
@@ -496,8 +498,8 @@ void Zone::setInterfaces(const json& jsonObj)
                     std::next(propFuncs->second.begin()),
                     propFuncs->second.end(), propFuncs->second.begin()->first,
                     [](auto list, auto prop) {
-                    return std::move(list) + ", " + prop.first;
-                });
+                        return std::move(list) + ", " + prop.first;
+                    });
                 log<level::ERR>("Configured property not available",
                                 entry("JSON=%s", property.dump().c_str()),
                                 entry("AVAILABLE_PROPS=%s", props.c_str()));
@@ -556,8 +558,8 @@ namespace zone::property
 {
 // Get a set property handler function for the configured values of the
 // "Supported" property
-std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
-                                                bool persist)
+std::function<void(DBusZone&, Zone&)>
+    supported(const json& jsonObj, bool persist)
 {
     std::vector<std::string> values;
     if (!jsonObj.contains("values"))

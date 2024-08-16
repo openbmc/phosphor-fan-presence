@@ -85,8 +85,8 @@ void set_request_speed_base_with_max(Zone& zone, const Group& group);
 template <typename T>
 auto count_state_before_speed(size_t count, T&& state, uint64_t speed)
 {
-    return [count, speed, state = std::forward<T>(state)](auto& zone,
-                                                          auto& group) {
+    return [count, speed,
+            state = std::forward<T>(state)](auto& zone, auto& group) {
         size_t numAtState = 0;
         for (auto& entry : group)
         {
@@ -135,30 +135,30 @@ Action set_floor_from_average_sensor_value(std::map<T, uint64_t>&& val_to_speed)
         if (group.size() != 0)
         {
             auto count = 0;
-            auto sumValue =
-                std::accumulate(group.begin(), group.end(), 0,
-                                [&zone, &count](T sum, auto const& entry) {
-                try
-                {
-                    return sum + zone.template getPropertyValue<T>(
-                                     std::get<pathPos>(entry),
-                                     std::get<intfPos>(entry),
-                                     std::get<propPos>(entry));
-                }
-                catch (const std::out_of_range& oore)
-                {
-                    count++;
-                    return sum;
-                }
-            });
+            auto sumValue = std::accumulate(
+                group.begin(), group.end(), 0,
+                [&zone, &count](T sum, const auto& entry) {
+                    try
+                    {
+                        return sum + zone.template getPropertyValue<T>(
+                                         std::get<pathPos>(entry),
+                                         std::get<intfPos>(entry),
+                                         std::get<propPos>(entry));
+                    }
+                    catch (const std::out_of_range& oore)
+                    {
+                        count++;
+                        return sum;
+                    }
+                });
             if ((group.size() - count) > 0)
             {
                 auto groupSize = static_cast<int64_t>(group.size());
                 auto avgValue = sumValue / (groupSize - count);
                 auto it = std::find_if(val_to_speed.begin(), val_to_speed.end(),
-                                       [&avgValue](auto const& entry) {
-                    return avgValue < entry.first;
-                });
+                                       [&avgValue](const auto& entry) {
+                                           return avgValue < entry.first;
+                                       });
                 if (it != std::end(val_to_speed))
                 {
                     speed = (*it).second;
@@ -187,28 +187,28 @@ template <typename T>
 Action
     set_ceiling_from_average_sensor_value(std::map<T, uint64_t>&& val_to_speed)
 {
-    return [val_to_speed = std::move(val_to_speed)](Zone& zone,
-                                                    const Group& group) {
+    return [val_to_speed =
+                std::move(val_to_speed)](Zone& zone, const Group& group) {
         auto speed = zone.getCeiling();
         if (group.size() != 0)
         {
             auto count = 0;
-            auto sumValue =
-                std::accumulate(group.begin(), group.end(), 0,
-                                [&zone, &count](T sum, auto const& entry) {
-                try
-                {
-                    return sum + zone.template getPropertyValue<T>(
-                                     std::get<pathPos>(entry),
-                                     std::get<intfPos>(entry),
-                                     std::get<propPos>(entry));
-                }
-                catch (const std::out_of_range& oore)
-                {
-                    count++;
-                    return sum;
-                }
-            });
+            auto sumValue = std::accumulate(
+                group.begin(), group.end(), 0,
+                [&zone, &count](T sum, const auto& entry) {
+                    try
+                    {
+                        return sum + zone.template getPropertyValue<T>(
+                                         std::get<pathPos>(entry),
+                                         std::get<intfPos>(entry),
+                                         std::get<propPos>(entry));
+                    }
+                    catch (const std::out_of_range& oore)
+                    {
+                        count++;
+                        return sum;
+                    }
+                });
             if ((group.size() - count) > 0)
             {
                 auto groupSize = static_cast<int64_t>(group.size());
@@ -307,33 +307,34 @@ auto set_net_increase_speed(T&& state, T&& factor, uint64_t speedDelta)
     return [speedDelta, factor = std::forward<T>(factor),
             state = std::forward<T>(state)](auto& zone, auto& group) {
         auto netDelta = zone.getIncSpeedDelta();
-        std::for_each(group.begin(), group.end(),
-                      [&zone, &state, &factor, &speedDelta,
-                       &netDelta](auto const& entry) {
-            try
-            {
-                T value = zone.template getPropertyValue<T>(
-                    std::get<pathPos>(entry), std::get<intfPos>(entry),
-                    std::get<propPos>(entry));
-                // TODO openbmc/phosphor-fan-presence#7 - Support possible
-                // state types for comparison
-                if (value >= state)
+        std::for_each(
+            group.begin(), group.end(),
+            [&zone, &state, &factor, &speedDelta,
+             &netDelta](const auto& entry) {
+                try
                 {
-                    // Increase by at least a single delta(factor)
-                    // to attempt bringing under 'state'
-                    auto delta = std::max((value - state), factor);
-                    // Increase is the factor applied to the
-                    // difference times the given speed delta
-                    netDelta = std::max(
-                        netDelta,
-                        static_cast<uint64_t>((delta / factor) * speedDelta));
+                    T value = zone.template getPropertyValue<T>(
+                        std::get<pathPos>(entry), std::get<intfPos>(entry),
+                        std::get<propPos>(entry));
+                    // TODO openbmc/phosphor-fan-presence#7 - Support possible
+                    // state types for comparison
+                    if (value >= state)
+                    {
+                        // Increase by at least a single delta(factor)
+                        // to attempt bringing under 'state'
+                        auto delta = std::max((value - state), factor);
+                        // Increase is the factor applied to the
+                        // difference times the given speed delta
+                        netDelta = std::max(netDelta,
+                                            static_cast<uint64_t>(
+                                                (delta / factor) * speedDelta));
+                    }
                 }
-            }
-            catch (const std::out_of_range& oore)
-            {
-                // Property value not found, netDelta unchanged
-            }
-        });
+                catch (const std::out_of_range& oore)
+                {
+                    // Property value not found, netDelta unchanged
+                }
+            });
         // Request speed change for target speed update
         zone.requestSpeedIncrease(netDelta);
     };
@@ -380,8 +381,8 @@ auto set_net_decrease_speed(T&& state, T&& factor, uint64_t speedDelta)
                         // difference times the given speed delta
                         netDelta = std::min(
                             netDelta,
-                            static_cast<uint64_t>(((state - value) / factor) *
-                                                  speedDelta));
+                            static_cast<uint64_t>(
+                                ((state - value) / factor) * speedDelta));
                     }
                 }
                 else
@@ -426,20 +427,21 @@ auto use_alternate_events_on_state(T&& state,
     return [state = std::forward<T>(state), defEvents = std::move(defEvents),
             altEvents = std::move(altEvents)](auto& zone, auto& group) {
         // Compare all group entries to the state
-        auto useAlt = std::all_of(group.begin(), group.end(),
-                                  [&zone, &state](auto const& entry) {
-            try
-            {
-                return zone.template getPropertyValue<T>(
-                           std::get<pathPos>(entry), std::get<intfPos>(entry),
-                           std::get<propPos>(entry)) == state;
-            }
-            catch (const std::out_of_range& oore)
-            {
-                // Default to property not equal when not found
-                return false;
-            }
-        });
+        auto useAlt = std::all_of(
+            group.begin(), group.end(), [&zone, &state](const auto& entry) {
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                               std::get<pathPos>(entry),
+                               std::get<intfPos>(entry),
+                               std::get<propPos>(entry)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
+            });
 
         const std::vector<SetSpeedEvent>* rmEvents = &altEvents;
         const std::vector<SetSpeedEvent>* initEvents = &defEvents;
@@ -452,10 +454,10 @@ auto use_alternate_events_on_state(T&& state,
 
         // Remove events
         std::for_each(rmEvents->begin(), rmEvents->end(),
-                      [&zone](auto const& entry) { zone.removeEvent(entry); });
+                      [&zone](const auto& entry) { zone.removeEvent(entry); });
         // Init events
         std::for_each(initEvents->begin(), initEvents->end(),
-                      [&zone](auto const& entry) { zone.initEvent(entry); });
+                      [&zone](const auto& entry) { zone.initEvent(entry); });
     };
 }
 
@@ -488,7 +490,7 @@ Action set_floor_from_median_sensor_value(T&& lowerBound, T&& upperBound,
         if (group.size() != 0)
         {
             std::vector<T> validValues;
-            for (auto const& member : group)
+            for (const auto& member : group)
             {
                 try
                 {
@@ -525,9 +527,9 @@ Action set_floor_from_median_sensor_value(T&& lowerBound, T&& upperBound,
 
                 // Use determined median sensor value to find floor speed
                 auto it = std::find_if(valueToSpeed.begin(), valueToSpeed.end(),
-                                       [&median](auto const& entry) {
-                    return median < entry.first;
-                });
+                                       [&median](const auto& entry) {
+                                           return median < entry.first;
+                                       });
                 if (it != std::end(valueToSpeed))
                 {
                     speed = (*it).second;
@@ -554,20 +556,21 @@ template <typename T>
 auto update_default_floor(T&& state, uint64_t speed)
 {
     return [speed, state = std::forward<T>(state)](auto& zone, auto& group) {
-        auto updateDefFloor = std::all_of(group.begin(), group.end(),
-                                          [&zone, &state](auto const& entry) {
-            try
-            {
-                return zone.template getPropertyValue<T>(
-                           std::get<pathPos>(entry), std::get<intfPos>(entry),
-                           std::get<propPos>(entry)) == state;
-            }
-            catch (const std::out_of_range& oore)
-            {
-                // Default to property not equal when not found
-                return false;
-            }
-        });
+        auto updateDefFloor = std::all_of(
+            group.begin(), group.end(), [&zone, &state](const auto& entry) {
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                               std::get<pathPos>(entry),
+                               std::get<intfPos>(entry),
+                               std::get<propPos>(entry)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
+            });
 
         if (!updateDefFloor)
         {
@@ -599,34 +602,37 @@ auto use_events_on_state(T&& state, std::vector<SetSpeedEvent>&& events)
     return [state = std::forward<T>(state),
             events = std::move(events)](auto& zone, auto& group) {
         // Compare all group entries to the state
-        auto useEvents = std::all_of(group.begin(), group.end(),
-                                     [&zone, &state](auto const& entry) {
-            try
-            {
-                return zone.template getPropertyValue<T>(
-                           std::get<pathPos>(entry), std::get<intfPos>(entry),
-                           std::get<propPos>(entry)) == state;
-            }
-            catch (const std::out_of_range& oore)
-            {
-                // Default to property not equal when not found
-                return false;
-            }
-        });
+        auto useEvents = std::all_of(
+            group.begin(), group.end(), [&zone, &state](const auto& entry) {
+                try
+                {
+                    return zone.template getPropertyValue<T>(
+                               std::get<pathPos>(entry),
+                               std::get<intfPos>(entry),
+                               std::get<propPos>(entry)) == state;
+                }
+                catch (const std::out_of_range& oore)
+                {
+                    // Default to property not equal when not found
+                    return false;
+                }
+            });
 
         if (useEvents)
         {
             // Init events
-            std::for_each(
-                events.begin(), events.end(),
-                [&zone](auto const& entry) { zone.initEvent(entry); });
+            std::for_each(events.begin(), events.end(),
+                          [&zone](const auto& entry) {
+                              zone.initEvent(entry);
+                          });
         }
         else
         {
             // Remove events
-            std::for_each(
-                events.begin(), events.end(),
-                [&zone](auto const& entry) { zone.removeEvent(entry); });
+            std::for_each(events.begin(), events.end(),
+                          [&zone](const auto& entry) {
+                              zone.removeEvent(entry);
+                          });
         }
     };
 }

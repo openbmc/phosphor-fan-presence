@@ -79,8 +79,9 @@ void Fallback::monitor()
 {
     // Find the first sensor that says the fan is present
     // and set it as the active sensor.
-    activeSensor = std::find_if(sensors.begin(), sensors.end(),
-                                [](auto& s) { return s.get().present(); });
+    activeSensor = std::find_if(sensors.begin(), sensors.end(), [](auto& s) {
+        return s.get().present();
+    });
     if (activeSensor == sensors.end())
     {
         // The first sensor is working or all sensors

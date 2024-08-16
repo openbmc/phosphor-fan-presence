@@ -88,8 +88,7 @@ using namespace sdbusplus::bus::match;
 ShutdownAlarmMonitor::ShutdownAlarmMonitor(
     sdbusplus::bus_t& bus, sdeventplus::Event& event,
     std::shared_ptr<PowerState> powerState) :
-    bus(bus),
-    event(event), _powerState(std::move(powerState)),
+    bus(bus), event(event), _powerState(std::move(powerState)),
     hardShutdownMatch(bus,
                       "type='signal',member='PropertiesChanged',"
                       "path_namespace='/xyz/openbmc_project/sensors',"
@@ -133,13 +132,14 @@ void ShutdownAlarmMonitor::findAlarms()
 
         auto shutdownType2 = shutdownType;
 
-        std::for_each(paths.begin(), paths.end(),
-                      [this, shutdownType2](const auto& path) {
-            alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::high},
-                           nullptr);
-            alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::low},
-                           nullptr);
-        });
+        std::for_each(
+            paths.begin(), paths.end(),
+            [this, shutdownType2](const auto& path) {
+                alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::high},
+                               nullptr);
+                alarms.emplace(AlarmKey{path, shutdownType2, AlarmType::low},
+                               nullptr);
+            });
     }
 }
 

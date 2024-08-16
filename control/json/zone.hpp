@@ -381,8 +381,8 @@ class Zone : public ConfigBase
     static auto setProperty(const char* intf, const char* prop,
                             T (DBusZone::*func)(T), T&& value, bool persist)
     {
-        return [=, value = std::forward<T>(value)](DBusZone& dbusZone,
-                                                   Zone& zone) {
+        return [=, value =
+                       std::forward<T>(value)](DBusZone& dbusZone, Zone& zone) {
             (dbusZone.*func)(value);
             if (persist)
             {
@@ -551,8 +551,8 @@ namespace zone::property
  *
  * @return Zone dbus object's set property function for the "Supported" property
  */
-std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
-                                                bool persist);
+std::function<void(DBusZone&, Zone&)>
+    supported(const json& jsonObj, bool persist);
 
 /**
  * @brief "Current" property on the "xyz.openbmc_project.Control.ThermalMode"
@@ -564,8 +564,8 @@ std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
  *
  * @return Zone dbus object's set property function for the "Current" property
  */
-std::function<void(DBusZone&, Zone&)> current(const json& jsonObj,
-                                              bool persist);
+std::function<void(DBusZone&, Zone&)>
+    current(const json& jsonObj, bool persist);
 
 } // namespace zone::property
 

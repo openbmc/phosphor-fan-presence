@@ -38,8 +38,7 @@ using namespace sdbusplus::bus::match;
 Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
          System& system) :
-    _bus(bus),
-    _name(def.name), _deviation(def.deviation),
+    _bus(bus), _name(def.name), _deviation(def.deviation),
     _upperDeviation(def.upperDeviation),
     _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
     _trustManager(trust),
@@ -332,8 +331,9 @@ uint64_t Fan::findTargetSpeed()
     uint64_t target = 0;
     // The sensor doesn't support a target,
     // so get it from another sensor.
-    auto s = std::find_if(_sensors.begin(), _sensors.end(),
-                          [](const auto& s) { return s->hasTarget(); });
+    auto s = std::find_if(_sensors.begin(), _sensors.end(), [](const auto& s) {
+        return s->hasTarget();
+    });
 
     if (s != _sensors.end())
     {
@@ -345,8 +345,9 @@ uint64_t Fan::findTargetSpeed()
 
 size_t Fan::countNonFunctionalSensors() const
 {
-    return std::count_if(_sensors.begin(), _sensors.end(),
-                         [](const auto& s) { return !s->functional(); });
+    return std::count_if(_sensors.begin(), _sensors.end(), [](const auto& s) {
+        return !s->functional();
+    });
 }
 
 bool Fan::outOfRange(const TachSensor& sensor)

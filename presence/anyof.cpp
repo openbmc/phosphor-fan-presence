@@ -36,8 +36,8 @@ static const auto powerOnDelayTime = 5s;
 AnyOf::AnyOf(const Fan& fan,
              const std::vector<std::reference_wrapper<PresenceSensor>>& s,
              std::unique_ptr<EEPROMDevice> e) :
-    RedundancyPolicy(fan, std::move(e)),
-    state(), _powerState(getPowerStateObject()),
+    RedundancyPolicy(fan, std::move(e)), state(),
+    _powerState(getPowerStateObject()),
     _powerOnDelayTimer(sdeventplus::Event::get_default(),
                        std::bind(&AnyOf::delayedAfterPowerOn, this)),
     _powerOn(false)
@@ -62,10 +62,10 @@ AnyOf::AnyOf(const Fan& fan,
 void AnyOf::stateChanged(bool present, PresenceSensor& sensor)
 {
     // Find the sensor that changed state.
-    auto sit = std::find_if(state.begin(), state.end(),
-                            [&sensor](const auto& s) {
-        return std::get<sensorPos>(s).get() == sensor;
-    });
+    auto sit =
+        std::find_if(state.begin(), state.end(), [&sensor](const auto& s) {
+            return std::get<sensorPos>(s).get() == sensor;
+        });
     if (sit != state.end())
     {
         auto origState =
@@ -139,9 +139,10 @@ void AnyOf::checkSensorConflicts()
 
     // If at least one, but not all, sensors indicate present, then
     // tell the not present ones to log a conflict if not already done.
-    if (std::any_of(
-            state.begin(), state.end(),
-            [this](const auto& s) { return std::get<presentPos>(s); }) &&
+    if (std::any_of(state.begin(), state.end(),
+                    [this](const auto& s) {
+                        return std::get<presentPos>(s);
+                    }) &&
         !std::all_of(state.begin(), state.end(),
                      [this](const auto& s) { return std::get<presentPos>(s); }))
     {

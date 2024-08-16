@@ -54,8 +54,7 @@ class PowerOffAction
     PowerOffAction(const std::string& name,
                    std::shared_ptr<PowerInterfaceBase> powerInterface,
                    PrePowerOffFunc& powerOffFunc) :
-        _name(name),
-        _powerIface(std::move(powerInterface)),
+        _name(name), _powerIface(std::move(powerInterface)),
         _event(sdeventplus::Event::get_default()),
         _prePowerOffFunc(powerOffFunc)
     {}

@@ -241,24 +241,24 @@ class Zone : public ThermalObject
             std::optional<T> value;
             std::visit(
                 [&value](auto&& val) {
-                // If the type configured is int64, but the sensor value
-                // property's type is double, scale it by 1000 and return
-                // the value as an int64 as configured.
-                using V = std::decay_t<decltype(val)>;
-                if constexpr (std::is_same_v<T, int64_t> &&
-                              std::is_same_v<V, double>)
-                {
-                    val = val * 1000;
-                    value = std::lround(val);
-                }
-                // If the type configured matches the sensor value
-                // property's type, just return the value as its
-                // given type.
-                else if constexpr (std::is_same_v<T, V>)
-                {
-                    value = val;
-                }
-            },
+                    // If the type configured is int64, but the sensor value
+                    // property's type is double, scale it by 1000 and return
+                    // the value as an int64 as configured.
+                    using V = std::decay_t<decltype(val)>;
+                    if constexpr (std::is_same_v<T, int64_t> &&
+                                  std::is_same_v<V, double>)
+                    {
+                        val = val * 1000;
+                        value = std::lround(val);
+                    }
+                    // If the type configured matches the sensor value
+                    // property's type, just return the value as its
+                    // given type.
+                    else if constexpr (std::is_same_v<T, V>)
+                    {
+                        value = val;
+                    }
+                },
                 variant);
 
             // Unable to return Sensor Value property
@@ -504,10 +504,9 @@ class Zone : public ThermalObject
      *
      * @return - Iterator to the timer event
      */
-    std::vector<TimerEvent>::iterator
-        findTimer(const Group& eventGroup,
-                  const std::vector<Action>& eventActions,
-                  std::vector<TimerEvent>& eventTimers);
+    std::vector<TimerEvent>::iterator findTimer(
+        const Group& eventGroup, const std::vector<Action>& eventActions,
+        std::vector<TimerEvent>& eventTimers);
 
     /**
      * @brief Add a timer to the list of timer based events
@@ -628,12 +627,12 @@ class Zone : public ThermalObject
                     // type(T) is available on this interface and read it
                     std::visit(
                         [&value](auto&& val) {
-                        using V = std::decay_t<decltype(val)>;
-                        if constexpr (std::is_same_v<T, V>)
-                        {
-                            value = val;
-                        }
-                    },
+                            using V = std::decay_t<decltype(val)>;
+                            if constexpr (std::is_same_v<T, V>)
+                            {
+                                value = val;
+                            }
+                        },
                         var);
 
                     return value;

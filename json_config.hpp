@@ -263,13 +263,13 @@ class JsonConfig
 
         // Look for a config file at each entry relative to the base
         // path and use the first one found
-        auto it =
-            std::find_if(_confCompatValues.begin(), _confCompatValues.end(),
-                         [&confFile, &appName, &fileName](const auto& value) {
-            confFile = fs::path{confBasePath} / appName / value / fileName;
-            _compatibleName = value;
-            return fs::exists(confFile);
-        });
+        auto it = std::find_if(
+            _confCompatValues.begin(), _confCompatValues.end(),
+            [&confFile, &appName, &fileName](const auto& value) {
+                confFile = fs::path{confBasePath} / appName / value / fileName;
+                _compatibleName = value;
+                return fs::exists(confFile);
+            });
         if (it == _confCompatValues.end())
         {
             confFile.clear();

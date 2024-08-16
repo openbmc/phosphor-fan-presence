@@ -47,8 +47,7 @@ ErrorReporter::ErrorReporter(
     sdbusplus::bus_t& bus,
     const std::vector<
         std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>& fans) :
-    _bus(bus),
-    _event(sdeventplus::Event::get_default()),
+    _bus(bus), _event(sdeventplus::Event::get_default()),
     _powerState(getPowerStateObject())
 {
     _powerState->addCallback("errorReporter",
@@ -212,9 +211,10 @@ void ErrorReporter::powerStateChanged(bool powerState)
         }
     }
 
-    std::for_each(
-        _fanStates.begin(), _fanStates.end(),
-        [this](const auto& fanState) { this->checkFan(fanState.first); });
+    std::for_each(_fanStates.begin(), _fanStates.end(),
+                  [this](const auto& fanState) {
+                      this->checkFan(fanState.first);
+                  });
 }
 
 } // namespace phosphor::fan::presence

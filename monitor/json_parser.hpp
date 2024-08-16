@@ -92,10 +92,9 @@ const std::vector<FanDefinition> getFanDefs(const json& obj);
  * @return std::vector<std::unique_ptr<PowerOffRule>> -
  *     The PowerOffRule objects
  */
-std::vector<std::unique_ptr<PowerOffRule>>
-    getPowerOffRules(const json& obj,
-                     std::shared_ptr<PowerInterfaceBase>& powerInterface,
-                     PowerOffAction::PrePowerOffFunc& func);
+std::vector<std::unique_ptr<PowerOffRule>> getPowerOffRules(
+    const json& obj, std::shared_ptr<PowerInterfaceBase>& powerInterface,
+    PowerOffAction::PrePowerOffFunc& func);
 
 /**
  * @brief Returns the 'num_nonfunc_rotors_before_error field

@@ -43,9 +43,8 @@ class ErrorReporter
      */
     ErrorReporter(
         sdbusplus::bus_t& bus,
-        const std::vector<
-            std::tuple<Fan, std::vector<std::unique_ptr<PresenceSensor>>>>&
-            fans);
+        const std::vector<std::tuple<
+            Fan, std::vector<std::unique_ptr<PresenceSensor>>>>& fans);
 
   private:
     /**

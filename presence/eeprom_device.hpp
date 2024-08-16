@@ -41,8 +41,8 @@ class EEPROMDevice
      */
     EEPROMDevice(const std::string& address, const std::string& driver,
                  size_t bindDelayInMS) :
-        address(address),
-        path(baseDriverPath / driver), bindDelay(bindDelayInMS),
+        address(address), path(baseDriverPath / driver),
+        bindDelay(bindDelayInMS),
         timer(SDEventPlus::getEvent(),
               std::bind(std::mem_fn(&EEPROMDevice::bindTimerExpired), this))
     {}

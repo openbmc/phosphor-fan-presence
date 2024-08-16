@@ -125,10 +125,9 @@ class TachSensor
      * @param[out] value - the value to store the property value in
      */
     template <typename T>
-    static void readPropertyFromMessage(sdbusplus::message_t& msg,
-                                        const std::string& interface,
-                                        const std::string& propertyName,
-                                        T& value)
+    static void readPropertyFromMessage(
+        sdbusplus::message_t& msg, const std::string& interface,
+        const std::string& propertyName, T& value)
     {
         std::string sensor;
         std::map<std::string, std::variant<T>> data;
@@ -350,9 +349,8 @@ class TachSensor
      *
      * @return pair - Min/Max(optional) range of speeds allowed
      */
-    std::pair<uint64_t, std::optional<uint64_t>>
-        getRange(const size_t lowerDeviation,
-                 const size_t upperDeviation) const;
+    std::pair<uint64_t, std::optional<uint64_t>> getRange(
+        const size_t lowerDeviation, const size_t upperDeviation) const;
 
     /**
      * @brief Processes the current state of the sensor

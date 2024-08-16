@@ -82,14 +82,14 @@ int main(int argc, char* argv[])
     }
     catch (const DBusMethodError& dme)
     {
-        log<level::ERR>(std::format("Uncaught DBus method failure exception "
-                                    "Busname: {} "
-                                    "Path: {} "
-                                    "Interface: {} "
-                                    "Method: {}",
-                                    dme.busName, dme.path, dme.interface,
-                                    dme.method)
-                            .c_str());
+        log<level::ERR>(
+            std::format("Uncaught DBus method failure exception "
+                        "Busname: {} "
+                        "Path: {} "
+                        "Interface: {} "
+                        "Method: {}",
+                        dme.busName, dme.path, dme.interface, dme.method)
+                .c_str());
     }
     catch (const std::exception& err)
     {

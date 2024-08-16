@@ -80,10 +80,9 @@ std::string justFanName(const std::string& path)
  * @return map of paths by fan name
  */
 
-std::map<std::string, std::vector<std::string>>
-    getPathsFromIface(const std::string& path, const std::string& iface,
-                      const std::vector<std::string>& fans,
-                      bool shortPath = false)
+std::map<std::string, std::vector<std::string>> getPathsFromIface(
+    const std::string& path, const std::string& iface,
+    const std::vector<std::string>& fans, bool shortPath = false)
 {
     std::map<std::string, std::vector<std::string>> dest;
 
@@ -162,8 +161,8 @@ auto loadDBusData()
     }
 
     // load tach sensor paths for each fan
-    pathMap["tach"] = getPathsFromIface(paths["tach"],
-                                        interfaces["SensorValue"], fanNames);
+    pathMap["tach"] =
+        getPathsFromIface(paths["tach"], interfaces["SensorValue"], fanNames);
 
     // load inventory Item data for each fan
     pathMap["inventory"] = getPathsFromIface(
@@ -221,18 +220,18 @@ std::array<std::string, 6> getStates()
 
     std::string path("/xyz/openbmc_project/state/bmc0");
     std::string iface("xyz.openbmc_project.State.BMC");
-    ret[3] = SDBusPlus::getProperty<std::string>(path, iface,
-                                                 "CurrentBMCState");
+    ret[3] =
+        SDBusPlus::getProperty<std::string>(path, iface, "CurrentBMCState");
 
     path = "/xyz/openbmc_project/state/chassis0";
     iface = "xyz.openbmc_project.State.Chassis";
-    ret[4] = SDBusPlus::getProperty<std::string>(path, iface,
-                                                 "CurrentPowerState");
+    ret[4] =
+        SDBusPlus::getProperty<std::string>(path, iface, "CurrentPowerState");
 
     path = "/xyz/openbmc_project/state/host0";
     iface = "xyz.openbmc_project.State.Host";
-    ret[5] = SDBusPlus::getProperty<std::string>(path, iface,
-                                                 "CurrentHostState");
+    ret[5] =
+        SDBusPlus::getProperty<std::string>(path, iface, "CurrentHostState");
 
     return ret;
 }
@@ -725,8 +724,8 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
 
 #ifdef CONTROL_USE_JSON
     // Query dump
-    auto cmdDumpQuery = commands->add_subcommand("query_dump",
-                                                 "Query the dump file");
+    auto cmdDumpQuery =
+        commands->add_subcommand("query_dump", "Query the dump file");
 
     cmdDumpQuery->set_help_flag("-h, --help", "Query the dump file");
     cmdDumpQuery

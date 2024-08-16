@@ -185,9 +185,8 @@ std::unique_ptr<RedundancyPolicy>
  *
  * @return - A `Fallback` redundancy policy
  */
-std::unique_ptr<RedundancyPolicy>
-    getFallback(const fanPolicy& fan,
-                std::unique_ptr<EEPROMDevice> eepromDevice);
+std::unique_ptr<RedundancyPolicy> getFallback(
+    const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice);
 
 } // namespace rpolicy
 

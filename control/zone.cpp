@@ -144,8 +144,8 @@ void Zone::removeService(const Group* group, const std::string& name)
         auto& sNames = _services.at(*group);
         auto it = std::find_if(sNames.begin(), sNames.end(),
                                [&name](const auto& entry) {
-            return name == std::get<namePos>(entry);
-        });
+                                   return name == std::get<namePos>(entry);
+                               });
         if (it != std::end(sNames))
         {
             // Remove service name from group
@@ -166,8 +166,8 @@ void Zone::setServiceOwner(const Group* group, const std::string& name,
         auto& sNames = _services.at(*group);
         auto it = std::find_if(sNames.begin(), sNames.end(),
                                [&name](const auto& entry) {
-            return name == std::get<namePos>(entry);
-        });
+                                   return name == std::get<namePos>(entry);
+                               });
         if (it != std::end(sNames))
         {
             std::get<hasOwnerPos>(*it) = hasOwner;
@@ -299,35 +299,36 @@ void Zone::decTimerExpired()
 void Zone::initEvent(const SetSpeedEvent& event)
 {
     // Enable event triggers
-    std::for_each(std::get<triggerPos>(event).begin(),
-                  std::get<triggerPos>(event).end(),
-                  [this, &event](const auto& trigger) {
-        if (!std::get<actionsPos>(event).empty())
-        {
-            std::for_each(std::get<actionsPos>(event).begin(),
-                          std::get<actionsPos>(event).end(),
-                          [this, &trigger, &event](auto const& action) {
-                // Default to use group defined with action if exists
-                if (!std::get<adGroupPos>(action).empty())
-                {
-                    trigger(*this, std::get<sseNamePos>(event),
-                            std::get<adGroupPos>(action),
-                            std::get<adActionsPos>(action));
-                }
-                else
-                {
-                    trigger(*this, std::get<sseNamePos>(event),
-                            std::get<groupPos>(event),
-                            std::get<adActionsPos>(action));
-                }
-            });
-        }
-        else
-        {
-            trigger(*this, std::get<sseNamePos>(event),
-                    std::get<groupPos>(event), {});
-        }
-    });
+    std::for_each(
+        std::get<triggerPos>(event).begin(), std::get<triggerPos>(event).end(),
+        [this, &event](const auto& trigger) {
+            if (!std::get<actionsPos>(event).empty())
+            {
+                std::for_each(
+                    std::get<actionsPos>(event).begin(),
+                    std::get<actionsPos>(event).end(),
+                    [this, &trigger, &event](const auto& action) {
+                        // Default to use group defined with action if exists
+                        if (!std::get<adGroupPos>(action).empty())
+                        {
+                            trigger(*this, std::get<sseNamePos>(event),
+                                    std::get<adGroupPos>(action),
+                                    std::get<adActionsPos>(action));
+                        }
+                        else
+                        {
+                            trigger(*this, std::get<sseNamePos>(event),
+                                    std::get<groupPos>(event),
+                                    std::get<adActionsPos>(action));
+                        }
+                    });
+            }
+            else
+            {
+                trigger(*this, std::get<sseNamePos>(event),
+                        std::get<groupPos>(event), {});
+            }
+        });
 }
 
 void Zone::removeEvent(const SetSpeedEvent& event)
@@ -352,10 +353,9 @@ void Zone::removeEvent(const SetSpeedEvent& event)
     }
 }
 
-std::vector<TimerEvent>::iterator
-    Zone::findTimer(const Group& eventGroup,
-                    const std::vector<Action>& eventActions,
-                    std::vector<TimerEvent>& eventTimers)
+std::vector<TimerEvent>::iterator Zone::findTimer(
+    const Group& eventGroup, const std::vector<Action>& eventActions,
+    std::vector<TimerEvent>& eventTimers)
 {
     for (auto it = eventTimers.begin(); it != eventTimers.end(); ++it)
     {
@@ -409,9 +409,10 @@ void Zone::timerExpired(const Group& eventGroup,
                         const std::vector<Action>& eventActions)
 {
     // Perform the actions
-    std::for_each(
-        eventActions.begin(), eventActions.end(),
-        [this, &eventGroup](const auto& action) { action(*this, eventGroup); });
+    std::for_each(eventActions.begin(), eventActions.end(),
+                  [this, &eventGroup](const auto& action) {
+                      action(*this, eventGroup);
+                  });
 }
 
 void Zone::handleEvent(sdbusplus::message_t& msg, const EventData* eventData)
@@ -422,8 +423,8 @@ void Zone::handleEvent(sdbusplus::message_t& msg, const EventData* eventData)
     std::for_each(std::get<eventActionsPos>(*eventData).begin(),
                   std::get<eventActionsPos>(*eventData).end(),
                   [this, &eventData](const auto& action) {
-        action(*this, std::get<eventGroupPos>(*eventData));
-    });
+                      action(*this, std::get<eventGroupPos>(*eventData));
+                  });
 }
 
 const std::string& Zone::getService(const std::string& path,
@@ -478,8 +479,8 @@ const std::string& Zone::addServices(const std::string& path,
                     for (auto& iIter : sIter.second)
                     {
                         if (std::find(servIter->second.begin(),
-                                      servIter->second.end(),
-                                      iIter) == servIter->second.end())
+                                      servIter->second.end(), iIter) ==
+                            servIter->second.end())
                         {
                             // Add interface to cache
                             servIter->second.emplace_back(iIter);
@@ -533,11 +534,11 @@ std::string Zone::current(std::string value)
     std::transform(value.begin(), value.end(), value.begin(), toupper);
 
     auto supported = ThermalObject::supported();
-    auto isSupported = std::any_of(supported.begin(), supported.end(),
-                                   [&value](auto& s) {
-        std::transform(s.begin(), s.end(), s.begin(), toupper);
-        return value == s;
-    });
+    auto isSupported =
+        std::any_of(supported.begin(), supported.end(), [&value](auto& s) {
+            std::transform(s.begin(), s.end(), s.begin(), toupper);
+            return value == s;
+        });
 
     if (value != current && isSupported)
     {

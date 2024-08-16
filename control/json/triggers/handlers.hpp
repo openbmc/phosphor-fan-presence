@@ -112,8 +112,8 @@ struct Handlers
 
         std::vector<std::string> intfs;
         msg.read(intfs);
-        auto itIntf = std::find(intfs.begin(), intfs.end(),
-                                std::get<Intf>(obj));
+        auto itIntf =
+            std::find(intfs.begin(), intfs.end(), std::get<Intf>(obj));
         if (itIntf == intfs.cend())
         {
             // Object's interface not in list of interfaces removed

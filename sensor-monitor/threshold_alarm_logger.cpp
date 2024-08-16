@@ -89,8 +89,7 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
 ThresholdAlarmLogger::ThresholdAlarmLogger(
     sdbusplus::bus_t& bus, sdeventplus::Event& event,
     std::shared_ptr<PowerState> powerState) :
-    bus(bus),
-    event(event), _powerState(std::move(powerState)),
+    bus(bus), event(event), _powerState(std::move(powerState)),
     warningMatch(bus,
                  "type='signal',member='PropertiesChanged',"
                  "path_namespace='/xyz/openbmc_project/sensors',"
@@ -128,17 +127,20 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(
                                        this, std::placeholders::_1));
 
     // check for any currently asserted threshold alarms
-    std::for_each(thresholdData.begin(), thresholdData.end(),
-                  [this](const auto& thresholdInterface) {
-        const auto& interface = thresholdInterface.first;
-        auto objects = SDBusPlus::getSubTreeRaw(this->bus, "/", interface, 0);
-        std::for_each(objects.begin(), objects.end(),
-                      [interface, this](const auto& object) {
-            const auto& path = object.first;
-            const auto& service = object.second.begin()->first;
-            checkThresholds(interface, path, service);
+    std::for_each(
+        thresholdData.begin(), thresholdData.end(),
+        [this](const auto& thresholdInterface) {
+            const auto& interface = thresholdInterface.first;
+            auto objects =
+                SDBusPlus::getSubTreeRaw(this->bus, "/", interface, 0);
+            std::for_each(objects.begin(), objects.end(),
+                          [interface, this](const auto& object) {
+                              const auto& path = object.first;
+                              const auto& service =
+                                  object.second.begin()->first;
+                              checkThresholds(interface, path, service);
+                          });
         });
-    });
 }
 
 void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message_t& msg)
@@ -262,10 +264,9 @@ void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
     }
 }
 
-void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
-                                          const std::string& interface,
-                                          const std::string& alarmProperty,
-                                          bool alarmValue)
+void ThresholdAlarmLogger::createEventLog(
+    const std::string& sensorPath, const std::string& interface,
+    const std::string& alarmProperty, bool alarmValue)
 {
     std::map<std::string, std::string> ad;
 
@@ -332,8 +333,8 @@ void ThresholdAlarmLogger::createEventLog(const std::string& sensorPath,
 
     try
     {
-        auto thresholdValue = SDBusPlus::getProperty<double>(bus, sensorPath,
-                                                             interface, name);
+        auto thresholdValue =
+            SDBusPlus::getProperty<double>(bus, sensorPath, interface, name);
 
         ad.emplace("THRESHOLD_VALUE", std::to_string(thresholdValue));
 

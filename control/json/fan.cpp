@@ -155,8 +155,8 @@ void Fan::unlockTarget(uint64_t target)
         // if additional locks, re-lock at next-highest target
         if (!_lockedTargets.empty())
         {
-            itr = std::max_element(_lockedTargets.begin(),
-                                   _lockedTargets.end());
+            itr =
+                std::max_element(_lockedTargets.begin(), _lockedTargets.end());
 
             // setTarget wont work if any locked targets exist
             decltype(_lockedTargets) temp;

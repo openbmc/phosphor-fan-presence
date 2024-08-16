@@ -162,8 +162,8 @@ enableTrigger triggerInit(const json& jsonObj, const std::string& /*eventName*/,
             auto availMethods = std::accumulate(
                 std::next(methods.begin()), methods.end(),
                 methods.begin()->first, [](auto list, auto method) {
-                return std::move(list) + ", " + method.first;
-            });
+                    return std::move(list) + ", " + method.first;
+                });
             auto msg =
                 std::format("Event '{}' requires a supported method given to "
                             "be init driven, available methods: {}",

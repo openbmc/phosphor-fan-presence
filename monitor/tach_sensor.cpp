@@ -60,8 +60,8 @@ static void
 {
     try
     {
-        value = util::SDBusPlus::getProperty<T>(bus, path, interface,
-                                                propertyName);
+        value =
+            util::SDBusPlus::getProperty<T>(bus, path, interface, propertyName);
     }
     catch (const std::exception& e)
     {
@@ -76,8 +76,7 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
                        size_t method, size_t threshold, bool ignoreAboveMax,
                        size_t timeout, const std::optional<size_t>& errorDelay,
                        size_t countInterval, const sdeventplus::Event& event) :
-    _bus(bus),
-    _fan(fan), _name(FAN_SENSOR_PATH + id),
+    _bus(bus), _fan(fan), _name(FAN_SENSOR_PATH + id),
     _invName(fs::path(fan.getName()) / id), _hasTarget(hasTarget),
     _funcDelay(funcDelay), _interface(interface), _path(path), _factor(factor),
     _offset(offset), _method(method), _threshold(threshold),
@@ -190,8 +189,8 @@ std::string TachSensor::getMatchString(const std::optional<std::string> path,
 {
     if (path)
     {
-        return sdbusplus::bus::match::rules::propertiesChanged(path.value(),
-                                                               interface);
+        return sdbusplus::bus::match::rules::propertiesChanged(
+            path.value(), interface);
     }
     return sdbusplus::bus::match::rules::propertiesChanged(_name, interface);
 }
@@ -205,9 +204,8 @@ uint64_t TachSensor::getTarget() const
     return _tachTarget;
 }
 
-std::pair<uint64_t, std::optional<uint64_t>>
-    TachSensor::getRange(const size_t lowerDeviation,
-                         const size_t upperDeviation) const
+std::pair<uint64_t, std::optional<uint64_t>> TachSensor::getRange(
+    const size_t lowerDeviation, const size_t upperDeviation) const
 {
     // Determine min/max range applying the deviation
     uint64_t min = getTarget() * (100 - lowerDeviation) / 100;

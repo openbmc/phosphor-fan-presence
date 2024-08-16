@@ -255,8 +255,8 @@ nlohmann::json FanError::getJournalEntries(int numLines) const
             message = getFieldValue(journal, "MESSAGE");
 
             // Build one line string containing field values
-            entries.push_back(timeStamp + " " + syslogID + "[" + pid +
-                              "]: " + message);
+            entries.push_back(
+                timeStamp + " " + syslogID + "[" + pid + "]: " + message);
 
             // Stop after number of lines was read
             if (count++ >= numLines)

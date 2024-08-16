@@ -176,14 +176,15 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
             ignoreAboveMax = sensor["ignore_above_max"].get<bool>();
         }
 
-        SensorDefinition def{.name = sensor["name"].get<std::string>(),
-                             .hasTarget = sensor["has_target"].get<bool>(),
-                             .targetInterface = targetIntf,
-                             .targetPath = targetPath,
-                             .factor = factor,
-                             .offset = offset,
-                             .threshold = threshold,
-                             .ignoreAboveMax = ignoreAboveMax};
+        SensorDefinition def{
+            .name = sensor["name"].get<std::string>(),
+            .hasTarget = sensor["has_target"].get<bool>(),
+            .targetInterface = targetIntf,
+            .targetPath = targetPath,
+            .factor = factor,
+            .offset = offset,
+            .threshold = threshold,
+            .ignoreAboveMax = ignoreAboveMax};
 
         sensorDefs.push_back(std::move(def));
     }
@@ -373,20 +374,21 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             setFuncOnPresent = fan["set_func_on_present"].get<bool>();
         }
 
-        FanDefinition def{.name = fan["inventory"].get<std::string>(),
-                          .method = method,
-                          .funcDelay = funcDelay,
-                          .timeout = timeout,
-                          .deviation = deviation,
-                          .upperDeviation = upperDeviation,
-                          .numSensorFailsForNonfunc = nonfuncSensorsCount,
-                          .monitorStartDelay = monitorDelay,
-                          .countInterval = countInterval,
-                          .nonfuncRotorErrDelay = nonfuncRotorErrorDelay,
-                          .fanMissingErrDelay = fanMissingErrorDelay,
-                          .sensorList = std::move(sensorDefs),
-                          .condition = cond,
-                          .funcOnPresent = setFuncOnPresent};
+        FanDefinition def{
+            .name = fan["inventory"].get<std::string>(),
+            .method = method,
+            .funcDelay = funcDelay,
+            .timeout = timeout,
+            .deviation = deviation,
+            .upperDeviation = upperDeviation,
+            .numSensorFailsForNonfunc = nonfuncSensorsCount,
+            .monitorStartDelay = monitorDelay,
+            .countInterval = countInterval,
+            .nonfuncRotorErrDelay = nonfuncRotorErrorDelay,
+            .fanMissingErrDelay = fanMissingErrorDelay,
+            .sensorList = std::move(sensorDefs),
+            .condition = cond,
+            .funcOnPresent = setFuncOnPresent};
 
         fanDefs.push_back(std::move(def));
     }
@@ -438,11 +440,11 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
              [count]() { return std::make_unique<MissingFanFRUCause>(count); }},
             {"nonfunc_fan_rotors",
              [count]() {
-        return std::make_unique<NonfuncFanRotorCause>(count);
-    }},
+                 return std::make_unique<NonfuncFanRotorCause>(count);
+             }},
             {"fan_frus_with_nonfunc_rotors", [count]() {
-        return std::make_unique<FanFRUsWithNonfuncRotorsCause>(count);
-    }}};
+                 return std::make_unique<FanFRUsWithNonfuncRotorsCause>(count);
+             }}};
 
     auto it = causes.find(powerOffCause);
     if (it != causes.end())
@@ -512,8 +514,8 @@ std::unique_ptr<PowerOffAction>
     }
     else
     {
-        auto msg = std::format("Invalid 'type' entry {} in power off config",
-                               type);
+        auto msg =
+            std::format("Invalid 'type' entry {} in power off config", type);
         log<level::ERR>(msg.c_str());
         throw std::runtime_error(msg.c_str());
     }
@@ -521,10 +523,9 @@ std::unique_ptr<PowerOffAction>
     return action;
 }
 
-std::vector<std::unique_ptr<PowerOffRule>>
-    getPowerOffRules(const json& obj,
-                     std::shared_ptr<PowerInterfaceBase>& powerInterface,
-                     PowerOffAction::PrePowerOffFunc& func)
+std::vector<std::unique_ptr<PowerOffRule>> getPowerOffRules(
+    const json& obj, std::shared_ptr<PowerInterfaceBase>& powerInterface,
+    PowerOffAction::PrePowerOffFunc& func)
 {
     std::vector<std::unique_ptr<PowerOffRule>> rules;
 

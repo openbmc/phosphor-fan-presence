@@ -190,14 +190,14 @@ void JsonConfig::process(const json& jsonConf)
                 eeprom["bind_delay_ms"].get<size_t>());
         }
 
-        auto fan = std::make_tuple(member["name"], member["path"],
-                                   timeUntilError);
+        auto fan =
+            std::make_tuple(member["name"], member["path"], timeUntilError);
         // Create a fan object
         fans.emplace_back(std::make_tuple(fan, std::move(sensors)));
 
         // Add fan presence policy
-        auto policy = getPolicy(member["rpolicy"], fans.back(),
-                                std::move(eepromDevice));
+        auto policy =
+            getPolicy(member["rpolicy"], fans.back(), std::move(eepromDevice));
         if (policy)
         {
             policies.emplace_back(std::move(policy));
@@ -213,9 +213,9 @@ void JsonConfig::process(const json& jsonConf)
 
     // Create the error reporter class if necessary
     if (std::any_of(_fans.begin(), _fans.end(), [](const auto& fan) {
-        return std::get<std::optional<size_t>>(std::get<Fan>(fan)) !=
-               std::nullopt;
-    }))
+            return std::get<std::optional<size_t>>(std::get<Fan>(fan)) !=
+                   std::nullopt;
+        }))
     {
         _reporter = std::make_unique<ErrorReporter>(_bus, _fans);
     }
@@ -278,8 +278,8 @@ std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
         sensors.emplace_back(sensor.get<std::string>());
     }
 
-    return std::make_unique<PolicyAccess<Tach, JsonConfig>>(fanIndex,
-                                                            std::move(sensors));
+    return std::make_unique<PolicyAccess<Tach, JsonConfig>>(
+        fanIndex, std::move(sensors));
 }
 
 // Get a constructed presence sensor for fan presence detection by gpio
@@ -363,9 +363,8 @@ std::unique_ptr<RedundancyPolicy>
 }
 
 // Get a `Fallback` redundancy policy for the fan
-std::unique_ptr<RedundancyPolicy>
-    getFallback(const fanPolicy& fan,
-                std::unique_ptr<EEPROMDevice> eepromDevice)
+std::unique_ptr<RedundancyPolicy> getFallback(
+    const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice)
 {
     std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
     for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))

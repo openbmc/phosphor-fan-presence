@@ -185,19 +185,19 @@ std::optional<PropertyVariantType> TargetFromGroupMax::processGroups()
             // considered numeric here.
             std::visit(
                 [&group, &invalid, this](auto&& val) {
-                using V = std::decay_t<decltype(val)>;
-                if constexpr (!std::is_same_v<double, V> &&
-                              !std::is_same_v<int32_t, V> &&
-                              !std::is_same_v<int64_t, V>)
-                {
-                    log<level::ERR>(std::format("{}: Group {}'s member "
-                                                "isn't numeric",
-                                                ActionBase::getName(),
-                                                group.getName())
-                                        .c_str());
-                    invalid = true;
-                }
-            },
+                    using V = std::decay_t<decltype(val)>;
+                    if constexpr (!std::is_same_v<double, V> &&
+                                  !std::is_same_v<int32_t, V> &&
+                                  !std::is_same_v<int64_t, V>)
+                    {
+                        log<level::ERR>(
+                            std::format("{}: Group {}'s member "
+                                        "isn't numeric",
+                                        ActionBase::getName(), group.getName())
+                                .c_str());
+                        invalid = true;
+                    }
+                },
                 value);
             if (invalid)
             {
