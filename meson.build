@@ -136,6 +136,10 @@ if get_option('use-host-power-state').allowed()
     conf.set('ENABLE_HOST_STATE', '')
 endif
 
+if get_option('skip-power-checking').allowed()
+    conf.set('SKIP_POWER_CHECKING', '')
+endif
+
 conf.set(
     'SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS', get_option('sensor-monitor-hard-shutdown-delay'))
 conf.set(

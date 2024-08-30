@@ -23,6 +23,7 @@
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
 #include <format>
+#include "config.h"
 
 namespace sensor::monitor
 {
@@ -218,8 +219,9 @@ void ThresholdAlarmLogger::checkProperties(
             if (alarmValue != alarms[key][propertyName])
             {
                 alarms[key][propertyName] = alarmValue;
-
+#ifndef SKIP_POWER_CHECKING
                 if (_powerState->isPowerOn())
+#endif
                 {
                     createEventLog(sensorPath, interface, propertyName,
                                    alarmValue);
@@ -249,7 +251,11 @@ void ThresholdAlarmLogger::checkThresholds(const std::string& interface,
 
             // This is just for checking alarms on startup,
             // so only look for active alarms.
+#ifdef SKIP_POWER_CHECKING
+            if (alarmValue)
+#else
             if (alarmValue && _powerState->isPowerOn())
+#endif
             {
                 createEventLog(sensorPath, interface, property, alarmValue);
             }
