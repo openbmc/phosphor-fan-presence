@@ -128,3 +128,9 @@ option(
     'use-host-power-state', type: 'feature', value: 'disabled',
     description: 'Enable using the host power state for power state checks.'
 )
+
+option(
+    'skip-power-checking', type: 'feature', value: 'disabled',
+    description: 'Skip power state checking while sending threshold alarm event.'
+)
+

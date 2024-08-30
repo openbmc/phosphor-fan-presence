@@ -222,6 +222,8 @@ values.
     - Default = 900000
   - `use-host-power-state` - Use the host state for the power state as opposed
     to the PGOOD state.
+  - `skip-power-checking` - Skip power state checking while sending threshold
+    alarm event.
 
 [README](docs/sensor-monitor/README.md)
 
