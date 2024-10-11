@@ -782,7 +782,9 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": []
+                                "floors": [
+                                    { "value": 1, "floor": 6200 }
+                                ]
                             }
                         ]
                     },
@@ -794,7 +796,9 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": []
+                                "floors": [
+                                    { "value": 1, "floor": 6800 }
+                                ]
                             }
                         ]
                     },
@@ -806,7 +810,9 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": []
+                                "floors": [
+                                    { "value": 1, "floor": 7400 }
+                                ]
                             }
                         ]
                     },
@@ -818,7 +824,9 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": []
+                                "floors": [
+                                    { "value": 1, "floor": 8500 }
+                                ]
                             }
                         ]
                     },
@@ -830,7 +838,9 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": []
+                                "floors": [
+                                    { "value": 1, "floor": 9800 }
+                                ]
                             }
                         ]
                     }
