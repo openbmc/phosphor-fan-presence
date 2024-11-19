@@ -637,6 +637,12 @@ class Manager
     std::map<configKey, std::unique_ptr<Event>> _events;
 
     /**
+     * @brief Timer used to periodically flush the current fan target out
+     *        to the hardware.
+     */
+    sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic> _flushTimer;
+
+    /**
      * @brief A map of parameter names and values that are something
      *        other than just D-Bus property values that other actions
      *        can set and use.
@@ -706,6 +712,12 @@ class Manager
      * @param[in] groups - The groups to add
      */
     void addGroups(const std::vector<Group>& groups);
+
+    /**
+     * @brief Writes the current fan targets to the hardware because
+     *        the fan controller can reset and lose its values.
+     */
+    void flushTargets();
 };
 
 } // namespace phosphor::fan::control::json

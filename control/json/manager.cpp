@@ -64,13 +64,16 @@ std::unordered_map<std::string, TriggerActions> Manager::_parameterTriggers;
 
 const std::string Manager::dumpFile = "/tmp/fan_control_dump.json";
 
+const std::chrono::seconds flushInterval{5};
+
 Manager::Manager(const sdeventplus::Event& event) :
     _bus(util::SDBusPlus::getBus()), _event(event),
     _mgr(util::SDBusPlus::getBus(), CONTROL_OBJPATH), _loadAllowed(true),
     _powerState(std::make_unique<PGoodState>(
         util::SDBusPlus::getBus(),
         std::bind(std::mem_fn(&Manager::powerStateChanged), this,
-                  std::placeholders::_1)))
+                  std::placeholders::_1))),
+    _flushTimer(event, [this](auto&) { flushTargets(); })
 {}
 
 void Manager::sighupHandler(sdeventplus::source::Signal&,
@@ -217,6 +220,12 @@ void Manager::load()
 
         // Enable events
         _events = std::move(events);
+
+        if (_powerState->isPowerOn())
+        {
+            _flushTimer.restart(flushInterval);
+        }
+
         FlightRecorder::instance().log("main", "Enabling events");
         std::for_each(_events.begin(), _events.end(),
                       [](const auto& entry) { entry.second->enable(); });
@@ -242,9 +251,13 @@ void Manager::powerStateChanged(bool powerStateOn)
         // Tell events to run their power on triggers
         std::for_each(_events.begin(), _events.end(),
                       [](const auto& entry) { entry.second->powerOn(); });
+
+        _flushTimer.restart(flushInterval);
     }
     else
     {
+        _flushTimer.setEnabled(false);
+
         FlightRecorder::instance().log("power", "Power off");
         // Tell events to run their power off triggers
         std::for_each(_events.begin(), _events.end(),
@@ -857,6 +870,20 @@ void Manager::runParameterActions(const std::string& name)
         std::for_each(it->second.begin(), it->second.end(),
                       [](auto& action) { action.get()->run(); });
     }
+}
+
+void Manager::flushTargets()
+{
+    std::ranges::for_each(_zones, [](const auto& entry) {
+        try
+        {
+            entry.second->setTarget(entry.second->getTarget());
+        }
+        catch (const std::exception&)
+        {
+            // Let the fan control event code handle the D-Bus fails.
+        }
+    });
 }
 
 } // namespace phosphor::fan::control::json
