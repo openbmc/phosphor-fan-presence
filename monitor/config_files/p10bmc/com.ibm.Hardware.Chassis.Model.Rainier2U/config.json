@@ -172,5 +172,9 @@
                 "meltdown_delay": 60
             }
         ]
+    },
+    "runaway_tach_malfunction_handling": {
+        "gpio": "fan-ctlr-reset",
+        "tach_limit": 20000
     }
 }
