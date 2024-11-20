@@ -136,6 +136,13 @@ std::map<std::string, std::string>
     if (!_fanName.empty())
     {
         ad.emplace("CALLOUT_INVENTORY_PATH", _fanName);
+
+        // Set a hint to not use the default high priority
+        // if necessary.
+        if (_fanCalloutPriority == FanCalloutPriority::low)
+        {
+            ad.emplace("CALLOUT_PRIORITY", "L");
+        }
     }
 
     if (!_sensorName.empty())

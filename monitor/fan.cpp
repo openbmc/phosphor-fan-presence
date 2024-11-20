@@ -264,8 +264,13 @@ void Fan::process(TachSensor& sensor)
     // If this sensor is out of range at this moment, start
     // its timer, at the end of which the inventory
     // for the fan may get updated to not functional.
-
     // If this sensor is OK, put everything back into a good state.
+
+    if (_system.checkForMalfunction(sensor))
+    {
+        // Let malfunction recovery run instead.
+        return;
+    }
 
     if (outOfRange(sensor))
     {
@@ -603,6 +608,18 @@ void Fan::powerStateChanged([[maybe_unused]] bool powerStateOn)
         });
     }
 #endif
+}
+
+void Fan::prepForCtlrReset()
+{
+    // Give fans a chance to recover after a reset.
+    _monitorReady = false;
+    _monitorTimer.restartOnce(std::chrono::seconds(15));
+
+    std::for_each(_sensors.begin(), _sensors.end(), [](auto& sensor) {
+        sensor->resetMethod();
+        sensor->stopCountTimer();
+    });
 }
 
 } // namespace monitor

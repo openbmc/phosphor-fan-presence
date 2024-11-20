@@ -10,6 +10,7 @@ sources=[
     'json_parser.cpp',
     'logging.cpp',
     'main.cpp',
+    'malfunction_monitor.cpp',
     'power_interface.cpp',
     'system.cpp',
     'tach_sensor.cpp',
@@ -21,7 +22,8 @@ deps=[
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus_dep,
-    sdeventplus_dep
+    sdeventplus_dep,
+    libgpiodcxx_dep,
 ]
 
 # Only needed for YAML config

@@ -201,6 +201,11 @@ class Fan
      */
     bool outOfRange(const TachSensor& sensor);
 
+    /**
+     * @brief Prepares for a fan controller reset
+     */
+    void prepForCtlrReset();
+
   private:
     /**
      * @brief Returns the number sensors that are nonfunctional

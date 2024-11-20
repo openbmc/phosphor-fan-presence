@@ -563,4 +563,24 @@ std::optional<size_t> getNumNonfuncRotorsBeforeError(const json& obj)
     return num;
 }
 
+std::optional<std::tuple<std::string, size_t>>
+    getMalfunctionMonitorData(const json& obj)
+{
+    auto section = obj.find("runaway_tach_malfunction_handling");
+
+    if (section != obj.end())
+    {
+        if (!section->contains("gpio") || !section->contains("tach_limit"))
+        {
+            throw std::runtime_error(
+                "Missing 'gpio' or 'tach_limit' in "
+                "runaway_tach_malfunction_handling JSON section");
+        }
+
+        return std::tuple{section->at("gpio").get<std::string>(),
+                          section->at("tach_limit").get<size_t>()};
+    }
+    return std::nullopt;
+}
+
 } // namespace phosphor::fan::monitor

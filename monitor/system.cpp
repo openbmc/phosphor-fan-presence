@@ -103,6 +103,7 @@ void System::load()
         // Retrieve fan definitions and create fan objects to be monitored
         setFans(fanDefs);
         setFaultConfig(jsonObj);
+        setMalfunctionMonitor(jsonObj);
         log<level::INFO>("Configuration loaded");
 
         _loaded = true;
@@ -360,6 +361,19 @@ void System::setFaultConfig([[maybe_unused]] const json& jsonObj)
 #endif
 }
 
+void System::setMalfunctionMonitor([[maybe_unused]] const json& jsonObj)
+{
+#ifdef MONITOR_USE_JSON
+    auto params = getMalfunctionMonitorData(jsonObj);
+    if (params)
+    {
+        malfunctionMonitor = std::make_unique<MalfunctionMonitor>(
+            *this, std::get<size_t>(params.value()),
+            std::get<std::string>(params.value()));
+    }
+#endif
+}
+
 void System::powerStateChanged(bool powerStateOn)
 {
     std::for_each(_fans.begin(), _fans.end(), [powerStateOn](auto& fan) {
@@ -420,25 +434,42 @@ void System::powerStateChanged(bool powerStateOn)
         // Cancel any in-progress power off actions
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
                       [this](auto& rule) { rule->cancel(); });
+
+        if (malfunctionMonitor)
+        {
+            malfunctionMonitor->resetState();
+        }
     }
 }
 
 void System::sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor)
 {
     std::string fanPath{util::INVENTORY_PATH + fan.getName()};
+    auto malfunctioning = isMalfunctioning(fan);
 
-    getLogger().log(
-        std::format("Creating event log for faulted fan {} sensor {}", fanPath,
-                    sensor.name()),
-        Logger::error);
+    if (malfunctioning)
+    {
+        getLogger().log(
+            std::format(
+                "Creating event log for malfunctioning fan ctlr and sensor {}",
+                sensor.name()),
+            Logger::error);
+    }
+    else
+    {
+        getLogger().log(
+            std::format("Creating event log for faulted fan {} sensor {}",
+                        fanPath, sensor.name()),
+            Logger::error);
+    }
 
     // In order to know if the event log should have a severity of error or
     // informational, count the number of existing nonfunctional sensors and
     // compare it to _numNonfuncSensorsBeforeError.
     size_t nonfuncSensors = 0;
-    for (const auto& fan : _fans)
+    for (const auto& f : _fans)
     {
-        for (const auto& s : fan->sensors())
+        for (const auto& s : f->sensors())
         {
             // Don't count nonfunctional sensors that still have their
             // error timer running as nonfunctional since they haven't
@@ -451,14 +482,25 @@ void System::sensorErrorTimerExpired(const Fan& fan, const TachSensor& sensor)
     }
 
     Severity severity = Severity::Error;
-    if (nonfuncSensors < _numNonfuncSensorsBeforeError)
-    {
-        severity = Severity::Informational;
-    }
+    std::unique_ptr<FanError> error;
 
-    auto error =
-        std::make_unique<FanError>("xyz.openbmc_project.Fan.Error.Fault",
-                                   fanPath, sensor.name(), severity);
+    if (!malfunctioning)
+    {
+        if (nonfuncSensors < _numNonfuncSensorsBeforeError)
+        {
+            severity = Severity::Informational;
+        }
+
+        error =
+            std::make_unique<FanError>("xyz.openbmc_project.Fan.Error.Fault",
+                                       fanPath, sensor.name(), severity);
+    }
+    else
+    {
+        error = std::make_unique<FanError>(
+            "xyz.openbmc_project.Fan.Error.Malfunction", fanPath, sensor.name(),
+            severity, FanError::FanCalloutPriority::low);
+    }
 
     auto sensorData = captureSensorData();
     error->commit(sensorData);

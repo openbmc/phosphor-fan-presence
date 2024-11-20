@@ -76,6 +76,12 @@ class FFDCFile
 class FanError
 {
   public:
+    enum class FanCalloutPriority
+    {
+        low,
+        high
+    };
+
     FanError() = delete;
     ~FanError() = default;
     FanError(const FanError&) = delete;
@@ -92,15 +98,18 @@ class FanError
      * @param[in] sensor - The failing sensor's inventory path.  Can be empty
      *                     if the error is for the FRU and not the sensor.
      * @param[in] severity - The severity of the error
+     * @param[in] fanCalloutPriority - Callout priority to use for the fan
      */
-    FanError(const std::string& error, const std::string& fan,
-             const std::string& sensor,
-             sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level
-                 severity) :
+    FanError(
+        const std::string& error, const std::string& fan,
+        const std::string& sensor,
+        sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level severity,
+        FanCalloutPriority fanCalloutPriority = FanCalloutPriority::high) :
         _errorName(error), _fanName(fan), _sensorName(sensor),
         _severity(
             sdbusplus::xyz::openbmc_project::Logging::server::convertForMessage(
-                severity))
+                severity)),
+        _fanCalloutPriority(fanCalloutPriority)
     {}
 
     /**
@@ -118,7 +127,8 @@ class FanError
         _errorName(error),
         _severity(
             sdbusplus::xyz::openbmc_project::Logging::server::convertForMessage(
-                severity))
+                severity)),
+        _fanCalloutPriority(FanCalloutPriority::high)
     {}
 
     /**
@@ -211,6 +221,11 @@ class FanError
      *        representation of the Entry::Level property.
      */
     const std::string _severity;
+
+    /**
+     * @brief Priority to use for the fan callout
+     */
+    FanCalloutPriority _fanCalloutPriority;
 };
 
 } // namespace phosphor::fan::monitor

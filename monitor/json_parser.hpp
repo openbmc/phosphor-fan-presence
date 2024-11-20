@@ -105,4 +105,14 @@ std::vector<std::unique_ptr<PowerOffRule>> getPowerOffRules(
  */
 std::optional<size_t> getNumNonfuncRotorsBeforeError(const json& obj);
 
+/**
+ * @brief Returns the fan controller malfunction recovery fields
+ *
+ * @param[in] obj - JSON object to parse from
+ *
+ * @return optional<tuple> - The GPIO name and tach limit if present.
+ */
+std::optional<std::tuple<std::string, size_t>>
+    getMalfunctionMonitorData(const json& obj);
+
 } // namespace phosphor::fan::monitor

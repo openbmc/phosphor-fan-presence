@@ -17,6 +17,7 @@
 
 #include "fan.hpp"
 #include "fan_error.hpp"
+#include "malfunction_monitor.hpp"
 #include "power_off_rule.hpp"
 #include "power_state.hpp"
 #include "tach_sensor.hpp"
@@ -131,6 +132,60 @@ class System
     void dumpDebugData(sdeventplus::source::Signal&,
                        const struct signalfd_siginfo*);
 
+    /**
+     * @brief Checks if the sensor shows evidence of a fan controller
+     *        malfunction, if malfunction checking is enabled.
+     *
+     * Recovery may be attempted if it's the first time hit.
+     *
+     * @param[in] sensor - The sensor to check
+     *
+     * @return bool - If a malfunction is detected
+     */
+    inline bool checkForMalfunction(const TachSensor& sensor)
+    {
+        if (malfunctionMonitor)
+        {
+            return malfunctionMonitor->checkAndAttemptRecovery(sensor);
+        }
+        return false;
+    }
+
+    /**
+     * @brief Prepares for the fan controller to be reset
+     */
+    inline void prepForCtlrReset()
+    {
+        std::ranges::for_each(_fans, [](auto& fan) {
+            fan->prepForCtlrReset();
+        });
+    }
+
+    /**
+     * @brief Says if the fan is showing evidence of a controller
+     *        malfunction, if checking is enabled.
+     *
+     * @param[in] fan - The fan to check
+     *
+     * @return bool - If the fan is showing a controller malfunction
+     */
+    inline bool isMalfunctioning(const Fan& fan) const
+    {
+        if (malfunctionMonitor)
+        {
+            return malfunctionMonitor->isFanAffected(fan.getName());
+        }
+        return false;
+    }
+
+    /**
+     * @brief Captures tach sensor data as JSON for use in
+     *        fan fault and fan missing event logs.
+     *
+     * @return json - The JSON data
+     */
+    json captureSensorData();
+
   private:
     /**
      * @brief Callback from D-Bus when Inventory service comes online
@@ -212,12 +267,11 @@ class System
     static const std::string dumpFile;
 
     /**
-     * @brief Captures tach sensor data as JSON for use in
-     *        fan fault and fan missing event logs.
-     *
-     * @return json - The JSON data
+     * @brief Object that can monitor for and possibly recover
+     *        from fan controler malfunctions, if the fan
+     *        controller supports it.
      */
-    json captureSensorData();
+    std::unique_ptr<MalfunctionMonitor> malfunctionMonitor;
 
     /**
      * @brief creates a subscription (service->sensor) to take sensors
@@ -289,6 +343,8 @@ class System
      * @param[in] jsonObj - JSON object to parse from
      */
     void setFaultConfig(const json& jsonObj);
+
+    void setMalfunctionMonitor(const json& jsonObj);
 
     /**
      * @brief Log an error and shut down due to an offline fan controller
