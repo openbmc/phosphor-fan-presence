@@ -33,8 +33,7 @@ namespace phosphor::fan::control::json
  * fan floor index or temp sensor name based on its metadata, which
  * consists of 4 properties from the PCIeDevice D-Bus interface.
  *
- * The metadata is stored in one or more (see loadCards) JSON files, which
- * look like:
+ * The metadata is stored in a JSON file, which looks like:
  *  {
  *    "cards": [
  *      {
@@ -116,12 +115,8 @@ class PCIeCardMetadata
      * It will load a pcie_cards.json file in the default location if it
      * is present.
      *
-     * If systemNames isn't empty, it will load in any 'pcie_cards.json'
-     * files it finds in directories based on those names, overwriting any
-     * entries that were in any previous files.  This allows different
-     * floor indexes for some cards for the different systems in a flash
-     * image without needing to specify every possible card in every
-     * system specific JSON file.
+     * If systemNames isn't empty, it will load the first 'pcie_cards.json'
+     * files it finds in directories based on those names.
      *
      * If no valid config files are found it will throw an exception.
      *

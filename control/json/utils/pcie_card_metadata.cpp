@@ -39,9 +39,33 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
 {
     const auto defaultPath = fs::path{"control"} / cardFileName;
 
-    // Look in the override location first
+    // First look in /etc/phosphor-fan-presence/control/
     auto confFile = fs::path{confOverridePath} / defaultPath;
 
+    // Next look in the system subdirectories, first under /etc then /usr.
+    if (!fs::exists(confFile))
+    {
+        for (const auto& systemName : systemNames)
+        {
+            const auto basePath =
+                fs::path{"control"} / systemName / cardFileName;
+
+            // Look in the /etc override location first
+            confFile = fs::path{confOverridePath} / basePath;
+
+            if (!fs::exists(confFile))
+            {
+                confFile = fs::path{confBasePath} / basePath;
+            }
+
+            if (fs::exists(confFile))
+            {
+                break;
+            }
+        }
+    }
+
+    // Next look in /usr/share/phosphor-fan-presence/control/
     if (!fs::exists(confFile))
     {
         confFile = fs::path{confBasePath} / defaultPath;
@@ -59,37 +83,6 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
         log<level::INFO>(std::format("Configuration({}) loaded successfully",
                                      confFile.string())
                              .c_str());
-    }
-
-    // Go from least specific to most specific in the system names so files in
-    // the latter category can override ones in the former.
-    for (auto nameIt = systemNames.rbegin(); nameIt != systemNames.rend();
-         ++nameIt)
-    {
-        const auto basePath = fs::path{"control"} / *nameIt / cardFileName;
-
-        // Look in the override location first
-        auto confFile = fs::path{confOverridePath} / basePath;
-
-        if (!fs::exists(confFile))
-        {
-            confFile = fs::path{confBasePath} / basePath;
-        }
-
-        if (fs::exists(confFile))
-        {
-            FlightRecorder::instance().log(
-                "main", std::format("Loading configuration from {}",
-                                    confFile.string()));
-            load(JsonConfig::load(confFile));
-            FlightRecorder::instance().log(
-                "main", std::format("Configuration({}) loaded successfully",
-                                    confFile.string()));
-            log<level::INFO>(
-                std::format("Configuration({}) loaded successfully",
-                            confFile.string())
-                    .c_str());
-        }
     }
 }
 
