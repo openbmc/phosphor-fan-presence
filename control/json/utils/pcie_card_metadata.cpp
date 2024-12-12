@@ -59,17 +59,15 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
         log<level::INFO>(std::format("Configuration({}) loaded successfully",
                                      confFile.string())
                              .c_str());
+        return;
     }
 
-    // Go from least specific to most specific in the system names so files in
-    // the latter category can override ones in the former.
-    for (auto nameIt = systemNames.rbegin(); nameIt != systemNames.rend();
-         ++nameIt)
+    for (const auto& systemName : systemNames)
     {
-        const auto basePath = fs::path{"control"} / *nameIt / cardFileName;
+        const auto basePath = fs::path{"control"} / systemName / cardFileName;
 
         // Look in the override location first
-        auto confFile = fs::path{confOverridePath} / basePath;
+        confFile = fs::path{confOverridePath} / basePath;
 
         if (!fs::exists(confFile))
         {
@@ -89,6 +87,7 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
                 std::format("Configuration({}) loaded successfully",
                             confFile.string())
                     .c_str());
+            return;
         }
     }
 }
