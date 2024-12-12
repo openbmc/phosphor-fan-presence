@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f348f60_37f1c080",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-12-12T21:22:50Z",
+      "side": 1,
+      "message": "i was thinking about that when I was making these latest changes, and decided to leave it how it is because\na) there\u0027s no reason to have more than 1 file in /etc at a time, since they have to be manually placed there, and\nb) the code is more simple this way",
+      "parentUuid": "299172b3_3bd63a0b",
+      "revId": "1e068e46294dd282981a2cd1a6980be6c80d7364",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "67e87cd9_b43d01ca",
@@ -31,6 +49,24 @@
       "writtenOn": "2024-12-12T21:06:19Z",
       "side": 1,
       "message": "Nit: Don\u0027t really need this now.",
+      "revId": "1e068e46294dd282981a2cd1a6980be6c80d7364",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a2ab70d_ca8b0a05",
+        "filename": "control/json/utils/pcie_card_metadata.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2024-12-12T21:22:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "67e87cd9_b43d01ca",
       "revId": "1e068e46294dd282981a2cd1a6980be6c80d7364",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
