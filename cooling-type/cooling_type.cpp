@@ -117,4 +117,3 @@ void CoolingType::updateInventory(const std::string& objpath)
 } // namespace type
 } // namespace cooling
 } // namespace phosphor
-// vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
