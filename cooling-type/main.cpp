@@ -98,5 +98,3 @@ int main(int argc, char* argv[])
 
     return rc;
 }
-
-// vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
