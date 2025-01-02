@@ -1,0 +1,7 @@
+Verified+1: OpenBMC CI <openbmcbump-ci@yahoo.com>
+Code-Review+2: Matt Spinler <spinler@us.ibm.com>
+Submitted-by: Matt Spinler <spinler@us.ibm.com>
+Submitted-at: Thu, 02 Jan 2025 21:54:19 +0000
+Reviewed-on: https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/76737
+Project: openbmc/phosphor-fan-presence
+Branch: refs/heads/master
