@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cbeb552_a8999166",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-01-08T16:25:12Z",
+      "side": 1,
+      "message": "Compared to Rainier2U file.  LGTM.",
+      "revId": "6c9644da6733dc4e6b8e6a4baa11bea9a0db19c2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
