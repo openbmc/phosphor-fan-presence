@@ -22,7 +22,6 @@
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 
-#include <chrono>
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
@@ -49,6 +48,21 @@ struct DumpQuery
     std::string name;
     std::vector<std::string> properties;
     bool dump{false};
+};
+
+struct SensorOpts
+{
+    std::string type;
+    std::string name;
+    bool verbose{false};
+};
+
+struct SensorOutput
+{
+    std::string name;
+    double value;
+    bool functional;
+    bool available;
 };
 
 /**
@@ -663,10 +677,197 @@ void queryDumpFile(const DumpQuery& dq)
 }
 
 /**
+ * @function Get the sensor type based on the sensor name
+ *
+ * @param sensor The sensor object path
+ */
+std::string getSensorType(const std::string& sensor)
+{
+    // Get type from /xyz/openbmc_project/sensors/<type>/<name>
+    try
+    {
+        auto type =
+            sensor.substr(std::string{"/xyz/openbmc_project/sensors/"}.size());
+        return type.substr(0, type.find_first_of('/'));
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << "Failed extracting type from sensor " << sensor << ": "
+                  << e.what() << "\n";
+    }
+    return std::string{};
+}
+
+/**
+ * @function Print the sensors passed in
+ *
+ * @param sensors The sensors to print
+ */
+void printSensors(const std::vector<SensorOutput>& sensors)
+{
+    size_t maxNameSize = 0;
+
+    std::ranges::for_each(sensors, [&maxNameSize](const auto& s) {
+        maxNameSize = std::max(maxNameSize, s.name.size());
+    });
+
+    std::ranges::for_each(sensors, [maxNameSize](const auto& sensor) {
+        auto nameField = sensor.name + ':';
+        std::cout << std::left << std::setw(maxNameSize + 2) << nameField
+                  << sensor.value;
+        if (!sensor.functional)
+        {
+            std::cout << " (Functional=false)";
+        }
+
+        if (!sensor.available)
+        {
+            std::cout << " (Available=false)";
+        }
+        std::cout << "\n";
+    });
+}
+
+/**
+ * @function Extracts the sensor out of the GetManagedObjects output
+ *           for the one object path passed in.
+ *
+ * @param object The GetManagedObjects output for a single object path
+ * @param opts The sensor options
+ * @param[out] sensors Filled in with the sensor data
+ */
+void extractSensorData(const auto& object, const SensorOpts& opts,
+                       std::vector<SensorOutput>& sensors)
+{
+    auto it = object.second.find("xyz.openbmc_project.Sensor.Value");
+    if (it == object.second.end())
+    {
+        return;
+    }
+    auto value = std::get<double>(it->second.at("Value"));
+
+    // Use the full D-Bus path of the sensor for the name if verbose
+    std::string name = object.first.str;
+    name = name.substr(name.find_last_of('/') + 1);
+    std::string printName = name;
+    if (opts.verbose)
+    {
+        printName = object.first.str;
+    }
+
+    // Apply the name filter
+    if (!opts.name.empty())
+    {
+        if (!name.contains(opts.name))
+        {
+            return;
+        }
+    }
+
+    // Apply the type filter
+    if (!opts.type.empty())
+    {
+        if (opts.type != getSensorType(object.first.str))
+        {
+            return;
+        }
+    }
+
+    bool functional = true;
+    it = object.second.find(
+        "xyz.openbmc_project.State.Decorator.OperationalStatus");
+    if (it != object.second.end())
+    {
+        functional = std::get<bool>(it->second.at("Functional"));
+    }
+
+    bool available = true;
+    it = object.second.find("xyz.openbmc_project.State.Decorator.Availability");
+    if (it != object.second.end())
+    {
+        available = std::get<bool>(it->second.at("Available"));
+    }
+
+    sensors.emplace_back(printName, value, functional, available);
+}
+
+/**
+ * @function Call GetManagedObjects on all sensor object managers and then
+ *           print the sensor values.
+ *
+ * @param sensorManagers map<service, path> of sensor ObjectManagers
+ * @param opts The sensor options
+ */
+void readSensorsAndPrint(std::map<std::string, std::string>& sensorManagers,
+                         const SensorOpts& opts)
+{
+    std::vector<SensorOutput> sensors;
+
+    using PropertyVariantType =
+        std::variant<bool, int32_t, int64_t, double, std::string>;
+
+    std::ranges::for_each(sensorManagers, [&opts, &sensors](const auto& entry) {
+        auto values = SDBusPlus::getManagedObjects<PropertyVariantType>(
+            SDBusPlus::getBus(), entry.first, entry.second);
+
+        // Pull out the sensor details
+        std::ranges::for_each(values, [&opts, &sensors](const auto& sensor) {
+            extractSensorData(sensor, opts, sensors);
+        });
+    });
+
+    std::ranges::sort(sensors, [](const auto& left, const auto& right) {
+        return left.name < right.name;
+    });
+
+    printSensors(sensors);
+}
+
+/**
+ * @function Prints sensor values
+ *
+ * @param opts The sensor options
+ */
+void displaySensors(const SensorOpts& opts)
+{
+    // Find the services that provide sensors
+    auto sensorObjects = SDBusPlus::getSubTreeRaw(
+        SDBusPlus::getBus(), "/", "xyz.openbmc_project.Sensor.Value", 0);
+
+    std::set<std::string> sensorServices;
+
+    std::ranges::for_each(sensorObjects, [&sensorServices](const auto& object) {
+        sensorServices.insert(object.second.begin()->first);
+    });
+
+    // Find the ObjectManagers for those services
+    auto objectManagers = SDBusPlus::getSubTreeRaw(
+        SDBusPlus::getBus(), "/", "org.freedesktop.DBus.ObjectManager", 0);
+
+    std::map<std::string, std::string> managers;
+
+    std::ranges::for_each(
+        objectManagers, [&sensorServices, &managers](const auto& object) {
+            // Check every service on this path
+            std::ranges::for_each(
+                object.second, [&managers, path = object.first,
+                                &sensorServices](const auto& entry) {
+                    // Check if this service provides sensors
+                    if (std::ranges::contains(sensorServices, entry.first))
+                    {
+                        managers[entry.first] = path;
+                    }
+                });
+        });
+
+    readSensorsAndPrint(managers, opts);
+}
+
+/**
  * @function setup the CLI object to accept all options
  */
 void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
-             [[maybe_unused]] DumpQuery& dq)
+             [[maybe_unused]] DumpQuery& dq, SensorOpts& sensorOpts)
 {
     app.set_help_flag("-h,--help", "Print this help page and exit.");
 
@@ -738,6 +939,18 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
     cmdDumpQuery->add_flag("-d, --dump", dq.dump,
                            "Force a dump before the query");
 #endif
+
+    auto cmdSensors =
+        commands->add_subcommand("sensors", "Retrieve sensor values");
+    cmdSensors->set_help_flag("-h, --help", "Retrieve sensor values");
+    cmdSensors->add_option(
+        "-t, --type", sensorOpts.type,
+        "Only show sensors of this type (i.e. 'temperature'). Optional");
+    cmdSensors->add_option(
+        "-n, --name", sensorOpts.name,
+        "Only show sensors with this string in the name. Optional");
+    cmdSensors->add_flag("-v, --verbose", sensorOpts.verbose,
+                         "Verbose: Use sensor object path for the name");
 }
 
 /**
@@ -749,6 +962,7 @@ int main(int argc, char* argv[])
     uint64_t target{0U};
     std::vector<std::string> fanList;
     DumpQuery dq;
+    SensorOpts sensorOpts;
 
     try
     {
@@ -758,7 +972,7 @@ int main(int argc, char* argv[])
                      "https://github.com/openbmc/phosphor-fan-presence/tree/"
                      "master/docs/control/fanctl"};
 
-        initCLI(app, target, fanList, dq);
+        initCLI(app, target, fanList, dq, sensorOpts);
 
         CLI11_PARSE(app, argc, argv);
 
@@ -804,6 +1018,10 @@ int main(int argc, char* argv[])
             queryDumpFile(dq);
         }
 #endif
+        else if (app.got_subcommand("sensors"))
+        {
+            displaySensors(sensorOpts);
+        }
     }
     catch (const std::exception& e)
     {
