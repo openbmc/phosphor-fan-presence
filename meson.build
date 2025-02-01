@@ -6,7 +6,7 @@ project(
         'werror=true',
         'cpp_std=c++23',
         'buildtype=debugoptimized',
-        'prefix=/usr'
+        'prefix=/usr',
     ],
     license: 'Apache-2.0',
     version: '1.0',
@@ -23,8 +23,9 @@ if not cpp.has_header_symbol(
     'CLI/CLI.hpp',
     'CLI::App',
     dependencies: cli11_dep,
-    required: false)
-    cli11_proj = subproject('cli11', required:false)
+    required: false,
+)
+    cli11_proj = subproject('cli11', required: false)
     assert(cli11_proj.found(), 'CLI11 is required')
     cli11_dep = cli11_proj.get_variable('CLI11_dep')
 endif
@@ -34,14 +35,18 @@ has_cereal = cpp.has_header_symbol(
     'cereal/cereal.hpp',
     'cereal::specialize',
     dependencies: cereal_dep,
-    required: false)
+    required: false,
+)
 if not has_cereal
     cereal_opts = import('cmake').subproject_options()
-    cereal_opts.add_cmake_defines({'BUILD_TESTS': 'OFF', 'SKIP_PERFORMANCE_COMPARISON': 'ON'})
+    cereal_opts.add_cmake_defines(
+        {'BUILD_TESTS': 'OFF', 'SKIP_PERFORMANCE_COMPARISON': 'ON'},
+    )
     cereal_proj = import('cmake').subproject(
         'cereal',
         options: cereal_opts,
-        required: false)
+        required: false,
+    )
     assert(cereal_proj.found(), 'cereal is required')
     cereal_dep = cereal_proj.dependency('cereal')
 endif
@@ -54,7 +59,7 @@ sdeventplus_dep = dependency('sdeventplus')
 stdplus_dep = dependency('stdplus')
 systemd_dep = dependency('systemd')
 
-if(get_option('tests').allowed())
+if (get_option('tests').allowed())
     gmock_dep = dependency('gmock', disabler: true, required: false)
     gtest_dep = dependency('gtest', main: true, disabler: true, required: false)
 
@@ -66,13 +71,13 @@ if(get_option('tests').allowed())
                     dependency('threads'),
                     gtest_proj.dependency('gtest'),
                     gtest_proj.dependency('gtest_main'),
-                ]
+                ],
             )
             gmock_dep = gtest_proj.dependency('gmock')
         else
             assert(
                 not get_option('tests').allowed(),
-                'Googletest is required if tests are enabled'
+                'Googletest is required if tests are enabled',
             )
         endif
     endif
@@ -87,17 +92,20 @@ conf = configuration_data()
 
 # Control
 conf.set_quoted(
-    'CONTROL_PERSIST_ROOT_PATH', get_option('control-persist-root-path'))
+    'CONTROL_PERSIST_ROOT_PATH',
+    get_option('control-persist-root-path'),
+)
 conf.set_quoted(
-    'CONTROL_PERSIST_ROOT_PATH', get_option('control-persist-root-path'))
+    'CONTROL_PERSIST_ROOT_PATH',
+    get_option('control-persist-root-path'),
+)
+conf.set_quoted('FAN_DEF_YAML_FILE', get_option('fan-def-yaml-file'))
+conf.set_quoted('FAN_ZONE_YAML_FILE', get_option('fan-zone-yaml-file'))
+conf.set_quoted('ZONE_EVENTS_YAML_FILE', get_option('zone-events-yaml-file'))
 conf.set_quoted(
-    'FAN_DEF_YAML_FILE', get_option('fan-def-yaml-file'))
-conf.set_quoted(
-    'FAN_ZONE_YAML_FILE', get_option('fan-zone-yaml-file'))
-conf.set_quoted(
-    'ZONE_EVENTS_YAML_FILE', get_option('zone-events-yaml-file'))
-conf.set_quoted(
-    'ZONE_CONDITIONS_YAML_FILE', get_option('zone-conditions-yaml-file'))
+    'ZONE_CONDITIONS_YAML_FILE',
+    get_option('zone-conditions-yaml-file'),
+)
 
 # Fan control can be in YAML mode when everything else is in JSON mode
 control_conf_type = 'yaml'
@@ -106,10 +114,8 @@ if get_option('json-config').allowed() and get_option('json-control').allowed()
 endif
 
 # Monitor
-conf.set(
-    'NUM_MONITOR_LOG_ENTRIES', get_option('num-monitor-log-entries'))
-conf.set_quoted(
-    'FAN_MONITOR_YAML_FILE', get_option('fan-monitor-yaml-file'))
+conf.set('NUM_MONITOR_LOG_ENTRIES', get_option('num-monitor-log-entries'))
+conf.set_quoted('FAN_MONITOR_YAML_FILE', get_option('fan-monitor-yaml-file'))
 conf.set('DELAY_HOST_CONTROL', get_option('delay-host-control'))
 if get_option('monitor-use-host-state').allowed()
     conf.set('MONITOR_USE_HOST_STATE', '')
@@ -129,8 +135,10 @@ else
 endif
 
 # Sensor Monitor
-conf.set_quoted('SENSOR_MONITOR_PERSIST_ROOT_PATH',
-                get_option('sensor-monitor-persist-root-path'))
+conf.set_quoted(
+    'SENSOR_MONITOR_PERSIST_ROOT_PATH',
+    get_option('sensor-monitor-persist-root-path'),
+)
 
 if get_option('use-host-power-state').allowed()
     conf.set('ENABLE_HOST_STATE', '')
@@ -141,15 +149,17 @@ if get_option('skip-power-checking').allowed()
 endif
 
 conf.set(
-    'SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS', get_option('sensor-monitor-hard-shutdown-delay'))
+    'SHUTDOWN_ALARM_HARD_SHUTDOWN_DELAY_MS',
+    get_option('sensor-monitor-hard-shutdown-delay'),
+)
 conf.set(
-    'SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS', get_option('sensor-monitor-soft-shutdown-delay'))
+    'SHUTDOWN_ALARM_SOFT_SHUTDOWN_DELAY_MS',
+    get_option('sensor-monitor-soft-shutdown-delay'),
+)
 
 # Presence
-conf.set(
-    'NUM_PRESENCE_LOG_ENTRIES', get_option('num-presence-log-entries'))
-conf.set_quoted(
-    'PRESENCE_YAML_FILE', get_option('presence-config'))
+conf.set('NUM_PRESENCE_LOG_ENTRIES', get_option('num-presence-log-entries'))
+conf.set_quoted('PRESENCE_YAML_FILE', get_option('presence-config'))
 
 configure_file(output: 'config.h', configuration: conf)
 
@@ -187,8 +197,10 @@ endif
 
 if get_option('sensor-monitor-service').allowed()
     subdir('sensor-monitor')
-    install_data('sensor-monitor/service_files/sensor-monitor.service',
-        install_dir: servicedir)
+    install_data(
+        'sensor-monitor/service_files/sensor-monitor.service',
+        install_dir: servicedir,
+    )
 endif
 
 foreach service : services
@@ -199,17 +211,23 @@ foreach service : services
     endif
 
     foreach service_file : service[1]
-        install_data(service[0] / 'service_files' / this_conf_type / service_file,
-                     install_dir: servicedir)
+        install_data(
+            service[0] / 'service_files' / this_conf_type / service_file,
+            install_dir: servicedir,
+        )
     endforeach
 
     if this_conf_type == 'json'
         fs = import('fs')
-        dir = meson.current_source_dir() / service[0] / 'config_files' / get_option('machine-name')
+        dir = meson.current_source_dir() / service[0] / 'config_files' / get_option(
+            'machine-name',
+        )
         if fs.is_dir(dir)
-            install_subdir(service[0] / 'config_files' / get_option('machine-name'),
-                          install_dir: usr_share_dir / service[0],
-                          strip_directory: true)
+            install_subdir(
+                service[0] / 'config_files' / get_option('machine-name'),
+                install_dir: usr_share_dir / service[0],
+                strip_directory: true,
+            )
         endif
     endif
 endforeach

@@ -1,136 +1,181 @@
 
+option('tests', type: 'feature', value: 'enabled', description: 'Build tests.')
+
 option(
-    'tests', type: 'feature', value: 'enabled', description: 'Build tests.',
+    'json-config',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Use json at runtime to configure fan packages.',
 )
 
 option(
-    'json-config', type: 'feature', value: 'enabled',
-    description: 'Use json at runtime to configure fan packages.'
-)
-
-option(
-    'machine-name', type: 'string', value: '',
-    description: 'Machine name being built. Used to install the proper JSON config files.'
+    'machine-name',
+    type: 'string',
+    value: '',
+    description: 'Machine name being built. Used to install the proper JSON config files.',
 )
 
 # Control
 
 option(
-    'control-service', type: 'feature', value: 'enabled',
-    description: 'Build fan control service.'
+    'control-service',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Build fan control service.',
 )
 
 option(
-    'json-control', type: 'feature', value: 'enabled',
+    'json-control',
+    type: 'feature',
+    value: 'enabled',
     description: '''This can only be used to disable JSON based fan control
                     (using json-control=disabled) when json-config is enabled.
                     If json-control=enabled and json-config=disabled it will
-                    not do anything.'''
+                    not do anything.''',
 )
 
 option(
-    'control-persist-root-path', type: 'string', value: '/var/lib/phosphor-fan-presence/control',
-    description: 'Base location to persist zone property states'
+    'control-persist-root-path',
+    type: 'string',
+    value: '/var/lib/phosphor-fan-presence/control',
+    description: 'Base location to persist zone property states',
 )
 
 option(
-    'fan-def-yaml-file', type: 'string', value: 'example/fans.yaml',
-    description: 'Build time fan configuration file'
+    'fan-def-yaml-file',
+    type: 'string',
+    value: 'example/fans.yaml',
+    description: 'Build time fan configuration file',
 )
 option(
-    'fan-zone-yaml-file', type: 'string', value: 'example/zones.yaml',
-    description: 'Build time fan configuration file'
+    'fan-zone-yaml-file',
+    type: 'string',
+    value: 'example/zones.yaml',
+    description: 'Build time fan configuration file',
 )
 option(
-    'zone-events-yaml-file', type: 'string', value: 'example/events.yaml',
-    description: 'Build time fan configuration file'
+    'zone-events-yaml-file',
+    type: 'string',
+    value: 'example/events.yaml',
+    description: 'Build time fan configuration file',
 )
 option(
-    'zone-conditions-yaml-file', type: 'string', value: 'example/zone_conditions.yaml',
-    description: 'Build time fan configuration file'
+    'zone-conditions-yaml-file',
+    type: 'string',
+    value: 'example/zone_conditions.yaml',
+    description: 'Build time fan configuration file',
 )
 
 # Monitor
 
 option(
-    'monitor-service', type: 'feature', value: 'enabled',
-    description: 'Build fan monitor service'
+    'monitor-service',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Build fan monitor service',
 )
 
 option(
-    'fan-monitor-yaml-file', type: 'string', value: 'example/monitor.yaml',
-    description: 'Location of the config file'
+    'fan-monitor-yaml-file',
+    type: 'string',
+    value: 'example/monitor.yaml',
+    description: 'Location of the config file',
 )
 
 option(
-    'num-monitor-log-entries', type: 'integer', value: 75,
-    description: 'Maximum number of entries in the monitor log.'
+    'num-monitor-log-entries',
+    type: 'integer',
+    value: 75,
+    description: 'Maximum number of entries in the monitor log.',
 )
 
 option(
-    'delay-host-control', value : '0', type: 'integer',
-    description: 'Delay host control when the power is on and the fan sensors are offline.'
+    'delay-host-control',
+    value: '0',
+    type: 'integer',
+    description: 'Delay host control when the power is on and the fan sensors are offline.',
 )
 
 option(
-    'monitor-use-host-state', value : 'disabled', type: 'feature',
-    description: 'Use CurrentHostState for fan monitor to decide power state.'
+    'monitor-use-host-state',
+    value: 'disabled',
+    type: 'feature',
+    description: 'Use CurrentHostState for fan monitor to decide power state.',
 )
 
 # Presence
 
 option(
-    'presence-service', type: 'feature', value: 'enabled',
-    description: 'Build fan presence service.'
+    'presence-service',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Build fan presence service.',
 )
 
 option(
-    'presence-config', type: 'string', value: 'example/example.yaml',
-    description: 'Location of the config file'
+    'presence-config',
+    type: 'string',
+    value: 'example/example.yaml',
+    description: 'Location of the config file',
 )
 
 option(
-    'num-presence-log-entries', type: 'integer', value: 50,
-    description: 'Maximum number of entries in the presence log.'
+    'num-presence-log-entries',
+    type: 'integer',
+    value: 50,
+    description: 'Maximum number of entries in the presence log.',
 )
 
 # Sensor Monitor
 
 option(
-    'sensor-monitor-service', type: 'feature', value: 'enabled',
-    description: 'Build sensor monitor.'
+    'sensor-monitor-service',
+    type: 'feature',
+    value: 'enabled',
+    description: 'Build sensor monitor.',
 )
 
 option(
-    'sensor-monitor-persist-root-path', type: 'string',
+    'sensor-monitor-persist-root-path',
+    type: 'string',
     value: '/var/lib/phosphor-fan-presence/sensor-monitor',
-    description: 'Root path for persisting sensor monitor data.'
+    description: 'Root path for persisting sensor monitor data.',
 )
 
 option(
-    'sensor-monitor-hard-shutdown-delay', type: 'integer', value: 23000,
-    description: 'Milliseconds to delay the alarm before hard shutdown.'
+    'sensor-monitor-hard-shutdown-delay',
+    type: 'integer',
+    value: 23000,
+    description: 'Milliseconds to delay the alarm before hard shutdown.',
 )
 
 option(
-    'sensor-monitor-soft-shutdown-delay', type: 'integer', value: 900000,
-    description: 'Milliseconds to delay the alarm before soft shutdown.'
+    'sensor-monitor-soft-shutdown-delay',
+    type: 'integer',
+    value: 900000,
+    description: 'Milliseconds to delay the alarm before soft shutdown.',
 )
 
 # Other
 
 option(
-    'cooling-type-service', type: 'feature', value: 'disabled',
-    description: 'Build cooling-type package.'
+    'cooling-type-service',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Build cooling-type package.',
 )
 
 option(
-    'use-host-power-state', type: 'feature', value: 'disabled',
-    description: 'Enable using the host power state for power state checks.'
+    'use-host-power-state',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enable using the host power state for power state checks.',
 )
 
 option(
-    'skip-power-checking', type: 'feature', value: 'disabled',
-    description: 'Skip power state checking while sending threshold alarm event.'
+    'skip-power-checking',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Skip power state checking while sending threshold alarm event.',
 )
 

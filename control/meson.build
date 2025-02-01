@@ -1,10 +1,7 @@
 
-include_dirs=[
-    '.',
-    '..'
-]
+include_dirs = ['.', '..']
 
-deps=[
+deps = [
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus_dep,
@@ -16,11 +13,7 @@ sources = ['main.cpp']
 
 if conf.has('CONTROL_USE_JSON')
     deps += nlohmann_json_dep
-    include_dirs += [
-        './json',
-        './json/actions',
-        './json/triggers'
-    ]
+    include_dirs += ['./json', './json/actions', './json/triggers']
     sources += [
         'json/dbus_zone.cpp',
         'json/event.cpp',
@@ -49,27 +42,33 @@ if conf.has('CONTROL_USE_JSON')
         'json/triggers/init.cpp',
         'json/triggers/parameter.cpp',
         'json/triggers/signal.cpp',
-        'json/triggers/timer.cpp'
+        'json/triggers/timer.cpp',
     ]
 else
     fan_zone_defs_cpp_dep = custom_target(
         'fan_zone_defs.cpp',
         input: files(
-            './gen-fan-zone-defs.py',
             conf.get_unquoted('FAN_DEF_YAML_FILE'),
             conf.get_unquoted('FAN_ZONE_YAML_FILE'),
             conf.get_unquoted('ZONE_EVENTS_YAML_FILE'),
-            conf.get_unquoted('ZONE_CONDITIONS_YAML_FILE')
+            conf.get_unquoted('ZONE_CONDITIONS_YAML_FILE'),
+            './gen-fan-zone-defs.py',
         ),
         command: [
-            python_prog, '@INPUT0@',
-            '-f','@INPUT1@',
-            '-z','@INPUT2@',
-            '-e','@INPUT3@',
-            '-c','@INPUT4@',
-            '-o', 'control'
+            python_prog,
+            '@INPUT0@',
+            '-f',
+            '@INPUT1@',
+            '-z',
+            '@INPUT2@',
+            '-e',
+            '@INPUT3@',
+            '-c',
+            '@INPUT4@',
+            '-o',
+            'control',
         ],
-        output: 'fan_zone_defs.cpp'
+        output: 'fan_zone_defs.cpp',
     )
 
     sources += [
@@ -80,7 +79,7 @@ else
         'preconditions.cpp',
         'triggers.cpp',
         'utility.cpp',
-        'zone.cpp'
+        'zone.cpp',
     ]
 
 endif
@@ -89,21 +88,21 @@ phosphor_fan_control_include_directories = include_directories(include_dirs)
 phosphor_fan_control = executable(
     'phosphor-fan-control',
     sources,
-    dependencies:deps,
+    dependencies: deps,
     implicit_include_directories: false,
     include_directories: phosphor_fan_control_include_directories,
-    install: true
+    install: true,
 )
 
 fanctl = executable(
-  'fanctl',
-  'fanctl.cpp',
-      dependencies: [
-          cli11_dep,
-          nlohmann_json_dep,
-          phosphor_logging_dep,
-          sdbusplus_dep,
-      ],
-  include_directories: phosphor_fan_control_include_directories,
-  install: true
+    'fanctl',
+    'fanctl.cpp',
+    dependencies: [
+        cli11_dep,
+        nlohmann_json_dep,
+        phosphor_logging_dep,
+        sdbusplus_dep,
+    ],
+    include_directories: phosphor_fan_control_include_directories,
+    install: true,
 )

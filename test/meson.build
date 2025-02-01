@@ -1,15 +1,13 @@
 
-test_include_directories = include_directories(
-    '..'
-)
+test_include_directories = include_directories('..')
 
-test_deps=[
+test_deps = [
     gmock_dep,
     gtest_dep,
     nlohmann_json_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
-    sdbusplus_dep
+    sdbusplus_dep,
 ]
 
 test(
@@ -17,8 +15,8 @@ test(
     executable(
         'logger_test',
         'logger_test.cpp',
-        dependencies:test_deps,
+        dependencies: test_deps,
         implicit_include_directories: false,
-        include_directories: [test_include_directories]
-    )
+        include_directories: [test_include_directories],
+    ),
 )

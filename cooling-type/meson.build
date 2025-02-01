@@ -1,19 +1,12 @@
-phosphor_fan_sensor_monitor_include_directories = include_directories(
-    '.',
-    '..'
-)
+phosphor_fan_sensor_monitor_include_directories = include_directories('.', '..')
 
-source=[
-    'cooling_type.cpp',
-    'cooling_type.hpp',
-    'main.cpp'
-]
+source = ['cooling_type.cpp', 'cooling_type.hpp', 'main.cpp']
 
-deps=[
+deps = [
     libevdev_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
-    sdeventplus_dep
+    sdeventplus_dep,
 ]
 
 phosphor_fan_cooling_type = executable(
@@ -22,5 +15,5 @@ phosphor_fan_cooling_type = executable(
     dependencies: deps,
     implicit_include_directories: false,
     include_directories: ['..'],
-    install: true
+    install: true,
 )

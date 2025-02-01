@@ -1,9 +1,6 @@
-phosphor_fan_monitor_include_directories = include_directories(
-    '.',
-    '..'
-)
+phosphor_fan_monitor_include_directories = include_directories('.', '..')
 
-sources=[
+sources = [
     'conditions.cpp',
     'fan.cpp',
     'fan_error.cpp',
@@ -13,15 +10,15 @@ sources=[
     'power_interface.cpp',
     'system.cpp',
     'tach_sensor.cpp',
-    '../hwmon_ffdc.cpp'
+    '../hwmon_ffdc.cpp',
 ]
 
-deps=[
+deps = [
     nlohmann_json_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
     sdbusplus_dep,
-    sdeventplus_dep
+    sdeventplus_dep,
 ]
 
 # Only needed for YAML config
@@ -29,15 +26,11 @@ if get_option('json-config').disabled()
     fan_monitor_defs_cpp_dep = custom_target(
         'fan_monitor_defs.cpp',
         input: files(
-            './gen-fan-monitor-defs.py',
             conf.get_unquoted('FAN_MONITOR_YAML_FILE'),
+            './gen-fan-monitor-defs.py',
         ),
-        command: [
-            python_prog, '@INPUT0@',
-            '-m','@INPUT1@',
-            '-o','monitor'
-        ],
-        output: 'fan_monitor_defs.cpp'
+        command: [python_prog, '@INPUT0@', '-m', '@INPUT1@', '-o', 'monitor'],
+        output: 'fan_monitor_defs.cpp',
     )
 
     sources += fan_monitor_defs_cpp_dep
@@ -49,10 +42,10 @@ phosphor_fan_monitor = executable(
     dependencies: deps,
     implicit_include_directories: false,
     include_directories: phosphor_fan_monitor_include_directories,
-    install: true
+    install: true,
 )
 
-if(get_option('tests').allowed())
+if (get_option('tests').allowed())
     subdir('test')
 endif
 
