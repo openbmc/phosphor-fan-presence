@@ -145,8 +145,8 @@ class ShutdownAlarmMonitor
      * @return The interface, or std::nullopt if the interface isn't one
      *         of the shutdown interfaces.
      */
-    std::optional<ShutdownType>
-        getShutdownType(const std::string& interface) const;
+    std::optional<ShutdownType> getShutdownType(
+        const std::string& interface) const;
 
     /**
      * @brief Creates a phosphor-logging event log

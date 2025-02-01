@@ -242,8 +242,8 @@ void tryConvertToDouble(PropertyVariantType& value)
         value);
 }
 
-std::optional<PropertyVariantType>
-    MappedFloor::getMaxGroupValue(const Group& group)
+std::optional<PropertyVariantType> MappedFloor::getMaxGroupValue(
+    const Group& group)
 {
     std::optional<PropertyVariantType> max;
     bool checked = false;

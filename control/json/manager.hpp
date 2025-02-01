@@ -198,8 +198,8 @@ class Manager
      *     Map of configuration keys to their corresponding configuration object
      */
     template <typename T, typename... Args>
-    static std::map<configKey, std::unique_ptr<T>>
-        getConfig(bool isOptional, Args&&... args)
+    static std::map<configKey, std::unique_ptr<T>> getConfig(bool isOptional,
+                                                             Args&&... args)
     {
         std::map<configKey, std::unique_ptr<T>> config;
 
@@ -381,9 +381,9 @@ class Manager
      * @param[in] intf - Dbus object's interface
      * @param[in] prop - Dbus object's property
      */
-    const std::optional<PropertyVariantType>
-        getProperty(const std::string& path, const std::string& intf,
-                    const std::string& prop);
+    const std::optional<PropertyVariantType> getProperty(
+        const std::string& path, const std::string& intf,
+        const std::string& prop);
 
     /**
      * @brief Set/update an object's property value
@@ -536,8 +536,8 @@ class Manager
      *
      * @return The parameter value, or std::nullopt if not found
      */
-    static std::optional<PropertyVariantType>
-        getParameter(const std::string& name)
+    static std::optional<PropertyVariantType> getParameter(
+        const std::string& name)
     {
         auto it = _parameters.find(name);
         if (it != _parameters.end())
@@ -562,9 +562,9 @@ class Manager
      * @param[in] name - The parameter name
      * @param[in] actions - The actions to run on the trigger
      */
-    static void
-        addParameterTrigger(const std::string& name,
-                            std::vector<std::unique_ptr<ActionBase>>& actions);
+    static void addParameterTrigger(
+        const std::string& name,
+        std::vector<std::unique_ptr<ActionBase>>& actions);
 
     /* The name of the dump file */
     static const std::string dumpFile;

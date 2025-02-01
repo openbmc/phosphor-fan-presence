@@ -460,8 +460,8 @@ const std::string& Manager::getService(const std::string& path,
     return serviceName;
 }
 
-std::vector<std::string>
-    Manager::findPaths(const std::string& serv, const std::string& intf)
+std::vector<std::string> Manager::findPaths(const std::string& serv,
+                                            const std::string& intf)
 {
     std::vector<std::string> paths;
 

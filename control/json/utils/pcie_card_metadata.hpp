@@ -83,9 +83,9 @@ class PCIeCardMetadata
      *
      *     If no entry is found, it will return std::nullopt.
      */
-    std::optional<std::variant<int32_t, bool>>
-        lookup(uint16_t deviceID, uint16_t vendorID, uint16_t subsystemID,
-               uint16_t subsystemVendorID) const;
+    std::optional<std::variant<int32_t, bool>> lookup(
+        uint16_t deviceID, uint16_t vendorID, uint16_t subsystemID,
+        uint16_t subsystemVendorID) const;
 
   private:
     /**

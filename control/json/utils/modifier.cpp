@@ -50,9 +50,9 @@ struct ToTypeVisitor
  * @brief Return a default value to use when the argument passed
  *        to LessThanOperator is out of range.
  */
-PropertyVariantType
-    getDefaultValue(const PropertyVariantType& val,
-                    const std::optional<PropertyVariantType>& defaultValue)
+PropertyVariantType getDefaultValue(
+    const PropertyVariantType& val,
+    const std::optional<PropertyVariantType>& defaultValue)
 {
     // When a default value is given, return that
     if (defaultValue)

@@ -179,11 +179,11 @@ class FanFRUsWithNonfuncRotorsCause : public PowerOffCause
     ~FanFRUsWithNonfuncRotorsCause() = default;
     FanFRUsWithNonfuncRotorsCause(const FanFRUsWithNonfuncRotorsCause&) =
         delete;
-    FanFRUsWithNonfuncRotorsCause&
-        operator=(const FanFRUsWithNonfuncRotorsCause&) = delete;
+    FanFRUsWithNonfuncRotorsCause& operator=(
+        const FanFRUsWithNonfuncRotorsCause&) = delete;
     FanFRUsWithNonfuncRotorsCause(FanFRUsWithNonfuncRotorsCause&&) = delete;
-    FanFRUsWithNonfuncRotorsCause&
-        operator=(FanFRUsWithNonfuncRotorsCause&&) = delete;
+    FanFRUsWithNonfuncRotorsCause& operator=(FanFRUsWithNonfuncRotorsCause&&) =
+        delete;
 
     /**
      * @brief Constructor

@@ -101,8 +101,8 @@ class Event : public ConfigBase
      *
      * @param[in] groups - All groups available for events
      */
-    static void
-        setAllGroups(std::map<configKey, std::unique_ptr<Group>>&& groups)
+    static void setAllGroups(
+        std::map<configKey, std::unique_ptr<Group>>&& groups)
     {
         allGroups = std::move(groups);
     }
@@ -115,8 +115,8 @@ class Event : public ConfigBase
      *
      * @return Groups available to be configured on events from `groups.json`
      */
-    static std::map<configKey, std::unique_ptr<Group>>&
-        getAllGroups(bool loadGroups = true);
+    static std::map<configKey, std::unique_ptr<Group>>& getAllGroups(
+        bool loadGroups = true);
 
     /**
      * @brief Parse group parameters and configure a group object

@@ -240,8 +240,8 @@ void System::sighupHandler(sdeventplus::source::Signal&,
     }
 }
 
-const std::vector<CreateGroupFunction>
-    System::getTrustGroups([[maybe_unused]] const json& jsonObj)
+const std::vector<CreateGroupFunction> System::getTrustGroups(
+    [[maybe_unused]] const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
     return getTrustGrps(jsonObj);
@@ -255,8 +255,8 @@ void System::setTrustMgr(const std::vector<CreateGroupFunction>& groupFuncs)
     _trust = std::make_unique<trust::Manager>(groupFuncs);
 }
 
-const std::vector<FanDefinition>
-    System::getFanDefinitions([[maybe_unused]] const json& jsonObj)
+const std::vector<FanDefinition> System::getFanDefinitions(
+    [[maybe_unused]] const json& jsonObj)
 {
 #ifdef MONITOR_USE_JSON
     return getFanDefs(jsonObj);

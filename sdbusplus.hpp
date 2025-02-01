@@ -153,10 +153,10 @@ class SDBusPlus
 
     /** @brief Invoke a method and read the response. */
     template <typename Ret, typename... Args>
-    static auto
-        callMethodAndRead(sdbusplus::bus_t& bus, const std::string& busName,
-                          const std::string& path, const std::string& interface,
-                          const std::string& method, Args&&... args)
+    static auto callMethodAndRead(
+        sdbusplus::bus_t& bus, const std::string& busName,
+        const std::string& path, const std::string& interface,
+        const std::string& method, Args&&... args)
     {
         sdbusplus::message_t respMsg = callMethod<Args...>(
             bus, busName, path, interface, method, std::forward<Args>(args)...);

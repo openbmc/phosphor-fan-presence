@@ -34,8 +34,8 @@ namespace phosphor::fan::control::json::trigger::parameter
  * @param[in] eventName - Name of event associated to the signal
  * @param[in] actions - Actions associated with the trigger
  */
-enableTrigger
-    triggerParameter(const json& jsonObj, const std::string& eventName,
-                     std::vector<std::unique_ptr<ActionBase>>& actions);
+enableTrigger triggerParameter(
+    const json& jsonObj, const std::string& eventName,
+    std::vector<std::unique_ptr<ActionBase>>& actions);
 
 } // namespace phosphor::fan::control::json::trigger::parameter

@@ -142,8 +142,8 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
      *  - The floor index or true for has temp sensor if found,
      *    std::nullopt else.
      */
-    std::optional<std::variant<int32_t, bool>>
-        getFloorIndexFromSlot(const std::string& slotPath);
+    std::optional<std::variant<int32_t, bool>> getFloorIndexFromSlot(
+        const std::string& slotPath);
 
     /**
      * @brief Gets the hex PCIeDevice property value from the

@@ -467,8 +467,8 @@ void ShutdownAlarmMonitor::createEventLog(
                           "Create", errorName, convertForMessage(severity), ad);
 }
 
-std::optional<ShutdownType>
-    ShutdownAlarmMonitor::getShutdownType(const std::string& interface) const
+std::optional<ShutdownType> ShutdownAlarmMonitor::getShutdownType(
+    const std::string& interface) const
 {
     auto it = std::find_if(
         shutdownInterfaces.begin(), shutdownInterfaces.end(),

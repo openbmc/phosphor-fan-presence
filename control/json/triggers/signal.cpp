@@ -235,9 +235,9 @@ void member(Manager* mgr, const Group& group, TriggerActions& actions,
     }
 }
 
-enableTrigger
-    triggerSignal(const json& jsonObj, const std::string& eventName,
-                  std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
+enableTrigger triggerSignal(
+    const json& jsonObj, const std::string& eventName,
+    std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
 {
     auto subscriber = signals.end();
     if (jsonObj.contains("signal"))
