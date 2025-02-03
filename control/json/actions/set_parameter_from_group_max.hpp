@@ -63,8 +63,8 @@ class SetParameterFromGroupMax :
     SetParameterFromGroupMax() = delete;
     SetParameterFromGroupMax(const SetParameterFromGroupMax&) = delete;
     SetParameterFromGroupMax(SetParameterFromGroupMax&&) = delete;
-    SetParameterFromGroupMax&
-        operator=(const SetParameterFromGroupMax&) = delete;
+    SetParameterFromGroupMax& operator=(const SetParameterFromGroupMax&) =
+        delete;
     SetParameterFromGroupMax& operator=(SetParameterFromGroupMax&&) = delete;
     virtual ~SetParameterFromGroupMax() = default;
 

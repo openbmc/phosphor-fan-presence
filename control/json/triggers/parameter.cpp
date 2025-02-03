@@ -24,9 +24,9 @@ namespace phosphor::fan::control::json::trigger::parameter
 
 using json = nlohmann::json;
 
-enableTrigger
-    triggerParameter(const json& jsonObj, const std::string& eventName,
-                     std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
+enableTrigger triggerParameter(
+    const json& jsonObj, const std::string& eventName,
+    std::vector<std::unique_ptr<ActionBase>>& /*actions*/)
 {
     if (!jsonObj.contains("parameter"))
     {

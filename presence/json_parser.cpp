@@ -221,9 +221,9 @@ void JsonConfig::process(const json& jsonConf)
     }
 }
 
-std::unique_ptr<RedundancyPolicy>
-    JsonConfig::getPolicy(const json& rpolicy, const fanPolicy& fpolicy,
-                          std::unique_ptr<EEPROMDevice> eepromDevice)
+std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(
+    const json& rpolicy, const fanPolicy& fpolicy,
+    std::unique_ptr<EEPROMDevice> eepromDevice)
 {
     if (!rpolicy.contains("type"))
     {
@@ -349,8 +349,8 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
 namespace rpolicy
 {
 // Get an `Anyof` redundancy policy for the fan
-std::unique_ptr<RedundancyPolicy>
-    getAnyof(const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice)
+std::unique_ptr<RedundancyPolicy> getAnyof(
+    const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice)
 {
     std::vector<std::reference_wrapper<PresenceSensor>> pSensors;
     for (auto& fanSensor : std::get<fanPolicySensorListPos>(fan))

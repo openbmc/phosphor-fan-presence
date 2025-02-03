@@ -54,9 +54,10 @@ using InternalFailure =
  * @param[out] value - filled in with the property value
  */
 template <typename T>
-static void
-    readProperty(const std::string& interface, const std::string& propertyName,
-                 const std::string& path, sdbusplus::bus_t& bus, T& value)
+static void readProperty(const std::string& interface,
+                         const std::string& propertyName,
+                         const std::string& path, sdbusplus::bus_t& bus,
+                         T& value)
 {
     try
     {

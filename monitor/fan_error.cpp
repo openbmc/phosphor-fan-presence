@@ -126,8 +126,8 @@ void FanError::commit(const json& jsonFFDC, bool isPowerOffError)
     }
 }
 
-std::map<std::string, std::string>
-    FanError::getAdditionalData(bool isPowerOffError)
+std::map<std::string, std::string> FanError::getAdditionalData(
+    bool isPowerOffError)
 {
     std::map<std::string, std::string> ad;
 

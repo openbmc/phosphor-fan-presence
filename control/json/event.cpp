@@ -90,8 +90,8 @@ void Event::powerOff()
     }
 }
 
-std::map<configKey, std::unique_ptr<Group>>&
-    Event::getAllGroups(bool loadGroups)
+std::map<configKey, std::unique_ptr<Group>>& Event::getAllGroups(
+    bool loadGroups)
 {
     if (allGroups.empty() && loadGroups)
     {

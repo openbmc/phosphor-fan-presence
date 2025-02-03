@@ -111,8 +111,8 @@ class TimerBasedActions :
      *
      * Sets the zones on this action and the timer's actions to run against
      */
-    virtual void
-        setZones(std::vector<std::reference_wrapper<Zone>>& zones) override;
+    virtual void setZones(
+        std::vector<std::reference_wrapper<Zone>>& zones) override;
 
   private:
     /* The timer for this action */

@@ -43,8 +43,8 @@ namespace tClass
 {
 
 // Get a constructed trust group class for a non-zero speed group
-CreateGroupFunction
-    getNonZeroSpeed(const std::vector<trust::GroupDefinition>& group)
+CreateGroupFunction getNonZeroSpeed(
+    const std::vector<trust::GroupDefinition>& group)
 {
     return [group]() {
         return std::make_unique<trust::NonzeroSpeed>(std::move(group));
@@ -463,10 +463,10 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
     return cause;
 }
 
-std::unique_ptr<PowerOffAction>
-    getPowerOffAction(const json& powerOffConfig,
-                      std::shared_ptr<PowerInterfaceBase>& powerInterface,
-                      PowerOffAction::PrePowerOffFunc& func)
+std::unique_ptr<PowerOffAction> getPowerOffAction(
+    const json& powerOffConfig,
+    std::shared_ptr<PowerInterfaceBase>& powerInterface,
+    PowerOffAction::PrePowerOffFunc& func)
 {
     std::unique_ptr<PowerOffAction> action;
     if (!powerOffConfig.contains("type"))

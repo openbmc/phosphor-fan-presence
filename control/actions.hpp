@@ -184,8 +184,8 @@ Action set_floor_from_average_sensor_value(std::map<T, uint64_t>&& val_to_speed)
  *     below(decreasing) the key transition point
  */
 template <typename T>
-Action
-    set_ceiling_from_average_sensor_value(std::map<T, uint64_t>&& val_to_speed)
+Action set_ceiling_from_average_sensor_value(
+    std::map<T, uint64_t>&& val_to_speed)
 {
     return [val_to_speed =
                 std::move(val_to_speed)](Zone& zone, const Group& group) {

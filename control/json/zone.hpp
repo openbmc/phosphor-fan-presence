@@ -551,8 +551,8 @@ namespace zone::property
  *
  * @return Zone dbus object's set property function for the "Supported" property
  */
-std::function<void(DBusZone&, Zone&)>
-    supported(const json& jsonObj, bool persist);
+std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
+                                                bool persist);
 
 /**
  * @brief "Current" property on the "xyz.openbmc_project.Control.ThermalMode"
@@ -564,8 +564,8 @@ std::function<void(DBusZone&, Zone&)>
  *
  * @return Zone dbus object's set property function for the "Current" property
  */
-std::function<void(DBusZone&, Zone&)>
-    current(const json& jsonObj, bool persist);
+std::function<void(DBusZone&, Zone&)> current(const json& jsonObj,
+                                              bool persist);
 
 } // namespace zone::property
 

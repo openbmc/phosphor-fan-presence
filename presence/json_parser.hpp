@@ -127,9 +127,9 @@ class JsonConfig
      *
      * @return - The constructed redundancy policy type for the fan
      */
-    std::unique_ptr<RedundancyPolicy>
-        getPolicy(const json& rpolicy, const fanPolicy& fpolicy,
-                  std::unique_ptr<EEPROMDevice> eepromDevice);
+    std::unique_ptr<RedundancyPolicy> getPolicy(
+        const json& rpolicy, const fanPolicy& fpolicy,
+        std::unique_ptr<EEPROMDevice> eepromDevice);
 };
 
 /**
@@ -173,8 +173,8 @@ namespace rpolicy
  *
  * @return - An `Anyof` redundancy policy
  */
-std::unique_ptr<RedundancyPolicy>
-    getAnyof(const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice);
+std::unique_ptr<RedundancyPolicy> getAnyof(
+    const fanPolicy& fan, std::unique_ptr<EEPROMDevice> eepromDevice);
 
 /**
  * @brief Create a `Fallback` redundancy policy on the created presence

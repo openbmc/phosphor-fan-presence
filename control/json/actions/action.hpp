@@ -82,9 +82,9 @@ class ActionParseError : public std::runtime_error
  * sets the zones the action should run against.
  */
 template <typename T>
-std::unique_ptr<T>
-    createAction(const json& jsonObj, const std::vector<Group>& groups,
-                 std::vector<std::reference_wrapper<Zone>>& zones)
+std::unique_ptr<T> createAction(
+    const json& jsonObj, const std::vector<Group>& groups,
+    std::vector<std::reference_wrapper<Zone>>& zones)
 {
     // Create the action and set its list of zones
     auto action = std::make_unique<T>(jsonObj, groups);
@@ -319,10 +319,10 @@ class ActionFactory
      *
      * @return Pointer to the action object.
      */
-    static std::unique_ptr<ActionBase>
-        getAction(const std::string& name, const json& jsonObj,
-                  const std::vector<Group>& groups,
-                  std::vector<std::reference_wrapper<Zone>>&& zones)
+    static std::unique_ptr<ActionBase> getAction(
+        const std::string& name, const json& jsonObj,
+        const std::vector<Group>& groups,
+        std::vector<std::reference_wrapper<Zone>>&& zones)
     {
         auto it = actions.find(name);
         if (it != actions.end())

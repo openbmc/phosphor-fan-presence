@@ -558,8 +558,8 @@ namespace zone::property
 {
 // Get a set property handler function for the configured values of the
 // "Supported" property
-std::function<void(DBusZone&, Zone&)>
-    supported(const json& jsonObj, bool persist)
+std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
+                                                bool persist)
 {
     std::vector<std::string> values;
     if (!jsonObj.contains("values"))
