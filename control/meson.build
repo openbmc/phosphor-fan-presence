@@ -45,6 +45,7 @@ if conf.has('CONTROL_USE_JSON')
         'json/triggers/timer.cpp',
     ]
 else
+    script = files('gen-fan-zone-defs.py')
     fan_zone_defs_cpp_dep = custom_target(
         'fan_zone_defs.cpp',
         input: files(
@@ -52,19 +53,18 @@ else
             conf.get_unquoted('FAN_ZONE_YAML_FILE'),
             conf.get_unquoted('ZONE_EVENTS_YAML_FILE'),
             conf.get_unquoted('ZONE_CONDITIONS_YAML_FILE'),
-            './gen-fan-zone-defs.py',
         ),
         command: [
             python_prog,
-            '@INPUT0@',
+            script,
             '-f',
-            '@INPUT1@',
+            '@INPUT0@',
             '-z',
-            '@INPUT2@',
+            '@INPUT1@',
             '-e',
-            '@INPUT3@',
+            '@INPUT2@',
             '-c',
-            '@INPUT4@',
+            '@INPUT3@',
             '-o',
             'control',
         ],

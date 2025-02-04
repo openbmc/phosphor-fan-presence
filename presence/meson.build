@@ -26,10 +26,11 @@ deps = [
 
 # Only needed for YAML config
 if get_option('json-config').disabled()
+    script = files('pfpgen.py')
     generated_hpp_dep = custom_target(
         'generated.hpp',
-        input: files(conf.get_unquoted('PRESENCE_YAML_FILE'), './pfpgen.py'),
-        command: [python_prog, '@INPUT0@', 'generate-cpp', '-i', '@INPUT1@'],
+        input: files(conf.get_unquoted('PRESENCE_YAML_FILE')),
+        command: [python_prog, script, 'generate-cpp', '-i', '@INPUT0@'],
         capture: true,
         output: 'generated.hpp',
     )
