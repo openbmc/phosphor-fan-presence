@@ -307,7 +307,6 @@ class HostPowerState : public PowerState
         {
             if (powerState == HostState::Standby ||
                 powerState == HostState::Running ||
-                powerState == HostState::TransitioningToRunning ||
                 powerState == HostState::Quiesced ||
                 powerState == HostState::DiagnosticMode)
             {
