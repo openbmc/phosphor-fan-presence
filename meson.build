@@ -157,6 +157,8 @@ conf.set(
     get_option('sensor-monitor-soft-shutdown-delay'),
 )
 
+conf.set('LOG_SENSOR_NAME_ON_ERROR', get_option('log_sensor_name_on_error'))
+
 # Presence
 conf.set('NUM_PRESENCE_LOG_ENTRIES', get_option('num-presence-log-entries'))
 conf.set_quoted('PRESENCE_YAML_FILE', get_option('presence-config'))
