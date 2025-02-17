@@ -359,9 +359,28 @@ void ThresholdAlarmLogger::createEventLog(
 
     type.front() = toupper(type.front());
     std::string errorName = errorNameBase + type + name + status;
+    if (LOG_SENSOR_NAME_ON_ERROR != 0)
+    {
+        errorName += " on sensor " + getSensorName(sensorPath);
+    }
 
     SDBusPlus::callMethod(loggingService, loggingPath, loggingCreateIface,
                           "Create", errorName, convertForMessage(severity), ad);
+}
+
+std::string ThresholdAlarmLogger::getSensorName(const std::string& sensorPath)
+{
+    auto pos = sensorPath.find_last_of('/');
+    if ((sensorPath.back() == '/') || (pos == std::string::npos))
+    {
+        log<level::ERR>(
+            std::format("Cannot get sensor name from sensor path {}",
+                        sensorPath)
+                .c_str());
+        return "unknown_sensor";
+    }
+
+    return sensorPath.substr(pos + 1);
 }
 
 std::string ThresholdAlarmLogger::getSensorType(std::string sensorPath)

@@ -157,6 +157,17 @@ class ThresholdAlarmLogger
     std::string getSensorType(std::string sensorPath);
 
     /**
+     * @brief Returns the name of the sensor using the path segment
+     *
+     * /xyz/openbmc_project/sensors/voltage/vout -> name == vout
+     *
+     * @param[in] sensorPath - The sensor object path name
+     *
+     * @return std::string The name segment
+     */
+    std::string getSensorName(const std::string& sensorPath);
+
+    /**
      * @brief Allows for skipping event logs based on the sensor type.
      *
      * Specifically for the 'utilization' type because its provider

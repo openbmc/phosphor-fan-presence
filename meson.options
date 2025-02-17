@@ -156,6 +156,13 @@ option(
     description: 'Milliseconds to delay the alarm before soft shutdown.',
 )
 
+option(
+    'log-sensor-name-on-error',
+    type: 'boolean',
+    value: false,
+    description: 'Append sensor name to error messages.',
+)
+
 # Other
 
 option(
