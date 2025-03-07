@@ -95,12 +95,12 @@
         ],
         "triggers": [
             {
-                "class": "init",
-                "method": "name_has_owner"
-            },
-            {
                 "class": "signal",
                 "signal": "name_owner_changed"
+            },
+            {
+                "class": "init",
+                "method": "name_has_owner"
             }
         ],
         "actions": [
@@ -143,6 +143,37 @@
                         "target": 17000
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "name": "Force retry on the OCC status objects",
+        "groups": [
+            {
+                "name": "occ objects",
+                "interface": "org.open_power.OCC.Status",
+                "property": { "name": "OccActive" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "timer",
+                "type": "oneshot",
+                "interval": 30000000,
+                "preload_groups": true
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_target_on_missing_owner",
+                "groups": [
+                    {
+                        "name": "occ objects",
+                        "interface": "org.open_power.OCC.Status",
+                        "property": { "name": "OccActive" }
+                    }
+                ],
+                "target": 17000
             }
         ]
     },
