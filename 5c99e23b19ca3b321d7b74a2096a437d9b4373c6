@@ -34,6 +34,24 @@
       "parentUuid": "7007fbd6_08c61a09",
       "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e0a48ad1_16659ff2",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-03-10T14:54:45Z",
+      "side": 0,
+      "message": "It depends on what you want your sensors depend on.  on our systems that don\u0027t use x86-power-control, we look at the  pgood property (The PGoodState class), but x86-power-control never ended up using that so someone added support to look at the Host state, which works for their sensors, and which I\u0027m fairly sure actual does reflect the power state, at least as far as On/Off goes.\n\nIf, for example, you\u0027d rather have it be based on the Chassis power state (though again I think that\u0027s the same as host state in x86-power-control), you can just derive a new class.",
+      "parentUuid": "8a9b719d_50caa365",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
