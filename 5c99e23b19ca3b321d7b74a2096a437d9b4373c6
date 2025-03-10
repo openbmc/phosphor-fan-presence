@@ -16,6 +16,24 @@
       "message": "this is the host state not the host chassis state \n\n\npower should be fully applied, although the firmware and/or the os may not yet be available.\n\n\nlooking at the host state definition this was previously _not off_.  \nThe transition order (slipping ahead allowed) is\n\noff -\u003e [standby] -\u003e transition to running -\u003e running -\u003e quiesced -\u003e diagnostic mode \n\nremoving transition to running creates a hole between standby and running.\n\nIf you require host firmware or os to access the sensor or to log it ,(I didn\u0027t investigate where it\u0027s presently used), I suggest adding a host starting state to the enumeration.",
       "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8a9b719d_50caa365",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1001422
+      },
+      "writtenOn": "2025-03-10T11:01:05Z",
+      "side": 0,
+      "message": "It sounds like a flaw in the `phosphor-dbus-interfaces` spec. It talks about firmware, but what it means is `power`. As an example:\n\n*Host firmware should be off*, *Host firmware should be on* doesn\u0027t make much sense, but *Host power should be off*, *Host power should be on* sounds much better.\n            \nWhy is it even called `powerState` here when it\u0027s not about power, but about *firmware*?\n\nGiven that the terms `firmware` and `power` are kind of mixed here, one could think that `TransitioningToRunning` is about the power state. On the affected board it is about power, thus we need some thoughts how to fix it.",
+      "parentUuid": "7007fbd6_08c61a09",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
