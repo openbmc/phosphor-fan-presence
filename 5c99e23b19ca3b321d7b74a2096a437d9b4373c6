@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "6cfafb45_ced05c08",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-03-12T09:40:41Z",
+      "side": 1,
+      "message": "This is message intended to be included in event log message as in line 365.",
+      "parentUuid": "164f356e_c9359367",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61ab5cfc_6574333a",
         "filename": "sensor-monitor/threshold_alarm_logger.cpp",
         "patchSetId": 4
@@ -31,6 +49,24 @@
       "writtenOn": "2025-03-10T09:57:44Z",
       "side": 1,
       "message": "absolutely not, especially without a catch at each caller \n\n\nyou\u0027ve created a runtime error that suppresses the useful information that hardware runtime condition was reached being logged and replaced it with reporting information that indicates the software configuration is incomplete, but only when the condition, which is rare and unexpected, is reached.\n\n\nIf needed add a new message.  if the information isn\u0027t known to be available conditionally choosing a different message we without the details or using a fixed unknown string is preferable (to me).",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3925f31_319f223e",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-03-12T09:40:41Z",
+      "side": 1,
+      "message": "I\u0027m thinking of replacinng it with:\nreturn \"unknown_sensor\";\n\nLet me know if you have anything else in mind.",
+      "parentUuid": "61ab5cfc_6574333a",
       "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
