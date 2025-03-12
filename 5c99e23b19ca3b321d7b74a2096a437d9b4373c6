@@ -38,6 +38,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "4f3e98bb_b1d4aafd",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-03-12T14:36:54Z",
+      "side": 1,
+      "message": "@mdmii@outlook.com I would need your suggestion here considering the errorName is intended for event logging as in line #365",
+      "parentUuid": "6cfafb45_ced05c08",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61ab5cfc_6574333a",
         "filename": "sensor-monitor/threshold_alarm_logger.cpp",
         "patchSetId": 4
