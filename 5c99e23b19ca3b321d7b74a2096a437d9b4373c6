@@ -56,6 +56,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "9def8b7a_f2cbe850",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2025-03-12T16:28:16Z",
+      "side": 1,
+      "message": "my point is the message should not have additional components based on an ifdef \n\nalways including the additional elements is ok\n\ndefining a new message with additional required arguments is ok\n\nselecting between two at runtime in a ok\n\n\nconsider adding the full object path with the information as context in the additional data.",
+      "parentUuid": "4f3e98bb_b1d4aafd",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61ab5cfc_6574333a",
         "filename": "sensor-monitor/threshold_alarm_logger.cpp",
         "patchSetId": 4
