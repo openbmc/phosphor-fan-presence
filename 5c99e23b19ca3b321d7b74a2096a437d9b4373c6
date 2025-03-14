@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "71f4e9d2_0de639b8",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2025-03-14T02:30:25Z",
+      "side": 1,
+      "message": "in that it always formats the message the same way, probably.\n\nI haven\u0027t looked where `errorNameBase` is coming from.  If its a registry then no.",
+      "parentUuid": "69c70152_847d8af6",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "61ab5cfc_6574333a",
         "filename": "sensor-monitor/threshold_alarm_logger.cpp",
         "patchSetId": 4
