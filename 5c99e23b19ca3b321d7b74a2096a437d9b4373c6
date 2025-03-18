@@ -108,6 +108,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5aa3fce1_1292442e",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-03-18T19:31:01Z",
+      "side": 1,
+      "message": "constexpr auto errorNameBase \u003d \"xyz.openbmc_project.Sensor.Threshold.Error.\";",
+      "parentUuid": "71f4e9d2_0de639b8",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61ab5cfc_6574333a",
@@ -175,6 +193,24 @@
       "side": 1,
       "message": "Acknowledged",
       "parentUuid": "3192edc8_a812dcdd",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "222cee74_a11abef6",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1001426
+      },
+      "writtenOn": "2025-03-18T19:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a2c3363_5ec618ec",
       "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
