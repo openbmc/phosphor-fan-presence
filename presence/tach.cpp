@@ -18,7 +18,7 @@
 #include "logging.hpp"
 #include "rpolicy.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <format>
 #include <string>
@@ -73,9 +73,8 @@ bool Tach::start()
             // Assume not spinning.
 
             std::get<double>(s) = 0;
-            log<level::INFO>(
-                std::format("Unable to read fan tach sensor {}", tachPath)
-                    .c_str());
+            lg2::info("Unable to read fan tach sensor {TACPATH}", "TACPATH",
+                      tachPath);
         }
     }
 

@@ -23,7 +23,7 @@
 #include "tach.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Logging/Create/server.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
@@ -92,12 +92,12 @@ void JsonConfig::sighupHandler(sdeventplus::source::Signal& /*sigSrc*/,
         {
             p->monitor();
         }
-        log<level::INFO>("Configuration loaded successfully");
+        lg2::info("Configuration loaded successfully");
     }
     catch (const std::runtime_error& re)
     {
-        log<level::ERR>("Error loading config, no config changes made",
-                        entry("LOAD_ERROR=%s", re.what()));
+        lg2::error("Error loading config, no config changes made: {ERROR}",
+                   "ERROR", re);
     }
 }
 
@@ -114,9 +114,8 @@ void JsonConfig::process(const json& jsonConf)
         if (!member.contains("name") || !member.contains("path") ||
             !member.contains("methods") || !member.contains("rpolicy"))
         {
-            log<level::ERR>("Missing required fan presence properties",
-                            entry("REQUIRED_PROPERTIES=%s",
-                                  "{name, path, methods, rpolicy}"));
+            lg2::error(
+                "Missing one of the required fan presence properties, which are: 'name, path, methods, rpolicy'");
             throw std::runtime_error(
                 "Missing required fan presence properties");
         }
@@ -127,10 +126,9 @@ void JsonConfig::process(const json& jsonConf)
         {
             if (!method.value().contains("type"))
             {
-                log<level::ERR>(
-                    "Missing required fan presence method type",
-                    entry("FAN_NAME=%s",
-                          member["name"].get<std::string>().c_str()));
+                lg2::error(
+                    "Missing required fan presence method type for fan {FAN_NAME}",
+                    "FAN_NAME", member["name"].get<std::string>());
                 throw std::runtime_error(
                     "Missing required fan presence method type");
             }
@@ -150,11 +148,10 @@ void JsonConfig::process(const json& jsonConf)
             }
             else
             {
-                log<level::ERR>(
-                    "Invalid fan presence method type",
-                    entry("FAN_NAME=%s",
-                          member["name"].get<std::string>().c_str()),
-                    entry("METHOD_TYPE=%s", type.c_str()));
+                lg2::error(
+                    "Invalid fan presence method type {METHOD_TYPE} for fan {FAN_NAME}",
+                    "FAN_NAME", member["name"].get<std::string>(),
+                    "METHOD_TYPE", type);
                 throw std::runtime_error("Invalid fan presence method type");
             }
         }
@@ -175,11 +172,9 @@ void JsonConfig::process(const json& jsonConf)
                 !eeprom.contains("driver_name") ||
                 !eeprom.contains("bind_delay_ms"))
             {
-                log<level::ERR>(
-                    "Missing address, driver_name, or bind_delay_ms in eeprom "
-                    "section",
-                    entry("FAN_NAME=%s",
-                          member["name"].get<std::string>().c_str()));
+                lg2::error(
+                    "Missing address, driver_name, or bind_delay_ms in eeprom section for fan {FAN_NAME}",
+                    "FAN_NAME", member["name"].get<std::string>());
 
                 throw std::runtime_error("Missing address, driver_name, or "
                                          "bind_delay_ms in eeprom section");
@@ -227,11 +222,9 @@ std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(
 {
     if (!rpolicy.contains("type"))
     {
-        log<level::ERR>(
-            "Missing required fan presence policy type",
-            entry("FAN_NAME=%s",
-                  std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
-            entry("REQUIRED_PROPERTIES=%s", "{type}"));
+        lg2::error(
+            "Missing required fan presence policy type for fan {FAN_NAME}",
+            "FAN_NAME", std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)));
         throw std::runtime_error("Missing required fan presence policy type");
     }
 
@@ -247,11 +240,10 @@ std::unique_ptr<RedundancyPolicy> JsonConfig::getPolicy(
     }
     else
     {
-        log<level::ERR>(
-            "Invalid fan presence policy type",
-            entry("FAN_NAME=%s",
-                  std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)).c_str()),
-            entry("RPOLICY_TYPE=%s", type.c_str()));
+        lg2::error(
+            "Invalid fan presence policy type {RPOLICY_TYPE} for fan {FAN_NAME}",
+            "FAN_NAME", std::get<fanPolicyFanPos>(std::get<Fan>(fpolicy)),
+            "RPOLICY_TYPE", type);
         throw std::runtime_error("Invalid fan presence methods policy type");
     }
 }
@@ -266,9 +258,9 @@ std::unique_ptr<PresenceSensor> getTach(size_t fanIndex, const json& method)
 {
     if (!method.contains("sensors") || method["sensors"].size() == 0)
     {
-        log<level::ERR>("Missing required tach method properties",
-                        entry("FAN_ENTRY=%d", fanIndex),
-                        entry("REQUIRED_PROPERTIES=%s", "{sensors}"));
+        lg2::error(
+            "Missing required tach method property 'sensors' for fan index {FAN_ENTRY}",
+            "FAN_ENTRY", fanIndex);
         throw std::runtime_error("Missing required tach method properties");
     }
 
@@ -288,10 +280,9 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
     if (!method.contains("physpath") || !method.contains("devpath") ||
         !method.contains("key"))
     {
-        log<level::ERR>(
-            "Missing required gpio method properties",
-            entry("FAN_ENTRY=%d", fanIndex),
-            entry("REQUIRED_PROPERTIES=%s", "{physpath, devpath, key}"));
+        lg2::error(
+            "Missing one of the required gpio method properties for fan index {FAN_ENTRY}, which are: 'physpath, devpath, key'",
+            "FAN_ENTRY", fanIndex);
         throw std::runtime_error("Missing required gpio method properties");
     }
 
@@ -308,11 +299,9 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
     {
         namespace sdlogging = sdbusplus::xyz::openbmc_project::Logging::server;
 
-        log<level::ERR>(
-            std::format(
-                "Error creating Gpio device bridge, hardware not detected: {}",
-                e.what())
-                .c_str());
+        lg2::error(
+            "Error creating Gpio device bridge, hardware not detected: {ERROR}",
+            "ERROR", e);
 
         auto severity =
             sdlogging::convertForMessage(sdlogging::Entry::Level::Error);
@@ -331,10 +320,9 @@ std::unique_ptr<PresenceSensor> getGpio(size_t fanIndex, const json& method)
         }
         catch (const util::DBusError& e)
         {
-            log<level::ERR>(std::format("Call to create an error log for "
-                                        "presence-sensor failure failed: {}",
-                                        e.what())
-                                .c_str());
+            lg2::error(
+                "Call to create an error log for presence-sensor failure failed: {ERROR}",
+                "ERROR", e);
         }
 
         return std::make_unique<PolicyAccess<NullGpio, JsonConfig>>();
