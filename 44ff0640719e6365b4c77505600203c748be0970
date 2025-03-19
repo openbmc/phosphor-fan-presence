@@ -34,6 +34,24 @@
       "parentUuid": "b41b7286_8ca10562",
       "revId": "44ff0640719e6365b4c77505600203c748be0970",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c1827582_ea6e38cd",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-19T15:25:51Z",
+      "side": 1,
+      "message": "Yes, this would be my preference.\n\nIt ensures that all the code is parsed and typechecked, even if the compiler deletes it as dead code.",
+      "parentUuid": "c1e8f892_75b92ebe",
+      "revId": "44ff0640719e6365b4c77505600203c748be0970",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
