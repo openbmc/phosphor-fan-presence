@@ -16,6 +16,24 @@
       "message": "Sorry, one more nit: Let\u0027s put \u0027lg2\u0027 somewhere in the commit message.  Along the lines of: \n\nMove the presence application to lg2\n\nor could also use the a prefix, like:\n\nPresence: Start using lg2",
       "revId": "b7badb18b9fa1fe78e0f62b17f8e9a6323262564",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "64d2fe8c_cbca2287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-03-26T18:14:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "389fb5b2_ef5af845",
+      "revId": "b7badb18b9fa1fe78e0f62b17f8e9a6323262564",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
