@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e338099_8a300425",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2025-03-27T14:01:47Z",
+      "side": 1,
+      "message": "nit: integer should be implicitly converted to boolean when branching like this. So there should be no need to make an explicit comparison.\n\n```\n   if (LOG_SENSOR_NAME_ON_ERROR)\n       ...\n```",
+      "revId": "c771b28985d1a7d0470cc71571bbae2b5a89d609",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
