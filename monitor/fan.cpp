@@ -21,7 +21,7 @@
 #include "types.hpp"
 #include "utility.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <format>
 
@@ -439,7 +439,7 @@ bool Fan::updateInventory(bool functional)
 
         if (response.is_method_error())
         {
-            log<level::ERR>("Error in Notify call to update inventory");
+            lg2::error("Error in Notify call to update inventory");
 
             dbusError = true;
         }

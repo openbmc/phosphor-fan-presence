@@ -4,7 +4,7 @@
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
 
@@ -38,9 +38,8 @@ Condition getPropertiesMatch(const json& condParams)
     if (!condParams.contains("properties"))
     {
         // Log error on missing required parameter
-        log<level::ERR>(
-            "Missing fan monitor condition properties",
-            entry("NAME=%s", condParams["name"].get<std::string>().c_str()));
+        lg2::error("Missing fan monitor condition properties {NAME}", "NAME",
+                   condParams["name"].get<std::string>());
         throw std::runtime_error("Missing fan monitor condition properties");
     }
     std::vector<PropertyState> propStates;
@@ -50,9 +49,8 @@ Condition getPropertiesMatch(const json& condParams)
             !param.contains("property"))
         {
             // Log error on missing required parameters
-            log<level::ERR>("Missing propertiesMatch condition parameters",
-                            entry("REQUIRED_PARAMETERS=%s",
-                                  "{object, interface, property}"));
+            lg2::error(
+                "Missing properties. Match condition parameters 'object, interface, property'");
             throw std::runtime_error(
                 "Missing propertiesMatch condition parameters");
         }
@@ -61,9 +59,8 @@ Condition getPropertiesMatch(const json& condParams)
         if (!propAttrs.contains("name") || !propAttrs.contains("value"))
         {
             // Log error on missing required parameters
-            log<level::ERR>(
-                "Missing propertiesMatch condition property attributes",
-                entry("REQUIRED_ATTRIBUTES=%s", "{name, value}"));
+            lg2::error(
+                "Missing properties. Match condition property attributes 'name, value'");
             throw std::runtime_error(
                 "Missing propertiesMatch condition property attributes");
         }

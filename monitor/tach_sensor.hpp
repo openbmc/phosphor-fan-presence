@@ -1,6 +1,6 @@
 #pragma once
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdeventplus/clock.hpp>
@@ -9,7 +9,6 @@
 
 #include <chrono>
 #include <deque>
-#include <format>
 #include <optional>
 #include <utility>
 
@@ -284,9 +283,7 @@ class TachSensor
      */
     inline void stopTimer()
     {
-        phosphor::logging::log<phosphor::logging::level::DEBUG>(
-            std::format("Stop running timer on tach sensor {}.", _name)
-                .c_str());
+        lg2::debug("Stop running timer on tach sensor {NAME}.", "NAME", _name);
         _timer.setEnabled(false);
     }
 

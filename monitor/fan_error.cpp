@@ -21,6 +21,7 @@
 #include <systemd/sd-journal.h>
 
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Logging/Create/server.hpp>
 
 #include <filesystem>
@@ -163,10 +164,8 @@ std::unique_ptr<FFDCFile> FanError::makeLogFFDCFile()
     }
     catch (const std::exception& e)
     {
-        log<level::ERR>(
-            std::format("Could not save log contents in FFDC. Error msg: {}",
-                        e.what())
-                .c_str());
+        lg2::error("Could not save log contents in FFDC. Error msg: {ERROR}",
+                   "ERROR", e);
     }
     return nullptr;
 }

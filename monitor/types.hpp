@@ -4,7 +4,7 @@
 #include "trust_group.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Object/Enable/server.hpp>
 
 #include <functional>
@@ -83,12 +83,9 @@ class JsonTypeHandler
             }
         }
 
-        phosphor::logging::log<phosphor::logging::level::ERR>(
-            "Unsupported data type for JSON entry's value",
-            phosphor::logging::entry("GIVEN_ENTRY_TYPE=%s", type.c_str()),
-            phosphor::logging::entry("JSON_ENTRY=%s", entry.dump().c_str()),
-            phosphor::logging::entry("SUPPORTED_TYPES=%s",
-                                     "{bool, int64_t, std::string}"));
+        lg2::error(
+            "Unsupported data type {GIVEN_ENTRY_TYPE} for JSON entry's value. Supported types are 'bool, int64_t, std::string'",
+            "GIVEN_ENTRY_TYPE", type, "JSON_ENTRY", entry.dump());
         throw std::runtime_error(
             "Unsupported data type for JSON entry's value");
     }
