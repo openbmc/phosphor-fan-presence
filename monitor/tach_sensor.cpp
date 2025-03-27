@@ -20,10 +20,9 @@
 #include "utility.hpp"
 
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <filesystem>
-#include <format>
 #include <functional>
 #include <optional>
 #include <utility>
@@ -66,7 +65,7 @@ static void readProperty(const std::string& interface,
     }
     catch (const std::exception& e)
     {
-        phosphor::logging::log<phosphor::logging::level::ERR>(e.what());
+        lg2::error("{ERROR}", "ERROR", e);
     }
 }
 
@@ -318,11 +317,10 @@ void TachSensor::startTimer(TimerMode mode)
 
     if (!timerRunning() || mode != _timerMode)
     {
-        log<level::DEBUG>(
-            std::format("Start timer({}) on tach sensor {}. [delay = {}s]",
-                        static_cast<int>(mode), _name,
-                        duration_cast<seconds>(getDelay(mode)).count())
-                .c_str());
+        lg2::debug(
+            "Start timer({MODE}) on tach sensor {NAME}. [delay = {DELAY}s]",
+            "MODE", static_cast<int>(mode), "NAME", _name, "DELAY",
+            duration_cast<seconds>(getDelay(mode)).count());
         _timer.restartOnce(getDelay(mode));
         _timerMode = mode;
     }
@@ -340,8 +338,8 @@ std::chrono::microseconds TachSensor::getDelay(TimerMode mode)
             return duration_cast<microseconds>(seconds(_funcDelay));
         default:
             // Log an internal error for undefined timer mode
-            log<level::ERR>("Undefined timer mode",
-                            entry("TIMER_MODE=%u", mode));
+            lg2::error("Undefined timer mode: {TIMER_MODE}", "TIMER_MODE",
+                       mode);
             elog<InternalFailure>();
             return duration_cast<microseconds>(seconds(0));
     }
@@ -354,11 +352,9 @@ void TachSensor::setCounter(bool count)
         if (_counter < _threshold)
         {
             ++_counter;
-            log<level::DEBUG>(
-                std::format(
-                    "Incremented error counter on {} to {} (threshold {})",
-                    _name, _counter, _threshold)
-                    .c_str());
+            lg2::debug(
+                "Incremented error counter on {NAME} to {COUNTER} (threshold {THRESHOLD})",
+                "NAME", _name, "COUNTER", _counter, "THRESHOLD", _threshold);
         }
     }
     else
@@ -366,11 +362,9 @@ void TachSensor::setCounter(bool count)
         if (_counter > 0)
         {
             --_counter;
-            log<level::DEBUG>(
-                std::format(
-                    "Decremented error counter on {} to {} (threshold {})",
-                    _name, _counter, _threshold)
-                    .c_str());
+            lg2::debug(
+                "Decremented error counter on {NAME} to {COUNTER} (threshold {THRESHOLD})",
+                "NAME", _name, "COUNTER", _counter, "THRESHOLD", _threshold);
         }
     }
 }
@@ -379,8 +373,7 @@ void TachSensor::startCountTimer()
 {
     if (_countTimer)
     {
-        log<level::DEBUG>(
-            std::format("Starting count timer on sensor {}", _name).c_str());
+        lg2::debug("Starting count timer on sensor {NAME}", "NAME", _name);
         _countTimer->restart(std::chrono::seconds(_countInterval));
     }
 }
@@ -389,9 +382,8 @@ void TachSensor::stopCountTimer()
 {
     if (_countTimer && _countTimer->isEnabled())
     {
-        log<level::DEBUG>(
-            std::format("Stopping count timer on tach sensor {}.", _name)
-                .c_str());
+        lg2::debug("Stopping count timer on tach sensor {NAME}.", "NAME",
+                   _name);
         _countTimer->setEnabled(false);
     }
 }
@@ -408,7 +400,7 @@ void TachSensor::updateInventory(bool functional)
 
     if (response.is_method_error())
     {
-        log<level::ERR>("Error in notify update of tach sensor inventory");
+        lg2::error("Error in notify update of tach sensor inventory");
     }
 }
 

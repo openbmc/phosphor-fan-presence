@@ -32,7 +32,7 @@
 #include "hwmon_ffdc.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdeventplus/event.hpp>
@@ -103,7 +103,7 @@ void System::load()
         // Retrieve fan definitions and create fan objects to be monitored
         setFans(fanDefs);
         setFaultConfig(jsonObj);
-        log<level::INFO>("Configuration loaded");
+        lg2::info("Configuration loaded");
 
         _loaded = true;
 #ifdef MONITOR_USE_JSON
@@ -235,8 +235,9 @@ void System::sighupHandler(sdeventplus::source::Signal&,
     }
     catch (std::runtime_error& re)
     {
-        log<level::ERR>("Error reloading config, no config changes made",
-                        entry("LOAD_ERROR=%s", re.what()));
+        lg2::error(
+            "Error reloading config, no config changes made: {LOAD_ERROR}",
+            "LOAD_ERROR", re);
     }
 }
 
@@ -370,7 +371,7 @@ void System::powerStateChanged(bool powerStateOn)
     {
         if (!_loaded)
         {
-            log<level::ERR>("No conf file found at power on");
+            lg2::error("No conf file found at power on");
             throw std::runtime_error("No conf file found at power on");
         }
 
@@ -591,7 +592,7 @@ void System::dumpDebugData(sdeventplus::source::Signal&,
     std::ofstream file{System::dumpFile};
     if (!file)
     {
-        log<level::ERR>("Could not open file for fan monitor dump");
+        lg2::error("Could not open file for fan monitor dump");
     }
     else
     {

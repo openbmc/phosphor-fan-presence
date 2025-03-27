@@ -24,10 +24,9 @@
 #include "types.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
-#include <format>
 #include <map>
 #include <memory>
 #include <optional>
@@ -71,9 +70,8 @@ const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
             if (!stg.contains("class") || !stg.contains("group"))
             {
                 // Log error on missing required parameters
-                log<level::ERR>(
-                    "Missing required fan monitor trust group parameters",
-                    entry("REQUIRED_PARAMETERS=%s", "{class, group}"));
+                lg2::error(
+                    "Missing required fan monitor trust group parameters 'class, group'");
                 throw std::runtime_error(
                     "Missing required fan trust group parameters");
             }
@@ -85,9 +83,9 @@ const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
                 if (!member.contains("name"))
                 {
                     // Log error on missing required parameter
-                    log<level::ERR>(
-                        "Missing required fan monitor trust group member name",
-                        entry("CLASS=%s", tgClass.c_str()));
+                    lg2::error(
+                        "Missing required fan monitor trust group member name for class {CLASS}",
+                        "CLASS", tgClass);
                     throw std::runtime_error(
                         "Missing required fan monitor trust group member name");
                 }
@@ -112,8 +110,8 @@ const std::vector<CreateGroupFunction> getTrustGrps(const json& obj)
             else
             {
                 // Log error on unsupported trust group class
-                log<level::ERR>("Invalid fan monitor trust group class",
-                                entry("CLASS=%s", tgClass.c_str()));
+                lg2::error("Invalid fan monitor trust group class {CLASS}",
+                           "CLASS", tgClass);
                 throw std::runtime_error(
                     "Invalid fan monitor trust group class");
             }
@@ -132,9 +130,8 @@ const std::vector<SensorDefinition> getSensorDefs(const json& sensors)
         if (!sensor.contains("name") || !sensor.contains("has_target"))
         {
             // Log error on missing required parameters
-            log<level::ERR>(
-                "Missing required fan sensor definition parameters",
-                entry("REQUIRED_PARAMETERS=%s", "{name, has_target}"));
+            lg2::error(
+                "Missing required fan sensor definition parameters 'name, has_target'");
             throw std::runtime_error(
                 "Missing required fan sensor definition parameters");
         }
@@ -202,10 +199,8 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             !fan.contains("sensors"))
         {
             // Log error on missing required parameters
-            log<level::ERR>(
-                "Missing required fan monitor definition parameters",
-                entry("REQUIRED_PARAMETERS=%s",
-                      "{inventory, deviation, sensors}"));
+            lg2::error(
+                "Missing required fan monitor definition parameters 'inventory, deviation, sensors'");
             throw std::runtime_error(
                 "Missing required fan monitor definition parameters");
         }
@@ -213,12 +208,11 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
         auto deviation = fan["deviation"].get<size_t>();
         if (100 < deviation)
         {
-            auto msg = std::format(
-                "Invalid deviation of {} found, must be between 0 and 100",
-                deviation);
-
-            log<level::ERR>(msg.c_str());
-            throw std::runtime_error(msg.c_str());
+            lg2::error(
+                "Invalid deviation of {DEVIATION} found, must be between 0 and 100",
+                "DEVIATION", deviation);
+            throw std::runtime_error(
+                "Invalid deviation found, must be between 0 and 100");
         }
 
         // Upper deviation defaults to the deviation value and
@@ -229,13 +223,11 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             upperDeviation = fan["upper_deviation"].get<size_t>();
             if (100 < upperDeviation)
             {
-                auto msg =
-                    std::format("Invalid upper_deviation of {} found, must "
-                                "be between 0 and 100",
-                                upperDeviation);
-
-                log<level::ERR>(msg.c_str());
-                throw std::runtime_error(msg.c_str());
+                lg2::error(
+                    "Invalid upper_deviation of {UPPER_DEVIATION} found, must be between 0 and 100",
+                    "UPPER_DEVIATION", upperDeviation);
+                throw std::runtime_error(
+                    "Invalid upper_deviation found, must be between 0 and 100");
             }
         }
 
@@ -264,7 +256,7 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             else
             {
                 // Log error on unsupported method parameter
-                log<level::ERR>("Invalid fan method");
+                lg2::error("Invalid fan method");
                 throw std::runtime_error("Invalid fan method");
             }
 
@@ -285,10 +277,8 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             if (!fan.contains("allowed_out_of_range_time"))
             {
                 // Log error on missing required parameter
-                log<level::ERR>(
-                    "Missing required fan monitor definition parameters",
-                    entry("REQUIRED_PARAMETER=%s",
-                          "{allowed_out_of_range_time}"));
+                lg2::error(
+                    "Missing required fan monitor definition parameters 'allowed_out_of_range_time'");
                 throw std::runtime_error(
                     "Missing required fan monitor definition parameters");
             }
@@ -343,9 +333,8 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             if (!fan["condition"].contains("name"))
             {
                 // Log error on missing required parameter
-                log<level::ERR>(
-                    "Missing required fan monitor condition parameter",
-                    entry("REQUIRED_PARAMETER=%s", "{name}"));
+                lg2::error(
+                    "Missing required fan monitor condition parameter 'name'");
                 throw std::runtime_error(
                     "Missing required fan monitor condition parameter");
             }
@@ -360,10 +349,10 @@ const std::vector<FanDefinition> getFanDefs(const json& obj)
             }
             else
             {
-                log<level::INFO>(
-                    "No handler found for configured condition",
-                    entry("CONDITION_NAME=%s", name.c_str()),
-                    entry("JSON_DUMP=%s", fan["condition"].dump().c_str()));
+                lg2::info(
+                    "No handler found for configured condition {CONDITION_NAME}",
+                    "CONDITION_NAME", name, "JSON_DUMP",
+                    fan["condition"].dump());
             }
         }
 
@@ -410,9 +399,8 @@ PowerRuleState getPowerOffPowerRuleState(const json& powerOffConfig)
         }
         else if (state != "runtime")
         {
-            auto msg = std::format("Invalid power off state entry {}", state);
-            log<level::ERR>(msg.c_str());
-            throw std::runtime_error(msg.c_str());
+            lg2::error("Invalid power off state entry {STATE}", "STATE", state);
+            throw std::runtime_error("Invalid power off state entry");
         }
     }
 
@@ -425,10 +413,9 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
 
     if (!powerOffConfig.contains("count") || !powerOffConfig.contains("cause"))
     {
-        const auto msg =
-            "Missing 'count' or 'cause' entries in power off config";
-        log<level::ERR>(msg);
-        throw std::runtime_error(msg);
+        lg2::error("Missing 'count' or 'cause' entries in power off config");
+        throw std::runtime_error(
+            "Missing 'count' or 'cause' entries in power off config");
     }
 
     auto count = powerOffConfig.at("count").get<size_t>();
@@ -453,11 +440,11 @@ std::unique_ptr<PowerOffCause> getPowerOffCause(const json& powerOffConfig)
     }
     else
     {
-        auto msg =
-            std::format("Invalid power off cause {} in power off config JSON",
-                        powerOffCause);
-        log<level::ERR>(msg.c_str());
-        throw std::runtime_error(msg.c_str());
+        lg2::error(
+            "Invalid power off cause {POWER_OFF_CAUSE} in power off config JSON",
+            "POWER_OFF_CAUSE", powerOffCause);
+        throw std::runtime_error(
+            "Invalid power off cause in power off config JSON");
     }
 
     return cause;
@@ -471,9 +458,8 @@ std::unique_ptr<PowerOffAction> getPowerOffAction(
     std::unique_ptr<PowerOffAction> action;
     if (!powerOffConfig.contains("type"))
     {
-        const auto msg = "Missing 'type' entry in power off config";
-        log<level::ERR>(msg);
-        throw std::runtime_error(msg);
+        lg2::error("Missing 'type' entry in power off config");
+        throw std::runtime_error("Missing 'type' entry in power off config");
     }
 
     auto type = powerOffConfig.at("type").get<std::string>();
@@ -481,18 +467,17 @@ std::unique_ptr<PowerOffAction> getPowerOffAction(
     if (((type == "hard") || (type == "soft")) &&
         !powerOffConfig.contains("delay"))
     {
-        const auto msg = "Missing 'delay' entry in power off config";
-        log<level::ERR>(msg);
-        throw std::runtime_error(msg);
+        lg2::error("Missing 'delay' entry in power off config");
+        throw std::runtime_error("Missing 'delay' entry in power off config");
     }
     else if ((type == "epow") &&
              (!powerOffConfig.contains("service_mode_delay") ||
               !powerOffConfig.contains("meltdown_delay")))
     {
-        const auto msg = "Missing 'service_mode_delay' or 'meltdown_delay' "
-                         "entry in power off config";
-        log<level::ERR>(msg);
-        throw std::runtime_error(msg);
+        lg2::error(
+            "Missing 'service_mode_delay' or 'meltdown_delay' entry in power off config");
+        throw std::runtime_error(
+            "Missing 'service_mode_delay' or 'meltdown_delay' entry in power off config");
     }
 
     if (type == "hard")
@@ -514,10 +499,9 @@ std::unique_ptr<PowerOffAction> getPowerOffAction(
     }
     else
     {
-        auto msg =
-            std::format("Invalid 'type' entry {} in power off config", type);
-        log<level::ERR>(msg.c_str());
-        throw std::runtime_error(msg.c_str());
+        lg2::error("Invalid 'type' entry {TYPE} in power off config", "TYPE",
+                   type);
+        throw std::runtime_error("Invalid 'type' entry in power off config");
     }
 
     return action;
