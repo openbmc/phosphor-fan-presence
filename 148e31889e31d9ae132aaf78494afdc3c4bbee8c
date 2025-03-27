@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dac51f4e_c13198ba",
+        "filename": "meson.options",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-03-27T15:52:07Z",
+      "side": 1,
+      "message": "nit, the rest of these use \u0027-\u0027 not \u0027_\u0027",
+      "revId": "148e31889e31d9ae132aaf78494afdc3c4bbee8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4dc0d313_dffc5b68",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-03-27T15:52:07Z",
+      "side": 1,
+      "message": "nit:  brackets are still desired even for 1 liners: https://github.com/openbmc/docs/blob/master/cpp-style-and-conventions.md#bracket-style",
+      "revId": "148e31889e31d9ae132aaf78494afdc3c4bbee8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5445e10a_51752ebd",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 9
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-03-27T15:52:07Z",
+      "side": 1,
+      "message": "now that you aren\u0027t modifying sensorPath you can pass it in as a const reference",
+      "range": {
+        "startLine": 369,
+        "startChar": 48,
+        "endLine": 369,
+        "endChar": 59
+      },
+      "revId": "148e31889e31d9ae132aaf78494afdc3c4bbee8c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
