@@ -22,6 +22,30 @@
       },
       "revId": "088245984d329b7685c6216ce04f437d500ca30f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "67524045_ae6aa655",
+        "filename": "monitor/tach_sensor.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-02T16:26:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "703fdcc3_ff2a8942",
+      "range": {
+        "startLine": 68,
+        "startChar": 19,
+        "endLine": 68,
+        "endChar": 28
+      },
+      "revId": "088245984d329b7685c6216ce04f437d500ca30f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
