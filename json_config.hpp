@@ -18,7 +18,7 @@
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/source/signal.hpp>
 
@@ -299,9 +299,8 @@ class JsonConfig
 
         if (!confFile.empty() && fs::exists(confFile))
         {
-            log<level::INFO>(
-                std::format("Loading configuration from {}", confFile.string())
-                    .c_str());
+            lg2::info("Loading configuration from {CONFFILE}", "CONFFILE",
+                      confFile);
             file.open(confFile);
             try
             {
@@ -310,11 +309,9 @@ class JsonConfig
             }
             catch (const std::exception& e)
             {
-                log<level::ERR>(
-                    std::format(
-                        "Failed to parse JSON config file: {}, error: {}",
-                        confFile.string(), e.what())
-                        .c_str());
+                lg2::error(
+                    "Failed to parse JSON config file: {CONFFILE}, error: {ERROR}",
+                    "CONFFILE", confFile, "ERROR", e);
                 throw std::runtime_error(
                     std::format(
                         "Failed to parse JSON config file: {}, error: {}",
@@ -324,9 +321,8 @@ class JsonConfig
         }
         else
         {
-            log<level::ERR>(std::format("Unable to open JSON config file: {}",
-                                        confFile.string())
-                                .c_str());
+            lg2::error("Unable to open JSON config file: {CONFFILE}",
+                       "CONFFILE", confFile);
             throw std::runtime_error(
                 std::format("Unable to open JSON config file: {}",
                             confFile.string())

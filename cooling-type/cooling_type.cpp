@@ -9,11 +9,9 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
-
-#include <format>
 
 namespace phosphor
 {
@@ -37,11 +35,9 @@ std::unique_ptr<libevdev, FreeEvDev> evdevOpen(int fd)
         return decltype(evdevOpen(0))(gpioDev);
     }
 
-    log<level::ERR>(
-        std::format(
-            "Failed to get libevdev from file descriptor {}, return code {}",
-            fd, rc)
-            .c_str());
+    lg2::error(
+        "Failed to get libevdev from file descriptor {FD}, return code {RC}",
+        "FD", fd, "RC", rc);
     elog<InternalFailure>();
     return decltype(evdevOpen(0))(nullptr);
 }
@@ -69,10 +65,8 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
         libevdev_fetch_event_value(gpioDev.get(), EV_KEY, keycode, &value);
     if (0 == fetch_rc)
     {
-        log<level::ERR>(
-            std::format("Device does not support event type keycode {}",
-                        keycode)
-                .c_str());
+        lg2::error("Device does not support event type keycode {KEYCODE}",
+                   "KEYCODE", keycode);
         elog<InternalFailure>();
     }
 
