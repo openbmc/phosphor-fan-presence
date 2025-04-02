@@ -2,7 +2,7 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/bus/match.hpp>
 #include <sdbusplus/message.hpp>
@@ -223,11 +223,9 @@ class SDBusPlus
         auto mapperResp = getSubTreeRaw(bus, path, interface, depth);
         if (mapperResp.empty())
         {
-            phosphor::logging::log<phosphor::logging::level::ERR>(
-                "Empty response from mapper GetSubTree",
-                phosphor::logging::entry("SUBTREE=%s", path.c_str()),
-                phosphor::logging::entry("INTERFACE=%s", interface.c_str()),
-                phosphor::logging::entry("DEPTH=%u", depth));
+            lg2::error(
+                "Empty response from mapper GetSubTree, SubTree={SUBTREE}, Interface={INTERFACE}, Depth={DEPTH}",
+                "SUBTREE", path, "INTERFACE", interface, "DEPTH", depth);
             phosphor::logging::elog<detail::errors::InternalFailure>();
         }
         return mapperResp;
@@ -260,11 +258,9 @@ class SDBusPlus
         auto mapperResp = getSubTreePathsRaw(bus, path, interface, depth);
         if (mapperResp.empty())
         {
-            phosphor::logging::log<phosphor::logging::level::ERR>(
-                "Empty response from mapper GetSubTreePaths",
-                phosphor::logging::entry("SUBTREE=%s", path.c_str()),
-                phosphor::logging::entry("INTERFACE=%s", interface.c_str()),
-                phosphor::logging::entry("DEPTH=%u", depth));
+            lg2::error(
+                "Empty response from mapper GetSubTreePaths, SubTree={SUBTREE}, Interface={INTERFACE}, Depth={DEPTH}",
+                "SUBTREE", path, "INTERFACE", interface, "DEPTH", depth);
             phosphor::logging::elog<detail::errors::InternalFailure>();
         }
         return mapperResp;
@@ -296,8 +292,7 @@ class SDBusPlus
             {
                 // Should never happen.  A missing object would fail
                 // in callMethodAndRead()
-                phosphor::logging::log<phosphor::logging::level::ERR>(
-                    "Empty mapper response on service lookup");
+                lg2::error("Empty mapper response on service lookup");
                 throw DBusServiceError{path, interface};
             }
             return mapperResp.begin()->first;

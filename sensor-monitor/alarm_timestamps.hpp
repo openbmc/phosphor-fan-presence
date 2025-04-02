@@ -22,12 +22,11 @@
 #include <cereal/types/string.hpp>
 #include <cereal/types/tuple.hpp>
 #include <cereal/types/vector.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdeventplus/clock.hpp>
 #include <sdeventplus/utility/timer.hpp>
 
 #include <filesystem>
-#include <format>
 #include <fstream>
 #include <map>
 #include <tuple>
@@ -242,13 +241,10 @@ class AlarmTimestamps
         catch (const std::exception& e)
         {
             // Include possible exception when removing file, otherwise ec = 0
-            using namespace phosphor::logging;
             std::error_code ec;
             std::filesystem::remove(path, ec);
-            log<level::ERR>(
-                std::format("Unable to restore persisted times ({}, ec: {})",
-                            e.what(), ec.value())
-                    .c_str());
+            lg2::error("Unable to restore persisted times ({ERROR}, ec: {EC})",
+                       "ERROR", e, "EC", ec.value());
         }
     }
 

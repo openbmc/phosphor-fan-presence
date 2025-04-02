@@ -2,10 +2,9 @@
 #include "sdbusplus.hpp"
 
 #include <CLI/CLI.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
-#include <format>
 #include <iostream>
 #include <memory>
 
@@ -47,7 +46,7 @@ int main(int argc, char* argv[])
 
     if (objpath.empty())
     {
-        log<level::ERR>("Bus path argument required");
+        lg2::error("Bus path argument required");
         return rc;
     }
 
@@ -70,7 +69,7 @@ int main(int argc, char* argv[])
         {
             if (keycode.empty())
             {
-                log<level::ERR>("--event=<keycode> argument required\n");
+                lg2::error("--event=<keycode> argument required\n");
                 return rc;
             }
             auto gpiocode = std::stoul(keycode);
@@ -82,18 +81,17 @@ int main(int argc, char* argv[])
     }
     catch (const DBusMethodError& dme)
     {
-        log<level::ERR>(
-            std::format("Uncaught DBus method failure exception "
-                        "Busname: {} "
-                        "Path: {} "
-                        "Interface: {} "
-                        "Method: {}",
-                        dme.busName, dme.path, dme.interface, dme.method)
-                .c_str());
+        lg2::error("Uncaught DBus method failure exception "
+                   "Busname: {BUSNAME} "
+                   "Path: {PATH} "
+                   "Interface: {INTERFACE} "
+                   "Method: {METHOD}",
+                   "BUSNAME", dme.busName, "PATH", dme.path, "INTERFACE",
+                   dme.interface, "METHOD", dme.method);
     }
     catch (const std::exception& err)
     {
-        log<phosphor::logging::level::ERR>(err.what());
+        lg2::error("{ERROR}", "ERROR", err);
     }
 
     return rc;

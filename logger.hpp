@@ -5,7 +5,7 @@
 #include <unistd.h>
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <cassert>
 #include <ctime>
@@ -76,13 +76,13 @@ class Logger
     {
         if (priority == Logger::error)
         {
-            phosphor::logging::log<phosphor::logging::level::ERR>(
-                message.c_str());
+            // work-around for lg2 compile error due to use of log name
+            // in both lg2 definition and logger.hpp
+            lg2::error("{MSG}", "MSG", message);
         }
         else if (priority != Logger::quiet)
         {
-            phosphor::logging::log<phosphor::logging::level::INFO>(
-                message.c_str());
+            lg2::info("{MSG}", "MSG", message);
         }
 
         if (_entries.size() == _maxEntries)

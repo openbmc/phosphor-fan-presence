@@ -5,11 +5,9 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
-
-#include <format>
 
 using namespace phosphor::logging;
 using InternalFailure =
@@ -66,9 +64,8 @@ class FileDescriptor
         fd = ::open(pathname.c_str(), flags);
         if (-1 == fd)
         {
-            log<level::ERR>(
-                std::format("Failed to open file device path {}", pathname)
-                    .c_str());
+            lg2::error("Failed to open file device path {PATH}", "PATH",
+                       pathname);
             elog<InternalFailure>();
         }
     }

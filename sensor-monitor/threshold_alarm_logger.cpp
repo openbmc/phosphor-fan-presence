@@ -21,16 +21,13 @@
 
 #include <unistd.h>
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
-
-#include <format>
 
 namespace sensor::monitor
 {
 
 using namespace sdbusplus::xyz::openbmc_project::Logging::server;
-using namespace phosphor::logging;
 using namespace phosphor::fan;
 using namespace phosphor::fan::util;
 
@@ -292,10 +289,8 @@ void ThresholdAlarmLogger::createEventLog(
     auto properties = it->second.find(alarmProperty);
     if (properties == it->second.end())
     {
-        log<level::INFO>(
-            std::format("Could not find {} in threshold alarms map",
-                        alarmProperty)
-                .c_str());
+        lg2::info("Could not find {ALARM_PROPERTY} in threshold alarms map",
+                  "ALARM_PROPERTY", alarmProperty);
         return;
     }
 
@@ -309,10 +304,10 @@ void ThresholdAlarmLogger::createEventLog(
 
         ad.emplace("SENSOR_VALUE", std::to_string(sensorValue));
 
-        log<level::INFO>(
-            std::format("Threshold Event {} {} = {} (sensor value {})",
-                        sensorPath, alarmProperty, alarmValue, sensorValue)
-                .c_str());
+        lg2::info(
+            "Threshold Event {SENSOR_PATH} {ALARM_PROPERTY} = {ALARM_VALUE} (sensor value {SENSOR_VALUE})",
+            "SENSOR_PATH", sensorPath, "ALARM_PROPERTY", alarmProperty,
+            "ALARM_VALUE", alarmValue, "SENSOR_VALUE", sensorValue);
     }
     catch (const DBusServiceError& e)
     {
@@ -320,9 +315,10 @@ void ThresholdAlarmLogger::createEventLog(
         // not be in the mapper yet.  This could only happen if the sensor
         // application was started up after this one and the value exceeded the
         // threshold immediately.
-        log<level::INFO>(std::format("Threshold Event {} {} = {}", sensorPath,
-                                     alarmProperty, alarmValue)
-                             .c_str());
+        lg2::info(
+            "Threshold Event {SENSOR_PATH} {ALARM_PROPERTY} = {ALARM_VALUE}",
+            "SENSOR_PATH", sensorPath, "ALARM_PROPERTY", alarmProperty,
+            "ALARM_VALUE", alarmValue);
     }
 
     auto callout = getCallout(sensorPath);
@@ -345,16 +341,17 @@ void ThresholdAlarmLogger::createEventLog(
 
         ad.emplace("THRESHOLD_VALUE", std::to_string(thresholdValue));
 
-        log<level::INFO>(
-            std::format("Threshold Event {} {} = {} (threshold value {})",
-                        sensorPath, alarmProperty, alarmValue, thresholdValue)
-                .c_str());
+        lg2::info(
+            "Threshold Event {SENSOR_PATH} {ALARM_PROPERTY} = {ALARM_VALUE} (threshold value {THRESHOLD_VALUE})",
+            "SENSOR_PATH", sensorPath, "ALARM_PROPERTY", alarmProperty,
+            "ALARM_VALUE", alarmValue, "THRESHOLD_VALUE", thresholdValue);
     }
     catch (const DBusServiceError& e)
     {
-        log<level::INFO>(std::format("Threshold Event {} {} = {}", sensorPath,
-                                     alarmProperty, alarmValue)
-                             .c_str());
+        lg2::info(
+            "Threshold Event {SENSOR_PATH} {ALARM_PROPERTY} = {ALARM_VALUE}",
+            "SENSOR_PATH", sensorPath, "ALARM_PROPERTY", alarmProperty,
+            "ALARM_VALUE", alarmValue);
     }
 
     type.front() = toupper(type.front());
@@ -373,10 +370,8 @@ std::string ThresholdAlarmLogger::getSensorName(const std::string& sensorPath)
     auto pos = sensorPath.find_last_of('/');
     if ((sensorPath.back() == '/') || (pos == std::string::npos))
     {
-        log<level::ERR>(
-            std::format("Cannot get sensor name from sensor path {}",
-                        sensorPath)
-                .c_str());
+        lg2::error("Cannot get sensor name from sensor path {SENSOR_PATH}",
+                   "SENSOR_PATH", sensorPath);
         return "unknown_sensor";
     }
 
@@ -388,10 +383,8 @@ std::string ThresholdAlarmLogger::getSensorType(std::string sensorPath)
     auto pos = sensorPath.find_last_of('/');
     if ((sensorPath.back() == '/') || (pos == std::string::npos))
     {
-        log<level::ERR>(
-            std::format("Cannot get sensor type from sensor path {}",
-                        sensorPath)
-                .c_str());
+        lg2::error("Cannot get sensor type from sensor path {SENSOR_PATH}",
+                   "SENSOR_PATH", sensorPath);
         throw std::runtime_error("Invalid sensor path");
     }
 

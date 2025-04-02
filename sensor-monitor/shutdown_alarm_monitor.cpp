@@ -19,14 +19,11 @@
 
 #include <unistd.h>
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
-
-#include <format>
 
 namespace sensor::monitor
 {
-using namespace phosphor::logging;
 using namespace phosphor::fan::util;
 using namespace phosphor::fan;
 namespace fs = std::filesystem;
@@ -160,9 +157,8 @@ void ShutdownAlarmMonitor::checkAlarms()
         catch (const DBusServiceError& e)
         {
             // The sensor isn't on D-Bus anymore
-            log<level::INFO>(std::format("No {} interface on {} anymore.",
-                                         interface, sensorPath)
-                                 .c_str());
+            lg2::info("No {INTERFACE} interface on {SENSOR_PATH} anymore.",
+                      "INTERFACE", interface, "SENSOR_PATH", sensorPath);
             continue;
         }
 
@@ -281,11 +277,10 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
     {
         const uint64_t& original = previousStartTime->second;
 
-        log<level::INFO>(std::format("Found previously running {} timer "
-                                     "for {} with start time {}",
-                                     propertyName, sensorPath, original)
-                             .c_str());
-
+        lg2::info("Found previously running {PROPERTY_NAME} timer "
+                  "for {SENSOR_PATH} with start time {START_TIME}",
+                  "PROPERTY_NAME", propertyName, "SENSOR_PATH", sensorPath,
+                  "START_TIME", original);
         // Sanity check it isn't total garbage.
         if (now > original)
         {
@@ -302,19 +297,18 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
         }
         else
         {
-            log<level::WARNING>(
-                std::format(
-                    "Restarting {} shutdown timer for {} for full "
-                    "time because saved time {} is after current time {}",
-                    propertyName, sensorPath, original, now)
-                    .c_str());
+            lg2::warning(
+                "Restarting {PROPERTY_NAME} shutdown timer for {SENSOR_PATH} for full "
+                "time because saved time {SAVED_TIME} is after current time {CURRENT_TIME}",
+                "PROPERTY_NAME", propertyName, "SENSOR_PATH", sensorPath,
+                "SAVED_TIME", original, "CURRENT_TIME", now);
         }
     }
 
-    log<level::INFO>(
-        std::format("Starting {}ms {} shutdown timer due to sensor {} value {}",
-                    shutdownDelay.count(), propertyName, sensorPath, *value)
-            .c_str());
+    lg2::info(
+        "Starting {TIME}ms {PROPERTY_NAME} shutdown timer due to sensor {SENSOR_PATH} value {VALUE}",
+        "TIME", shutdownDelay.count(), "PROPERTY_NAME", propertyName,
+        "SENSOR_PATH", sensorPath, "VALUE", *value);
 
     auto& timer = alarm->second;
 
@@ -345,11 +339,10 @@ void ShutdownAlarmMonitor::stopTimer(const AlarmKey& alarmKey)
 
     createEventLog(alarmKey, false, value);
 
-    log<level::INFO>(
-        std::format("Stopping {} shutdown timer due to sensor {} value {}",
-                    propertyName, sensorPath, value)
-            .c_str());
-
+    lg2::info(
+        "Stopping {PROPERTY_NAME} shutdown timer due to sensor {SENSOR_PATH} value {VALUE}",
+        "PROPERTY_NAME", propertyName, "SENSOR_PATH", sensorPath, "VALUE",
+        value);
     auto& timer = alarm->second;
     timer->setEnabled(false);
     timer.reset();
@@ -369,10 +362,8 @@ void ShutdownAlarmMonitor::createBmcDump() const
     }
     catch (const std::exception& e)
     {
-        auto message = std::format(
-            "Caught exception while creating BMC dump: {}", e.what());
-
-        log<level::ERR>(message.c_str());
+        lg2::error("Caught exception while creating BMC dump: {ERROR}", "ERROR",
+                   e);
     }
 }
 
@@ -384,11 +375,9 @@ void ShutdownAlarmMonitor::timerExpired(const AlarmKey& alarmKey)
     auto value = SDBusPlus::getProperty<double>(bus, sensorPath, valueInterface,
                                                 valueProperty);
 
-    log<level::ERR>(
-        std::format(
-            "The {} shutdown timer expired for sensor {}, shutting down",
-            propertyName, sensorPath)
-            .c_str());
+    lg2::error(
+        "The {PROPERTY_NAME} shutdown timer expired for sensor {SENSOR_PATH}, shutting down",
+        "PROPERTY_NAME", propertyName, "SENSOR_PATH", sensorPath);
 
     // Re-send the event log.  If someone didn't want this it could be
     // wrapped by a compile option.

@@ -6,6 +6,7 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
 #include <memory>
@@ -74,8 +75,9 @@ class EvDev
         auto rc = libevdev_fetch_event_value(evdev.get(), type, code, &val);
         if (!rc)
         {
-            log<level::ERR>("Error in call to libevdev_fetch_event_value",
-                            entry("TYPE=%d", type), entry("CODE=%d", code));
+            lg2::error(
+                "Error in call to libevdev_fetch_event_value, Type={TYPE}, Code={CODE}",
+                "TYPE", type, "CODE", code);
             elog<InternalFailure>();
         }
 
@@ -92,8 +94,8 @@ class EvDev
                                           LIBEVDEV_READ_FLAG_NORMAL, &ev);
             if (rc < 0)
             {
-                log<level::ERR>("Error in call to libevdev_next_event",
-                                entry("RC=%d", rc));
+                lg2::error("Error in call to libevdev_next_event, RC={RC}",
+                           "RC", rc);
                 elog<InternalFailure>();
             }
 
@@ -124,8 +126,8 @@ inline auto newFromFD(int fd)
 
     if (rc)
     {
-        log<level::ERR>("Error in call to libevdev_new_from_fd",
-                        entry("RC=%d", rc), entry("FD=%d", fd));
+        lg2::error("Error in call to libevdev_new_from_fd, RC={RC}, FD={FD}",
+                   "RC", rc, "FD", fd);
         elog<InternalFailure>();
     }
 
