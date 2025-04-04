@@ -16,7 +16,7 @@
 #pragma once
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <vector>
 
@@ -24,7 +24,6 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 using PropertyVariantType =
     std::variant<bool, int32_t, int64_t, double, std::string>;
@@ -135,10 +134,9 @@ class ConfigBase
             return *stringPtr;
         }
 
-        log<level::ERR>(
-            "Unsupported data type for JSON object's value",
-            entry("JSON_ENTRY=%s", object.dump().c_str()),
-            entry("SUPPORTED_TYPES=%s", "{bool, int, double, string}"));
+        lg2::error(
+            "Unsupported data type for JSON object's value. Supported Types are 'bool, int, double, string'",
+            "JSON_ENTRY", object.dump());
         throw std::runtime_error(
             "Unsupported data type for JSON object's value");
     }
@@ -165,8 +163,8 @@ class ConfigBase
         if (!jsonObj.contains("name"))
         {
             // Log error on missing configuration object's name
-            log<level::ERR>("Missing required configuration object's name",
-                            entry("JSON=%s", jsonObj.dump().c_str()));
+            lg2::error("Missing required configuration object's name", "JSON",
+                       jsonObj.dump());
             throw std::runtime_error(
                 "Missing required configuration object's name");
         }

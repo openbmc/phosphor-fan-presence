@@ -20,23 +20,21 @@
 #include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <chrono>
-#include <format>
 
 namespace phosphor::fan::control::json::trigger::timer
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 TimerType getType(const json& jsonObj)
 {
     if (!jsonObj.contains("type"))
     {
-        log<level::ERR>("Missing required timer trigger type",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required timer trigger type", "JSON",
+                   jsonObj.dump());
         throw std::runtime_error("Missing required timer trigger type");
     }
     auto type = jsonObj["type"].get<std::string>();
@@ -50,10 +48,9 @@ TimerType getType(const json& jsonObj)
     }
     else
     {
-        log<level::ERR>(
-            std::format("Timer trigger type '{}' is not supported", type)
-                .c_str(),
-            entry("AVAILABLE_TYPES={oneshot, repeating}"));
+        lg2::error(
+            "Timer trigger type '{TYPE}' is not supported. Available types are 'oneshot, repeating'",
+            "TYPE", type);
         throw std::runtime_error("Unsupported timer trigger type given");
     }
 }
@@ -62,8 +59,8 @@ std::chrono::microseconds getInterval(const json& jsonObj)
 {
     if (!jsonObj.contains("interval"))
     {
-        log<level::ERR>("Missing required timer trigger interval",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required timer trigger interval", "JSON",
+                   jsonObj.dump());
         throw std::runtime_error("Missing required timer trigger interval");
     }
     return static_cast<std::chrono::microseconds>(

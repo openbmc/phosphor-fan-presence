@@ -21,6 +21,7 @@
 #include "sdeventplus.hpp"
 
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
 #include <format>
@@ -41,10 +42,9 @@ uint64_t addFloorOffset(uint64_t floor, T offset, const std::string& actionName)
     auto newFloor = static_cast<T>(floor) + offset;
     if (newFloor < 0)
     {
-        log<level::ERR>(
-            std::format("{}: Floor offset of {} resulted in negative floor",
-                        actionName, offset)
-                .c_str());
+        lg2::error(
+            "{ACTION_NAME}: Floor offset of {FLOOR_OFFSET} resulted in negative floor",
+            "ACTION_NAME", actionName, "FLOOR_OFFSET", offset);
         return floor;
     }
 
@@ -403,12 +403,11 @@ void MappedFloor::run(Zone& zone)
                 {
                     // If the parameter isn't there, then don't use
                     // this floor table
-                    log<level::DEBUG>(
-                        std::format("{}: Parameter {} specified in the JSON "
-                                    "could not be found",
-                                    ActionBase::getName(),
-                                    std::get<std::string>(groupOrParameter))
-                            .c_str());
+                    lg2::debug(
+                        "{ACTION_NAME}: Parameter {PARAMETER} specified in the JSON "
+                        "could not be found",
+                        "ACTION_NAME", ActionBase::getName(), "PARAMETER",
+                        std::get<std::string>(groupOrParameter));
                     continue;
                 }
             }

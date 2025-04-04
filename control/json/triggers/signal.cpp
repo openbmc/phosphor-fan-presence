@@ -22,11 +22,10 @@
 #include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus/match.hpp>
 
 #include <algorithm>
-#include <format>
 #include <functional>
 #include <iterator>
 #include <memory>
@@ -38,7 +37,6 @@ namespace phosphor::fan::control::json::trigger::signal
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 using namespace sdbusplus::bus::match;
 
 void subscribe(const std::string& match, SignalPkg&& signalPkg,
@@ -204,11 +202,10 @@ void nameOwnerChanged(Manager* mgr, const Group& group, TriggerActions& actions,
             // Path and/or interface configured does not exist on dbus yet?
             // TODO How to handle this? Create timer to keep checking for
             // service to appear? When to stop checking?
-            log<level::ERR>(
-                std::format("Events will not be triggered by name owner changed"
-                            "signals from service of path {}, interface {}",
-                            member, group.getInterface())
-                    .c_str());
+            lg2::error(
+                "Events will not be triggered by name owner changed"
+                "signals from service of path {MEMBER}, interface {GROUP_INTERFACE}",
+                "MEMBER", member, "GROUP_INTERFACE", group.getInterface());
         }
     }
 }
@@ -254,12 +251,12 @@ enableTrigger triggerSignal(
                             signals.begin()->first, [](auto list, auto signal) {
                                 return std::move(list) + ", " + signal.first;
                             });
-        auto msg =
-            std::format("Event '{}' requires a supported signal given to be "
-                        "triggered by signal, available signals: {}",
-                        eventName, availSignals);
-        log<level::ERR>(msg.c_str());
-        throw std::runtime_error(msg.c_str());
+        lg2::error(
+            "Event '{EVENT_NAME}' requires a supported signal given to be "
+            "triggered by signal, available signals: {AVAILABLE_SIGNALS}",
+            "EVENT_NAME", eventName, "AVAILABLE_SIGNALS", availSignals);
+        throw std::runtime_error(
+            "Event requires a supported signal given to be triggered by signal.");
     }
 
     return [subscriber = std::move(subscriber),

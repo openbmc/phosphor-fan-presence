@@ -2,7 +2,7 @@
 
 #include "zone.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
 
@@ -16,7 +16,6 @@ namespace precondition
 {
 
 using namespace phosphor::fan;
-using namespace phosphor::logging;
 
 Action property_states_match(std::vector<PrecondGroup>&& pg,
                              std::vector<SetSpeedEvent>&& sse)
@@ -42,9 +41,9 @@ Action property_states_match(std::vector<PrecondGroup>&& pg,
 
         if (precondState)
         {
-            log<level::DEBUG>(
-                "Preconditions passed, init the associated events",
-                entry("EVENT_COUNT=%u", sse.size()));
+            lg2::debug(
+                "Preconditions passed, init the associated events, Event_Count={EVENT_COUNT}",
+                "EVENT_COUNT", sse.size());
             // Init the events when all the precondition(s) are true
             std::for_each(sse.begin(), sse.end(), [&zone](const auto& entry) {
                 zone.initEvent(entry);
@@ -52,9 +51,9 @@ Action property_states_match(std::vector<PrecondGroup>&& pg,
         }
         else
         {
-            log<level::DEBUG>(
-                "Preconditions not met for events, events removed if present",
-                entry("EVENT_COUNT=%u", sse.size()));
+            lg2::debug(
+                "Preconditions not met for events, events removed if present, Event_Count={EVENT_COUNT}",
+                "EVENT_COUNT", sse.size());
             // Unsubscribe the events' signals when any precondition is false
             std::for_each(sse.begin(), sse.end(), [&zone](const auto& entry) {
                 zone.removeEvent(entry);

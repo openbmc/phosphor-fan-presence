@@ -17,7 +17,7 @@
 
 #include "../manager.hpp"
 
-#include <format>
+#include <phosphor-logging/lg2.hpp>
 
 namespace phosphor::fan::control::json::trigger::parameter
 {
@@ -30,10 +30,11 @@ enableTrigger triggerParameter(
 {
     if (!jsonObj.contains("parameter"))
     {
-        auto msg = std::format(
-            "Event '{}' parameter trigger is missing 'parameter'", eventName);
-        log<level::ERR>(msg.c_str());
-        throw std::runtime_error(msg);
+        lg2::error(
+            "Event '{EVENT_NAME}' parameter trigger is missing 'parameter'",
+            "EVENT_NAME", eventName);
+        throw std::runtime_error(
+            "Event parameter trigger is missing 'parameter'");
     }
 
     auto name = jsonObj["parameter"].get<std::string>();

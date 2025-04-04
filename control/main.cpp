@@ -28,7 +28,7 @@
 #include "sdbusplus.hpp"
 #include "sdeventplus.hpp"
 
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
 #include <sdeventplus/source/signal.hpp>
@@ -37,7 +37,6 @@
 #include <fstream>
 
 using namespace phosphor::fan::control;
-using namespace phosphor::logging;
 
 #ifdef CONTROL_USE_JSON
 void dumpFlightRecorder()
@@ -129,25 +128,23 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
     // return 1 so it is restarted without a core dump.
     catch (const phosphor::fan::util::DBusServiceError& e)
     {
-        log<level::ERR>("Uncaught DBus service lookup failure exception",
-                        entry("PATH=%s", e.path.c_str()),
-                        entry("INTERFACE=%s", e.interface.c_str()));
+        lg2::error(
+            "Uncaught DBus service lookup failure exception, Path={PATH}, Interface={INTERFACE}",
+            "PATH", e.path, "INTERFACE", e.interface);
     }
     catch (const phosphor::fan::util::DBusMethodError& e)
     {
-        log<level::ERR>("Uncaught DBus method failure exception",
-                        entry("BUSNAME=%s", e.busName.c_str()),
-                        entry("PATH=%s", e.path.c_str()),
-                        entry("INTERFACE=%s", e.interface.c_str()),
-                        entry("METHOD=%s", e.method.c_str()));
+        lg2::error(
+            "Uncaught DBus method failure exception, Busname={BUSNAME}, Path={PATH}, Interface={INTERFACE}, Method={METHOD}",
+            "BUSNAME", e.busName, "PATH", e.path, "INTERFACE", e.interface,
+            "METHOD", e.method);
     }
     catch (const phosphor::fan::util::DBusPropertyError& e)
     {
-        log<level::ERR>("Uncaught DBus property access failure exception",
-                        entry("BUSNAME=%s", e.busName.c_str()),
-                        entry("PATH=%s", e.path.c_str()),
-                        entry("INTERFACE=%s", e.interface.c_str()),
-                        entry("PROPERTY=%s", e.property.c_str()));
+        lg2::error(
+            "Uncaught DBus property access failure exception, Busname={BUSNAME}, Path={PATH}, Interface={INTERFACE}, Property={PROPERTY}",
+            "BUSNAME", e.busName, "PATH", e.path, "INTERFACE", e.interface,
+            "PROPERTY", e.property);
     }
     catch (std::exception& e)
     {

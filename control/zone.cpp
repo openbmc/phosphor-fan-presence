@@ -24,7 +24,7 @@
 #include <cereal/cereal.hpp>
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
 #include <chrono>
@@ -42,7 +42,6 @@ namespace control
 
 using namespace std::chrono;
 using namespace phosphor::fan;
-using namespace phosphor::logging;
 namespace fs = std::filesystem;
 using InternalFailure =
     sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
@@ -590,7 +589,8 @@ void Zone::restoreCurrentMode()
     }
     catch (const std::exception& e)
     {
-        log<level::ERR>(e.what());
+        lg2::error("Exception restoring current zone mode: {ERROR}", "ERROR",
+                   e);
         fs::remove(path);
         current = ThermalObject::current();
     }

@@ -23,17 +23,15 @@
 
 #include <cereal/archives/json.hpp>
 #include <cereal/cereal.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
 #include <filesystem>
-#include <format>
 #include <fstream>
 
 namespace phosphor::fan::control::json
 {
 
-using namespace phosphor::logging;
 namespace fs = std::filesystem;
 
 DBusZone::DBusZone(const Zone& zone) :
@@ -90,11 +88,9 @@ void DBusZone::restoreCurrentMode()
         // Include possible exception when removing file, otherwise ec = 0
         std::error_code ec;
         fs::remove(path, ec);
-        log<level::ERR>(
-            std::format("Unable to restore persisted `Current` thermal mode "
-                        "property ({}, ec: {})",
-                        e.what(), ec.value())
-                .c_str());
+        lg2::error("Unable to restore persisted `Current` thermal mode "
+                   "property ({ERROR}, ec: {ERROR_CODE})",
+                   "ERROR", e, "ERROR_CODE", ec.value());
         current = ThermalModeIntf::current();
     }
 

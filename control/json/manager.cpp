@@ -94,8 +94,8 @@ void Manager::sighupHandler(sdeventplus::source::Signal&,
         _loadAllowed = false;
         _profiles.swap(profiles);
         _activeProfiles.swap(activeProfiles);
-        log<level::ERR>("Error reloading configs, no changes made",
-                        entry("LOAD_ERROR=%s", re.what()));
+        lg2::error("Error reloading configs, no changes made: {LOAD_ERROR}",
+                   "LOAD_ERROR", re);
         FlightRecorder::instance().log(
             "main", std::format("Error reloading configs, no changes made: {}",
                                 re.what()));
@@ -116,7 +116,7 @@ void Manager::dumpDebugData(sdeventplus::source::Signal&,
     std::ofstream file{Manager::dumpFile};
     if (!file)
     {
-        log<level::ERR>("Could not open file for fan dump");
+        lg2::error("Could not open file for fan dump");
         return;
     }
 
@@ -541,11 +541,9 @@ void Manager::addObjects(const std::string& path, const std::string& intf,
         if (service.empty())
         {
             // Log service not found for object
-            log<level::DEBUG>(
-                std::format(
-                    "Unable to get service name for path {}, interface {}",
-                    path, intf)
-                    .c_str());
+            lg2::debug(
+                "Unable to get service name for path {PATH}, interface {INTERFACE}",
+                "PATH", path, "INTERFACE", intf);
             return;
         }
     }

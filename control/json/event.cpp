@@ -23,18 +23,16 @@
 #include "trigger.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
 #include <algorithm>
-#include <format>
 #include <optional>
 
 namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 std::map<configKey, std::unique_ptr<Group>> Event::allGroups;
 
@@ -106,8 +104,7 @@ void Event::configGroup(Group& group, const json& jsonObj)
     if (!jsonObj.contains("interface") || !jsonObj.contains("property") ||
         !jsonObj["property"].contains("name"))
     {
-        log<level::ERR>("Missing required group attribute",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required group attribute", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required group attribute");
     }
 
@@ -147,10 +144,10 @@ void Event::setGroups(const json& jsonObj,
         {
             if (!jsonGrp.contains("name"))
             {
-                auto msg = std::format("Missing required group name attribute");
-                log<level::ERR>(msg.c_str(),
-                                entry("JSON=%s", jsonGrp.dump().c_str()));
-                throw std::runtime_error(msg.c_str());
+                lg2::error("Missing required group name attribute", "JSON",
+                           jsonGrp.dump());
+                throw std::runtime_error(
+                    "Missing required group name attribute");
             }
 
             configKey eventProfile =
@@ -176,8 +173,8 @@ void Event::setActions(const json& jsonObj)
     {
         if (!jsonAct.contains("name"))
         {
-            log<level::ERR>("Missing required event action name",
-                            entry("JSON=%s", jsonAct.dump().c_str()));
+            lg2::error("Missing required event action name", "JSON",
+                       jsonAct.dump());
             throw std::runtime_error("Missing required event action name");
         }
 
@@ -223,11 +220,11 @@ void Event::setActions(const json& jsonObj)
         }
         if (actionZones.empty())
         {
-            log<level::DEBUG>(
-                std::format("No zones configured for event {}'s action {} "
-                            "based on the active profile(s)",
-                            getName(), jsonAct["name"].get<std::string>())
-                    .c_str());
+            lg2::debug(
+                "No zones configured for event {EVENT_NAME}'s action {ACTION} "
+                "based on the active profile(s)",
+                "EVENT_NAME", getName(), "ACTION",
+                jsonAct["name"].get<std::string>());
         }
 
         // Action specific groups, if any given, will override the use of event
@@ -261,11 +258,11 @@ void Event::setActions(const json& jsonObj)
 
         if (actionGroups.empty() && _groups.empty())
         {
-            log<level::DEBUG>(
-                std::format("No groups configured for event {}'s action {} "
-                            "based on the active profile(s)",
-                            getName(), jsonAct["name"].get<std::string>())
-                    .c_str());
+            lg2::debug(
+                "No groups configured for event {EVENT_NAME}'s action {ACTION} "
+                "based on the active profile(s)",
+                "EVENT_NAME", getName(), "ACTION",
+                jsonAct["name"].get<std::string>());
         }
     }
 }
@@ -274,16 +271,16 @@ void Event::setTriggers(const json& jsonObj)
 {
     if (!jsonObj.contains("triggers"))
     {
-        log<level::ERR>("Missing required event triggers list",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required event triggers list", "JSON",
+                   jsonObj.dump());
         throw std::runtime_error("Missing required event triggers list");
     }
     for (const auto& jsonTrig : jsonObj["triggers"])
     {
         if (!jsonTrig.contains("class"))
         {
-            log<level::ERR>("Missing required event trigger class",
-                            entry("JSON=%s", jsonTrig.dump().c_str()));
+            lg2::error("Missing required event trigger class", "JSON",
+                       jsonTrig.dump());
             throw std::runtime_error("Missing required event trigger class");
         }
         // The class of trigger used to run the event actions
@@ -304,9 +301,9 @@ void Event::setTriggers(const json& jsonObj)
                 trigger::triggers.begin()->first, [](auto list, auto trig) {
                     return std::move(list) + ", " + trig.first;
                 });
-            log<level::ERR>(
-                std::format("Trigger '{}' is not recognized", tClass).c_str(),
-                entry("AVAILABLE_TRIGGERS=%s", availTrigs.c_str()));
+            lg2::error(
+                "Trigger '{TRIGGER}' is not recognized. Available triggers are {AVAILABLE_TRIGGERS}",
+                "TRIGGER", tClass, "AVAILABLE_TRIGGERS", availTrigs);
             throw std::runtime_error("Unsupported trigger class name given");
         }
     }

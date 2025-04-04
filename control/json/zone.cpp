@@ -21,11 +21,12 @@
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdeventplus/event.hpp>
 
 #include <algorithm>
 #include <chrono>
+#include <format>
 #include <iterator>
 #include <map>
 #include <memory>
@@ -37,7 +38,6 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 const std::map<
     std::string,
@@ -80,11 +80,10 @@ Zone::Zone(const json& jsonObj, const sdeventplus::Event& event, Manager* mgr) :
         _defaultFloor = jsonObj["default_floor"].get<uint64_t>();
         if (_defaultFloor > _ceiling)
         {
-            log<level::ERR>(
-                std::format("Configured default_floor({}) above ceiling({}), "
-                            "setting default floor to ceiling",
-                            _defaultFloor, _ceiling)
-                    .c_str());
+            lg2::error(
+                "Configured default_floor({DEFAULT_FLOOR}) above ceiling({CEILING}), "
+                "setting default floor to ceiling",
+                "DEFAULT_FLOOR", _defaultFloor, "CEILING", _ceiling);
             _defaultFloor = _ceiling;
         }
         // Start with the current floor set as the default
@@ -172,10 +171,9 @@ void Zone::lockFanTarget(const std::string& fname, uint64_t target)
     }
     else
     {
-        log<level::DEBUG>(
-            std::format("Configured fan {} not found in zone {} to lock target",
-                        fname, getName())
-                .c_str());
+        lg2::debug(
+            "Configured fan {FAN} not found in zone {ZONE_NAME} to lock target",
+            "FAN", fname, "ZONE_NAME", getName());
     }
 }
 
@@ -195,11 +193,9 @@ void Zone::unlockFanTarget(const std::string& fname, uint64_t target)
     }
     else
     {
-        log<level::DEBUG>(
-            std::format(
-                "Configured fan {} not found in zone {} to unlock target",
-                fname, getName())
-                .c_str());
+        lg2::debug(
+            "Configured fan {FAN} not found in zone {ZONE_NAME} to unlock target",
+            "FAN", fname, "ZONE_NAME", getName());
     }
 }
 
@@ -437,9 +433,9 @@ void Zone::setPowerOnTarget(const json& jsonObj)
 {
     if (!jsonObj.contains("poweron_target"))
     {
-        auto msg = "Missing required zone's poweron target";
-        log<level::ERR>(msg, entry("JSON=%s", jsonObj.dump().c_str()));
-        throw std::runtime_error(msg);
+        lg2::error("Missing required zone's poweron target", "JSON",
+                   jsonObj.dump());
+        throw std::runtime_error("Missing required zone's poweron target");
     }
     _poweronTarget = jsonObj["poweron_target"].get<uint64_t>();
 }
@@ -450,8 +446,9 @@ void Zone::setInterfaces(const json& jsonObj)
     {
         if (!interface.contains("name") || !interface.contains("properties"))
         {
-            log<level::ERR>("Missing required zone interface attributes",
-                            entry("JSON=%s", interface.dump().c_str()));
+            lg2::error(
+                "Missing required zone interface attributes 'name, properties'",
+                "JSON", interface.dump());
             throw std::runtime_error(
                 "Missing required zone interface attributes");
         }
@@ -465,9 +462,9 @@ void Zone::setInterfaces(const json& jsonObj)
                 _intfPropHandlers.begin()->first, [](auto list, auto intf) {
                     return std::move(list) + ", " + intf.first;
                 });
-            log<level::ERR>("Configured interface not available",
-                            entry("JSON=%s", interface.dump().c_str()),
-                            entry("AVAILABLE_INTFS=%s", intfs.c_str()));
+            lg2::error(
+                "Configured interface not available. Available interfaces are {AVAILABLE_INTFS}",
+                "JSON", interface.dump(), "AVAILABLE_INTFS", intfs);
             throw std::runtime_error("Configured interface not available");
         }
 
@@ -475,9 +472,9 @@ void Zone::setInterfaces(const json& jsonObj)
         {
             if (!property.contains("name"))
             {
-                log<level::ERR>(
-                    "Missing required interface property attributes",
-                    entry("JSON=%s", property.dump().c_str()));
+                lg2::error(
+                    "Missing required interface property attributes 'name'",
+                    "JSON", property.dump());
                 throw std::runtime_error(
                     "Missing required interface property attributes");
             }
@@ -500,9 +497,9 @@ void Zone::setInterfaces(const json& jsonObj)
                     [](auto list, auto prop) {
                         return std::move(list) + ", " + prop.first;
                     });
-                log<level::ERR>("Configured property not available",
-                                entry("JSON=%s", property.dump().c_str()),
-                                entry("AVAILABLE_PROPS=%s", props.c_str()));
+                lg2::error(
+                    "Configured property not available. Available properties are {AVAILABLE_PROPS}",
+                    "JSON", property.dump(), "AVAILABLE_PROPS", props);
                 throw std::runtime_error(
                     "Configured property function not available");
             }
@@ -564,9 +561,9 @@ std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
     std::vector<std::string> values;
     if (!jsonObj.contains("values"))
     {
-        log<level::ERR>("No 'values' found for \"Supported\" property, "
-                        "using an empty list",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("No 'values' found for \"Supported\" property, "
+                   "using an empty list",
+                   "JSON", jsonObj.dump());
     }
     else
     {
@@ -574,9 +571,9 @@ std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
         {
             if (!value.contains("value"))
             {
-                log<level::ERR>("No 'value' found for \"Supported\" property "
-                                "entry, skipping",
-                                entry("JSON=%s", value.dump().c_str()));
+                lg2::error("No 'value' found for \"Supported\" property "
+                           "entry, skipping",
+                           "JSON", value.dump());
             }
             else
             {
@@ -597,9 +594,9 @@ std::function<void(DBusZone&, Zone&)> current(const json& jsonObj, bool persist)
     // Use default value for "Current" property if no "value" entry given
     if (!jsonObj.contains("value"))
     {
-        log<level::INFO>("No 'value' found for \"Current\" property, "
-                         "using default",
-                         entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::info("No 'value' found for \"Current\" property, "
+                  "using default",
+                  "JSON", jsonObj.dump());
         // Set persist state of property
         return Zone::setPropertyPersist(DBusZone::thermalModeIntf,
                                         DBusZone::currentProp, persist);

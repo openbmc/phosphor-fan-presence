@@ -20,6 +20,8 @@
 #include "sdbusplus.hpp"
 #include "sdeventplus.hpp"
 
+#include <phosphor-logging/lg2.hpp>
+
 namespace phosphor::fan::control::json
 {
 
@@ -66,10 +68,9 @@ void PCIeCardFloors::execute()
     {
         if (group.getInterface() != powerStateIface)
         {
-            log<level::DEBUG>(
-                std::format("Wrong interface {} in PCIe card floor group",
-                            group.getInterface())
-                    .c_str());
+            lg2::debug(
+                "Wrong interface {GROUP_INTERFACE} in PCIe card floor group",
+                "GROUP_INTERFACE", group.getInterface());
             continue;
         }
 
@@ -84,9 +85,8 @@ void PCIeCardFloors::execute()
             }
             catch (const std::out_of_range& oore)
             {
-                log<level::ERR>(
-                    std::format("Could not get power state for {}", slotPath)
-                        .c_str());
+                lg2::error("Could not get power state for {SLOT_PATH}",
+                           "SLOT_PATH", slotPath);
                 continue;
             }
 
@@ -187,11 +187,10 @@ uint16_t PCIeCardFloors::getPCIeDeviceProperty(const std::string& objectPath,
     }
     catch (const std::out_of_range& oore)
     {
-        log<level::ERR>(
-            std::format(
-                "{}: Could not get PCIeDevice property {} {} from cache ",
-                ActionBase::getName(), objectPath, propertyName)
-                .c_str());
+        lg2::error(
+            "{ACTION_NAME}: Could not get PCIeDevice property {OBJECT_PATH} {PROPERTY_NAME} from cache ",
+            "ACTION_NAME", ActionBase::getName(), "OBJECT_PATH", objectPath,
+            "PROPERTY_NAME", propertyName);
         throw;
     }
 
@@ -202,11 +201,11 @@ uint16_t PCIeCardFloors::getPCIeDeviceProperty(const std::string& objectPath,
     }
     catch (const std::invalid_argument& e)
     {
-        log<level::INFO>(
-            std::format("{}: {} has invalid PCIeDevice property {} value: {}",
-                        ActionBase::getName(), objectPath, propertyName,
-                        std::get<std::string>(variantValue))
-                .c_str());
+        lg2::info(
+            "{ACTION_NAME}: {OBJECT_PATH} has invalid PCIeDevice property {PROPERTY_NAME} value: {VALUE}",
+            "ACTION_NAME", ActionBase::getName(), "OBJECT_PATH", objectPath,
+            "PROPERTY_NAME", propertyName, "VALUE",
+            std::get<std::string>(variantValue));
         throw;
     }
 }

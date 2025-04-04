@@ -21,7 +21,7 @@
 #include "group.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
 #include <format>
@@ -35,7 +35,6 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 /**
  * @class ActionParseError - A parsing error exception
@@ -298,8 +297,7 @@ class ActionFactory
         }
         else
         {
-            log<level::ERR>(
-                std::format("Action '{}' is already registered", name).c_str());
+            lg2::error("Action '{NAME}' is already registered", "NAME", name);
             throw std::runtime_error("Actions with the same name found");
         }
 
@@ -337,9 +335,9 @@ class ActionFactory
                 actions.begin()->first, [](auto list, auto act) {
                     return std::move(list) + ", " + act.first;
                 });
-            log<level::ERR>(
-                std::format("Action '{}' is not registered", name).c_str(),
-                entry("AVAILABLE_ACTIONS=%s", acts.c_str()));
+            lg2::error(
+                "Action '{NAME}' is not registered. Available actions are {AVAILABLE_ACTIONS}",
+                "NAME", name, "AVAILABLE_ACTIONS", acts);
             throw std::runtime_error("Unsupported action name given");
         }
     }

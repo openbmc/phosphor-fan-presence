@@ -26,7 +26,7 @@
 #include "zone.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdbusplus/server/manager.hpp>
 #include <sdeventplus/event.hpp>
@@ -46,7 +46,6 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 /* Application name to be appended to the path for loading a JSON config file */
 constexpr auto confAppName = "control";
@@ -242,10 +241,8 @@ class Manager
                     std::make_pair(obj->getName(), obj->getProfiles()),
                     std::move(obj));
             }
-            log<level::INFO>(
-                std::format("Configuration({}) loaded successfully",
-                            T::confFileName)
-                    .c_str());
+            lg2::info("Configuration({CONF_FILE}) loaded successfully",
+                      "CONF_FILE", T::confFileName);
             FlightRecorder::instance().log(
                 "main", std::format("Configuration({}) loaded successfully",
                                     T::confFileName));

@@ -21,17 +21,15 @@
 #include "group.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
-#include <format>
 #include <variant>
 
 namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 NetTargetDecrease::NetTargetDecrease(const json& jsonObj,
                                      const std::vector<Group>& groups) :
@@ -122,12 +120,12 @@ void NetTargetDecrease::run(Zone& zone)
                 else
                 {
                     // Unsupported group member type for this action
-                    log<level::ERR>(
-                        std::format("Action {}: Unsupported group member type "
-                                    "given. [object = {} : {} : {}]",
-                                    ActionBase::getName(), member,
-                                    group.getInterface(), group.getProperty())
-                            .c_str());
+                    lg2::error(
+                        "Action {ACTION_NAME}: Unsupported group member type "
+                        "given. [object = {MEMBER} : {GROUP_INTERFACE} : {GROUP_PROPERTY}]",
+                        "ACTION_NAME", ActionBase::getName(), "MEMBER", member,
+                        "GROUP_INTERFACE", group.getInterface(),
+                        "GROUP_PROPERTY", group.getProperty());
                 }
             }
             catch (const std::out_of_range& oore)

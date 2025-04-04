@@ -16,13 +16,12 @@
 #include "group.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 std::set<std::string> Group::_allMembers{};
 
@@ -51,8 +50,7 @@ void Group::setMembers(const json& jsonObj)
 {
     if (!jsonObj.contains("members"))
     {
-        log<level::ERR>("Missing required group's members",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required group's members", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required group's members");
     }
     for (const auto& member : jsonObj["members"])

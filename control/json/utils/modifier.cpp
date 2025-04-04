@@ -19,11 +19,7 @@
 #include "json/config_base.hpp"
 #include "json/manager.hpp"
 
-#include <phosphor-logging/log.hpp>
-
-#include <format>
-
-using namespace phosphor::logging;
+#include <phosphor-logging/lg2.hpp>
 
 namespace phosphor::fan::control::json
 {
@@ -167,10 +163,8 @@ struct LessThanOperator : public Modifier::BaseOperator
         const auto& valueArray = jsonObj["value"];
         if (!valueArray.is_array())
         {
-            log<level::ERR>(
-                std::format("Invalid JSON data for less_than config: {}",
-                            valueArray.dump())
-                    .c_str());
+            lg2::error("Invalid JSON data for less_than config: {VALUE_ARRAY}",
+                       "VALUE_ARRAY", valueArray.dump());
             throw std::invalid_argument("Invalid modifier JSON");
         }
 
@@ -179,11 +173,9 @@ struct LessThanOperator : public Modifier::BaseOperator
             if (!valueEntry.contains("arg_value") ||
                 !valueEntry.contains("parameter_value"))
             {
-                log<level::ERR>(
-                    std::format("Missing arg_value or parameter_value keys "
-                                "in less_than config: {}",
-                                valueArray.dump())
-                        .c_str());
+                lg2::error("Missing arg_value or parameter_value keys "
+                           "in less_than config: {VALUE_ARRAY}",
+                           "VALUE_ARRAY", valueArray.dump());
                 throw std::invalid_argument("Invalid modifier JSON");
             }
 
@@ -191,12 +183,10 @@ struct LessThanOperator : public Modifier::BaseOperator
 
             if (std::holds_alternative<bool>(argVal))
             {
-                log<level::ERR>(
-                    std::format(
-                        "Invalid data type in arg_value key in modifier JSON "
-                        "config: {}",
-                        valueArray.dump())
-                        .c_str());
+                lg2::error(
+                    "Invalid data type in arg_value key in modifier JSON "
+                    "config: {VALUE_ARRAY}",
+                    "VALUE_ARRAY", valueArray.dump());
                 throw std::invalid_argument("Invalid modifier JSON");
             }
 
@@ -208,10 +198,9 @@ struct LessThanOperator : public Modifier::BaseOperator
 
         if (rangeValues.empty())
         {
-            log<level::ERR>(std::format("No valid range values found in "
-                                        "modifier json: {}",
-                                        valueArray.dump())
-                                .c_str());
+            lg2::error("No valid range values found in "
+                       "modifier json: {VALUE_ARRAY}",
+                       "VALUE_ARRAY", valueArray.dump());
             throw std::invalid_argument("Invalid modifier JSON");
         }
 
@@ -291,11 +280,9 @@ void Modifier::setOperator(const json& jsonObj)
 {
     if (!jsonObj.contains("operator") || !jsonObj.contains("value"))
     {
-        log<level::ERR>(
-            std::format(
-                "Modifier entry in JSON missing 'operator' or 'value': {}",
-                jsonObj.dump())
-                .c_str());
+        lg2::error(
+            "Modifier entry in JSON missing 'operator' or 'value': {JSON_OBJECT}",
+            "JSON_OBJECT", jsonObj.dump());
         throw std::invalid_argument("Invalid modifier JSON");
     }
 
@@ -311,9 +298,8 @@ void Modifier::setOperator(const json& jsonObj)
     }
     else
     {
-        log<level::ERR>(std::format("Invalid operator in the modifier JSON: {}",
-                                    jsonObj.dump())
-                            .c_str());
+        lg2::error("Invalid operator in the modifier JSON: {JSON_OBJECT}",
+                   "JSON_OBJECT", jsonObj.dump());
         throw std::invalid_argument("Invalid operator in the modifier JSON");
     }
 }

@@ -22,10 +22,9 @@
 #include "trigger_aliases.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
-#include <format>
 #include <iterator>
 #include <memory>
 #include <numeric>
@@ -36,7 +35,6 @@ namespace phosphor::fan::control::json::trigger::init
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 void getProperties(Manager* mgr, const Group& group)
 {
@@ -107,11 +105,9 @@ void nameHasOwner(Manager* mgr, const Group& group)
                 // Path and/or interface configured does not exist on dbus?
                 // TODO How to handle this? Create timer to keep checking for
                 // object/service to appear? When to stop checking?
-                log<level::ERR>(
-                    std::format(
-                        "Unable to get service name for path {}, interface {}",
-                        member, intf)
-                        .c_str());
+                lg2::error(
+                    "Unable to get service name for path {MEMBER}, interface {GROUP_INTERFACE}",
+                    "MEMBER", member, "GROUP_INTERFACE", intf);
             }
         }
         catch (const util::DBusMethodError& dme)
@@ -127,10 +123,11 @@ void nameHasOwner(Manager* mgr, const Group& group)
                 // Path and/or interface configured does not exist on dbus?
                 // TODO How to handle this? Create timer to keep checking for
                 // object/service to appear? When to stop checking?
-                log<level::ERR>(std::format("Unable to get service({}) owner "
-                                            "state for path {}, interface {}",
-                                            servName, member, intf)
-                                    .c_str());
+                lg2::error(
+                    "Unable to get service({SERVICE}) owner "
+                    "state for path {MEMBER}, interface {GROUP_INTERFACE}",
+                    "SERVICE", servName, "MEMBER", member, "GROUP_INTERFACE",
+                    intf);
                 throw dme;
             }
         }
@@ -164,12 +161,12 @@ enableTrigger triggerInit(const json& jsonObj, const std::string& /*eventName*/,
                 methods.begin()->first, [](auto list, auto method) {
                     return std::move(list) + ", " + method.first;
                 });
-            auto msg =
-                std::format("Event '{}' requires a supported method given to "
-                            "be init driven, available methods: {}",
-                            eventName, availMethods);
-            log<level::ERR>(msg.c_str());
-            throw std::runtime_error(msg.c_str());
+            lg2::error(
+                "Event '{EVENT_NAME}' requires a supported method given to "
+                "be init driven, available methods: {AVAILABLE_METHODS}",
+                "EVENT_NAME", eventName, "AVAILABLE_METHODS", availMethods);
+            throw std::runtime_error(
+                "Event requires a supported method given to be init driven");
         }
 
         for (const auto& group : groups)

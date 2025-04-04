@@ -17,7 +17,8 @@
 
 #include "../manager.hpp"
 
-#include <format>
+#include <phosphor-logging/lg2.hpp>
+
 #include <iostream>
 
 namespace phosphor::fan::control::json
@@ -27,7 +28,6 @@ std::map<size_t, uint64_t> TargetFromGroupMax::_speedFromGroupsMap;
 size_t TargetFromGroupMax::_groupIndexCounter = 0;
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 TargetFromGroupMax::TargetFromGroupMax(const json& jsonObj,
                                        const std::vector<Group>& groups) :
@@ -190,11 +190,10 @@ std::optional<PropertyVariantType> TargetFromGroupMax::processGroups()
                                   !std::is_same_v<int32_t, V> &&
                                   !std::is_same_v<int64_t, V>)
                     {
-                        log<level::ERR>(
-                            std::format("{}: Group {}'s member "
-                                        "isn't numeric",
-                                        ActionBase::getName(), group.getName())
-                                .c_str());
+                        lg2::error("{ACTION_NAME}: Group {GROUP_NAME}'s member "
+                                   "isn't numeric",
+                                   "ACTION_NAME", ActionBase::getName(),
+                                   "GROUP_NAME", group.getName());
                         invalid = true;
                     }
                 },

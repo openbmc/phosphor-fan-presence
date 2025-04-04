@@ -18,7 +18,7 @@
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
 #include <format>
@@ -27,7 +27,6 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
@@ -44,8 +43,8 @@ void Fan::setInterface(const json& jsonObj)
 {
     if (!jsonObj.contains("target_interface"))
     {
-        log<level::ERR>("Missing required fan sensor target interface",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required fan sensor target interface", "JSON",
+                   jsonObj.dump());
         throw std::runtime_error(
             "Missing required fan sensor target interface");
     }
@@ -56,8 +55,7 @@ void Fan::setSensors(const json& jsonObj)
 {
     if (!jsonObj.contains("sensors"))
     {
-        log<level::ERR>("Missing required fan sensors list",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required fan sensors list", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required fan sensors list");
     }
     std::string path;
@@ -91,8 +89,7 @@ void Fan::setZone(const json& jsonObj)
 {
     if (!jsonObj.contains("zone"))
     {
-        log<level::ERR>("Missing required fan zone",
-                        entry("JSON=%s", jsonObj.dump().c_str()));
+        lg2::error("Missing required fan zone", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required fan zone");
     }
     _zone = jsonObj["zone"].get<std::string>();

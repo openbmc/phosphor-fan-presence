@@ -17,13 +17,12 @@
 
 #include "../manager.hpp"
 
-#include <format>
+#include <phosphor-logging/lg2.hpp>
 
 namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 SetParameterFromGroupMax::SetParameterFromGroupMax(
     const json& jsonObj, const std::vector<Group>& groups) :
@@ -69,12 +68,12 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
                                       !std::is_same_v<int32_t, V> &&
                                       !std::is_same_v<int64_t, V>)
                         {
-                            log<level::ERR>(std::format("{}: Group {} has more "
-                                                        "than one member but "
-                                                        "isn't numeric",
-                                                        ActionBase::getName(),
-                                                        group.getName())
-                                                .c_str());
+                            lg2::error(
+                                "{ACTION_NAME}: Group {GROUP_NAME} has more "
+                                "than one member but "
+                                "isn't numeric",
+                                "ACTION_NAME", ActionBase::getName(),
+                                "GROUP_NAME", group.getName());
                             invalid = true;
                         }
                     },
@@ -104,10 +103,9 @@ void SetParameterFromGroupMax::run(Zone& /*zone*/)
         }
         catch (const std::exception& e)
         {
-            log<level::ERR>(
-                std::format("{}: Could not perform modifier operation: {}",
-                            ActionBase::getName(), e.what())
-                    .c_str());
+            lg2::error(
+                "{ACTION_NAME}: Could not perform modifier operation: {ERROR}",
+                "ACTION_NAME", ActionBase::getName(), "ERROR", e);
             return;
         }
     }

@@ -19,6 +19,8 @@
 #include "json_config.hpp"
 #include "utils/flight_recorder.hpp"
 
+#include <phosphor-logging/lg2.hpp>
+
 #include <format>
 #include <iostream>
 
@@ -80,9 +82,8 @@ void PCIeCardMetadata::loadCards(const std::vector<std::string>& systemNames)
         FlightRecorder::instance().log(
             "main", std::format("Configuration({}) loaded successfully",
                                 confFile.string()));
-        log<level::INFO>(std::format("Configuration({}) loaded successfully",
-                                     confFile.string())
-                             .c_str());
+        lg2::info("Configuration({CONF_FILE}) loaded successfully", "CONF_FILE",
+                  confFile);
     }
 }
 
@@ -154,9 +155,11 @@ std::optional<std::variant<int32_t, bool>> PCIeCardMetadata::lookup(
     uint16_t deviceID, uint16_t vendorID, uint16_t subsystemID,
     uint16_t subsystemVendorID) const
 {
-    log<level::DEBUG>(std::format("Lookup {:#x} ${:#x} {:#x} {:#x}", deviceID,
-                                  vendorID, subsystemID, subsystemVendorID)
-                          .c_str());
+    lg2::debug(
+        "Lookup {DEVICE_ID} ${VENDOR_ID} {SUBSYSTEM_ID} {SUBSYSTEM_VENDOR_ID}",
+        "DEVICE_ID", lg2::hex, deviceID, "VENDOR_ID", lg2::hex, vendorID,
+        "SUBSYSTEM_ID", lg2::hex, subsystemID, "SUBSYSTEM_VENDOR_ID", lg2::hex,
+        subsystemVendorID);
     auto card = std::find_if(
         _cards.begin(), _cards.end(),
         [&deviceID, &vendorID, &subsystemID,
