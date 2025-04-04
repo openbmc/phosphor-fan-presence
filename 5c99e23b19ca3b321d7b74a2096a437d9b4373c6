@@ -70,6 +70,24 @@
       "parentUuid": "e0a48ad1_16659ff2",
       "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "793e05af_34aa254f",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1000021
+      },
+      "writtenOn": "2025-04-04T15:00:20Z",
+      "side": 0,
+      "message": "it seems we have ended up with two conflicting definitions.\n\n\nas stated please consider adding a new state like Host starting to indicate this unknown state before Standby.",
+      "parentUuid": "8de61c14_f67d9e4c",
+      "revId": "5c99e23b19ca3b321d7b74a2096a437d9b4373c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
