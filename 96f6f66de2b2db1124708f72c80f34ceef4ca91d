@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df19a32a_b2dd8a62",
+        "filename": "cooling-type/main.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-04-07T14:39:46Z",
+      "side": 1,
+      "message": "To make it easier to find this spot in code if this happens, could you add some context to the message about what is failing?  (I know it wasn\u0027t there before but if this were to happen in the field it would be really tough to tell it came from here).",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "96f6f66de2b2db1124708f72c80f34ceef4ca91d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a2a37ef_d81ad84c",
+        "filename": "logger.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-04-07T14:39:46Z",
+      "side": 1,
+      "message": "I don\u0027t quite follow, what\u0027s the workaround?",
+      "revId": "96f6f66de2b2db1124708f72c80f34ceef4ca91d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
