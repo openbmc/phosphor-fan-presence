@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ba7bc4be_f602eb8f",
+        "filename": "cooling-type/main.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-07T15:35:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df19a32a_b2dd8a62",
+      "range": {
+        "startLine": 94,
+        "startChar": 18,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "96f6f66de2b2db1124708f72c80f34ceef4ca91d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a2a37ef_d81ad84c",
@@ -37,6 +61,24 @@
       "writtenOn": "2025-04-07T14:39:46Z",
       "side": 1,
       "message": "I don\u0027t quite follow, what\u0027s the workaround?",
+      "revId": "96f6f66de2b2db1124708f72c80f34ceef4ca91d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e97834a_5e6438fd",
+        "filename": "logger.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-07T15:35:53Z",
+      "side": 1,
+      "message": "When the lg2 call was written as lg2::error(message), the code failed to compile due to both logger.hpp and lg2 having a function named \"log\". The work-around was to specify the message as a key-value pair as seen in the update. I removed the comment to avoid further confusion.",
+      "parentUuid": "9a2a37ef_d81ad84c",
       "revId": "96f6f66de2b2db1124708f72c80f34ceef4ca91d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
