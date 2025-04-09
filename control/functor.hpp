@@ -4,8 +4,6 @@
 #include "types.hpp"
 #include "zone.hpp"
 
-#include <phosphor-logging/log.hpp>
-
 namespace phosphor
 {
 namespace fan
@@ -16,7 +14,6 @@ class Zone;
 
 using namespace phosphor::fan;
 using namespace sdbusplus::bus::match;
-using namespace phosphor::logging;
 
 /**
  * @brief Create a zone handler function object

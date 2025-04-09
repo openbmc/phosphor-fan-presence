@@ -26,9 +26,6 @@ namespace fan
 namespace control
 {
 
-// For throwing exception
-using namespace phosphor::logging;
-
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 

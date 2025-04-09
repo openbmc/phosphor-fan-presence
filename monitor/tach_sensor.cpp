@@ -343,7 +343,7 @@ std::chrono::microseconds TachSensor::getDelay(TimerMode mode)
             // Log an internal error for undefined timer mode
             lg2::error("Undefined timer mode: {TIMER_MODE}", "TIMER_MODE",
                        mode);
-            elog<InternalFailure>();
+            phosphor::logging::elog<InternalFailure>();
             return duration_cast<microseconds>(seconds(0));
     }
 }

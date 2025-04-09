@@ -44,8 +44,6 @@ namespace phosphor::fan::monitor
 using json = nlohmann::json;
 using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
 
-using namespace phosphor::logging;
-
 const std::string System::dumpFile = "/tmp/fan_monitor_dump.json";
 
 System::System(Mode mode, sdbusplus::bus_t& bus,

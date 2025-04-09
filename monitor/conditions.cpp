@@ -18,7 +18,6 @@ namespace condition
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 Condition propertiesMatch(std::vector<PropertyState>&& propStates)
 {

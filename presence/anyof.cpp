@@ -19,8 +19,6 @@
 #include "get_power_state.hpp"
 #include "psensor.hpp"
 
-#include <phosphor-logging/log.hpp>
-
 #include <algorithm>
 
 namespace phosphor

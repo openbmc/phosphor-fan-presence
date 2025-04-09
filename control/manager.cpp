@@ -25,7 +25,6 @@
 
 #include <phosphor-logging/elog-errors.hpp>
 #include <phosphor-logging/elog.hpp>
-#include <phosphor-logging/log.hpp>
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
@@ -39,7 +38,6 @@ namespace fan
 namespace control
 {
 
-using namespace phosphor::logging;
 namespace fs = std::filesystem;
 
 constexpr auto SYSTEMD_SERVICE = "org.freedesktop.systemd1";

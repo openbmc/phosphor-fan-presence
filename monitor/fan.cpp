@@ -32,7 +32,6 @@ namespace fan
 namespace monitor
 {
 
-using namespace phosphor::logging;
 using namespace sdbusplus::bus::match;
 
 Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,

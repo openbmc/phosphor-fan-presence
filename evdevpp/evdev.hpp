@@ -39,7 +39,6 @@ using EvDev = std::unique_ptr<libevdev, EvDevDeleter>;
 
 } // namespace details
 
-using namespace phosphor::logging;
 /** @class EvDev
  *  @brief Provides C++ bindings to the libevdev C API.
  */
@@ -78,7 +77,7 @@ class EvDev
             lg2::error(
                 "Error in call to libevdev_fetch_event_value, Type={TYPE}, Code={CODE}",
                 "TYPE", type, "CODE", code);
-            elog<InternalFailure>();
+            phosphor::logging::elog<InternalFailure>();
         }
 
         return val;
@@ -96,7 +95,7 @@ class EvDev
             {
                 lg2::error("Error in call to libevdev_next_event, RC={RC}",
                            "RC", rc);
-                elog<InternalFailure>();
+                phosphor::logging::elog<InternalFailure>();
             }
 
             if (ev.type == EV_SYN && ev.code == SYN_REPORT)
@@ -128,7 +127,7 @@ inline auto newFromFD(int fd)
     {
         lg2::error("Error in call to libevdev_new_from_fd, RC={RC}, FD={FD}",
                    "RC", rc, "FD", fd);
-        elog<InternalFailure>();
+        phosphor::logging::elog<InternalFailure>();
     }
 
     return EvDev(dev);

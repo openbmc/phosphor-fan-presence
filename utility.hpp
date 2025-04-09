@@ -9,7 +9,6 @@
 #include <sdbusplus/bus.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
-using namespace phosphor::logging;
 using InternalFailure =
     sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
@@ -66,7 +65,7 @@ class FileDescriptor
         {
             lg2::error("Failed to open file device path {PATH}", "PATH",
                        pathname);
-            elog<InternalFailure>();
+            phosphor::logging::elog<InternalFailure>();
         }
     }
 

@@ -41,7 +41,6 @@ namespace presence
 
 using json = nlohmann::json;
 namespace fs = std::filesystem;
-using namespace phosphor::logging;
 
 policies JsonConfig::_policies;
 const std::map<std::string, methodHandler> JsonConfig::_methods = {

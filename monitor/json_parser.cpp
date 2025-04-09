@@ -36,7 +36,6 @@ namespace phosphor::fan::monitor
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 namespace tClass
 {

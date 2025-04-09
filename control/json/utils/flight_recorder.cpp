@@ -15,8 +15,6 @@
  */
 #include "flight_recorder.hpp"
 
-#include <phosphor-logging/log.hpp>
-
 #include <algorithm>
 #include <ctime>
 #include <format>

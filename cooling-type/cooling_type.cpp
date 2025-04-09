@@ -20,8 +20,6 @@ namespace cooling
 namespace type
 {
 
-// For throwing exception
-using namespace phosphor::logging;
 using InternalFailure =
     sdbusplus::xyz::openbmc_project::Common::Error::InternalFailure;
 
@@ -38,7 +36,7 @@ std::unique_ptr<libevdev, FreeEvDev> evdevOpen(int fd)
     lg2::error(
         "Failed to get libevdev from file descriptor {FD}, return code {RC}",
         "FD", fd, "RC", rc);
-    elog<InternalFailure>();
+    phosphor::logging::elog<InternalFailure>();
     return decltype(evdevOpen(0))(nullptr);
 }
 
@@ -54,8 +52,6 @@ void CoolingType::setWaterCooled()
 
 void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
 {
-    using namespace phosphor::logging;
-
     gpioFd.open(gpioPath.c_str(), O_RDONLY);
 
     auto gpioDev = evdevOpen(gpioFd());
@@ -67,7 +63,7 @@ void CoolingType::readGpio(const std::string& gpioPath, unsigned int keycode)
     {
         lg2::error("Device does not support event type keycode {KEYCODE}",
                    "KEYCODE", keycode);
-        elog<InternalFailure>();
+        phosphor::logging::elog<InternalFailure>();
     }
 
     // TODO openbmc/phosphor-fan-presence#6

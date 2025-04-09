@@ -20,7 +20,6 @@
 #include "group.hpp"
 
 #include <nlohmann/json.hpp>
-#include <phosphor-logging/log.hpp>
 
 #include <algorithm>
 #include <format>
@@ -29,7 +28,6 @@ namespace phosphor::fan::control::json
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 MissingOwnerTarget::MissingOwnerTarget(const json& jsonObj,
                                        const std::vector<Group>& groups) :

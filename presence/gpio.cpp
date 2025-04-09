@@ -66,10 +66,10 @@ bool Gpio::present()
 void Gpio::fail()
 {
     using namespace sdbusplus::xyz::openbmc_project::Common::Callout::Error;
-    using namespace phosphor::logging;
-    using namespace xyz::openbmc_project::Common::Callout;
+    using namespace phosphor::logging::xyz::openbmc_project::Common::Callout;
 
-    report<sdbusplus::xyz::openbmc_project::Common::Callout::Error::GPIO>(
+    phosphor::logging::report<
+        sdbusplus::xyz::openbmc_project::Common::Callout::Error::GPIO>(
         GPIO::CALLOUT_GPIO_NUM(pin), GPIO::CALLOUT_ERRNO(0),
         GPIO::CALLOUT_DEVICE_PATH(phys.c_str()));
 }

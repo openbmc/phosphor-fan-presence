@@ -22,7 +22,6 @@
 
 #include <unistd.h>
 
-#include <phosphor-logging/log.hpp>
 #include <xyz/openbmc_project/Logging/Create/server.hpp>
 #include <xyz/openbmc_project/Logging/Entry/server.hpp>
 
@@ -32,7 +31,6 @@ namespace phosphor::fan::presence
 {
 
 using json = nlohmann::json;
-using namespace phosphor::logging;
 using namespace sdbusplus::bus::match;
 using namespace std::literals::string_literals;
 using namespace std::chrono;

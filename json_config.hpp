@@ -31,7 +31,6 @@ namespace phosphor::fan
 
 namespace fs = std::filesystem;
 using json = nlohmann::json;
-using namespace phosphor::logging;
 
 constexpr auto confOverridePath = "/etc/phosphor-fan-presence";
 constexpr auto confBasePath = "/usr/share/phosphor-fan-presence";

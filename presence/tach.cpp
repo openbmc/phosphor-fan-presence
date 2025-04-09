@@ -32,7 +32,6 @@ namespace fan
 namespace presence
 {
 
-using namespace phosphor::logging;
 using namespace std::literals::string_literals;
 
 static const auto tachNamespace = "/xyz/openbmc_project/sensors/fan_tach/"s;
