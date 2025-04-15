@@ -1,0 +1,12 @@
+{
+    "cards": [
+        {
+            "name": "GTO",
+            "vendor_id": "0x1014",
+            "device_id": "0x034A",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x033B",
+            "floor_index": 1
+        }
+    ]
+}

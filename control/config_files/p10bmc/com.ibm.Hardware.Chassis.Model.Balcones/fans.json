@@ -1,0 +1,14 @@
+[
+    {
+        "name": "fan0",
+        "zone": "0",
+        "sensors": ["fan0_0"],
+        "target_interface": "xyz.openbmc_project.Control.FanSpeed"
+    },
+    {
+        "name": "fan1",
+        "zone": "0",
+        "sensors": ["fan1_0"],
+        "target_interface": "xyz.openbmc_project.Control.FanSpeed"
+    }
+]
