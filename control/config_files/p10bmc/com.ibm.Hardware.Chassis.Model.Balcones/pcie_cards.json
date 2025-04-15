@@ -1,0 +1,28 @@
+{
+    "cards": [
+        {
+            "name": "Bear Lake and Bear River",
+            "vendor_id": "0x1014",
+            "device_id": "0x04F2",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0004",
+            "has_temp_sensor": true
+        },
+        {
+            "name": "PHYP had errors getting IDs",
+            "vendor_id": "0xFFFF",
+            "device_id": "0xFFFF",
+            "subsystem_vendor_id": "0xFFFF",
+            "subsystem_id": "0xFFFF",
+            "floor_index": 1
+        },
+        {
+            "name": "GTO",
+            "vendor_id": "0x1014",
+            "device_id": "0x034A",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x033B",
+            "floor_index": 1
+        }
+    ]
+}
