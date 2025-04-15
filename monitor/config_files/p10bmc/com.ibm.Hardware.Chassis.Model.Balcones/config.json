@@ -1,0 +1,76 @@
+{
+    "fans": [
+        {
+            "inventory": "/system/chassis/motherboard/fan0",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 22,
+            "upper_deviation": 40,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan0_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan0_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.685,
+                    "offset": 700
+                }
+            ]
+        },
+        {
+            "inventory": "/system/chassis/motherboard/fan1",
+            "method": "count",
+            "count_interval": 1,
+            "deviation": 22,
+            "upper_deviation": 40,
+            "num_sensors_nonfunc_for_fan_nonfunc": 0,
+            "monitor_start_delay": 30,
+            "fan_missing_error_delay": 20,
+            "nonfunc_rotor_error_delay": 0,
+            "set_func_on_present": true,
+            "sensors": [
+                {
+                    "name": "fan1_0",
+                    "threshold": 30,
+                    "has_target": true
+                },
+                {
+                    "name": "fan1_1",
+                    "threshold": 30,
+                    "has_target": false,
+                    "factor": 0.685,
+                    "offset": 700
+                }
+            ]
+        }
+    ],
+    "fault_handling": {
+        "num_nonfunc_rotors_before_error": 1,
+
+        "power_off_config": [
+            {
+                "type": "hard",
+                "cause": "missing_fan_frus",
+                "count": 1,
+                "delay": 25,
+                "state": "at_pgood"
+            },
+            {
+                "type": "epow",
+                "cause": "nonfunc_fan_rotors",
+                "count": 2,
+                "service_mode_delay": 300,
+                "meltdown_delay": 60
+            }
+        ]
+    }
+}
