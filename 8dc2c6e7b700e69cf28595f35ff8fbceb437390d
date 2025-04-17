@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8d5d0041_27ebedc6",
+        "filename": "control/config_files/p10bmc/com.ibm.Hardware.Chassis.Model.Balcones/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-17T21:57:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a696cd3_7fe84c78",
+      "range": {
+        "startLine": 710,
+        "startChar": 15,
+        "endLine": 710,
+        "endChar": 30
+      },
+      "revId": "8dc2c6e7b700e69cf28595f35ff8fbceb437390d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8b944c67_69efef65",
@@ -41,6 +65,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ad60020_883998aa",
+        "filename": "control/config_files/p10bmc/com.ibm.Hardware.Chassis.Model.Balcones/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-17T21:57:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b944c67_69efef65",
+      "revId": "8dc2c6e7b700e69cf28595f35ff8fbceb437390d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ae843d53_63f8b11c",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-04-17T21:14:07Z",
       "side": 1,
       "message": "Since this system can have cable cards, can you also add this entry from rainier2u?\n\n        {\n            \"name\": \"Bear Lake and Bear River\",\n            \"vendor_id\": \"0x1014\",\n            \"device_id\": \"0x04F2\",\n            \"subsystem_vendor_id\": \"0x1014\",\n            \"subsystem_id\": \"0x0004\",\n            \"has_temp_sensor\": true\n        },\n        \n        \n and to be safe I guess, this one too:\n \n         {\n            \"name\": \"PHYP had errors getting IDs\",\n            \"vendor_id\": \"0xFFFF\",\n            \"device_id\": \"0xFFFF\",\n            \"subsystem_vendor_id\": \"0xFFFF\",\n            \"subsystem_id\": \"0xFFFF\",\n            \"floor_index\": 1  \u003c---- use 1 here, the highest index so far.\n        },",
+      "revId": "8dc2c6e7b700e69cf28595f35ff8fbceb437390d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04861429_1d681aeb",
+        "filename": "control/config_files/p10bmc/com.ibm.Hardware.Chassis.Model.Balcones/pcie_cards.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-17T21:57:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae843d53_63f8b11c",
       "revId": "8dc2c6e7b700e69cf28595f35ff8fbceb437390d",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
