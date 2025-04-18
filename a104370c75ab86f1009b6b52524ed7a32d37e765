@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "48188f64_7df019b4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-18T16:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee235cf1_1d839605",
+      "revId": "a104370c75ab86f1009b6b52524ed7a32d37e765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f5396686_1ddf8a1d",
@@ -41,6 +59,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a4e158_7fa4c573",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-18T16:24:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5396686_1ddf8a1d",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "a104370c75ab86f1009b6b52524ed7a32d37e765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "388bdca7_83ea345c",
@@ -54,6 +96,24 @@
       "writtenOn": "2025-04-18T15:15:09Z",
       "side": 1,
       "message": "Great job summarizing your testing.",
+      "revId": "a104370c75ab86f1009b6b52524ed7a32d37e765",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b17298_6228b335",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-04-18T16:24:28Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "388bdca7_83ea345c",
       "revId": "a104370c75ab86f1009b6b52524ed7a32d37e765",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
