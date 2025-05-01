@@ -1,0 +1,1012 @@
+[
+    {
+        "name": "fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan0/fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan0/fan0_1"
+        ]
+    },
+    {
+        "name": "fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan1/fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan1/fan1_1"
+        ]
+    },
+    {
+        "name": "fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan2/fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan2/fan2_1"
+        ]
+    },
+    {
+        "name": "fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3/fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/fan3/fan3_1"
+        ]
+    },
+    {
+        "name": "occ objects",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/org/open_power/control/occ0",
+            "/org/open_power/control/occ1",
+            "/org/open_power/control/occ2",
+            "/org/open_power/control/occ3",
+            "/org/open_power/control/occ4",
+            "/org/open_power/control/occ5",
+            "/org/open_power/control/occ6",
+            "/org/open_power/control/occ7"
+        ]
+    },
+    {
+        "name": "proc0 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc0_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc0_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc1 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc1_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc1_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc2 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc2_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc2_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc3 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc3_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc3_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc4 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc4_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc4_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc5 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc5_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc5_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc6 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc6_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc6_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc7 core temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc7_core0_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core0_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core1_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core1_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core2_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core2_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core3_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core3_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core4_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core4_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core5_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core5_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core6_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core6_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core7_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core7_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core8_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core8_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core9_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core9_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core10_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core10_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core11_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core11_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core12_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core12_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core13_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core13_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core14_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core14_1_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core15_0_temp",
+            "/xyz/openbmc_project/sensors/temperature/proc7_core15_1_temp"
+        ]
+    },
+    {
+        "name": "proc0 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc0_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc1 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc1_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc2 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc2_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc3 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc3_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc4 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc4_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc5 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc5_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc6 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc6_ioring_temp"
+        ]
+    },
+    {
+        "name": "proc7 ioring temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc7_ioring_temp"
+        ]
+    },
+    {
+        "name": "dram temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm0_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm1_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm2_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm3_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm4_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm5_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm6_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm7_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm8_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm9_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm10_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm11_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm12_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm13_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm14_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm15_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm16_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm17_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm18_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm19_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm20_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm21_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm22_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm23_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm24_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm25_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm26_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm27_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm28_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm29_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm30_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm31_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm32_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm33_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm34_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm35_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm36_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm37_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm38_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm39_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm40_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm41_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm42_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm43_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm44_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm45_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm46_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm47_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm48_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm49_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm50_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm51_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm52_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm53_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm54_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm55_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm56_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm57_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm58_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm59_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm60_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm61_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm62_dram_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm63_dram_temp"
+        ]
+    },
+    {
+        "name": "dram dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_dram_dvfs_temp"
+        ]
+    },
+    {
+        "name": "pmic temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm0_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm1_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm2_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm3_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm4_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm5_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm6_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm7_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm8_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm9_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm10_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm11_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm12_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm13_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm14_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm15_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm16_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm17_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm18_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm19_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm20_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm21_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm22_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm23_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm24_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm25_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm26_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm27_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm28_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm29_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm30_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm31_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm32_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm33_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm34_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm35_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm36_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm37_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm38_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm39_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm40_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm41_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm42_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm43_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm44_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm45_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm46_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm47_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm48_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm49_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm50_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm51_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm52_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm53_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm54_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm55_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm56_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm57_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm58_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm59_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm60_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm61_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm62_pmic_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm63_pmic_temp"
+        ]
+    },
+    {
+        "name": "pmic dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_pmic_dvfs_temp"
+        ]
+    },
+    {
+        "name": "internal memory buffer temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm0_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm1_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm2_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm3_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm4_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm5_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm6_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm7_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm8_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm9_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm10_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm11_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm12_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm13_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm14_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm15_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm16_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm17_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm18_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm19_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm20_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm21_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm22_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm23_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm24_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm25_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm26_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm27_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm28_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm29_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm30_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm31_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm32_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm33_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm34_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm35_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm36_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm37_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm38_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm39_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm40_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm41_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm42_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm43_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm44_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm45_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm46_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm47_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm48_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm49_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm50_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm51_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm52_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm53_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm54_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm55_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm56_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm57_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm58_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm59_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm60_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm61_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm62_intmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm63_intmb_temp"
+        ]
+    },
+    {
+        "name": "internal memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_intmb_dvfs_temp"
+        ]
+    },
+    {
+        // Repurposed as DRAM temperature sensors for 4U DDIMMs
+        "name": "dram and external memory buffer temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm0_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm1_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm2_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm3_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm4_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm5_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm6_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm7_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm8_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm9_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm10_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm11_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm12_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm13_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm14_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm15_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm16_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm17_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm18_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm19_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm20_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm21_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm22_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm23_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm24_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm25_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm26_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm27_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm28_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm29_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm30_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm31_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm32_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm33_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm34_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm35_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm36_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm37_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm38_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm39_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm40_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm41_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm42_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm43_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm44_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm45_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm46_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm47_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm48_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm49_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm50_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm51_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm52_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm53_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm54_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm55_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm56_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm57_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm58_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm59_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm60_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm61_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm62_dram_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm63_dram_extmb_temp"
+        ]
+    },
+    {
+        "name": "dram and external memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_dram_extmb_dvfs_temp"
+        ]
+    },
+    {
+        // Repurposed as PMIC temperature sensors for 4U DDIMMs
+        "name": "external memory buffer temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm0_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm1_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm2_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm3_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm4_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm5_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm6_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm7_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm8_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm9_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm10_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm11_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm12_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm13_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm14_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm15_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm16_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm17_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm18_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm19_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm20_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm21_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm22_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm23_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm24_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm25_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm26_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm27_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm28_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm29_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm30_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm31_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm32_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm33_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm34_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm35_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm36_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm37_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm38_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm39_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm40_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm41_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm42_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm43_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm44_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm45_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm46_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm47_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm48_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm49_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm50_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm51_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm52_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm53_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm54_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm55_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm56_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm57_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm58_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm59_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm60_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm61_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm62_extmb_temp",
+            "/xyz/openbmc_project/sensors/temperature/dimm63_extmb_temp"
+        ]
+    },
+    {
+        "name": "external memory buffer dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/dimm_extmb_dvfs_temp"
+        ]
+    },
+    {
+        "name": "vdd vrm temps",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd0_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd1_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd2_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd3_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd4_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd5_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd6_temp",
+            "/xyz/openbmc_project/sensors/temperature/vrm_vdd7_temp"
+        ]
+    },
+    {
+        "name": "proc 0 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc0_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 1 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc1_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 2 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc2_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 3 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc3_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 4 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc4_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 5 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc5_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 6 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc6_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 7 core dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc7_core_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 0 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc0_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 1 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc1_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 2 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc2_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 3 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc3_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 4 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc4_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 5 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc5_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 6 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc6_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "proc 7 ioring dvfs temp",
+        "service": "org.open_power.OCC.Control",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/proc7_ioring_dvfs_temp"
+        ]
+    },
+    {
+        "name": "nvme temps",
+        "service": "xyz.openbmc_project.NVMeSensor",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/NVMe_1_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_2_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_3_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_4_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_5_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_6_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_7_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_8_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_9_Temp",
+            "/xyz/openbmc_project/sensors/temperature/NVMe_10_Temp"
+        ]
+    },
+    {
+        "name": "planar temps",
+        "service": "xyz.openbmc_project.HwmonTempSensor",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/PCIE_0_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIE_1_Temp"
+        ]
+    },
+    {
+        // Bear Lake card
+        "name": "pcie cable card temps",
+        "service": "xyz.openbmc_project.HwmonTempSensor",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C1_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C2_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C3_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C4_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C5_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C6_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C7_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C8_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C9_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C10_Temp",
+            "/xyz/openbmc_project/sensors/temperature/PCIe_Cable_Card_C11_Temp"
+        ]
+    },
+    {
+        "name": "ambient temp",
+        "service": "xyz.openbmc_project.VirtualSensor",
+        "members": [
+            "/xyz/openbmc_project/sensors/temperature/Ambient_Virtual_Temp"
+        ]
+    },
+    {
+        "name": "altitude",
+        "service": "xyz.openbmc_project.VirtualSensor",
+        "members": ["/xyz/openbmc_project/sensors/altitude/Altitude"]
+    },
+    {
+        "name": "pcie cards",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot1/pcie_card1",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot2/pcie_card2",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot3/pcie_card3",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot4/pcie_card4",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot5/pcie_card5",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot6/pcie_card6",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot7/pcie_card7",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot8/pcie_card8",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot9/pcie_card9",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot10/pcie_card10",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot11/pcie_card11"
+        ]
+    },
+    {
+        "name": "pcie slots",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot1",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot2",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot3",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot4",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot5",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot6",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot7",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot8",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot9",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot10",
+            "/xyz/openbmc_project/inventory/system/chassis/motherboard/pcieslot11"
+        ]
+    }
+]

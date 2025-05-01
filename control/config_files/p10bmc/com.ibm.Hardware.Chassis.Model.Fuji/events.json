@@ -1,0 +1,2485 @@
+[
+    {
+        // Hold fans at the given target when a number of fans are missing.
+        "name": "fan(s) missing",
+        "groups": [
+            {
+                "name": "fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": { "name": "Present" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "count": 1,
+                "state": false,
+                "target": 11300
+            }
+        ]
+    },
+    {
+        // Hold fans at the given target when a number of rotors are nonfunctional.
+        "name": "fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "count": 2,
+                "state": false,
+                "target": 11300
+            }
+        ]
+    },
+    {
+        // (for the following 4 rules)
+        // if a dual-rotor fan becomes non-functional, lock its speed to
+        // poweron_target to lock the other rotor to full_speed
+        "name": "nonfunc rotor override-0",
+        "groups": [
+            {
+                "name": "fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "override_fan_target",
+                "count": 1,
+                "state": false,
+                "fans": ["fan0"],
+                "target": 11300
+            }
+        ]
+    },
+    {
+        "name": "nonfunc rotor override-1",
+        "groups": [
+            {
+                "name": "fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "override_fan_target",
+                "count": 1,
+                "state": false,
+                "fans": ["fan1"],
+                "target": 11300
+            }
+        ]
+    },
+    {
+        "name": "nonfunc rotor override-2",
+        "groups": [
+            {
+                "name": "fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "override_fan_target",
+                "count": 1,
+                "state": false,
+                "fans": ["fan2"],
+                "target": 11300
+            }
+        ]
+    },
+    {
+        "name": "nonfunc rotor override-3",
+        "groups": [
+            {
+                "name": "fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "override_fan_target",
+                "count": 1,
+                "state": false,
+                "fans": ["fan3"],
+                "target": 11300
+            }
+        ]
+    },
+    {
+        // Hold fans at the given target when any critical service
+        // is not running for 5 seconds.
+        "name": "service(s) missing",
+        "groups": [
+            {
+                "name": "fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": { "name": "Present" }
+            },
+            {
+                "name": "occ objects",
+                "interface": "org.open_power.OCC.Status",
+                "property": { "name": "OccActive" }
+            },
+            {
+                "name": "nvme temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "planar temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "pcie cable card temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "ambient temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "altitude",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "signal",
+                "signal": "name_owner_changed"
+            },
+            {
+                "class": "init",
+                "method": "name_has_owner"
+            }
+        ],
+        "actions": [
+            {
+                "name": "call_actions_based_on_timer",
+                "timer": {
+                    "interval": 5000000,
+                    "type": "oneshot"
+                },
+                "actions": [
+                    {
+                        "name": "set_target_on_missing_owner",
+                        "groups": [
+                            {
+                                "name": "fan inventory",
+                                "interface": "xyz.openbmc_project.Inventory.Item",
+                                "property": { "name": "Present" }
+                            },
+                            {
+                                "name": "occ objects",
+                                "interface": "org.open_power.OCC.Status",
+                                "property": { "name": "OccActive" }
+                            },
+                            {
+                                "name": "nvme temps",
+                                "interface": "xyz.openbmc_project.Sensor.Value",
+                                "property": { "name": "Value" }
+                            },
+                            {
+                                "name": "planar temps",
+                                "interface": "xyz.openbmc_project.Sensor.Value",
+                                "property": { "name": "Value" }
+                            },
+                            {
+                                "name": "pcie cable card temps",
+                                "interface": "xyz.openbmc_project.Sensor.Value",
+                                "property": { "name": "Value" }
+                            },
+                            {
+                                "name": "ambient temp",
+                                "interface": "xyz.openbmc_project.Sensor.Value",
+                                "property": { "name": "Value" }
+                            }
+                        ],
+                        "target": 9700
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "name": "Force retry on the OCC status objects",
+        "groups": [
+            {
+                "name": "occ objects",
+                "interface": "org.open_power.OCC.Status",
+                "property": { "name": "OccActive" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "timer",
+                "type": "oneshot",
+                "interval": 30000000,
+                "preload_groups": true
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_target_on_missing_owner",
+                "groups": [
+                    {
+                        "name": "occ objects",
+                        "interface": "org.open_power.OCC.Status",
+                        "property": { "name": "OccActive" }
+                    }
+                ],
+                "target": 9700
+            }
+        ]
+    },
+    {
+        // Set a fan floor if an OCC isn't active
+        "name": "Non-active OCC(s)",
+        "groups": [
+            {
+                "name": "occ objects",
+                "interface": "org.open_power.OCC.Status",
+                "property": {
+                    "name": "OccActive"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "init",
+                "method": "get_properties"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_floor",
+                "count": 1,
+                "state": false,
+                "floor": 11300
+            }
+        ]
+    },
+    {
+        // Set a raised fan floor when any temperature or altitude sensor is
+        // nonfunctional
+        "name": "Nonfunctional temperature sensors",
+        "groups": [
+            {
+                "name": "proc0 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc1 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc2 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc3 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc4 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc5 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc6 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc7 core temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc0 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc1 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc2 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc3 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc4 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc5 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc6 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "proc7 ioring temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "dram temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "pmic temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "internal memory buffer temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "dram and external memory buffer temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "external memory buffer temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "vdd vrm temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "nvme temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "planar temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "pcie cable card temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "ambient temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "altitude",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_removed"
+            },
+            {
+                "class": "init",
+                "method": "get_properties"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_floor",
+                "count": 1,
+                "state": false,
+                "delay": 5,
+                "floor": 11300
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 0 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 0 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_0_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_0_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 1 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 1 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_1_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_1_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 2 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 2 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_2_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_2_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 3 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 3 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_3_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_3_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 4 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 4 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_4_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_4_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 5 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 5 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_5_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_5_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 6 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 6 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_6_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_6_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 7 Core DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 7 core dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_7_core_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 7
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_7_core_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 9
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 0 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 0 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_0_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_0_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 1 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 1 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_1_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_1_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 2 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 2 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_2_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_2_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 3 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 3 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_3_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_3_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 4 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 4 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_4_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_4_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 5 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 5 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_5_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_5_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 6 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 6 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_6_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_6_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set Proc 7 IO Ring DVFS parameter",
+        "groups": [
+            {
+                "name": "proc 7 ioring dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_7_ioring_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "proc_7_ioring_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set DRAM DVFS parameter",
+        "groups": [
+            {
+                "name": "dram dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 8
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 11
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set PMIC DVFS parameter",
+        "groups": [
+            {
+                "name": "pmic dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "pmic_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "pmic_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set internal memory buffer DVFS parameter",
+        "groups": [
+            {
+                "name": "internal memory buffer dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "intmb_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 11
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "intmb_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 14
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set DRAM and external memory buffer DVFS parameter",
+        "groups": [
+            {
+                "name": "dram and external memory buffer dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_extmb_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "dram_extmb_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        "name": "Set external memory buffer DVFS parameter",
+        "groups": [
+            {
+                "name": "external memory buffer dvfs temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "extmb_dvfs_increase_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 10
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "extmb_dvfs_decrease_temp",
+                "modifier": {
+                    "operator": "minus",
+                    "value": 13
+                }
+            }
+        ]
+    },
+    {
+        // Collect group temperatures each iteration the repeating timer expires
+        "name": "Fan control timer loop",
+        "groups": [
+            {
+                "name": "proc0 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc1 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc2 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc3 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc4 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc5 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc6 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc7 core temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc0 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc1 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc2 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc3 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc4 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc5 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc6 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "proc7 ioring temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "dram temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "pmic temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "internal memory buffer temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "dram and external memory buffer temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "external memory buffer temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "vdd vrm temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "nvme temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "planar temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "pcie cable card temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "timer",
+                "type": "repeating",
+                "interval": 2000000,
+                "preload_groups": true
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc0 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_0_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc1 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_1_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc2 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_2_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc3 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_3_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc4 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_4_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc5 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_5_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc6 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_6_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc7 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_7_core_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc0 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_0_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc1 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_1_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc2 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_2_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc3 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_3_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc4 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_4_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc5 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_5_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc6 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_6_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "proc7 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_7_ioring_dvfs_increase_temp",
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "dram temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "dram_dvfs_increase_temp",
+                "delta": 175
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "pmic temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "pmic_dvfs_increase_temp",
+                "delta": 200
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "internal memory buffer temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "intmb_dvfs_increase_temp",
+                "delta": 200
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "dram and external memory buffer temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "dram_extmb_dvfs_increase_temp",
+                "delta": 200
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "external memory buffer temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "extmb_dvfs_increase_temp",
+                "delta": 200
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "vdd vrm temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 85.0,
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "nvme temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 58.0,
+                "delta": 200
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "planar temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 50.0,
+                "delta": 255
+            },
+            {
+                "name": "set_net_increase_target",
+                "groups": [
+                    {
+                        "name": "pcie cable card temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 70.0,
+                "delta": 255
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc0 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_0_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc1 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_1_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc2 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_2_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc3 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_3_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc4 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_4_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc5 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_5_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc6 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_6_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc7 core temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_7_core_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc0 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_0_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc1 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_1_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc2 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_2_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc3 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_3_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc4 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_4_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc5 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_5_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc6 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_6_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "proc7 ioring temp",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "proc_7_ioring_dvfs_decrease_temp",
+                "delta": 50
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "dram temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "dram_dvfs_decrease_temp",
+                "delta": 40
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "pmic temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "pmic_dvfs_decrease_temp",
+                "delta": 40
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "internal memory buffer temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "intmb_dvfs_decrease_temp",
+                "delta": 40
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "dram and external memory buffer temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "dram_extmb_dvfs_decrease_temp",
+                "delta": 40
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "external memory buffer temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state_parameter_name": "extmb_dvfs_decrease_temp",
+                "delta": 40
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "vdd vrm temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 80.0,
+                "delta": 30
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "nvme temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 55.0,
+                "delta": 40
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "planar temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 48.0,
+                "delta": 80
+            },
+            {
+                "name": "set_net_decrease_target",
+                "groups": [
+                    {
+                        "name": "pcie cable card temps",
+                        "interface": "xyz.openbmc_project.Sensor.Value",
+                        "property": { "name": "Value" }
+                    }
+                ],
+                "state": 65.0,
+                "delta": 80
+            }
+        ]
+    },
+    {
+        // Remove NVMe temperature objects from cache when they are removed from
+        // dbus. There's no need to react to their removal.
+        "name": "remove nvme objects",
+        "groups": [
+            {
+                "name": "nvme temps",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            },
+            {
+                "name": "nvme temps",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "signal",
+                "signal": "interfaces_removed"
+            }
+        ]
+    },
+    {
+        "name": "set pcie floor index",
+        "groups": [
+            {
+                "name": "pcie slots",
+                "interface": "xyz.openbmc_project.State.Decorator.PowerState",
+                "property": {
+                    "name": "PowerState"
+                }
+            },
+            {
+                "name": "pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": {
+                    "name": "Function0DeviceId"
+                }
+            },
+            {
+                "name": "pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": {
+                    "name": "Function0VendorId"
+                }
+            },
+            {
+                "name": "pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": {
+                    "name": "Function0SubsystemId"
+                }
+            },
+            {
+                "name": "pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": {
+                    "name": "Function0SubsystemVendorId"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "name": "pcie_card_floors",
+                "use_config_specific_files": true,
+                "settle_time": 2
+            }
+        ]
+    },
+    {
+        "name": "Set altitude offset parameter",
+        "groups": [
+            {
+                "name": "altitude",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                // Refresh altitude every 24hrs
+                "class": "timer",
+                "type": "repeating",
+                "interval": 86400000000,
+                "preload_groups": true
+            }
+        ],
+        "actions": [
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "ambient_20_altitude_offset",
+                "modifier": {
+                    "operator": "less_than",
+                    "default_value": 1500,
+                    "value": [
+                        { "arg_value": 500, "parameter_value": 0 },
+                        { "arg_value": 1000, "parameter_value": 375 },
+                        { "arg_value": 1500, "parameter_value": 550 },
+                        { "arg_value": 2000, "parameter_value": 775 },
+                        { "arg_value": 2500, "parameter_value": 1000 },
+                        { "arg_value": 3050, "parameter_value": 1275 }
+                    ]
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "ambient_25_altitude_offset",
+                "modifier": {
+                    "operator": "less_than",
+                    "default_value": 2000,
+                    "value": [
+                        { "arg_value": 500, "parameter_value": 0 },
+                        { "arg_value": 1000, "parameter_value": 450 },
+                        { "arg_value": 1500, "parameter_value": 700 },
+                        { "arg_value": 2000, "parameter_value": 975 },
+                        { "arg_value": 2500, "parameter_value": 1275 },
+                        { "arg_value": 3050, "parameter_value": 1625 }
+                    ]
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "ambient_30_altitude_offset",
+                "modifier": {
+                    "operator": "less_than",
+                    "default_value": 2500,
+                    "value": [
+                        { "arg_value": 500, "parameter_value": 0 },
+                        { "arg_value": 1000, "parameter_value": 600 },
+                        { "arg_value": 1500, "parameter_value": 900 },
+                        { "arg_value": 2000, "parameter_value": 1275 },
+                        { "arg_value": 2500, "parameter_value": 1650 },
+                        { "arg_value": 3050, "parameter_value": 2100 }
+                    ]
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "ambient_35_altitude_offset",
+                "modifier": {
+                    "operator": "less_than",
+                    "default_value": 3000,
+                    "value": [
+                        { "arg_value": 500, "parameter_value": 0 },
+                        { "arg_value": 1000, "parameter_value": 750 },
+                        { "arg_value": 1500, "parameter_value": 1175 },
+                        { "arg_value": 2000, "parameter_value": 1625 },
+                        { "arg_value": 2500, "parameter_value": 2125 },
+                        { "arg_value": 3050, "parameter_value": 2725 }
+                    ]
+                }
+            },
+            {
+                "name": "set_parameter_from_group_max",
+                "parameter_name": "ambient_40_altitude_offset",
+                "modifier": {
+                    "operator": "less_than",
+                    "default_value": 3500,
+                    "value": [
+                        { "arg_value": 500, "parameter_value": 0 },
+                        { "arg_value": 1000, "parameter_value": 975 },
+                        { "arg_value": 1500, "parameter_value": 1500 },
+                        { "arg_value": 2000, "parameter_value": 2100 },
+                        { "arg_value": 2500, "parameter_value": 2750 },
+                        { "arg_value": 3050, "parameter_value": 3500 }
+                    ]
+                }
+            }
+        ]
+    },
+    {
+        "name": "Fan floors",
+        "groups": [
+            {
+                "name": "ambient temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "parameter",
+                "parameter": "pcie_floor_index"
+            },
+            {
+                "class": "parameter",
+                "parameter": "ambient_20_altitude_offset"
+            },
+            {
+                "class": "parameter",
+                "parameter": "ambient_25_altitude_offset"
+            },
+            {
+                "class": "parameter",
+                "parameter": "ambient_30_altitude_offset"
+            },
+            {
+                "class": "parameter",
+                "parameter": "ambient_35_altitude_offset"
+            },
+            {
+                "class": "parameter",
+                "parameter": "ambient_40_altitude_offset"
+            }
+        ],
+        "actions": [
+            {
+                "name": "mapped_floor",
+                "key_group": "ambient temp",
+                "fan_floors": [
+                    {
+                        // Entry valid for temps < 20
+                        "key": 20,
+                        "default_floor": 3800,
+                        "floor_offset_parameter": "ambient_20_altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 3800 },
+                                    { "value": 2, "floor": 4200 },
+                                    { "value": 3, "floor": 4600 },
+                                    { "value": 4, "floor": 6500 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 25
+                        "key": 25,
+                        "default_floor": 4400,
+                        "floor_offset_parameter": "ambient_25_altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 4400 },
+                                    { "value": 2, "floor": 4800 },
+                                    { "value": 3, "floor": 5400 },
+                                    { "value": 4, "floor": 7500 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 30
+                        "key": 30,
+                        "default_floor": 5000,
+                        "floor_offset_parameter": "ambient_30_altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 5000 },
+                                    { "value": 2, "floor": 5600 },
+                                    { "value": 3, "floor": 6500 },
+                                    { "value": 4, "floor": 9000 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 35
+                        "key": 35,
+                        "default_floor": 5800,
+                        "floor_offset_parameter": "ambient_35_altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 5800 },
+                                    { "value": 2, "floor": 6700 },
+                                    { "value": 3, "floor": 7700 },
+                                    { "value": 4, "floor": 11300 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 40
+                        "key": 40,
+                        "default_floor": 6900,
+                        "floor_offset_parameter": "ambient_40_altitude_offset",
+                        "floors": [
+                            {
+                                "parameter": "pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 6900 },
+                                    { "value": 2, "floor": 7900 },
+                                    { "value": 3, "floor": 9200 },
+                                    { "value": 4, "floor": 11300 }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
