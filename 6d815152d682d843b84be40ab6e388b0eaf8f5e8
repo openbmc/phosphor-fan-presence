@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c378e616_a0d4da4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-05-30T18:05:35Z",
+      "side": 1,
+      "message": "Waiting on seeing if we can get some adapters to test with before merging.",
+      "revId": "6d815152d682d843b84be40ab6e388b0eaf8f5e8",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
