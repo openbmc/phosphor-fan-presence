@@ -15,12 +15,12 @@
             "sensors": [
                 {
                     "name": "fan0_0",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": true
                 },
                 {
                     "name": "fan0_1",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": false,
                     "factor": 0.79,
                     "offset": 100
@@ -40,12 +40,12 @@
             "sensors": [
                 {
                     "name": "fan1_0",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": true
                 },
                 {
                     "name": "fan1_1",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": false,
                     "factor": 0.79,
                     "offset": 100
@@ -65,12 +65,12 @@
             "sensors": [
                 {
                     "name": "fan2_0",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": true
                 },
                 {
                     "name": "fan2_1",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": false,
                     "factor": 0.79,
                     "offset": 100
@@ -90,12 +90,12 @@
             "sensors": [
                 {
                     "name": "fan3_0",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": true
                 },
                 {
                     "name": "fan3_1",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": false,
                     "factor": 0.79,
                     "offset": 100
@@ -115,12 +115,12 @@
             "sensors": [
                 {
                     "name": "fan4_0",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": true
                 },
                 {
                     "name": "fan4_1",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": false,
                     "factor": 0.79,
                     "offset": 100
@@ -140,12 +140,12 @@
             "sensors": [
                 {
                     "name": "fan5_0",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": true
                 },
                 {
                     "name": "fan5_1",
-                    "threshold": 30,
+                    "threshold": 45,
                     "has_target": false,
                     "factor": 0.79,
                     "offset": 100
