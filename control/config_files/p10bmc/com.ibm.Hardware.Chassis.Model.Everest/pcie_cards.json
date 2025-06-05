@@ -143,6 +143,46 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x04E7",
             "floor_index": 1
+        },
+        {
+            "name": "Moso PCIe4 64Gb 2-port Fibre Channel Adapter",
+            "vendor_id": "0x1077",
+            "device_id": "0x2289",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06C5",
+            "floor_index": 2
+        },
+        {
+            "name": "Dragonhead PCIe4 32Gb 4-port Fibre Channel Adapter",
+            "vendor_id": "0x1077",
+            "device_id": "0x2089",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06C6",
+            "floor_index": 2
+        },
+        {
+            "name": "Shale 4 port ROCE adapter",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1021",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x0712",
+            "floor_index": 2
+        },
+        {
+            "name": "Horton 32Gb 4-port Fibre Channel Adapter",
+            "vendor_id": "0x10DF",
+            "device_id": "0xF500",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06C1",
+            "floor_index": 2
+        },
+        {
+            "name": "Nool 64Gb 2-port Fibre Channel Adapter",
+            "vendor_id": "0x10DF",
+            "device_id": "0xF500",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06C2",
+            "floor_index": 2
         }
     ]
 }
