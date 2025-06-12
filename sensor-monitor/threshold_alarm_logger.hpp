@@ -231,6 +231,11 @@ class ThresholdAlarmLogger
     sdbusplus::bus::match_t perfLossMatch;
 
     /**
+     * @brief The HardShutdown interface match object
+     */
+    sdbusplus::bus::match_t hardShutdownMatch;
+
+    /**
      * @brief The InterfacesRemoved match object
      */
     sdbusplus::bus::match_t ifacesRemovedMatch;
