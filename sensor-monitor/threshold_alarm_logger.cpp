@@ -37,6 +37,8 @@ const std::string criticalInterface =
     "xyz.openbmc_project.Sensor.Threshold.Critical";
 const std::string perfLossInterface =
     "xyz.openbmc_project.Sensor.Threshold.PerformanceLoss";
+const std::string hardShutdownInterface =
+    "xyz.openbmc_project.Sensor.Threshold.HardShutdown";
 constexpr auto loggingService = "xyz.openbmc_project.Logging";
 constexpr auto loggingPath = "/xyz/openbmc_project/logging";
 constexpr auto loggingCreateIface = "xyz.openbmc_project.Logging.Create";
@@ -45,7 +47,7 @@ constexpr auto valueInterface = "xyz.openbmc_project.Sensor.Value";
 constexpr auto assocInterface = "xyz.openbmc_project.Association";
 
 const std::vector<std::string> thresholdIfaceNames{
-    warningInterface, criticalInterface, perfLossInterface};
+    warningInterface, criticalInterface, perfLossInterface, hardShutdownInterface};
 
 using ErrorData = std::tuple<ErrorName, ErrorStatus, Entry::Level>;
 
@@ -83,6 +85,16 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
           {"PerfLossAlarmLow",
            {{true, ErrorData{"PerformanceLossLow", "", Entry::Level::Warning}},
             {false, ErrorData{"PerformanceLossLow", "Clear",
+                              Entry::Level::Informational}}}}}},
+
+        {hardShutdownInterface,
+         {{"HardShutdownAlarmHigh",
+           {{true, ErrorData{"HardShutdownHigh", "", Entry::Level::Error}},
+            {false, ErrorData{"HardShutdownHigh", "Clear",
+                              Entry::Level::Informational}}}},
+          {"HardShutdownAlarmLow",
+           {{true, ErrorData{"HardShutdownLow", "", Entry::Level::Error}},
+            {false, ErrorData{"HardShutdownLow", "Clear",
                               Entry::Level::Informational}}}}}}};
 
 ThresholdAlarmLogger::ThresholdAlarmLogger(
@@ -108,6 +120,13 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(
                   "path_namespace='/xyz/openbmc_project/sensors',"
                   "arg0='" +
                       perfLossInterface + "'",
+                  std::bind(&ThresholdAlarmLogger::propertiesChanged, this,
+                            std::placeholders::_1)),
+    hardShutdownMatch(bus,
+                  "type='signal',member='PropertiesChanged',"
+                  "path_namespace='/xyz/openbmc_project/sensors',"
+                  "arg0='" +
+                      hardShutdownInterface + "'",
                   std::bind(&ThresholdAlarmLogger::propertiesChanged, this,
                             std::placeholders::_1)),
     ifacesRemovedMatch(bus,
