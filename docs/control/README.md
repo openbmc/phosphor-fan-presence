@@ -48,12 +48,11 @@ exists.
 Where a single set of config files for 1-or-more system types can be used, the
 config files can be located at the base of the supported directory.
 
-i.e.)  
-`/usr/share/phosphor-fan-presence/control/manager.json`  
-`/usr/share/phosphor-fan-presence/control/profiles.json`  
-`/usr/share/phosphor-fan-presence/control/fans.json`  
-`/usr/share/phosphor-fan-presence/control/zones.json`  
-`/usr/share/phosphor-fan-presence/control/groups.json`  
+i.e.) `/usr/share/phosphor-fan-presence/control/manager.json`
+`/usr/share/phosphor-fan-presence/control/profiles.json`
+`/usr/share/phosphor-fan-presence/control/fans.json`
+`/usr/share/phosphor-fan-presence/control/zones.json`
+`/usr/share/phosphor-fan-presence/control/groups.json`
 `/usr/share/phosphor-fan-presence/control/events.json`
 
 #### Compatible System Type Location
@@ -271,4 +270,4 @@ To confirm which config files were loaded, use the following command on the BMC:
 ## Debug
 
 Fan control maintains internal data structures that can be be dumped at runtime.
-Details [here](debug.md).
+[Details](debug.md).
