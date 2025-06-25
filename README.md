@@ -27,26 +27,22 @@ file(s) at runtime.
 The following applications are built by default:
 
 - [Fan Control](#fan-control)
-
   - To disable from building, use the `-Dcontrol-service=disabled` meson option:
 
     meson build -Dcontrol-service=disabled
 
 - [Fan Presence Detection](#fan-presence-detection)
-
   - To disable from building, use the `-Dpresence-service=disabled` meson
     option:
 
     meson build -Dpresence-service=disabled
 
 - [Fan Monitoring](#fan-monitoring)
-
   - To disable from building, use the `-Dmonitor-service=disabled` meson option:
 
     meson build -Dmonitor-service=disabled
 
 - [Sensor Monitoring](#sensor-monitoring)
-
   - To disable from building, use the `-Dsensor-monitor-service=disabled` meson
     option:
 
@@ -55,7 +51,6 @@ The following applications are built by default:
 The following applications must be enabled at _configure_ time to be built:
 
 - [Cooling Type](#cooling-type)
-
   - To enable building this, set the `-Dcooling-type-service=enable` meson
     option:
 
