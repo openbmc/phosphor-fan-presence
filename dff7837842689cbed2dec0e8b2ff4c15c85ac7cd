@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "782f0fd5_19fbf570",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-06-30T22:03:59Z",
+      "side": 1,
+      "message": "There is already https://github.com/openbmc/phosphor-fan-presence/tree/master/docs/sensor-monitor#shutdownalarmmonitor (https://github.com/openbmc/phosphor-fan-presence/blob/master/sensor-monitor/shutdown_alarm_monitor.cpp)  that would shutdown and create event logs based on that threshold alarm.\n\nYou must be using something else to shut down?",
+      "revId": "dff7837842689cbed2dec0e8b2ff4c15c85ac7cd",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
