@@ -223,6 +223,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06C5",
             "floor_index": 2
+        },
+        {
+            "name": "Vanguard 4770 Crypto",
+            "vendor_id": "0x1014",
+            "device_id": "0x06A2",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06A2",
+            "floor_index": 3
         }
     ]
 }
