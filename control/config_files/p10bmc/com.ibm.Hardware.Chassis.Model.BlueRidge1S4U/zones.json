@@ -1,0 +1,9 @@
+[
+    {
+        "name": "0",
+        "poweron_target": 10400,
+        "default_floor": 10400,
+        "increase_delay": 5,
+        "decrease_interval": 60
+    }
+]
