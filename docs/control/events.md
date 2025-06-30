@@ -292,7 +292,6 @@ parameter value.
 The above config uses a hardcoded state value:
 
 - For each member of the 'pcie temps' group:
-
   - Read its 'Value' D-Bus property.
   - If that property value is greater than the 'state' value of 70.0:
   - Subtracts 70.0 from the property value.
@@ -318,7 +317,6 @@ The above config uses a hardcoded state value:
 The above config uses a parameter as the state value:
 
 - For each member of the 'proc 0 core temps' group:
-
   - Read its 'Value' D-Bus property.
   - If that property value is greater than the value of the parameter listed in
     the 'state_parameter_name' field, in this case
@@ -357,7 +355,6 @@ parameter value.
 The above config uses a hardcoded state value:
 
 - For each member of the 'pcie temps' group:
-
   - Read its 'Value' D-Bus property.
   - If that property value is less than the 'state' value of 65.0:
   - Subtracts the property value from 65.0.
@@ -383,7 +380,6 @@ The above config uses a hardcoded state value:
 The above config uses a parameter as the state value:
 
 - For each member of the 'proc 0 core temps' group:
-
   - Read its 'Value' D-Bus property.
   - If that property value is less than the value of the parameter listed the
     'state_parameter_name' field, in this case 'proc_0_core_dvfs_decrease_temp':
