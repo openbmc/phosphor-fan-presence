@@ -16,6 +16,24 @@
       "message": "This doesn\u0027t really belong in this commit...\nthat being said, I don\u0027t really care that much.",
       "revId": "a246ebeceb126badeb15339535ef954341c7af1c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fe6cb8c4_a92832f3",
+        "filename": "control/config_files/p10bmc/com.ibm.Hardware.Chassis.Model.BlueRidge2U/groups.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-07-01T19:37:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae616e3a_93eedc15",
+      "revId": "a246ebeceb126badeb15339535ef954341c7af1c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
