@@ -85,7 +85,7 @@ if (get_option('tests').allowed())
 endif
 
 
-servicedir = systemd_dep.get_variable('systemdsystemunitdir')
+servicedir = systemd_dep.get_variable('systemd_system_unit_dir')
 usr_share_dir = '/usr/share/phosphor-fan-presence'
 
 conf = configuration_data()
