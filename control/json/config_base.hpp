@@ -117,21 +117,21 @@ class ConfigBase
      */
     static const PropertyVariantType getJsonValue(const json& object)
     {
-        if (auto boolPtr = object.get_ptr<const bool*>())
+        if (object.is_boolean())
         {
-            return *boolPtr;
+            return object.get<bool>();
         }
-        if (auto intPtr = object.get_ptr<const int64_t*>())
+        if (object.is_number_integer())
         {
-            return *intPtr;
+            return object.get<int64_t>();
         }
-        if (auto doublePtr = object.get_ptr<const double*>())
+        if (object.is_number_float())
         {
-            return *doublePtr;
+            return object.get<double>();
         }
-        if (auto stringPtr = object.get_ptr<const std::string*>())
+        if (object.is_string())
         {
-            return *stringPtr;
+            return object.get<std::string>();
         }
 
         lg2::error(
