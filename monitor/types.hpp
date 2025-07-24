@@ -58,27 +58,27 @@ class JsonTypeHandler
                                             const std::string& type = "")
     {
         PropertyValue value;
-        if (auto boolPtr = entry.get_ptr<const bool*>())
+        if (entry.is_boolean())
         {
             if (type.empty() || type == "bool")
             {
-                value = *boolPtr;
+                value = entry.get<bool>();
                 return value;
             }
         }
-        if (auto int64Ptr = entry.get_ptr<const int64_t*>())
+        if (entry.is_number_integer())
         {
             if (type.empty() || type == "int64_t")
             {
-                value = *int64Ptr;
+                value = entry.get<int64_t>();
                 return value;
             }
         }
-        if (auto stringPtr = entry.get_ptr<const std::string*>())
+        if (entry.is_string())
         {
             if (type.empty() || type == "std::string")
             {
-                value = *stringPtr;
+                value = entry.get<std::string>();
                 return value;
             }
         }
