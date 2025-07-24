@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd03224b_0eb2080e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-07-24T18:55:23Z",
+      "side": 1,
+      "message": "Looks good to me.\n\nIs that the only place in the code where this race condition would occur?",
+      "revId": "2b102218079376516db49bfbc9f3df261f281ebf",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
