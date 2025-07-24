@@ -73,7 +73,30 @@ void Fan::setSensors(const json& jsonObj)
                    sensor.get<std::string>();
         }
 
-        auto service = util::SDBusPlus::getService(_bus, path, _interface);
+        std::string service;
+        int attempts = 0;
+        constexpr int maxAttempts = 5;
+        while (true)
+        {
+            try
+            {
+                service = util::SDBusPlus::getService(_bus, path, _interface);
+                break;
+            }
+            catch (const std::exception&)
+            {
+                lg2::warning("No service for {PATH} {INTERFACE}", "PATH", path,
+                             "INTERFACE", _interface);
+                attempts++;
+                if (attempts == maxAttempts)
+                {
+                    lg2::error("Giving up");
+                    throw;
+                }
+                lg2::info("Retrying");
+                std::this_thread::sleep_for(std::chrono::seconds(2));
+            }
+        }
         _sensors[path] = service;
     }
     // All sensors associated with this fan are set to the same target,
