@@ -42,7 +42,7 @@ PCIeCardFloors::PCIeCardFloors(const json& jsonObj,
     loadCardJSON(jsonObj);
 }
 
-void PCIeCardFloors::run(Zone& zone)
+void PCIeCardFloors::run(Zone&)
 {
     if (_settleTimer)
     {
