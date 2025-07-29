@@ -52,7 +52,7 @@ void PCIeCardFloors::run(Zone& zone)
     {
         _settleTimer =
             std::make_unique<Timer>(util::SDEventPlus::getEvent(),
-                                    [&zone, this](Timer&) { execute(); });
+                                    [this](Timer&) { execute(); });
     }
     _settleTimer->restartOnce(_settleTime);
 }

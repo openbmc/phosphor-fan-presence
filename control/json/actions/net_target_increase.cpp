@@ -57,7 +57,7 @@ void NetTargetIncrease::run(Zone& zone)
         const auto& members = group.getMembers();
         std::for_each(
             members.begin(), members.end(),
-            [this, &zone, &group, &netDelta](const auto& member) {
+            [this, &group, &netDelta](const auto& member) {
                 try
                 {
                     auto value = Manager::getObjValueVariant(
