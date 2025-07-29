@@ -42,7 +42,7 @@ PCIeCardFloors::PCIeCardFloors(const json& jsonObj,
     loadCardJSON(jsonObj);
 }
 
-void PCIeCardFloors::run(Zone& zone)
+void PCIeCardFloors::run(Zone&)
 {
     if (_settleTimer)
     {
@@ -50,9 +50,8 @@ void PCIeCardFloors::run(Zone& zone)
     }
     else
     {
-        _settleTimer =
-            std::make_unique<Timer>(util::SDEventPlus::getEvent(),
-                                    [&zone, this](Timer&) { execute(); });
+        _settleTimer = std::make_unique<Timer>(util::SDEventPlus::getEvent(),
+                                               [this](Timer&) { execute(); });
     }
     _settleTimer->restartOnce(_settleTime);
 }
