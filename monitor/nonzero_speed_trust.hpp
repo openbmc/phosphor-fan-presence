@@ -23,8 +23,8 @@ class NonzeroSpeed : public Group
     ~NonzeroSpeed() = default;
     NonzeroSpeed(const NonzeroSpeed&) = delete;
     NonzeroSpeed& operator=(const NonzeroSpeed&) = delete;
-    NonzeroSpeed(NonzeroSpeed&&) = default;
-    NonzeroSpeed& operator=(NonzeroSpeed&&) = default;
+    NonzeroSpeed(NonzeroSpeed&&) = delete;
+    NonzeroSpeed& operator=(NonzeroSpeed&&) = delete;
 
     /**
      * Constructor
