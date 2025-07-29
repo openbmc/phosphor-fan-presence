@@ -149,9 +149,6 @@ class Event : public ConfigBase
     json dump() const;
 
   private:
-    /* The sdbusplus bus object */
-    sdbusplus::bus_t& _bus;
-
     /* The event's manager */
     Manager* _manager;
 
