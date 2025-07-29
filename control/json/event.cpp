@@ -38,8 +38,7 @@ std::map<configKey, std::unique_ptr<Group>> Event::allGroups;
 
 Event::Event(const json& jsonObj, Manager* mgr,
              std::map<configKey, std::unique_ptr<Zone>>& zones) :
-    ConfigBase(jsonObj), _bus(util::SDBusPlus::getBus()), _manager(mgr),
-    _zones(zones)
+    ConfigBase(jsonObj), _manager(mgr), _zones(zones)
 {
     // Event groups are optional
     if (jsonObj.contains("groups"))
