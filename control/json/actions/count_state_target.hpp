@@ -80,9 +80,6 @@ class CountStateTarget :
     /* Target for this action */
     uint64_t _target;
 
-    /* Unique id of this action */
-    size_t _id;
-
     /**
      * @brief Parse and set the count
      *
