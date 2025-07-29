@@ -24,9 +24,9 @@ class Fan
   public:
     Fan() = delete;
     Fan(const Fan&) = delete;
-    Fan(Fan&&) = default;
+    Fan(Fan&&) = delete;
     Fan& operator=(const Fan&) = delete;
-    Fan& operator=(Fan&&) = default;
+    Fan& operator=(Fan&&) = delete;
     ~Fan() = default;
 
     /**
