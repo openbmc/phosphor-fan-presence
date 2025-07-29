@@ -91,7 +91,7 @@ option(
 
 option(
     'delay-host-control',
-    value: '0',
+    value: 0,
     type: 'integer',
     description: 'Delay host control when the power is on and the fan sensors are offline.',
 )
