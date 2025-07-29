@@ -418,7 +418,7 @@ void System::powerStateChanged(bool powerStateOn)
 
         // Cancel any in-progress power off actions
         std::for_each(_powerOffRules.begin(), _powerOffRules.end(),
-                      [this](auto& rule) { rule->cancel(); });
+                      [](auto& rule) { rule->cancel(); });
     }
 }
 
