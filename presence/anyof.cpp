@@ -138,11 +138,9 @@ void AnyOf::checkSensorConflicts()
     // If at least one, but not all, sensors indicate present, then
     // tell the not present ones to log a conflict if not already done.
     if (std::any_of(state.begin(), state.end(),
-                    [this](const auto& s) {
-                        return std::get<presentPos>(s);
-                    }) &&
+                    [](const auto& s) { return std::get<presentPos>(s); }) &&
         !std::all_of(state.begin(), state.end(),
-                     [this](const auto& s) { return std::get<presentPos>(s); }))
+                     [](const auto& s) { return std::get<presentPos>(s); }))
     {
         for (auto& [sensor, present, conflict] : state)
         {
