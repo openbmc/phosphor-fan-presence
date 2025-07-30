@@ -1008,6 +1008,6 @@ if __name__ == "__main__":
         )
     else:
         lkup = TemplateLookup(directories=tmpls_dir.split())
-    tmpl = lkup.get_template("fan_zone_defs.mako.cpp")
+    tmpl = lkup.get_template("fan_zone_defs.cpp.mako")
     with open(output_file, "w") as output:
         output.write(tmpl.render(zones=zone_config, mgr_data=manager_config))

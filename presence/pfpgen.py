@@ -146,7 +146,7 @@ class Gpio(Sensor, Renderer):
         super(Gpio, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        return self.render(loader, "gpio.mako.hpp", g=self, indent=indent)
+        return self.render(loader, "gpio.hpp.mako", g=self, indent=indent)
 
     def setup(self, objs):
         super(Gpio, self).setup(objs)
@@ -161,7 +161,7 @@ class Tach(Sensor, Renderer):
         super(Tach, self).__init__(**kw)
 
     def construct(self, loader, indent):
-        return self.render(loader, "tach.mako.hpp", t=self, indent=indent)
+        return self.render(loader, "tach.hpp.mako", t=self, indent=indent)
 
     def setup(self, objs):
         super(Tach, self).setup(objs)
@@ -200,7 +200,7 @@ class AnyOf(Rpolicy, Renderer):
         super(AnyOf, self).setup(objs)
 
     def construct(self, loader, indent):
-        return self.render(loader, "anyof.mako.hpp", f=self, indent=indent)
+        return self.render(loader, "anyof.hpp.mako", f=self, indent=indent)
 
 
 class Fallback(Rpolicy, Renderer):
@@ -214,7 +214,7 @@ class Fallback(Rpolicy, Renderer):
         super(Fallback, self).setup(objs)
 
     def construct(self, loader, indent):
-        return self.render(loader, "fallback.mako.hpp", f=self, indent=indent)
+        return self.render(loader, "fallback.hpp.mako", f=self, indent=indent)
 
 
 class Fan(ConfigEntry):
@@ -359,7 +359,7 @@ if __name__ == "__main__":
         "-t",
         "--template",
         dest="template",
-        default="generated.mako.hpp",
+        default="generated.hpp.mako",
         help="The top level template to render.",
     )
     parser.add_argument(
