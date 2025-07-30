@@ -30,10 +30,10 @@ class AnyOf : public RedundancyPolicy
 {
   public:
     AnyOf() = delete;
-    AnyOf(const AnyOf&) = default;
-    AnyOf& operator=(const AnyOf&) = default;
-    AnyOf(AnyOf&&) = default;
-    AnyOf& operator=(AnyOf&&) = default;
+    AnyOf(const AnyOf&) = delete;
+    AnyOf& operator=(const AnyOf&) = delete;
+    AnyOf(AnyOf&&) = delete;
+    AnyOf& operator=(AnyOf&&) = delete;
     ~AnyOf() = default;
 
     /**

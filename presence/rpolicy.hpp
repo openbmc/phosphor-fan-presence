@@ -26,10 +26,10 @@ class PresenceSensor;
 class RedundancyPolicy
 {
   public:
-    RedundancyPolicy(const RedundancyPolicy&) = default;
-    RedundancyPolicy& operator=(const RedundancyPolicy&) = default;
-    RedundancyPolicy(RedundancyPolicy&&) = default;
-    RedundancyPolicy& operator=(RedundancyPolicy&&) = default;
+    RedundancyPolicy(const RedundancyPolicy&) = delete;
+    RedundancyPolicy& operator=(const RedundancyPolicy&) = delete;
+    RedundancyPolicy(RedundancyPolicy&&) = delete;
+    RedundancyPolicy& operator=(RedundancyPolicy&&) = delete;
     virtual ~RedundancyPolicy() = default;
 
     /**

@@ -28,10 +28,10 @@ class Fallback : public RedundancyPolicy
 {
   public:
     Fallback() = delete;
-    Fallback(const Fallback&) = default;
-    Fallback& operator=(const Fallback&) = default;
-    Fallback(Fallback&&) = default;
-    Fallback& operator=(Fallback&&) = default;
+    Fallback(const Fallback&) = delete;
+    Fallback& operator=(const Fallback&) = delete;
+    Fallback(Fallback&&) = delete;
+    Fallback& operator=(Fallback&&) = delete;
     ~Fallback() = default;
 
     /**
