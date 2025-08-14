@@ -64,10 +64,9 @@ class ThresholdAlarmLogger
      * Looks for existing active threshold alarms.
      *
      * @param[in] bus - The sdbusplus bus object
-     * @param[in] event - The sdeventplus event object
      * @param[in] powerState - The PowerState object
      */
-    ThresholdAlarmLogger(sdbusplus::bus_t& bus, sdeventplus::Event& event,
+    ThresholdAlarmLogger(sdbusplus::bus_t& bus,
                          std::shared_ptr<phosphor::fan::PowerState> powerState);
 
   private:
@@ -204,11 +203,6 @@ class ThresholdAlarmLogger
      * @brief The sdbusplus bus object
      */
     sdbusplus::bus_t& bus;
-
-    /**
-     * @brief The sdeventplus Event object
-     */
-    sdeventplus::Event& event;
 
     /**
      * @brief The PowerState object to track power state changes.

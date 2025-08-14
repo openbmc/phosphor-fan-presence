@@ -86,9 +86,8 @@ const std::map<InterfaceName, std::map<PropertyName, std::map<bool, ErrorData>>>
                               Entry::Level::Informational}}}}}}};
 
 ThresholdAlarmLogger::ThresholdAlarmLogger(
-    sdbusplus::bus_t& bus, sdeventplus::Event& event,
-    std::shared_ptr<PowerState> powerState) :
-    bus(bus), event(event), _powerState(std::move(powerState)),
+    sdbusplus::bus_t& bus, std::shared_ptr<PowerState> powerState) :
+    bus(bus), _powerState(std::move(powerState)),
     warningMatch(bus,
                  "type='signal',member='PropertiesChanged',"
                  "path_namespace='/xyz/openbmc_project/sensors',"
