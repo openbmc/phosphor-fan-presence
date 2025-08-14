@@ -53,10 +53,10 @@ class ThresholdAlarmLogger
   public:
     ThresholdAlarmLogger() = delete;
     ~ThresholdAlarmLogger() = default;
-    ThresholdAlarmLogger(const ThresholdAlarmLogger&) = default;
-    ThresholdAlarmLogger& operator=(const ThresholdAlarmLogger&) = default;
-    ThresholdAlarmLogger(ThresholdAlarmLogger&&) = default;
-    ThresholdAlarmLogger& operator=(ThresholdAlarmLogger&&) = default;
+    ThresholdAlarmLogger(const ThresholdAlarmLogger&) = delete;
+    ThresholdAlarmLogger& operator=(const ThresholdAlarmLogger&) = delete;
+    ThresholdAlarmLogger(ThresholdAlarmLogger&&) = delete;
+    ThresholdAlarmLogger& operator=(ThresholdAlarmLogger&&) = delete;
 
     /**
      * @brief Constructor
