@@ -1,5 +1,10 @@
 #pragma once
 
+#include "types.hpp"
+#include "zone.hpp"
+
+#include <utility>
+
 namespace phosphor
 {
 namespace fan
