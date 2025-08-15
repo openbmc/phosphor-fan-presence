@@ -136,7 +136,7 @@ ThresholdAlarmLogger::ThresholdAlarmLogger(
                               const auto& path = object.first;
                               const auto& service =
                                   object.second.begin()->first;
-                              checkThresholds(interface, path, service);
+                              this->checkThresholds(interface, path, service);
                           });
         });
 }
