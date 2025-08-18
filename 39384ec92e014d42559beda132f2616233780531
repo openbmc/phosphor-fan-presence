@@ -16,6 +16,24 @@
       "message": "The whitespace in this file differs in multiple ways from the original.  I assume this is intentional?\n\nThe same question applies to several of the other mako files.",
       "revId": "39384ec92e014d42559beda132f2616233780531",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "388b419a_fe7491a5",
+        "filename": "presence/templates/anyof.hpp.mako",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-08-18T21:41:16Z",
+      "side": 1,
+      "message": "huh, it\u0027s like a formatter ran on them. will fix.",
+      "parentUuid": "d28a843e_4d3125fe",
+      "revId": "39384ec92e014d42559beda132f2616233780531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
