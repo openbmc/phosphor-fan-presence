@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d28a843e_4d3125fe",
+        "filename": "presence/templates/anyof.hpp.mako",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-08-18T21:08:00Z",
+      "side": 1,
+      "message": "The whitespace in this file differs in multiple ways from the original.  I assume this is intentional?\n\nThe same question applies to several of the other mako files.",
+      "revId": "39384ec92e014d42559beda132f2616233780531",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
