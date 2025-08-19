@@ -36,6 +36,7 @@ owners:
 
 reviewers:
 - shawnmm@us.ibm.com
+- anwaar.hadi@ibm.com
 
 matchers:
 
@@ -46,3 +47,6 @@ openbmc:
 - name: Shawn McCarney
   email: shawnmm@us.ibm.com
   discord: ShawnMcCarney
+- name: Anwaar Hadi
+  email: anwaar.hadi@ibm.com
+  discord: anwaarhadi
