@@ -121,7 +121,8 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         {
             getLogger().log(
                 std::format("On startup, fan {} is missing", _name));
-            if (_system.isPowerOn() && _fanMissingErrorTimer)
+            if (_system.isPowerOn() && _fanMissingErrorTimer &&
+                _fanMissingErrorDelay)
             {
                 _fanMissingErrorTimer->restartOnce(
                     std::chrono::seconds{*_fanMissingErrorDelay});
@@ -161,7 +162,8 @@ void Fan::presenceIfaceAdded(sdbusplus::message_t& msg)
     {
         getLogger().log(std::format(
             "New fan {} interface added and fan is not present", _name));
-        if (_system.isPowerOn() && _fanMissingErrorTimer)
+        if (_system.isPowerOn() && _fanMissingErrorTimer &&
+            _fanMissingErrorDelay)
         {
             _fanMissingErrorTimer->restartOnce(
                 std::chrono::seconds{*_fanMissingErrorDelay});
@@ -571,7 +573,7 @@ void Fan::powerStateChanged([[maybe_unused]] bool powerStateOn)
             getLogger().log(
                 std::format("At power on, fan {} is missing", _name));
 
-            if (_fanMissingErrorTimer)
+            if (_fanMissingErrorTimer && _fanMissingErrorDelay)
             {
                 _fanMissingErrorTimer->restartOnce(
                     std::chrono::seconds{*_fanMissingErrorDelay});

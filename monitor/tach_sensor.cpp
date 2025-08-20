@@ -273,7 +273,7 @@ void TachSensor::setFunctional(bool functional, bool skipErrorTimer)
 
     if (!_functional)
     {
-        if (_fan.present() && !skipErrorTimer)
+        if (_fan.present() && !skipErrorTimer && _errorDelay)
         {
             _errorTimer->restartOnce(std::chrono::seconds(*_errorDelay));
         }

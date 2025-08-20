@@ -57,7 +57,8 @@ ErrorReporter::ErrorReporter(
         const auto& fanData = std::get<0>(fan);
 
         // Only deal with fans that have an error time defined.
-        if (std::get<std::optional<size_t>>(fanData))
+        const auto& time = std::get<std::optional<size_t>>(fanData);
+        if (time.has_value())
         {
             auto path = invPrefix + std::get<1>(fanData);
 
@@ -77,7 +78,7 @@ ErrorReporter::ErrorReporter(
                 std::bind(std::mem_fn(&ErrorReporter::fanMissingTimerExpired),
                           this, path));
 
-            seconds errorTime{std::get<std::optional<size_t>>(fanData).value()};
+            seconds errorTime{time.value()};
 
             _fanMissingTimers.emplace(
                 path, std::make_tuple(std::move(timer), std::move(errorTime)));
