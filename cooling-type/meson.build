@@ -3,6 +3,7 @@ phosphor_fan_sensor_monitor_include_directories = include_directories('.', '..')
 source = ['cooling_type.cpp', 'cooling_type.hpp', 'main.cpp']
 
 deps = [
+    cli11_dep,
     libevdev_dep,
     phosphor_dbus_interfaces_dep,
     phosphor_logging_dep,
