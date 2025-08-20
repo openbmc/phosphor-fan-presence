@@ -1,13 +1,21 @@
 
 test_include_directories = include_directories('../..')
 
-test_deps = [gmock_dep, gtest_dep]
+test_deps = [
+    gmock_dep,
+    gtest_dep,
+    sdbusplus_dep,
+    sdeventplus_dep,
+    phosphor_logging_dep,
+]
 
 test(
-    'logger_test',
+    'fallback_test',
     executable(
-        'logger_test',
+        'fallback_test',
         'fallbacktest.cpp',
+        '../fallback.cpp',
+        '../psensor.cpp',
         dependencies: test_deps,
         implicit_include_directories: false,
         include_directories: [test_include_directories],

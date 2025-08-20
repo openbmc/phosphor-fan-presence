@@ -47,3 +47,6 @@ phosphor_fan_presence = executable(
     install: true,
 )
 
+if (get_option('tests').allowed())
+    subdir('test')
+endif

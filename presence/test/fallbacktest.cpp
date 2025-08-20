@@ -51,6 +51,8 @@ class TestSensor : public PresenceSensor
         ++failed;
     }
 
+    void logConflict(const std::string&) const override {}
+
     bool _present = false;
     size_t started = 0;
     size_t stopped = 0;
@@ -80,13 +82,13 @@ TEST(FallbackTest, TestOne)
     ASSERT_EQ(ts.stopped, 0);
     ASSERT_EQ(ts.started, 1);
 
-    f.stateChanged(false);
+    f.stateChanged(false, ts);
     ASSERT_EQ(pstate, 0);
     ASSERT_EQ(ts.failed, 0);
     ASSERT_EQ(ts.stopped, 0);
     ASSERT_EQ(ts.started, 1);
 
-    f.stateChanged(true);
+    f.stateChanged(true, ts);
     ASSERT_EQ(pstate, 1);
     ASSERT_EQ(ts.failed, 0);
     ASSERT_EQ(ts.stopped, 0);
@@ -118,7 +120,7 @@ TEST(FallbackTest, TestTwoA)
 
     ts1._present = false;
     ts2._present = false;
-    f.stateChanged(false);
+    f.stateChanged(false, ts1);
     ASSERT_EQ(pstate, 0);
     ASSERT_EQ(ts1.failed, 0);
     ASSERT_EQ(ts1.stopped, 0);
@@ -129,7 +131,7 @@ TEST(FallbackTest, TestTwoA)
 
     ts1._present = true;
     ts2._present = true;
-    f.stateChanged(true);
+    f.stateChanged(true, ts1);
     ASSERT_EQ(pstate, 1);
     ASSERT_EQ(ts1.failed, 0);
     ASSERT_EQ(ts1.stopped, 0);
@@ -145,7 +147,7 @@ TEST(FallbackTest, TestTwoB)
     // Validate first sensor on->off.
 
     pstate = -1;
-    Fan fan{"/path", "name"};
+    Fan fan{"/path", "name", std::nullopt};
     TestSensor ts1, ts2;
     ts1._present = true;
     ts2._present = true;
@@ -156,7 +158,7 @@ TEST(FallbackTest, TestTwoB)
     f.monitor();
     ASSERT_EQ(pstate, 1);
     ts1._present = false;
-    f.stateChanged(false);
+    f.stateChanged(false, ts1);
     ASSERT_EQ(pstate, 1);
     ASSERT_EQ(ts1.failed, 1);
     ASSERT_EQ(ts1.stopped, 1);
@@ -168,7 +170,7 @@ TEST(FallbackTest, TestTwoB)
     // Flip the state of both sensors.
     ts1._present = true;
     ts2._present = false;
-    f.stateChanged(false);
+    f.stateChanged(false, ts1);
     ASSERT_EQ(pstate, 0);
     ASSERT_EQ(ts1.failed, 1);
     ASSERT_EQ(ts1.stopped, 1);
@@ -184,7 +186,7 @@ TEST(FallbackTest, TestTwoC)
     // Validate first in bad state.
 
     pstate = -1;
-    Fan fan{"/path", "name"};
+    Fan fan{"/path", "name", std::nullopt};
     TestSensor ts1, ts2;
     ts1._present = false;
     ts2._present = true;
@@ -201,7 +203,7 @@ TEST(FallbackTest, TestTwoC)
     ASSERT_EQ(ts2.stopped, 0);
     ASSERT_EQ(ts2.started, 1);
 
-    f.stateChanged(false);
+    f.stateChanged(false, ts1);
     ASSERT_EQ(pstate, 0);
     ASSERT_EQ(ts1.failed, 1);
     ASSERT_EQ(ts1.stopped, 0);
@@ -217,7 +219,7 @@ TEST(FallbackTest, TestTwoD)
     // Validate both in bad state.
 
     pstate = -1;
-    Fan fan{"/path", "name"};
+    Fan fan{"/path", "name", std::nullopt};
     TestSensor ts1, ts2;
     ts1._present = false;
     ts2._present = false;
