@@ -35,9 +35,9 @@ class CoolingType
     CoolingType() = delete;
     ~CoolingType() = default;
     CoolingType(const CoolingType&) = delete;
-    CoolingType(CoolingType&&) = default;
+    CoolingType(CoolingType&&) = delete;
     CoolingType& operator=(const CoolingType&) = delete;
-    CoolingType& operator=(CoolingType&&) = default;
+    CoolingType& operator=(CoolingType&&) = delete;
 
     /**
      * @brief Constructs Cooling Type Object
