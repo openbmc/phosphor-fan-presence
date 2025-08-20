@@ -168,7 +168,7 @@ option(
 option(
     'cooling-type-service',
     type: 'feature',
-    value: 'disabled',
+    value: 'enabled',
     description: 'Build cooling-type package.',
 )
 
