@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bafdee1e_f2a8ae3b",
+        "filename": "sensor-monitor/threshold_alarm_logger.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-08-28T14:53:38Z",
+      "side": 1,
+      "message": "How did this compile before if the this pointer is required to call that function?",
+      "revId": "cd4d31b309c6716e3e8fa2cad08c93880265c8ef",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
