@@ -31,3 +31,18 @@ test(
         include_directories: phosphor_fan_monitor_test_include_directories,
     ),
 )
+
+test(
+    'multi_chassis_json_parser',
+    executable(
+        'multi_chassis_json_parser',
+        [
+            'multi_chassis_json_parser_test.cpp',
+            '../multichassis_json_parser.cpp',
+            '../conditions.cpp',
+        ],
+        dependencies: test_deps,
+        implicit_include_directories: false,
+        include_directories: [phosphor_fan_monitor_test_include_directories],
+    ),
+)
