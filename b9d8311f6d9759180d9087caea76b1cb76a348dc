@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8885ba56_8bcf95df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-08T14:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f813c622_a9a55560",
+      "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2992d084_c5fe58de",
@@ -31,6 +49,30 @@
       "writtenOn": "2025-10-07T19:46:03Z",
       "side": 1,
       "message": "a const reference is a bit better for vectors to a void a copy.",
+      "range": {
+        "startLine": 306,
+        "startChar": 46,
+        "endLine": 306,
+        "endChar": 63
+      },
+      "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f6f9f9bb_a28941a1",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-08T14:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2992d084_c5fe58de",
       "range": {
         "startLine": 306,
         "startChar": 46,
@@ -64,6 +106,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b60246ac_c1c13c31",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-08T14:16:16Z",
+      "side": 1,
+      "message": "Removed case, so didn\u0027t add a comment",
+      "parentUuid": "3da0ef93_3e0f227a",
+      "range": {
+        "startLine": 313,
+        "startChar": 11,
+        "endLine": 313,
+        "endChar": 50
+      },
+      "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94a58acf_f3b778bc",
@@ -77,6 +143,24 @@
       "writtenOn": "2025-10-07T19:46:03Z",
       "side": 1,
       "message": "There\u0027s a proposal https://gerrit.openbmc.org/c/openbmc/docs/+/83998 that says to add the following prologue to cpps/hpps.  Can you add this to all of your new files?\n\n// SPDX-License-Identifier: Apache-2.0\n// SPDX-FileCopyrightText: Copyright OpenBMC Authors",
+      "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61ac8099_5f84ce94",
+        "filename": "monitor/multichassis_json_parser.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-08T14:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94a58acf_f3b778bc",
       "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -104,6 +188,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fce4a109_ca1589a3",
+        "filename": "monitor/multichassis_json_parser.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-08T14:16:16Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "8c422893_c46ee513",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 31
+      },
+      "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c36a912c_ab824639",
@@ -117,6 +225,30 @@
       "writtenOn": "2025-10-07T19:46:03Z",
       "side": 1,
       "message": "minor thing, it would most likely be .../system/chassis${chassis}/motherboard.\n\nI don\u0027t think it really affects the testcase though.",
+      "range": {
+        "startLine": 183,
+        "startChar": 73,
+        "endLine": 183,
+        "endChar": 83
+      },
+      "revId": "b9d8311f6d9759180d9087caea76b1cb76a348dc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "887b7df6_8ad58d3d",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-08T14:16:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c36a912c_ab824639",
       "range": {
         "startLine": 183,
         "startChar": 73,
