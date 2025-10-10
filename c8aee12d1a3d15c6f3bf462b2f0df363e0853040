@@ -16,6 +16,91 @@
       "message": "Code looks good to me.  It wouldn\u0027t be merged until there are some commits that use it.  Also, depending on the other files it may be better in a subdir.",
       "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "546c0908_1c931905",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-10-10T20:49:06Z",
+      "side": 1,
+      "message": "General comment on this file. If the data type of a property is not what you are expecting, how is that error handled?  For example, with the code\n```\nsensor[\"target_path\"].get\u003cstd::string\u003e()\n```\nwhat happens if the JSON value is an int?",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "324bfbc6_05f01bda",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-10-10T20:49:06Z",
+      "side": 1,
+      "message": "Should this exception message mention fan type or fan definition?\n\nRight now if that exception is caught the message doesn\u0027t really indicate what part of the parsing code had a problem.",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02365cdf_ed718ae6",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-10-10T20:49:06Z",
+      "side": 1,
+      "message": "It seems like something is missing here?  Is it supposed to be getting upperDeviation from the JSON file if that property is specified?",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1be2117_e1a63af0",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-10-10T20:49:06Z",
+      "side": 1,
+      "message": "Should it be checking if the JSON contains these properties?",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "50e3b045_d3ec06de",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-10-10T20:49:06Z",
+      "side": 1,
+      "message": "Thank you for doing automated tests.  It is really helpful and important in my opinion.\n\nIt would be good to also test the error paths.  For example, when a required property is missing, or a property has an unexpected data type in the JSON.",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
