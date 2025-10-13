@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0aa6c502_74aaba71",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-13T20:18:05Z",
+      "side": 1,
+      "message": "The single chassis json parser file (json_parser.cpp) that I based this off of didn\u0027t seem to do a lot of formal type checking, which is why there isn\u0027t any here. In the case you mentioned, the `.get` function should throw a `json::type_error`. I added a test for it.",
+      "parentUuid": "546c0908_1c931905",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "324bfbc6_05f01bda",
@@ -48,6 +66,24 @@
       "writtenOn": "2025-10-10T20:49:06Z",
       "side": 1,
       "message": "Should this exception message mention fan type or fan definition?\n\nRight now if that exception is caught the message doesn\u0027t really indicate what part of the parsing code had a problem.",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "56ee78a5_5fcfdd62",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-13T20:18:05Z",
+      "side": 1,
+      "message": "Changed it to specify that it\u0027s missing a fan type definition parameter.",
+      "parentUuid": "324bfbc6_05f01bda",
       "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2ec1bb5b_3d1b5f4f",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-13T20:18:05Z",
+      "side": 1,
+      "message": "Yes, changed it to get the upper_deviation parameter from the JSON if specified.",
+      "parentUuid": "02365cdf_ed718ae6",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f1be2117_e1a63af0",
@@ -86,6 +140,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d67e780c_594d98c0",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-13T20:18:05Z",
+      "side": 1,
+      "message": "I added blanket checks for them.",
+      "parentUuid": "f1be2117_e1a63af0",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "50e3b045_d3ec06de",
@@ -99,6 +171,24 @@
       "writtenOn": "2025-10-10T20:49:06Z",
       "side": 1,
       "message": "Thank you for doing automated tests.  It is really helpful and important in my opinion.\n\nIt would be good to also test the error paths.  For example, when a required property is missing, or a property has an unexpected data type in the JSON.",
+      "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9401140_e2af4eb9",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-10-13T20:18:05Z",
+      "side": 1,
+      "message": "I added tests that have an unexpected data type (int instead of string) and a missing required property. Those should throw `json::type_error` and `std::runtime_error` exceptions respectively.",
+      "parentUuid": "50e3b045_d3ec06de",
       "revId": "c8aee12d1a3d15c6f3bf462b2f0df363e0853040",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
