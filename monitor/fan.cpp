@@ -36,7 +36,7 @@ using namespace sdbusplus::bus::match;
 
 Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
-         System& system) :
+         ZoneBase& system) :
     _bus(bus), _name(def.name), _deviation(def.deviation),
     _upperDeviation(def.upperDeviation),
     _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
@@ -108,7 +108,7 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
     {
         _fanMissingErrorTimer = std::make_unique<
             sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
-            event, std::bind(&System::fanMissingErrorTimerExpired, &system,
+            event, std::bind(&ZoneBase::fanMissingErrorTimerExpired, &system,
                              std::ref(*this)));
     }
 

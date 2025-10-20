@@ -5,6 +5,7 @@
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
 #include "types.hpp"
+#include "zone_base.hpp"
 
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
@@ -82,7 +83,7 @@ class Fan
      */
     Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
-        System& system);
+        ZoneBase& system);
 
     /**
      * @brief Callback function for when an input sensor changes
@@ -307,7 +308,7 @@ class Fan
     /**
      * @brief Reference to the System object
      */
-    System& _system;
+    ZoneBase& _system;
 
     /**
      * @brief The match object for propertiesChanged signals

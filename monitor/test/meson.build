@@ -1,3 +1,4 @@
+phosphor_fan_monitor_include_directories = include_directories('.', '..')
 phosphor_fan_monitor_test_include_directories = include_directories('../..')
 
 test_deps = [
@@ -44,5 +45,19 @@ test(
         dependencies: test_deps,
         implicit_include_directories: false,
         include_directories: [phosphor_fan_monitor_test_include_directories],
+    ),
+)
+
+test(
+    'zone_test',
+    executable(
+        'zone_test',
+        sources: test_sources,
+        dependencies: test_deps,
+        implicit_include_directories: false,
+        include_directories: [
+            phosphor_fan_monitor_test_include_directories,
+            phosphor_fan_monitor_include_directories,
+        ],
     ),
 )
