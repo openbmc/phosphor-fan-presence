@@ -5,6 +5,7 @@
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
 #include "types.hpp"
+#include "zone_base.hpp"
 
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
@@ -82,7 +83,13 @@ class Fan
      */
     Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
-        System& system);
+        ZoneBase& system);
+
+    /**
+     * @brief Perform tasks needed to initialize the fan (e.g. register sensors,
+     * update inventory)
+     */
+    void init();
 
     /**
      * @brief Callback function for when an input sensor changes
@@ -240,10 +247,16 @@ class Fan
      */
     void presenceIfaceAdded(sdbusplus::message_t& msg);
 
+    /* Mode of the fan monitor */
+    Mode _mode;
+
     /**
      * @brief the dbus object
      */
     sdbusplus::bus_t& _bus;
+
+    /* Event loop reference */
+    const sdeventplus::Event& _event;
 
     /**
      * @brief The inventory name of the fan
@@ -286,6 +299,9 @@ class Fan
      */
     std::unique_ptr<trust::Manager>& _trustManager;
 
+    /* FanDefinition struct object */
+    FanDefinition _def;
+
 #ifdef MONITOR_USE_JSON
     /**
      * @brief The number of seconds to wait after startup until
@@ -307,7 +323,7 @@ class Fan
     /**
      * @brief Reference to the System object
      */
-    System& _system;
+    ZoneBase& _system;
 
     /**
      * @brief The match object for propertiesChanged signals
