@@ -36,11 +36,11 @@ using namespace sdbusplus::bus::match;
 
 Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
-         System& system) :
-    _bus(bus), _name(def.name), _deviation(def.deviation),
-    _upperDeviation(def.upperDeviation),
+         ZoneBase& system) :
+    _mode(mode), _bus(bus), _event(event), _name(def.name),
+    _deviation(def.deviation), _upperDeviation(def.upperDeviation),
     _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
-    _trustManager(trust),
+    _trustManager(trust), _def(def),
 #ifdef MONITOR_USE_JSON
     _monitorDelay(def.monitorStartDelay),
     _monitorTimer(event, std::bind(std::mem_fn(&Fan::startMonitor), this)),
@@ -59,15 +59,18 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
                   std::placeholders::_1)),
     _fanMissingErrorDelay(def.fanMissingErrDelay),
     _setFuncOnPresent(def.funcOnPresent)
+{}
+
+void Fan::init()
 {
     // Setup tach sensors for monitoring
-    for (const auto& s : def.sensorList)
+    for (const auto& s : _def.sensorList)
     {
         _sensors.emplace_back(std::make_shared<TachSensor>(
-            mode, bus, *this, s.name, s.hasTarget, def.funcDelay,
-            s.targetInterface, s.targetPath, s.factor, s.offset, def.method,
-            s.threshold, s.ignoreAboveMax, def.timeout,
-            def.nonfuncRotorErrDelay, def.countInterval, event));
+            _mode, _bus, *this, s.name, s.hasTarget, _def.funcDelay,
+            s.targetInterface, s.targetPath, s.factor, s.offset, _def.method,
+            s.threshold, s.ignoreAboveMax, _def.timeout,
+            _def.nonfuncRotorErrDelay, _def.countInterval, _event));
 
         _trustManager->registerSensor(_sensors.back());
     }
@@ -108,8 +111,8 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
     {
         _fanMissingErrorTimer = std::make_unique<
             sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
-            event, std::bind(&System::fanMissingErrorTimerExpired, &system,
-                             std::ref(*this)));
+            _event, std::bind(&ZoneBase::fanMissingErrorTimerExpired, &_system,
+                              std::ref(*this)));
     }
 
     try

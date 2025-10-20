@@ -79,6 +79,10 @@ void System::start()
         if (!_loaded)
         {
             load();
+            for (const auto& fan : _fans)
+            {
+                fan->init();
+            }
         }
     }
 }
