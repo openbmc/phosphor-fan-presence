@@ -199,19 +199,16 @@ void System::inventoryOnlineCb(sdbusplus::message_t& msg)
 {
     namespace match = sdbusplus::bus::match;
 
-    std::string iface;
-    msg.read(iface);
+    auto iface = msg.unpack<std::string>();
 
     if (util::INVENTORY_INTF != iface)
     {
         return;
     }
 
-    std::string oldName;
-    msg.read(oldName);
+    auto oldName = msg.unpack<std::string>();
 
-    std::string newName;
-    msg.read(newName);
+    auto newName = msg.unpack<std::string>();
 
     // newName should never be empty since match was reset on the first
     // nameOwnerChanged signal received from the service.

@@ -28,16 +28,16 @@ struct Handlers
     static bool propertiesChanged(message& msg, const SignalObject& obj,
                                   Manager& mgr)
     {
-        std::string intf;
-        msg.read(intf);
+        auto intf = msg.unpack<std::string>();
+
         if (intf != std::get<Intf>(obj))
         {
             // Interface name does not match object's interface
             return false;
         }
 
-        std::map<std::string, PropertyVariantType> props;
-        msg.read(props);
+        auto props = msg.unpack<std::map<std::string, PropertyVariantType>>();
+
         auto itProp = props.find(std::get<Prop>(obj));
         if (itProp == props.cend())
         {
@@ -61,17 +61,17 @@ struct Handlers
     static bool interfacesAdded(message& msg, const SignalObject& obj,
                                 Manager& mgr)
     {
-        sdbusplus::message::object_path op;
-        msg.read(op);
+        auto op = msg.unpack<sdbusplus::message::object_path>();
+
         if (static_cast<const std::string&>(op) != std::get<Path>(obj))
         {
             // Path name does not match object's path
             return false;
         }
 
-        std::map<std::string, std::map<std::string, PropertyVariantType>>
-            intfProps;
-        msg.read(intfProps);
+        auto intfProps =
+            msg.unpack<std::map<std::string,
+                                std::map<std::string, PropertyVariantType>>>();
         auto itIntf = intfProps.find(std::get<Intf>(obj));
         if (itIntf == intfProps.cend())
         {
@@ -102,16 +102,16 @@ struct Handlers
     static bool interfacesRemoved(message& msg, const SignalObject& obj,
                                   Manager& mgr)
     {
-        sdbusplus::message::object_path op;
-        msg.read(op);
+        auto op = msg.unpack<sdbusplus::message::object_path>();
+
         if (static_cast<const std::string&>(op) != std::get<Path>(obj))
         {
             // Path name does not match object's path
             return false;
         }
 
-        std::vector<std::string> intfs;
-        msg.read(intfs);
+        auto intfs = msg.unpack<std::vector<std::string>>();
+
         auto itIntf =
             std::find(intfs.begin(), intfs.end(), std::get<Intf>(obj));
         if (itIntf == intfs.cend())
@@ -136,14 +136,12 @@ struct Handlers
     {
         bool hasOwner = false;
 
-        std::string serv;
-        msg.read(serv);
+        auto serv = msg.unpack<std::string>();
 
-        std::string oldOwner;
-        msg.read(oldOwner);
+        auto oldOwner = msg.unpack<std::string>();
 
-        std::string newOwner;
-        msg.read(newOwner);
+        auto newOwner = msg.unpack<std::string>();
+
         if (!newOwner.empty())
         {
             hasOwner = true;

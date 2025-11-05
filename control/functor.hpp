@@ -104,16 +104,17 @@ struct Properties
     {
         if (msg)
         {
-            std::string intf;
-            msg.read(intf);
+            auto intf = msg.unpack<std::string>();
+
             if (intf != _intf)
             {
                 // Interface name does not match on object
                 return;
             }
 
-            std::map<std::string, PropertyVariantType> props;
-            msg.read(props);
+            auto props =
+                msg.unpack<std::map<std::string, PropertyVariantType>>();
+
             auto it = props.find(_prop);
             if (it == props.cend())
             {
@@ -247,18 +248,16 @@ struct InterfacesAdded
     {
         if (msg)
         {
-            sdbusplus::message::object_path op;
+            auto op = msg.unpack<sdbusplus::message::object_path>();
 
-            msg.read(op);
             if (static_cast<const std::string&>(op) != _path)
             {
                 // Object path does not match this handler's path
                 return;
             }
 
-            std::map<std::string, std::map<std::string, PropertyVariantType>>
-                intfProp;
-            msg.read(intfProp);
+            auto intfProp = msg.unpack<std::map<
+                std::string, std::map<std::string, PropertyVariantType>>>();
             auto itIntf = intfProp.find(_intf);
             if (itIntf == intfProp.cend())
             {
@@ -335,9 +334,8 @@ struct InterfacesRemoved
         if (msg)
         {
             std::vector<std::string> intfs;
-            sdbusplus::message::object_path op;
+            auto op = msg.unpack<sdbusplus::message::object_path>();
 
-            msg.read(op);
             if (static_cast<const std::string&>(op) != _path)
             {
                 // Object path does not match this handler's path
@@ -410,11 +408,10 @@ struct NameOwner
             // Handle NameOwnerChanged signals
             msg.read(name);
 
-            std::string oldOwn;
-            msg.read(oldOwn);
+            auto oldOwn = msg.unpack<std::string>();
 
-            std::string newOwn;
-            msg.read(newOwn);
+            auto newOwn = msg.unpack<std::string>();
+
             if (!newOwn.empty())
             {
                 hasOwner = true;

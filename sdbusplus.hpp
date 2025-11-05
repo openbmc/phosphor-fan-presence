@@ -156,8 +156,8 @@ class SDBusPlus
     {
         sdbusplus::message_t respMsg = callMethod<Args...>(
             bus, busName, path, interface, method, std::forward<Args>(args)...);
-        Ret resp;
-        respMsg.read(resp);
+        auto resp = respMsg.unpack<Ret>();
+
         return resp;
     }
 
@@ -339,8 +339,8 @@ class SDBusPlus
             auto msg = callMethod(bus, service, path,
                                   "org.freedesktop.DBus.Properties"s, "Get"s,
                                   interface, property);
-            std::variant<Property> value;
-            msg.read(value);
+            auto value = msg.unpack<std::variant<Property>>();
+
             return std::get<Property>(value);
         }
         catch (const sdbusplus::exception_t&)
@@ -373,8 +373,8 @@ class SDBusPlus
             auto msg = callMethod(bus, service, path,
                                   "org.freedesktop.DBus.Properties"s, "Get"s,
                                   interface, property);
-            Variant value;
-            msg.read(value);
+            auto value = msg.unpack<Variant>();
+
             return value;
         }
         catch (const sdbusplus::exception_t&)
@@ -422,8 +422,8 @@ class SDBusPlus
             auto msg = callMethodAndReturn(bus, service, path,
                                            "org.freedesktop.DBus.Properties"s,
                                            "Get"s, interface, property);
-            std::variant<Property> value;
-            msg.read(value);
+            auto value = msg.unpack<std::variant<Property>>();
+
             return std::get<Property>(value);
         }
         catch (const sdbusplus::exception_t&)
@@ -457,8 +457,8 @@ class SDBusPlus
             auto msg = callMethodAndReturn(bus, service, path,
                                            "org.freedesktop.DBus.Properties"s,
                                            "Get"s, interface, property);
-            Variant value;
-            msg.read(value);
+            auto value = msg.unpack<Variant>();
+
             return value;
         }
         catch (const sdbusplus::exception_t&)
