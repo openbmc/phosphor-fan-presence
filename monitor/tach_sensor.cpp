@@ -397,14 +397,8 @@ void TachSensor::updateInventory(bool functional)
         util::getObjMap<bool>(_invName, util::OPERATIONAL_STATUS_INTF,
                               util::FUNCTIONAL_PROPERTY, functional);
 
-    auto response = util::SDBusPlus::callMethod(
-        _bus, util::INVENTORY_SVC, util::INVENTORY_PATH, util::INVENTORY_INTF,
-        "Notify", objectMap);
-
-    if (response.is_method_error())
-    {
-        lg2::error("Error in notify update of tach sensor inventory");
-    }
+    util::SDBusPlus::callMethod(_bus, util::INVENTORY_SVC, util::INVENTORY_PATH,
+                                util::INVENTORY_INTF, "Notify", objectMap);
 }
 
 } // namespace monitor
