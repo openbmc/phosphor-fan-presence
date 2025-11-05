@@ -129,10 +129,6 @@ class SDBusPlus
         try
         {
             auto respMsg = bus.call(reqMsg);
-            if (respMsg.is_method_error())
-            {
-                throw DBusMethodError{busName, path, interface, method};
-            }
             return respMsg;
         }
         catch (const sdbusplus::exception_t&)
@@ -338,17 +334,20 @@ class SDBusPlus
         using namespace std::literals::string_literals;
 
         auto service = getService(bus, path, interface);
-        auto msg =
-            callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
-                       "Get"s, interface, property);
-        if (msg.is_method_error())
+        try
+        {
+            auto msg = callMethod(bus, service, path,
+                                  "org.freedesktop.DBus.Properties"s, "Get"s,
+                                  interface, property);
+            std::variant<Property> value;
+            msg.read(value);
+            return std::get<Property>(value);
+        }
+        catch (const sdbusplus::exception_t&)
         {
             throw DBusPropertyError{"DBus get property failed", service, path,
                                     interface, property};
         }
-        std::variant<Property> value;
-        msg.read(value);
-        return std::get<Property>(value);
     }
 
     /** @brief Get a property with mapper lookup. */
@@ -369,17 +368,20 @@ class SDBusPlus
         using namespace std::literals::string_literals;
 
         auto service = getService(bus, path, interface);
-        auto msg =
-            callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
-                       "Get"s, interface, property);
-        if (msg.is_method_error())
+        try
+        {
+            auto msg = callMethod(bus, service, path,
+                                  "org.freedesktop.DBus.Properties"s, "Get"s,
+                                  interface, property);
+            Variant value;
+            msg.read(value);
+            return value;
+        }
+        catch (const sdbusplus::exception_t&)
         {
             throw DBusPropertyError{"DBus get property variant failed", service,
                                     path, interface, property};
         }
-        Variant value;
-        msg.read(value);
-        return value;
     }
 
     /** @brief Get a property variant with mapper lookup. */
@@ -415,17 +417,20 @@ class SDBusPlus
     {
         using namespace std::literals::string_literals;
 
-        auto msg = callMethodAndReturn(bus, service, path,
-                                       "org.freedesktop.DBus.Properties"s,
-                                       "Get"s, interface, property);
-        if (msg.is_method_error())
+        try
+        {
+            auto msg = callMethodAndReturn(bus, service, path,
+                                           "org.freedesktop.DBus.Properties"s,
+                                           "Get"s, interface, property);
+            std::variant<Property> value;
+            msg.read(value);
+            return std::get<Property>(value);
+        }
+        catch (const sdbusplus::exception_t&)
         {
             throw DBusPropertyError{"DBus get property failed", service, path,
                                     interface, property};
         }
-        std::variant<Property> value;
-        msg.read(value);
-        return std::get<Property>(value);
     }
 
     /** @brief Get a property without mapper lookup. */
@@ -447,17 +452,20 @@ class SDBusPlus
     {
         using namespace std::literals::string_literals;
 
-        auto msg = callMethodAndReturn(bus, service, path,
-                                       "org.freedesktop.DBus.Properties"s,
-                                       "Get"s, interface, property);
-        if (msg.is_method_error())
+        try
+        {
+            auto msg = callMethodAndReturn(bus, service, path,
+                                           "org.freedesktop.DBus.Properties"s,
+                                           "Get"s, interface, property);
+            Variant value;
+            msg.read(value);
+            return value;
+        }
+        catch (const sdbusplus::exception_t&)
         {
             throw DBusPropertyError{"DBus get property variant failed", service,
                                     path, interface, property};
         }
-        Variant value;
-        msg.read(value);
-        return value;
     }
 
     /** @brief Get a property variant without mapper lookup. */
@@ -481,10 +489,13 @@ class SDBusPlus
         std::variant<Property> varValue(std::forward<Property>(value));
 
         auto service = getService(bus, path, interface);
-        auto msg = callMethodAndReturn(bus, service, path,
-                                       "org.freedesktop.DBus.Properties"s,
-                                       "Set"s, interface, property, varValue);
-        if (msg.is_method_error())
+        try
+        {
+            auto msg = callMethodAndReturn(
+                bus, service, path, "org.freedesktop.DBus.Properties"s, "Set"s,
+                interface, property, varValue);
+        }
+        catch (const sdbusplus::exception_t&)
         {
             throw DBusPropertyError{"DBus set property failed", service, path,
                                     interface, property};
@@ -512,10 +523,13 @@ class SDBusPlus
 
         std::variant<Property> varValue(std::forward<Property>(value));
 
-        auto msg = callMethodAndReturn(bus, service, path,
-                                       "org.freedesktop.DBus.Properties"s,
-                                       "Set"s, interface, property, varValue);
-        if (msg.is_method_error())
+        try
+        {
+            auto msg = callMethodAndReturn(
+                bus, service, path, "org.freedesktop.DBus.Properties"s, "Set"s,
+                interface, property, varValue);
+        }
+        catch (const sdbusplus::exception_t&)
         {
             throw DBusPropertyError{"DBus set property failed", service, path,
                                     interface, property};
