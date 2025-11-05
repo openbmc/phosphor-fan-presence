@@ -129,10 +129,6 @@ class SDBusPlus
         try
         {
             auto respMsg = bus.call(reqMsg);
-            if (respMsg.is_method_error())
-            {
-                throw DBusMethodError{busName, path, interface, method};
-            }
             return respMsg;
         }
         catch (const sdbusplus::exception_t&)
@@ -341,11 +337,6 @@ class SDBusPlus
         auto msg =
             callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
                        "Get"s, interface, property);
-        if (msg.is_method_error())
-        {
-            throw DBusPropertyError{"DBus get property failed", service, path,
-                                    interface, property};
-        }
         std::variant<Property> value;
         msg.read(value);
         return std::get<Property>(value);
@@ -372,11 +363,7 @@ class SDBusPlus
         auto msg =
             callMethod(bus, service, path, "org.freedesktop.DBus.Properties"s,
                        "Get"s, interface, property);
-        if (msg.is_method_error())
-        {
-            throw DBusPropertyError{"DBus get property variant failed", service,
-                                    path, interface, property};
-        }
+
         Variant value;
         msg.read(value);
         return value;
@@ -418,11 +405,6 @@ class SDBusPlus
         auto msg = callMethodAndReturn(bus, service, path,
                                        "org.freedesktop.DBus.Properties"s,
                                        "Get"s, interface, property);
-        if (msg.is_method_error())
-        {
-            throw DBusPropertyError{"DBus get property failed", service, path,
-                                    interface, property};
-        }
         std::variant<Property> value;
         msg.read(value);
         return std::get<Property>(value);
@@ -450,11 +432,6 @@ class SDBusPlus
         auto msg = callMethodAndReturn(bus, service, path,
                                        "org.freedesktop.DBus.Properties"s,
                                        "Get"s, interface, property);
-        if (msg.is_method_error())
-        {
-            throw DBusPropertyError{"DBus get property variant failed", service,
-                                    path, interface, property};
-        }
         Variant value;
         msg.read(value);
         return value;
@@ -484,11 +461,6 @@ class SDBusPlus
         auto msg = callMethodAndReturn(bus, service, path,
                                        "org.freedesktop.DBus.Properties"s,
                                        "Set"s, interface, property, varValue);
-        if (msg.is_method_error())
-        {
-            throw DBusPropertyError{"DBus set property failed", service, path,
-                                    interface, property};
-        }
     }
 
     /** @brief Set a property with mapper lookup. */
@@ -515,11 +487,6 @@ class SDBusPlus
         auto msg = callMethodAndReturn(bus, service, path,
                                        "org.freedesktop.DBus.Properties"s,
                                        "Set"s, interface, property, varValue);
-        if (msg.is_method_error())
-        {
-            throw DBusPropertyError{"DBus set property failed", service, path,
-                                    interface, property};
-        }
     }
 
     /** @brief Set a property without mapper lookup. */
