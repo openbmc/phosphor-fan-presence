@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af122ffc_a2cb61e2",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "Per the earlier discussion, I\u0027m assuming the plan is to have them coexist for now, but combine them into a single json parser down the line. Matt might be able to provide more context on that.",
+      "parentUuid": "c7b2f491_ec18862f",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "49f7a378_043e41b3",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-11T17:23:54Z",
       "side": 1,
       "message": "What happens when exceptions are thrown due to parsing errors? Does the application core dump, or log an error, or?",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e5db7f4b_e384131d",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "I would expect a json error of some sort. For example, there is a test case that checks that a `json::type_error` is thrown if there is a mismatch between the expected type and the actual type in the json.",
+      "parentUuid": "49f7a378_043e41b3",
       "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "14ec7178_66300e3b",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "This looks like it was carried over from the existing json_parser code. Not sure why the original author used at() over the square bracket operator, since they seem to use the square bracket everywhere else.",
+      "parentUuid": "f5d9bdec_0361a5aa",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c8da81ef_df5910ca",
@@ -65,6 +119,24 @@
       "writtenOn": "2025-11-11T17:23:54Z",
       "side": 1,
       "message": "Should you validate the chassis numbers? Negative is obviously bad, but 0 may be too?  Chassis 0 represents the entire system vs. an actual chassis (at least on multi-chassis systems).",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c76246d8_53c853d4",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "Talked to Matt about this. He said to run this on a single-chassis system, it would need to accept 0 for a chassis number. I added a check for negative numbers.",
+      "parentUuid": "c8da81ef_df5910ca",
       "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -86,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c81e75a_e7466243",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "Noted",
+      "parentUuid": "ccc32f5f_a9bf03c8",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "94aa7794_21a49d89",
@@ -99,6 +189,24 @@
       "writtenOn": "2025-11-11T17:23:54Z",
       "side": 1,
       "message": "How is this file going to co-exist in the same repo as types.hpp? Both define SensorDefinition.",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad3da1e7_2d1c5fe9",
+        "filename": "monitor/multichassis_types.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "They are defined under different namespaces. SensorDefinition in types.hpp is defined under `phosphor::fan::monitor`, and SensorDefinition in this file is under a child namespace(`phosphor::fan::monitor::multi_chassis`).",
+      "parentUuid": "94aa7794_21a49d89",
       "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -120,6 +228,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9e8d7145_51b996c3",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "No problem!",
+      "parentUuid": "a4af9ade_9d7b510a",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "52254f94_d4eaefb4",
@@ -137,6 +263,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ac0e856_0dfc2468",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "Yeah, I think both would probably work in this case. I just did it this way since I used portions from the template to write my test cases.",
+      "parentUuid": "52254f94_d4eaefb4",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "c9a179db_42a863fb",
@@ -150,6 +294,30 @@
       "writtenOn": "2025-11-11T17:23:54Z",
       "side": 1,
       "message": "Is chassis 0 a valid number, since it represents the entire system?",
+      "range": {
+        "startLine": 282,
+        "startChar": 36,
+        "endLine": 282,
+        "endChar": 37
+      },
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "697fee30_72186115",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-11T23:06:46Z",
+      "side": 1,
+      "message": "Matt said it does have to accept chassis 0 to work on a single chassis system. I don\u0027t think the specific numbers make much of a difference here, though, since this just tests that getZoneDefs creates the right ZoneDefinition struct objects.",
+      "parentUuid": "c9a179db_42a863fb",
       "range": {
         "startLine": 282,
         "startChar": 36,
