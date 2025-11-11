@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d565f64e_99397499",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "Since you\u0027re still within this namespace, I don\u0027t think you need to specify it?",
+      "range": {
+        "startLine": 455,
+        "startChar": 33,
+        "endLine": 455,
+        "endChar": 55
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d98fb48_a599c000",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "This can be wrapped in an std::move() to avoid a copy.",
+      "range": {
+        "startLine": 477,
+        "startChar": 22,
+        "endLine": 477,
+        "endChar": 36
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39b0e900_7547ab3b",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "could you move this to the top?  That\u0027s where constructors usually are.",
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ac2ff361_1947896d",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "mem_fn isn\u0027t needed anymore.  You can just use std::bind or bind_front.",
+      "range": {
+        "startLine": 533,
+        "startChar": 23,
+        "endLine": 533,
+        "endChar": 34
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3f873bec_fa2761e3",
+        "filename": "monitor/zone.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "I think it would be a good test to be able to ensure the correct number of fan objects were created based on the JSON.  that would require a new public function\n\nconst std::vector\u003cstd::unique_ptr\u003cFan\u003e\u003e\u0026 Zone::getFans() const\n{\n  return _fans;\n} \n\nIt\u0027s always questionable if things should be exposed just for testing, but I think for this new code the benefits outweigh the cons.",
+      "range": {
+        "startLine": 163,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 44
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a42b01b9_a152d5ba",
+        "filename": "monitor/zone.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "Power state would be a property of the parent chassis.  So for now you could just pass it in like the thermal alert.",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 174,
+        "endChar": 44
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede1c707_0ca7d49c",
+        "filename": "monitor/zone_base.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-11-11T20:59:25Z",
+      "side": 1,
+      "message": "Can we just leave all of the protected functions out of this class?",
+      "range": {
+        "startLine": 93,
+        "startChar": 3,
+        "endLine": 93,
+        "endChar": 12
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
