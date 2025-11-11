@@ -1,0 +1,163 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7b2f491_ec18862f",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "Will `json_parser.*` coexist with `multichassis_json_parser.*`?  Or will the multichassis one replace the other?",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49f7a378_043e41b3",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "What happens when exceptions are thrown due to parsing errors? Does the application core dump, or log an error, or?",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5d9bdec_0361a5aa",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "Is there a reason you used `at()` here instead of `operator[]()`?\n\n`at()` throws if the key doesn\u0027t exist. It is not totally clear to me from the docs what `operator[]()` does if the key doesn\u0027t exist and the json element is const. I think it is undefined behavior and asserts at runtime.\n\nIt doesn\u0027t really matter since you are checking on the previous lines if the element contains the key. Just wondering why you picked `at()` here.",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8da81ef_df5910ca",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "Should you validate the chassis numbers? Negative is obviously bad, but 0 may be too?  Chassis 0 represents the entire system vs. an actual chassis (at least on multi-chassis systems).",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ccc32f5f_a9bf03c8",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "There\u0027s a lot of common code between the if/else branch. You don\u0027t need to change anything now, but if more code gets added to this function later it would probably be worth trying to make most of the code common.",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "94aa7794_21a49d89",
+        "filename": "monitor/multichassis_types.hpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "How is this file going to co-exist in the same repo as types.hpp? Both define SensorDefinition.",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4af9ade_9d7b510a",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "Thank you for writing automated tests cases. I think they provide tons of value in being able to re-run thousands of times for free after future code modifications. They can also test error conditions that are hard to generate on a real system.",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "52254f94_d4eaefb4",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "I\u0027m guessing you have the JSON written a certain way because it matches the docs or makes the most sense that way.\n\nHowever, just as an FYI, the JSON can contain a simple bool/string/int, an array, or an object.\n\nSo you could just have the array without the enclosing object:\n```\n    const auto sensorConfig \u003d R\"(\n        [\n            {\n                \"path_suffix\": \"_0\",\n                \"threshold\": 30,\n                \"has_target\": true\n            },\n            {\n                \"path_suffix\": \"_1\",\n                \"threshold\": 30,\n                \"has_target\": false,\n                \"factor\": 0.625,\n                \"offset\": 1100\n            }\n        ]\n      )\"_json;\n```\n\nAnd then pass that element directly to getSensorDefs().",
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c9a179db_42a863fb",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-11T17:23:54Z",
+      "side": 1,
+      "message": "Is chassis 0 a valid number, since it represents the entire system?",
+      "range": {
+        "startLine": 282,
+        "startChar": 36,
+        "endLine": 282,
+        "endChar": 37
+      },
+      "revId": "f31168a1fcbebb8613a4294b447e3a677050ee12",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
