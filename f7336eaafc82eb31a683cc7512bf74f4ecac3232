@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3c1b07aa_7f704c54",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-12T17:23:42Z",
+      "side": 1,
+      "message": "If you run local CI, at the end it will have a line like \"Full test results in .../build/meson-logs/testlog.txt\"\n\nIf you edit that file, you can see each test suite that is run and what test cases within it run. Then you can verify whether your new tests actually ran.",
+      "parentUuid": "39056552_c1354805",
+      "revId": "f7336eaafc82eb31a683cc7512bf74f4ecac3232",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0048cac5_71da2248",
         "filename": "monitor/zone_base.hpp",
         "patchSetId": 2
