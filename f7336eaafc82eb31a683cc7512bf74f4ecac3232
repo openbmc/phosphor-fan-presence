@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c4f057b8_be61dee2",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Added that and other dependencies required to get the tests to run and pass.",
+      "parentUuid": "3c1b07aa_7f704c54",
+      "revId": "f7336eaafc82eb31a683cc7512bf74f4ecac3232",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0048cac5_71da2248",
@@ -49,6 +67,24 @@
       "writtenOn": "2025-11-12T17:21:41Z",
       "side": 1,
       "message": "Good job getting this in there. It is easy to forget in an abstract base class, but without a virtual dtor declared here you will leak memory when child classes assigned to a ZoneBase\u0026 or ZoneBase* are destructed.",
+      "revId": "f7336eaafc82eb31a683cc7512bf74f4ecac3232",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2eb164fe_589b8deb",
+        "filename": "monitor/zone_base.hpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "0048cac5_71da2248",
       "revId": "f7336eaafc82eb31a683cc7512bf74f4ecac3232",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

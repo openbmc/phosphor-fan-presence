@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf11c17c_3b7326eb",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 455,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "There are SensorDefinition struct definitions in both the parent (`phosphor::fan::monitor`) and child (`phosphor::fan::monitor::multi_chassis`) namespaces, so this is to specify that a SensorDefinition from the parent namespace is being used.",
+      "parentUuid": "d565f64e_99397499",
+      "range": {
+        "startLine": 455,
+        "startChar": 33,
+        "endLine": 455,
+        "endChar": 55
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d98fb48_a599c000",
@@ -37,6 +61,30 @@
       "writtenOn": "2025-11-11T20:59:25Z",
       "side": 1,
       "message": "This can be wrapped in an std::move() to avoid a copy.",
+      "range": {
+        "startLine": 477,
+        "startChar": 22,
+        "endLine": 477,
+        "endChar": 36
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81d03b33_cf3c2161",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "0d98fb48_a599c000",
       "range": {
         "startLine": 477,
         "startChar": 22,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "70977692_02e998c7",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Done, moved to top.",
+      "parentUuid": "39b0e900_7547ab3b",
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ac2ff361_1947896d",
@@ -77,6 +143,30 @@
       "writtenOn": "2025-11-11T20:59:25Z",
       "side": 1,
       "message": "mem_fn isn\u0027t needed anymore.  You can just use std::bind or bind_front.",
+      "range": {
+        "startLine": 533,
+        "startChar": 23,
+        "endLine": 533,
+        "endChar": 34
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa1debc8_c8087ff9",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "I removed this instance altogether, since we\u0027re passing in the powerState object, but I changed another case of mem_fn in the same file.",
+      "parentUuid": "ac2ff361_1947896d",
       "range": {
         "startLine": 533,
         "startChar": 23,
@@ -110,6 +200,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab3ee17d_329b347b",
+        "filename": "monitor/zone.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Added this getter function to the Fan class and extracted the Fan constructor code into an init() function to avoid DBus call errors. Wrote a test case to check that the proper number of fans were created.",
+      "parentUuid": "3f873bec_fa2761e3",
+      "range": {
+        "startLine": 163,
+        "startChar": 1,
+        "endLine": 164,
+        "endChar": 44
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a42b01b9_a152d5ba",
@@ -133,6 +247,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dcf14db0_2dd455ce",
+        "filename": "monitor/zone.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Changed it to a passed in reference like the thermalAlert.",
+      "parentUuid": "a42b01b9_a152d5ba",
+      "range": {
+        "startLine": 174,
+        "startChar": 2,
+        "endLine": 174,
+        "endChar": 44
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ede1c707_0ca7d49c",
@@ -146,6 +284,30 @@
       "writtenOn": "2025-11-11T20:59:25Z",
       "side": 1,
       "message": "Can we just leave all of the protected functions out of this class?",
+      "range": {
+        "startLine": 93,
+        "startChar": 3,
+        "endLine": 93,
+        "endChar": 12
+      },
+      "revId": "f8f714be31888456641243e16499c82e6e73d076",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f5b4044c_993dd0dc",
+        "filename": "monitor/zone_base.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-19T23:18:43Z",
+      "side": 1,
+      "message": "Removed them.",
+      "parentUuid": "ede1c707_0ca7d49c",
       "range": {
         "startLine": 93,
         "startChar": 3,
