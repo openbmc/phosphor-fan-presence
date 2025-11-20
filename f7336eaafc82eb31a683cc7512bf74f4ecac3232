@@ -56,6 +56,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "087bfe5f_176c4fc3",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 534,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-20T18:51:37Z",
+      "side": 1,
+      "message": "This is no longer needed? I didn\u0027t see it in the moved ctor at the top of the updated file.",
+      "range": {
+        "startLine": 528,
+        "startChar": 0,
+        "endLine": 534,
+        "endChar": 48
+      },
+      "revId": "f7336eaafc82eb31a683cc7512bf74f4ecac3232",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "0048cac5_71da2248",
         "filename": "monitor/zone_base.hpp",
         "patchSetId": 2

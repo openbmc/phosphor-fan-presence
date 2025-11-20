@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ea317f8_ad550698",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-20T18:51:37Z",
+      "side": 1,
+      "message": "I\u0027m not sure, but I\u0027m guessing test_sources was supposed to be a common list of source files used by one or more of the test cases.\n\nIf you end up creating more test executables, it might be less copy/paste to move the list above into test_sources.  Then use test_sources in the new executable too.\n\nAnother option is to build a static library with all the non-test .cpp files except the one containing main(). Then link that library into both the application and the test cases.\n\nNeither of these needs to be done in this commit or ever. Just a suggestion.",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc1e77e8_abfc5720",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2025-11-20T18:51:37Z",
+      "side": 1,
+      "message": "Did this change break something for single-chassis systems?\n\nAlso, I realize the ifdefs are not needed since no JSON parsing is happening. But is there still a difference here between YAML-based and JSON-based operation?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
