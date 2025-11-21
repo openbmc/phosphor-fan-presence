@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "848e46bb_7867d412",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-21T20:14:20Z",
+      "side": 1,
+      "message": "Yeah, if there ends up being lots of source overlap between test executables, I can probably move some of the sources into the test_sources variable. There isn\u0027t a lot between the two I\u0027ve made so far, so maybe not an immediate thing, but something to consider for the future.",
+      "parentUuid": "9ea317f8_ad550698",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bc1e77e8_abfc5720",
@@ -31,6 +49,24 @@
       "writtenOn": "2025-11-20T18:51:37Z",
       "side": 1,
       "message": "Did this change break something for single-chassis systems?\n\nAlso, I realize the ifdefs are not needed since no JSON parsing is happening. But is there still a difference here between YAML-based and JSON-based operation?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c5f954_b83831fa",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-11-21T20:14:20Z",
+      "side": 1,
+      "message": "So, the getJsonObj() call was causing errors with the unit tests since it tries to search a path for a json config to use to set the trust manager. Since trust groups are an older workaround that don\u0027t need to be supported anymore, I removed that call and had it create and store an empty trust manager instead (since you still need one to pass to the Fan constructor). As for whether there is a difference between yaml and json operation, Matt had said that the new fan monitor code doesn\u0027t need to support yaml, so I haven\u0027t made much differentiation. \n\nWith that being said, might be able to remove the setTrustMgr() and/or getTrustGroups() functions from this file, since we\u0027re not doing much with the trust groups. I\u0027ll ask Matt about it after next week.",
+      "parentUuid": "bc1e77e8_abfc5720",
       "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
