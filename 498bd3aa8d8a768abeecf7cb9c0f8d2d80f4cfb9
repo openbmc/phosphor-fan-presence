@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "89651e8d_6862d7b2",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-12-01T23:20:36Z",
+      "side": 1,
+      "message": "nit: can you add the @brief like the others have?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "9ea317f8_ad550698",
         "filename": "monitor/test/meson.build",
         "patchSetId": 3
@@ -38,6 +55,57 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "734de645_062c138d",
+        "filename": "monitor/test/zone_test.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-12-01T23:20:36Z",
+      "side": 1,
+      "message": "other than the EXPECT calls, is there any other difference between the 2 testcases?\n\nIf not, they could be combined into one.  I\u0027m not a big proponent of needing separate testcases to test every method call when it causes a lot of duplication.\n\nIn fact, the isPowerOn() is never really going to test interesting code anyway, so you could probably even just skip it since it\u0027s almost 100 lines of setup.",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1d2bb24_a61f229b",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-12-01T23:20:36Z",
+      "side": 1,
+      "message": "Instead of all Zone instances having to watch for the same thing, ideally I think whatever class you\u0027ll have just 1 of could watch this and filter down the calls.\n\nCan be done in the future though.\n\nIt also might be possible that the inventory won\u0027t even be necessary anymore.",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a340f8ef_a56acf7f",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-12-01T23:20:36Z",
+      "side": 1,
+      "message": "does the fan init() also have to run here?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bc1e77e8_abfc5720",
         "filename": "monitor/zone.cpp",
         "patchSetId": 3
@@ -67,6 +135,40 @@
       "side": 1,
       "message": "So, the getJsonObj() call was causing errors with the unit tests since it tries to search a path for a json config to use to set the trust manager. Since trust groups are an older workaround that don\u0027t need to be supported anymore, I removed that call and had it create and store an empty trust manager instead (since you still need one to pass to the Fan constructor). As for whether there is a difference between yaml and json operation, Matt had said that the new fan monitor code doesn\u0027t need to support yaml, so I haven\u0027t made much differentiation. \n\nWith that being said, might be able to remove the setTrustMgr() and/or getTrustGroups() functions from this file, since we\u0027re not doing much with the trust groups. I\u0027ll ask Matt about it after next week.",
       "parentUuid": "bc1e77e8_abfc5720",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e58bd15e_4a13dc61",
+        "filename": "monitor/zone.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-12-01T23:20:36Z",
+      "side": 1,
+      "message": "are all of these headers needed here?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b98072f_b56258e2",
+        "filename": "monitor/zone_base.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2025-12-01T23:20:36Z",
+      "side": 1,
+      "message": "I don\u0027t think a lot of these headers are needed?",
       "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
