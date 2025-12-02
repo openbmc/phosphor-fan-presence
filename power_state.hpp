@@ -5,6 +5,7 @@
 #include <xyz/openbmc_project/State/Host/server.hpp>
 
 #include <functional>
+#include <optional>
 
 using HostState =
     sdbusplus::xyz::openbmc_project::State::server::Host::HostState;
@@ -157,15 +158,25 @@ class PGoodState : public PowerState
      * @param[in] bus - The D-Bus bus connection object
      * @param[in] callback - The function that should be run when
      *                       the power state changes
+     * @param[in] pGoodSuffix - Suffix to represent the chassis number
+     * (optional).
      */
-    PGoodState(sdbusplus::bus_t& bus, StateChangeFunc func) :
+    PGoodState(sdbusplus::bus_t& bus, StateChangeFunc func,
+               std::optional<std::string> pGoodSuffix = std::nullopt) :
         PowerState(bus, func),
         _match(_bus,
                sdbusplus::bus::match::rules::propertiesChanged(_pgoodPath,
                                                                _pgoodInterface),
                [this](auto& msg) { this->pgoodChanged(msg); })
     {
-        readPGood();
+        if (pGoodSuffix.has_value())
+        {
+            readPGood(pGoodSuffix.value());
+        }
+        else
+        {
+            readPGood();
+        }
     }
 
     /**
@@ -193,13 +204,22 @@ class PGoodState : public PowerState
   private:
     /**
      * @brief Reads the PGOOD property from D-Bus and saves it.
+     *
+     * @param[in] pGoodSuffix - Suffix to represent the chassis number
+     * (optional).
      */
-    void readPGood()
+    void readPGood(std::optional<std::string> pGoodSuffix = std::nullopt)
     {
+        // DBus path defaults to system-level Pgood path
+        // (/org/openbmc/control/power0)
+        std::string fullPgoodPath =
+            pGoodSuffix.has_value()
+                ? "/org/openbmc/control/power" + pGoodSuffix.value()
+                : _pgoodPath;
         try
         {
             auto pgood = util::SDBusPlus::getProperty<int32_t>(
-                _bus, _pgoodPath, _pgoodInterface, _pgoodProperty);
+                _bus, fullPgoodPath, _pgoodInterface, _pgoodProperty);
 
             _powerState = static_cast<bool>(pgood);
         }
@@ -209,7 +229,7 @@ class PGoodState : public PowerState
         }
     }
 
-    /** @brief D-Bus path constant */
+    /** @brief D-Bus path constant for system-level Pgood */
     const std::string _pgoodPath{"/org/openbmc/control/power0"};
 
     /** @brief D-Bus interface constant */
