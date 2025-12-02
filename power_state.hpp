@@ -5,6 +5,7 @@
 #include <xyz/openbmc_project/State/Host/server.hpp>
 
 #include <functional>
+#include <optional>
 
 using HostState =
     sdbusplus::xyz::openbmc_project::State::server::Host::HostState;
@@ -158,14 +159,22 @@ class PGoodState : public PowerState
      * @param[in] callback - The function that should be run when
      *                       the power state changes
      */
-    PGoodState(sdbusplus::bus_t& bus, StateChangeFunc func) :
+    PGoodState(sdbusplus::bus_t& bus, StateChangeFunc func,
+               std::optional<std::string> pGoodSuffix = std::nullopt) :
         PowerState(bus, func),
         _match(_bus,
                sdbusplus::bus::match::rules::propertiesChanged(_pgoodPath,
                                                                _pgoodInterface),
                [this](auto& msg) { this->pgoodChanged(msg); })
     {
-        readPGood();
+        if (pGoodSuffix.has_value())
+        {
+            readPGood(pGoodSuffix.value());
+        }
+        else
+        {
+            readPGood();
+        }
     }
 
     /**
@@ -200,6 +209,28 @@ class PGoodState : public PowerState
         {
             auto pgood = util::SDBusPlus::getProperty<int32_t>(
                 _bus, _pgoodPath, _pgoodInterface, _pgoodProperty);
+
+            _powerState = static_cast<bool>(pgood);
+        }
+        catch (const util::DBusServiceError& e)
+        {
+            // Wait for propertiesChanged signal when service starts
+        }
+    }
+
+    /**
+     * Overloaded version of readPGood() that reads a specific pgood path
+     * for multi-chassis systems.
+     *
+     * @param[in] pGoodSuffix - Suffix to represent the chassis
+     */
+    void readPGood(std::string pGoodSuffix)
+    {
+        try
+        {
+            auto pgood = util::SDBusPlus::getProperty<int32_t>(
+                _bus, "/org/openbmc/control/power" + pGoodSuffix,
+                _pgoodInterface, _pgoodProperty);
 
             _powerState = static_cast<bool>(pgood);
         }
