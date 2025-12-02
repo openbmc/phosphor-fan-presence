@@ -139,6 +139,13 @@ class Zone : public phosphor::fan::monitor::ZoneBase
         return _fans;
     }
 
+    /**
+     * @brief The function that runs when the power state changes
+     *
+     * @param[in] powerStateOn - If power is now on or not
+     */
+    void powerStateChanged(bool powerStateOn);
+
   private:
     /* Zone configuration object */
     ZoneDefinition _zoneConfig;
@@ -242,13 +249,6 @@ class Zone : public phosphor::fan::monitor::ZoneBase
      */
     void tachSignalOffline(sdbusplus::message_t& msg,
                            const SensorMapType& sensorMap);
-
-    /**
-     * @brief The function that runs when the power state changes
-     *
-     * @param[in] powerStateOn - If power is now on or not
-     */
-    void powerStateChanged(bool powerStateOn);
 
     /**
      * @brief Reads the fault configuration from the JSON config
