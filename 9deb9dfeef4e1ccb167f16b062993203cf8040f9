@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c75bb70_618a215b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-03T20:50:14Z",
+      "side": 1,
+      "message": "Based on suggestion from Matt, added test fixture class to share common setup code between test cases. Added a getter for the zone name to match Zone objects to ZoneDefinition structs in the upcoming Chassis class. Removed the power on test case and used a literal for chassis_nums vector rather than declaring a variable.",
+      "revId": "9deb9dfeef4e1ccb167f16b062993203cf8040f9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
