@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3de2c23_5e534249",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-03T20:42:12Z",
+      "side": 1,
+      "message": "I added the @brief annotation to the variables in this file that I created. I can add it to more if needed.",
+      "parentUuid": "89651e8d_6862d7b2",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9ea317f8_ad550698",
@@ -72,6 +90,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2b685ce6_af8f4f16",
+        "filename": "monitor/test/zone_test.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-03T20:42:12Z",
+      "side": 1,
+      "message": "The only differences are the EXPECT calls and that the fan creation test calls the init() function for zones. Otherwise, they\u0027re the same. I\u0027ll remove the power on test for now since we can\u0027t power on from the unit tests anyway.",
+      "parentUuid": "734de645_062c138d",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "c1d2bb24_a61f229b",
         "filename": "monitor/zone.cpp",
         "patchSetId": 3
@@ -100,6 +136,24 @@
       "writtenOn": "2025-12-01T23:20:36Z",
       "side": 1,
       "message": "does the fan init() also have to run here?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c193ddba_a953853d",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 408,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-03T20:42:12Z",
+      "side": 1,
+      "message": "Yeah, I think it should, since the config is being reloaded here.",
+      "parentUuid": "a340f8ef_a56acf7f",
       "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -156,6 +210,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db6a221c_007d7bef",
+        "filename": "monitor/zone.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-03T20:42:12Z",
+      "side": 1,
+      "message": "I would think the top ones `(fan, fan_error, ...)` would be needed, since classes and functions from those are being used here or in `zone.cpp`. `\u003cmemory\u003e`, `\u003coptional\u003e`, and `\u003cvector\u003e` are also used as are json and bus/event. I removed the source headers.",
+      "parentUuid": "e58bd15e_4a13dc61",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7b98072f_b56258e2",
@@ -169,6 +241,24 @@
       "writtenOn": "2025-12-01T23:20:36Z",
       "side": 1,
       "message": "I don\u0027t think a lot of these headers are needed?",
+      "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d44a921d_6d232dba",
+        "filename": "monitor/zone_base.hpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-03T20:42:12Z",
+      "side": 1,
+      "message": "I removed most of them, but kept fan and tach_sensor and added set/map, since those are used here.",
+      "parentUuid": "7b98072f_b56258e2",
       "revId": "498bd3aa8d8a768abeecf7cb9c0f8d2d80f4cfb9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
