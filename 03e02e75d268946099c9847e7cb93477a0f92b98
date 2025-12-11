@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6feb5feb_2f0e4951",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-11T23:05:36Z",
+      "side": 1,
+      "message": "Removed getTrustGroups and setTrustMgr since trust groups are no longer supported. Removed getName for now since not required for Chassis class at the moment.",
+      "revId": "03e02e75d268946099c9847e7cb93477a0f92b98",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
