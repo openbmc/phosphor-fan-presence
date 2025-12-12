@@ -516,6 +516,7 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
     const auto chassisConfig = R"({
         "chassis_definitions": [
             {
+                "available": true,
                 "chassis_numbers": [
                     0,
                     1,
@@ -781,8 +782,10 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
                      .shortName = "chassis7_fan3"}},
             .faultHandling = faultHandlingConfig["fault_handling"]}};
 
-    std::vector<ChassisDefinition> expected = {ChassisDefinition{
-        .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7}, .zones = expectedZones}};
+    std::vector<ChassisDefinition> expected = {
+        ChassisDefinition{.chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+                          .zones = expectedZones,
+                          .available = true}};
 
     ASSERT_EQ(actual.size(), expected.size());
     for (size_t i = 0; i < actual.size(); i++)
@@ -806,6 +809,7 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
             EXPECT_EQ(actual[i].zones[j].faultHandling,
                       expected[i].zones[j].faultHandling);
         }
+        EXPECT_EQ(actual[i].available, expected[i].available);
     }
 }
 
