@@ -305,8 +305,10 @@ const std::vector<ChassisDefinition> getChassisDefs(const json& chassis)
         }
         std::vector<ZoneDefinition> zoneDefs =
             getZoneDefs(chassisConfig["zones"], chassisNums);
-        ChassisDefinition def{.chassisNumbers = std::move(chassisNums),
-                              .zones = std::move(zoneDefs)};
+        ChassisDefinition def{
+            .chassisNumbers = std::move(chassisNums),
+            .zones = std::move(zoneDefs),
+            .availPropUsed = chassisConfig.value("availPropUsed", false)};
 
         chassisDefs.push_back(std::move(def));
     }
