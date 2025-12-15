@@ -4,20 +4,18 @@
 #include "multichassis_json_parser.hpp"
 
 #include "conditions.hpp"
-#include "dbus_paths.hpp"
-#include "nonzero_speed_trust.hpp"
-#include "power_interface.hpp"
-#include "power_off_rule.hpp"
+#include "json_config.hpp"
 #include "system.hpp"
 #include "tach_sensor.hpp"
+#include "types.hpp"
 
 #include <nlohmann/json.hpp>
 #include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
 #include <map>
-#include <memory>
 #include <optional>
+#include <utility>
 #include <vector>
 
 namespace phosphor::fan::monitor::multi_chassis
