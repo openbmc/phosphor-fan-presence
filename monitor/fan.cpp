@@ -17,7 +17,6 @@
 
 #include "logging.hpp"
 #include "sdbusplus.hpp"
-#include "system.hpp"
 #include "types.hpp"
 #include "utility.hpp"
 
