@@ -16,6 +16,24 @@
       "message": "I didn\u0027t check every include, but `\u003cutility\u003e` seems to be missing here. That is where std::move() is defined.\n\nIn general a file should #include all the types and functions it uses. An exception of course is that foo.cpp does not need to include headers included by foo.hpp.",
       "revId": "f873cedfcf76e6681afb341a3b755317978363a3",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "660998fb_cfeeb133",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2025-12-16T20:08:34Z",
+      "side": 1,
+      "message": "Yeah, it was probably cross-included through tach_sensor.hpp. I added it in.",
+      "parentUuid": "f5137c93_5c457c05",
+      "revId": "f873cedfcf76e6681afb341a3b755317978363a3",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
