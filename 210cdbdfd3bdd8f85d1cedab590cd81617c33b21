@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ceb51956_4a78f5d0",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-01-12T16:03:43Z",
+      "side": 1,
+      "message": "I think these changes may change the behavior subtly, and fan control is a bit touchy when it comes to D-Bus errors.\n\nI\u0027d feel better if all the is_method_error blocks were just removed with no other changes since they were always just no-ops anyway.\n\nIf you\u0027d rather I did it that\u0027s fine too.",
+      "revId": "210cdbdfd3bdd8f85d1cedab590cd81617c33b21",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
