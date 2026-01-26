@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "707f1c50_c669eaf0",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-01-26T22:56:52Z",
+      "side": 1,
+      "message": "Just looking at this, I would think it meant that the chassis is available somehow.\n\nMaybe instead something like \u0027useAvailableProperty\" or anything else along those lines.",
+      "revId": "f38b9212851ebdea164fd239a07d889d1276ab48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d056e82_3433d383",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-01-26T22:56:52Z",
+      "side": 1,
+      "message": "same comment here.",
+      "range": {
+        "startLine": 788,
+        "startChar": 26,
+        "endLine": 788,
+        "endChar": 36
+      },
+      "revId": "f38b9212851ebdea164fd239a07d889d1276ab48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
