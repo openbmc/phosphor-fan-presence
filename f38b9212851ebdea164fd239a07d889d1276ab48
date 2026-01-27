@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c9bcd1a_28304a34",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-01-27T21:52:14Z",
+      "side": 1,
+      "message": "Good point. Changed to `availPropUsed`.",
+      "parentUuid": "707f1c50_c669eaf0",
+      "revId": "f38b9212851ebdea164fd239a07d889d1276ab48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d056e82_3433d383",
@@ -31,6 +49,30 @@
       "writtenOn": "2026-01-26T22:56:52Z",
       "side": 1,
       "message": "same comment here.",
+      "range": {
+        "startLine": 788,
+        "startChar": 26,
+        "endLine": 788,
+        "endChar": 36
+      },
+      "revId": "f38b9212851ebdea164fd239a07d889d1276ab48",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42f356d9_b7a832d4",
+        "filename": "monitor/test/multi_chassis_json_parser_test.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-01-27T21:52:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d056e82_3433d383",
       "range": {
         "startLine": 788,
         "startChar": 26,
