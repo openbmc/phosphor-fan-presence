@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bb330930_f5bf467d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-01-27T22:06:36Z",
+      "side": 1,
+      "message": "maybe want to update the instances of \u0027available\u0027 here to the new name.",
+      "revId": "73c3eaf346f0ee883b89466ef20e5747a8ed531d",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
