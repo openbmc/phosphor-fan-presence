@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "894772ed_43aef52c",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:58:49Z",
+      "side": 1,
+      "message": "Considering this:\n\n```\nIf a power good fault occurs in a chassis after the system powered on, the\n`pgood` property for that chassis\u0027s object path will change to 0. The `pgood`\nproperty for the system object path will remain set to 1 for a period of time.\nEventually the system will be powered off due to the power good fault. See\n[Power Good Faults](pgood_faults.md) for more information.\n\nWhen the system is being powered off, the `state` will be changed to 0 for the\nsystem and for all chassis that are being powered off.\n\nWhen an individual chassis has successfully powered off, the `pgood` property\nfor that object path will change to 0. When all chassis have successfully\npowered off, the `pgood` property for the system object path will change to 0.\n```\n\nIt might be better to use the individual pgoods, the reason being there will be periods of time where pgoodN will be off while pgood0 is still on, but the fans corresponding to that pgoodN won\u0027t be spinning so code would incorrectly think it was a fault.",
+      "parentUuid": "38b86be8_4e954e8e",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "04fa8dab_65430afd",
         "filename": "monitor/chassis.cpp",
         "patchSetId": 3
