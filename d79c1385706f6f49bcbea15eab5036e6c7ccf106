@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38b86be8_4e954e8e",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:55:00Z",
+      "side": 1,
+      "message": "PGoodState will need some thought since it just operates on a global pgood0.  That might end up being fine though.\n\nfrom the docs:\n`phosphor-power-sequencer` publishes the `org.openbmc.control.Power` interface\non the following object paths:\n\n- `/org/openbmc/control/power0`: Represents the entire system\n- `/org/openbmc/control/power1`: Represents chassis 1\n- `/org/openbmc/control/power2`: Represents chassis 2\n- ...\n- `/org/openbmc/control/powerN`: Represents chassis N",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "04fa8dab_65430afd",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:55:00Z",
+      "side": 1,
+      "message": "This will give you every availability iface in the system.  you can just get the one you care about with:\n\nconstexpr auto interfacesAddedAtPath(std::string_view p) noexcept",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 72
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b5053d84_1a1bab32",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:55:00Z",
+      "side": 1,
+      "message": "I think you\u0027d also want to read the initial value of Available here as well to know if you should create the zone or not?\nthis function can do it all in one without a separate mapper call in sdbusplus.hpp:\n\n    /** @brief Get a property with mapper lookup. */\n    template \u003ctypename Property\u003e\n    static auto getProperty(sdbusplus::bus_t\u0026 bus, const std::string\u0026 path,\n                            const std::string\u0026 interface,\n                            const std::string\u0026 property)",
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e1fd827_a1bfa5b9",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:55:00Z",
+      "side": 1,
+      "message": "there\u0027s a new unpack function that went in in a lot of places that lets one do this in one line:\n\nauto [interface, properties] \u003d msg.unpack\u003cstd::string, std::variant\u003cbool\u003e\u003e();",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 36
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3cdde1fd_f8de3bb0",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:55:00Z",
+      "side": 1,
+      "message": "same unpack here too",
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f309dded_4fa2a23f",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-11T20:55:00Z",
+      "side": 1,
+      "message": "available?",
+      "range": {
+        "startLine": 120,
+        "startChar": 64,
+        "endLine": 120,
+        "endChar": 71
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
