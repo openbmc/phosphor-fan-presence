@@ -158,14 +158,11 @@ auto loadDBusData()
 
     std::string method("RPM");
 
-    std::map<const std::string, const std::string> paths{
-        {"motherboard",
-         "/xyz/openbmc_project/inventory/system/chassis/motherboard"},
-        {"tach", "/xyz/openbmc_project/sensors/fan_tach"}};
+    const std::string objPathTach = "/xyz/openbmc_project/sensors/fan_tach";
 
     // build a list of all fans
     for (auto& path : SDBusPlus::getSubTreePathsRaw(
-             bus, paths["tach"], ControlFanSpeed::interface, 0))
+             bus, objPathTach, ControlFanSpeed::interface, 0))
     {
         // special case where we build the list of fans
         auto fan = justFanName(path);
@@ -179,7 +176,7 @@ auto loadDBusData()
         method = "PWM";
 
         for (auto& path : SDBusPlus::getSubTreePathsRaw(
-                 bus, paths["tach"], ControlFanPwm::interface, 0))
+                 bus, objPathTach, ControlFanPwm::interface, 0))
         {
             // special case where we build the list of fans
             auto fan = justFanName(path);
@@ -190,16 +187,29 @@ auto loadDBusData()
 
     // load tach sensor paths for each fan
     pathMap["tach"] =
-        getPathsFromIface(paths["tach"], SensorValue::interface, fanNames);
+        getPathsFromIface(objPathTach, SensorValue::interface, fanNames);
 
-    // load inventory Item data for each fan
-    pathMap["inventory"] = getPathsFromIface(
-        paths["motherboard"], InventoryItem::interface, fanNames, true);
+    const std::string objPathMB =
+        "/xyz/openbmc_project/inventory/system/chassis/motherboard";
 
-    // load operational status data for each fan
-    pathMap["opstatus"] = getPathsFromIface(
-        paths["motherboard"], StateDecoratorOperationalStatus::interface,
-        fanNames, true);
+    try
+    {
+        // load inventory Item data for each fan
+        pathMap["inventory"] = getPathsFromIface(
+            objPathMB, InventoryItem::interface, fanNames, true);
+
+        // load operational status data for each fan
+        pathMap["opstatus"] = getPathsFromIface(
+            objPathMB, StateDecoratorOperationalStatus::interface, fanNames,
+            true);
+    }
+    catch (const std::exception& e)
+    {
+        std::cerr << e.what() << std::endl;
+        std::cerr << "could not find inventory / operational status for "
+                  << objPathMB << std::endl;
+        throw;
+    }
 
     return std::make_tuple(fanNames, pathMap, method);
 }
