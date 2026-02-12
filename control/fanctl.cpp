@@ -21,10 +21,32 @@
 #include <CLI/CLI.hpp>
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
+#include <xyz/openbmc_project/Control/FanPwm/common.hpp>
+#include <xyz/openbmc_project/Control/FanSpeed/common.hpp>
+#include <xyz/openbmc_project/Inventory/Item/common.hpp>
+#include <xyz/openbmc_project/Sensor/Value/common.hpp>
+#include <xyz/openbmc_project/State/BMC/common.hpp>
+#include <xyz/openbmc_project/State/Chassis/common.hpp>
+#include <xyz/openbmc_project/State/Decorator/Availability/common.hpp>
+#include <xyz/openbmc_project/State/Decorator/OperationalStatus/common.hpp>
+#include <xyz/openbmc_project/State/Host/common.hpp>
 
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
+
+using SensorValue = sdbusplus::common::xyz::openbmc_project::sensor::Value;
+using ControlFanSpeed =
+    sdbusplus::common::xyz::openbmc_project::control::FanSpeed;
+using ControlFanPwm = sdbusplus::common::xyz::openbmc_project::control::FanPwm;
+using InventoryItem = sdbusplus::common::xyz::openbmc_project::inventory::Item;
+using StateDecoratorOperationalStatus = sdbusplus::common::xyz::
+    openbmc_project::state::decorator::OperationalStatus;
+using StateDecoratorAvailability =
+    sdbusplus::common::xyz::openbmc_project::state::decorator::Availability;
+using StateBMC = sdbusplus::common::xyz::openbmc_project::state::BMC;
+using StateChassis = sdbusplus::common::xyz::openbmc_project::state::Chassis;
+using StateHost = sdbusplus::common::xyz::openbmc_project::state::Host;
 
 using SDBusPlus = phosphor::fan::util::SDBusPlus;
 
@@ -38,8 +60,7 @@ enum
 {
     FAN_NAMES = 0,
     PATH_MAP = 1,
-    IFACES = 2,
-    METHOD = 3
+    METHOD = 2
 };
 
 struct DumpQuery
@@ -137,21 +158,14 @@ auto loadDBusData()
 
     std::string method("RPM");
 
-    std::map<const std::string, const std::string> interfaces{
-        {"FanSpeed", "xyz.openbmc_project.Control.FanSpeed"},
-        {"FanPwm", "xyz.openbmc_project.Control.FanPwm"},
-        {"SensorValue", "xyz.openbmc_project.Sensor.Value"},
-        {"Item", "xyz.openbmc_project.Inventory.Item"},
-        {"OpStatus", "xyz.openbmc_project.State.Decorator.OperationalStatus"}};
-
     std::map<const std::string, const std::string> paths{
         {"motherboard",
          "/xyz/openbmc_project/inventory/system/chassis/motherboard"},
         {"tach", "/xyz/openbmc_project/sensors/fan_tach"}};
 
     // build a list of all fans
-    for (auto& path : SDBusPlus::getSubTreePathsRaw(bus, paths["tach"],
-                                                    interfaces["FanSpeed"], 0))
+    for (auto& path : SDBusPlus::getSubTreePathsRaw(
+             bus, paths["tach"], ControlFanSpeed::interface, 0))
     {
         // special case where we build the list of fans
         auto fan = justFanName(path);
@@ -165,7 +179,7 @@ auto loadDBusData()
         method = "PWM";
 
         for (auto& path : SDBusPlus::getSubTreePathsRaw(
-                 bus, paths["tach"], interfaces["FanPwm"], 0))
+                 bus, paths["tach"], ControlFanPwm::interface, 0))
         {
             // special case where we build the list of fans
             auto fan = justFanName(path);
@@ -176,17 +190,18 @@ auto loadDBusData()
 
     // load tach sensor paths for each fan
     pathMap["tach"] =
-        getPathsFromIface(paths["tach"], interfaces["SensorValue"], fanNames);
+        getPathsFromIface(paths["tach"], SensorValue::interface, fanNames);
 
     // load inventory Item data for each fan
     pathMap["inventory"] = getPathsFromIface(
-        paths["motherboard"], interfaces["Item"], fanNames, true);
+        paths["motherboard"], InventoryItem::interface, fanNames, true);
 
     // load operational status data for each fan
     pathMap["opstatus"] = getPathsFromIface(
-        paths["motherboard"], interfaces["OpStatus"], fanNames, true);
+        paths["motherboard"], StateDecoratorOperationalStatus::interface,
+        fanNames, true);
 
-    return std::make_tuple(fanNames, pathMap, interfaces, method);
+    return std::make_tuple(fanNames, pathMap, method);
 }
 
 /**
@@ -233,29 +248,20 @@ std::array<std::string, 6> getStates()
     }
 
     std::string path("/xyz/openbmc_project/state/bmc0");
-    std::string iface("xyz.openbmc_project.State.BMC");
-    ret[3] =
-        SDBusPlus::getProperty<std::string>(path, iface, "CurrentBMCState");
+    ret[3] = SDBusPlus::getProperty<std::string>(
+        path, StateBMC::interface, StateBMC::property_names::current_bmc_state);
 
     path = "/xyz/openbmc_project/state/chassis0";
-    iface = "xyz.openbmc_project.State.Chassis";
-    ret[4] =
-        SDBusPlus::getProperty<std::string>(path, iface, "CurrentPowerState");
+    ret[4] = SDBusPlus::getProperty<std::string>(
+        path, StateChassis::interface,
+        StateChassis::property_names::current_power_state);
 
     path = "/xyz/openbmc_project/state/host0";
-    iface = "xyz.openbmc_project.State.Host";
-    ret[5] =
-        SDBusPlus::getProperty<std::string>(path, iface, "CurrentHostState");
+    ret[5] = SDBusPlus::getProperty<std::string>(
+        path, StateHost::interface,
+        StateHost::property_names::current_host_state);
 
     return ret;
-}
-
-/**
- * @function helper to determine interface type from a given control method
- */
-std::string ifaceTypeFromMethod(const std::string& method)
-{
-    return (method == "RPM" ? "FanSpeed" : "FanPwm");
 }
 
 /**
@@ -270,8 +276,6 @@ void status()
 
     auto busData = loadDBusData();
     auto& method = std::get<METHOD>(busData);
-
-    std::string property;
 
     // get the state,substate of fan-control and obmc
     auto states = getStates();
@@ -292,29 +296,36 @@ void status()
 
     auto& fanNames{std::get<FAN_NAMES>(busData)};
     auto& pathMap{std::get<PATH_MAP>(busData)};
-    auto& interfaces{std::get<IFACES>(busData)};
 
     for (auto& fan : fanNames)
     {
         cout << setw(8) << std::left << fan << std::right << setw(13);
 
         // get the target RPM
-        property = "Target";
-        cout << SDBusPlus::getProperty<uint64_t>(
-                    pathMap["tach"][fan][0],
-                    interfaces[ifaceTypeFromMethod(method)], property)
-             << setw(19);
+        if (method == "RPM")
+        {
+            cout << SDBusPlus::getProperty<uint64_t>(
+                        pathMap["tach"][fan][0], ControlFanSpeed::interface,
+                        ControlFanSpeed::property_names::target)
+                 << setw(19);
+        }
+        else
+        {
+            cout << SDBusPlus::getProperty<uint64_t>(
+                        pathMap["tach"][fan][0], ControlFanPwm::interface,
+                        ControlFanPwm::property_names::target)
+                 << setw(19);
+        }
 
         // get the sensor RPM
-        property = "Value";
-
         std::ostringstream output;
         int numRotors = pathMap["tach"][fan].size();
         // print tach readings for each rotor
         for (auto& path : pathMap["tach"][fan])
         {
             output << SDBusPlus::getProperty<double>(
-                path, interfaces["SensorValue"], property);
+                path, SensorValue::interface,
+                SensorValue::property_names::value);
 
             // dont print slash on last rotor
             if (--numRotors)
@@ -323,7 +334,6 @@ void status()
         cout << output.str() << setw(10);
 
         // print the Present property
-        property = "Present";
         auto itFan = pathMap["inventory"].find(fan);
         if (itFan != pathMap["inventory"].end())
         {
@@ -333,7 +343,8 @@ void status()
                 {
                     cout << std::boolalpha
                          << SDBusPlus::getProperty<bool>(
-                                path, interfaces["Item"], property);
+                                path, InventoryItem::interface,
+                                InventoryItem::property_names::present);
                 }
                 catch (const phosphor::fan::util::DBusError&)
                 {
@@ -349,7 +360,6 @@ void status()
         cout << setw(13);
 
         // and the functional property
-        property = "Functional";
         itFan = pathMap["opstatus"].find(fan);
         if (itFan != pathMap["opstatus"].end())
         {
@@ -359,7 +369,10 @@ void status()
                 {
                     cout << std::boolalpha
                          << SDBusPlus::getProperty<bool>(
-                                path, interfaces["OpStatus"], property);
+                                path,
+                                StateDecoratorOperationalStatus::interface,
+                                StateDecoratorOperationalStatus::
+                                    property_names::functional);
                 }
                 catch (const phosphor::fan::util::DBusError&)
                 {
@@ -389,7 +402,6 @@ void get()
 
     auto& fanNames{std::get<FAN_NAMES>(busData)};
     auto& pathMap{std::get<PATH_MAP>(busData)};
-    auto& interfaces{std::get<IFACES>(busData)};
     auto& method = std::get<METHOD>(busData);
 
     std::string property;
@@ -410,20 +422,27 @@ void get()
         cout << setw(13) << std::left << shortPath << std::right << setw(15);
 
         // print its target RPM/PWM
-        property = "Target";
-        cout << SDBusPlus::getProperty<uint64_t>(
-            pathMap["tach"][fan][0], interfaces[ifaceTypeFromMethod(method)],
-            property);
+        if (method == "RPM")
+        {
+            cout << SDBusPlus::getProperty<uint64_t>(
+                pathMap["tach"][fan][0], ControlFanSpeed::interface,
+                ControlFanSpeed::property_names::target);
+        }
+        else
+        {
+            cout << SDBusPlus::getProperty<uint64_t>(
+                pathMap["tach"][fan][0], ControlFanPwm::interface,
+                ControlFanPwm::property_names::target);
+        }
 
         // print readings for each rotor
-        property = "Value";
-
         auto indent = 0;
         for (auto& path : pathMap["tach"][fan])
         {
             cout << setw(18 + indent) << justFanName(path) << setw(17)
                  << SDBusPlus::getProperty<double>(
-                        path, interfaces["SensorValue"], property)
+                        path, SensorValue::interface,
+                        SensorValue::property_names::value)
                  << endl;
 
             if (0 == indent)
@@ -440,10 +459,7 @@ void set(uint64_t target, std::vector<std::string>& fanList)
     auto busData = loadDBusData();
     auto& bus{SDBusPlus::getBus()};
     auto& pathMap{std::get<PATH_MAP>(busData)};
-    auto& interfaces{std::get<IFACES>(busData)};
     auto& method = std::get<METHOD>(busData);
-
-    std::string ifaceType(method == "RPM" ? "FanSpeed" : "FanPwm");
 
     // stop the fan-control service
     SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
@@ -493,9 +509,18 @@ void set(uint64_t target, std::vector<std::string>& fanList)
             }
 
             // set the target RPM
-            SDBusPlus::setProperty<uint64_t>(bus, paths->second[0],
-                                             interfaces[ifaceType], "Target",
-                                             std::move(target));
+            if (method == "RPM")
+            {
+                SDBusPlus::setProperty<uint64_t>(
+                    bus, paths->second[0], ControlFanSpeed::interface,
+                    ControlFanSpeed::property_names::target, std::move(target));
+            }
+            else
+            {
+                SDBusPlus::setProperty<uint64_t>(
+                    bus, paths->second[0], ControlFanPwm::interface,
+                    ControlFanPwm::property_names::target, std::move(target));
+            }
         }
         catch (const phosphor::fan::util::DBusPropertyError& e)
         {
@@ -739,12 +764,13 @@ void printSensors(const std::vector<SensorOutput>& sensors)
 void extractSensorData(const auto& object, const SensorOpts& opts,
                        std::vector<SensorOutput>& sensors)
 {
-    auto it = object.second.find("xyz.openbmc_project.Sensor.Value");
+    auto it = object.second.find(SensorValue::interface);
     if (it == object.second.end())
     {
         return;
     }
-    auto value = std::get<double>(it->second.at("Value"));
+    auto value =
+        std::get<double>(it->second.at(SensorValue::property_names::value));
 
     // Use the full D-Bus path of the sensor for the name if verbose
     std::string name = object.first.str;
@@ -774,18 +800,19 @@ void extractSensorData(const auto& object, const SensorOpts& opts,
     }
 
     bool functional = true;
-    it = object.second.find(
-        "xyz.openbmc_project.State.Decorator.OperationalStatus");
+    it = object.second.find(StateDecoratorOperationalStatus::interface);
     if (it != object.second.end())
     {
-        functional = std::get<bool>(it->second.at("Functional"));
+        functional = std::get<bool>(it->second.at(
+            StateDecoratorOperationalStatus::property_names::functional));
     }
 
     bool available = true;
-    it = object.second.find("xyz.openbmc_project.State.Decorator.Availability");
+    it = object.second.find(StateDecoratorAvailability::interface);
     if (it != object.second.end())
     {
-        available = std::get<bool>(it->second.at("Available"));
+        available = std::get<bool>(it->second.at(
+            StateDecoratorAvailability::property_names::available));
     }
 
     sensors.emplace_back(printName, value, functional, available);
@@ -831,8 +858,8 @@ void readSensorsAndPrint(std::map<std::string, std::string>& sensorManagers,
 void displaySensors(const SensorOpts& opts)
 {
     // Find the services that provide sensors
-    auto sensorObjects = SDBusPlus::getSubTreeRaw(
-        SDBusPlus::getBus(), "/", "xyz.openbmc_project.Sensor.Value", 0);
+    auto sensorObjects = SDBusPlus::getSubTreeRaw(SDBusPlus::getBus(), "/",
+                                                  SensorValue::interface, 0);
 
     std::set<std::string> sensorServices;
 
