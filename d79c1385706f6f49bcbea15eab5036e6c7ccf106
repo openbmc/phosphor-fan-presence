@@ -48,6 +48,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a5a5d895_e61de21c",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-12T21:56:25Z",
+      "side": 1,
+      "message": "Added an optional parameter to the PGoodState constructor to set the path for the pgood and an overloaded function to read a pgood based on a specific suffix.",
+      "parentUuid": "894772ed_43aef52c",
+      "range": {
+        "startLine": 18,
+        "startChar": 3,
+        "endLine": 18,
+        "endChar": 45
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04fa8dab_65430afd",
@@ -61,6 +85,30 @@
       "writtenOn": "2026-02-11T20:55:00Z",
       "side": 1,
       "message": "This will give you every availability iface in the system.  you can just get the one you care about with:\n\nconstexpr auto interfacesAddedAtPath(std::string_view p) noexcept",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 72
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1e621aa_b18ce210",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-12T21:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04fa8dab_65430afd",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -88,6 +136,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4d424d91_6753e907",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-12T21:56:25Z",
+      "side": 1,
+      "message": "Added a try catch block that checks the value from getProperty and creates the zones if true.",
+      "parentUuid": "b5053d84_1a1bab32",
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e1fd827_a1bfa5b9",
@@ -101,6 +167,30 @@
       "writtenOn": "2026-02-11T20:55:00Z",
       "side": 1,
       "message": "there\u0027s a new unpack function that went in in a lot of places that lets one do this in one line:\n\nauto [interface, properties] \u003d msg.unpack\u003cstd::string, std::variant\u003cbool\u003e\u003e();",
+      "range": {
+        "startLine": 66,
+        "startChar": 1,
+        "endLine": 69,
+        "endChar": 36
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9573c201_aaf800e4",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-12T21:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e1fd827_a1bfa5b9",
       "range": {
         "startLine": 66,
         "startChar": 1,
@@ -128,6 +218,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f26b9f45_7dc8c88c",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-12T21:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3cdde1fd_f8de3bb0",
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f309dded_4fa2a23f",
@@ -141,6 +249,30 @@
       "writtenOn": "2026-02-11T20:55:00Z",
       "side": 1,
       "message": "available?",
+      "range": {
+        "startLine": 120,
+        "startChar": 64,
+        "endLine": 120,
+        "endChar": 71
+      },
+      "revId": "d79c1385706f6f49bcbea15eab5036e6c7ccf106",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47907259_b02cc965",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-12T21:56:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f309dded_4fa2a23f",
       "range": {
         "startLine": 120,
         "startChar": 64,
