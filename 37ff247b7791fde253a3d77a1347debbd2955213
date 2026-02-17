@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "176ea94c_0ae8b1f6",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-02-17T21:10:38Z",
+      "side": 1,
+      "message": "I don\u0027t know this code very well, but just FYI on single chassis systems and non-IBM systems the Available interface will probably not exist on the chassis D-Bus path.",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "824e9bcd_c97e5bcb",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-02-17T21:10:38Z",
+      "side": 1,
+      "message": "Just curious, what does it set it directly here but calls setPowerState in pgoodChanged()?",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f75e27a_06d778d2",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-02-17T21:10:38Z",
+      "side": 1,
+      "message": "This is the correct path for the **system** level pgood. It tells you if at least one chassis is powered on in the system.\n\nIf you want the **chassis** level pgood (which I\u0027d think you would at least in some cases?), the path should be\n```\n/org/openbmc/control/powerX\n```\nwhere X is the chassis number from 1-N.",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
