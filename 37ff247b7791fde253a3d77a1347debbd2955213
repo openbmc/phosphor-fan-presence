@@ -20,6 +20,41 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "45bfd9b6_6b962f6f",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-20T15:28:20Z",
+      "side": 1,
+      "message": "Just need to add a check for _availPropUsed?",
+      "parentUuid": "176ea94c_0ae8b1f6",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1956c32f_0d03f6ca",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-20T15:28:20Z",
+      "side": 1,
+      "message": "Missed the param here.",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "824e9bcd_c97e5bcb",
         "filename": "power_state.hpp",
         "patchSetId": 4
@@ -31,6 +66,41 @@
       "writtenOn": "2026-02-17T21:10:38Z",
       "side": 1,
       "message": "Just curious, what does it set it directly here but calls setPowerState in pgoodChanged()?",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "49c7376c_c04403a4",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-20T15:28:20Z",
+      "side": 1,
+      "message": "setPowerState calls callbacks which isn\u0027t needed yet when this is called.",
+      "parentUuid": "824e9bcd_c97e5bcb",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "40ba21a9_b221ed5a",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-02-20T15:28:20Z",
+      "side": 1,
+      "message": "would it be possible to also pass the optional suffix through to readPgood above and deal with it there so a whole new function isn\u0027t needed?",
       "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
