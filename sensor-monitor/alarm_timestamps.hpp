@@ -183,7 +183,7 @@ class AlarmTimestamps
 
         if (!std::filesystem::exists(path.parent_path()))
         {
-            std::filesystem::create_directory(path.parent_path());
+            std::filesystem::create_directories(path.parent_path());
         }
 
         std::vector<std::tuple<std::string, int, int, uint64_t>> times;
