@@ -365,7 +365,7 @@ class JsonConfig
      *
      * The value extracted from the achieved property value list that is used
      * as a sub-folder to append to the configuration location and really
-     * contains the configruation files
+     * contains the configuration files
      */
 
     inline static std::string _compatibleName;

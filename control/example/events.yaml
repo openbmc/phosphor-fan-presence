@@ -67,7 +67,7 @@
 #                          handler when the signal is received and then process
 #                          the event actions
 #               "timer"  - Configures a type of timer over an interval that
-#                          processess the event actions each time the timer
+#                          processes the event actions each time the timer
 #                          expires]
 #              - name: [Name of trigger to execute the event]
 #                [Provide the required trigger parameter(s)]
@@ -91,7 +91,7 @@
 #                      handler when the signal is received and then process
 #                      the event actions
 #           "timer"  - Configures a type of timer over an interval that
-#                      processess the event actions each time the timer expires]
+#                      processes the event actions each time the timer expires]
 #          - name: [Name of trigger to execute the event]
 #            [Provide the required trigger parameter(s)]
 #      actions:

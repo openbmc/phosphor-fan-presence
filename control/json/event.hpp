@@ -164,7 +164,7 @@ class Event : public ConfigBase
     /* List of trigger type and enablement functions for this event */
     std::vector<std::tuple<std::string, trigger::enableTrigger>> _triggers;
 
-    /* All groups available to be configred on events */
+    /* All groups available to be configured on events */
     static std::map<configKey, std::unique_ptr<Group>> allGroups;
 
     /**

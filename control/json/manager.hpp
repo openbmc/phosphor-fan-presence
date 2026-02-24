@@ -262,7 +262,7 @@ class Manager
     static bool inConfig(const configKey& input, const configKey& comp);
 
     /**
-     * @brief Check if the given path and inteface is owned by a dbus service
+     * @brief Check if the given path and interface is owned by a dbus service
      *
      * @param[in] path - Dbus object path
      * @param[in] intf - Dbus object interface

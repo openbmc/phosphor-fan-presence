@@ -36,7 +36,7 @@ class PresenceSensor
     /**
      * @brief start
      *
-     * Implementations should peform any preparation
+     * Implementations should perform any preparation
      * for detecting presence.  Typical implementations
      * might register signal callbacks or start
      * a polling loop.
