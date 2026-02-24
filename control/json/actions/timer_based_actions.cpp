@@ -213,7 +213,7 @@ void TimerBasedActions::setActions(const json& jsonObj)
         std::vector<Group> groups;
         Event::setGroups(jsonAct, profiles, groups);
 
-        // List of zones is set on these actions by overriden setZones()
+        // List of zones is set on these actions by overridden setZones()
         auto actObj = ActionFactory::getAction(
             jsonAct["name"].get<std::string>(), jsonAct, std::move(groups), {});
         if (actObj)

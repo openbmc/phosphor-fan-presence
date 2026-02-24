@@ -45,7 +45,7 @@ void subscribe(const std::string& match, SignalPkg&& signalPkg,
     auto& signalData = mgr->getSignal(match);
     if (signalData.empty())
     {
-        // Signal subscription doesnt exist, add signal package and subscribe
+        // Signal subscription doesn't exist, add signal package and subscribe
         std::unique_ptr<std::vector<SignalPkg>> pkgs =
             std::make_unique<std::vector<SignalPkg>>();
         pkgs->emplace_back(std::move(signalPkg));

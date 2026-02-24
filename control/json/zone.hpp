@@ -466,7 +466,7 @@ class Zone : public ConfigBase
     /* Map of whether floor changes are allowed by a string identifier */
     std::map<std::string, bool> _floorChange;
 
-    /* Map of controlling decreases allowed by a string identifer */
+    /* Map of controlling decreases allowed by a string identifier */
     std::map<std::string, bool> _decAllowed;
 
     /* Map of interfaces to persisted properties the zone hosts*/

@@ -369,7 +369,7 @@ class ActionRegister
     ActionRegister()
     {
         // Templates instantiated when used, need to assign a value
-        // here so the compiler doesnt remove it
+        // here so the compiler doesn't remove it
         registered = true;
     }
 

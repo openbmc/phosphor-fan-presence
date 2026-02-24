@@ -319,7 +319,7 @@ void ShutdownAlarmMonitor::startTimer(const AlarmKey& alarmKey)
     timer->restartOnce(shutdownDelay);
 
     // Note that if this key is already in the timestamps map because
-    // the timer was already running the timestamp wil not be updated.
+    // the timer was already running the timestamp will not be updated.
     timestamps.add(alarmKey, now);
 }
 

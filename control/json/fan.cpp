@@ -150,7 +150,7 @@ void Fan::lockTarget(uint64_t target)
     // first lock to lower the target
     if (target >= _target || _lockedTargets.empty())
     {
-        // setTarget wont work if any locked targets exist
+        // setTarget won't work if any locked targets exist
         decltype(_lockedTargets) temp;
         _lockedTargets.swap(temp);
 
@@ -178,7 +178,7 @@ void Fan::unlockTarget(uint64_t target)
             itr =
                 std::max_element(_lockedTargets.begin(), _lockedTargets.end());
 
-            // setTarget wont work if any locked targets exist
+            // setTarget won't work if any locked targets exist
             decltype(_lockedTargets) temp;
             _lockedTargets.swap(temp);
             setTarget(*itr);
