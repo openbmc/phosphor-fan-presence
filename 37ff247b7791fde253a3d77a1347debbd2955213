@@ -36,6 +36,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1c2c0a8_fce281ff",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-24T17:11:50Z",
+      "side": 1,
+      "message": "Added that. Also made availPropUsed optional in the parser in case a single chassis/non-IBM system doesn\u0027t use that.",
+      "parentUuid": "45bfd9b6_6b962f6f",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1956c32f_0d03f6ca",
@@ -49,6 +67,24 @@
       "writtenOn": "2026-02-20T15:28:20Z",
       "side": 1,
       "message": "Missed the param here.",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "046ce4ac_0b92af3b",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-24T17:11:50Z",
+      "side": 1,
+      "message": "Added",
+      "parentUuid": "1956c32f_0d03f6ca",
       "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -105,6 +141,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cd65fa8_68e2e908",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-24T17:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40ba21a9_b221ed5a",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f75e27a_06d778d2",
@@ -118,6 +172,24 @@
       "writtenOn": "2026-02-17T21:10:38Z",
       "side": 1,
       "message": "This is the correct path for the **system** level pgood. It tells you if at least one chassis is powered on in the system.\n\nIf you want the **chassis** level pgood (which I\u0027d think you would at least in some cases?), the path should be\n```\n/org/openbmc/control/powerX\n```\nwhere X is the chassis number from 1-N.",
+      "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c373c35f_3252c9e1",
+        "filename": "power_state.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-02-24T17:11:50Z",
+      "side": 1,
+      "message": "The default path for readPGood() is the system-level path. The pGoodSuffix is intended to be the chassis number (e.g. \"1\", \"2\", \"3\", etc.), so if that optional parameter gets passed in, the path for that chassis number is constructed and used for the DBus call instead. The comment here might have been a little confusing, so revised it to make it more clear.",
+      "parentUuid": "5f75e27a_06d778d2",
       "revId": "37ff247b7791fde253a3d77a1347debbd2955213",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
