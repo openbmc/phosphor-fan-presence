@@ -49,7 +49,7 @@ struct FanTypeDefinition
 struct FanAssignment
 {
     std::string type;
-    std::string inventoryBase;
+    std::string inventory;
     std::string shortName;
 };
 struct ZoneDefinition
@@ -60,8 +60,9 @@ struct ZoneDefinition
 };
 struct ChassisDefinition
 {
-    std::vector<int> chassisNumbers;
+    std::string name;
     std::vector<ZoneDefinition> zones;
     bool availPropUsed;
+    int chassisNumRef;
 };
 } // namespace phosphor::fan::monitor::multi_chassis

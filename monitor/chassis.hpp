@@ -3,16 +3,12 @@
 
 #pragma once
 
-#include "logging.hpp"
 #include "multichassis_types.hpp"
 #include "power_state.hpp"
 #include "zone.hpp"
 
-#include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
-#include <sdeventplus/source/event.hpp>
-#include <sdeventplus/source/signal.hpp>
 
 #include <memory>
 #include <vector>
@@ -46,12 +42,11 @@ class Chassis
      * @param[in] mode - Mode of the fan monitor
      * @param[in] event - Event loop reference
      * @param[in] thermalAlert - Reference to ThermalAlertObject
-     * @param[in] chassisName - Name of the chassis
      */
     Chassis(const ChassisDefinition& chassisConfig,
             const std::vector<FanTypeDefinition>& fanDefs,
             sdbusplus::bus_t& bus, Mode mode, const sdeventplus::Event& event,
-            ThermalAlertObject& thermalAlert, std::string chassisName);
+            ThermalAlertObject& thermalAlert);
 
     /**
      * @brief Callback for when the power state changes
@@ -175,5 +170,10 @@ class Chassis
      * chassis
      */
     bool _availPropUsed = false;
+
+    /**
+     * @brief Instantiate the zones for the chassis
+     */
+    void createZones();
 };
 } // namespace phosphor::fan::monitor::multi_chassis
