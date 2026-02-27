@@ -48,6 +48,7 @@ class MultiChassisSystemTest : public testing::Test
             ],
             "chassis_definitions": [
                 {
+                    "name": "chassis${chassis}",
                     "availPropUsed": true,
                     "chassis_numbers": [
                         0,
@@ -61,26 +62,26 @@ class MultiChassisSystemTest : public testing::Test
                     ],
                     "zones": [
                         {
-                            "name": "${chassis}",
+                            "name": "chassis_${chassis}_zone",
                             "fans": [
                                 {
                                     "type": "systemFan",
-                                    "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
+                                    "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
                                     "short_name": "chassis${chassis}_fan0"
                                 },
                                 {
                                     "type": "systemFan",
-                                    "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
+                                    "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
                                     "short_name": "chassis${chassis}_fan1"
                                 },
                                 {
                                     "type": "systemFan",
-                                    "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
+                                    "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
                                     "short_name": "chassis${chassis}_fan2"
                                 },
                                 {
                                     "type": "systemFan",
-                                    "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
+                                    "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
                                     "short_name": "chassis${chassis}_fan3"
                                 }
                             ],
@@ -99,7 +100,7 @@ class MultiChassisSystemTest : public testing::Test
                     ]
                 }
             ]
-        })"_json;
+})"_json;
         bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
     }
     json jsonObj;
@@ -123,7 +124,7 @@ TEST_F(MultiChassisSystemTest, MultiChassisSystemCreationTest)
     for (int chassisNum : chassisNums)
     {
         auto& chassis = chassisList.at(chassisNum);
-        std::string chassisName = std::to_string(chassisNum);
+        std::string chassisName = "chassis" + std::to_string(chassisNum);
         // init chassis
         chassis->init();
         // check properties (available, availPropUsed, chassisName)

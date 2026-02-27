@@ -242,7 +242,7 @@ TEST(MultiChassisJsonParserTest, ZoneDefsTest)
     {
         "zones": [
             {
-                "name": "${chassis}",
+                "name": "chassis_${chassis}_zone",
                 "fans": [
                     {
                         "type": "systemFan",
@@ -279,9 +279,7 @@ TEST(MultiChassisJsonParserTest, ZoneDefsTest)
             }
         ]
     })"_json;
-    std::vector<int> chassisNums = {0, 1, 2, 3, 4, 5, 6, 7};
-    std::vector<ZoneDefinition> actual =
-        getZoneDefs(zoneConfig["zones"], chassisNums);
+    std::vector<ZoneDefinition> actual = getZoneDefs(zoneConfig["zones"], 0);
 
     const auto faultHandlingConfig = R"(
     {
@@ -297,202 +295,30 @@ TEST(MultiChassisJsonParserTest, ZoneDefsTest)
             ]
         }
     })"_json;
-    std::vector<ZoneDefinition> expected = {
-        ZoneDefinition{
-            .name = "0",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "1",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "2",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "3",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "4",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "5",
-            .fans =
-                {FanAssignment{
-                     .type =
-                         "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "6",
-            .fans =
-                {FanAssignment{
-                     .type =
-                         "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "7",
-            .fans =
-                {FanAssignment{
-                     .type =
-                         "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]}};
+    std::vector<ZoneDefinition> expected = {ZoneDefinition{
+        .name = "chassis_0_zone",
+        .fans =
+            {FanAssignment{
+                 .type = "systemFan",
+                 .inventoryBase =
+                     "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                 .shortName = "chassis0_fan0"},
+             FanAssignment{
+                 .type = "systemFan",
+                 .inventoryBase =
+                     "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                 .shortName = "chassis0_fan1"},
+             FanAssignment{
+                 .type = "systemFan",
+                 .inventoryBase =
+                     "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                 .shortName = "chassis0_fan2"},
+             FanAssignment{
+                 .type = "systemFan",
+                 .inventoryBase =
+                     "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                 .shortName = "chassis0_fan3"}},
+        .faultHandling = faultHandlingConfig}};
 
     ASSERT_EQ(actual.size(), expected.size());
     for (size_t i = 0; i < actual.size(); i++)
@@ -516,6 +342,7 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
     const auto chassisConfig = R"({
         "chassis_definitions": [
             {
+                "name": "chassis${chassis}",
                 "availPropUsed": true,
                 "chassis_numbers": [
                     0,
@@ -529,7 +356,7 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
                 ],
                 "zones": [
                     {
-                        "name": "${chassis}",
+                        "name": "chassis_${chassis}_zone",
                         "fans": [
                             {
                                 "type": "systemFan",
@@ -585,207 +412,246 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
             ]
         }
     })"_json;
-    std::vector<ZoneDefinition> expectedZones = {
-        ZoneDefinition{
-            .name = "0",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
-                     .shortName = "chassis0_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "1",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
-                     .shortName = "chassis1_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "2",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
-                     .shortName = "chassis2_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "3",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
-                     .shortName = "chassis3_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "4",
-            .fans =
-                {FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
-                     .shortName = "chassis4_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "5",
-            .fans =
-                {FanAssignment{
-                     .type =
-                         "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
-                     .shortName = "chassis5_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "6",
-            .fans =
-                {FanAssignment{
-                     .type =
-                         "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
-                     .shortName = "chassis6_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]},
-        ZoneDefinition{
-            .name = "7",
-            .fans =
-                {FanAssignment{
-                     .type =
-                         "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan0"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan1"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan2"},
-                 FanAssignment{
-                     .type = "systemFan",
-                     .inventoryBase =
-                         "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
-                     .shortName = "chassis7_fan3"}},
-            .faultHandling = faultHandlingConfig["fault_handling"]}};
-
     std::vector<ChassisDefinition> expected = {
-        ChassisDefinition{.chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
-                          .zones = expectedZones,
-                          .availPropUsed = true}};
+        ChassisDefinition{
+            .name = "chassis0",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_0_zone",
+                .fans =
+                    {FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                         .shortName = "chassis0_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                         .shortName = "chassis0_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                         .shortName = "chassis0_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis0/motherboard/",
+                         .shortName = "chassis0_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 0},
+        ChassisDefinition{
+            .name = "chassis1",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_1_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
+                         .shortName = "chassis1_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
+                         .shortName = "chassis1_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
+                         .shortName = "chassis1_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis1/motherboard/",
+                         .shortName = "chassis1_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 1},
+        ChassisDefinition{
+            .name = "chassis2",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_2_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
+                         .shortName = "chassis2_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
+                         .shortName = "chassis2_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
+                         .shortName = "chassis2_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis2/motherboard/",
+                         .shortName = "chassis2_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 2},
+        ChassisDefinition{
+            .name = "chassis3",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_3_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
+                         .shortName = "chassis3_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
+                         .shortName = "chassis3_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
+                         .shortName = "chassis3_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis3/motherboard/",
+                         .shortName = "chassis3_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 3},
+        ChassisDefinition{
+            .name = "chassis4",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_4_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
+                         .shortName = "chassis4_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
+                         .shortName = "chassis4_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
+                         .shortName = "chassis4_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis4/motherboard/",
+                         .shortName = "chassis4_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 4},
+        ChassisDefinition{
+            .name = "chassis5",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_5_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
+                         .shortName = "chassis5_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
+                         .shortName = "chassis5_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
+                         .shortName = "chassis5_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis5/motherboard/",
+                         .shortName = "chassis5_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 5},
+        ChassisDefinition{
+            .name = "chassis6",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_6_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
+                         .shortName = "chassis6_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
+                         .shortName = "chassis6_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
+                         .shortName = "chassis6_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis6/motherboard/",
+                         .shortName = "chassis6_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 6},
+        ChassisDefinition{
+            .name = "chassis7",
+            .chassisNumbers = {0, 1, 2, 3, 4, 5, 6, 7},
+            .zones = {ZoneDefinition{
+                .name = "chassis_7_zone",
+                .fans =
+                    {FanAssignment{
+                         .type =
+                             "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
+                         .shortName = "chassis7_fan0"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
+                         .shortName = "chassis7_fan1"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
+                         .shortName = "chassis7_fan2"},
+                     FanAssignment{
+                         .type = "systemFan",
+                         .inventoryBase =
+                             "/xyz/openbmc_project/inventory/system/chassis7/motherboard/",
+                         .shortName = "chassis7_fan3"}},
+                .faultHandling = faultHandlingConfig}},
+            .availPropUsed = true,
+            .chassisNumRef = 7}};
 
     ASSERT_EQ(actual.size(), expected.size());
     for (size_t i = 0; i < actual.size(); i++)
@@ -810,6 +676,7 @@ TEST(MultiChassisJsonParserTest, ChassisDefsTest)
                       expected[i].zones[j].faultHandling);
         }
         EXPECT_EQ(actual[i].availPropUsed, expected[i].availPropUsed);
+        EXPECT_EQ(actual[i].chassisNumRef, expected[i].chassisNumRef);
     }
 }
 
@@ -825,22 +692,22 @@ TEST(MultiChassisJsonParserTest, TypeErrorTest)
                 "fans": [
                     {
                         "type": "systemFan",
-                        "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                        "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
                         "short_name": "chassis${chassis}_fan0"
                     },
                     {
                         "type": "systemFan",
-                        "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                        "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
                         "short_name": "chassis${chassis}_fan1"
                     },
                     {
                         "type": "systemFan",
-                        "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                        "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
                         "short_name": "chassis${chassis}_fan2"
                     },
                     {
                         "type": "systemFan",
-                        "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                        "inventory_base": "/xyz/openbmc_project/inventory/system/${chassis}/motherboard/",
                         "short_name": "chassis${chassis}_fan3"
                     }
                 ],
@@ -859,7 +726,7 @@ TEST(MultiChassisJsonParserTest, TypeErrorTest)
         ]
     })"_json;
 
-    EXPECT_THROW(getZoneDefs(zoneConfig["zones"], {0}), json::type_error);
+    EXPECT_THROW(getZoneDefs(zoneConfig["zones"], 0), json::type_error);
 }
 
 TEST(MultiChassisJsonParserTest, RuntimeErrorTest)

@@ -3,6 +3,11 @@
 
 #include "multichassis_system.hpp"
 
+#include "json_parser.hpp"
+#include "logging.hpp"
+#include "multichassis_json_parser.hpp"
+#include "zone.hpp"
+
 namespace phosphor::fan::monitor::multi_chassis
 {
 const std::string MultiChassisSystem::dumpFile = "/tmp/fan_monitor_dump.json";
@@ -13,20 +18,15 @@ MultiChassisSystem::MultiChassisSystem(Mode mode, sdbusplus::bus_t& bus,
     _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
 {}
 
-void MultiChassisSystem::initChassis(std::vector<ChassisDefinition> chassisDefs,
-                                     std::vector<FanTypeDefinition> fanTypeDefs)
+void MultiChassisSystem::initChassis(
+    const std::vector<ChassisDefinition> chassisDefs,
+    const std::vector<FanTypeDefinition> fanTypeDefs)
 {
     _chassis.clear();
     for (const auto& chassisDef : chassisDefs)
     {
-        // instantiate a chassis object for each chassis number in a chassis
-        // definition
-        for (int chassisNum : chassisDef.chassisNumbers)
-        {
-            _chassis.emplace_back(std::make_unique<Chassis>(
-                chassisDef, fanTypeDefs, _bus, _mode, _event, _thermalAlert,
-                std::to_string(chassisNum)));
-        }
+        _chassis.emplace_back(std::make_unique<Chassis>(
+            chassisDef, fanTypeDefs, _bus, _mode, _event, _thermalAlert));
     }
 }
 
@@ -48,12 +48,11 @@ void MultiChassisSystem::start()
         throw std::runtime_error(
             "Missing required 'chassis_definitions' list in config file.");
     }
-    std::vector<FanTypeDefinition> fanTypeDefs =
-        getFanDefs(jsonObj["fan_type_definitions"]);
-    std::vector<ChassisDefinition> chassisDefs =
-        getChassisDefs(jsonObj["chassis_definitions"]);
+    auto fanTypeDefs = getFanDefs(jsonObj["fan_type_definitions"]);
+    auto chassisDefs = getChassisDefs(jsonObj["chassis_definitions"]);
     initChassis(chassisDefs, fanTypeDefs);
     _loaded = true;
+    lg2::info("System started");
 }
 
 void MultiChassisSystem::sighupHandler(sdeventplus::source::Signal&,
