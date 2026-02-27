@@ -157,7 +157,6 @@ void Fan::presenceIfaceAdded(sdbusplus::message_t& msg)
     {
         return;
     }
-
     _present = std::get<bool>(property->second);
 
     if (!_present)
