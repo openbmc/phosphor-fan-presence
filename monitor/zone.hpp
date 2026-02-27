@@ -5,7 +5,6 @@
 
 #include "fan.hpp"
 #include "fan_error.hpp"
-#include "json_parser.hpp"
 #include "multichassis_types.hpp"
 #include "power_off_rule.hpp"
 #include "power_state.hpp"

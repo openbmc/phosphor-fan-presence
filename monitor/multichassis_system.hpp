@@ -5,17 +5,11 @@
 
 #include "../dbus_paths.hpp"
 #include "chassis.hpp"
-#include "json_parser.hpp"
-#include "logging.hpp"
-#include "multichassis_json_parser.hpp"
 #include "multichassis_types.hpp"
-#include "power_state.hpp"
-#include "zone.hpp"
 
 #include <nlohmann/json.hpp>
 #include <sdbusplus/bus.hpp>
 #include <sdeventplus/event.hpp>
-#include <sdeventplus/source/event.hpp>
 #include <sdeventplus/source/signal.hpp>
 
 #include <memory>
@@ -26,7 +20,6 @@ namespace phosphor::fan::monitor::multi_chassis
 class MultiChassisSystem
 {
   public:
-    MultiChassisSystem() = delete;
     MultiChassisSystem(const MultiChassisSystem&) = delete;
     MultiChassisSystem(MultiChassisSystem&&) = delete;
     MultiChassisSystem& operator=(const MultiChassisSystem&) = delete;
@@ -52,8 +45,8 @@ class MultiChassisSystem
      * @param[in] fanTypeDefs - Vector of FanTypeDefinition objects for the
      * different fan types in the system
      */
-    void initChassis(std::vector<ChassisDefinition> chassisDefs,
-                     std::vector<FanTypeDefinition> fanTypeDefs);
+    void initChassis(const std::vector<ChassisDefinition> chassisDefs,
+                     const std::vector<FanTypeDefinition> fanTypeDefs);
 
     /**
      * @brief Start the system by parsing the JSON object and initiating the

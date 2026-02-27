@@ -4,6 +4,7 @@
 #include "zone.hpp"
 
 #include "hwmon_ffdc.hpp"
+#include "json_parser.hpp"
 #include "logging.hpp"
 #include "multichassis_json_parser.hpp"
 
@@ -43,6 +44,7 @@ Zone::Zone(const ZoneDefinition& zoneConfig,
             }
         }
     }
+    lg2::info("Zone object {ZONE} created", "ZONE", _name);
 }
 
 void Zone::logShutdownError()
@@ -441,6 +443,7 @@ void Zone::init(const ZoneDefinition& zoneConfig,
     _fanHealth.clear();
     // Retrieve fan definitions and create fan objects to be monitored
     setFans(zoneConfig, fanDefs);
+    // set fault config for power off rules
     setFaultConfig(zoneConfig.faultHandling);
     lg2::info("Configuration loaded for Zone {ZONE_NAME}", "ZONE_NAME", _name);
 

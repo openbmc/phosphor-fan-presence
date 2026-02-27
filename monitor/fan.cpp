@@ -58,7 +58,12 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
                   std::placeholders::_1)),
     _fanMissingErrorDelay(def.fanMissingErrDelay),
     _setFuncOnPresent(def.funcOnPresent)
-{}
+{
+    // TODO: After multichassis presence detection is implemented,
+    // remove this and uncomment dbus calls and gets for reading Present
+    // property
+    _present = true;
+}
 
 void Fan::init()
 {
@@ -116,8 +121,9 @@ void Fan::init()
 
     try
     {
-        _present = util::SDBusPlus::getProperty<bool>(
-            util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
+        // TODO: Implement presence detection and uncomment dbus call
+        // _present = util::SDBusPlus::getProperty<bool>(
+        //     util::INVENTORY_PATH + _name, util::INV_ITEM_IFACE, "Present");
 
         if (!_present)
         {
@@ -157,8 +163,8 @@ void Fan::presenceIfaceAdded(sdbusplus::message_t& msg)
     {
         return;
     }
-
-    _present = std::get<bool>(property->second);
+    // TODO: Implement presence detection and uncomment dbus get
+    // _present = std::get<bool>(property->second);
 
     if (!_present)
     {
@@ -473,7 +479,8 @@ void Fan::presenceChanged(sdbusplus::message_t& msg)
     auto presentProp = properties.find("Present");
     if (presentProp != properties.end())
     {
-        _present = std::get<bool>(presentProp->second);
+        // TODO: Implement presence detection and uncomment dbus get
+        // _present = std::get<bool>(presentProp->second);
 
         getLogger().log(
             std::format("Fan {} presence state change to {}", _name, _present));

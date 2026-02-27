@@ -60,8 +60,10 @@ struct ZoneDefinition
 };
 struct ChassisDefinition
 {
+    std::string name;
     std::vector<int> chassisNumbers;
     std::vector<ZoneDefinition> zones;
     bool availPropUsed;
+    int chassisNumRef;
 };
 } // namespace phosphor::fan::monitor::multi_chassis

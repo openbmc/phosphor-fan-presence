@@ -22,6 +22,7 @@ class ChassisTest : public testing::Test
         chassisConfig = R"({
           "chassis_definitions": [
               {
+                  "name": "chassis${chassis}",
                   "availPropUsed": true,
                   "chassis_numbers": [
                       0,
@@ -35,7 +36,7 @@ class ChassisTest : public testing::Test
                   ],
                   "zones": [
                       {
-                          "name": "${chassis}",
+                          "name": "chassis_${chassis}_zone",
                           "fans": [
                               {
                                   "type": "systemFan",
@@ -116,21 +117,22 @@ class ChassisTest : public testing::Test
 TEST_F(ChassisTest, ChassisCreationTest)
 {
     // instantiate chassis
-    std::string chassisName = "0";
     std::vector<ChassisDefinition> chassisDefs =
         getChassisDefs(chassisConfig["chassis_definitions"]);
     std::vector<FanTypeDefinition> fanTypeDefs =
         getFanDefs(fanTypes["fan_type_definitions"]);
+    int chassisNum = 0;
     for (const auto& chassisDef : chassisDefs)
     {
         Chassis chassis(chassisDef, fanTypeDefs, bus,
                         phosphor::fan::monitor::Mode::monitor, event,
-                        thermalAlert, chassisName);
+                        thermalAlert);
         // init chassis
         chassis.init();
         // check properties (available, availPropUsed, chassisName)
         EXPECT_FALSE(chassis.isAvailable());
         EXPECT_TRUE(chassis.isAvailPropUsed());
-        EXPECT_EQ(chassis.getName(), chassisName);
+        EXPECT_EQ(chassis.getName(), "chassis" + std::to_string(chassisNum));
+        chassisNum += 1;
     }
 }
