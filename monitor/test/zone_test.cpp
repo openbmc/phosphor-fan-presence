@@ -25,26 +25,26 @@ class ZoneTest : public testing::Test
             {
                 "zones": [
                     {
-                        "name": "${chassis}",
+                        "name": "chassis_${chassis}_zone",
                         "fans": [
                             {
                                 "type": "systemFan",
-                                "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                                "inventory": "/system/chassis${chassis}/motherboard/fan0",
                                 "short_name": "chassis${chassis}_fan0"
                             },
                             {
                                 "type": "systemFan",
-                                "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                                "inventory": "/system/chassis${chassis}/motherboard/fan1",
                                 "short_name": "chassis${chassis}_fan1"
                             },
                             {
                                 "type": "systemFan",
-                                "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                                "inventory": "/system/chassis${chassis}/motherboard/fan2",
                                 "short_name": "chassis${chassis}_fan2"
                             },
                             {
                                 "type": "systemFan",
-                                "inventory_base": "/xyz/openbmc_project/inventory/system/chassis${chassis}/motherboard/",
+                                "inventory": "/system/chassis${chassis}/motherboard/fan3",
                                 "short_name": "chassis${chassis}_fan3"
                             }
                         ],
@@ -104,10 +104,11 @@ class ZoneTest : public testing::Test
 
 TEST_F(ZoneTest, FanCreationTest)
 {
-    std::vector<ZoneDefinition> zoneDefs =
-        getZoneDefs(zoneConfig["zones"], {0});
+    std::vector<ZoneDefinition> zoneDefs = getZoneDefs(zoneConfig["zones"], 0);
     std::vector<FanTypeDefinition> fanTypeList =
         getFanDefs(fanTypes["fan_type_definitions"]);
+    EXPECT_EQ(zoneDefs.size(),
+              1); // should only have one zone, since only one chassis number
     for (const auto& zoneDef : zoneDefs)
     {
         Zone zone(zoneDef, fanTypeList, bus,
