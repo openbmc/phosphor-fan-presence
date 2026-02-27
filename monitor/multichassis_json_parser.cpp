@@ -288,13 +288,12 @@ const std::vector<ChassisDefinition> getChassisDefs(const json& chassis)
     for (const auto& chassisConfig : chassis)
     {
         if (!chassisConfig.contains("chassis_numbers") ||
-            !chassisConfig.contains("zones"))
+            !chassisConfig.contains("zones") || !chassisConfig.contains("name"))
         {
             lg2::error(
-                "Missing one of required fields 'chassis_numbers, zones'");
+                "Missing one of required fields 'chassis_numbers, zones, name'");
             throw std::runtime_error("Missing required field");
         }
-
         std::vector<int> chassisNums =
             chassisConfig["chassis_numbers"].get<std::vector<int>>();
         if (!std::ranges::all_of(chassisNums, [](int num) { return num >= 0; }))
@@ -303,24 +302,28 @@ const std::vector<ChassisDefinition> getChassisDefs(const json& chassis)
             throw std::runtime_error(
                 "Chassis numbers must be greater than or equal to 0");
         }
-        std::vector<ZoneDefinition> zoneDefs =
-            getZoneDefs(chassisConfig["zones"], chassisNums);
-        ChassisDefinition def{
-            .chassisNumbers = std::move(chassisNums),
-            .zones = std::move(zoneDefs),
-            .availPropUsed = chassisConfig.value("availPropUsed", false)};
-
-        chassisDefs.push_back(std::move(def));
+        // create a new ChassisDefinition object for each chassis number
+        for (int chassisNum : chassisNums)
+        {
+            std::string name = chassisConfig["name"].get<std::string>();
+            // Expand all variables in name
+            expandVar(CHASSIS_VAR_NAME, name, std::to_string(chassisNum));
+            std::vector<ZoneDefinition> zoneDefs =
+                getZoneDefs(chassisConfig["zones"], chassisNum);
+            ChassisDefinition def{
+                .name = name,
+                .zones = std::move(zoneDefs),
+                .availPropUsed = chassisConfig.value("availPropUsed", false),
+                .chassisNum = chassisNum};
+            chassisDefs.push_back(std::move(def));
+        }
     }
-
     return chassisDefs;
 }
 
-const std::vector<ZoneDefinition> getZoneDefs(
-    const json& zones, const std::vector<int>& chassisNums)
+const std::vector<ZoneDefinition> getZoneDefs(const json& zones, int chassisNum)
 {
     std::vector<ZoneDefinition> zoneDefs;
-    std::string chassisHolder = "${chassis}";
     for (const auto& zoneConfig : zones)
     {
         if (!zoneConfig.contains("name") || !zoneConfig.contains("fans") ||
@@ -331,97 +334,59 @@ const std::vector<ZoneDefinition> getZoneDefs(
             throw std::runtime_error("Missing required field");
         }
         std::string name = zoneConfig["name"].get<std::string>();
-        if (name.contains(chassisHolder))
-        {
-            // expand on the chassis_nums list
-            for (int n : chassisNums)
-            {
-                std::string fullName = name;
-                fullName.replace(name.find(chassisHolder),
-                                 chassisHolder.length(), std::to_string(n));
-                std::vector<FanAssignment> fanAssigns =
-                    getFanAssigns(zoneConfig["fans"], n);
-                ZoneDefinition def{
-                    .name = fullName,
-                    .fans = std::move(fanAssigns),
-                    .faultHandling = zoneConfig["fault_handling"]};
-                zoneDefs.push_back(def);
-            }
-        }
-        else
-        {
-            // don't expand, simply push zone object to zoneDefs
-            std::vector<FanAssignment> fanAssigns =
-                getFanAssigns(zoneConfig["fans"], std::nullopt);
-            ZoneDefinition def{.name = name,
-                               .fans = std::move(fanAssigns),
-                               .faultHandling = zoneConfig["fault_handling"]};
-            zoneDefs.push_back(def);
-        }
+        // Expand all variables in name
+        expandVar(CHASSIS_VAR_NAME, name, std::to_string(chassisNum));
+        std::vector<FanAssignment> fanAssigns =
+            getFanAssigns(zoneConfig["fans"], chassisNum);
+        ZoneDefinition def{
+            .name = name,
+            .fans = std::move(fanAssigns),
+            .faultHandling =
+                json{{"fault_handling", zoneConfig["fault_handling"]}}};
+        zoneDefs.push_back(def);
     }
     return zoneDefs;
 }
 
 const std::vector<FanAssignment> getFanAssigns(const json& fanList,
-                                               std::optional<int> chassisNum)
+                                               int chassisNum)
 {
     std::vector<FanAssignment> fanAssigns;
-    std::string chassisHolder = "${chassis}";
-    if (chassisNum.has_value())
+    for (const auto& fan : fanList)
     {
-        // replace chassis value
-        for (const auto& fan : fanList)
+        if (!fan.contains("type") || !fan.contains("inventory") ||
+            !fan.contains("short_name"))
         {
-            if (!fan.contains("type") || !fan.contains("inventory_base") ||
-                !fan.contains("short_name"))
-            {
-                lg2::error(
-                    "Missing one of required fields 'type, inventory_base, short_name' in fan object");
-                throw std::runtime_error(
-                    "Missing required field in fan object");
-            }
-            std::string inventoryBase =
-                fan["inventory_base"].get<std::string>();
-            std::string shortName = fan["short_name"].get<std::string>();
-            size_t chassisHolderPlace = inventoryBase.find(chassisHolder);
-            if (chassisHolderPlace != std::string::npos)
-            {
-                inventoryBase.replace(chassisHolderPlace,
-                                      chassisHolder.length(),
-                                      std::to_string(chassisNum.value()));
-            }
-            chassisHolderPlace = shortName.find(chassisHolder);
-            if (chassisHolderPlace != std::string::npos)
-            {
-                shortName.replace(chassisHolderPlace, chassisHolder.length(),
-                                  std::to_string(chassisNum.value()));
-            }
-            FanAssignment def{.type = fan["type"].get<std::string>(),
-                              .inventoryBase = inventoryBase,
-                              .shortName = shortName};
-            fanAssigns.push_back(def);
+            lg2::error(
+                "Missing one of required fields 'type, inventory, short_name' in fan object");
+            throw std::runtime_error("Missing required field in fan object");
         }
-    }
-    else
-    {
-        for (const auto& fan : fanList)
-        {
-            if (!fan.contains("type") || !fan.contains("inventory_base") ||
-                !fan.contains("short_name"))
-            {
-                lg2::error(
-                    "Missing one of required fields 'type, inventory_base, short_name' in fan object");
-                throw std::runtime_error(
-                    "Missing required field in fan object");
-            }
-            FanAssignment def{
-                .type = fan["type"].get<std::string>(),
-                .inventoryBase = fan["inventory_base"].get<std::string>(),
-                .shortName = fan["short_name"].get<std::string>()};
-            fanAssigns.push_back(def);
-        }
+        std::string inventory = fan["inventory"].get<std::string>();
+        std::string shortName = fan["short_name"].get<std::string>();
+        // expand all variables in inventory and shortName
+        expandVar(CHASSIS_VAR_NAME, inventory, std::to_string(chassisNum));
+        expandVar(CHASSIS_VAR_NAME, shortName, std::to_string(chassisNum));
+        FanAssignment def{.type = fan["type"].get<std::string>(),
+                          .inventory = inventory,
+                          .shortName = shortName};
+        fanAssigns.push_back(def);
     }
     return fanAssigns;
+}
+
+void expandVar(const std::string& varName, std::string& varString,
+               const std::string& val)
+{
+    if (varString.contains(varName))
+    {
+        // replace all instances of the variable in a string with the value
+        for (size_t varPlace = varString.find(varName);
+             varPlace != std::string::npos;
+             varPlace = varString.find(varName, varPlace + val.length()))
+        {
+            varString.replace(varPlace, varName.length(), val);
+        }
+    }
 }
 
 } // namespace phosphor::fan::monitor::multi_chassis
