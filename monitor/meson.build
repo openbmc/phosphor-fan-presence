@@ -11,6 +11,10 @@ sources = [
     'system.cpp',
     'tach_sensor.cpp',
     '../hwmon_ffdc.cpp',
+    'multichassis_system.cpp',
+    'chassis.cpp',
+    'multichassis_json_parser.cpp',
+    'zone.cpp',
 ]
 
 deps = [
