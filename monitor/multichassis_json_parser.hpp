@@ -53,8 +53,8 @@ const std::vector<ChassisDefinition> getChassisDefs(const json& chassis);
  * @return - List of zone definition data that denotes how each zone should be
  * configured
  */
-const std::vector<ZoneDefinition> getZoneDefs(
-    const json& zones, const std::vector<int>& chassisNums);
+const std::vector<ZoneDefinition> getZoneDefs(const json& zones,
+                                              int chassisNum);
 
 /**
  * @brief Get the fan assignments for a zone config from a list of JSON objects
@@ -69,5 +69,18 @@ const std::vector<ZoneDefinition> getZoneDefs(
  * for a fan
  */
 const std::vector<FanAssignment> getFanAssigns(const json& fanList,
-                                               std::optional<int> chassisNum);
+                                               int chassisNum);
+
+/**
+ * @brief Expand all instances of a variable in a string
+ *
+ * @param[in] varName - Name of the variable to expand
+ *
+ * @param[in] varString - String containing one or more instances of the
+ * variable
+ *
+ * @param[in] val - Value to replace the variable holder with
+ */
+void expandVar(const std::string& varName, std::string& varString,
+               const std::string& val);
 } // namespace phosphor::fan::monitor::multi_chassis
