@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "10b6a357_ef1aaac4",
+        "filename": "monitor/multichassis_system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-03-02T16:59:26Z",
+      "side": 1,
+      "message": "passing these by a const reference would be preferred",
+      "range": {
+        "startLine": 16,
+        "startChar": 36,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd226367_f8ee6448",
+        "filename": "monitor/multichassis_system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-03-02T16:59:26Z",
+      "side": 1,
+      "message": "you can use \u0027auto\u0027 here if you want.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 34
+      },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b41a3a63_57fefd7a",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-03-02T16:59:26Z",
+      "side": 1,
+      "message": "can you doublecheck if all of these are needed in the header?",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9d443e5_221c3e13",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-03-02T16:59:26Z",
+      "side": 1,
+      "message": "nit: can remove this since it is automatically deleted if you have another constructor",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
