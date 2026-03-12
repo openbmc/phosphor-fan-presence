@@ -158,7 +158,7 @@
             "device_id": "0x2289",
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06C5",
-            "floor_index": 2
+            "floor_index": 3
         },
         {
             "name": "Dragonhead PCIe4 32Gb 4-port Fibre Channel Adapter",
@@ -166,7 +166,7 @@
             "device_id": "0x2089",
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06C6",
-            "floor_index": 2
+            "floor_index": 3
         },
         {
             "name": "Shale 4 port ROCE adapter",
@@ -182,7 +182,7 @@
             "device_id": "0xF500",
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06C1",
-            "floor_index": 2
+            "floor_index": 3
         },
         {
             "name": "Nool 64Gb 2-port Fibre Channel Adapter",
@@ -190,7 +190,7 @@
             "device_id": "0xF500",
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06C2",
-            "floor_index": 2
+            "floor_index": 3
         },
         {
             "name": "Vanguard 4770 Crypto",
@@ -199,6 +199,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06A2",
             "floor_index": 3
+        },
+        {
+            "name": "Manatee 2-PORT 25Gb EN adapter",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101F",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06AA",
+            "floor_index": 2
         }
     ]
 }
