@@ -207,6 +207,22 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06A2",
             "floor_index": 5
+        },
+        {
+            "name": "Manatee 2-PORT 25Gb EN adapter",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101F",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06AA",
+            "floor_index": 1
+        },
+        {
+            "name": "Manatee Crypto 2-PORT 25Gb EN adapter",
+            "vendor_id": "0x15B3",
+            "device_id": "0x101F",
+            "subsystem_vendor_id": "0x1014",
+            "subsystem_id": "0x06AB",
+            "floor_index": 1
         }
     ]
 }
