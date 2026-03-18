@@ -49,6 +49,40 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a44b81ad_45db5895",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-03-18T18:50:43Z",
+      "side": 1,
+      "message": "I noticed several methods on the current System class are not in this class or the Chassis class from the previous commit. Is that because you are just getting the basics in this commit and will add more function in future commits?\n\nExamples: fanStatusChange(), sensorErrorTimerExpired(), logShutdownError(), etc.",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9e3474d_9757eade",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-03-18T18:50:43Z",
+      "side": 1,
+      "message": "Do you eventually intended to merge this with the existing System class?  Or will they remain permanently separate.\n\nSeems like you have a system and at least one chassis regardless of the system type.",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b41a3a63_57fefd7a",
         "filename": "monitor/multichassis_system.hpp",
         "patchSetId": 1
@@ -83,6 +117,40 @@
         "endLine": 29,
         "endChar": 34
       },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6beb207d_caa5fdf2",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-03-18T18:50:43Z",
+      "side": 1,
+      "message": "You can put all the tests in a single executable if you want. That is what I do in phosphor-power. It leads to a lot less copy/paste.\n\nSee https://github.com/openbmc/phosphor-power/blob/master/phosphor-power-sequencer/test/meson.build",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "878bc955_afe9c432",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-03-18T18:50:43Z",
+      "side": 1,
+      "message": "Sorry if I already made this comment in a previous commit, but what I do in the phosphor-power repo is define a static library that contains the code needed by both test cases and the run-time executable. Then they both link with that library. it reduces a lot of copy/paste.\n\nSee https://github.com/openbmc/phosphor-power/blob/master/phosphor-power-sequencer/src/meson.build#L3\n\nIf you and Matt have already decided not to do that, please ignore this comment.",
       "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
