@@ -429,7 +429,7 @@
                 "parameter_name": "dram_dvfs_increase_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 9
+                    "value": 15
                 }
             },
             {
@@ -437,7 +437,7 @@
                 "parameter_name": "dram_dvfs_decrease_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 12
+                    "value": 18
                 }
             }
         ]
@@ -471,7 +471,7 @@
                 "parameter_name": "pmic_dvfs_increase_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 9
+                    "value": 15
                 }
             },
             {
@@ -479,7 +479,7 @@
                 "parameter_name": "pmic_dvfs_decrease_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 12
+                    "value": 18
                 }
             }
         ]
@@ -513,7 +513,7 @@
                 "parameter_name": "intmb_dvfs_increase_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 10
+                    "value": 14
                 }
             },
             {
@@ -521,7 +521,7 @@
                 "parameter_name": "intmb_dvfs_decrease_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 13
+                    "value": 17
                 }
             }
         ]
@@ -1217,7 +1217,7 @@
                         "floors": [
                             {
                                 "parameter": "pcie_floor_index",
-                                "floors": [{ "value": 1, "floor": 9800 }]
+                                "floors": [{ "value": 1, "floor": 10670 }]
                             }
                         ]
                     }
