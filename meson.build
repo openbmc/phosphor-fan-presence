@@ -17,17 +17,10 @@ python_prog = find_program('python3', native: true)
 
 cpp = meson.get_compiler('cpp')
 
-cli11_dep = dependency('cli11', required: false)
-
-if not cpp.has_header_symbol(
-    'CLI/CLI.hpp',
-    'CLI::App',
-    dependencies: cli11_dep,
-    required: false,
-)
-    cli11_proj = subproject('cli11', required: false)
-    assert(cli11_proj.found(), 'CLI11 is required')
-    cli11_dep = cli11_proj.get_variable('CLI11_dep')
+if cpp.has_header('CLI/CLI.hpp')
+    CLI11_dep = declare_dependency()
+else
+    CLI11_dep = dependency('CLI11', required: true)
 endif
 
 cereal_dep = dependency('cereal', required: false)

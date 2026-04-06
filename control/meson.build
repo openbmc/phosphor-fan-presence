@@ -98,7 +98,7 @@ fanctl = executable(
     'fanctl',
     'fanctl.cpp',
     dependencies: [
-        cli11_dep,
+        CLI11_dep,
         nlohmann_json_dep,
         phosphor_logging_dep,
         sdbusplus_dep,
