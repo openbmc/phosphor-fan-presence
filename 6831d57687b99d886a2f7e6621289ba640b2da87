@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c353a8e_8d17078f",
+        "filename": "monitor/multichassis_system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "Changed this in the fixup commit https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/88920",
+      "parentUuid": "10b6a357_ef1aaac4",
+      "range": {
+        "startLine": 16,
+        "startChar": 36,
+        "endLine": 16,
+        "endChar": 67
+      },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd226367_f8ee6448",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-03-02T16:59:26Z",
       "side": 1,
       "message": "you can use \u0027auto\u0027 here if you want.",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 34
+      },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72a155b4_062a3180",
+        "filename": "monitor/multichassis_system.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "Changed this in the fixup commit https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/88920",
+      "parentUuid": "bd226367_f8ee6448",
       "range": {
         "startLine": 51,
         "startChar": 4,
@@ -81,6 +129,42 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e507b038_920bae45",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "These functions were defined in the Zone class (see https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/85111). A \"zone\" here is basically a grouping of fans that defines fault handling for fans in said zone. Chassis are subdivided into one or more zones, and Chassis objects are managed here in the MultiChassisSystem class.\n\nFor single-chassis, there was just one fault handling config per system, so those fan status monitoring and power down rule functions were defined in the System class. Since there can now be multiple fault handling configs that apply to different fans in different chassis, I moved those functionalities to the zone to handle that.",
+      "parentUuid": "a44b81ad_45db5895",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a9fa92bd_51360ef1",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "Probably remain separate for now, just to avoid breaking any of the current single-chassis code. Plan is to hide the main loop for the multi-chassis code behind an ifdef that checks a meson compile flag and use either the main loop for single-chassis or multi-chassis code depending on the value of the flag.",
+      "parentUuid": "d9e3474d_9757eade",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b41a3a63_57fefd7a",
@@ -94,6 +178,24 @@
       "writtenOn": "2026-03-02T16:59:26Z",
       "side": 1,
       "message": "can you doublecheck if all of these are needed in the header?",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b45d251a_fa08b154",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "I removed some and moved some to the cpp in the fixup commit https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/88920",
+      "parentUuid": "b41a3a63_57fefd7a",
       "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -121,6 +223,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "92c5cb8b_6ca365e7",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "Changed this in the fixup commit https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/88920",
+      "parentUuid": "a9d443e5_221c3e13",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 34
+      },
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6beb207d_caa5fdf2",
@@ -138,6 +264,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d01dd812_b4679169",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "Yeah, definitely makes it more concise. I did this in the fixup commit https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/88920",
+      "parentUuid": "6beb207d_caa5fdf2",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "878bc955_afe9c432",
@@ -151,6 +295,24 @@
       "writtenOn": "2026-03-18T18:50:43Z",
       "side": 1,
       "message": "Sorry if I already made this comment in a previous commit, but what I do in the phosphor-power repo is define a static library that contains the code needed by both test cases and the run-time executable. Then they both link with that library. it reduces a lot of copy/paste.\n\nSee https://github.com/openbmc/phosphor-power/blob/master/phosphor-power-sequencer/src/meson.build#L3\n\nIf you and Matt have already decided not to do that, please ignore this comment.",
+      "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "237f5512_c54766f5",
+        "filename": "monitor/test/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-04-08T18:28:37Z",
+      "side": 1,
+      "message": "Yeah, probably not worth focusing on at this point in time, but definitely worth considering for the future if there start to be more test cases.",
+      "parentUuid": "878bc955_afe9c432",
       "revId": "6831d57687b99d886a2f7e6621289ba640b2da87",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
