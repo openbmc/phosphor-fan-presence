@@ -154,7 +154,7 @@ void ThresholdAlarmLogger::propertiesChanged(sdbusplus::message_t& msg)
 
 void ThresholdAlarmLogger::interfacesRemoved(sdbusplus::message_t& msg)
 {
-    sdbusplus::message::object_path path;
+    sdbusplus::object_path path;
     std::vector<std::string> interfaces;
 
     msg.read(path, interfaces);
@@ -171,7 +171,7 @@ void ThresholdAlarmLogger::interfacesRemoved(sdbusplus::message_t& msg)
 
 void ThresholdAlarmLogger::interfacesAdded(sdbusplus::message_t& msg)
 {
-    sdbusplus::message::object_path path;
+    sdbusplus::object_path path;
     std::map<std::string, std::map<std::string, std::variant<bool>>> interfaces;
 
     msg.read(path, interfaces);

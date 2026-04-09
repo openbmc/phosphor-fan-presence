@@ -247,7 +247,7 @@ struct InterfacesAdded
     {
         if (msg)
         {
-            sdbusplus::message::object_path op;
+            sdbusplus::object_path op;
 
             msg.read(op);
             if (static_cast<const std::string&>(op) != _path)
@@ -335,7 +335,7 @@ struct InterfacesRemoved
         if (msg)
         {
             std::vector<std::string> intfs;
-            sdbusplus::message::object_path op;
+            sdbusplus::object_path op;
 
             msg.read(op);
             if (static_cast<const std::string&>(op) != _path)

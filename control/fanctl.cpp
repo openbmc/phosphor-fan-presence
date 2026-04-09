@@ -201,8 +201,8 @@ std::array<std::string, 6> getStates()
 {
     using DBusTuple =
         std::tuple<std::string, std::string, std::string, std::string,
-                   std::string, std::string, sdbusplus::message::object_path,
-                   uint32_t, std::string, sdbusplus::message::object_path>;
+                   std::string, std::string, sdbusplus::object_path, uint32_t,
+                   std::string, sdbusplus::object_path>;
 
     std::array<std::string, 6> ret;
 
@@ -446,7 +446,7 @@ void set(uint64_t target, std::vector<std::string>& fanList)
     std::string ifaceType(method == "RPM" ? "FanSpeed" : "FanPwm");
 
     // stop the fan-control service
-    SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
+    SDBusPlus::callMethodAndRead<sdbusplus::object_path>(
         systemdService, systemdPath, systemdMgrIface, "StopUnit",
         phosphorServiceName, "replace");
 
@@ -512,10 +512,9 @@ void resume()
 {
     try
     {
-        auto retval =
-            SDBusPlus::callMethodAndRead<sdbusplus::message::object_path>(
-                systemdService, systemdPath, systemdMgrIface, "StartUnit",
-                phosphorServiceName, "replace");
+        auto retval = SDBusPlus::callMethodAndRead<sdbusplus::object_path>(
+            systemdService, systemdPath, systemdMgrIface, "StartUnit",
+            phosphorServiceName, "replace");
     }
     catch (const phosphor::fan::util::DBusMethodError& e)
     {

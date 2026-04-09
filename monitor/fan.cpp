@@ -139,7 +139,7 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
 
 void Fan::presenceIfaceAdded(sdbusplus::message_t& msg)
 {
-    sdbusplus::message::object_path path;
+    sdbusplus::object_path path;
     std::map<std::string, std::map<std::string, std::variant<bool>>> interfaces;
 
     msg.read(path, interfaces);

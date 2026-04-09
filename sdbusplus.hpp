@@ -318,7 +318,7 @@ class SDBusPlus
     {
         using namespace std::literals::string_literals;
 
-        using Path = sdbusplus::message::object_path;
+        using Path = sdbusplus::object_path;
         using Intf = std::string;
         using Prop = std::string;
         using GetManagedObjects =

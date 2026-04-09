@@ -202,7 +202,7 @@ class JsonConfig
             // has been successfully used to get config files
             return;
         }
-        sdbusplus::message::object_path op;
+        sdbusplus::object_path op;
         std::map<std::string,
                  std::map<std::string, std::variant<std::vector<std::string>>>>
             intfProps;

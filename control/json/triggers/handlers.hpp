@@ -61,7 +61,7 @@ struct Handlers
     static bool interfacesAdded(message& msg, const SignalObject& obj,
                                 Manager& mgr)
     {
-        sdbusplus::message::object_path op;
+        sdbusplus::object_path op;
         msg.read(op);
         if (static_cast<const std::string&>(op) != std::get<Path>(obj))
         {
@@ -102,7 +102,7 @@ struct Handlers
     static bool interfacesRemoved(message& msg, const SignalObject& obj,
                                   Manager& mgr)
     {
-        sdbusplus::message::object_path op;
+        sdbusplus::object_path op;
         msg.read(op);
         if (static_cast<const std::string&>(op) != std::get<Path>(obj))
         {

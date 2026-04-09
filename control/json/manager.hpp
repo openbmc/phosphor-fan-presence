@@ -120,7 +120,7 @@ using SignalData = std::tuple<std::unique_ptr<std::vector<SignalPkg>>,
  *         std::map<Property,    // D-Bus Property
  *         std::variant>>>       // Variant value of that property
  */
-using Path_v = sdbusplus::message::object_path;
+using Path_v = sdbusplus::object_path;
 using Intf_v = std::string;
 using Prop_v = std::string;
 using ManagedObjects =
