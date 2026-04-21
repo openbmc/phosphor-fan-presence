@@ -513,7 +513,7 @@
                 "parameter_name": "intmb_dvfs_increase_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 14
+                    "value": 13
                 }
             },
             {
@@ -521,7 +521,7 @@
                 "parameter_name": "intmb_dvfs_decrease_temp",
                 "modifier": {
                     "operator": "minus",
-                    "value": 17
+                    "value": 16
                 }
             }
         ]
