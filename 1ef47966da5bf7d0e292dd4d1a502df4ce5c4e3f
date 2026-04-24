@@ -16,6 +16,24 @@
       "message": "This would need to be tested on a system that uses it, but I\u0027m not setup to do it at the moment.  Hopefully soon.",
       "revId": "1ef47966da5bf7d0e292dd4d1a502df4ce5c4e3f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3f676c_49023876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1001712
+      },
+      "writtenOn": "2026-04-24T12:08:25Z",
+      "side": 1,
+      "message": "I could also try to test it in qemu in case there is a machine model which has the fans and is using this code.",
+      "parentUuid": "3e8b272c_c39ddbbb",
+      "revId": "1ef47966da5bf7d0e292dd4d1a502df4ce5c4e3f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
