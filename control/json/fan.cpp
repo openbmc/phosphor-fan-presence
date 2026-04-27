@@ -75,7 +75,7 @@ void Fan::setSensors(const json& jsonObj)
 
         std::string service;
         int attempts = 0;
-        constexpr int maxAttempts = 5;
+        constexpr int maxAttempts = 15;
         while (true)
         {
             try
