@@ -9,11 +9,10 @@ namespace phosphor::fan::monitor::multi_chassis
 {
 Chassis::Chassis(const ChassisDefinition& chassisConfig,
                  const std::vector<FanTypeDefinition>& fanDefs,
-                 sdbusplus::bus_t& bus, Mode mode,
-                 const sdeventplus::Event& event,
+                 sdbusplus::bus_t& bus, const sdeventplus::Event& event,
                  ThermalAlertObject& thermalAlert) :
-    _chassisConfig(chassisConfig), _fanDefs(fanDefs), _bus(bus), _mode(mode),
-    _event(event), _thermalAlert(thermalAlert),
+    _chassisConfig(chassisConfig), _fanDefs(fanDefs), _bus(bus), _event(event),
+    _thermalAlert(thermalAlert),
     _powerState(std::make_unique<PGoodState>(
         bus,
         std::bind(&Chassis::powerStateChanged, this, std::placeholders::_1),
@@ -156,9 +155,8 @@ void Chassis::createZones()
     _zones.clear();
     for (const auto& zoneDef : _chassisConfig.zones)
     {
-        _zones.emplace_back(
-            std::make_unique<Zone>(zoneDef, _fanDefs, _bus, _mode, _event,
-                                   _thermalAlert, *_powerState));
+        _zones.emplace_back(std::make_unique<Zone>(
+            zoneDef, _fanDefs, _bus, _event, _thermalAlert, *_powerState));
     }
 }
 } // namespace phosphor::fan::monitor::multi_chassis

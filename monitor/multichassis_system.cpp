@@ -12,10 +12,9 @@ namespace phosphor::fan::monitor::multi_chassis
 {
 const std::string MultiChassisSystem::dumpFile = "/tmp/fan_monitor_dump.json";
 
-MultiChassisSystem::MultiChassisSystem(Mode mode, sdbusplus::bus_t& bus,
+MultiChassisSystem::MultiChassisSystem(sdbusplus::bus_t& bus,
                                        const sdeventplus::Event& event) :
-    _mode(mode), _bus(bus), _event(event),
-    _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
+    _bus(bus), _event(event), _thermalAlert(bus, THERMAL_ALERT_OBJPATH)
 {}
 
 void MultiChassisSystem::initChassis(
@@ -26,7 +25,7 @@ void MultiChassisSystem::initChassis(
     for (const auto& chassisDef : chassisDefs)
     {
         _chassis.emplace_back(std::make_unique<Chassis>(
-            chassisDef, fanTypeDefs, _bus, _mode, _event, _thermalAlert));
+            chassisDef, fanTypeDefs, _bus, _event, _thermalAlert));
     }
 }
 

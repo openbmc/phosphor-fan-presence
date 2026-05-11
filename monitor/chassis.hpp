@@ -39,13 +39,12 @@ class Chassis
      * @param[in] fanDefs - Vector of FanTypeDefinition objects representing the
      * different types of fans in the system
      * @param[in] bus - sdbusplus bus object
-     * @param[in] mode - Mode of the fan monitor
      * @param[in] event - Event loop reference
      * @param[in] thermalAlert - Reference to ThermalAlertObject
      */
     Chassis(const ChassisDefinition& chassisConfig,
             const std::vector<FanTypeDefinition>& fanDefs,
-            sdbusplus::bus_t& bus, Mode mode, const sdeventplus::Event& event,
+            sdbusplus::bus_t& bus, const sdeventplus::Event& event,
             ThermalAlertObject& thermalAlert);
 
     /**
@@ -128,9 +127,6 @@ class Chassis
 
     /* The sdbusplus bus object */
     sdbusplus::bus_t& _bus;
-
-    /* The mode of fan monitor */
-    Mode _mode;
 
     /* The event loop reference */
     const sdeventplus::Event& _event;

@@ -116,8 +116,7 @@ TEST_F(MultiChassisSystemTest, MultiChassisSystemCreationTest)
         getFanDefs(jsonObj["fan_type_definitions"]);
     std::vector<ChassisDefinition> chassisDefs =
         getChassisDefs(jsonObj["chassis_definitions"]);
-    MultiChassisSystem system(phosphor::fan::monitor::Mode::monitor, bus,
-                              event);
+    MultiChassisSystem system(bus, event);
     system.initChassis(chassisDefs, fanTypeDefs);
     auto& chassisList = system.getChassis();
     std::vector<int> chassisNums = {0, 1, 2, 3, 4, 5, 6, 7};

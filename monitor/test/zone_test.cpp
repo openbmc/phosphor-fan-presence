@@ -111,9 +111,7 @@ TEST_F(ZoneTest, FanCreationTest)
               1); // should only have one zone, since only one chassis number
     for (const auto& zoneDef : zoneDefs)
     {
-        Zone zone(zoneDef, fanTypeList, bus,
-                  phosphor::fan::monitor::Mode::monitor, event, thermalAlert,
-                  powerState);
+        Zone zone(zoneDef, fanTypeList, bus, event, thermalAlert, powerState);
         zone.init(zoneDef, fanTypeList);
         EXPECT_EQ(zone.getFans().size(), 4); // Each zone should have 4 fans
     }

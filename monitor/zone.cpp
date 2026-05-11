@@ -14,10 +14,10 @@ using Severity = sdbusplus::xyz::openbmc_project::Logging::server::Entry::Level;
 
 Zone::Zone(const ZoneDefinition& zoneConfig,
            const std::vector<FanTypeDefinition>& fanDefs, sdbusplus::bus_t& bus,
-           Mode mode, const sdeventplus::Event& event,
-           ThermalAlertObject& thermalAlert, PowerState& powerState) :
+           const sdeventplus::Event& event, ThermalAlertObject& thermalAlert,
+           PowerState& powerState) :
     _zoneConfig(zoneConfig), _fanDefs(fanDefs), _name(zoneConfig.name),
-    _mode(mode), _bus(bus), _event(event), _thermalAlert(thermalAlert),
+    _bus(bus), _event(event), _thermalAlert(thermalAlert),
     _powerState(powerState)
 {
     namespace match = sdbusplus::bus::match;
@@ -535,7 +535,7 @@ void Zone::setFans(const ZoneDefinition& zoneConfig,
         }
 
         _fans.emplace_back(std::make_unique<Fan>(
-            _mode, _bus, _event, _trust,
+            phosphor::fan::monitor::Mode::monitor, _bus, _event, _trust,
             getFullDefFromType(*fanTypeConfig, fan), *this));
 
         updateFanHealth(*(_fans.back()));

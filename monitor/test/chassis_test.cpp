@@ -124,9 +124,7 @@ TEST_F(ChassisTest, ChassisCreationTest)
     int chassisNum = 0;
     for (const auto& chassisDef : chassisDefs)
     {
-        Chassis chassis(chassisDef, fanTypeDefs, bus,
-                        phosphor::fan::monitor::Mode::monitor, event,
-                        thermalAlert);
+        Chassis chassis(chassisDef, fanTypeDefs, bus, event, thermalAlert);
         // init chassis
         chassis.init();
         // check properties (available, availPropUsed, chassisName)

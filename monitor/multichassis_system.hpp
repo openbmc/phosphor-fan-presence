@@ -29,13 +29,11 @@ class MultiChassisSystem
     /**
      * Constructor
      *
-     * @param[in] mode - Mode of the fan monitor
      * @param[in] bus - Sdbusplus bus object
      * @param[in] event - Event loop reference
      *
      */
-    MultiChassisSystem(Mode mode, sdbusplus::bus_t& bus,
-                       const sdeventplus::Event& event);
+    MultiChassisSystem(sdbusplus::bus_t& bus, const sdeventplus::Event& event);
 
     /**
      * @brief Initiate the chassis objects in the system
@@ -78,9 +76,6 @@ class MultiChassisSystem
     }
 
   private:
-    /* The mode of fan monitor */
-    Mode _mode;
-
     /* The sdbusplus bus object */
     sdbusplus::bus_t& _bus;
 

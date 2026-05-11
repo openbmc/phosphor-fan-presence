@@ -40,15 +40,14 @@ class Zone : public phosphor::fan::monitor::ZoneBase
      * @param[in] fanDefs - Vector of FanTypeDefinition objects representing the
      * different types of fans in the system
      * @param[in] bus - sdbusplus object
-     * @param[in] mode - The mode of the fan monitor
      * @param[in] event - Event loop reference
      * @param[in] thermalAlert - Reference to ThermalAlertObject
      *
      */
     Zone(const ZoneDefinition& zoneConfig,
          const std::vector<FanTypeDefinition>& fanDefs, sdbusplus::bus_t& bus,
-         Mode mode, const sdeventplus::Event& event,
-         ThermalAlertObject& thermalAlert, PowerState& powerState);
+         const sdeventplus::Event& event, ThermalAlertObject& thermalAlert,
+         PowerState& powerState);
 
     /**
      * @brief Constructs a FanDefinition object based on a provided
@@ -154,9 +153,6 @@ class Zone : public phosphor::fan::monitor::ZoneBase
 
     /* The Zone name */
     std::string _name;
-
-    /* The mode of fan monitor */
-    Mode _mode;
 
     /* The sdbusplus bus object */
     sdbusplus::bus_t& _bus;
