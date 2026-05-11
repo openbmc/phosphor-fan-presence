@@ -117,6 +117,9 @@ conf.set('DELAY_HOST_CONTROL', get_option('delay-host-control'))
 if get_option('monitor-use-host-state').allowed()
     conf.set('MONITOR_USE_HOST_STATE', '')
 endif
+if get_option('multi-chassis').allowed()
+    conf.set('MULTI_CHASSIS', '')
+endif
 
 # JSON-or-YAML (all programs)
 if get_option('json-config').allowed()

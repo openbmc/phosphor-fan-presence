@@ -24,6 +24,9 @@
 #include "json_config.hpp"
 #include "json_parser.hpp"
 #endif
+#ifdef MULTI_CHASSIS
+#include "multichassis_system.hpp"
+#endif
 #include "system.hpp"
 #include "trust_manager.hpp"
 
@@ -32,8 +35,14 @@
 #include <sdeventplus/source/signal.hpp>
 #include <stdplus/signal.hpp>
 
+#ifndef MULTI_CHASSIS
 using namespace phosphor::fan::monitor;
+#else
+using namespace phosphor::fan::monitor::multi_chassis;
+#endif
 
+// Single-Chassis Monitor App Entry Point
+#ifndef MULTI_CHASSIS
 int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 {
     auto event = sdeventplus::Event::get_default();
@@ -105,3 +114,40 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
 
     return event.loop();
 }
+
+// Multi-Chassis Monitor App Entry Point
+#else
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
+{
+    auto event = sdeventplus::Event::get_default();
+    auto bus = sdbusplus::bus::new_default();
+    phosphor::fan::monitor::Mode mode = phosphor::fan::monitor::Mode::init;
+
+    // Attach the event object to the bus object so we can
+    // handle both sd_events (for the timers) and dbus signals.
+    bus.attach_event(event.get(), SD_EVENT_PRIORITY_NORMAL);
+
+    MultiChassisSystem system(mode, bus, event);
+
+    phosphor::fan::JsonConfig config(
+        std::bind(&MultiChassisSystem::start, &system));
+
+    // Enable SIGHUP handling to reload JSON config
+    stdplus::signal::block(SIGHUP);
+    sdeventplus::source::Signal signal(
+        event, SIGHUP,
+        std::bind(&MultiChassisSystem::sighupHandler, &system,
+                  std::placeholders::_1, std::placeholders::_2));
+
+    // Enable SIGUSR1 handling to dump debug data
+    stdplus::signal::block(SIGUSR1);
+    sdeventplus::source::Signal sigUsr1(
+        event, SIGUSR1,
+        std::bind(&MultiChassisSystem::dumpDebugData, &system,
+                  std::placeholders::_1, std::placeholders::_2));
+
+    bus.request_name(THERMAL_ALERT_BUSNAME);
+
+    return event.loop();
+}
+#endif

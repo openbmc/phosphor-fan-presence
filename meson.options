@@ -186,3 +186,9 @@ option(
     description: 'Skip power state checking while sending threshold alarm event.',
 )
 
+option(
+    'multi-chassis',
+    type: 'feature',
+    value: 'disabled',
+    description: 'Enable multi-chassis support in fan monitor.',
+)
