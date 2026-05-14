@@ -16,6 +16,126 @@
       "message": "Reverted main.cpp to version from master",
       "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a676b18_29329c6e",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-05-14T22:14:16Z",
+      "side": 1,
+      "message": "This code looks identical to the code in lines 74-81. Would it make sense to move this to a new private method to avoid duplication? It seems prone to errors in the future if someone changes one of these and forgets to change the other one.",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f8383b6_e6e4beaa",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-05-14T22:14:16Z",
+      "side": 1,
+      "message": "Not a big deal, but this queries the value of Available again. If you refactor the zone creation into a private method, maybe that can be avoided. Same comment for availIfaceAdded().",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "39bc81d8_4995a312",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-05-14T22:14:16Z",
+      "side": 1,
+      "message": "Just curious - why does this have \u0027Holder\u0027 in the name?",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5175bb53_42e780e6",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-05-14T22:14:16Z",
+      "side": 1,
+      "message": "This code is mostly duplicated 3 times in this file. Seems like a candidate for common code function.\n\nRather than hardcoding this loop and looking for specific variable name holders (?), could you do the following:\n* Create a chassis-specific variables map with key/value pairs that are the variable names and values. e.g. `{\"$chassis\", \"3\"}`.\n* Create a method that takes as input a string that can contain variables and the variables map.\n  * Loop over all the variables in the map\n    * Replace any instances of the variable name (map key) with the variable value (map value) within the current string.\n\nSee the following function in phosphor-power which does this: https://github.com/openbmc/phosphor-power/blob/master/json_parser_utils.cpp#L215",
+      "range": {
+        "startLine": 312,
+        "startChar": 12,
+        "endLine": 319,
+        "endChar": 13
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "702b6aa0_6fd49480",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-05-14T22:14:16Z",
+      "side": 1,
+      "message": "Should these be const references? Does it make sense to make a const copy of something? Maybe it is needed due to the way other code works.",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f50fddd_08b412f8",
+        "filename": "monitor/multichassis_types.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-05-14T22:14:16Z",
+      "side": 1,
+      "message": "This name is confusing (to me). Is it a chassis number? Or a reference to something else that has the chassis number?",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
