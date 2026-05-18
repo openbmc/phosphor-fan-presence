@@ -223,6 +223,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x06AB",
             "floor_index": 1
+        },
+        {
+            "name": "Onion Creek (2-PORT 200GbE)",
+            "vendor_id": "0x15B3",
+            "device_id": "0x1021",
+            "subsystem_vendor_id": "0x15B3",
+            "subsystem_id": "0x0022",
+            "floor_index": 5
         }
     ]
 }
