@@ -27,9 +27,8 @@ class CoolingType
     using Interface = std::string;
     // Association between interface and the dbus property
     using InterfaceMap = std::map<Interface, PropertyMap>;
-    using Object = sdbusplus::object_path;
     // Association between object and the interface
-    using ObjectMap = std::map<Object, InterfaceMap>;
+    using ObjectMap = std::map<sdbusplus::object_path, InterfaceMap>;
 
   public:
     CoolingType() = delete;

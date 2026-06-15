@@ -37,12 +37,10 @@ static const auto fanIface = "xyz.openbmc_project.Inventory.Item.Fan"s;
 
 void setPresence(const Fan& fan, bool newState)
 {
-    using namespace sdbusplus::message;
-
     using Properties = std::map<std::string, std::variant<std::string, bool>>;
     using Interfaces = std::map<std::string, Properties>;
 
-    std::map<object_path, Interfaces> obj = {{
+    std::map<sdbusplus::object_path, Interfaces> obj = {{
         std::get<1>(fan),
         {{itemIface,
           {

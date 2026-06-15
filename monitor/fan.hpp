@@ -59,8 +59,7 @@ class Fan
     using Interface = std::string;
     using InterfaceMap = std::map<Interface, PropertyMap>;
 
-    using Object = sdbusplus::object_path;
-    using ObjectMap = std::map<Object, InterfaceMap>;
+    using ObjectMap = std::map<sdbusplus::object_path, InterfaceMap>;
 
   public:
     Fan() = delete;
