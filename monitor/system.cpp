@@ -64,7 +64,7 @@ void System::start()
     namespace match = sdbusplus::bus::match;
 
     // must be done before service detection
-    _inventoryMatch = std::make_unique<sdbusplus::bus::match_t>(
+    _inventoryMatch = std::make_unique<sdbusplus::match>(
         _bus, match::rules::nameOwnerChanged(util::INVENTORY_SVC),
         std::bind(&System::inventoryOnlineCb, this, std::placeholders::_1));
 
@@ -182,7 +182,7 @@ void System::subscribeSensorsToServices()
         for (const auto& [serviceName, unused] : sensorMap)
         {
             // map its service name to the sensor
-            _sensorMatch.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+            _sensorMatch.emplace_back(std::make_unique<sdbusplus::match>(
                 _bus, match::rules::nameOwnerChanged(serviceName),
                 std::bind(&System::tachSignalOffline, this,
                           std::placeholders::_1, sensorMap)));

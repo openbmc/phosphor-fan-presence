@@ -98,8 +98,8 @@ using TimerEvent = std::tuple<std::unique_ptr<EventData>, Timer>;
 
 constexpr auto signalEventDataPos = 0;
 constexpr auto signalMatchPos = 1;
-using SignalEvent = std::tuple<std::unique_ptr<EventData>,
-                               std::unique_ptr<sdbusplus::bus::match_t>>;
+using SignalEvent =
+    std::tuple<std::unique_ptr<EventData>, std::unique_ptr<sdbusplus::match>>;
 
 constexpr auto zoneNumPos = 0;
 constexpr auto fullSpeedPos = 1;

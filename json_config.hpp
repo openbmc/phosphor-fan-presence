@@ -118,7 +118,7 @@ class JsonConfig
     {
         std::vector<std::string> compatObjPaths;
 
-        _match = std::make_unique<sdbusplus::bus::match_t>(
+        _match = std::make_unique<sdbusplus::match>(
             util::SDBusPlus::getBus(),
             sdbusplus::bus::match::rules::interfacesAdded() +
                 sdbusplus::bus::match::rules::sender(confCompatServ),
@@ -349,7 +349,7 @@ class JsonConfig
      * @brief The interfacesAdded match that is used to wait
      *        for the Inventory.Decorator.Compatible interface to show up.
      */
-    std::unique_ptr<sdbusplus::bus::match_t> _match;
+    std::unique_ptr<sdbusplus::match> _match;
 
     /**
      * @brief List of compatible values from the compatible interface

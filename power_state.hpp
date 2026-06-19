@@ -219,7 +219,7 @@ class PGoodState : public PowerState
     const std::string _pgoodProperty{"pgood"};
 
     /** @brief The propertiesChanged match */
-    sdbusplus::bus::match_t _match;
+    sdbusplus::match _match;
 };
 
 /**
@@ -376,7 +376,7 @@ class HostPowerState : public PowerState
     const std::string _hostStateProperty{"CurrentHostState"};
 
     /** @brief The propertiesChanged match */
-    sdbusplus::bus::match_t _match;
+    sdbusplus::match _match;
 };
 
 } // namespace phosphor::fan

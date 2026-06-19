@@ -212,27 +212,27 @@ class ThresholdAlarmLogger
     /**
      * @brief The Warning interface match object
      */
-    sdbusplus::bus::match_t warningMatch;
+    sdbusplus::match warningMatch;
 
     /**
      * @brief The Critical interface match object
      */
-    sdbusplus::bus::match_t criticalMatch;
+    sdbusplus::match criticalMatch;
 
     /**
      * @brief The PerformanceLoss interface match object
      */
-    sdbusplus::bus::match_t perfLossMatch;
+    sdbusplus::match perfLossMatch;
 
     /**
      * @brief The InterfacesRemoved match object
      */
-    sdbusplus::bus::match_t ifacesRemovedMatch;
+    sdbusplus::match ifacesRemovedMatch;
 
     /**
      * @brief The InterfacesAdded match object
      */
-    sdbusplus::bus::match_t ifacesAddedMatch;
+    sdbusplus::match ifacesAddedMatch;
 
     /**
      * @brief The current alarm values

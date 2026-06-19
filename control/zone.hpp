@@ -573,7 +573,7 @@ class Zone : public ThermalObject
      */
     inline void addSignal(const std::string& name,
                           std::unique_ptr<EventData>&& data,
-                          std::unique_ptr<sdbusplus::bus::match_t>&& match)
+                          std::unique_ptr<sdbusplus::match>&& match)
     {
         _signalEvents[name].emplace_back(std::move(data), std::move(match));
     }

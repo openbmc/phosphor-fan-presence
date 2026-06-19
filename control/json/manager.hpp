@@ -106,11 +106,11 @@ using SignalPkg = std::tuple<SignalHandler, SignalObject, TriggerActions>;
  * Tuple constructed of:
  *     std::unique_ptr<std::vector<SignalPkg>> =
  *         Pointer to list of the signal's packages
- *     std::unique_ptr<sdbusplus::bus::match_t> =
+ *     std::unique_ptr<sdbusplus::match> =
  *         Pointer to match holding the subscription to a signal
  */
 using SignalData = std::tuple<std::unique_ptr<std::vector<SignalPkg>>,
-                              std::unique_ptr<sdbusplus::bus::match_t>>;
+                              std::unique_ptr<sdbusplus::match>>;
 
 /**
  * Package of data from a D-Bus call to get managed objects

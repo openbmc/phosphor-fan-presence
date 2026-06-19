@@ -526,12 +526,12 @@ class TachSensor
     /**
      * @brief The match object for the Value properties changed signal
      */
-    std::unique_ptr<sdbusplus::bus::match_t> tachSignal;
+    std::unique_ptr<sdbusplus::match> tachSignal;
 
     /**
      * @brief The match object for the Target properties changed signal
      */
-    std::unique_ptr<sdbusplus::bus::match_t> targetSignal;
+    std::unique_ptr<sdbusplus::match> targetSignal;
 
     /**
      * @brief The number of seconds to wait between a sensor being set

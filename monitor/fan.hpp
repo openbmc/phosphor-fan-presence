@@ -313,13 +313,13 @@ class Fan
      *        for the inventory item interface to track the
      *        Present property.
      */
-    sdbusplus::bus::match_t _presenceMatch;
+    sdbusplus::match _presenceMatch;
 
     /**
      * @brief The match object for the interfacesAdded signal
      *        for the interface that has the Present property.
      */
-    sdbusplus::bus::match_t _presenceIfaceAddedMatch;
+    sdbusplus::match _presenceIfaceAddedMatch;
 
     /**
      * @brief The current presence state
