@@ -185,13 +185,13 @@ class ShutdownAlarmMonitor
      * @brief The match for properties changing on the HardShutdown
      *        interface.
      */
-    sdbusplus::bus::match_t hardShutdownMatch;
+    sdbusplus::match hardShutdownMatch;
 
     /**
      * @brief The match for properties changing on the SoftShutdown
      *        interface.
      */
-    sdbusplus::bus::match_t softShutdownMatch;
+    sdbusplus::match softShutdownMatch;
 
     /**
      * @brief The map of alarms.

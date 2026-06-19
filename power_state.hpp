@@ -144,8 +144,8 @@ class PGoodState : public PowerState
     PGoodState() :
         PowerState(),
         _match(_bus,
-               sdbusplus::bus::match::rules::propertiesChanged(_pgoodPath,
-                                                               _pgoodInterface),
+               sdbusplus::match_rules::propertiesChanged(_pgoodPath,
+                                                         _pgoodInterface),
                [this](auto& msg) { this->pgoodChanged(msg); })
     {
         readPGood();
@@ -161,8 +161,8 @@ class PGoodState : public PowerState
     PGoodState(sdbusplus::bus_t& bus, StateChangeFunc func) :
         PowerState(bus, func),
         _match(_bus,
-               sdbusplus::bus::match::rules::propertiesChanged(_pgoodPath,
-                                                               _pgoodInterface),
+               sdbusplus::match_rules::propertiesChanged(_pgoodPath,
+                                                         _pgoodInterface),
                [this](auto& msg) { this->pgoodChanged(msg); })
     {
         readPGood();
@@ -219,7 +219,7 @@ class PGoodState : public PowerState
     const std::string _pgoodProperty{"pgood"};
 
     /** @brief The propertiesChanged match */
-    sdbusplus::bus::match_t _match;
+    sdbusplus::match _match;
 };
 
 /**
@@ -240,7 +240,7 @@ class HostPowerState : public PowerState
     HostPowerState() :
         PowerState(),
         _match(_bus,
-               sdbusplus::bus::match::rules::propertiesChangedNamespace(
+               sdbusplus::match_rules::propertiesChangedNamespace(
                    _hostStatePath, _hostStateInterface),
                [this](auto& msg) { this->hostStateChanged(msg); })
     {
@@ -257,7 +257,7 @@ class HostPowerState : public PowerState
     HostPowerState(sdbusplus::bus_t& bus, StateChangeFunc func) :
         PowerState(bus, func),
         _match(_bus,
-               sdbusplus::bus::match::rules::propertiesChangedNamespace(
+               sdbusplus::match_rules::propertiesChangedNamespace(
                    _hostStatePath, _hostStateInterface),
                [this](auto& msg) { this->hostStateChanged(msg); })
     {
@@ -376,7 +376,7 @@ class HostPowerState : public PowerState
     const std::string _hostStateProperty{"CurrentHostState"};
 
     /** @brief The propertiesChanged match */
-    sdbusplus::bus::match_t _match;
+    sdbusplus::match _match;
 };
 
 } // namespace phosphor::fan

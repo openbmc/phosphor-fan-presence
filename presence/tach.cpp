@@ -55,10 +55,9 @@ bool Tach::start()
         auto tachPath = tachNamespace + std::get<std::string>(s);
 
         // Register for signal callbacks.
-        std::get<1>(s) = std::make_unique<sdbusplus::bus::match_t>(
+        std::get<1>(s) = std::make_unique<sdbusplus::match>(
             util::SDBusPlus::getBus(),
-            sdbusplus::bus::match::rules::propertiesChanged(tachPath,
-                                                            tachIface),
+            sdbusplus::match_rules::propertiesChanged(tachPath, tachIface),
             [this, i](auto& msg) { this->propertiesChanged(i, msg); });
 
         // Get an initial tach speed.

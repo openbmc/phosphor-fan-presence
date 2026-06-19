@@ -102,8 +102,8 @@ class Tach : public PresenceSensor
     void propertiesChanged(size_t sensor, sdbusplus::message_t& msg);
 
     /** @brief array of tach sensors dbus matches, and tach values. */
-    std::vector<std::tuple<std::string,
-                           std::unique_ptr<sdbusplus::bus::match_t>, double>>
+    std::vector<
+        std::tuple<std::string, std::unique_ptr<sdbusplus::match>, double>>
         state;
 
     /** The current state of the sensor. */

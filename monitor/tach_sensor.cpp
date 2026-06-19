@@ -114,7 +114,7 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
 
         auto match = getMatchString(std::nullopt, util::FAN_SENSOR_VALUE_INTF);
 
-        tachSignal = std::make_unique<sdbusplus::bus::match_t>(
+        tachSignal = std::make_unique<sdbusplus::match>(
             _bus, match.c_str(),
             [this](auto& msg) { this->handleTachChange(msg); });
 
@@ -128,7 +128,7 @@ TachSensor::TachSensor([[maybe_unused]] Mode mode, sdbusplus::bus_t& bus,
             {
                 match = getMatchString(_path, _interface);
             }
-            targetSignal = std::make_unique<sdbusplus::bus::match_t>(
+            targetSignal = std::make_unique<sdbusplus::match>(
                 _bus, match.c_str(),
                 [this](auto& msg) { this->handleTargetChange(msg); });
         }
@@ -192,10 +192,10 @@ std::string TachSensor::getMatchString(const std::optional<std::string> path,
 {
     if (path)
     {
-        return sdbusplus::bus::match::rules::propertiesChanged(
-            path.value(), interface);
+        return sdbusplus::match_rules::propertiesChanged(path.value(),
+                                                         interface);
     }
-    return sdbusplus::bus::match::rules::propertiesChanged(_name, interface);
+    return sdbusplus::match_rules::propertiesChanged(_name, interface);
 }
 
 uint64_t TachSensor::getTarget() const

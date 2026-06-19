@@ -98,7 +98,7 @@ class ErrorReporter
     /**
      * @brief The propertiesChanged match objects.
      */
-    std::vector<sdbusplus::bus::match_t> _matches;
+    std::vector<sdbusplus::match> _matches;
 
     /**
      * @brief Base class pointer to the power state implementation.
