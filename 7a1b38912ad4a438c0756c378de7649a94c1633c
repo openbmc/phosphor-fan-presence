@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd3a2a57_ada0a1c9",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-25T21:15:18Z",
+      "side": 1,
+      "message": "Moved the zone creation to its own method. This also helps avoid the extra query of the Available property below.",
+      "parentUuid": "1a676b18_29329c6e",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4f8383b6_e6e4beaa",
@@ -52,6 +70,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9813b246_6555c3eb",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-25T21:15:18Z",
+      "side": 1,
+      "message": "With the zone creation in its own method, these init calls can just be switched to create the zones instead, which avoids the extra query.",
+      "parentUuid": "4f8383b6_e6e4beaa",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "39bc81d8_4995a312",
@@ -65,6 +101,30 @@
       "writtenOn": "2026-05-14T22:14:16Z",
       "side": 1,
       "message": "Just curious - why does this have \u0027Holder\u0027 in the name?",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 19
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8677bdb2_e55182dc",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-25T21:15:18Z",
+      "side": 1,
+      "message": "Since there\u0027s just the one variable for now, this map isn\u0027t really needed, and can be replaced with a hard-coded constant in the header file.",
+      "parentUuid": "39bc81d8_4995a312",
       "range": {
         "startLine": 28,
         "startChar": 6,
@@ -98,6 +158,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ddebbefc_3617978b",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-25T21:15:18Z",
+      "side": 1,
+      "message": "The _jsonVars loop and if check probably aren\u0027t needed here, especially now that that _jsonVars map is replaced with a hard-coded constant. Just the expandVar call should be enough.",
+      "parentUuid": "5175bb53_42e780e6",
+      "range": {
+        "startLine": 312,
+        "startChar": 12,
+        "endLine": 319,
+        "endChar": 13
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "702b6aa0_6fd49480",
@@ -115,6 +199,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "87ad84cc_23f919f8",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-25T21:15:18Z",
+      "side": 1,
+      "message": "Matt mentioned in another review that it would be better to pass by const reference. Probably just so that it doesn\u0027t create a copy https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/87787/comment/10b6a357_ef1aaac4/",
+      "parentUuid": "702b6aa0_6fd49480",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f50fddd_08b412f8",
@@ -128,6 +230,30 @@
       "writtenOn": "2026-05-14T22:14:16Z",
       "side": 1,
       "message": "This name is confusing (to me). Is it a chassis number? Or a reference to something else that has the chassis number?",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fc1853_8b2d6f00",
+        "filename": "monitor/multichassis_types.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-25T21:15:18Z",
+      "side": 1,
+      "message": "It\u0027s meant to be a chassis number for the chassis that the struct represents. The way the JSON is structured, a single chassis configuration can apply across multiple different chassis via a chassis_numbers list in the JSON file. So I was storing this chassis numbers list alongside a reference to the specific chassis that the struct is being used to configure in code. I didn\u0027t find much use for the chassis numbers list in the Chassis/MultiChassisSystem class logic, though, so I decided to remove it, which is shown in the diff.",
+      "parentUuid": "6f50fddd_08b412f8",
       "range": {
         "startLine": 66,
         "startChar": 8,
