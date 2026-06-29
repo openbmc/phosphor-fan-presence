@@ -219,6 +219,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "a39e859e_0cfe4737",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-06-29T17:06:14Z",
+      "side": 1,
+      "message": "I agree with Matt; that was my comment.\n\nCurrently you are passing just as a const, not a const reference. So it is making a copy, and then declaring the copy const (which doesn\u0027t really matter).",
+      "parentUuid": "87ad84cc_23f919f8",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "6f50fddd_08b412f8",
         "filename": "monitor/multichassis_types.hpp",
         "patchSetId": 4
@@ -254,6 +272,30 @@
       "side": 1,
       "message": "It\u0027s meant to be a chassis number for the chassis that the struct represents. The way the JSON is structured, a single chassis configuration can apply across multiple different chassis via a chassis_numbers list in the JSON file. So I was storing this chassis numbers list alongside a reference to the specific chassis that the struct is being used to configure in code. I didn\u0027t find much use for the chassis numbers list in the Chassis/MultiChassisSystem class logic, though, so I decided to remove it, which is shown in the diff.",
       "parentUuid": "6f50fddd_08b412f8",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "af298a55_ac4b65be",
+        "filename": "monitor/multichassis_types.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-06-29T17:06:14Z",
+      "side": 1,
+      "message": "I guess my comment was would it make more sense to just call this chassisNumber or just number (since we are already in a chassis struct)?\n\nIf not that is OK. Just trying to understanding the naming.",
+      "parentUuid": "c9fc1853_8b2d6f00",
       "range": {
         "startLine": 66,
         "startChar": 8,
