@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "393e7315_88242442",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-06-29T18:46:17Z",
+      "side": 0,
+      "message": "unintended change?",
+      "revId": "4c7fa30ebeb5211295aafcd188850c171465a516",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
