@@ -16,6 +16,24 @@
       "message": "unintended change?",
       "revId": "4c7fa30ebeb5211295aafcd188850c171465a516",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa609994_a76a4155",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-30T22:02:57Z",
+      "side": 0,
+      "message": "Yeah, I think the white space removal got left there from when I made changes to fan.cpp. I\u0027ll add that back in",
+      "parentUuid": "393e7315_88242442",
+      "revId": "4c7fa30ebeb5211295aafcd188850c171465a516",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

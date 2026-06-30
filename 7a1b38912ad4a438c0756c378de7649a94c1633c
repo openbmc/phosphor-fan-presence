@@ -235,6 +235,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "18ddb2d8_cb1b4faf",
+        "filename": "monitor/multichassis_system.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-30T22:02:57Z",
+      "side": 1,
+      "message": "Think I just left off the \u0026 for the reference by mistake. Added that in",
+      "parentUuid": "a39e859e_0cfe4737",
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6f50fddd_08b412f8",
@@ -296,6 +314,30 @@
       "side": 1,
       "message": "I guess my comment was would it make more sense to just call this chassisNumber or just number (since we are already in a chassis struct)?\n\nIf not that is OK. Just trying to understanding the naming.",
       "parentUuid": "c9fc1853_8b2d6f00",
+      "range": {
+        "startLine": 66,
+        "startChar": 8,
+        "endLine": 66,
+        "endChar": 21
+      },
+      "revId": "7a1b38912ad4a438c0756c378de7649a94c1633c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c8d10c9_fb04c789",
+        "filename": "monitor/multichassis_types.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-06-30T22:02:57Z",
+      "side": 1,
+      "message": "Yeah, `chassisNum` for the name probably makes more sense.",
+      "parentUuid": "af298a55_ac4b65be",
       "range": {
         "startLine": 66,
         "startChar": 8,
