@@ -27,14 +27,14 @@ Chassis::Chassis(const ChassisDefinition& chassisConfig,
 {
     if (_availPropUsed)
     {
-        _availableMatch = std::make_unique<sdbusplus::bus::match_t>(
+        _availableMatch = std::make_unique<sdbusplus::match>(
             bus,
-            sdbusplus::bus::match::rules::propertiesChanged(
+            sdbusplus::match_rules::propertiesChanged(
                 CHASSIS_PATH_BASE + _chassisName, AVAILABILITY_INTF),
             std::bind(&Chassis::availableChanged, this, std::placeholders::_1));
-        _availIfaceAddedMatch = std::make_unique<sdbusplus::bus::match_t>(
+        _availIfaceAddedMatch = std::make_unique<sdbusplus::match>(
             bus,
-            sdbusplus::bus::match::rules::interfacesAddedAtPath(
+            sdbusplus::match_rules::interfacesAddedAtPath(
                 CHASSIS_PATH_BASE + _chassisName),
             std::bind(&Chassis::availIfaceAdded, this, std::placeholders::_1));
     }

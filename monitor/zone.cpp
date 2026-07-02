@@ -23,7 +23,7 @@ Zone::Zone(const ZoneDefinition& zoneConfig,
     namespace match = sdbusplus::bus::match;
 
     // must be done before service detection
-    _inventoryMatch = std::make_unique<sdbusplus::bus::match_t>(
+    _inventoryMatch = std::make_unique<sdbusplus::match>(
         _bus, match::rules::nameOwnerChanged(util::INVENTORY_SVC),
         std::bind(&Zone::inventoryOnlineCb, this, std::placeholders::_1));
 
@@ -229,7 +229,7 @@ void Zone::subscribeSensorsToServices()
         for (const auto& [serviceName, unused] : sensorMap)
         {
             // map its service name to the sensor
-            _sensorMatch.emplace_back(std::make_unique<sdbusplus::bus::match_t>(
+            _sensorMatch.emplace_back(std::make_unique<sdbusplus::match>(
                 _bus, match::rules::nameOwnerChanged(serviceName),
                 std::bind(&Zone::tachSignalOffline, this, std::placeholders::_1,
                           sensorMap)));

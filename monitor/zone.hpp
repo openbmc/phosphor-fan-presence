@@ -168,7 +168,7 @@ class Zone : public phosphor::fan::monitor::ZoneBase
     std::unique_ptr<phosphor::fan::trust::Manager> _trust;
 
     /* match object to detect Inventory service */
-    std::unique_ptr<sdbusplus::bus::match_t> _inventoryMatch;
+    std::unique_ptr<sdbusplus::match> _inventoryMatch;
 
     /* List of fan objects to monitor */
     std::vector<std::unique_ptr<Fan>> _fans;
@@ -210,7 +210,7 @@ class Zone : public phosphor::fan::monitor::ZoneBase
     /**
      * @brief The tach sensors D-Bus match objects
      */
-    std::vector<std::unique_ptr<sdbusplus::bus::match_t>> _sensorMatch;
+    std::vector<std::unique_ptr<sdbusplus::match>> _sensorMatch;
 
     /**
      * @brief true if config files have been loaded

@@ -153,12 +153,12 @@ class Chassis
     /**
      * @brief Match object for the Available property being changed
      */
-    std::unique_ptr<sdbusplus::bus::match_t> _availableMatch;
+    std::unique_ptr<sdbusplus::match> _availableMatch;
 
     /**
      * @brief Match object for the Available interface being added
      */
-    std::unique_ptr<sdbusplus::bus::match_t> _availIfaceAddedMatch;
+    std::unique_ptr<sdbusplus::match> _availIfaceAddedMatch;
 
     /**
      * @brief The chassis Available status
