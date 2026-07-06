@@ -14,11 +14,7 @@ Chassis::Chassis(const ChassisDefinition& chassisConfig,
                  ThermalAlertObject& thermalAlert) :
     _chassisConfig(chassisConfig), _fanDefs(fanDefs), _bus(bus), _mode(mode),
     _event(event), _thermalAlert(thermalAlert),
-#ifdef MONITOR_USE_HOST_STATE
-    _powerState(std::make_unique<HostPowerState>(
-#else
     _powerState(std::make_unique<PGoodState>(
-#endif
         bus,
         std::bind(&Chassis::powerStateChanged, this, std::placeholders::_1),
         std::to_string(chassisConfig.chassisNum))),

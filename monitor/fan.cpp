@@ -91,7 +91,7 @@ void Fan::init()
 
 #ifndef MONITOR_USE_JSON
     // Check current tach state when entering monitor mode
-    if (mode != Mode::init)
+    if (_mode != Mode::init)
     {
         _monitorReady = true;
 

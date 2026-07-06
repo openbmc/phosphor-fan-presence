@@ -349,7 +349,6 @@ void Zone::powerStateChanged(bool powerStateOn)
 
 void Zone::setFaultConfig(const json& jsonObj)
 {
-#ifdef MONITOR_USE_JSON
     std::shared_ptr<PowerInterfaceBase> powerInterface =
         std::make_shared<PowerInterface>(_thermalAlert);
 
@@ -359,7 +358,6 @@ void Zone::setFaultConfig(const json& jsonObj)
     _powerOffRules = getPowerOffRules(jsonObj, powerInterface, func);
 
     _numNonfuncSensorsBeforeError = getNumNonfuncRotorsBeforeError(jsonObj);
-#endif
 }
 
 void Zone::handleOfflineFanController()
