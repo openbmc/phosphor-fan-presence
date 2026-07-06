@@ -70,14 +70,10 @@ int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[])
         return app.exit(e);
     }
 
-    Mode mode;
+    Mode mode = Mode::control;
     if (init)
     {
         mode = Mode::init;
-    }
-    else if (control)
-    {
-        mode = Mode::control;
     }
 #endif
 
