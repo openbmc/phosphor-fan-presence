@@ -79,10 +79,6 @@ void System::start()
         if (!_loaded)
         {
             load();
-            for (const auto& fan : _fans)
-            {
-                fan->init();
-            }
         }
     }
 }
@@ -279,6 +275,9 @@ void System::setFans(const std::vector<FanDefinition>& fanDefs)
         }
         _fans.emplace_back(
             std::make_unique<Fan>(_mode, _bus, _event, _trust, fanDef, *this));
+
+        // init recently added fan
+        (_fans.back())->init();
 
         updateFanHealth(*(_fans.back()));
     }
