@@ -52,6 +52,9 @@ namespace phosphor::fan::control::json
 
 using json = nlohmann::json;
 
+constexpr auto AVAILABILITY_INTF =
+    "xyz.openbmc_project.State.Decorator.Availability";
+
 std::vector<std::string> Manager::_activeProfiles;
 std::map<std::string,
          std::map<std::string, std::pair<bool, std::vector<std::string>>>>
@@ -155,6 +158,107 @@ void Manager::dumpCache(json& data)
     data["services"] = _servTree;
 }
 
+std::string Manager::getChassisName(const std::string& fanName)
+{
+    // Fan names follow the pattern "<chassisName>_<fanId>", e.g.
+    // "chassis1_fan0". Extract everything up to the last '_' segment that
+    // begins with "fan".
+    auto pos = fanName.find('_');
+    if (pos != std::string::npos)
+    {
+        return fanName.substr(0, pos);
+    }
+    return {};
+}
+
+void Manager::chassisAvailableChanged(const std::string& chassisName,
+                                      sdbusplus::message_t& msg)
+{
+    auto [interface, properties] =
+        msg.unpack<std::string, std::map<std::string, std::variant<bool>>>();
+
+    if (interface != AVAILABILITY_INTF)
+    {
+        return;
+    }
+
+    auto it = properties.find("Available");
+    if (it == properties.end())
+    {
+        return;
+    }
+
+    bool available = std::get<bool>(it->second);
+    lg2::info("Chassis {CHASSIS} Available changed to {AVAIL}, reloading fans",
+              "CHASSIS", chassisName, "AVAIL", available);
+    _loadAllowed = true;
+    load();
+}
+
+void Manager::chassisAvailIfaceAdded(const std::string& chassisName,
+                                     sdbusplus::message_t& msg)
+{
+    auto [path, interfaces] = msg.unpack<
+        sdbusplus::object_path,
+        std::map<std::string, std::map<std::string, std::variant<bool>>>>();
+
+    auto ifaceIt = interfaces.find(AVAILABILITY_INTF);
+    if (ifaceIt == interfaces.end())
+    {
+        return;
+    }
+
+    auto propIt = ifaceIt->second.find("Available");
+    if (propIt == ifaceIt->second.end())
+    {
+        return;
+    }
+
+    if (!std::get<bool>(propIt->second))
+    {
+        // Availability interface appeared but Available is false - wait for
+        // a propertiesChanged signal to bring it true
+        return;
+    }
+
+    lg2::info("Chassis {CHASSIS} became available, reloading fans", "CHASSIS",
+              chassisName);
+    _loadAllowed = true;
+    load();
+}
+
+void Manager::subscribeToChassisAvailability(
+    const std::set<std::string>& chassisNames)
+{
+    static constexpr auto chassisPathBase =
+        "/xyz/openbmc_project/inventory/system/";
+
+    _chassisAvailMatches.clear();
+    _chassisAvailIfaceMatches.clear();
+
+    for (const auto& chassisName : chassisNames)
+    {
+        const std::string path = chassisPathBase + chassisName;
+
+        // propertiesChanged — Available toggled on an existing object
+        _chassisAvailMatches.emplace_back(
+            _bus,
+            sdbusplus::match_rules::propertiesChanged(path, AVAILABILITY_INTF),
+            [this, chassisName](sdbusplus::message_t& msg) {
+                chassisAvailableChanged(chassisName, msg);
+            });
+
+        // interfacesAdded — chassis object (and its Available property)
+        // appears on D-Bus after initial load
+        _chassisAvailIfaceMatches.emplace_back(
+            _bus,
+            sdbusplus::match_rules::interfacesAddedAtPath(path),
+            [this, chassisName](sdbusplus::message_t& msg) {
+                chassisAvailIfaceAdded(chassisName, msg);
+            });
+    }
+}
+
 void Manager::load()
 {
     if (_loadAllowed)
@@ -164,10 +268,29 @@ void Manager::load()
 
         // Load the zone configurations
         auto zones = getConfig<Zone>(false, _event, this);
-        // Load the fan configurations and move each fan into its zone
+        // Load the fan configurations and move each fan into its zone,
+        // skipping fans whose chassis reports Available=false (or is absent).
         auto fans = getConfig<Fan>(false);
+
+        std::set<std::string> chassisNames;
+        for (const auto& fan : fans)
+        {
+            auto chassis = getChassisName(fan.second->getName());
+            if (!chassis.empty())
+            {
+                chassisNames.insert(chassis);
+            }
+        }
+        subscribeToChassisAvailability(chassisNames);
+
         for (auto& fan : fans)
         {
+            // Skip fans whose chassis was not available at construction time
+            // (their sensors were not bound, so there is nothing to control)
+            if (!fan.second->isBound())
+            {
+                continue;
+            }
             configKey fanProfile =
                 std::make_pair(fan.second->getZone(), fan.first.second);
             auto itZone = std::find_if(
