@@ -1,0 +1,58 @@
+[
+    {
+        "name": "chassis1",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis2",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis3",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis4",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis5",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis6",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis7",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "chassis8",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    }
+]

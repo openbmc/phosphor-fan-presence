@@ -104,6 +104,19 @@ class Fan : public ConfigBase
     }
 
     /**
+     * @brief Returns true if the fan's sensors were successfully bound to
+     * D-Bus services.
+     *
+     * Will be false for fans whose chassis was not Available at load time.
+     * The Manager skips adding such fans to zones and the availability signal
+     * handlers will trigger a reload when the chassis becomes available.
+     */
+    inline bool isBound() const
+    {
+        return !_sensors.empty();
+    }
+
+    /**
      * Sets the target value on all contained sensors
      *
      * @param[in] target - The value to set
@@ -188,6 +201,17 @@ class Fan : public ConfigBase
      * Sets the zone this fan is included in.
      */
     void setZone(const json& jsonObj);
+
+    /**
+     * @brief Returns true if this fan's chassis is not available.
+     *
+     * Checks xyz.openbmc_project.State.Decorator.Availability / Available
+     * on the chassis inventory object derived from the fan name using the
+     * "<chassisName>_<fanId>" convention.  If the fan name has no underscore,
+     * or the chassis inventory object has no Availability interface, the fan
+     * is treated as available (returns false).
+     */
+    bool isChassisUnavailable() const;
 };
 
 } // namespace phosphor::fan::control::json
