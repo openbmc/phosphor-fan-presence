@@ -38,6 +38,8 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
+#include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -703,6 +705,56 @@ class Manager
      * @param[in] groups - The groups to add
      */
     void addGroups(const std::vector<Group>& groups);
+
+    /**
+     * @brief Extract the chassis name prefix from a fan name.
+     *
+     *
+     * @param[in] fanName - The fan's configured name
+     */
+    static std::string getChassisName(const std::string& fanName);
+
+    /**
+     * @brief Callback for when the Available D-Bus property changes on a
+     * chassis inventory object (propertiesChanged signal handler).
+     *
+     * Mirrors monitor::multi_chassis::Chassis::availableChanged().
+     *
+     * @param[in] chassisName - The chassis name suffix (e.g. "chassis1")
+     * @param[in] msg - The D-Bus message from the propertiesChanged signal
+     */
+    void chassisAvailableChanged(const std::string& chassisName,
+                                 sdbusplus::message_t& msg);
+
+    /**
+     * @brief Callback for when the Availability interface is added to a
+     * chassis inventory object (interfacesAdded signal handler).
+     *
+     *
+     * @param[in] chassisName - The chassis name suffix (e.g. "chassis1")
+     * @param[in] msg - The D-Bus message from the interfacesAdded signal
+     */
+    void chassisAvailIfaceAdded(const std::string& chassisName,
+                                sdbusplus::message_t& msg);
+
+    /**
+     * @brief Subscribe to D-Bus signals for chassis availability changes.
+     *
+     *
+     * @param[in] chassisNames - Set of chassis names to watch
+     */
+    void subscribeToChassisAvailability(
+        const std::set<std::string>& chassisNames);
+
+    /**
+     * @brief D-Bus match objects watching chassis Available propertiesChanged.
+     */
+    std::vector<sdbusplus::match> _chassisAvailMatches;
+
+    /**
+     * @brief D-Bus match objects watching chassis interfacesAdded signals.
+     */
+    std::vector<sdbusplus::match> _chassisAvailIfaceMatches;
 };
 
 } // namespace phosphor::fan::control::json
