@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "2513986d_4bda77af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-07-31T21:19:14Z",
+      "side": 1,
+      "message": "Hard coding of mode broken off into https://gerrit.openbmc.org/c/openbmc/phosphor-fan-presence/+/93057",
+      "parentUuid": "829bdc41_ab0ed649",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 0
+      },
+      "revId": "2b40443dfcfff9fc42ff9dc4fd1804a58f077b2e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "1736a279_213c1290",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
