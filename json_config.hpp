@@ -218,7 +218,14 @@ class JsonConfig
         // Only one dbus object with the compatible interface is used at a time
         _confCompatValues =
             std::get<std::vector<std::string>>(props.at(confCompatProp));
-        _loadFunc();
+        try
+        {
+            _loadFunc();
+        }
+        catch (const NoConfigFound&)
+        {
+            // Wait for another compatible interfacesAdded signal
+        }
     }
 
     /**
