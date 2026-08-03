@@ -38,10 +38,6 @@ Zone::Zone(const ZoneDefinition& zoneConfig,
         if (!_loaded)
         {
             init(zoneConfig, fanDefs);
-            for (const auto& fan : _fans)
-            {
-                fan->init();
-            }
         }
     }
 }
@@ -399,10 +395,6 @@ void Zone::inventoryOnlineCb(sdbusplus::message_t& msg)
     if (!_loaded && !newName.empty())
     {
         init(_zoneConfig, _fanDefs);
-        for (const auto& fan : _fans)
-        {
-            fan->init();
-        }
     }
 
     // cancel any further notifications about the service state
@@ -537,6 +529,18 @@ void Zone::setFans(const ZoneDefinition& zoneConfig,
         _fans.emplace_back(std::make_unique<Fan>(
             phosphor::fan::monitor::Mode::monitor, _bus, _event, _trust,
             getFullDefFromType(*fanTypeConfig, fan), *this));
+
+        try
+        {
+            // init recently added fan
+            (_fans.back())->init();
+        }
+        catch (const phosphor::fan::util::DBusError&)
+        {
+            // Fan initialization can cause DBus errors in an
+            // automated testing environment where the inventory service isn't
+            // running. Catch these to avoid test fails due to such errors.
+        }
 
         updateFanHealth(*(_fans.back()));
     }
