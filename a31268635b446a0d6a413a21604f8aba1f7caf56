@@ -16,6 +16,24 @@
       "message": "Can you give some details here on how your system is crashing, and then how it works with the fix?",
       "revId": "a31268635b446a0d6a413a21604f8aba1f7caf56",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3feebbd7_8ebdbf10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002581
+      },
+      "writtenOn": "2026-08-05T02:42:13Z",
+      "side": 1,
+      "message": "Reproduced on a system with multiple boards implementing\nxyz.openbmc_project.Inventory.Decorator.Compatible but no JSON\nconfig staged for fan-presence/fan-control.\n\nBefore fix: compatIntfAdded() calls _loadFunc() with no try/catch.\nentity-manager publishing each board\u0027s compatible interface fires\ninterfacesAdded, which crashes both services:\n```\nJul 30 22:31:49 bmc entity-manager[1511]: Inventory Added: Santa Barbara PCIe switch board\nJul 30 22:31:49 bmc entity-manager[1511]: Inventory Added: Santa Barbara MB\nJul 30 22:31:54 bmc phosphor-fan-presence-tach[1533]: terminate called after throwing an instance of \u0027phosphor::fan::NoConfigFound\u0027\nJul 30 22:31:54 bmc phosphor-fan-control[1032]: terminate called after throwing an instance of \u0027phosphor::fan::NoConfigFound\u0027\nJul 30 22:31:54 bmc systemd-coredump[1880]: Process 1533 (phosphor-fan-pr) of user 0 terminated abnormally with signal 6/ABRT\n```\n\n\nTo confirm the fix, we added a debug log inside the new catch block\nand re-tested. Same two boards\u0027 entity-manager events now get caught\nand logged instead of crashing:\n```\nAug 02 21:03:06 bmc entity-manager[1511]: Inventory Added: Santa Barbara PCIe switch board\nAug 02 21:03:06 bmc entity-manager[1511]: Inventory Added: Santa Barbara MB\nAug 02 21:03:10 bmc phosphor-fan-control[1030]: compatIntfAdded: caught NoConfigFound after interfacesAdded, compatible\u003dcom.meta.Hardware.Santabarbara.Boards.PCIe_Switch_Board, error\u003dJSON configuration not found [Could not find fan control conf file zones.json]\nAug 02 21:03:10 bmc phosphor-fan-presence-tach[1546]: compatIntfAdded: caught NoConfigFound after interfacesAdded, compatible\u003dcom.meta.Hardware.Santabarbara.Boards.PCIe_Switch_Board, error\u003dJSON configuration not found [Could not find fan presence conf file config.json]\nAug 02 21:03:10 bmc phosphor-fan-control[1030]: compatIntfAdded: caught NoConfigFound after interfacesAdded, compatible\u003dcom.meta.Hardware.Santabarbara.Boards.MB, error\u003dJSON configuration not found [Could not find fan control conf file zones.json]\nAug 02 21:03:10 bmc phosphor-fan-presence-tach[1546]: compatIntfAdded: caught NoConfigFound after interfacesAdded, compatible\u003dcom.meta.Hardware.Santabarbara.Boards.MB, error\u003dJSON configuration not found [Could not find fan presence conf file config.json]\n```\nVerified all 6 boards trigger this catch path with no crash,\ncoredump, restart, or terminate.",
+      "parentUuid": "69b89f59_5278e069",
+      "revId": "a31268635b446a0d6a413a21604f8aba1f7caf56",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
