@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d99ec271_388b45be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-06T20:33:35Z",
+      "side": 1,
+      "message": "I think we need to implement the Present property checking by default, and then if configured in the JSON, also check for Available.  This will make it more usable for other users of this repo.\n\nIt may take some refactoring to get things to work, but that\u0027s OK.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c95aeed9_689b18a5",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-06T20:33:35Z",
+      "side": 1,
+      "message": "This is just a coincidence that this works, and it would be better to not depend on it.  Rather, a chassis specifier should go into a JSON file.  I was thinking number, but maybe name would be OK.  (the zones currently being named after a chassis would only work with 1 zone per chassis so can\u0027t use zone name).\n\nThe zones will definitely have to know chassis status to start and stop events based on chassis presence/availability.\n\nI wonder if it would be the best to have a new singleton to track the chassis properties that different classes could then access, as it\u0027s a little strange for a Fan to have access to say the Manager or parent zone class.\n\nAlso, if 1 place has the current status, then nobody needs to do a GetProperty call themselves and can just get the cached values.\n\nIt could check Present by default, and then also Available if that is enabled.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31e7f989_059bb962",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-06T20:33:35Z",
+      "side": 1,
+      "message": "it would be better to know from the JSON configuration if the Available property should be there or not, so we don\u0027t don\u0027t extra get property calls that will never work on systems that don\u0027t use it.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b826bb06_4e42b970",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-06T20:33:35Z",
+      "side": 1,
+      "message": "What does this do to zones already running?",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 11
+      },
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
