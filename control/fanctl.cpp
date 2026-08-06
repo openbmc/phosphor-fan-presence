@@ -100,8 +100,20 @@ std::map<std::string, std::vector<std::string>> getPathsFromIface(
 {
     std::map<std::string, std::vector<std::string>> dest;
 
-    for (auto& path :
-         SDBusPlus::getSubTreePathsRaw(SDBusPlus::getBus(), path, iface, 0))
+    std::vector<std::string> paths;
+    try
+    {
+        paths =
+            SDBusPlus::getSubTreePathsRaw(SDBusPlus::getBus(), path, iface, 0);
+    }
+    catch (const phosphor::fan::util::DBusMethodError&)
+    {
+        // Path may not exist on this system (e.g. no motherboard inventory),
+        // return empty map rather than propagating the error.
+        return dest;
+    }
+
+    for (auto& path : paths)
     {
         for (auto& fan : fans)
         {

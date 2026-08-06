@@ -58,6 +58,18 @@ void Fan::setSensors(const json& jsonObj)
         lg2::error("Missing required fan sensors list", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required fan sensors list");
     }
+
+    // If this fan belongs to a named chassis (e.g. "chassis1_fan0"), check
+    // whether that chassis reports Available=true before attempting any D-Bus
+    // sensor lookups.  This mirrors the monitor/chassis.cpp pattern for
+    // handling unpopulated sleds without retrying forever.
+    if (isChassisUnavailable())
+    {
+        lg2::info("Fan {NAME}: chassis not available, deferring sensor binding",
+                  "NAME", _name);
+        return;
+    }
+
     std::string path;
     for (const auto& sensor : jsonObj["sensors"])
     {
@@ -105,6 +117,39 @@ void Fan::setSensors(const json& jsonObj)
     {
         _target = util::SDBusPlus::getProperty<uint64_t>(
             _bus, _sensors.at(path), path, _interface, FAN_TARGET_PROPERTY);
+    }
+}
+
+bool Fan::isChassisUnavailable() const
+{
+    // Extract chassis name from fan name: "chassis1_fan0" → "chassis1"
+    auto pos = _name.find('_');
+    if (pos == std::string::npos)
+    {
+        // Fan name has no chassis prefix - treat as always available
+        return false;
+    }
+    const std::string chassisName = _name.substr(0, pos);
+    const std::string path =
+        "/xyz/openbmc_project/inventory/system/" + chassisName;
+    constexpr auto availabilityIntf =
+        "xyz.openbmc_project.State.Decorator.Availability";
+
+    try
+    {
+        return !util::SDBusPlus::getProperty<bool>(_bus, path, availabilityIntf,
+                                                   "Available");
+    }
+    catch (const util::DBusServiceError&)
+    {
+        // Chassis inventory object not on D-Bus - treat as unavailable
+        return true;
+    }
+    catch (const util::DBusPropertyError&)
+    {
+        // Chassis object exists but has no Availability interface -
+        // non-multi-chassis system, treat as available
+        return false;
     }
 }
 
