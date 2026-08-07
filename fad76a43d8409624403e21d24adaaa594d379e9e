@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "82fb0472_1186653e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-08-07T06:46:30Z",
+      "side": 1,
+      "message": "Could you please update the Tested: section in the commit message to include the chassisoff results as well?\n\nSpecifically, please confirm:\n\nWhat the fan speed/target readings updated to when transitioning to chassisoff.\n\nThat fan target properties were verified on D-Bus during both chassison and chassisoff transitions.",
+      "revId": "fad76a43d8409624403e21d24adaaa594d379e9e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
