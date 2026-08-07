@@ -24,11 +24,11 @@
 #    - name: [The name associated with a supported method function]
 #      description: [A user description of what this method does]
 #      parameters:
-#          [Ordered list of required parameteres for the method function]
+#          [Ordered list of required parameters for the method function]
 #
 #handlers:
 #    - name: [The name associated with a supported handler function]
-#      description: [A user descriptiion of what this handler does]
+#      description: [A user description of what this handler does]
 #      parameters:
 #          [Ordered list of required parameters for the handler function]
 #

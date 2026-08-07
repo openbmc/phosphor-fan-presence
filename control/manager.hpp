@@ -43,7 +43,7 @@ class Manager
     Manager(sdbusplus::bus_t& bus, const sdeventplus::Event& event, Mode mode);
 
     /**
-     * Does the fan control inititialization, which is
+     * Does the fan control initialization, which is
      * setting fans to full, delaying so they
      * can get there, and starting a target.
      */
