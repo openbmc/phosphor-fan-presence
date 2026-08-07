@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "1844855d_b4ca2329",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 533,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-07T15:57:33Z",
+      "side": 1,
+      "message": "Discussed over DM",
+      "parentUuid": "c00002b1_1ed2f607",
+      "revId": "339e713df0b51316af09f637dfbbf90bde847870",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f2715b40_293b9f06",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-06T19:40:49Z",
       "side": 1,
       "message": "Things would have to be in a pretty bad state to hit this on a real system, but I think it would still be good to trace that this happens:\n\nlg2::error(\"Fan {NAME} init() failed: {ERROR}\", fan-\u003egetName(), e);\n\n(or whatever the real name of getName() is)",
+      "revId": "339e713df0b51316af09f637dfbbf90bde847870",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cdaf991b_bd1ff33f",
+        "filename": "monitor/zone.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 542,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-07T15:57:33Z",
+      "side": 1,
+      "message": "Added an lg2 trace",
+      "parentUuid": "f2715b40_293b9f06",
       "revId": "339e713df0b51316af09f637dfbbf90bde847870",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
