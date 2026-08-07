@@ -237,7 +237,7 @@ void Zone::requestSpeedIncrease(uint64_t targetDelta)
             requestTarget = _ceilingSpeed;
         }
         setSpeed(requestTarget);
-        // Retart timer countdown for fan speed increase
+        // Restart timer countdown for fan speed increase
         _incTimer.restartOnce(_incDelay);
     }
 }
