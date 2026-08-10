@@ -20,6 +20,7 @@
 
 #include <CLI/CLI.hpp>
 #include <nlohmann/json.hpp>
+#include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
 #include <filesystem>
@@ -100,14 +101,51 @@ std::map<std::string, std::vector<std::string>> getPathsFromIface(
 {
     std::map<std::string, std::vector<std::string>> dest;
 
-    for (auto& path :
-         SDBusPlus::getSubTreePathsRaw(SDBusPlus::getBus(), path, iface, 0))
+    std::vector<std::string> paths;
+    try
+    {
+        paths =
+            SDBusPlus::getSubTreePathsRaw(SDBusPlus::getBus(), path, iface, 0);
+    }
+    catch (const phosphor::fan::util::DBusMethodError&)
+    {
+        // Inventory may not be on D-Bus yet; return empty map rather than
+        // propagating the error.
+        lg2::debug(
+            "getPathsFromIface: D-Bus subtree query failed for {PATH}; "
+            "returning empty result (inventory may not be available yet)",
+            "PATH", path);
+        return dest;
+    }
+
+    for (auto& path : paths)
     {
         for (auto& fan : fans)
         {
             if (shortPath)
             {
-                if (fan == justFanName(path))
+                // Fan names in fanNames are derived from tach sensor D-Bus
+                // paths (e.g. ".../sensors/fan_tach/chassis1_fan0_0") by
+                // taking the last path component and stripping the trailing
+                // "_N" rotor suffix, yielding "chassis1_fan0".  The
+                // corresponding inventory paths are rooted under a per-chassis
+                // sub-tree, e.g. ".../inventory/system/chassis1/fan0", so the
+                // last component alone ("fan0") does not match the fan token.
+                // Split on "_fan" to match both the chassis directory segment
+                // and the fan leaf independently.
+                auto sep = fan.rfind("_fan");
+                if (sep != std::string::npos)
+                {
+                    auto chassisPart = fan.substr(0, sep);
+                    auto fanPart = fan.substr(sep + 1); // "fanM"
+                    if (path.find("/" + chassisPart + "/") !=
+                            std::string::npos &&
+                        justFanName(path) == fanPart)
+                    {
+                        dest[fan].push_back(path);
+                    }
+                }
+                else if (justFanName(path) == fan)
                 {
                     dest[fan].push_back(path);
                 }
@@ -145,8 +183,7 @@ auto loadDBusData()
         {"OpStatus", "xyz.openbmc_project.State.Decorator.OperationalStatus"}};
 
     std::map<const std::string, const std::string> paths{
-        {"motherboard",
-         "/xyz/openbmc_project/inventory/system/chassis/motherboard"},
+        {"inventory", "/xyz/openbmc_project/inventory/system"},
         {"tach", "/xyz/openbmc_project/sensors/fan_tach"}};
 
     // build a list of all fans
@@ -180,11 +217,11 @@ auto loadDBusData()
 
     // load inventory Item data for each fan
     pathMap["inventory"] = getPathsFromIface(
-        paths["motherboard"], interfaces["Item"], fanNames, true);
+        paths["inventory"], interfaces["Item"], fanNames, true);
 
     // load operational status data for each fan
     pathMap["opstatus"] = getPathsFromIface(
-        paths["motherboard"], interfaces["OpStatus"], fanNames, true);
+        paths["inventory"], interfaces["OpStatus"], fanNames, true);
 
     return std::make_tuple(fanNames, pathMap, interfaces, method);
 }
