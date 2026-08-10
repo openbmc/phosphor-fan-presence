@@ -1,0 +1,58 @@
+[
+    {
+        "name": "1",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "2",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "3",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "4",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "5",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "6",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "7",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    },
+    {
+        "name": "8",
+        "poweron_target": 13500,
+        "default_floor": 13500,
+        "increase_delay": 5,
+        "decrease_interval": 30
+    }
+]
