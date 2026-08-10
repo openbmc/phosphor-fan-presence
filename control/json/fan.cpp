@@ -31,10 +31,11 @@ using json = nlohmann::json;
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 
-Fan::Fan(const json& jsonObj) :
-    ConfigBase(jsonObj), _bus(util::SDBusPlus::getBus())
+Fan::Fan(const json& jsonObj, ChassisManager& cm) :
+    ConfigBase(jsonObj), _cm(cm), _bus(util::SDBusPlus::getBus())
 {
     setInterface(jsonObj);
+    setChassisPath(jsonObj);
     setSensors(jsonObj);
     setZone(jsonObj);
 }
@@ -51,6 +52,16 @@ void Fan::setInterface(const json& jsonObj)
     _interface = jsonObj["target_interface"].get<std::string>();
 }
 
+void Fan::setChassisPath(const json& jsonObj)
+{
+    if (jsonObj.contains("chassis_path"))
+    {
+        _chassisPath = jsonObj["chassis_path"].get<std::string>();
+    }
+    // If absent, _chassisPath remains empty - not a multi-chassis system,
+    // so no chassis gating required for this fan.
+}
+
 void Fan::setSensors(const json& jsonObj)
 {
     if (!jsonObj.contains("sensors"))
@@ -58,13 +69,24 @@ void Fan::setSensors(const json& jsonObj)
         lg2::error("Missing required fan sensors list", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required fan sensors list");
     }
+
+    // If this fan is associated with a chassis, check whether the chassis is
+    // ready before attempting any D-Bus sensor lookups.
+    // For systems with no "chassis_path" in JSON, _chassisPath is
+    // empty isReady() returns true immediately
+    if (!_cm.isReady(_chassisPath))
+    {
+        lg2::debug(
+            "Fan {NAME}: chassis {PATH} not ready, deferring sensor lookup",
+            "NAME", _name, "PATH", _chassisPath);
+        return;
+    }
+
     std::string path;
     for (const auto& sensor : jsonObj["sensors"])
     {
         if (!jsonObj.contains("target_path"))
         {
-            // If target_path is not set in configuration,
-            // it is default to /xyz/openbmc_project/sensors/fan_tach/
             path = FAN_SENSOR_PATH + sensor.get<std::string>();
         }
         else
@@ -74,28 +96,18 @@ void Fan::setSensors(const json& jsonObj)
         }
 
         std::string service;
-        int attempts = 0;
-        constexpr int maxAttempts = 15;
-        while (true)
+        try
         {
-            try
-            {
-                service = util::SDBusPlus::getService(_bus, path, _interface);
-                break;
-            }
-            catch (const std::exception&)
-            {
-                lg2::warning("No service for {PATH} {INTERFACE}", "PATH", path,
-                             "INTERFACE", _interface);
-                attempts++;
-                if (attempts == maxAttempts)
-                {
-                    lg2::error("Giving up");
-                    throw;
-                }
-                lg2::info("Retrying");
-                std::this_thread::sleep_for(std::chrono::seconds(2));
-            }
+            service = util::SDBusPlus::getService(_bus, path, _interface);
+        }
+        catch (const std::exception&)
+        {
+            lg2::debug(
+                "Fan {NAME}: no service for {PATH} {INTERFACE}, will retry on hotplug",
+                "NAME", _name, "PATH", path, "INTERFACE", _interface);
+            _sensors.clear();
+            _pendingSensorPath = path;
+            return;
         }
         _sensors[path] = service;
     }
