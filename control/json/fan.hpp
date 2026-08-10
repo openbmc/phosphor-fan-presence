@@ -104,6 +104,31 @@ class Fan : public ConfigBase
     }
 
     /**
+     * @brief Returns true if the fan's sensors were successfully bound to
+     * D-Bus services.
+     *
+     * Will be false for fans whose chassis was not ready (not present, or not
+     * available when so configured) at load time.  The Manager skips adding
+     * such fans to zones; the ChassisManager will trigger a reload when the
+     * chassis becomes ready.
+     */
+    inline bool isBound() const
+    {
+        return !_sensors.empty();
+    }
+
+    /**
+     * @brief Return the chassis inventory path this fan belongs to, if any.
+     *
+     * Empty string for fans that do not specify a chassis_path (i.e. fans on
+     * non-multi-chassis systems where no chassis gating is required).
+     */
+    inline const std::string& getChassisPath() const
+    {
+        return _chassisPath;
+    }
+
+    /**
      * Sets the target value on all contained sensors
      *
      * @param[in] target - The value to set
@@ -162,6 +187,13 @@ class Fan : public ConfigBase
     std::string _zone;
 
     /**
+     * @brief Full D-Bus inventory path of the chassis sled this fan belongs
+     * to, e.g. /xyz/openbmc_project/inventory/system/chassis1.
+     * Empty for fans that do not carry a "chassis_path" key in JSON.
+     */
+    std::string _chassisPath;
+
+    /**
      * @brief Parse and set the fan's sensor interface
      *
      * @param[in] jsonObj - JSON object for the fan
@@ -188,6 +220,20 @@ class Fan : public ConfigBase
      * Sets the zone this fan is included in.
      */
     void setZone(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the fan's chassis path (OPTIONAL)
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Reads the optional "chassis_path" key and stores it in _chassisPath.
+     * When present the fan defers sensor binding until the chassis is ready
+     * according to ChassisManager.
+     *
+     * "chassis_path" being absent is a valid, normal state
+     * for any fan on a non-multi-chassis system.
+     */
+    void setChassisPath(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::control::json
