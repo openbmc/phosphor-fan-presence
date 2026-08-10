@@ -16,6 +16,7 @@
 #pragma once
 
 #include "action.hpp"
+#include "chassis_manager.hpp"
 #include "event.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
@@ -38,6 +39,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -493,6 +495,28 @@ class Manager
     void load();
 
     /**
+     * @brief Reacts to a chassis ready-state change (Present or Available
+     * property toggled) by either binding or removing its fans.
+     *
+     * Called by ChassisManager whenever a chassis's present/available state
+     * changes in either direction:
+     *
+     *  - Chassis goes unavailable (present=false or available=false):
+     *    Removes all fans for @p chassisPath from their zones so they no
+     *    longer receive stale D-Bus target calls.
+     *
+     *  - Chassis becomes ready (present=true, available=true):
+     *    Constructs fans from JSON, binds those whose sensor service is on
+     *    D-Bus, and installs InterfacesAdded watches for any that are not yet
+     *    present.  If host power is already on, the zone's current target is
+     *    immediately pushed to the newly bound fans.
+     *
+     * @param[in] chassisPath - Full D-Bus inventory path of the chassis
+     *                          whose ready-state changed
+     */
+    void handleChassisStatusChange(const std::string& chassisPath);
+
+    /**
      * @brief Sets a value in the parameter map.
      *
      * If it's a std::nullopt, it will be deleted instead.
@@ -629,6 +653,27 @@ class Manager
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
+
+    /** Owns the ChassisManager for this Manager instance */
+    std::unique_ptr<ChassisManager> _chassisMgr;
+
+    /**
+     * @brief True when at least one fan entry in fans.json carries a
+     *        "chassis_path" key, indicating multi-chassis mode.  False means
+     *        all fans are unconditionally present (single-chassis mode).
+     *
+     * Set during load() after scanning fans.json.
+     */
+    bool _multiChassis{false};
+
+    /**
+     * @brief Maps each chassis inventory path to the zone names it contains.
+     *
+     * Built during load() by scanning fans.json.  Used by
+     * handleChassisStatusChange() to find which zones to rebuild when a
+     * specific chassis becomes ready.
+     */
+    std::map<std::string, std::set<std::string>> _chassisPathToZones;
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;

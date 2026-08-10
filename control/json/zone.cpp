@@ -137,7 +137,33 @@ void Zone::enable()
 
 void Zone::addFan(std::unique_ptr<Fan> fan)
 {
+    // Guard against duplicate adds (e.g. a hotplug re-add fires while the fan
+    // is already present from a previous ready cycle).
+    if (std::any_of(_fans.begin(), _fans.end(), [&fan](const auto& f) {
+            return f->getName() == fan->getName();
+        }))
+    {
+        lg2::debug("Zone {ZONE}: fan {FAN} already present, skipping re-add",
+                   "ZONE", getName(), "FAN", fan->getName());
+        return;
+    }
     _fans.emplace_back(std::move(fan));
+}
+
+void Zone::removeFansByChassis(const std::string& chassisPath)
+{
+    auto before = _fans.size();
+    _fans.erase(std::remove_if(_fans.begin(), _fans.end(),
+                               [&chassisPath](const auto& f) {
+                                   return f->getChassisPath() == chassisPath;
+                               }),
+                _fans.end());
+    auto removed = before - _fans.size();
+    if (removed > 0)
+    {
+        lg2::info("Zone {ZONE}: removed {N} fan(s) for chassis {PATH}", "ZONE",
+                  getName(), "N", removed, "PATH", chassisPath);
+    }
 }
 
 void Zone::setTarget(uint64_t target)
