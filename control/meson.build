@@ -15,6 +15,7 @@ if conf.has('CONTROL_USE_JSON')
     deps += nlohmann_json_dep
     include_dirs += ['./json', './json/actions', './json/triggers']
     sources += [
+        'json/chassis_manager.cpp',
         'json/dbus_zone.cpp',
         'json/event.cpp',
         'json/fan.cpp',
