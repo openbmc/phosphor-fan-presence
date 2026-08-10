@@ -137,7 +137,47 @@ void Zone::enable()
 
 void Zone::addFan(std::unique_ptr<Fan> fan)
 {
+    // Guard against duplicate adds (e.g. a hotplug re-add fires while the fan
+    // is already present from a previous ready cycle).  Fans are identified
+    // by name *and* profiles, matching how the config map keys them, so two
+    // same-named fans under different profiles stay distinct.
+    if (std::ranges::any_of(_fans, [&fan](const auto& f) {
+            return f->getName() == fan->getName() &&
+                   f->getProfiles() == fan->getProfiles();
+        }))
+    {
+        lg2::debug("Zone {ZONE}: fan {FAN} already present, skipping re-add",
+                   "ZONE", getName(), "FAN", fan->getName());
+        return;
+    }
     _fans.emplace_back(std::move(fan));
+}
+
+void Zone::removeFansByChassis(const std::string& chassisPath)
+{
+    // Any target locks held on these fans go away with the Fan objects.  That
+    // is intended: the sled they belong to is gone, so a lock taken against
+    // the previous instance should not survive to constrain a replacement.
+
+    auto removed = std::erase_if(_fans, [&chassisPath](const auto& f) {
+        return f->getChassisPath() == chassisPath;
+    });
+    if (removed > 0)
+    {
+        lg2::info("Zone {ZONE}: removed {N} fan(s) for chassis {PATH}", "ZONE",
+                  getName(), "N", removed, "PATH", chassisPath);
+    }
+}
+
+void Zone::removeFanBySensorPath(const std::string& sensorPath)
+{
+    if (std::erase_if(_fans, [&sensorPath](const auto& f) {
+            return f->getSensors().contains(sensorPath);
+        }))
+    {
+        lg2::info("Zone {ZONE}: removed fan with sensor {PATH}", "ZONE",
+                  getName(), "PATH", sensorPath);
+    }
 }
 
 void Zone::setTarget(uint64_t target)

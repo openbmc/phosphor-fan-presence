@@ -31,12 +31,56 @@ using json = nlohmann::json;
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
 
-Fan::Fan(const json& jsonObj) :
-    ConfigBase(jsonObj), _bus(util::SDBusPlus::getBus())
+Fan::Fan(const json& jsonObj, ChassisManager& cm) :
+    ConfigBase(jsonObj), _cm(cm), _bus(util::SDBusPlus::getBus())
 {
     setInterface(jsonObj);
-    setSensors(jsonObj);
+    setChassisPath(jsonObj);
     setZone(jsonObj);
+
+    // Extract the sensor names and optional path prefix here so that
+    // setSensors() (called via initSensors()) has no dependency on the
+    // original JSON object.
+    if (!jsonObj.contains("sensors"))
+    {
+        lg2::error("Missing required fan sensors list", "JSON", jsonObj.dump());
+        throw std::runtime_error("Missing required fan sensors list");
+    }
+    for (const auto& s : jsonObj["sensors"])
+    {
+        _sensorNames.push_back(s.get<std::string>());
+    }
+    if (_sensorNames.empty())
+    {
+        // An empty list would leave setSensors() with nothing to resolve, so
+        // the fan would report neither bound nor pending and would be skipped
+        // by every bind path without ever explaining why.
+        lg2::error("Empty fan sensors list", "JSON", jsonObj.dump());
+        throw std::runtime_error("Empty fan sensors list");
+    }
+    if (jsonObj.contains("target_path"))
+    {
+        _targetPath = jsonObj["target_path"].get<std::string>();
+    }
+
+    // setSensors() is NOT called here; the caller must call initSensors()
+    // after ChassisManager has been fully initialised.
+}
+
+void Fan::initSensors(const std::string& hintPath,
+                      const std::string& hintService)
+{
+    // No-op if sensors are already resolved.  Always retry when _sensors is
+    // empty so that hotplug callbacks (which construct a fresh Fan object and
+    // call initSensors()) can re-attempt the ObjectMapper lookup after the
+    // sensor service has appeared.
+    if (!_sensors.empty())
+    {
+        return;
+    }
+    // Reset any stale pending path so setSensors() starts from scratch.
+    _pendingSensorPath.clear();
+    setSensors(hintPath, hintService);
 }
 
 void Fan::setInterface(const json& jsonObj)
@@ -51,60 +95,110 @@ void Fan::setInterface(const json& jsonObj)
     _interface = jsonObj["target_interface"].get<std::string>();
 }
 
-void Fan::setSensors(const json& jsonObj)
+void Fan::setChassisPath(const json& jsonObj)
 {
-    if (!jsonObj.contains("sensors"))
+    if (jsonObj.contains("chassis_path"))
     {
-        lg2::error("Missing required fan sensors list", "JSON", jsonObj.dump());
-        throw std::runtime_error("Missing required fan sensors list");
+        _chassisPath = jsonObj["chassis_path"].get<std::string>();
+        _checkChassisAvailability =
+            jsonObj.value("check_chassis_availability", false);
     }
-    std::string path;
-    for (const auto& sensor : jsonObj["sensors"])
+    // If absent, _chassisPath remains empty - not a multi-chassis system,
+    // so no chassis gating required for this fan.
+}
+
+std::string Fan::sensorPath(const std::string& sensorName) const
+{
+    // If target_path is not set in configuration, it defaults to
+    // /xyz/openbmc_project/sensors/fan_tach/
+    return (_targetPath.empty() ? FAN_SENSOR_PATH : _targetPath) + sensorName;
+}
+
+std::vector<std::string> Fan::getSensorPaths() const
+{
+    std::vector<std::string> paths;
+    paths.reserve(_sensorNames.size());
+    for (const auto& sensorName : _sensorNames)
     {
-        if (!jsonObj.contains("target_path"))
-        {
-            // If target_path is not set in configuration,
-            // it is default to /xyz/openbmc_project/sensors/fan_tach/
-            path = FAN_SENSOR_PATH + sensor.get<std::string>();
-        }
-        else
-        {
-            path = jsonObj["target_path"].get<std::string>() +
-                   sensor.get<std::string>();
-        }
+        paths.push_back(sensorPath(sensorName));
+    }
+    return paths;
+}
+
+void Fan::setSensors(const std::string& hintPath,
+                     const std::string& hintService)
+{
+    // If this fan is associated with a chassis, check whether the chassis is
+    // ready before attempting any D-Bus sensor lookups.
+    // For systems with no "chassis_path" in JSON, _chassisPath is
+    // empty and isReady() returns true immediately.
+    if (!_cm.isReady(_chassisPath))
+    {
+        lg2::debug(
+            "Fan {NAME}: chassis {PATH} not ready, deferring sensor lookup",
+            "NAME", _name, "PATH", _chassisPath);
+        return;
+    }
+
+    std::string path;
+    for (const auto& sensorName : _sensorNames)
+    {
+        path = sensorPath(sensorName);
 
         std::string service;
-        int attempts = 0;
-        constexpr int maxAttempts = 15;
-        while (true)
+        try
         {
-            try
+            service = util::SDBusPlus::getService(_bus, path, _interface);
+        }
+        catch (const std::exception&)
+        {
+            // The ObjectMapper does not know about this path.  When the
+            // caller already learned the owning service from an
+            // InterfacesAdded sender, trust that over the mapper: the mapper
+            // processes the same signal independently and routinely has not
+            // caught up yet at this point.  Without this, binding off the
+            // signal loses the race and the fan is never bound, because the
+            // signal has already fired and will not be replayed.
+            if (!hintService.empty() && path == hintPath)
             {
-                service = util::SDBusPlus::getService(_bus, path, _interface);
-                break;
+                lg2::debug(
+                    "Fan {NAME}: {PATH} not on ObjectMapper yet, binding with "
+                    "service {SERVICE} from the InterfacesAdded sender",
+                    "NAME", _name, "PATH", path, "SERVICE", hintService);
+                service = hintService;
             }
-            catch (const std::exception&)
+            else
             {
-                lg2::warning("No service for {PATH} {INTERFACE}", "PATH", path,
-                             "INTERFACE", _interface);
-                attempts++;
-                if (attempts == maxAttempts)
-                {
-                    lg2::error("Giving up");
-                    throw;
-                }
-                lg2::info("Retrying");
-                std::this_thread::sleep_for(std::chrono::seconds(2));
+                lg2::debug(
+                    "Fan {NAME}: sensor {PATH} has no service yet, deferring bind",
+                    "NAME", _name, "PATH", path);
+                _sensors.clear();
+                _pendingSensorPath = path;
+                return;
             }
         }
         _sensors[path] = service;
     }
     // All sensors associated with this fan are set to the same target,
-    // so only need to read target property from one of them
+    // so only need to read target property from one of them.
+    // Keep this inside a try so a mid-flight service drop (between
+    // getService() above and getProperty() here) leaves the fan pending
+    // rather than throwing out of an sdbusplus match callback.
     if (!path.empty())
     {
-        _target = util::SDBusPlus::getProperty<uint64_t>(
-            _bus, _sensors.at(path), path, _interface, FAN_TARGET_PROPERTY);
+        try
+        {
+            _target = util::SDBusPlus::getProperty<uint64_t>(
+                _bus, _sensors.at(path), path, _interface, FAN_TARGET_PROPERTY);
+        }
+        catch (const std::exception&)
+        {
+            lg2::debug("Fan {NAME}: sensor {PATH} lost its service between "
+                       "lookup and target read, deferring bind",
+                       "NAME", _name, "PATH", path);
+            _sensors.clear();
+            _pendingSensorPath = path;
+        }
     }
 }
 
