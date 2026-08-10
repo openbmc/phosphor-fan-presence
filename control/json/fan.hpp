@@ -15,6 +15,7 @@
  */
 #pragma once
 
+#include "chassis_manager.hpp"
 #include "config_base.hpp"
 
 #include <nlohmann/json.hpp>
@@ -60,8 +61,9 @@ class Fan : public ConfigBase
      * Parses and populates a zone fan from JSON object data
      *
      * @param[in] jsonObj - JSON object
+     * @param[in] cm      - ChassisManager reference for availability gating
      */
-    explicit Fan(const json& jsonObj);
+    Fan(const json& jsonObj, ChassisManager& cm);
 
     /**
      * @brief Get the zone
@@ -104,6 +106,31 @@ class Fan : public ConfigBase
     }
 
     /**
+     * @brief Returns true if the fan's sensors were found on D-Bus during
+     * load (i.e. their backing service was successfully resolved).
+     *
+     * Will be false for fans whose chassis was not ready (not present, or not
+     * available when so configured) at load time.  The Manager skips adding
+     * such fans to zones; the ChassisManager will trigger a reload when the
+     * chassis becomes ready.
+     */
+    inline bool hasSensorsOnDbus() const
+    {
+        return !_sensors.empty();
+    }
+
+    /**
+     * @brief Return the chassis inventory path this fan belongs to, if any.
+     *
+     * Empty string for fans that do not specify a chassis_path (i.e. fans on
+     * non-multi-chassis systems where no chassis gating is required).
+     */
+    inline const std::string& getChassisPath() const
+    {
+        return _chassisPath;
+    }
+
+    /**
      * Sets the target value on all contained sensors
      *
      * @param[in] target - The value to set
@@ -137,6 +164,9 @@ class Fan : public ConfigBase
      */
     void unlockTarget(uint64_t target);
 
+    /* ChassisManager reference for availability gating */
+    ChassisManager& _cm;
+
     /* The sdbusplus bus object */
     sdbusplus::bus_t& _bus;
 
@@ -160,6 +190,13 @@ class Fan : public ConfigBase
 
     /* The zone this fan belongs to */
     std::string _zone;
+
+    /**
+     * @brief Full D-Bus inventory path of the chassis sled this fan belongs
+     * to, e.g. /xyz/openbmc_project/inventory/system/chassis1.
+     * Empty for fans that do not carry a "chassis_path" key in JSON.
+     */
+    std::string _chassisPath;
 
     /**
      * @brief Parse and set the fan's sensor interface
@@ -188,6 +225,20 @@ class Fan : public ConfigBase
      * Sets the zone this fan is included in.
      */
     void setZone(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the fan's chassis path (OPTIONAL)
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Reads the optional "chassis_path" key and stores it in _chassisPath.
+     * When present the fan defers sensor binding until the chassis is ready
+     * according to ChassisManager.
+     *
+     * "chassis_path" being absent is a valid, normal state
+     * for any fan on a non-multi-chassis system.
+     */
+    void setChassisPath(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::control::json
