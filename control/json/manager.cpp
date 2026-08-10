@@ -43,8 +43,10 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <string>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 namespace phosphor::fan::control::json
@@ -164,10 +166,57 @@ void Manager::load()
 
         // Load the zone configurations
         auto zones = getConfig<Zone>(false, _event, this);
-        // Load the fan configurations and move each fan into its zone
+
+        // Initialise ChassisManager with all chassis paths from the fan
+        // configuration before constructing Fan objects.
+        {
+            auto confFile = fan::JsonConfig::getConfFile(
+                confAppName, Fan::confFileName, false);
+            if (!confFile.empty())
+            {
+                std::map<std::string, bool> chassisPaths;
+                for (const auto& entry : fan::JsonConfig::load(confFile))
+                {
+                    if (entry.contains("chassis_path"))
+                    {
+                        std::string path =
+                            entry["chassis_path"].get<std::string>();
+                        bool checkAvail =
+                            entry.value("check_availability", false);
+                        auto [it, inserted] = chassisPaths.emplace(path, false);
+                        // If any fan for this chassis requests availability
+                        // checking, enable it for all fans on that chassis.
+                        if (checkAvail)
+                        {
+                            it->second = true;
+                        }
+                    }
+                }
+                // Initialise the singleton now that we know all the paths.
+                ChassisManager::instance().init(_bus, [this]() {
+                    _loadAllowed = true;
+                    load();
+                });
+                for (const auto& [path, checkAvail] : chassisPaths)
+                {
+                    ChassisManager::instance().registerChassis(path, checkAvail);
+                }
+            }
+        }
+
+        // Load the fan configurations and move each fan into its zone,
+        // skipping fans whose chassis is not ready (not present, or not
+        // available when so configured).
         auto fans = getConfig<Fan>(false);
+
         for (auto& fan : fans)
         {
+            // Skip fans whose chassis was not ready at construction time
+            // (their sensors were not bound, so there is nothing to control)
+            if (!fan.second->isBound())
+            {
+                continue;
+            }
             configKey fanProfile =
                 std::make_pair(fan.second->getZone(), fan.first.second);
             auto itZone = std::find_if(

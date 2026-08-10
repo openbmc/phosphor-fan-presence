@@ -16,7 +16,9 @@
 #pragma once
 
 #include "action.hpp"
+#include "chassis_manager.hpp"
 #include "event.hpp"
+#include "fan.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
 #include "power_state.hpp"
@@ -38,6 +40,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <string>
 #include <tuple>
 #include <utility>
 #include <vector>
