@@ -16,6 +16,7 @@
 #pragma once
 
 #include "action.hpp"
+#include "chassis_manager.hpp"
 #include "event.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
@@ -38,6 +39,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -493,6 +495,20 @@ class Manager
     void load();
 
     /**
+     * @brief Adds fans belonging to the given chassis into their
+     * corresponding zones, without disturbing any other running zones.
+     *
+     * Called by ChassisManager when a specific chassis becomes ready.
+     * Finds all zones that belong to @p chassisPath, constructs their
+     * fans, and inserts them.  If host power is already on, the zone's
+     * current target is immediately pushed to the new fans.
+     *
+     * @param[in] chassisPath - Full D-Bus inventory path of the chassis
+     *                          whose ready-state changed
+     */
+    void addFansToChassisZones(const std::string& chassisPath);
+
+    /**
      * @brief Sets a value in the parameter map.
      *
      * If it's a std::nullopt, it will be deleted instead.
@@ -629,6 +645,18 @@ class Manager
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
+
+    /** Owns the ChassisManager for this Manager instance */
+    std::unique_ptr<ChassisManager> _chassisMgr;
+
+    /**
+     * @brief Maps each chassis inventory path to the zone names it contains.
+     *
+     * Built during load() by scanning fans.json.  Used by
+     * addFansToChassisZones() to find which zones to rebuild when a specific
+     * chassis becomes ready.
+     */
+    std::map<std::string, std::set<std::string>> _chassisPathToZones;
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
