@@ -204,9 +204,23 @@ class Zone : public ConfigBase
      * the zone
      *
      * Adds a fan object to the list of fans that make up the zone by moving the
-     * fan object into the list.
+     * fan object into the list.  If a fan with the same name is already present
+     * (e.g. after a hotplug re-add cycle) the duplicate is silently dropped.
      */
     void addFan(std::unique_ptr<Fan> fan);
+
+    /**
+     * @brief Remove all fans that belong to the given chassis inventory path.
+     *
+     * Called when a chassis's Present or Available property transitions to
+     * false so that stale fan objects are not left in the zone driving phantom
+     * D-Bus targets.
+     *
+     * @param[in] chassisPath - Full D-Bus inventory path of the chassis whose
+     *            fans should be removed (e.g.
+     *            /xyz/openbmc_project/inventory/system/chassis1)
+     */
+    void removeFansByChassis(const std::string& chassisPath);
 
     /**
      * Sets all fans in the zone to the target given when the zone is active

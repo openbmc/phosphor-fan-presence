@@ -43,8 +43,11 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 namespace phosphor::fan::control::json
@@ -164,10 +167,96 @@ void Manager::load()
 
         // Load the zone configurations
         auto zones = getConfig<Zone>(false, _event, this);
-        // Load the fan configurations and move each fan into its zone
-        auto fans = getConfig<Fan>(false);
+
+        // Scan fans.json to collect the set of unique chassis paths with
+        // their availability-check flag, and build the chassis->zones map.
+        // ChassisManager must be initialised before getConfig<Fan>() so that
+        // Fan::setSensors() sees real D-Bus present/available state when it
+        // calls ChassisManager::isReady().
+        {
+            // Always construct a fresh ChassisManager so Fan constructors
+            // always receive a valid reference.  registerChassis() is only
+            // called when the config actually has chassis_path entries.
+            _chassisMgr = std::make_unique<ChassisManager>();
+            _chassisMgr->init(_bus, [this](const std::string& chassisPath) {
+                handleChassisStatusChange(chassisPath);
+            });
+
+            auto confFile = fan::JsonConfig::getConfFile(
+                confAppName, Fan::confFileName, false);
+            if (!confFile.empty())
+            {
+                std::map<std::string, bool> chassisPaths;
+                _chassisPathToZones.clear();
+                for (const auto& entry : fan::JsonConfig::load(confFile))
+                {
+                    if (entry.contains("chassis_path"))
+                    {
+                        std::string path =
+                            entry["chassis_path"].get<std::string>();
+                        bool checkAvail =
+                            entry.value("check_chassis_availability", false);
+                        auto [it, inserted] = chassisPaths.emplace(path, false);
+                        if (checkAvail)
+                        {
+                            it->second = true;
+                        }
+                        if (entry.contains("zone"))
+                        {
+                            _chassisPathToZones[path].insert(
+                                entry["zone"].get<std::string>());
+                        }
+                    }
+                }
+                for (const auto& [path, checkAvail] : chassisPaths)
+                {
+                    _chassisMgr->registerChassis(path, checkAvail);
+                }
+            }
+        }
+
+        _multiChassis = !_chassisMgr->empty();
+        if (_multiChassis)
+        {
+            lg2::debug(
+                "Fan control running in multi-chassis mode ({NUM} chassis registered)",
+                "NUM", _chassisMgr->size());
+        }
+        else
+        {
+            lg2::debug(
+                "Fan control running in single-chassis mode (no chassis_path in config)");
+        }
+
+        // Load the fan configurations and move each fan into its zone,
+        // skipping fans whose chassis is not ready (not present, or not
+        // available when so configured).
+        auto fans = getConfig<Fan>(false, *_chassisMgr);
+
         for (auto& fan : fans)
         {
+            if (!fan.second->hasSensorsOnDbus())
+            {
+                if (fan.second->getPendingSensorPath().empty())
+                {
+                    // Chassis was not ready at construction time so the sensor
+                    // lookup was never attempted.  Wait for the chassis
+                    // Present/Available signal to re-trigger this function.
+                    continue;
+                }
+
+                // Chassis was ready but the sensor service had not yet
+                // appeared on D-Bus.  Install a watch so the fan is bound
+                // when the service appears.
+                if (_chassisMgr)
+                {
+                    _chassisMgr->watchFanSensor(
+                        fan.second->getChassisPath(),
+                        fan.second->getPendingSensorPath(),
+                        fan.second->getInterface());
+                }
+                continue;
+            }
             configKey fanProfile =
                 std::make_pair(fan.second->getZone(), fan.first.second);
             auto itZone = std::find_if(
@@ -223,6 +312,121 @@ void Manager::load()
         FlightRecorder::instance().log("main", "Done enabling events");
 
         _loadAllowed = false;
+    }
+}
+
+void Manager::handleChassisStatusChange(const std::string& chassisPath)
+{
+    // For single-chassis systems (no chassis_path in JSON), chassisPath is
+    // empty and _chassisPathToZones has no entry for it.  Skip the chassis
+    // state checks - isReady("") always returns true - and go straight to
+    // the fan bind loop below.
+    if (!chassisPath.empty())
+    {
+        auto mapIt = _chassisPathToZones.find(chassisPath);
+        if (mapIt == _chassisPathToZones.end())
+        {
+            // No zones registered for this path - nothing to do.
+            lg2::debug("Manager::handleChassisStatusChange: no zones found for "
+                       "chassis {PATH}",
+                       "PATH", chassisPath);
+            return;
+        }
+
+        // Chassis went unavailable - remove its fans from all zones.
+        if (!_chassisMgr->isReady(chassisPath))
+        {
+            lg2::info("Manager::handleChassisStatusChange: chassis {PATH} went "
+                      "unavailable, removing its fans from zones",
+                      "PATH", chassisPath);
+            for (const auto& zoneName : mapIt->second)
+            {
+                for (auto& [key, zone] : _zones)
+                {
+                    if (zone->getName() == zoneName)
+                    {
+                        zone->removeFansByChassis(chassisPath);
+                    }
+                }
+            }
+            return;
+        }
+    }
+
+    lg2::info("Manager::handleChassisStatusChange: chassis {PATH} is ready, "
+              "adding fans to its zones",
+              "PATH", chassisPath);
+
+    // Construct all fans from JSON.  For fans belonging to this chassis,
+    // Fan::setSensors() will attempt service lookups now that the chassis is
+    // ready.  Fans whose sensor service is still absent will have
+    // hasSensorsOnDbus() == false and getPendingSensorPath() non-empty.
+    auto fans = getConfig<Fan>(false, *_chassisMgr);
+
+    // Track which zones received at least one new fan so we can push the
+    // zone's current target to them after the loop.
+    std::set<Zone*> updatedZones;
+
+    for (auto& fan : fans)
+    {
+        if (fan.second->getChassisPath() != chassisPath)
+        {
+            continue;
+        }
+
+        if (!fan.second->hasSensorsOnDbus())
+        {
+            // Sensor service not yet on D-Bus; install a watch so the fan
+            // is bound automatically when the service appears.
+            const auto& sensorPath = fan.second->getPendingSensorPath();
+            if (!sensorPath.empty())
+            {
+                _chassisMgr->watchFanSensor(chassisPath, sensorPath,
+                                            fan.second->getInterface());
+            }
+            continue;
+        }
+
+        // Find the matching zone in _zones (already running).
+        configKey fanProfile =
+            std::make_pair(fan.second->getZone(), fan.first.second);
+        auto itZone = std::find_if(
+            _zones.begin(), _zones.end(), [&fanProfile](const auto& zone) {
+                return Manager::inConfig(fanProfile, zone.first);
+            });
+        if (itZone != _zones.end())
+        {
+            updatedZones.insert(itZone->second.get());
+            itZone->second->addFan(std::move(fan.second));
+        }
+    }
+
+    // Clear any stale sensor watches only when all fans for this chassis are
+    // fully bound (no pending sensor path remains).  If some fans are still
+    // waiting for their service to appear the watches must be preserved.
+    // Note: fans that were successfully bound have been moved into zones above,
+    // so only check entries where the unique_ptr is still non-null.
+    bool anyPending =
+        std::any_of(fans.begin(), fans.end(), [&chassisPath](const auto& f) {
+            return f.second != nullptr &&
+                   f.second->getChassisPath() == chassisPath &&
+                   !f.second->getPendingSensorPath().empty();
+        });
+    if (!anyPending)
+    {
+        _chassisMgr->clearFanSensorWatches(chassisPath);
+    }
+
+    // If host power is already on, push the zone's live target to the
+    // newly-added fans so they are immediately driven to the correct speed.
+    // If power is off, powerStateChanged() will apply poweronTarget when
+    // the host powers on, just as it does for all other zones.
+    if (isPowerOn())
+    {
+        for (auto* zone : updatedZones)
+        {
+            zone->setTarget(zone->getTarget());
+        }
     }
 }
 
