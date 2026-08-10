@@ -16,6 +16,7 @@
 #pragma once
 
 #include "action.hpp"
+#include "chassis_manager.hpp"
 #include "event.hpp"
 #include "group.hpp"
 #include "json_config.hpp"
@@ -38,6 +39,7 @@
 #include <map>
 #include <memory>
 #include <optional>
+#include <set>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -493,6 +495,70 @@ class Manager
     void load();
 
     /**
+     * @brief Reacts to a chassis ready-state change (Present or Available
+     * property toggled) by either binding or removing its fans.
+     *
+     * Called by ChassisManager whenever a chassis's present/available state
+     * changes in either direction:
+     *
+     *  - Chassis goes unavailable (present=false or available=false):
+     *    Removes all fans for @p chassisPath from their zones so they no
+     *    longer receive stale D-Bus target calls.
+     *
+     *  - Chassis becomes ready (present=true, available=true):
+     *    Constructs fans from JSON, binds those whose sensor service is on
+     *    D-Bus, and installs InterfacesAdded watches for any that are not yet
+     *    present.  If host power is already on, the zone's current target is
+     *    immediately pushed to the newly bound fans.
+     *
+     * @param[in] chassisPath - Full D-Bus inventory path of the chassis
+     *                          whose ready-state changed
+     */
+    void handleChassisStatusChange(const std::string& chassisPath);
+
+    /**
+     * @brief Register chassis paths with the already-constructed
+     * ChassisManager.
+     *
+     * Iterates the already-parsed @p fans to collect unique chassis paths and
+     * their availability flags, builds _chassisPathToZones, and calls
+     * registerChassis() for each path.  Must be called after _chassisMgr has
+     * been constructed and after getConfig<Fan>() (parse-only), and before
+     * Fan::initSensors() is called on any fan.
+     *
+     * @param[in] fans - The already-parsed fan config map from getConfig<Fan>()
+     */
+    void initChassisManager(
+        const std::map<configKey, std::unique_ptr<Fan>>& fans);
+
+    /**
+     * @brief Called when a previously-absent fan sensor's target interface
+     * appears on D-Bus.
+     *
+     * Binds the specific fan to its zone, installs a loss watch, and clears
+     * the now-satisfied hotplug watch.
+     *
+     * @param[in] chassisPath - Chassis inventory path owning this fan
+     * @param[in] sensorPath  - The D-Bus sensor path that appeared
+     */
+    void handleFanSensorAppeared(const std::string& chassisPath,
+                                 const std::string& sensorPath);
+
+    /**
+     * @brief Called when a bound fan sensor disappears from D-Bus mid-run.
+     *
+     * Removes the fan from its zone, installs an InterfacesAdded recovery
+     * watch, and clears the stale loss watch.
+     *
+     * @param[in] chassisPath     - Chassis inventory path owning this fan
+     * @param[in] sensorPath      - The D-Bus sensor path that disappeared
+     * @param[in] targetInterface - The interface that was removed
+     */
+    void handleFanSensorLost(const std::string& chassisPath,
+                             const std::string& sensorPath,
+                             const std::string& targetInterface);
+
+    /**
      * @brief Sets a value in the parameter map.
      *
      * If it's a std::nullopt, it will be deleted instead.
@@ -629,6 +695,18 @@ class Manager
 
     /* List of zones configured */
     std::map<configKey, std::unique_ptr<Zone>> _zones;
+
+    /** Owns the ChassisManager for this Manager instance */
+    std::unique_ptr<ChassisManager> _chassisMgr;
+
+    /**
+     * @brief Maps each chassis inventory path to the zone names it contains.
+     *
+     * Built during load() by scanning fans.json.  Used by
+     * handleChassisStatusChange() to find which zones to rebuild when a
+     * specific chassis becomes ready.
+     */
+    std::map<std::string, std::set<std::string>> _chassisPathToZones;
 
     /* List of events configured */
     std::map<configKey, std::unique_ptr<Event>> _events;
