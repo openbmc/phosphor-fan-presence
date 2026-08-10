@@ -15,6 +15,7 @@
  */
 #include "fan.hpp"
 
+#include "chassis_manager.hpp"
 #include "sdbusplus.hpp"
 
 #include <nlohmann/json.hpp>
@@ -35,6 +36,7 @@ Fan::Fan(const json& jsonObj) :
     ConfigBase(jsonObj), _bus(util::SDBusPlus::getBus())
 {
     setInterface(jsonObj);
+    setChassisPath(jsonObj);
     setSensors(jsonObj);
     setZone(jsonObj);
 }
@@ -51,6 +53,16 @@ void Fan::setInterface(const json& jsonObj)
     _interface = jsonObj["target_interface"].get<std::string>();
 }
 
+void Fan::setChassisPath(const json& jsonObj)
+{
+    if (jsonObj.contains("chassis_path"))
+    {
+        _chassisPath = jsonObj["chassis_path"].get<std::string>();
+    }
+    // If absent, _chassisPath remains empty — not a multi-chassis system,
+    // so no chassis gating required for this fan.
+}
+
 void Fan::setSensors(const json& jsonObj)
 {
     if (!jsonObj.contains("sensors"))
@@ -58,6 +70,18 @@ void Fan::setSensors(const json& jsonObj)
         lg2::error("Missing required fan sensors list", "JSON", jsonObj.dump());
         throw std::runtime_error("Missing required fan sensors list");
     }
+
+    // If this fan is associated with a chassis sled, check whether the
+    // chassis is ready (present, and available if so configured) before
+    // attempting any D-Bus sensor lookups
+    if (!ChassisManager::instance().isReady(_chassisPath))
+    {
+        lg2::debug(
+            "Fan {NAME}: chassis {PATH} not ready, deferring sensor lookup",
+            "NAME", _name, "PATH", _chassisPath);
+        return;
+    }
+
     std::string path;
     for (const auto& sensor : jsonObj["sensors"])
     {
@@ -93,7 +117,7 @@ void Fan::setSensors(const json& jsonObj)
                     lg2::error("Giving up");
                     throw;
                 }
-                lg2::info("Retrying");
+                lg2::debug("Retrying");
                 std::this_thread::sleep_for(std::chrono::seconds(2));
             }
         }
