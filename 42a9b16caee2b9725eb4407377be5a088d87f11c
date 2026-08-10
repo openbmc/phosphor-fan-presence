@@ -20,6 +20,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "988ea980_6cf75372",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-10T17:09:09Z",
+      "side": 1,
+      "message": "If it doesn\u0027t affect anything with fan control/Availability checking, the fanctl fix could probably be its own commit as well. That way, this commit just adds the checking for the property. Might also be good to say how the fanctl change was tested.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c95aeed9_689b18a5",
         "filename": "control/json/fan.cpp",
         "patchSetId": 4
@@ -48,6 +65,23 @@
       "writtenOn": "2026-08-06T20:33:35Z",
       "side": 1,
       "message": "it would be better to know from the JSON configuration if the Available property should be there or not, so we don\u0027t don\u0027t extra get property calls that will never work on systems that don\u0027t use it.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d48e119a_a8dd072a",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-10T17:09:09Z",
+      "side": 1,
+      "message": "I feel like having this return true if the chassis is Available instead (rather than unavailable) would make more sense, but probably not that big of a deal either way.",
       "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
