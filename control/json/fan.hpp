@@ -15,6 +15,7 @@
  */
 #pragma once
 
+#include "chassis_manager.hpp"
 #include "config_base.hpp"
 
 #include <nlohmann/json.hpp>
@@ -60,8 +61,9 @@ class Fan : public ConfigBase
      * Parses and populates a zone fan from JSON object data
      *
      * @param[in] jsonObj - JSON object
+     * @param[in] cm      - ChassisManager reference for availability gating
      */
-    explicit Fan(const json& jsonObj);
+    Fan(const json& jsonObj, ChassisManager& cm);
 
     /**
      * @brief Get the zone
@@ -104,6 +106,55 @@ class Fan : public ConfigBase
     }
 
     /**
+     * @brief Returns true if the fan's sensors were found on D-Bus during
+     * construction (i.e. their backing service was successfully resolved).
+     *
+     * Will be false for fans whose chassis was not ready (not present, or not
+     * available when so configured) at construction time, or for fans whose
+     * sensor service had not yet appeared on D-Bus.  The Manager skips adding
+     * such fans to zones; ChassisManager fires handleChassisStatusChange()
+     * when the chassis becomes ready or a sensor service appears.
+     */
+    inline bool hasSensorsOnDbus() const
+    {
+        return !_sensors.empty();
+    }
+
+    /**
+     * @brief Returns the first sensor D-Bus path that could not be resolved
+     *        at construction time because the sensor service was absent.
+     *
+     * Non-empty only when hasSensorsOnDbus() == false and the chassis was
+     * ready (i.e. the chassis was present/available but the fan's sensor
+     * service had not yet appeared on D-Bus).  Used by
+     * Manager::handleChassisStatusChange() to install an InterfacesAdded watch
+     * via ChassisManager::watchFanSensor().
+     *
+     * A single path is sufficient: when the watch fires,
+     * handleChassisStatusChange() calls getConfig<Fan>() from scratch, which
+     * re-attempts ALL sensor lookups for the fan.  Watching one path is
+     * enough to trigger that retry.
+     *
+     * Returns an empty string for fans whose chassis was not ready at
+     * construction time (those never attempted a D-Bus lookup).
+     */
+    inline const std::string& getPendingSensorPath() const
+    {
+        return _pendingSensorPath;
+    }
+
+    /**
+     * @brief Return the chassis inventory path this fan belongs to, if any.
+     *
+     * Empty string for fans that do not specify a chassis_path (i.e. fans on
+     * non-multi-chassis systems where no chassis gating is required).
+     */
+    inline const std::string& getChassisPath() const
+    {
+        return _chassisPath;
+    }
+
+    /**
      * Sets the target value on all contained sensors
      *
      * @param[in] target - The value to set
@@ -137,6 +188,9 @@ class Fan : public ConfigBase
      */
     void unlockTarget(uint64_t target);
 
+    /* ChassisManager reference for availability gating */
+    ChassisManager& _cm;
+
     /* The sdbusplus bus object */
     sdbusplus::bus_t& _bus;
 
@@ -160,6 +214,24 @@ class Fan : public ConfigBase
 
     /* The zone this fan belongs to */
     std::string _zone;
+
+    /**
+     * @brief Full D-Bus inventory path of the chassis sled this fan belongs
+     * to, e.g. /xyz/openbmc_project/inventory/system/chassis1.
+     * Empty for fans that do not carry a "chassis_path" key in JSON.
+     */
+    std::string _chassisPath;
+
+    /**
+     * @brief The first sensor D-Bus path whose service could not be resolved
+     *        at construction time.  Set by setSensors() on the first failed
+     *        lookup; empty string otherwise.
+     *
+     * One path is sufficient to trigger a hotplug retry via
+     * ChassisManager::watchFanSensor() — the retry reconstructs all sensors
+     * from scratch so watching a single path is enough.
+     */
+    std::string _pendingSensorPath;
 
     /**
      * @brief Parse and set the fan's sensor interface
@@ -188,6 +260,20 @@ class Fan : public ConfigBase
      * Sets the zone this fan is included in.
      */
     void setZone(const json& jsonObj);
+
+    /**
+     * @brief Parse and set the fan's chassis path (OPTIONAL)
+     *
+     * @param[in] jsonObj - JSON object for the fan
+     *
+     * Reads the optional "chassis_path" key and stores it in _chassisPath.
+     * When present the fan defers sensor binding until the chassis is ready
+     * according to ChassisManager.
+     *
+     * "chassis_path" being absent is a valid, normal state
+     * for any fan on a non-multi-chassis system.
+     */
+    void setChassisPath(const json& jsonObj);
 };
 
 } // namespace phosphor::fan::control::json
