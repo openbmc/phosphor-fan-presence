@@ -18,6 +18,7 @@
 #include "manager.hpp"
 
 #include "action.hpp"
+#include "chassis_manager.hpp"
 #include "dbus_paths.hpp"
 #include "event.hpp"
 #include "fan.hpp"
@@ -43,8 +44,11 @@
 #include <functional>
 #include <map>
 #include <memory>
+#include <set>
+#include <string>
 #include <tuple>
 #include <utility>
+#include <variant>
 #include <vector>
 
 namespace phosphor::fan::control::json
@@ -164,10 +168,68 @@ void Manager::load()
 
         // Load the zone configurations
         auto zones = getConfig<Zone>(false, _event, this);
-        // Load the fan configurations and move each fan into its zone
+
+        // Scan fans.json to collect the set of unique chassis paths with
+        // their availability-check flag, and build the chassis→zones map.
+        // ChassisManager must be initialised before getConfig<Fan>() so that
+        // Fan::setSensors() sees real D-Bus present/available state when it
+        // calls ChassisManager::isReady().
+        {
+            auto confFile = fan::JsonConfig::getConfFile(
+                confAppName, Fan::confFileName, false);
+            if (!confFile.empty())
+            {
+                std::map<std::string, bool> chassisPaths;
+                _chassisPathToZones.clear();
+                for (const auto& entry : fan::JsonConfig::load(confFile))
+                {
+                    if (entry.contains("chassis_path"))
+                    {
+                        std::string path =
+                            entry["chassis_path"].get<std::string>();
+                        bool checkAvail =
+                            entry.value("check_chassis_availability", false);
+                        auto [it, inserted] = chassisPaths.emplace(path, false);
+                        if (checkAvail)
+                        {
+                            it->second = true;
+                        }
+                        if (entry.contains("zone"))
+                        {
+                            _chassisPathToZones[path].insert(
+                                entry["zone"].get<std::string>());
+                        }
+                    }
+                }
+                if (!chassisPaths.empty())
+                {
+                    ChassisManager::instance().init(
+                        _bus, [this](const std::string& chassisPath) {
+                            addFansToChassisZones(chassisPath);
+                        });
+                    for (const auto& [path, checkAvail] : chassisPaths)
+                    {
+                        ChassisManager::instance().registerChassis(path,
+                                                                   checkAvail);
+                    }
+                }
+            }
+        }
+
+        // Load the fan configurations and move each fan into its zone,
+        // skipping fans whose chassis is not ready (not present, or not
+        // available when so configured).
         auto fans = getConfig<Fan>(false);
+
         for (auto& fan : fans)
         {
+            // Skip fans whose chassis was not ready at construction time
+            // (their sensors were not found on D-Bus, so there is nothing to
+            // control)
+            if (!fan.second->hasSensorsOnDbus())
+            {
+                continue;
+            }
             configKey fanProfile =
                 std::make_pair(fan.second->getZone(), fan.first.second);
             auto itZone = std::find_if(
@@ -223,6 +285,82 @@ void Manager::load()
         FlightRecorder::instance().log("main", "Done enabling events");
 
         _loadAllowed = false;
+    }
+}
+
+void Manager::addFansToChassisZones(const std::string& chassisPath)
+{
+    // Find the zone names associated with this chassis path.
+    auto mapIt = _chassisPathToZones.find(chassisPath);
+    if (mapIt == _chassisPathToZones.end())
+    {
+        // No zones registered for this path — nothing to do.
+        lg2::debug("Manager::addFansToChassisZones: no zones found for chassis "
+                   "{PATH}",
+                   "PATH", chassisPath);
+        return;
+    }
+
+    if (!ChassisManager::instance().isReady(chassisPath))
+    {
+        // Chassis became unready — log only; full teardown of a running zone
+        // is deferred to future work.
+        lg2::debug(
+            "Manager::addFansToChassisZones: chassis {PATH} is not ready, "
+            "skipping fan lookup",
+            "PATH", chassisPath);
+        return;
+    }
+
+    lg2::info("Manager::addFansToChassisZones: chassis {PATH} is ready, "
+              "adding fans to its zones",
+              "PATH", chassisPath);
+
+    // Construct only the fans that belong to this chassis. Fan::setSensors()
+    // will find their D-Bus services now that the chassis is ready.
+    auto fans = getConfig<Fan>(false);
+
+    // Track which zones received at least one new fan so we can push the
+    // zone's current target to them after the loop.
+    std::set<Zone*> updatedZones;
+
+    for (auto& fan : fans)
+    {
+        if (fan.second->getChassisPath() != chassisPath)
+        {
+            continue;
+        }
+        if (!fan.second->hasSensorsOnDbus())
+        {
+            // Chassis is reportedly ready but sensor lookup still failed;
+            // skip rather than adding a non-functional fan.
+            continue;
+        }
+
+        // Find the matching zone in _zones (already running).
+        configKey fanProfile =
+            std::make_pair(fan.second->getZone(), fan.first.second);
+        auto itZone = std::find_if(
+            _zones.begin(), _zones.end(), [&fanProfile](const auto& zone) {
+                return Manager::inConfig(fanProfile, zone.first);
+            });
+        if (itZone != _zones.end())
+        {
+            updatedZones.insert(itZone->second.get());
+            itZone->second->addFan(std::move(fan.second));
+        }
+    }
+
+    // If host power is already on, push the zone's live target to the
+    // newly-added fans so they are immediately driven to the correct speed.
+    // If power is off, powerStateChanged() will apply poweronTarget when
+    // the host powers on, just as it does for all other zones.
+    if (isPowerOn())
+    {
+        for (auto* zone : updatedZones)
+        {
+            zone->setTarget(zone->getTarget());
+        }
     }
 }
 
