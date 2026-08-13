@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e1bdc0d_5edcdd42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T14:26:20Z",
+      "side": 1,
+      "message": "not having looked at this code in years, why was this hardcoded at all?",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 58
+      },
+      "revId": "646811725aa7587f9ed4df5867aad4c05f1f334f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
