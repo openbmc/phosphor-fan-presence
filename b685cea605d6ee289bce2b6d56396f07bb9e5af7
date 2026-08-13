@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6dcc7569_3b10c617",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "If someone doesn\u0027t have checkAvail enabled, I\u0027d rather not show it at all in the traces, so it could be separated out.  And then, there\u0027s no need to say the value of that var, just what the actual available val is.",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 0
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "589313be_fc380f30",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "unpack\u003c\u003e() is a newer way to do this.  and no try/catch needed.  if it fails it\u0027s a bug in the signature and should crash.",
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3740d898_a6317eac",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "unpack.  and no try/catch needed.",
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1de7469c_748a5749",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "I expect that as the ordering is now, we\u0027ll hit this on every startup since things in the inventory will start out as unavailable, so maybe just make this debug.",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "142cf036_a723bec9",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "when I think something is binding, I think it\u0027s the kernel driver binding a device (there\u0027s even sysfs files called bind and unbind).  So here about \u0027lookup\u0027 or something similar.",
+      "range": {
+        "startLine": 80,
+        "startChar": 67,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2797ab04_8a8860cb",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "\u0027check_chassis_availability\u0027 would be a bit more clear, as otherwise one would think it would be checking the fan availability.",
+      "range": {
+        "startLine": 185,
+        "startChar": 41,
+        "endLine": 185,
+        "endChar": 59
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c7e825f9_21b92511",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "This may be too big of a hammer. It would be OK to recreate the now available/present Zone and its contained Fans, but we wouldn\u0027t want to disturb running Zones.  Consider the CM of a card in another chassis, where a cable to it is removed so it can\u0027t be reached, but the remaining ones aren\u0027t affected.",
+      "range": {
+        "startLine": 198,
+        "startChar": 19,
+        "endLine": 198,
+        "endChar": 27
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a388d32_c8339a4c",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "is this necessary?",
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

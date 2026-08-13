@@ -88,6 +88,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3f47c1bf_13d594c2",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-13T15:38:27Z",
+      "side": 1,
+      "message": "@jfang875@gmail.com you\u0027ll want to address all of the outstanding comments and mark them as resolved as you fix them or if they don\u0027t require changes.",
+      "parentUuid": "d48e119a_a8dd072a",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "b826bb06_4e42b970",
         "filename": "control/json/manager.cpp",
         "patchSetId": 4
