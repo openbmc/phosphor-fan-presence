@@ -127,8 +127,9 @@ TEST_F(ChassisTest, ChassisCreationTest)
         Chassis chassis(chassisDef, fanTypeDefs, bus, event, thermalAlert);
         // init chassis
         chassis.init();
-        // check properties (available, availPropUsed, chassisName)
+        // check properties (available, present, availPropUsed, chassisName)
         EXPECT_FALSE(chassis.isAvailable());
+        EXPECT_FALSE(chassis.isPresent());
         EXPECT_TRUE(chassis.isAvailPropUsed());
         EXPECT_EQ(chassis.getName(), "chassis" + std::to_string(chassisNum));
         chassisNum += 1;

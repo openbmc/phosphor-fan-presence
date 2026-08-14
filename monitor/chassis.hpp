@@ -115,6 +115,29 @@ class Chassis
         return _zones;
     }
 
+    /**
+     * @brief Returns true if the chassis is present
+     */
+    bool isPresent() const
+    {
+        return _present;
+    }
+
+    /**
+     * @brief Callback for when the Present property is changed
+     *
+     * @param[in] msg - DBus message queue
+     */
+    void presentChanged(sdbusplus::message_t& msg);
+
+    /**
+     * @brief Callback for when the inventory item interface for the Present
+     * property is added
+     *
+     * @param[in] msg - DBus message queue
+     */
+    void invItemIfaceAdded(sdbusplus::message_t& msg);
+
   private:
     /* Chassis configuration object */
     ChassisDefinition _chassisConfig;
@@ -157,6 +180,17 @@ class Chassis
     std::unique_ptr<sdbusplus::match> _availIfaceAddedMatch;
 
     /**
+     * @brief Match object for the Present property being changed
+     */
+    std::unique_ptr<sdbusplus::match> _presentMatch;
+
+    /**
+     * @brief Match object for the inventory item interface for the Present
+     * property being added
+     */
+    std::unique_ptr<sdbusplus::match> _invItemIfaceAddedMatch;
+
+    /**
      * @brief The chassis Available status
      */
     bool _available = false;
@@ -166,6 +200,11 @@ class Chassis
      * chassis
      */
     bool _availPropUsed = false;
+
+    /**
+     * @brief Chassis Present status
+     */
+    bool _present = false;
 
     /**
      * @brief Instantiate the zones for the chassis
