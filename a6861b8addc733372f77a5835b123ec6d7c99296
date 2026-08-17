@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec324492_52a2d597",
+        "filename": "control/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/fans.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T20:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbcd3f64_cf4bb70e",
+      "range": {
+        "startLine": 4,
+        "startChar": 17,
+        "endLine": 4,
+        "endChar": 25
+      },
+      "revId": "a6861b8addc733372f77a5835b123ec6d7c99296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0174e0c8_32ae825d",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-13T15:47:57Z",
       "side": 1,
       "message": "check_chassis_availability would be a bit more precise, since this is in the  fan config file.",
+      "range": {
+        "startLine": 8,
+        "startChar": 9,
+        "endLine": 8,
+        "endChar": 27
+      },
+      "revId": "a6861b8addc733372f77a5835b123ec6d7c99296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7fc4d687_fe138f89",
+        "filename": "control/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/fans.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T20:34:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0174e0c8_32ae825d",
       "range": {
         "startLine": 8,
         "startChar": 9,
