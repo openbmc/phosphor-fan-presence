@@ -1,0 +1,231 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d30e73b_e7e81230",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "Not sure this is needed. It would probably be better to construct an `std::unique_ptr` somewhere and pass around a reference.",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "057d0d13_5ba56703",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "You can have this log be under the if block above, so you don\u0027t have to check `checkAvailability` again",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "37dd28cd_bb265bda",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "You\u0027d want to call `std::make_unique\u003csdbusplus::match\u003e` with these args to construct the match object then `emplace_back` on that. Same thing with the interface match objects below. Probably also a good idea to have separate vectors for present/available match objects (propertiesChanged and interfacesAdded)",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbe640c9_17b7f4c3",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "You\u0027d want separate callbacks for the Present and Available propertiesChanged and interfacesAdded signals. So, four callbacks total (presentPropertyChanged, availPropertyChanged, presentIfaceAdded, and availIfaceAdded) with four vectors of match objects.",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b135c188_17c56aa0",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "I think this constant is already defined under the `phosphor::fan::util` namespace, so you can probably just pull it from there (e.g. `util::INV_ITEM_IFACE`)",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b146ceef_37ee0ba5",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "Not sure what you mean by \"single chassis sled\" here. Did you mean something like \"Tracks the presence/availability state of chassis within a multi-chassis system\"? I think we\u0027re trying to avoid the \"sled\" terminology, so maybe going with \"chassis\" would be better",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "319ef4e0_608504c4",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "Readability/code style wise, I think you could probably simplify this. Maybe something like\n\n```\nif (checkAvailability)\n{\n   return available \u0026\u0026 availIfaceSeen \u0026\u0026 present \u0026\u0026 presentIfaceSeen;\n}\nreturn present \u0026\u0026 presentIfaceSeen;\n```",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "65b903a3_0fb47a79",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "I would just say \"chassis\" here as well",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8d9e47dd_b6457d63",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "With modern C++, the generally preferred method to handling object references is to use \"smart pointers\" (e.g. `std::unique_ptr`, `std::shared_ptr`) and construct those using `std::make_unique`/`std::make_shared`. This ensures that the objects persist in memory outside of the class and are automatically destroyed via the default destructor when they go out of scope. There are plenty of examples of how to handle that in the fan and power repos, so I would encourage you to take a look at those.\n\nAs an example here, these would probably be something like\n\n```\nstd::vector\u003cstd::unique_ptr\u003csdbusplus::match\u003e\u003e _propMatches;\nstd::vector\u003cstd::unique_ptr\u003csdbusplus::match\u003e\u003e _ifaceMatches;\n```",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bd4b24ca_45591c27",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "Is there a reason this needs to be changed?",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9b3b5b5_7fa64cee",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "Could you use a set instead of a vector to avoid duplicates?",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80b94080_8eddc4db",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "nit: typo?",
+      "range": {
+        "startLine": 500,
+        "startChar": 38,
+        "endLine": 500,
+        "endChar": 40
+      },
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ebd0a557_8be7da2c",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-08-17T20:33:36Z",
+      "side": 1,
+      "message": "Confused by this. Do you mean a chassis can contain multiple zones, but a zone can span *at most* one chassis?",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
