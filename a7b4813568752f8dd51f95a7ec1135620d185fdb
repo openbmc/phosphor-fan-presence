@@ -16,6 +16,24 @@
       "message": "To start with, can you split up the changes into 2 commits?  One for the code, and then a second one for the huygens config  files.  You can get an idea from previous commits commit message prefixes for config changes",
       "revId": "a7b4813568752f8dd51f95a7ec1135620d185fdb",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "193f0136_99d4c50e",
+        "filename": "control/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/events.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04a3aec8_dcb01e1b",
+      "revId": "a7b4813568752f8dd51f95a7ec1135620d185fdb",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }

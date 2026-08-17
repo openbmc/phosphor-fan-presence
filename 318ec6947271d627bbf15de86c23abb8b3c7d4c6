@@ -171,6 +171,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60f59bfb_06b5d057",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Oops, I was playing around with different levels of lg2. It should probably stay as an lg2::info(\"Retrying\")",
+      "parentUuid": "bd4b24ca_45591c27",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f9b3b5b5_7fa64cee",
@@ -211,6 +229,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "850c879c_6b4a8706",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b94080_8eddc4db",
+      "range": {
+        "startLine": 500,
+        "startChar": 38,
+        "endLine": 500,
+        "endChar": 40
+      },
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ebd0a557_8be7da2c",
@@ -224,6 +266,24 @@
       "writtenOn": "2026-08-17T20:33:36Z",
       "side": 1,
       "message": "Confused by this. Do you mean a chassis can contain multiple zones, but a zone can span *at most* one chassis?",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2d42b8c3_5d765e44",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 652,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Yes, chassis can contain multiple zones, but a zone can span at most one chassis (zoneX can\u0027t belong to more than one chassis)",
+      "parentUuid": "ebd0a557_8be7da2c",
       "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }

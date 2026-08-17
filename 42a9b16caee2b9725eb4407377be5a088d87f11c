@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ce6451e9_ba64d809",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d99ec271_388b45be",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "988ea980_6cf75372",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-08-10T17:09:09Z",
       "side": 1,
       "message": "If it doesn\u0027t affect anything with fan control/Availability checking, the fanctl fix could probably be its own commit as well. That way, this commit just adds the checking for the property. Might also be good to say how the fanctl change was tested.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c35c3510_94df8057",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "988ea980_6cf75372",
       "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -52,6 +88,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d5cd1932_69bfbfdc",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c95aeed9_689b18a5",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "31e7f989_059bb962",
@@ -65,6 +119,24 @@
       "writtenOn": "2026-08-06T20:33:35Z",
       "side": 1,
       "message": "it would be better to know from the JSON configuration if the Available property should be there or not, so we don\u0027t don\u0027t extra get property calls that will never work on systems that don\u0027t use it.",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497370b8_6f9fe696",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e7f989_059bb962",
       "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -104,6 +176,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6d290173_85fac939",
+        "filename": "control/json/fan.hpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f47c1bf_13d594c2",
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b826bb06_4e42b970",
@@ -117,6 +207,30 @@
       "writtenOn": "2026-08-06T20:33:35Z",
       "side": 1,
       "message": "What does this do to zones already running?",
+      "range": {
+        "startLine": 195,
+        "startChar": 3,
+        "endLine": 195,
+        "endChar": 11
+      },
+      "revId": "42a9b16caee2b9725eb4407377be5a088d87f11c",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fc7c228_8db486fb",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b826bb06_4e42b970",
       "range": {
         "startLine": 195,
         "startChar": 3,

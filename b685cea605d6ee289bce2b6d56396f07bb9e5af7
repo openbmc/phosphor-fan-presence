@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bbd6c9c_b22b404a",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6dcc7569_3b10c617",
+      "range": {
+        "startLine": 95,
+        "startChar": 7,
+        "endLine": 98,
+        "endChar": 0
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "589313be_fc380f30",
@@ -37,6 +61,24 @@
       "writtenOn": "2026-08-13T15:38:27Z",
       "side": 1,
       "message": "unpack\u003c\u003e() is a newer way to do this.  and no try/catch needed.  if it fails it\u0027s a bug in the signature and should crash.",
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ec893a3a_d336533c",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "589313be_fc380f30",
       "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -58,6 +100,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7926aac1_b2e5b9b1",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3740d898_a6317eac",
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1de7469c_748a5749",
@@ -71,6 +131,30 @@
       "writtenOn": "2026-08-13T15:38:27Z",
       "side": 1,
       "message": "I expect that as the ordering is now, we\u0027ll hit this on every startup since things in the inventory will start out as unavailable, so maybe just make this debug.",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 18
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "086a13b7_1b356637",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1de7469c_748a5749",
       "range": {
         "startLine": 79,
         "startChar": 7,
@@ -104,6 +188,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "845e2cce_99e7564b",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "142cf036_a723bec9",
+      "range": {
+        "startLine": 80,
+        "startChar": 67,
+        "endLine": 80,
+        "endChar": 75
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2797ab04_8a8860cb",
@@ -117,6 +225,30 @@
       "writtenOn": "2026-08-13T15:38:27Z",
       "side": 1,
       "message": "\u0027check_chassis_availability\u0027 would be a bit more clear, as otherwise one would think it would be checking the fan availability.",
+      "range": {
+        "startLine": 185,
+        "startChar": 41,
+        "endLine": 185,
+        "endChar": 59
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "42de5a86_b59ab4ab",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2797ab04_8a8860cb",
       "range": {
         "startLine": 185,
         "startChar": 41,
@@ -150,6 +282,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "25c88d63_fca0efa8",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7e825f9_21b92511",
+      "range": {
+        "startLine": 198,
+        "startChar": 19,
+        "endLine": 198,
+        "endChar": 27
+      },
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a388d32_c8339a4c",
@@ -163,6 +319,24 @@
       "writtenOn": "2026-08-13T15:38:27Z",
       "side": 1,
       "message": "is this necessary?",
+      "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "89eeac0c_45da47e7",
+        "filename": "control/json/manager.hpp",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-17T21:32:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a388d32_c8339a4c",
       "revId": "b685cea605d6ee289bce2b6d56396f07bb9e5af7",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
