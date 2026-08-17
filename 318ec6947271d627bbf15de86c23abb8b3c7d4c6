@@ -192,6 +192,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "cda66e58_5b1337cc",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-17T22:00:43Z",
+      "side": 1,
+      "message": "eh, nevermind, i\u0027m ok either way after all.",
+      "parentUuid": "fa57e7e0_66ba3468",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "bd4b24ca_45591c27",
         "filename": "control/json/fan.cpp",
         "patchSetId": 13
