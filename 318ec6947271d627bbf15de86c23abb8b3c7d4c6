@@ -158,6 +158,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4bf1e173_9446ef2d",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T15:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2496dbb3_1ceec19f",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b146ceef_37ee0ba5",
@@ -175,6 +193,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ea560bf4_dc21ea8b",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T15:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b146ceef_37ee0ba5",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "319ef4e0_608504c4",
@@ -188,6 +224,24 @@
       "writtenOn": "2026-08-17T20:33:36Z",
       "side": 1,
       "message": "Readability/code style wise, I think you could probably simplify this. Maybe something like\n\n```\nif (checkAvailability)\n{\n   return available \u0026\u0026 availIfaceSeen \u0026\u0026 present \u0026\u0026 presentIfaceSeen;\n}\nreturn present \u0026\u0026 presentIfaceSeen;\n```",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2193470f_ce65277f",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T15:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "319ef4e0_608504c4",
       "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -298,6 +352,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "69131652_b810778f",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T15:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cda66e58_5b1337cc",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bd4b24ca_45591c27",
@@ -346,6 +418,24 @@
       "writtenOn": "2026-08-17T20:33:36Z",
       "side": 1,
       "message": "Could you use a set instead of a vector to avoid duplicates?",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bc96d20_bf5ecb0f",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T15:18:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9b3b5b5_7fa64cee",
       "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
