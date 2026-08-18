@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a019c2b9_de22ea27",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T14:54:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "057d0d13_5ba56703",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "37dd28cd_bb265bda",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-08-17T20:33:36Z",
       "side": 1,
       "message": "You\u0027d want to call `std::make_unique\u003csdbusplus::match\u003e` with these args to construct the match object then `emplace_back` on that. Same thing with the interface match objects below. Probably also a good idea to have separate vectors for present/available match objects (propertiesChanged and interfacesAdded)",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8751efb7_8edbb87b",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T14:54:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37dd28cd_bb265bda",
       "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -69,6 +105,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cee52a45_ae872de3",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T14:54:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbe640c9_17b7f4c3",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b135c188_17c56aa0",
@@ -82,6 +136,24 @@
       "writtenOn": "2026-08-17T20:33:36Z",
       "side": 1,
       "message": "I think this constant is already defined under the `phosphor::fan::util` namespace, so you can probably just pull it from there (e.g. `util::INV_ITEM_IFACE`)",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2496dbb3_1ceec19f",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T14:54:46Z",
+      "side": 1,
+      "message": "If I do a #include utility.hpp, it would override with the control/utility.hpp instead of the root utility.hpp. I could either make a change in the meson, keep it the way it is, or specify #include ../../utility.hpp\"",
+      "parentUuid": "b135c188_17c56aa0",
       "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -133,6 +205,24 @@
       "writtenOn": "2026-08-17T20:33:36Z",
       "side": 1,
       "message": "I would just say \"chassis\" here as well",
+      "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "996c74d5_f9f3f62b",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-18T14:54:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65b903a3_0fb47a79",
       "revId": "318ec6947271d627bbf15de86c23abb8b3c7d4c6",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
