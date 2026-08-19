@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0d06f6e_b733a570",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-19T21:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4fdd9b3_200d6bb2",
+      "range": {
+        "startLine": 251,
+        "startChar": 38,
+        "endLine": 252,
+        "endChar": 72
+      },
+      "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6fe9c7e_a1494a15",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-18T22:14:30Z",
       "side": 1,
       "message": "You could also make present and available be an std::optional, then you wouldn\u0027t need to track these extra vars, you could just check if they have a value.",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 31
+      },
+      "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6360a9f2_448f54b0",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-19T21:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6fe9c7e_a1494a15",
       "range": {
         "startLine": 68,
         "startChar": 0,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aed4c388_e0aa36ec",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-19T21:27:49Z",
+      "side": 1,
+      "message": "chassis_manager.cpp\n\nbool ChassisManager::isReady(const std::string\u0026 path) const\n{\n    if (path.empty())\n    {\n        // Not a multi-chassis fan - always ready.\n        // Backwards compatibility for fans.json without \"chassis_path\".\n        return true;\n    }\n...\n\n_cm.isReady(\"\") would return true immediately (it assumes that the chassis is present/available). Then it proceeds to set the senors",
+      "parentUuid": "ce32da4e_e2519242",
+      "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "40e3eaa0_07bd95c8",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-08-18T22:14:30Z",
       "side": 1,
       "message": "In the old style configs that don\u0027t do chassis checking, we\u0027d still want it to fail as usual.",
+      "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9e4ff1d_4c87156e",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-19T21:27:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "40e3eaa0_07bd95c8",
       "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
@@ -98,6 +182,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "dfb9cf75_7064d819",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-19T21:27:49Z",
+      "side": 1,
+      "message": "This isn\u0027t handled as of now, I will create a story for it",
+      "parentUuid": "31bb0f37_497a4c26",
+      "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "645fe7b9_01790b67",
@@ -111,6 +213,24 @@
       "writtenOn": "2026-08-18T22:14:30Z",
       "side": 1,
       "message": "i\u0027ve already forgotten, what is it that removes the fans when available goes to false?",
+      "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5ad676ba_326aa769",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 18
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-19T21:27:49Z",
+      "side": 1,
+      "message": "Right now, nothing removes the fans when available goes to false. It would make sense though to remove a fan from its zone the moment a Chassis becomes unavailable",
+      "parentUuid": "645fe7b9_01790b67",
       "revId": "c8a609218113ab04af7d4c4eb8bd9165bba76792",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
