@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "95d7b2b5_15ff0e9f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-08-19T05:36:17Z",
+      "side": 1,
+      "message": "Returning an empty map when inventory is not yet available makes sense. Would it be useful to add a debug log here?",
+      "revId": "3a5176f69a0f3a1042569b073e8db5b14bf372c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f499f88_5f7a77fc",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-08-19T05:36:17Z",
+      "side": 1,
+      "message": "Could you clarify where chassis-qualified fan names (e.g. chassis0_fan0) are generated? In loadDBusData(), fan names still appear to be derived from tach sensor paths using:\nauto fan \u003d justFanName(path);\nfan \u003d fan.substr(0, fan.rfind(\"_\"));\nwhich seems to produce names like fan0. If that\u0027s still the case, the new _fan matching branch may never be exercised. It would be helpful to understand the expected input format for fanNames on multi-chassis systems.",
+      "revId": "3a5176f69a0f3a1042569b073e8db5b14bf372c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d809a17_41d6b522",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 13
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003004
+      },
+      "writtenOn": "2026-08-19T05:36:17Z",
+      "side": 1,
+      "message": "Expanding the search root from .../chassis/motherboard to .../inventory/system is required for multi-chassis support. Have we evaluated whether this could significantly increase the number of inventory objects returned on larger systems and impact lookup time?",
+      "revId": "3a5176f69a0f3a1042569b073e8db5b14bf372c4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
