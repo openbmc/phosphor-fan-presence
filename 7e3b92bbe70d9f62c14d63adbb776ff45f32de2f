@@ -1,0 +1,285 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eff6bdee_34258c99",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "if this becomes a map, can just simplify to\nif watches.contains(sensorPath)\n   return",
+      "range": {
+        "startLine": 341,
+        "startChar": 4,
+        "endLine": 348,
+        "endChar": 0
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a4e9ade_cd1e4bb6",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "this is a pretty common pattern, so the explanation isn\u0027t really too necessary.",
+      "range": {
+        "startLine": 355,
+        "startChar": 0,
+        "endLine": 357,
+        "endChar": 63
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a31b5ed3_8cd44173",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "same.  there is tons of IA signal handling across OpenBMC, so not necessary.",
+      "range": {
+        "startLine": 364,
+        "startChar": 15,
+        "endLine": 366,
+        "endChar": 59
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aef776a1_16f62e04",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 380,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "shouldn\u0027t happen, so an lg2::error would be good.",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0339de5e_0e66862b",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "?  can remove.",
+      "range": {
+        "startLine": 390,
+        "startChar": 45,
+        "endLine": 390,
+        "endChar": 66
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f1e1d13c_84e28cd1",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "when I see a vector of pairs, I think map.  Could this be a map?  it makes finds easier.",
+      "range": {
+        "startLine": 232,
+        "startChar": 7,
+        "endLine": 232,
+        "endChar": 79
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fbaa2b29_96f2bf5d",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "can remove \u0027existing\u0027.  maybe on new systems people won\u0027t need the chassis support either.",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 20
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b4a9b027_67efe92e",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "remove.",
+      "range": {
+        "startLine": 77,
+        "startChar": 52,
+        "endLine": 77,
+        "endChar": 78
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8809bfda_43fa4ea8",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "did you remove the  comment on purpose?",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "844e0e7a_71f6660d",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "just to confirm - when not multi-chassis, there\u0027s still the watch and creation of the fan when it shows up  late?",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8c3e00a_1b8f4a38",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "how about ::debug, since it\u0027s the same for every system type and I think it\u0027ll be obvious from other traces what mode it\u0027s in.",
+      "range": {
+        "startLine": 221,
+        "startChar": 17,
+        "endLine": 221,
+        "endChar": 21
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e9cc47_8a24ed57",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 330,
+        "startChar": 4,
+        "endLine": 330,
+        "endChar": 78
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5a466b3c_bd70d422",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-24T22:19:33Z",
+      "side": 1,
+      "message": "??",
+      "range": {
+        "startLine": 378,
+        "startChar": 11,
+        "endLine": 378,
+        "endChar": 75
+      },
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
