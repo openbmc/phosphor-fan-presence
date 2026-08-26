@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8eaa10c8_a0d73cd5",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 23
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-26T21:29:31Z",
+      "side": 1,
+      "message": "nit: could also use contains here",
+      "range": {
+        "startLine": 359,
+        "startChar": 16,
+        "endLine": 359,
+        "endChar": 65
+      },
+      "revId": "004da55a9208d3ee0400724ae118051472486adc",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}

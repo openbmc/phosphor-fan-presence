@@ -420,6 +420,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7f2e3cdb_6271665f",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-26T21:29:31Z",
+      "side": 1,
+      "message": "my question was about this comment which was there before:\n            // If target_path is not set in configuration,\n            // it is default to /xyz/openbmc_project/sensors/fan_tach/",
+      "parentUuid": "ebd8e382_fa37fc0c",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "844e0e7a_71f6660d",
         "filename": "control/json/fan.cpp",
         "patchSetId": 22
@@ -449,6 +467,24 @@
       "side": 1,
       "message": "Fixed. When it\u0027s a single-chassis system, a watch is in stalled on the sensor path just like it is for multi-chassis fans.",
       "parentUuid": "844e0e7a_71f6660d",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8160476b_d8971742",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-26T21:29:31Z",
+      "side": 1,
+      "message": "But what if the fan JSON doesn\u0027t have a chassis in it? For example these retries hit on our smaller systems bonnell and balcones.  If you were to run this code using that JSON, what would happen?",
+      "parentUuid": "2ac6070f_e01bb48a",
       "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
