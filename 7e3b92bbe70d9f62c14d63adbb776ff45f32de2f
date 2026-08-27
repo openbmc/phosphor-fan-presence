@@ -527,6 +527,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8f035451_51d4d1ae",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-27T17:08:27Z",
+      "side": 1,
+      "message": "Fan sensor hotplug watches are still installed on single-chassis systems. Because there is no chassis_path in the JSON, _chassisPath stays \"\". ChassisManager::isReady(\"\") always returns true, so Fan::setSensors() attempts the sensor service lookup immediately — and if the service isn\u0027t on D-Bus yet, a watchFanSensor(\"\", sensorPath, ...) watch is installed exactly as it would be for a multi-chassis fan.\n\nThe chassis-gating side (hotplug/removal of whole chassis sleds) is inert because registerChassis() is only called when a chassis_path entry is found in the JSON. With no entries found, ChassisManager::_chassis stays empty, no PropertiesChanged watches are installed on any chassis D-Bus path, and handleChassisStatusChange is never triggered. removeFansByChassis and _chassisPathToZones are unreachable for the same reason.",
+      "parentUuid": "e256fb0a_f054b79f",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c8c3e00a_1b8f4a38",
         "filename": "control/json/manager.cpp",
         "patchSetId": 22
