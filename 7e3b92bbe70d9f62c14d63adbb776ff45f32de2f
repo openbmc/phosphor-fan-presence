@@ -436,6 +436,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "235fe3c9_69bda509",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-27T16:58:27Z",
+      "side": 1,
+      "message": "Oops, I did not mean to remove it, it\u0027s back now.",
+      "parentUuid": "7f2e3cdb_6271665f",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "844e0e7a_71f6660d",
@@ -485,6 +503,24 @@
       "side": 1,
       "message": "But what if the fan JSON doesn\u0027t have a chassis in it? For example these retries hit on our smaller systems bonnell and balcones.  If you were to run this code using that JSON, what would happen?",
       "parentUuid": "2ac6070f_e01bb48a",
+      "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e256fb0a_f054b79f",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 22
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-08-27T16:58:27Z",
+      "side": 1,
+      "message": "Fan sensor watch creation still happens for a single chassis sytem. Since there isn\u0027t a chassis_path in the JSON, the _chassisPath variable would remain an empty string\"\". It\u0027s just that the multichassis part of the code(handling chassis hotplug/removal) would be inert. \n\nRight now this code, \"chassis hotplug/removal\" is only a multichassis concept. The single chassis code path skips over those parts.",
+      "parentUuid": "8160476b_d8971742",
       "revId": "7e3b92bbe70d9f62c14d63adbb776ff45f32de2f",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
