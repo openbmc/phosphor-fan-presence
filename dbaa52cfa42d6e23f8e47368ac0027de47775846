@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b27d0a4_56e22d64",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 430,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-31T22:23:02Z",
+      "side": 1,
+      "message": "unpack",
+      "revId": "dbaa52cfa42d6e23f8e47368ac0027de47775846",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c6c9d0a7_5d61465a",
+        "filename": "control/json/chassis_manager.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-31T22:23:02Z",
+      "side": 1,
+      "message": "std::ranges::contains is a bit less code",
+      "range": {
+        "startLine": 433,
+        "startChar": 19,
+        "endLine": 433,
+        "endChar": 29
+      },
+      "revId": "dbaa52cfa42d6e23f8e47368ac0027de47775846",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1ce25f65_86572aaa",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-31T22:23:02Z",
+      "side": 1,
+      "message": "this function is so long now.  Would it be make sense to put this into a separate function?",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 229,
+        "endChar": 0
+      },
+      "revId": "dbaa52cfa42d6e23f8e47368ac0027de47775846",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d01cc11_e8def0cb",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-31T22:23:02Z",
+      "side": 1,
+      "message": "sdbusplus match callbacks can\u0027t run until the code gets back to the event loop, if that is the concern, as the code is single threaded.",
+      "range": {
+        "startLine": 426,
+        "startChar": 3,
+        "endLine": 427,
+        "endChar": 65
+      },
+      "revId": "dbaa52cfa42d6e23f8e47368ac0027de47775846",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f4b47fa4_1e623ec3",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-31T22:23:02Z",
+      "side": 1,
+      "message": "not necessary",
+      "range": {
+        "startLine": 585,
+        "startChar": 40,
+        "endLine": 585,
+        "endChar": 77
+      },
+      "revId": "dbaa52cfa42d6e23f8e47368ac0027de47775846",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adf92730_a74a199b",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 28
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-08-31T22:23:02Z",
+      "side": 1,
+      "message": "there\u0027s a newer std::ranges::erase_if() I finally just remembered that is a bit less code.  It also returns if it removed something.",
+      "range": {
+        "startLine": 172,
+        "startChar": 16,
+        "endLine": 172,
+        "endChar": 30
+      },
+      "revId": "dbaa52cfa42d6e23f8e47368ac0027de47775846",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
