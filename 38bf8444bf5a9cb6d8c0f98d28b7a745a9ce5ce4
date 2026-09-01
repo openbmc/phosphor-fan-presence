@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5e04faeb_6e29b507",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-01T21:32:10Z",
+      "side": 1,
+      "message": "nit: I would rephrase this to say something like \"A chassis is ready for control when if checkAvailability is true, both Present and Available are True. If checkAvailability is false, only Present need be true for a chassis to be considered ready.\"",
+      "revId": "38bf8444bf5a9cb6d8c0f98d28b7a745a9ce5ce4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e58b9566_4fd90a41",
+        "filename": "control/json/chassis_manager.hpp",
+        "patchSetId": 29
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-01T21:32:10Z",
+      "side": 1,
+      "message": "nit: I would add description comments for these callbacks and the match object vectors",
+      "revId": "38bf8444bf5a9cb6d8c0f98d28b7a745a9ce5ce4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
