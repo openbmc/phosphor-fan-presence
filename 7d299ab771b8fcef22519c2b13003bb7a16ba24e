@@ -24,6 +24,30 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fdcd80d5_15c9a99e",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-01T19:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a176fb7e_247f3108",
+      "range": {
+        "startLine": 36,
+        "startChar": 4,
+        "endLine": 36,
+        "endChar": 70
+      },
+      "revId": "7d299ab771b8fcef22519c2b13003bb7a16ba24e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7bc33d3f_08486381",
@@ -37,6 +61,30 @@
       "writtenOn": "2026-08-26T21:37:21Z",
       "side": 1,
       "message": "nit: bind_front is a bit newer and lets you drop the placeholders",
+      "range": {
+        "startLine": 41,
+        "startChar": 7,
+        "endLine": 41,
+        "endChar": 17
+      },
+      "revId": "7d299ab771b8fcef22519c2b13003bb7a16ba24e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b988dd96_1b227cbb",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-01T19:50:01Z",
+      "side": 1,
+      "message": "Changed to bind_front calls for match objects",
+      "parentUuid": "7bc33d3f_08486381",
       "range": {
         "startLine": 41,
         "startChar": 7,
@@ -64,6 +112,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "caf69192_963ef9d8",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-01T19:50:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5693d865_e41b1c56",
+      "revId": "7d299ab771b8fcef22519c2b13003bb7a16ba24e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d84a65e_cf5b28e1",
@@ -77,6 +143,24 @@
       "writtenOn": "2026-08-26T21:37:21Z",
       "side": 1,
       "message": "return if not found?",
+      "revId": "7d299ab771b8fcef22519c2b13003bb7a16ba24e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a00e118d_5ad2d8eb",
+        "filename": "monitor/chassis.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-01T19:50:01Z",
+      "side": 1,
+      "message": "Added a guard case for checking if the present property is in the map and interface is correct.",
+      "parentUuid": "0d84a65e_cf5b28e1",
       "revId": "7d299ab771b8fcef22519c2b13003bb7a16ba24e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
