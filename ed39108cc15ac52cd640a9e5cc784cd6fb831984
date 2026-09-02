@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6f6020ad_f94ad9c5",
+        "filename": "monitor/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/config.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-02T21:13:39Z",
+      "side": 1,
+      "message": "this was like 30-45 on the hardware.  Did you mean to decrease it here so much?",
+      "range": {
+        "startLine": 16,
+        "startChar": 20,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "ed39108cc15ac52cd640a9e5cc784cd6fb831984",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
