@@ -119,6 +119,8 @@ directory locations in the following order:
 This file consists of an array of fan objects representing the fan FRUs in the
 system.
 
+Single-chassis system:
+
 ```json
 [
     {
@@ -126,6 +128,30 @@ system.
         "zone": "0",
         "sensors": ["fan0_0"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed"
+    }
+    ...
+]
+```
+
+Multi-chassis system (fans are gated on chassis presence and availability):
+
+```json
+[
+    {
+        "name": "chassis1_fan0",
+        "zone": "1",
+        "sensors": ["chassis1_fan0_0"],
+        "target_interface": "xyz.openbmc_project.Control.FanSpeed",
+        "chassis_path": "/xyz/openbmc_project/inventory/system/chassis1",
+        "check_chassis_availability": true
+    },
+    {
+        "name": "chassis2_fan0",
+        "zone": "2",
+        "sensors": ["chassis2_fan0_0"],
+        "target_interface": "xyz.openbmc_project.Control.FanSpeed",
+        "chassis_path": "/xyz/openbmc_project/inventory/system/chassis2",
+        "check_chassis_availability": true
     }
     ...
 ]
