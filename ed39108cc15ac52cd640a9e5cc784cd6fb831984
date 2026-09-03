@@ -22,6 +22,30 @@
       },
       "revId": "ed39108cc15ac52cd640a9e5cc784cd6fb831984",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "912a6a01_daa1c2ec",
+        "filename": "monitor/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/config.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-03T21:20:31Z",
+      "side": 1,
+      "message": "Changed the thresholds and service mode/meltdown timers to match Everest/Fuji",
+      "parentUuid": "6f6020ad_f94ad9c5",
+      "range": {
+        "startLine": 16,
+        "startChar": 20,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "ed39108cc15ac52cd640a9e5cc784cd6fb831984",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
