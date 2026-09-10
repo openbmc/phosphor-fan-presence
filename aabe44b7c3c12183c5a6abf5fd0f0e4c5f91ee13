@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1305548d_3b4c54d4",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-10T21:58:55Z",
+      "side": 1,
+      "message": "Is there a way to push this into another class that Manager just owns?  it doesn\u0027t have anything to do with Fans so would be nice to not have in here.",
+      "range": {
+        "startLine": 546,
+        "startChar": 12,
+        "endLine": 546,
+        "endChar": 24
+      },
+      "revId": "aabe44b7c3c12183c5a6abf5fd0f0e4c5f91ee13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1e17aa25_0f21ded9",
+        "filename": "control/json/manager.cpp",
+        "patchSetId": 34
+      },
+      "lineNbr": 572,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-10T21:58:55Z",
+      "side": 1,
+      "message": "nit: just \u0027e\u0027",
+      "range": {
+        "startLine": 572,
+        "startChar": 27,
+        "endLine": 572,
+        "endChar": 35
+      },
+      "revId": "aabe44b7c3c12183c5a6abf5fd0f0e4c5f91ee13",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
