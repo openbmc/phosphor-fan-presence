@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cbc2ef96_58cdad65",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 26
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-10T17:46:52Z",
+      "side": 1,
+      "message": "I think it\u0027s probably fine to have the Availability checking turned on, but I\u0027ll defer to Matt on that.",
+      "revId": "584db7d6c25bfb8a0f049d5f2b2199f45c9677e2",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
