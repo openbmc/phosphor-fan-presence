@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "09309861_0fd729fd",
+        "filename": "docs/control/fans.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-10T21:59:57Z",
+      "side": 1,
+      "message": "It\u0027s probably better to have separate examples for single-chassis vs. multi-chassis, just so it\u0027s clear that `chassis_path` and `check_chassis_availability` are supposed to be for multi-chassis systems only",
+      "revId": "b4641edd17fda36c35a336819f5677e7de1e3711",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1b0b8c45_c1582884",
+        "filename": "docs/control/fans.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-10T21:59:57Z",
+      "side": 1,
+      "message": "For clarity, it\u0027s probably good to mention that these two properties are only on multi-chassis systems",
+      "revId": "b4641edd17fda36c35a336819f5677e7de1e3711",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
