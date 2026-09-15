@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7f2b5daa_344a1094",
+        "filename": "docs/control/fans.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-09-15T16:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "09309861_0fd729fd",
+      "revId": "b4641edd17fda36c35a336819f5677e7de1e3711",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1b0b8c45_c1582884",
@@ -31,6 +49,24 @@
       "writtenOn": "2026-09-10T21:59:57Z",
       "side": 1,
       "message": "For clarity, it\u0027s probably good to mention that these two properties are only on multi-chassis systems",
+      "revId": "b4641edd17fda36c35a336819f5677e7de1e3711",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "59bcf768_e3be9090",
+        "filename": "docs/control/fans.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-09-15T16:54:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b0b8c45_c1582884",
       "revId": "b4641edd17fda36c35a336819f5677e7de1e3711",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
