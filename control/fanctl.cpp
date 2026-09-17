@@ -948,7 +948,7 @@ void initCLI(CLI::App& app, uint64_t& target, std::vector<std::string>& fanList,
     cmdSet->set_help_flag("-h, --help", strHelp);
     cmdSet->add_option("target", target, "RPM/PWM target to set the fans");
     cmdSet->add_option(
-        "fan list", fanList,
+        "fan-list", fanList,
         "[optional] list of 1+ fans to set target RPM/PWM (default: all)");
     cmdSet->require_option();
 
