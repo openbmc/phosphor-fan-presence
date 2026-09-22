@@ -23,6 +23,14 @@
             "subsystem_vendor_id": "0x1014",
             "subsystem_id": "0x033B",
             "floor_index": 1
+        },
+        {
+            "name": "Onion Creek",
+            "vendor_id": "0x15b3",
+            "device_id": "0x1021",
+            "subsystem_vendor_id": "0x15b3",
+            "subsystem_id": "0x0022",
+            "floor_index": 2
         }
     ]
 }
