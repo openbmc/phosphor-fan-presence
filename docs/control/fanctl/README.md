@@ -50,7 +50,8 @@ resume
       algorithm enabled yet, an intended safe fan target should be set
       prior to resuming
 dump
-    - Tell fan control to dump its caches and flight recorder.
+    - Tell fan control to dump its caches, flight recorder, and per-zone fan
+      state to /tmp/fan_control_dump.json.
 query_dump
     - Provides arguments to search the dump file.
 help
@@ -121,9 +122,15 @@ help
 
   > fanctl reload
 
-- Tell the fan control daemon to dump debug data to /tmp/fan_control_dump.json
+- Tell the fan control daemon to dump debug data to /tmp/fan_control_dump.json,
+  including per-zone fan state (bound fans with target and tach feedback, and
+  any fans deferred due to chassis availability gating):
 
   > fanctl dump
+
+- Print the per-zone fan state after running 'fanctl dump':
+
+  > fanctl query_dump -s zones
 
 - Print all temperatures in the fan control cache after running 'fanctl dump':
 

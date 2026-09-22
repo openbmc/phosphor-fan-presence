@@ -583,6 +583,12 @@ json Zone::dump() const
     }
     output["target_locks"] = lockedTargets;
 
+    output["fans"] = json::object();
+    for (const auto& fan : _fans)
+    {
+        output["fans"][fan->getName()] = fan->dump();
+    }
+
     return output;
 }
 
