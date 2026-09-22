@@ -59,12 +59,41 @@ fanctl query_dump -s objects -p Functional | grep -B 1 false
 ## Zone Config
 
 The zone configuration contains values like the current target, current floor,
-and any outstanding floor or target holds.
+and any outstanding floor or target holds. Each zone also includes a `fans`
+sub-object listing every fan currently active in the zone:
+
+| Field      | Description                                         |
+| ---------- | --------------------------------------------------- |
+| `target`   | RPM/PWM target most recently written by fan control |
+| `feedback` | Tach sensor name → live feedback reading (RPM)      |
+
+A zone whose sled is absent or unavailable will show `"fans": {}`. This
+distinguishes it from zones that have never had fans configured.
 
 It can be printed with:
 
 ```text
 fanctl query_dump -s zones
+```
+
+Example output for a zone with two active fans:
+
+```json
+"1": {
+    "active": true,
+    "target": 13500,
+    "floor": 13500,
+    "fans": {
+        "chassis1_fan0": {
+            "target": 13500,
+            "feedback": { "chassis1_fan0_0": 13450 }
+        },
+        "chassis1_fan1": {
+            "target": 13500,
+            "feedback": { "chassis1_fan1_0": 13480 }
+        }
+    }
+}
 ```
 
 ## Parameter Values

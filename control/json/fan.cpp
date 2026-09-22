@@ -30,6 +30,7 @@ using json = nlohmann::json;
 
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
+constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 
 Fan::Fan(const json& jsonObj, ChassisManager& cm) :
     ConfigBase(jsonObj), _cm(cm), _bus(util::SDBusPlus::getBus())
@@ -200,6 +201,35 @@ void Fan::setSensors(const std::string& hintPath,
             _pendingSensorPath = path;
         }
     }
+}
+
+json Fan::dump() const
+{
+    json output;
+    output["target"] = _target;
+
+    // All sensors on a fan share the same hwmon service; grab it once.
+    json& feedback = output["feedback"];
+    if (!_sensors.empty())
+    {
+        const auto& service = _sensors.begin()->second;
+        for (const auto& sensorName : _sensorNames)
+        {
+            auto path = sensorPath(sensorName);
+            try
+            {
+                auto value = util::SDBusPlus::getProperty<double>(
+                    _bus, service, path, FAN_SENSOR_VALUE_INTF, "Value");
+                feedback[sensorName] = static_cast<uint64_t>(value);
+            }
+            catch (const std::exception&)
+            {
+                feedback[sensorName] = nullptr;
+            }
+        }
+    }
+
+    return output;
 }
 
 void Fan::setZone(const json& jsonObj)

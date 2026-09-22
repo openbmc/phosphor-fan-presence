@@ -2,7 +2,7 @@
     {
         "name": "chassis1_fan0",
         "zone": "1",
-        "sensors": ["chassis1_fan0_0"],
+        "sensors": ["chassis1_fan0_0", "chassis1_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis1",
         "check_chassis_availability": true
@@ -10,7 +10,7 @@
     {
         "name": "chassis1_fan1",
         "zone": "1",
-        "sensors": ["chassis1_fan1_0"],
+        "sensors": ["chassis1_fan1_0", "chassis1_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis1",
         "check_chassis_availability": true
@@ -18,7 +18,7 @@
     {
         "name": "chassis1_fan2",
         "zone": "1",
-        "sensors": ["chassis1_fan2_0"],
+        "sensors": ["chassis1_fan2_0", "chassis1_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis1",
         "check_chassis_availability": true
@@ -26,7 +26,7 @@
     {
         "name": "chassis1_fan3",
         "zone": "1",
-        "sensors": ["chassis1_fan3_0"],
+        "sensors": ["chassis1_fan3_0", "chassis1_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis1",
         "check_chassis_availability": true
@@ -34,7 +34,7 @@
     {
         "name": "chassis2_fan0",
         "zone": "2",
-        "sensors": ["chassis2_fan0_0"],
+        "sensors": ["chassis2_fan0_0", "chassis2_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis2",
         "check_chassis_availability": true
@@ -42,7 +42,7 @@
     {
         "name": "chassis2_fan1",
         "zone": "2",
-        "sensors": ["chassis2_fan1_0"],
+        "sensors": ["chassis2_fan1_0", "chassis2_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis2",
         "check_chassis_availability": true
@@ -50,7 +50,7 @@
     {
         "name": "chassis2_fan2",
         "zone": "2",
-        "sensors": ["chassis2_fan2_0"],
+        "sensors": ["chassis2_fan2_0", "chassis2_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis2",
         "check_chassis_availability": true
@@ -58,7 +58,7 @@
     {
         "name": "chassis2_fan3",
         "zone": "2",
-        "sensors": ["chassis2_fan3_0"],
+        "sensors": ["chassis2_fan3_0", "chassis2_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis2",
         "check_chassis_availability": true
@@ -66,7 +66,7 @@
     {
         "name": "chassis3_fan0",
         "zone": "3",
-        "sensors": ["chassis3_fan0_0"],
+        "sensors": ["chassis3_fan0_0", "chassis3_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis3",
         "check_chassis_availability": true
@@ -74,7 +74,7 @@
     {
         "name": "chassis3_fan1",
         "zone": "3",
-        "sensors": ["chassis3_fan1_0"],
+        "sensors": ["chassis3_fan1_0", "chassis3_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis3",
         "check_chassis_availability": true
@@ -82,7 +82,7 @@
     {
         "name": "chassis3_fan2",
         "zone": "3",
-        "sensors": ["chassis3_fan2_0"],
+        "sensors": ["chassis3_fan2_0", "chassis3_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis3",
         "check_chassis_availability": true
@@ -90,7 +90,7 @@
     {
         "name": "chassis3_fan3",
         "zone": "3",
-        "sensors": ["chassis3_fan3_0"],
+        "sensors": ["chassis3_fan3_0", "chassis3_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis3",
         "check_chassis_availability": true
@@ -98,7 +98,7 @@
     {
         "name": "chassis4_fan0",
         "zone": "4",
-        "sensors": ["chassis4_fan0_0"],
+        "sensors": ["chassis4_fan0_0", "chassis4_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis4",
         "check_chassis_availability": true
@@ -106,7 +106,7 @@
     {
         "name": "chassis4_fan1",
         "zone": "4",
-        "sensors": ["chassis4_fan1_0"],
+        "sensors": ["chassis4_fan1_0", "chassis4_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis4",
         "check_chassis_availability": true
@@ -114,7 +114,7 @@
     {
         "name": "chassis4_fan2",
         "zone": "4",
-        "sensors": ["chassis4_fan2_0"],
+        "sensors": ["chassis4_fan2_0", "chassis4_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis4",
         "check_chassis_availability": true
@@ -122,7 +122,7 @@
     {
         "name": "chassis4_fan3",
         "zone": "4",
-        "sensors": ["chassis4_fan3_0"],
+        "sensors": ["chassis4_fan3_0", "chassis4_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis4",
         "check_chassis_availability": true
@@ -130,7 +130,7 @@
     {
         "name": "chassis5_fan0",
         "zone": "5",
-        "sensors": ["chassis5_fan0_0"],
+        "sensors": ["chassis5_fan0_0", "chassis5_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis5",
         "check_chassis_availability": true
@@ -138,7 +138,7 @@
     {
         "name": "chassis5_fan1",
         "zone": "5",
-        "sensors": ["chassis5_fan1_0"],
+        "sensors": ["chassis5_fan1_0", "chassis5_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis5",
         "check_chassis_availability": true
@@ -146,7 +146,7 @@
     {
         "name": "chassis5_fan2",
         "zone": "5",
-        "sensors": ["chassis5_fan2_0"],
+        "sensors": ["chassis5_fan2_0", "chassis5_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis5",
         "check_chassis_availability": true
@@ -154,7 +154,7 @@
     {
         "name": "chassis5_fan3",
         "zone": "5",
-        "sensors": ["chassis5_fan3_0"],
+        "sensors": ["chassis5_fan3_0", "chassis5_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis5",
         "check_chassis_availability": true
@@ -162,7 +162,7 @@
     {
         "name": "chassis6_fan0",
         "zone": "6",
-        "sensors": ["chassis6_fan0_0"],
+        "sensors": ["chassis6_fan0_0", "chassis6_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis6",
         "check_chassis_availability": true
@@ -170,7 +170,7 @@
     {
         "name": "chassis6_fan1",
         "zone": "6",
-        "sensors": ["chassis6_fan1_0"],
+        "sensors": ["chassis6_fan1_0", "chassis6_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis6",
         "check_chassis_availability": true
@@ -178,7 +178,7 @@
     {
         "name": "chassis6_fan2",
         "zone": "6",
-        "sensors": ["chassis6_fan2_0"],
+        "sensors": ["chassis6_fan2_0", "chassis6_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis6",
         "check_chassis_availability": true
@@ -186,7 +186,7 @@
     {
         "name": "chassis6_fan3",
         "zone": "6",
-        "sensors": ["chassis6_fan3_0"],
+        "sensors": ["chassis6_fan3_0", "chassis6_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis6",
         "check_chassis_availability": true
@@ -194,7 +194,7 @@
     {
         "name": "chassis7_fan0",
         "zone": "7",
-        "sensors": ["chassis7_fan0_0"],
+        "sensors": ["chassis7_fan0_0", "chassis7_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis7",
         "check_chassis_availability": true
@@ -202,7 +202,7 @@
     {
         "name": "chassis7_fan1",
         "zone": "7",
-        "sensors": ["chassis7_fan1_0"],
+        "sensors": ["chassis7_fan1_0", "chassis7_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis7",
         "check_chassis_availability": true
@@ -210,7 +210,7 @@
     {
         "name": "chassis7_fan2",
         "zone": "7",
-        "sensors": ["chassis7_fan2_0"],
+        "sensors": ["chassis7_fan2_0", "chassis7_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis7",
         "check_chassis_availability": true
@@ -218,7 +218,7 @@
     {
         "name": "chassis7_fan3",
         "zone": "7",
-        "sensors": ["chassis7_fan3_0"],
+        "sensors": ["chassis7_fan3_0", "chassis7_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis7",
         "check_chassis_availability": true
@@ -226,7 +226,7 @@
     {
         "name": "chassis8_fan0",
         "zone": "8",
-        "sensors": ["chassis8_fan0_0"],
+        "sensors": ["chassis8_fan0_0", "chassis8_fan0_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis8",
         "check_chassis_availability": true
@@ -234,7 +234,7 @@
     {
         "name": "chassis8_fan1",
         "zone": "8",
-        "sensors": ["chassis8_fan1_0"],
+        "sensors": ["chassis8_fan1_0", "chassis8_fan1_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis8",
         "check_chassis_availability": true
@@ -242,7 +242,7 @@
     {
         "name": "chassis8_fan2",
         "zone": "8",
-        "sensors": ["chassis8_fan2_0"],
+        "sensors": ["chassis8_fan2_0", "chassis8_fan2_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis8",
         "check_chassis_availability": true
@@ -250,7 +250,7 @@
     {
         "name": "chassis8_fan3",
         "zone": "8",
-        "sensors": ["chassis8_fan3_0"],
+        "sensors": ["chassis8_fan3_0", "chassis8_fan3_1"],
         "target_interface": "xyz.openbmc_project.Control.FanSpeed",
         "chassis_path": "/xyz/openbmc_project/inventory/system/chassis8",
         "check_chassis_availability": true
