@@ -573,6 +573,7 @@ json Zone::dump() const
     output["floor_holds"] = _floorHolds;
 
     std::map<std::string, std::vector<uint64_t>> lockedTargets;
+    output["fans"] = json::object();
     for (const auto& fan : _fans)
     {
         const auto& locks = fan->getLockedTargets();
@@ -580,6 +581,7 @@ json Zone::dump() const
         {
             lockedTargets[fan->getName()] = locks;
         }
+        output["fans"][fan->getName()] = fan->dump();
     }
     output["target_locks"] = lockedTargets;
 

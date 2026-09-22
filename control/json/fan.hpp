@@ -209,6 +209,19 @@ class Fan : public ConfigBase
     }
 
     /**
+     * @brief Dump the fan's current state as a JSON object.
+     *
+     * Emits:
+     *   "target"   - most recent target written by fan control
+     *   "feedback" - map of sensor name → live tach reading (RPM)
+     *
+     * Only called for fans that are currently active in the zone.
+     *
+     * @return json object describing the fan's state
+     */
+    json dump() const;
+
+    /**
      * Sets the target value on all contained sensors
      *
      * @param[in] target - The value to set

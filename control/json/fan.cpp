@@ -30,6 +30,7 @@ using json = nlohmann::json;
 
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
+constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 
 Fan::Fan(const json& jsonObj, ChassisManager& cm) :
     ConfigBase(jsonObj), _cm(cm), _bus(util::SDBusPlus::getBus())
@@ -200,6 +201,56 @@ void Fan::setSensors(const std::string& hintPath,
             _pendingSensorPath = path;
         }
     }
+}
+
+json Fan::dump() const
+{
+    json output;
+    output["target"] = _target;
+
+    // All sensors on a fan share the same hwmon service; grab it once.
+    // Also attempt to read a companion read-only rotor (name with "_0"
+    // replaced by "_1") if it exists — e.g. the ekra2l1 rotor B tach.
+    json& feedback = output["feedback"];
+    if (!_sensors.empty())
+    {
+        const auto& service = _sensors.begin()->second;
+        for (const auto& [path, svc] : _sensors)
+        {
+            auto name = path.substr(path.find_last_of('/') + 1);
+            try
+            {
+                auto value = util::SDBusPlus::getProperty<double>(
+                    _bus, service, path, FAN_SENSOR_VALUE_INTF, "Value");
+                feedback[name] = static_cast<uint64_t>(value);
+            }
+            catch (const std::exception&)
+            {
+                feedback[name] = nullptr;
+            }
+
+            // Try companion rotor: replace trailing "_0" with "_1"
+            if (name.size() >= 2 && name.substr(name.size() - 2) == "_0")
+            {
+                auto companionName = name.substr(0, name.size() - 2) + "_1";
+                auto companionPath =
+                    path.substr(0, path.size() - 2) + "_1";
+                try
+                {
+                    auto value = util::SDBusPlus::getProperty<double>(
+                        _bus, service, companionPath,
+                        FAN_SENSOR_VALUE_INTF, "Value");
+                    feedback[companionName] = static_cast<uint64_t>(value);
+                }
+                catch (const std::exception&)
+                {
+                    // No companion rotor — silently skip
+                }
+            }
+        }
+    }
+
+    return output;
 }
 
 void Fan::setZone(const json& jsonObj)
