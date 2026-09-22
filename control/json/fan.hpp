@@ -209,6 +209,19 @@ class Fan : public ConfigBase
     }
 
     /**
+     * @brief Dump the fan's current state as a JSON object.
+     *
+     * Emits:
+     *   "target"   - most recent target written by fan control
+     *   "feedback" - map of sensor name -> live tach reading (RPM)
+     *
+     * Only called for fans that are currently active in the zone.
+     *
+     * @return json object describing the fan's state
+     */
+    json dump() const;
+
+    /**
      * Sets the target value on all contained sensors
      *
      * @param[in] target - The value to set
@@ -288,6 +301,15 @@ class Fan : public ConfigBase
      *        each hotplug retry.
      */
     std::vector<std::string> _sensorNames;
+
+    /**
+     * @brief Optional read-only tach sensor names from the
+     *        "secondary_sensors" JSON key.  These sensors have no target
+     *        interface and are not bound by setSensors(); they are only
+     *        read at dump time to include additional rotor feedback
+     *        (e.g. rotor B on the ekra2l1).  Empty when not configured.
+     */
+    std::vector<std::string> _secondarySensorNames;
 
     /**
      * @brief Optional prefix from the "target_path" JSON key.  Empty string

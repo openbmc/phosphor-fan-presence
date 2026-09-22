@@ -61,7 +61,15 @@ The zone the fan is in. Required.
 
 ### sensors
 
-The D-bus sensor names associated with that fan. Required.
+The D-Bus sensor names associated with that fan that carry the target interface
+(i.e. the sensors fan control writes RPM/PWM targets to). Required.
+
+### secondary_sensors
+
+Additional read-only tach sensor names associated with the fan. These sensors
+are not used for target control; they are only read at `fanctl dump` time to
+include extra rotor feedback readings (e.g. a counter-rotating rotor B that
+mirrors rotor A's speed but has no writable target). Optional.
 
 ### target_interface
 

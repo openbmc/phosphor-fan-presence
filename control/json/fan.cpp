@@ -30,6 +30,7 @@ using json = nlohmann::json;
 
 constexpr auto FAN_SENSOR_PATH = "/xyz/openbmc_project/sensors/fan_tach/";
 constexpr auto FAN_TARGET_PROPERTY = "Target";
+constexpr auto FAN_SENSOR_VALUE_INTF = "xyz.openbmc_project.Sensor.Value";
 
 Fan::Fan(const json& jsonObj, ChassisManager& cm) :
     ConfigBase(jsonObj), _cm(cm), _bus(util::SDBusPlus::getBus())
@@ -61,6 +62,13 @@ Fan::Fan(const json& jsonObj, ChassisManager& cm) :
     if (jsonObj.contains("target_path"))
     {
         _targetPath = jsonObj["target_path"].get<std::string>();
+    }
+    if (jsonObj.contains("secondary_sensors"))
+    {
+        for (const auto& s : jsonObj["secondary_sensors"])
+        {
+            _secondarySensorNames.push_back(s.get<std::string>());
+        }
     }
 
     // setSensors() is NOT called here; the caller must call initSensors()
@@ -200,6 +208,51 @@ void Fan::setSensors(const std::string& hintPath,
             _pendingSensorPath = path;
         }
     }
+}
+
+json Fan::dump() const
+{
+    json output;
+    output["target"] = _target;
+
+    // Read feedback for all bound (primary) sensors, then read any
+    // secondary (read-only) sensors configured via "secondary_sensors".
+    json& feedback = output["feedback"];
+    for (const auto& [path, service] : _sensors)
+    {
+        auto name = path.substr(path.find_last_of('/') + 1);
+        try
+        {
+            auto value = util::SDBusPlus::getProperty<double>(
+                _bus, service, path, FAN_SENSOR_VALUE_INTF, "Value");
+            feedback[name] = static_cast<uint64_t>(value);
+        }
+        catch (const std::exception&)
+        {
+            feedback[name] = nullptr;
+        }
+    }
+
+    if (!_sensors.empty() && !_secondarySensorNames.empty())
+    {
+        const auto& service = _sensors.begin()->second;
+        for (const auto& sensorName : _secondarySensorNames)
+        {
+            auto path = sensorPath(sensorName);
+            try
+            {
+                auto value = util::SDBusPlus::getProperty<double>(
+                    _bus, service, path, FAN_SENSOR_VALUE_INTF, "Value");
+                feedback[sensorName] = static_cast<uint64_t>(value);
+            }
+            catch (const std::exception&)
+            {
+                feedback[sensorName] = nullptr;
+            }
+        }
+    }
+
+    return output;
 }
 
 void Fan::setZone(const json& jsonObj)
