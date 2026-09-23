@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9c54a73_94a4a7c1",
+        "filename": "control/json/fan.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-23T19:51:21Z",
+      "side": 1,
+      "message": "I at first thought we already captured fan tachs in the dump, but it turns out we don\u0027t.  I\u0027m a little worried about doing all of these blocking dbus calls in the middle of running fan control, but I guess we can just keep an eye on it.",
+      "revId": "2477f545d0939c2d07a7c038e0e92fb71eb4ae36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "26414059_27423654",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-23T19:51:21Z",
+      "side": 1,
+      "message": "nit:  can just move into above fan for loop?",
+      "revId": "2477f545d0939c2d07a7c038e0e92fb71eb4ae36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "056a0962_fe66cf51",
+        "filename": "docs/control/debug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-23T19:51:21Z",
+      "side": 1,
+      "message": "The 2nd sensor should be here as well? Can you add it?",
+      "revId": "2477f545d0939c2d07a7c038e0e92fb71eb4ae36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
