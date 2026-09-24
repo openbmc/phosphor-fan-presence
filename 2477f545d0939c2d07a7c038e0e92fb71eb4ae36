@@ -35,6 +35,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b5d168a4_9db6be73",
+        "filename": "control/json/zone.cpp",
+        "patchSetId": 2
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-09-24T16:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26414059_27423654",
+      "revId": "2477f545d0939c2d07a7c038e0e92fb71eb4ae36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "056a0962_fe66cf51",
@@ -48,6 +66,24 @@
       "writtenOn": "2026-09-23T19:51:21Z",
       "side": 1,
       "message": "The 2nd sensor should be here as well? Can you add it?",
+      "revId": "2477f545d0939c2d07a7c038e0e92fb71eb4ae36",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2fdd75b_f049636d",
+        "filename": "docs/control/debug.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-09-24T16:53:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "056a0962_fe66cf51",
       "revId": "2477f545d0939c2d07a7c038e0e92fb71eb4ae36",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
