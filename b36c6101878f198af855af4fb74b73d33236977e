@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f2b0ce26_29c4739f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-09-28T17:31:12Z",
+      "side": 1,
+      "message": "Did you need to change any of the other service files too?\n\n```\n$ find * -name \"*.service\"\ncontrol/service_files/yaml/phosphor-fan-control@.service\ncontrol/service_files/yaml/phosphor-fan-control-init@.service\ncontrol/service_files/json/phosphor-fan-control@.service\nmonitor/service_files/yaml/phosphor-fan-monitor@.service\nmonitor/service_files/yaml/phosphor-fan-monitor-init@.service\nmonitor/service_files/json/phosphor-fan-monitor@.service\npresence/service_files/yaml/phosphor-fan-presence-tach@.service\npresence/service_files/json/phosphor-fan-presence-tach@.service\nsensor-monitor/service_files/sensor-monitor.service\n```",
+      "revId": "b36c6101878f198af855af4fb74b73d33236977e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
