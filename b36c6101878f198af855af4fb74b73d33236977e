@@ -33,6 +33,24 @@
       "message": "Did you need to change any of the other service files too?\n\n```\n$ find * -name \"*.service\"\ncontrol/service_files/yaml/phosphor-fan-control@.service\ncontrol/service_files/yaml/phosphor-fan-control-init@.service\ncontrol/service_files/json/phosphor-fan-control@.service\nmonitor/service_files/yaml/phosphor-fan-monitor@.service\nmonitor/service_files/yaml/phosphor-fan-monitor-init@.service\nmonitor/service_files/json/phosphor-fan-monitor@.service\npresence/service_files/yaml/phosphor-fan-presence-tach@.service\npresence/service_files/json/phosphor-fan-presence-tach@.service\nsensor-monitor/service_files/sensor-monitor.service\n```",
       "revId": "b36c6101878f198af855af4fb74b73d33236977e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a87352a3_fc76236c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-28T21:49:12Z",
+      "side": 1,
+      "message": "good question, sensor-monitor uses pgood so would also need it.\nJim if you could handle that too that would be great.  It could be in another commit or in this one.",
+      "parentUuid": "f2b0ce26_29c4739f",
+      "revId": "b36c6101878f198af855af4fb74b73d33236977e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
