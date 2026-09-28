@@ -1,5 +1,6 @@
 [Unit]
 Description=Phosphor Fan Control Daemon
+After=phosphor-power-control.service
 
 [Service]
 Restart=on-failure
