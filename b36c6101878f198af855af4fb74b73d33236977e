@@ -51,6 +51,23 @@
       "parentUuid": "f2b0ce26_29c4739f",
       "revId": "b36c6101878f198af855af4fb74b73d33236977e",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "469460fb_4c7eb908",
+        "filename": "monitor/service_files/json/phosphor-fan-monitor@.service",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-09-28T22:57:53Z",
+      "side": 1,
+      "message": "nit: You can probably just put these on the same line and separate with a space (systemd unit files allow for space separated dependencies), e.g. `After\u003dmapper-wait@-xyz-openbmc_project-inventory.service phosphor-power-control.service`",
+      "revId": "b36c6101878f198af855af4fb74b73d33236977e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
