@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ede2eaf5_43c00ab6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1000331
+      },
+      "writtenOn": "2026-09-28T17:46:06Z",
+      "side": 1,
+      "message": "It is recommended that you add a \"Tested:\" section at the bottom with a summary of the testing you did.\n\nIf you haven\u0027t done so already, please test the changes and add a section like that. You can inspect the journal on a BMC boot to verify the app startup order.",
+      "revId": "b36c6101878f198af855af4fb74b73d33236977e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "f2b0ce26_29c4739f",
