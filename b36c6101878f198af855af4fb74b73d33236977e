@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0db81c36_0976bf8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-09-29T21:56:27Z",
+      "side": 1,
+      "message": "It\u0027s fine to leave it. I see the power state is still checked in it, so the dependency is actually there.",
+      "parentUuid": "a789dd33_9164e642",
+      "revId": "b36c6101878f198af855af4fb74b73d33236977e",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "469460fb_4c7eb908",
         "filename": "monitor/service_files/json/phosphor-fan-monitor@.service",
         "patchSetId": 1
