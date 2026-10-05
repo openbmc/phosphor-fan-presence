@@ -36,22 +36,34 @@
                         {
                             "type": "systemFan",
                             "inventory": "/system/chassis${chassis}/motherboard/fan0",
-                            "short_name": "chassis${chassis}_fan0"
+                            "short_name": "chassis${chassis}_fan0",
+                            "pretty_name": "Node ${node} Fan 0",
+                            "presence_gpio": "presence-fan0-chassis${chassis}",
+                            "presence_gpio_polarity": "Low"
                         },
                         {
                             "type": "systemFan",
                             "inventory": "/system/chassis${chassis}/motherboard/fan1",
-                            "short_name": "chassis${chassis}_fan1"
+                            "short_name": "chassis${chassis}_fan1",
+                            "pretty_name": "Node ${node} Fan 1",
+                            "presence_gpio": "presence-fan1-chassis${chassis}",
+                            "presence_gpio_polarity": "Low"
                         },
                         {
                             "type": "systemFan",
                             "inventory": "/system/chassis${chassis}/motherboard/fan2",
-                            "short_name": "chassis${chassis}_fan2"
+                            "short_name": "chassis${chassis}_fan2",
+                            "pretty_name": "Node ${node} Fan 2",
+                            "presence_gpio": "presence-fan2-chassis${chassis}",
+                            "presence_gpio_polarity": "Low"
                         },
                         {
                             "type": "systemFan",
                             "inventory": "/system/chassis${chassis}/motherboard/fan3",
-                            "short_name": "chassis${chassis}_fan3"
+                            "short_name": "chassis${chassis}_fan3",
+                            "pretty_name": "Node ${node} Fan 3",
+                            "presence_gpio": "presence-fan3-chassis${chassis}",
+                            "presence_gpio_polarity": "Low"
                         }
                     ],
                     "fault_handling": {
