@@ -17,6 +17,11 @@ namespace phosphor::fan::monitor::multi_chassis
 constexpr auto CHASSIS_VAR_NAME = "${chassis}";
 
 /**
+ * @brief JSON config node number variable placeholder
+ */
+constexpr auto NODE_VAR_NAME = "${node}";
+
+/**
  * @brief Get the configured sensor definitions that make up a fan
  *
  * @param[in] sensors - JSON object containing a list of sensors
