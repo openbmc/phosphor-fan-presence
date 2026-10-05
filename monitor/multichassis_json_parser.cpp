@@ -308,6 +308,7 @@ const std::vector<ChassisDefinition> getChassisDefs(const json& chassis)
             std::string name = chassisConfig["name"].get<std::string>();
             // Expand all variables in name
             expandVar(CHASSIS_VAR_NAME, name, std::to_string(chassisNum));
+            expandVar(NODE_VAR_NAME, name, std::to_string(chassisNum - 1));
             std::vector<ZoneDefinition> zoneDefs =
                 getZoneDefs(chassisConfig["zones"], chassisNum);
             ChassisDefinition def{
@@ -336,6 +337,7 @@ const std::vector<ZoneDefinition> getZoneDefs(const json& zones, int chassisNum)
         std::string name = zoneConfig["name"].get<std::string>();
         // Expand all variables in name
         expandVar(CHASSIS_VAR_NAME, name, std::to_string(chassisNum));
+        expandVar(NODE_VAR_NAME, name, std::to_string(chassisNum - 1));
         std::vector<FanAssignment> fanAssigns =
             getFanAssigns(zoneConfig["fans"], chassisNum);
         ZoneDefinition def{
@@ -355,20 +357,50 @@ const std::vector<FanAssignment> getFanAssigns(const json& fanList,
     for (const auto& fan : fanList)
     {
         if (!fan.contains("type") || !fan.contains("inventory") ||
-            !fan.contains("short_name"))
+            !fan.contains("short_name") || !fan.contains("pretty_name"))
         {
             lg2::error(
-                "Missing one of required fields 'type, inventory, short_name' in fan object");
+                "Missing one of required fields 'type, inventory, short_name, pretty_name' in fan object");
             throw std::runtime_error("Missing required field in fan object");
+        }
+        if (!fan.contains("presence_gpio") ||
+            !fan.contains("presence_gpio_polarity"))
+        {
+            lg2::error(
+                "Missing one of required GPIO info fields 'presence_gpio, presence_gpio_polarity' in fan object");
+            throw std::runtime_error(
+                "Missing required GPIO info field in fan object");
         }
         std::string inventory = fan["inventory"].get<std::string>();
         std::string shortName = fan["short_name"].get<std::string>();
-        // expand all variables in inventory and shortName
-        expandVar(CHASSIS_VAR_NAME, inventory, std::to_string(chassisNum));
-        expandVar(CHASSIS_VAR_NAME, shortName, std::to_string(chassisNum));
-        FanAssignment def{.type = fan["type"].get<std::string>(),
-                          .inventory = inventory,
-                          .shortName = shortName};
+        std::string prettyName = fan["pretty_name"].get<std::string>();
+        // read GPIO info
+        std::string gpioName = fan["presence_gpio"].get<std::string>();
+        std::string gpioPolarity =
+            fan["presence_gpio_polarity"].get<std::string>();
+        if (gpioPolarity != "High" && gpioPolarity != "Low")
+        {
+            lg2::error(
+                "Invalid value for GPIO polarity. Must be either 'High' or 'Low'");
+            throw std::runtime_error("Invalid value for GPIO polarity");
+        }
+        // enable tach redundancy by default
+        bool tachRedundancyEnabled =
+            fan.value<bool>("presence_tach_redundancy", true);
+        // expand chassis and node variables in properties
+        for (auto* prop : {&inventory, &shortName, &prettyName, &gpioName})
+        {
+            expandVar(CHASSIS_VAR_NAME, *prop, std::to_string(chassisNum));
+            expandVar(NODE_VAR_NAME, *prop, std::to_string(chassisNum - 1));
+        }
+        FanAssignment def{
+            .type = fan["type"].get<std::string>(),
+            .inventory = inventory,
+            .shortName = shortName,
+            .gpioInfo = GpioInfo{.name = gpioName,
+                                 .isActiveLow = (gpioPolarity == "Low"),
+                                 .tachRedundancy = tachRedundancyEnabled,
+                                 .fanPrettyName = prettyName}};
         fanAssigns.push_back(def);
     }
     return fanAssigns;

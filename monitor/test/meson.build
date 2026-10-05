@@ -4,6 +4,7 @@ phosphor_fan_monitor_test_include_directories = include_directories('../..')
 test_deps = [
     gmock_dep,
     gtest_dep,
+    libgpiodcxx_dep,
     nlohmann_json_dep,
     phosphor_logging_dep,
     sdeventplus_dep,

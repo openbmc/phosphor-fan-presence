@@ -528,14 +528,14 @@ void Zone::setFans(const ZoneDefinition& zoneConfig,
 
         _fans.emplace_back(std::make_unique<Fan>(
             phosphor::fan::monitor::Mode::monitor, _bus, _event, _trust,
-            getFullDefFromType(*fanTypeConfig, fan), *this));
+            getFullDefFromType(*fanTypeConfig, fan), *this, fan.gpioInfo));
 
         try
         {
             // init recently added fan
             (_fans.back())->init();
         }
-        catch (const phosphor::fan::util::DBusError& e)
+        catch (const std::exception& e)
         {
             lg2::error("Fan {FAN_NAME} init failed: {ERROR}", "FAN_NAME",
                        (_fans.back())->getName(), "ERROR", e);

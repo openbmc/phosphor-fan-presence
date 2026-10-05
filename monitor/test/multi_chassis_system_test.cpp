@@ -51,14 +51,14 @@ class MultiChassisSystemTest : public testing::Test
                     "name": "chassis${chassis}",
                     "availPropUsed": true,
                     "chassis_numbers": [
-                        0,
                         1,
                         2,
                         3,
                         4,
                         5,
                         6,
-                        7
+                        7,
+                        8
                     ],
                     "zones": [
                         {
@@ -67,22 +67,34 @@ class MultiChassisSystemTest : public testing::Test
                                 {
                                     "type": "systemFan",
                                     "inventory": "/system/chassis${chassis}/motherboard/fan0",
-                                    "short_name": "chassis${chassis}_fan0"
+                                    "short_name": "chassis${chassis}_fan0",
+                                    "pretty_name": "Node ${node} fan 0",
+                                    "presence_gpio": "fan0_chassis${chassis}_presence",
+                                    "presence_gpio_polarity": "Low"
                                 },
                                 {
                                     "type": "systemFan",
                                     "inventory": "/system/chassis${chassis}/motherboard/fan1",
-                                    "short_name": "chassis${chassis}_fan1"
+                                    "short_name": "chassis${chassis}_fan1",
+                                    "pretty_name": "Node ${node} fan 1",
+                                    "presence_gpio": "fan1_chassis${chassis}_presence",
+                                    "presence_gpio_polarity": "Low"
                                 },
                                 {
                                     "type": "systemFan",
                                     "inventory": "/system/chassis${chassis}/motherboard/fan2",
-                                    "short_name": "chassis${chassis}_fan2"
+                                    "short_name": "chassis${chassis}_fan2",
+                                    "pretty_name": "Node ${node} fan 2",
+                                    "presence_gpio": "fan2_chassis${chassis}_presence",
+                                    "presence_gpio_polarity": "Low"
                                 },
                                 {
                                     "type": "systemFan",
                                     "inventory": "/system/chassis${chassis}/motherboard/fan3",
-                                    "short_name": "chassis${chassis}_fan3"
+                                    "short_name": "chassis${chassis}_fan3",
+                                    "pretty_name": "Node ${node} fan 3",
+                                    "presence_gpio": "fan3_chassis${chassis}_presence",
+                                    "presence_gpio_polarity": "Low"
                                 }
                             ],
                             "fault_handling": {
@@ -119,10 +131,10 @@ TEST_F(MultiChassisSystemTest, MultiChassisSystemCreationTest)
     MultiChassisSystem system(bus, event);
     system.initChassis(chassisDefs, fanTypeDefs);
     auto& chassisList = system.getChassis();
-    std::vector<int> chassisNums = {0, 1, 2, 3, 4, 5, 6, 7};
+    std::vector<int> chassisNums = {1, 2, 3, 4, 5, 6, 7, 8};
     for (int chassisNum : chassisNums)
     {
-        auto& chassis = chassisList.at(chassisNum);
+        auto& chassis = chassisList.at(chassisNum - 1);
         std::string chassisName = "chassis" + std::to_string(chassisNum);
         // init chassis
         chassis->init();

@@ -30,22 +30,34 @@ class ZoneTest : public testing::Test
                             {
                                 "type": "systemFan",
                                 "inventory": "/system/chassis${chassis}/motherboard/fan0",
-                                "short_name": "chassis${chassis}_fan0"
+                                "short_name": "chassis${chassis}_fan0",
+                                "pretty_name": "Node ${node} fan 0",
+                                "presence_gpio": "fan0_chassis${chassis}_presence",
+                                "presence_gpio_polarity": "Low"
                             },
                             {
                                 "type": "systemFan",
                                 "inventory": "/system/chassis${chassis}/motherboard/fan1",
-                                "short_name": "chassis${chassis}_fan1"
+                                "short_name": "chassis${chassis}_fan1",
+                                "pretty_name": "Node ${node} fan 1",
+                                "presence_gpio": "fan1_chassis${chassis}_presence",
+                                "presence_gpio_polarity": "Low"
                             },
                             {
                                 "type": "systemFan",
                                 "inventory": "/system/chassis${chassis}/motherboard/fan2",
-                                "short_name": "chassis${chassis}_fan2"
+                                "short_name": "chassis${chassis}_fan2",
+                                "pretty_name": "Node ${node} fan 2",
+                                "presence_gpio": "fan2_chassis${chassis}_presence",
+                                "presence_gpio_polarity": "Low"
                             },
                             {
                                 "type": "systemFan",
                                 "inventory": "/system/chassis${chassis}/motherboard/fan3",
-                                "short_name": "chassis${chassis}_fan3"
+                                "short_name": "chassis${chassis}_fan3",
+                                "pretty_name": "Node ${node} fan 3",
+                                "presence_gpio": "fan3_chassis${chassis}_presence",
+                                "presence_gpio_polarity": "Low"
                             }
                         ],
                         "fault_handling": {
@@ -104,7 +116,7 @@ class ZoneTest : public testing::Test
 
 TEST_F(ZoneTest, FanCreationTest)
 {
-    std::vector<ZoneDefinition> zoneDefs = getZoneDefs(zoneConfig["zones"], 0);
+    std::vector<ZoneDefinition> zoneDefs = getZoneDefs(zoneConfig["zones"], 1);
     std::vector<FanTypeDefinition> fanTypeList =
         getFanDefs(fanTypes["fan_type_definitions"]);
     EXPECT_EQ(zoneDefs.size(),

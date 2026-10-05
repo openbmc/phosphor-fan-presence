@@ -35,7 +35,7 @@ using namespace sdbusplus::bus::match;
 
 Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
          std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
-         ZoneBase& system) :
+         ZoneBase& system, std::optional<multi_chassis::GpioInfo> gpioInfo) :
     _mode(mode), _bus(bus), _event(event), _name(def.name),
     _deviation(def.deviation), _upperDeviation(def.upperDeviation),
     _numSensorFailsForNonFunc(def.numSensorFailsForNonfunc),
@@ -44,24 +44,52 @@ Fan::Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
     _monitorDelay(def.monitorStartDelay),
     _monitorTimer(event, std::bind(std::mem_fn(&Fan::startMonitor), this)),
 #endif
-    _system(system),
-    _presenceMatch(bus,
-                   rules::propertiesChanged(util::INVENTORY_PATH + _name,
-                                            util::INV_ITEM_IFACE),
-                   std::bind(std::mem_fn(&Fan::presenceChanged), this,
-                             std::placeholders::_1)),
-    _presenceIfaceAddedMatch(
-        bus,
-        rules::interfacesAdded() +
-            rules::argNpath(0, util::INVENTORY_PATH + _name),
-        std::bind(std::mem_fn(&Fan::presenceIfaceAdded), this,
-                  std::placeholders::_1)),
-    _fanMissingErrorDelay(def.fanMissingErrDelay),
+    _system(system), _fanMissingErrorDelay(def.fanMissingErrDelay),
     _setFuncOnPresent(def.funcOnPresent)
-{}
+{
+    _monitorPresenceGpio = gpioInfo.has_value();
+    if (_monitorPresenceGpio)
+    {
+        _gpioData = gpioInfo.value();
+    }
+    else
+    {
+        // Only register for presence propertiesChanged and interfacesAdded
+        // signals if not polling GPIO within fan monitor
+        _presenceMatch = std::make_unique<sdbusplus::match>(
+            bus,
+            rules::propertiesChanged(util::INVENTORY_PATH + _name,
+                                     util::INV_ITEM_IFACE),
+            std::bind(std::mem_fn(&Fan::presenceChanged), this,
+                      std::placeholders::_1));
+        _presenceIfaceAddedMatch = std::make_unique<sdbusplus::match>(
+            bus,
+            rules::interfacesAdded() +
+                rules::argNpath(0, util::INVENTORY_PATH + _name),
+            std::bind(std::mem_fn(&Fan::presenceIfaceAdded), this,
+                      std::placeholders::_1));
+    }
+}
 
 void Fan::init()
 {
+    if (_monitorPresenceGpio)
+    {
+        _gpioLine = std::make_unique<BMCGPIO>(_gpioData.name);
+        _gpioLine->requestRead();
+
+        _gpioPollTimer = std::make_unique<
+            sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>(
+            _event, std::bind(&Fan::gpioPolled, this));
+
+        // Send a notify call up to DBus to post initial fan presence status and
+        // pretty name
+        setPresenceViaNotify(_gpioData.isActiveLow
+                                 ? (_gpioLine->getValue() == 0)
+                                 : (_gpioLine->getValue() == 1));
+        // poll gpio once a second
+        _gpioPollTimer->restart(std::chrono::seconds(1));
+    }
     // Setup tach sensors for monitoring
     for (const auto& s : _def.sensorList)
     {
@@ -599,6 +627,99 @@ void Fan::powerStateChanged([[maybe_unused]] bool powerStateOn)
         });
     }
 #endif
+}
+
+void Fan::gpioPolled()
+{
+    if (!_gpioLine)
+    {
+        return;
+    }
+
+    bool updatedPresent = _gpioData.isActiveLow ? (_gpioLine->getValue() == 0)
+                                                : (_gpioLine->getValue() == 1);
+    bool tachOverridesGpio = false;
+    if (_gpioData.tachRedundancy && !updatedPresent)
+    {
+        // If tach redundancy is enabled, tachs showing present while gpio shows
+        // not present should be treated as present
+        tachOverridesGpio = std::any_of(
+            _sensors.begin(), _sensors.end(), [](const auto& sensor) {
+                return sensor->hasOwner() && (sensor->getInput() > 0.0);
+            });
+
+        if (tachOverridesGpio)
+        {
+            updatedPresent = true;
+            if (!_tachOverrideLogged)
+            {
+                getLogger().log(
+                    std::format("Fan {} GPIO says not present but tach sensors "
+                                "show non-zero speed — treating as present",
+                                _name));
+            }
+        }
+    }
+    // Reset override logged flag so that later occurences are logged again if
+    // GPIO later reads Present
+    _tachOverrideLogged = tachOverridesGpio;
+
+    if (updatedPresent != _present)
+    {
+        _present = updatedPresent;
+        getLogger().log(std::format("Fan {} presence changed to {}", _name,
+                                    updatedPresent));
+        gpioPollPresenceChanged();
+    }
+}
+
+void Fan::gpioPollPresenceChanged()
+{
+    // Set fan and sensors to functional on a fan plug if that is enabled
+    if (_present && _setFuncOnPresent)
+    {
+        updateInventory(true);
+        std::for_each(_sensors.begin(), _sensors.end(), [](auto& sensor) {
+            sensor->setFunctional(true);
+            sensor->resetMethod();
+        });
+    }
+    // Update fan health and check power off rules
+    _system.fanStatusChange(*this);
+
+    // Either start or stop the fan error timer depending on fan presence status
+    if (_fanMissingErrorDelay)
+    {
+        if (!_present && _system.isPowerOn())
+        {
+            _fanMissingErrorTimer->restartOnce(
+                std::chrono::seconds{*_fanMissingErrorDelay});
+        }
+        else if (_present && _fanMissingErrorTimer->isEnabled())
+        {
+            _fanMissingErrorTimer->setEnabled(false);
+        }
+    }
+    setPresenceViaNotify(_present);
+}
+
+void Fan::setPresenceViaNotify(bool newPresent)
+{
+    using Properties = std::map<std::string, std::variant<std::string, bool>>;
+    using Interfaces = std::map<std::string, Properties>;
+
+    std::map<sdbusplus::object_path, Interfaces> obj = {{
+        _name,
+        {{util::INV_ITEM_IFACE,
+          {
+              {"Present", newPresent},
+              {"PrettyName", _gpioData.fanPrettyName},
+          }},
+         {INV_FAN_INTERFACE, {}}},
+    }};
+
+    util::SDBusPlus::lookupAndCallMethod(util::INVENTORY_PATH,
+                                         util::INVENTORY_INTF, "Notify", obj);
 }
 
 } // namespace monitor

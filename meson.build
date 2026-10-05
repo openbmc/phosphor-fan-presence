@@ -55,6 +55,7 @@ sdbusplus_dep = dependency('sdbusplus')
 sdeventplus_dep = dependency('sdeventplus')
 stdplus_dep = dependency('stdplus')
 systemd_dep = dependency('systemd')
+libgpiodcxx_dep = dependency('libgpiodcxx')
 
 if (get_option('tests').allowed())
     gmock_dep = dependency('gmock', disabler: true, required: false)

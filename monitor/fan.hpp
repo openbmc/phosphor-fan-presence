@@ -2,6 +2,8 @@
 
 #include "config.h"
 
+#include "gpio.hpp"
+#include "multichassis_types.hpp"
 #include "tach_sensor.hpp"
 #include "trust_manager.hpp"
 #include "types.hpp"
@@ -21,6 +23,8 @@ namespace monitor
 {
 
 class System;
+
+constexpr auto INV_FAN_INTERFACE = "xyz.openbmc_project.Inventory.Item.Fan";
 
 /**
  * @class Fan
@@ -82,7 +86,8 @@ class Fan
      */
     Fan(Mode mode, sdbusplus::bus_t& bus, const sdeventplus::Event& event,
         std::unique_ptr<trust::Manager>& trust, const FanDefinition& def,
-        ZoneBase& system);
+        ZoneBase& system,
+        std::optional<multi_chassis::GpioInfo> gpioInfo = std::nullopt);
 
     /**
      * @brief Perform tasks needed to initialize the fan (e.g. register sensors,
@@ -247,6 +252,22 @@ class Fan
     void presenceIfaceAdded(sdbusplus::message_t& msg);
 
     /**
+     * @brief Callback to poll the presence GPIO.
+     */
+    void gpioPolled();
+
+    /**
+     * @brief Called when a gpio poll detects a change in the presence value for
+     * a fan
+     */
+    void gpioPollPresenceChanged();
+
+    /**
+     @brief Set the Present property on DBus via a Notify call
+     */
+    void setPresenceViaNotify(bool newPresent);
+
+    /**
      * @brief Mode of the fan monitor
      */
     Mode _mode;
@@ -333,15 +354,16 @@ class Fan
     /**
      * @brief The match object for propertiesChanged signals
      *        for the inventory item interface to track the
-     *        Present property.
+     *        Present property. Unused if GPIO presence detection is enabled.
      */
-    sdbusplus::match _presenceMatch;
+    std::unique_ptr<sdbusplus::match> _presenceMatch;
 
     /**
      * @brief The match object for the interfacesAdded signal
      *        for the interface that has the Present property.
+     *        Unused if GPIO presence detection is enabled.
      */
-    sdbusplus::match _presenceIfaceAddedMatch;
+    std::unique_ptr<sdbusplus::match> _presenceIfaceAddedMatch;
 
     /**
      * @brief The current presence state
@@ -376,6 +398,34 @@ class Fan
      * Will be zero until the power turns on the first time.
      */
     size_t _numSensorsOnDBusAtPowerOn = 0;
+
+    /**
+     * @brief Line for reading the presence GPIO.
+     */
+    std::unique_ptr<BMCGPIO> _gpioLine;
+
+    /**
+     * @brief Timer for polling presence GPIO.
+     */
+    std::unique_ptr<
+        sdeventplus::utility::Timer<sdeventplus::ClockId::Monotonic>>
+        _gpioPollTimer;
+
+    /**
+     * @brief Flag to indicate whether to monitor a presence GPIO.
+     */
+    bool _monitorPresenceGpio = false;
+
+    /**
+     * @brief GpioInfo struct containing information about the GPIO.
+     */
+    multi_chassis::GpioInfo _gpioData;
+
+    /**
+     * @brief Flag to indicate whether tach sensor detection overriding presence
+     * GPIO has been logged
+     */
+    bool _tachOverrideLogged = false;
 };
 
 } // namespace monitor

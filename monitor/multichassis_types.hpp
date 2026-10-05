@@ -46,11 +46,19 @@ struct FanTypeDefinition
     std::optional<Condition> condition;
     bool funcOnPresent;
 };
+struct GpioInfo
+{
+    std::string name;
+    bool isActiveLow;
+    bool tachRedundancy;
+    std::string fanPrettyName;
+};
 struct FanAssignment
 {
     std::string type;
     std::string inventory;
     std::string shortName;
+    GpioInfo gpioInfo;
 };
 struct ZoneDefinition
 {
