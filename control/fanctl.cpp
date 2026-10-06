@@ -331,10 +331,11 @@ void status()
     cout << "CurrentPowerState   : " << states[4] << endl;
     cout << "CurrentHostState    : " << states[5] << endl;
     cout << endl;
-    cout << "FAN       "
-         << "TARGET(" << method << ")     FEEDBACKS(RPM)   PRESENT"
-         << "   FUNCTIONAL" << endl;
-    cout << "==============================================================="
+
+    cout << "FAN                  TARGET(" << method
+         << ")    FEEDBACKS(RPM)   PRESENT   FUNCTIONAL" << endl;
+    cout << "=================================================================="
+            "======="
          << endl;
 
     auto& fanNames{std::get<FAN_NAMES>(busData)};
@@ -343,14 +344,14 @@ void status()
 
     for (auto& fan : fanNames)
     {
-        cout << setw(8) << std::left << fan << std::right << setw(13);
+        cout << setw(20) << std::left << fan << std::right << setw(12);
 
         // get the target RPM
         property = "Target";
         cout << SDBusPlus::getProperty<uint64_t>(
                     pathMap["tach"][fan][0],
                     interfaces[ifaceTypeFromMethod(method)], property)
-             << setw(19);
+             << setw(18);
 
         // get the sensor RPM
         property = "Value";
@@ -442,9 +443,10 @@ void get()
     std::string property;
 
     // print the header
-    cout << "TARGET SENSOR" << setw(11) << "TARGET(" << method
-         << ")   FEEDBACK SENSOR    FEEDBACK(RPM)" << endl;
-    cout << "==============================================================="
+    cout << "TARGET SENSOR        TARGET(" << method
+         << ")   FEEDBACK SENSOR      FEEDBACK(RPM)" << endl;
+    cout << "=================================================================="
+            "======="
          << endl;
 
     for (auto& fan : fanNames)
@@ -454,7 +456,7 @@ void get()
         // print just the sensor name
         auto shortPath = pathMap["tach"][fan][0];
         shortPath = justFanName(shortPath);
-        cout << setw(13) << std::left << shortPath << std::right << setw(15);
+        cout << setw(20) << std::left << shortPath << std::right << setw(12);
 
         // print its target RPM/PWM
         property = "Target";
@@ -468,13 +470,13 @@ void get()
         auto indent = 0;
         for (auto& path : pathMap["tach"][fan])
         {
-            cout << setw(18 + indent) << justFanName(path) << setw(17)
+            cout << setw(21 + indent) << justFanName(path) << setw(19)
                  << SDBusPlus::getProperty<double>(
                         path, interfaces["SensorValue"], property)
                  << endl;
 
             if (0 == indent)
-                indent = 28;
+                indent = 32;
         }
     }
 }
