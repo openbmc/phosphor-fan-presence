@@ -23,6 +23,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <sdbusplus/bus.hpp>
 
+#include <algorithm>
 #include <filesystem>
 #include <iomanip>
 #include <iostream>
@@ -331,26 +332,34 @@ void status()
     cout << "CurrentPowerState   : " << states[4] << endl;
     cout << "CurrentHostState    : " << states[5] << endl;
     cout << endl;
-    cout << "FAN       "
-         << "TARGET(" << method << ")     FEEDBACKS(RPM)   PRESENT"
-         << "   FUNCTIONAL" << endl;
-    cout << "==============================================================="
-         << endl;
 
     auto& fanNames{std::get<FAN_NAMES>(busData)};
     auto& pathMap{std::get<PATH_MAP>(busData)};
     auto& interfaces{std::get<IFACES>(busData)};
 
+    auto longest = std::max_element(
+        fanNames.begin(), fanNames.end(),
+        [](const auto& a, const auto& b) { return a.size() < b.size(); });
+    const int nameWidth =
+        (longest != fanNames.end() ? static_cast<int>(longest->size()) : 3) + 2;
+
+    // fixed column widths: TARGET(12) + FEEDBACKS(18) + PRESENT(10) + FUNCTIONAL(13)
+    constexpr int statusFixedWidth = 12 + 18 + 10 + 13;
+    cout << std::left << setw(nameWidth) << "FAN" << std::right << setw(12)
+         << "TARGET(" + method + ")" << setw(18) << "FEEDBACKS(RPM)" << setw(10)
+         << "PRESENT" << setw(13) << "FUNCTIONAL" << endl;
+    cout << std::string(nameWidth + statusFixedWidth, '=') << endl;
+
     for (auto& fan : fanNames)
     {
-        cout << setw(8) << std::left << fan << std::right << setw(13);
+        cout << setw(nameWidth) << std::left << fan << std::right << setw(12);
 
         // get the target RPM
         property = "Target";
         cout << SDBusPlus::getProperty<uint64_t>(
                     pathMap["tach"][fan][0],
                     interfaces[ifaceTypeFromMethod(method)], property)
-             << setw(19);
+             << setw(18);
 
         // get the sensor RPM
         property = "Value";
@@ -441,20 +450,36 @@ void get()
 
     std::string property;
 
+    // compute name column width from the longest tach sensor leaf name,
+    // but no narrower than the header labels "TARGET SENSOR" (13) and
+    // "FEEDBACK SENSOR" (15)
+    int nameWidth = 15; // minimum: length of "FEEDBACK SENSOR"
+    for (auto& fan : fanNames)
+    {
+        for (auto& path : pathMap["tach"][fan])
+        {
+            nameWidth =
+                std::max(nameWidth, static_cast<int>(justFanName(path).size()));
+        }
+    }
+    nameWidth += 2; // padding gap
+
+    // fixed column widths: TARGET(12) + FEEDBACK_SENSOR(nameWidth+1) + FEEDBACK(19)
+    constexpr int getFixedWidth = 12 + 1 + 19;
     // print the header
-    cout << "TARGET SENSOR" << setw(11) << "TARGET(" << method
-         << ")   FEEDBACK SENSOR    FEEDBACK(RPM)" << endl;
-    cout << "==============================================================="
-         << endl;
+    cout << std::left << setw(nameWidth) << "TARGET SENSOR" << std::right
+         << setw(12) << "TARGET(" + method + ")" << setw(nameWidth + 1)
+         << "FEEDBACK SENSOR" << setw(19) << "FEEDBACK(RPM)" << endl;
+    cout << std::string(2 * nameWidth + getFixedWidth, '=') << endl;
 
     for (auto& fan : fanNames)
     {
         if (pathMap["tach"][fan].size() == 0)
             continue;
         // print just the sensor name
-        auto shortPath = pathMap["tach"][fan][0];
-        shortPath = justFanName(shortPath);
-        cout << setw(13) << std::left << shortPath << std::right << setw(15);
+        auto shortPath = justFanName(pathMap["tach"][fan][0]);
+        cout << setw(nameWidth) << std::left << shortPath << std::right
+             << setw(12);
 
         // print its target RPM/PWM
         property = "Target";
@@ -468,13 +493,14 @@ void get()
         auto indent = 0;
         for (auto& path : pathMap["tach"][fan])
         {
-            cout << setw(18 + indent) << justFanName(path) << setw(17)
+            cout << setw(nameWidth + 1 + indent) << justFanName(path)
+                 << setw(19)
                  << SDBusPlus::getProperty<double>(
                         path, interfaces["SensorValue"], property)
                  << endl;
 
             if (0 == indent)
-                indent = 28;
+                indent = nameWidth + 12;
         }
     }
 }
