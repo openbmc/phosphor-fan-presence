@@ -20,6 +20,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "72a5fa17_b9bdf9c2",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-07T16:10:58Z",
+      "side": 1,
+      "message": "I kinda like them added, since they are shown above.  could also add a constexpr constant that adds them I guess",
+      "parentUuid": "ca8ea4c2_45a84d7f",
+      "revId": "1bc0e4c4f58b035ea15dc7e0eeb02c054db39e91",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "24c019e0_fc44f077",
         "filename": "control/fanctl.cpp",
         "patchSetId": 6
