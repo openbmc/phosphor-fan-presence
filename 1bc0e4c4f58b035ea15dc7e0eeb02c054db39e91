@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ca8ea4c2_45a84d7f",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-10-07T16:08:39Z",
+      "side": 1,
+      "message": "nit: Would probably look nicer to sum the numbers up (e.g. `nameWidth + 53`), but not too big a deal either way",
+      "revId": "1bc0e4c4f58b035ea15dc7e0eeb02c054db39e91",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24c019e0_fc44f077",
+        "filename": "control/fanctl.cpp",
+        "patchSetId": 6
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-10-07T16:08:39Z",
+      "side": 1,
+      "message": "nit: Similar nit here (e.g. `2*nameWidth + 32`)",
+      "revId": "1bc0e4c4f58b035ea15dc7e0eeb02c054db39e91",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
