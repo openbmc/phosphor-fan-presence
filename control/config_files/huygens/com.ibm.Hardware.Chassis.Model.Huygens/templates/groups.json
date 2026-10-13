@@ -1,0 +1,69 @@
+[
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan3"
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan0/chassis$chassis_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan0/chassis$chassis_fan0_1"
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan1/chassis$chassis_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan1/chassis$chassis_fan1_1"
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan2/chassis$chassis_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan2/chassis$chassis_fan2_1"
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan3/chassis$chassis_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/fan3/chassis$chassis_fan3_1"
+        ]
+    }
+]
