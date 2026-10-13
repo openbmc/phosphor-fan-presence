@@ -1,1 +1,298 @@
-[]
+[
+    {
+        "name": "chassis1 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis2 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis3 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis4 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis5 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis6 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis7 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis8 fan inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan0",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan1",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan2",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan3"
+        ]
+    },
+    {
+        "name": "chassis1 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan0/chassis1_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan0/chassis1_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis2 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan0/chassis2_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan0/chassis2_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis3 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan0/chassis3_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan0/chassis3_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis4 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan0/chassis4_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan0/chassis4_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis5 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan0/chassis5_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan0/chassis5_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis6 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan0/chassis6_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan0/chassis6_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis7 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan0/chassis7_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan0/chassis7_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis8 fan0 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan0/chassis8_fan0_0",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan0/chassis8_fan0_1"
+        ]
+    },
+    {
+        "name": "chassis1 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan1/chassis1_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan1/chassis1_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis2 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan1/chassis2_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan1/chassis2_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis3 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan1/chassis3_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan1/chassis3_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis4 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan1/chassis4_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan1/chassis4_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis5 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan1/chassis5_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan1/chassis5_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis6 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan1/chassis6_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan1/chassis6_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis7 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan1/chassis7_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan1/chassis7_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis8 fan1 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan1/chassis8_fan1_0",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan1/chassis8_fan1_1"
+        ]
+    },
+    {
+        "name": "chassis1 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan2/chassis1_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan2/chassis1_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis2 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan2/chassis2_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan2/chassis2_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis3 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan2/chassis3_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan2/chassis3_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis4 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan2/chassis4_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan2/chassis4_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis5 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan2/chassis5_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan2/chassis5_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis6 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan2/chassis6_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan2/chassis6_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis7 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan2/chassis7_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan2/chassis7_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis8 fan2 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan2/chassis8_fan2_0",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan2/chassis8_fan2_1"
+        ]
+    },
+    {
+        "name": "chassis1 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan3/chassis1_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis1/motherboard/fan3/chassis1_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis2 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan3/chassis2_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis2/motherboard/fan3/chassis2_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis3 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan3/chassis3_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis3/motherboard/fan3/chassis3_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis4 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan3/chassis4_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis4/motherboard/fan3/chassis4_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis5 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan3/chassis5_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis5/motherboard/fan3/chassis5_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis6 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan3/chassis6_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis6/motherboard/fan3/chassis6_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis7 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan3/chassis7_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis7/motherboard/fan3/chassis7_fan3_1"
+        ]
+    },
+    {
+        "name": "chassis8 fan3 rotor inventory",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan3/chassis8_fan3_0",
+            "/xyz/openbmc_project/inventory/system/chassis8/motherboard/fan3/chassis8_fan3_1"
+        ]
+    }
+]

@@ -1,1 +1,666 @@
-[]
+[
+    {
+        "name": "chassis1 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis1 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["1"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis2 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis2 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["2"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis3 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis3 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["3"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis4 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis4 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["4"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis5 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis5 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["5"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis6 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis6 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["6"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis7 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis7 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["7"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis8 fan(s) missing",
+        "groups": [
+            {
+                "name": "chassis8 fan inventory",
+                "interface": "xyz.openbmc_project.Inventory.Item",
+                "property": {
+                    "name": "Present"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["8"],
+                "count": 1,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis1 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis1 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis1 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis1 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis1 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["1"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis2 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis2 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis2 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis2 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis2 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["2"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis3 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis3 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis3 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis3 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis3 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["3"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis4 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis4 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis4 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis4 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis4 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["4"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis5 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis5 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis5 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis5 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis5 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["5"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis6 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis6 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis6 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis6 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis6 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["6"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis7 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis7 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis7 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis7 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis7 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["7"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    },
+    {
+        "name": "chassis8 fan rotor(s) faulted",
+        "groups": [
+            {
+                "name": "chassis8 fan0 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis8 fan1 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis8 fan2 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            },
+            {
+                "name": "chassis8 fan3 rotor inventory",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": {
+                    "name": "Functional"
+                }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_before_target",
+                "zones": ["8"],
+                "count": 2,
+                "state": false,
+                "target": 13500
+            }
+        ]
+    }
+]
