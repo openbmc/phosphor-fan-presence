@@ -16,6 +16,24 @@
       "message": "The intention behind the tool was that it would take a events/groups.json template and generate a full config on the bitbake side that would be output to `usr/share` in the build. So, the full generated configs wouldn\u0027t need to be checked in if we intend to run the script from a `do_install:append()` in the phosphor-fan recipe in `openbmc/openbmc`.",
       "revId": "1edebb534a2d578d533a913859a3a081ae187f3b",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "44789a52_0b1c7af4",
+        "filename": "control/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-10-14T16:46:00Z",
+      "side": 1,
+      "message": "Done, the ``do_install:append()`` is in this openbmc/openbmc gerrit review: \nhttps://gerrit.openbmc.org/c/openbmc/openbmc/+/95795",
+      "parentUuid": "970c6616_da5f226b",
+      "revId": "1edebb534a2d578d533a913859a3a081ae187f3b",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
