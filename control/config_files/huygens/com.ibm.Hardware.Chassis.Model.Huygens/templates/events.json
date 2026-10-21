@@ -90,5 +90,49 @@
                 "target": 13500
             }
         ]
+    },
+    {
+        // Set a raised fan floor when any temperature or altitude sensor is
+        // nonfunctional
+        "name": "Nonfunctional temperature sensors",
+        "groups": [
+            {
+                "name": "ambient temp",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            },
+            {
+                "name": "altitude",
+                "interface": "xyz.openbmc_project.State.Decorator.OperationalStatus",
+                "property": { "name": "Functional" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_removed"
+            },
+            {
+                "class": "init",
+                "method": "get_properties"
+            }
+        ],
+        "actions": [
+            {
+                "name": "count_state_floor",
+                "count": 1,
+                "state": false,
+                "delay": 5,
+                "floor": 13500
+            }
+        ]
     }
 ]
