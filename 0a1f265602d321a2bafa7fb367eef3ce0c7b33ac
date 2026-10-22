@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e1494efd_93b2de09",
+        "filename": "meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-22T21:45:19Z",
+      "side": 1,
+      "message": "since this is the first file I haven\u0027t checked yet, but does the presence code need multi-chassis enabled?  if so, you can wrap this in the meson option check for that.",
+      "revId": "0a1f265602d321a2bafa7fb367eef3ce0c7b33ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ac4227_1f7b38fc",
+        "filename": "monitor/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/config.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-22T21:45:19Z",
+      "side": 1,
+      "message": "may as well put the redundancy field in here so it\u0027s easy for people to know it\u0027s enabled.",
+      "revId": "0a1f265602d321a2bafa7fb367eef3ce0c7b33ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4cea669e_3fe0069c",
+        "filename": "monitor/fan.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 653,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-22T21:45:19Z",
+      "side": 1,
+      "message": "could this just be set to the gpio getValue() result and then gpioPresent isn\u0027t needed?",
+      "range": {
+        "startLine": 653,
+        "startChar": 9,
+        "endLine": 653,
+        "endChar": 24
+      },
+      "revId": "0a1f265602d321a2bafa7fb367eef3ce0c7b33ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b279894_38eb673d",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-22T21:45:19Z",
+      "side": 1,
+      "message": "maybe add something here that says it isn\u0027t used if GPIO presence is enabled in this app.",
+      "revId": "0a1f265602d321a2bafa7fb367eef3ce0c7b33ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5fb8901_06e5c25d",
+        "filename": "monitor/fan.hpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-22T21:45:19Z",
+      "side": 1,
+      "message": "since it doesn\u0027t really seem BMCGPIO is related to multi_chassis, could be be moved out of that namespace?",
+      "range": {
+        "startLine": 404,
+        "startChar": 20,
+        "endLine": 404,
+        "endChar": 33
+      },
+      "revId": "0a1f265602d321a2bafa7fb367eef3ce0c7b33ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc1498c7_db5d42b0",
+        "filename": "monitor/multichassis_json_parser.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-10-22T21:45:19Z",
+      "side": 1,
+      "message": "just doublechecking the plan is to make presence detection be required when multi-chassis is set?",
+      "revId": "0a1f265602d321a2bafa7fb367eef3ce0c7b33ac",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
