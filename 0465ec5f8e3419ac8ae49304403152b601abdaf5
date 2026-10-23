@@ -16,6 +16,24 @@
       "message": "as you found in your testing, this won\u0027t unfortunately since virtual-sensor doesn\u0027t use that interface.",
       "revId": "0465ec5f8e3419ac8ae49304403152b601abdaf5",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ed7d2ce_63055e4e",
+        "filename": "control/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/templates/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-10-23T19:06:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63cae219_450a7ccc",
+      "revId": "0465ec5f8e3419ac8ae49304403152b601abdaf5",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
