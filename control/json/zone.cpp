@@ -600,7 +600,7 @@ namespace zone::property
 std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
                                                 bool persist)
 {
-    std::vector<std::string> values;
+    std::set<std::string> values;
     if (!jsonObj.contains("values"))
     {
         lg2::error("No 'values' found for \"Supported\" property, "
@@ -619,12 +619,12 @@ std::function<void(DBusZone&, Zone&)> supported(const json& jsonObj,
             }
             else
             {
-                values.emplace_back(value["value"].get<std::string>());
+                values.emplace(value["value"].get<std::string>());
             }
         }
     }
 
-    return Zone::setProperty<std::vector<std::string>>(
+    return Zone::setProperty<std::set<std::string>>(
         DBusZone::thermalModeIntf, DBusZone::supportedProp,
         &DBusZone::supported, std::move(values), persist);
 }

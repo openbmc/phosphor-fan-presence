@@ -26,6 +26,7 @@
 #include <phosphor-logging/lg2.hpp>
 
 #include <algorithm>
+#include <cctype>
 #include <filesystem>
 #include <fstream>
 
@@ -44,13 +45,17 @@ DBusZone::DBusZone(const Zone& zone) :
 std::string DBusZone::current(std::string value)
 {
     auto current = ThermalModeIntf::current();
-    std::transform(value.begin(), value.end(), value.begin(), toupper);
+    std::transform(value.begin(), value.end(), value.begin(), [](unsigned char c) {
+        return std::toupper(c);
+    });
 
     auto supported = ThermalModeIntf::supported();
     auto isSupported =
-        std::any_of(supported.begin(), supported.end(), [&value](auto& s) {
-            std::transform(s.begin(), s.end(), s.begin(), toupper);
-            return value == s;
+        std::any_of(supported.begin(), supported.end(), [&value](const auto& s) {
+            std::string upper = s;
+            std::transform(upper.begin(), upper.end(), upper.begin(),
+                           [](unsigned char c) { return std::toupper(c); });
+            return value == upper;
         });
 
     if (isSupported && value != current)
