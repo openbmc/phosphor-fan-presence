@@ -27,6 +27,7 @@
 #include <phosphor-logging/lg2.hpp>
 #include <xyz/openbmc_project/Common/error.hpp>
 
+#include <cctype>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -530,13 +531,16 @@ auto Zone::getPersisted(const std::string& intf, const std::string& prop)
 std::string Zone::current(std::string value)
 {
     auto current = ThermalObject::current();
-    std::transform(value.begin(), value.end(), value.begin(), toupper);
+    std::transform(value.begin(), value.end(), value.begin(),
+                   [](unsigned char c) { return std::toupper(c); });
 
     auto supported = ThermalObject::supported();
-    auto isSupported =
-        std::any_of(supported.begin(), supported.end(), [&value](auto& s) {
-            std::transform(s.begin(), s.end(), s.begin(), toupper);
-            return value == s;
+    auto isSupported = std::any_of(
+        supported.begin(), supported.end(), [&value](const auto& s) {
+            std::string upper = s;
+            std::transform(upper.begin(), upper.end(), upper.begin(),
+                           [](unsigned char c) { return std::toupper(c); });
+            return value == upper;
         });
 
     if (value != current && isSupported)
