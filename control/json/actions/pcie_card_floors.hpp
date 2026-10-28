@@ -39,7 +39,9 @@ class Manager;
  *    on cards.
  *  - Looks up the floor index for the card by calling PCIeCardMetadata::lookup
  *    and passing in the PCIeDevice properties.
- *  - Sets the pcie_floor_index parameter with the highest floor index found.
+ *  - Sets the floor index parameter (pcie_floor_index by default, or the
+ *    name in the optional 'parameter_name' JSON field) with the highest floor
+ *    index found.
  *  - If no PCIe cards are found, it removes the parameter.
  *  - If a card isn't recognized, it's ignored since it isn't considered a
  *    hot card.
@@ -49,11 +51,18 @@ class Manager;
  *    small delay that gets started in each run() call that must expire
  *    before the body of the action is run, so it only runs once.
  *
- *    The JSON configuration has two entries:
+ *    The JSON configuration has these entries:
  *    {
  *       "settle_time": <time in s>
  *       "use_config_specific_files": <true/false>
+ *       "parameter_name": <parameter name>
  *    }
+ *
+ *    parameter_name:
+ *      - The name of the parameter to hold the floor index.
+ *      - Optional.  If not specified it defaults to 'pcie_floor_index'.
+ *      - Multi-chassis systems use one action instance per chassis, each
+ *        with its own parameter name (e.g. 'chassis1_pcie_floor_index').
  *
  *    settle_time:
  *      - Specifies how long to wait after run() is called before actually
@@ -98,16 +107,6 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
      */
     void run(Zone& zone) override;
 
-    /**
-     * @brief Set the name of the owning Event.
-     *
-     * In the base class it's appending it to the action's unique name.  Don't
-     * do it for this action since there's only one instance of it so no need
-     * to distinguish it from ones under different events and also it just
-     * makes it uglier in the flight recorder.
-     */
-    void setEventName(const std::string& /*name*/) override {}
-
   private:
     /**
      * @brief Runs the contents of the action when the settle timer expires.
@@ -125,6 +124,9 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
     /**
      * @brief Returns the D-Bus object path of the card plugged into
      *        the slot represented by the slotPath D-Bus path.
+     *
+     *        The card is found by searching the members of the action's
+     *        PCIeDevice groups for a path under the slot path.
      *
      * @param[in] slotPath - The D-Bus path of the PCIe slot object.
      *
@@ -157,14 +159,14 @@ class PCIeCardFloors : public ActionBase, public ActionRegister<PCIeCardFloors>
     uint16_t getPCIeDeviceProperty(const std::string& objectPath,
                                    const std::string& propertyName);
 
+    /* Name of the parameter that holds the floor index */
+    std::string _floorIndexParam;
+
     /* The PCIe card metadata manager */
     std::unique_ptr<PCIeCardMetadata> _cardMetadata;
 
     /* Cache map of PCIe slot paths to their plugged card paths */
     std::unordered_map<std::string, std::string> _cards;
-
-    /* Cache of all objects with a PCIeDevice interface. */
-    std::vector<std::string> _pcieDevices;
 
     std::chrono::seconds _settleTime{0};
 

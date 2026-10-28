@@ -590,6 +590,12 @@ The `use_config_specific_files` field tells the code to look for the
 'pcie_cards.json' files in the same system specific directories as
 'events.json'. If missing or false, looks in the base fan control directory.
 
+The optional `parameter_name` field is the name of the parameter to set. If
+missing, it defaults to `pcie_floor_index`. Multi-chassis systems can use an
+event template that is expanded per chassis (e.g.
+`"parameter_name": "chassis$chassis_pcie_floor_index"`) so that each chassis
+gets its own parameter.
+
 The `settle_time` field is the amount of time in seconds that needs to pass
 without a call to run() from a group property value changing. As the PCIeDevice
 attributes are written close together by the host, this allows the action to

@@ -90,5 +90,117 @@
                 "target": 13500
             }
         ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "set chassis$chassis pcie floor index",
+        "groups": [
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie slots",
+                "interface": "xyz.openbmc_project.State.Decorator.PowerState",
+                "property": { "name": "PowerState" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0DeviceId" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0VendorId" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0SubsystemId" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0SubsystemVendorId" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "expand": true,
+                "name": "pcie_card_floors",
+                "zones": ["$chassis"],
+                "parameter_name": "chassis$chassis_pcie_floor_index",
+                "use_config_specific_files": true,
+                "settle_time": 2
+            }
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan floors",
+        "groups": [
+            {
+                "name": "ambient temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "expand": true,
+                "class": "parameter",
+                "parameter": "chassis$chassis_pcie_floor_index"
+            }
+        ],
+        "actions": [
+            {
+                "expand": true,
+                "name": "mapped_floor",
+                "zones": ["$chassis"],
+                "key_group": "ambient temp",
+                // The floor tables are intentionally empty until the Huygens
+                // floors have been tuned. Until then the action only holds the
+                // zone default floor, so it has no effect on fan speeds.
+                "fan_floors": []
+            }
+        ]
     }
 ]
