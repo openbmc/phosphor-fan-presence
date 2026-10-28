@@ -67,6 +67,36 @@
         ]
     },
     {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis pcie slots",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot1",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot2",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot3"
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis pcie cards",
+        "members": [
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot0/pcie_extender0/pcieslot0/pcie_adapter0",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot1/pcie_extender1/pcieslot1/pcie_adapter1",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot2/pcie_extender2/pcieslot2/pcie_adapter2",
+            "/xyz/openbmc_project/inventory/system/chassis$chassis/motherboard/pcieslot3/pcie_extender3/pcieslot3/pcie_adapter3"
+        ]
+    },
+    {
         "name": "ambient temp",
         "service": "xyz.openbmc_project.VirtualSensor",
         "members": [

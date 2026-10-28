@@ -35,6 +35,7 @@ directory (e.g. "config_files" in the above) may differ.
 """
 
 import argparse
+import copy
 import glob
 import json
 import os
@@ -110,6 +111,57 @@ def expand_groups(group_json, expand_params, event_num):
     return full_group_json
 
 
+def expand_triggers(trigger_json, expand_params, event_num):
+    """
+    Expand the triggers of an event template
+
+    Only the 'parameter' field of a trigger (the name of the parameter that
+    causes the trigger to fire) is expanded, and only if the trigger has
+    'expand' set to true.
+
+    trigger_json - list of JSON objects representing triggers from a particular event
+    expand_params - List of parameters to replace, each with a name and values
+    event_num - Index into each parameter's values to replace with
+    """
+    full_trigger_json = []
+    for trigger in trigger_json:
+        true_trigger = {
+            key: value for key, value in trigger.items() if key != "expand"
+        }
+        if trigger.get("expand", False) and "parameter" in true_trigger:
+            for param in expand_params:
+                true_trigger["parameter"] = true_trigger["parameter"].replace(
+                    "$" + param["name"], param["values"][event_num]
+                )
+        full_trigger_json.append(true_trigger)
+
+    return full_trigger_json
+
+
+def expand_fan_floors(fan_floors, expand_params, event_num):
+    """
+    Expand the parameter names inside a mapped_floor action's fan_floors
+
+    The 'parameter' field of each entry in fan_floors[].floors[] is expanded.
+
+    fan_floors - The 'fan_floors' JSON from a mapped_floor action
+    expand_params - List of parameters to replace, each with a name and values
+    event_num - Index into each parameter's values to replace with
+    """
+    # Deep copy so that the template, which is shared by every expansion of
+    # the event, isn't modified.
+    expanded = copy.deepcopy(fan_floors)
+    for fan_floor in expanded:
+        for group in fan_floor.get("floors", []):
+            if "parameter" in group:
+                for param in expand_params:
+                    group["parameter"] = group["parameter"].replace(
+                        "$" + param["name"], param["values"][event_num]
+                    )
+
+    return expanded
+
+
 def expand_actions(action_json, expand_params, event_num):
     """
     Expand an action template into one or more actions based on expand variables
@@ -149,6 +201,10 @@ def expand_actions(action_json, expand_params, event_num):
                     if key == "groups":
                         true_action[key] = expand_groups(
                             value, expand_params, event_num
+                        )
+                    if key == "fan_floors":
+                        true_action[key] = expand_fan_floors(
+                            value, [param], event_num
                         )
         full_action_json.append(true_action)
 
@@ -201,6 +257,9 @@ def expand_full_events_json(filename):
                 ].replace("$" + param["name"], param["values"][event_num])
             expanded_event[event_num]["groups"] = expand_groups(
                 expanded_event[event_num]["groups"], expand_params, event_num
+            )
+            expanded_event[event_num]["triggers"] = expand_triggers(
+                expanded_event[event_num]["triggers"], expand_params, event_num
             )
             if "actions" in expanded_event[event_num].keys():
                 expanded_event[event_num]["actions"] = expand_actions(

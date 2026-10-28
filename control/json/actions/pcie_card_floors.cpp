@@ -17,7 +17,6 @@
 
 #include "../manager.hpp"
 #include "json_config.hpp"
-#include "sdbusplus.hpp"
 #include "sdeventplus.hpp"
 
 #include <phosphor-logging/lg2.hpp>
@@ -25,7 +24,7 @@
 namespace phosphor::fan::control::json
 {
 
-constexpr auto floorIndexParam = "pcie_floor_index";
+constexpr auto defaultFloorIndexParam = "pcie_floor_index";
 constexpr auto pcieDeviceIface =
     "xyz.openbmc_project.Inventory.Item.PCIeDevice";
 constexpr auto powerStateIface =
@@ -126,7 +125,7 @@ void PCIeCardFloors::execute()
     }
 
     int32_t origIndex = -1;
-    auto origIndexVariant = Manager::getParameter(floorIndexParam);
+    auto origIndexVariant = Manager::getParameter(_floorIndexParam);
     if (origIndexVariant)
     {
         origIndex = std::get<int32_t>(*origIndexVariant);
@@ -136,21 +135,24 @@ void PCIeCardFloors::execute()
     {
         if (origIndex != floorIndex)
         {
-            record(std::format("Setting {} parameter to {}", floorIndexParam,
+            record(std::format("Setting {} parameter to {}", _floorIndexParam,
                                floorIndex));
-            Manager::setParameter(floorIndexParam, floorIndex);
+            Manager::setParameter(_floorIndexParam, floorIndex);
         }
     }
     else if (origIndexVariant)
     {
-        record(std::format("Removing parameter {}", floorIndexParam));
-        Manager::setParameter(floorIndexParam, std::nullopt);
+        record(std::format("Removing parameter {}", _floorIndexParam));
+        Manager::setParameter(_floorIndexParam, std::nullopt);
     }
 }
 
 void PCIeCardFloors::loadCardJSON(const json& jsonObj)
 {
     bool useConfigSpecificFiles = false;
+
+    _floorIndexParam =
+        jsonObj.value("parameter_name", std::string{defaultFloorIndexParam});
 
     if (jsonObj.contains("settle_time"))
     {
@@ -240,29 +242,35 @@ const std::string& PCIeCardFloors::getCardFromSlot(const std::string& slotPath)
         return cardIt->second;
     }
 
-    // Just the first time, find all the PCIeDevice objects
-    if (_pcieDevices.empty())
+    // Find the card that plugs in this slot based on if the slot is part
+    // of the path, like slotA/cardA.
+    //
+    // Only the members of this action's PCIeDevice groups are searched,
+    // and not every PCIeDevice object on D-Bus.  The members are the only
+    // card objects whose properties are in the Manager cache, and on
+    // multi-chassis systems it also keeps the search to the cards that the
+    // action's groups (so its chassis) cover.  Searching everything can find
+    // a different, non-card object under the slot first, such as
+    // .../pcieslot0/pcie_extender0, which also has the PCIeDevice interface.
+    for (const auto& group : _groups)
     {
-        _pcieDevices = util::SDBusPlus::getSubTreePaths(
-            util::SDBusPlus::getBus(), "/", pcieDeviceIface, 0);
+        if (group.getInterface() != pcieDeviceIface)
+        {
+            continue;
+        }
+
+        for (const auto& member : group.getMembers())
+        {
+            if (member.find(slotPath + '/') != std::string::npos)
+            {
+                _cards.emplace(slotPath, member);
+                return _cards.at(slotPath);
+            }
+        }
     }
 
-    // Find the card that plugs in this slot based on if the
-    // slot is part of the path, like slotA/cardA
-    auto it = std::find_if(
-        _pcieDevices.begin(), _pcieDevices.end(), [slotPath](const auto& path) {
-            return path.find(slotPath + '/') != std::string::npos;
-        });
-
-    if (it == _pcieDevices.end())
-    {
-        throw std::runtime_error(std::format(
-            "Could not find PCIe card object path for slot {}", slotPath));
-    }
-
-    _cards.emplace(slotPath, *it);
-
-    return _cards.at(slotPath);
+    throw std::runtime_error(std::format(
+        "Could not find PCIe card object path for slot {}", slotPath));
 }
 
 } // namespace phosphor::fan::control::json
