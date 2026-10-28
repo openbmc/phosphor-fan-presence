@@ -90,5 +90,197 @@
                 "target": 13500
             }
         ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "set chassis$chassis pcie floor index",
+        "groups": [
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie slots",
+                "interface": "xyz.openbmc_project.State.Decorator.PowerState",
+                "property": { "name": "PowerState" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0DeviceId" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0VendorId" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0SubsystemId" }
+            },
+            {
+                "expand": true,
+                "name": "chassis$chassis pcie cards",
+                "interface": "xyz.openbmc_project.Inventory.Item.PCIeDevice",
+                "property": { "name": "Function0SubsystemVendorId" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            }
+        ],
+        "actions": [
+            {
+                "expand": true,
+                "name": "pcie_card_floors",
+                "zones": ["$chassis"],
+                "parameter_name": "chassis$chassis_pcie_floor_index",
+                "use_config_specific_files": true,
+                "settle_time": 2
+            }
+        ]
+    },
+    {
+        "expand": [
+            {
+                "name": "chassis",
+                "values": ["1", "2", "3", "4", "5", "6", "7", "8"]
+            }
+        ],
+        "name": "chassis$chassis fan floors",
+        "groups": [
+            {
+                "name": "ambient temp",
+                "interface": "xyz.openbmc_project.Sensor.Value",
+                "property": { "name": "Value" }
+            }
+        ],
+        "triggers": [
+            {
+                "class": "init",
+                "method": "get_properties"
+            },
+            {
+                "class": "signal",
+                "signal": "properties_changed"
+            },
+            {
+                "class": "signal",
+                "signal": "interfaces_added"
+            },
+            {
+                "expand": true,
+                "class": "parameter",
+                "parameter": "chassis$chassis_pcie_floor_index"
+            }
+        ],
+        "actions": [
+            {
+                "expand": true,
+                "name": "mapped_floor",
+                "zones": ["$chassis"],
+                "key_group": "ambient temp",
+                // NOTE: Placeholder floor values copied from the p10bmc
+                // Everest tables until Huygens specific values are available.
+                "fan_floors": [
+                    {
+                        // Entry valid for temps < 20
+                        "key": 20,
+                        "default_floor": 3800,
+                        "floors": [
+                            {
+                                "parameter": "chassis$chassis_pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 3800 },
+                                    { "value": 2, "floor": 4200 },
+                                    { "value": 3, "floor": 4600 },
+                                    { "value": 4, "floor": 6500 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 25
+                        "key": 25,
+                        "default_floor": 4400,
+                        "floors": [
+                            {
+                                "parameter": "chassis$chassis_pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 4400 },
+                                    { "value": 2, "floor": 4800 },
+                                    { "value": 3, "floor": 5400 },
+                                    { "value": 4, "floor": 7500 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 30
+                        "key": 30,
+                        "default_floor": 5000,
+                        "floors": [
+                            {
+                                "parameter": "chassis$chassis_pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 5000 },
+                                    { "value": 2, "floor": 5600 },
+                                    { "value": 3, "floor": 6500 },
+                                    { "value": 4, "floor": 9000 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 35
+                        "key": 35,
+                        "default_floor": 5800,
+                        "floors": [
+                            {
+                                "parameter": "chassis$chassis_pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 5800 },
+                                    { "value": 2, "floor": 6700 },
+                                    { "value": 3, "floor": 7700 },
+                                    { "value": 4, "floor": 11300 }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        // Entry valid for temps < 40
+                        "key": 40,
+                        "default_floor": 6900,
+                        "floors": [
+                            {
+                                "parameter": "chassis$chassis_pcie_floor_index",
+                                "floors": [
+                                    { "value": 1, "floor": 6900 },
+                                    { "value": 2, "floor": 7900 },
+                                    { "value": 3, "floor": 9200 },
+                                    { "value": 4, "floor": 11300 }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
     }
 ]
