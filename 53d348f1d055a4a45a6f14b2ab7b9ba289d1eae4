@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6b43ca66_e73408fd",
+        "filename": "control/config_files/huygens/com.ibm.Hardware.Chassis.Model.Huygens/templates/events.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1000008
+      },
+      "writtenOn": "2026-11-05T22:47:37Z",
+      "side": 1,
+      "message": "we wouldn\u0027t want to merge this action yet as is, because then the code would start picking up the default floor, and we don\u0027t want to do that yet since these haven\u0027t been tuned for this system.\n\nI\u0027ve been trying to think of what we can keep here, but I think it just might make things confusing then when looking at fans speeds and the fan dump as to why the target is what it is.\n\nCan you run with an empty fan_floors array?\n\nOther than that, the file looks good.",
+      "revId": "53d348f1d055a4a45a6f14b2ab7b9ba289d1eae4",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
