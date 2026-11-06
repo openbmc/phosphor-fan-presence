@@ -120,7 +120,7 @@ class TachSensor
      *
      * @param[in] msg - the dbus message that contains the data
      * @param[in] interface - the interface the property is on
-     * @param[in] propertName - the name of the property
+     * @param[in] propertyName - the name of the property
      * @param[out] value - the value to store the property value in
      */
     template <typename T>

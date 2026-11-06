@@ -660,7 +660,7 @@ void Fan::gpioPolled()
             }
         }
     }
-    // Reset override logged flag so that later occurences are logged again if
+    // Reset override logged flag so that later occurrences are logged again if
     // GPIO later reads Present
     _tachOverrideLogged = tachOverridesGpio;
 
