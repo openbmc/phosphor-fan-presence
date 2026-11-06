@@ -47,7 +47,7 @@ using InternalFailure =
  * @brief Helper function to read a property
  *
  * @param[in] interface - the interface the property is on
- * @param[in] propertName - the name of the property
+ * @param[in] propertyName - the name of the property
  * @param[in] path - the dbus path
  * @param[in] bus - the dbus object
  * @param[out] value - filled in with the property value
