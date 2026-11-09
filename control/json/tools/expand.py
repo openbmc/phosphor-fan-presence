@@ -7,9 +7,15 @@ Single File: expand.py -t <events | groups> -i /path/to/template -o /path/to/out
 
 OR
 
-Directory: expand.py -t <events | groups> -i /path/to/config_files -o /path/to/output
+Directory: expand.py -t <events | groups | all> -i /path/to/config_files -o /path/to/output
 
 For Directory mode, input (-i) and output (-o) directories should have the same structure.
+The output (-o) directory must already exist, but the per-system subdirectories
+inside it are created if needed.
+
+The 'all' type (Directory mode only) expands both the events and groups templates
+in a single run, and is equivalent to running once with '-t events' and once with
+'-t groups'.
 
 Example input (-i) directory structure:
 
@@ -335,8 +341,8 @@ if __name__ == "__main__":
         "-t",
         "--type",
         dest="file_type",
-        help="The type of file to expand (events or groups)",
-        choices=["events", "groups"],
+        help="The type of file to expand (events, groups, or all). 'all' is only valid in directory mode and expands both.",
+        choices=["events", "groups", "all"],
     )
     parser.add_argument(
         "-i",
@@ -361,44 +367,55 @@ if __name__ == "__main__":
                 else "Missing output file"
             )
         )
-    if not os.path.exists(args.input_file) or not os.path.exists(
-        args.output_file
-    ):
+    if not os.path.exists(args.input_file):
+        sys.exit(f"{args.input_file} does not exist")
+    if not os.path.exists(args.output_file):
         sys.exit(
-            f"{args.input_file} does not exist"
-            if not os.path.exists(args.input_file)
+            f"Directory {args.output_file} does not exist (required for directory mode)"
+            if os.path.isdir(args.input_file)
             else f"{args.output_file} does not exist"
         )
 
     if os.path.isdir(args.input_file) and os.path.isdir(args.output_file):
-        template_name = (
-            EVENTS_TEMPLATE_NAME
-            if args.file_type == "events"
-            else GROUPS_TEMPLATE_NAME
+        file_types = (
+            ["events", "groups"]
+            if args.file_type == "all"
+            else [args.file_type]
         )
-        template_pattern = os.path.join(
-            args.input_file, "*/templates/", template_name
-        )
+        for file_type in file_types:
+            template_name = (
+                EVENTS_TEMPLATE_NAME
+                if file_type == "events"
+                else GROUPS_TEMPLATE_NAME
+            )
+            template_pattern = os.path.join(
+                args.input_file, "*/templates/", template_name
+            )
 
-        for file in glob.glob(template_pattern, recursive=True):
-            full_json = (
-                expand_full_events_json(file)
-                if args.file_type == "events"
-                else expand_full_groups_json(file)
-            )
-            # Generated configs are output to the same subdirectory in
-            # the output as in the input (e.g. com.ibm.Hardware.Chassis.Model...)
-            config_dir = os.path.basename(
-                os.path.dirname(os.path.dirname(file))
-            )
-            expanded_filename = os.path.join(
-                args.output_file, config_dir, template_name
-            )
-            try:
-                write_json_file(expanded_filename, full_json)
-            except Exception as e:
-                print(f"An error has occurred: {e}")
+            for file in glob.glob(template_pattern, recursive=True):
+                full_json = (
+                    expand_full_events_json(file)
+                    if file_type == "events"
+                    else expand_full_groups_json(file)
+                )
+                # Generated configs are output to the same subdirectory in
+                # the output as in the input (e.g. com.ibm.Hardware.Chassis.Model...)
+                config_dir = os.path.basename(
+                    os.path.dirname(os.path.dirname(file))
+                )
+                expanded_filename = os.path.join(
+                    args.output_file, config_dir, template_name
+                )
+                try:
+                    os.makedirs(
+                        os.path.dirname(expanded_filename), exist_ok=True
+                    )
+                    write_json_file(expanded_filename, full_json)
+                except Exception as e:
+                    sys.exit(f"An error has occurred: {e}")
 
+    elif args.file_type == "all":
+        sys.exit("Type 'all' requires both input and output to be directories")
     elif os.path.isfile(args.input_file) and os.path.isfile(args.output_file):
         full_json = (
             expand_full_events_json(args.input_file)
