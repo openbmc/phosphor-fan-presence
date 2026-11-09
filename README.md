@@ -110,6 +110,12 @@ D-Bus objects.
   - `control-persist-root-path` - Base location to persist zone property states
     on the BMC
     - Default = '/var/lib/phosphor-fan-presence/control'
+  - `machine-name` - Machine whose JSON config files in
+    `control/config_files/<machine-name>` are installed. If that machine has
+    `templates/` directories, the expanded `events.json` and `groups.json` are
+    also generated at build time (see
+    [Expanded JSON files](#expanded-json-files)).
+    - Default = ''
 
 #### YAML (Deprecated)
 
@@ -129,6 +135,24 @@ D-Bus objects.
 #### JSON
 
 [README](docs/control/README.md)
+
+##### Expanded JSON files
+
+Some machines (currently only `huygens`) keep `events.json` and `groups.json`
+templates in `control/config_files/<machine-name>/<model>/templates/`. The build
+runs [`control/json/tools/expand.py`](control/json/tools/expand.py) on them and
+installs the results alongside the machine's other config files.
+
+The expansion only happens when the machine name is passed to meson, so to see
+the expanded files after a local build:
+
+1. meson setup build -Dmachine-name=huygens
+2. ninja -C build
+3. The expanded files are in `build/control/<model>/`, for example
+   `build/control/com.ibm.Hardware.Chassis.Model.Huygens/events.json`.
+
+Without `-Dmachine-name=huygens` nothing is expanded. Other machines, such as
+`p10bmc`, have no templates and are not affected.
 
 ---
 
