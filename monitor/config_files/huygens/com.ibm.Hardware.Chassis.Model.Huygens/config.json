@@ -27,7 +27,7 @@
     "chassis_definitions": [
         {
             "name": "chassis${chassis}",
-            "availPropUsed": false,
+            "availPropUsed": true,
             "chassis_numbers": [1, 2, 3, 4, 5, 6, 7, 8],
             "zones": [
                 {
