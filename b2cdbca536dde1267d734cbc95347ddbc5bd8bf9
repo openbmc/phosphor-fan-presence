@@ -18,6 +18,24 @@
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a59fe046_e1b509a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-11-11T20:24:41Z",
+      "side": 1,
+      "message": "Yes, I removed the code in the bbappend, built an image, and confirmed the expanded event.json and groups.json where still installed by meson (under `/usr/share/phosphor-fan-presence/control/com.ibm.Hardware.Chassis.Model.Huygens`). The contents were identical to what the bitbake bbappend step produced before.",
+      "parentUuid": "3ffc1abe_9002bdbf",
+      "revId": "b2cdbca536dde1267d734cbc95347ddbc5bd8bf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "527bcc7b_903b583c",
@@ -31,6 +49,54 @@
       "writtenOn": "2026-11-10T22:18:06Z",
       "side": 1,
       "message": "I don\u0027t know if we need a customer target here?  we\u0027d want to build it by default.",
+      "range": {
+        "startLine": 96,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 42
+      },
+      "revId": "b2cdbca536dde1267d734cbc95347ddbc5bd8bf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6596e27c_23a689d0",
+        "filename": "control/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-11-11T20:24:41Z",
+      "side": 1,
+      "message": "Do you mean the target isn\u0027t built on a plain ninja, or that it should be built even when machine-name isn\u0027t set?\n\nToday it\u0027s built by default, but only when a machine with templates is selected, so other machines like p10bmc are unaffected:\n\nmeson setup build -Dmachine-name\u003dhuygens\nninja -C build\n\nwhich produces build/control/com.ibm.Hardware.Chassis.Model.Huygens/events.json and groups.json. I can expand every machine\u0027s templates regardless of machine-name if you\u0027d prefer, and only install the selected one.",
+      "parentUuid": "527bcc7b_903b583c",
+      "range": {
+        "startLine": 96,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 42
+      },
+      "revId": "b2cdbca536dde1267d734cbc95347ddbc5bd8bf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b02e9865_e851e7ff",
+        "filename": "control/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-11-11T20:24:41Z",
+      "side": 1,
+      "message": "Do you mean the target isn\u0027t built on a plain ninja, or that it should be built even when machine-name isn\u0027t set?\n\nRight now, I the events/groups.json are built by default, but only when huygens is selected, so other machines like p10bmc are unaffected:\n\nmeson setup build -Dmachine-name\u003dhuygens\nninja -C build\n\nwhich produces build/control/com.ibm.Hardware.Chassis.Model.Huygens/events.json and groups.json.\n\nRight now the custom_target is run at the build time(ninja -C build), do you prefer expanding the json template at configure time? (meson setup build)?",
+      "parentUuid": "527bcc7b_903b583c",
       "range": {
         "startLine": 96,
         "startChar": 11,
