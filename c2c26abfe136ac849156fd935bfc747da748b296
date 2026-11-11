@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "421c9e70_05988411",
+        "filename": "control/json/tools/expand.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 339,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-11-11T23:54:23Z",
+      "side": 1,
+      "message": "Could you add something about the new option to the top multi-line `Usage...` comment so the intended usage is clear form reading the script?",
+      "revId": "c2c26abfe136ac849156fd935bfc747da748b296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ad33b6c4_c321b6e9",
+        "filename": "control/json/tools/expand.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-11-11T23:54:23Z",
+      "side": 1,
+      "message": "Could be more specific with this message so it\u0027s more clear that Directory mode doesn\u0027t create the output directory (e.g. `Directory {args.output_file} does not exist (required for directory mode)`)",
+      "revId": "c2c26abfe136ac849156fd935bfc747da748b296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cf07816_734abf92",
+        "filename": "control/json/tools/expand.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-11-11T23:54:23Z",
+      "side": 1,
+      "message": "Probably want to specify in the message here that both input and output need to be directories.",
+      "revId": "c2c26abfe136ac849156fd935bfc747da748b296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "30b5c1c8_c1db3d4f",
+        "filename": "control/json/tools/expand.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 413,
+      "author": {
+        "id": 1002404
+      },
+      "writtenOn": "2026-11-11T23:54:23Z",
+      "side": 1,
+      "message": "Any reason the check for output_file was changed from `isfile(...)` to `not isdir(...)`?",
+      "revId": "c2c26abfe136ac849156fd935bfc747da748b296",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    }
+  ]
+}
