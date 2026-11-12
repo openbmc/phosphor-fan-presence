@@ -105,6 +105,30 @@
       },
       "revId": "b2cdbca536dde1267d734cbc95347ddbc5bd8bf9",
       "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aa4b1e03_9b28e955",
+        "filename": "control/meson.build",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002971
+      },
+      "writtenOn": "2026-11-12T21:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b02e9865_e851e7ff",
+      "range": {
+        "startLine": 96,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 42
+      },
+      "revId": "b2cdbca536dde1267d734cbc95347ddbc5bd8bf9",
+      "serverId": "adbd0a64-1f21-4d83-b585-671fe73cb6e4"
     }
   ]
 }
